@@ -11,6 +11,7 @@
  */
 
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { loc } from 'okta';
 
 import { IDX_STEP } from '../../constants';
 import {
@@ -48,8 +49,8 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = (transact
     type: 'Title',
     options: {
       content: isAndroidOrIOSView
-        ? 'oie.enroll.okta_verify.setup.title'
-        : 'oie.enroll.okta_verify.select.channel.title',
+        ? loc('oie.enroll.okta_verify.setup.title', 'login')
+        : loc('oie.enroll.okta_verify.select.channel.title', 'login'),
     },
   };
 
@@ -61,13 +62,13 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = (transact
     formBag.uischema.elements as UISchemaElement[],
   ) as FieldElement;
   if (channelSelectionElement) {
-    channelSelectionElement.label = 'oie.enroll.okta_verify.select.channel.description';
+    channelSelectionElement.label = loc('oie.enroll.okta_verify.select.channel.description', 'login');
     const { options: { inputMeta: { options = [] } } } = channelSelectionElement;
     const choices: IdxOption[] = options
       .filter(({ value }: IdxOption) => (isAndroidOrIOSView ? (value !== 'qrcode') : value !== selectedChannel))
       .map((opt: IdxOption) => ({
         value: opt.value as string,
-        label: CHANNEL_TO_LABEL_KEY_MAP[opt.value as string],
+        label: loc(CHANNEL_TO_LABEL_KEY_MAP[opt.value as string], 'login'),
       }));
 
     // Set the default value
@@ -82,7 +83,7 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = (transact
 
   formBag.uischema.elements.push({
     type: 'Button',
-    label: 'oform.next',
+    label: loc('oform.next', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

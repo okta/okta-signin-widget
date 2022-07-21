@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -24,18 +25,18 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = (_, formBa
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.verify.google_authenticator.otp.title',
+      content: loc('oie.verify.google_authenticator.otp.title', 'login'),
     },
   };
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'oie.verify.google_authenticator.otp.description',
+      content: loc('oie.verify.google_authenticator.otp.description', 'login'),
     },
   };
   const submitButtonElement: ButtonElement = {
     type: 'Button',
-    label: 'mfa.challenge.verify',
+    label: loc('mfa.challenge.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

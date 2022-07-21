@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
   ButtonElement,
   ButtonType,
@@ -22,14 +24,14 @@ import { transformEnrollPasswordAuthenticator } from './transformEnrollPasswordA
 
 const getContentTitleAndParams = (daysToExpiry: number): TitleElement['options'] => {
   if (daysToExpiry > 0) {
-    return { content: 'password.expiring.title', contentParams: [`${daysToExpiry}`] };
+    return { content: loc('password.expiring.title', 'login', [`${daysToExpiry}`]) };
   }
 
   if (daysToExpiry === 0) {
-    return { content: 'password.expiring.today' };
+    return { content: loc('password.expiring.today', 'login') };
   }
 
-  return { content: 'password.expiring.soon' };
+  return { content: loc('password.expiring.soon', 'login') };
 };
 
 export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = (
@@ -37,7 +39,7 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
   formBag,
   widgetProps,
 ) => {
-  const { brandName } = widgetProps;
+  const { brandName, authClient } = widgetProps;
   const { nextStep: { relatesTo }, availableSteps, messages } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
   const { daysToExpiry } = passwordSettings;
@@ -57,7 +59,7 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
     // add element after title in elements array
     uischema.elements.splice(1, 0, {
       type: 'Description',
-      options: { content: 'password.expiring.subtitle.specific', contentParams: [brandName] },
+      options: { content: loc('password.expiring.subtitle.specific', 'login', [brandName]) },
     } as DescriptionElement);
   }
 
@@ -65,13 +67,13 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
     // add element after title in elements array
     uischema.elements.splice(1, 0, {
       type: 'Description',
-      options: { content: messages[0].i18n?.key },
+      options: { content: getMessage(messages[0]) },
     } as DescriptionElement);
   }
 
   const submitBtnElement: ButtonElement = {
     type: 'Button',
-    label: 'password.expired.submit',
+    label: loc('password.expired.submit', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
@@ -81,16 +83,24 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
 
   const skipStep = availableSteps?.find(({ name }) => name === 'skip' );
   if (skipStep) {
-    const { name: step } = skipStep;
+    const { name } = skipStep;
     const skipBtnElement: ButtonElement = {
       type: 'Button',
-      label: 'password.expiring.later',
+      label: loc('password.expiring.later', 'login'),
       scope: '#/properties/skip',
       options: {
         type: ButtonType.BUTTON,
         variant: 'floating',
         wide: false,
-        step,
+        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+        action: (params?: IdxActionParams) => {
+          const { stateHandle, ...rest } = params ?? {};
+          return authClient?.idx.proceed({
+            // @ts-ignore stateHandle can be undefined
+            stateHandle,
+            actions: [{ name, params: rest }],
+          });
+        },
       },
     };
     uischema.elements.push(skipBtnElement);

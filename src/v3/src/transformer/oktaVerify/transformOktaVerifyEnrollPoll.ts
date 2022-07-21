@@ -11,6 +11,7 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 
 import {
   ButtonType,
@@ -71,7 +72,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
     stepOneElements.push({
       type: 'Reminder',
       options: {
-        ctaText: CHANNEL_TO_CTA_KEY[selectedChannel],
+        ctaText: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
         action: (params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};
@@ -88,7 +89,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
   stepOneElements.push({
     type: 'Title',
     options: {
-      content: getTitleKey(selectedChannel),
+      content: loc(getTitleKey(selectedChannel), 'login'),
     },
   } as TitleElement);
 
@@ -97,7 +98,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
   const navBtnConfig = createNavButtonConfig(!!authenticator?.contextualData?.qrcode);
   stepOneElements.push({
     type: 'StepperButton',
-    label: navBtnConfig.navButtonsConfig.next.label,
+    label: loc(navBtnConfig.navButtonsConfig.next.label, 'login'),
     options: {
       type: ButtonType.BUTTON,
       variant: navBtnConfig.navButtonsConfig.next.variant,
@@ -108,7 +109,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
   if (navBtnConfig.navButtonsConfig.prev) {
     channelSelectionFormBag.uischema.elements.push({
       type: 'StepperButton',
-      label: navBtnConfig.navButtonsConfig.prev.label,
+      label: loc(navBtnConfig.navButtonsConfig.prev.label, 'login'),
       options: {
         type: ButtonType.BUTTON,
         variant: navBtnConfig.navButtonsConfig.prev.variant,

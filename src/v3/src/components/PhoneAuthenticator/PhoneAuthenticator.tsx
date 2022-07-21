@@ -16,36 +16,39 @@ import {
   TextInput,
 } from '@okta/odyssey-react';
 import get from 'lodash/get';
+import { loc } from 'okta';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
+import CountryUtil from '../../../../util/CountryUtil';
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import { useOnChange } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
-import countryList from '../../mocks/countryList/countryList.json';
 import { getLabelName } from '../helpers';
-import countryCallingCodes from './countryCallingCodes';
 
 const PhoneAuthenticator: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
   const {
     label,
-    name: fieldName,
     options: {
       targetKey = '',
+      inputMeta: {
+        name: fieldName,
+        // @ts-ignore expose type from auth-js
+        messages = {},
+      }
     },
   } = uischema;
+  const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const { data } = useWidgetContext();
-  const countries = Object.entries(countryList);
+  const countries = CountryUtil.getCountries() as Record<string, string>;
   const [phone, setPhone] = useState<string>('');
   // Sets US as default code
-  const [phoneCode, setPhoneCode] = useState(`+${countryCallingCodes.US}`);
+  const [phoneCode, setPhoneCode] = useState(`+${CountryUtil.getCallingCodeForCountry('US')}`);
   const [extension, setExtension] = useState<string>('');
-  const labelText = t(getLabelName(label as string));
   const targetValue = get(data, targetKey);
   const showExtension = targetValue === 'voice';
   const onChangeHandler = useOnChange(uischema);
@@ -69,7 +72,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
           type="text"
           data-se="extension"
           name="extension"
-          label={t('phone.extention.label')}
+          label={loc('phone.extention.label', 'login')}
           value={extension}
           autocomplete="tel-extension"
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -80,25 +83,19 @@ const PhoneAuthenticator: UISchemaElementComponent<{
     )
   );
 
-  useEffect(() => {
-    onChangeHandler(formatPhone(phone, phoneCode, extension));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phoneCode, phone, extension, showExtension]);
-
-  return (
-    // @ts-ignore OKTA-471233
-    <Box>
-      {/* @ts-ignore OKTA-471233 */}
+  const renderCountrySelect = () => {
+    return (
+      // @ts-ignore OKTA-471233
       <Box marginBottom="m">
         <NativeSelect
           id="countryList"
           data-se="countryList"
-          label={t('country.label')}
+          label={loc('country.label', 'login')}
           autocomplete="tel-country-code"
-          onChange={(e: ChangeEvent) => { setPhoneCode(`+${countryCallingCodes[e.currentTarget.value]}`); }}
+          onChange={(e: ChangeEvent) => { setPhoneCode(`+${CountryUtil.getCallingCodeForCountry(e.currentTarget.value)}`); }}
         >
           {
-            countries.map(([code, name]) => (
+            Object.entries(countries).map(([code, name]) => (
               <NativeSelect.Option
                 key={code}
                 value={code}
@@ -111,6 +108,18 @@ const PhoneAuthenticator: UISchemaElementComponent<{
           }
         </NativeSelect>
       </Box>
+    );
+  }
+
+  useEffect(() => {
+    onChangeHandler(formatPhone(phone, phoneCode, extension));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phoneCode, phone, extension, showExtension]);
+
+  return (
+    // @ts-ignore OKTA-471233
+    <Box>
+      { renderCountrySelect() }
       {/* @ts-ignore OKTA-471233 */}
       <Box
         display="flex"
@@ -124,9 +133,9 @@ const PhoneAuthenticator: UISchemaElementComponent<{
           <TextInput
             type="tel"
             data-se={fieldName}
-            // error={error}
+            error={error}
             name={fieldName}
-            label={labelText}
+            label={getLabelName(label as string)}
             id={fieldName}
             prefix={phoneCode}
             // eslint-disable-next-line react/jsx-props-no-spreading

@@ -11,6 +11,7 @@
  */
 
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -49,7 +50,7 @@ export const transformPhoneVerification: IdxStepTransformer = (transaction, form
   const carrierInfoText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'oie.phone.carrier.charges',
+      content: loc('oie.phone.carrier.charges', 'login'),
     },
   };
   // (Display order) 3rd element in the elements array
@@ -59,19 +60,19 @@ export const transformPhoneVerification: IdxStepTransformer = (transaction, form
   const smsInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
+      // TODO: revisit this for oie i18n string (ChallengeAuthenticatorDataPhoneView.js)
       content: redactedPhoneNumber
-        ? 'next.phone.verify.sms.sendText.withPhoneNumber'
-        : 'next.phone.verify.sms.sendText.withoutPhoneNumber',
-      contentParams: redactedPhoneNumber ? [redactedPhoneNumber] : undefined,
+        ? loc('next.phone.verify.sms.sendText.withPhoneNumber', 'login', [redactedPhoneNumber])
+        : loc('next.phone.verify.sms.sendText.withoutPhoneNumber', 'login'),
     },
   };
   const voiceInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
+      // TODO: revisit this for oie i18n string (ChallengeAuthenticatorDataPhoneView.js)
       content: redactedPhoneNumber
-        ? 'next.phone.verify.call.sendText.withPhoneNumber'
-        : 'next.phone.verify.call.sendText.withoutPhoneNumber',
-      contentParams: redactedPhoneNumber ? [redactedPhoneNumber] : undefined,
+        ? loc('next.phone.verify.call.sendText.withPhoneNumber', 'login', [redactedPhoneNumber])
+        : loc('next.phone.verify.call.sendText.withoutPhoneNumber', 'login'),
     },
   };
 
@@ -86,7 +87,7 @@ export const transformPhoneVerification: IdxStepTransformer = (transaction, form
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.phone.verify.title',
+      content: loc('oie.phone.verify.title', 'login'),
     },
   };
   // (Display order) 1st element in the elements array
@@ -95,8 +96,8 @@ export const transformPhoneVerification: IdxStepTransformer = (transaction, form
   const primaryButton: ButtonElement = {
     type: 'Button',
     label: primaryMethod === 'sms'
-      ? 'oie.phone.sms.primaryButton'
-      : 'oie.phone.call.primaryButton',
+      ? loc('oie.phone.sms.primaryButton', 'login')
+      : loc('oie.phone.call.primaryButton', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
@@ -110,8 +111,8 @@ export const transformPhoneVerification: IdxStepTransformer = (transaction, form
   const secondaryButton: ButtonElement = {
     type: 'Button',
     label: primaryMethod === 'sms'
-      ? 'oie.phone.call.secondaryButton'
-      : 'oie.phone.sms.secondaryButton',
+      ? loc('oie.phone.call.secondaryButton', 'login')
+      : loc('oie.phone.sms.secondaryButton', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

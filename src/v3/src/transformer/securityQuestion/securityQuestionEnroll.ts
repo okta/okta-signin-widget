@@ -12,6 +12,7 @@
 
 import { Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -87,7 +88,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
   const predefinedQuestionsElement: FieldElement = {
     type: 'Control',
     name: QUESTION_KEY_INPUT_NAME,
-    label: 'oie.security.question.questionKey.label',
+    label: loc('oie.security.question.questionKey.label', 'login'),
     options: {
       format: 'dropdown',
       inputMeta: {
@@ -104,7 +105,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
   const customQuestionElement: FieldElement = {
     type: 'Control',
     name: CUSTOM_QUESTION_INPUT_NAME,
-    label: 'oie.security.question.createQuestion.label',
+    label: loc('oie.security.question.createQuestion.label', 'login'),
     options: {
       type: 'string',
       inputMeta: {
@@ -129,7 +130,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.security.question.enroll.title',
+      content: loc('oie.security.question.enroll.title', 'login'),
     },
   };
 
@@ -140,11 +141,11 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
       defaultOption: 'predefined',
       customOptions: [{
         value: 'predefined',
-        label: 'oie.security.question.questionKey.label',
+        label: loc('oie.security.question.questionKey.label', 'login'),
       }, {
         key: 'credentials.questionKey',
         value: 'custom',
-        label: 'oie.security.question.createQuestion.label',
+        label: loc('oie.security.question.createQuestion.label', 'login'),
       }],
     },
   };
@@ -160,7 +161,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
           predefinedAnswerElement,
           {
             type: 'Button',
-            label: 'mfa.challenge.verify',
+            label: loc('mfa.challenge.verify', 'login'),
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
@@ -178,7 +179,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
           customAnswerElement,
           {
             type: 'Button',
-            label: 'mfa.challenge.verify',
+            label: loc('mfa.challenge.verify', 'login'),
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,

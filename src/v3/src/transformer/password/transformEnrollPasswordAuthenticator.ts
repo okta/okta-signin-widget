@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   FieldElement,
   IdxStepTransformer,
@@ -72,7 +73,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = (
 
   const titleElement: TitleElement = {
     type: 'Title',
-    options: { content: 'oie.password.enroll.title' },
+    options: { content: loc('oie.password.enroll.title', 'login') },
   };
 
   const passwordRequirementsElement: PasswordRequirementsElement = {
@@ -88,7 +89,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = (
 
   const confirmPasswordElement: FieldElement = {
     type: 'Control',
-    label: 'oie.password.confirmPasswordLabel',
+    label: loc('oie.password.confirmPasswordLabel', 'login'),
     name: 'credentials.confirmPassword',
     options: {
       inputMeta: { name: 'credentials.confirmPassword', secret: true },

@@ -22,7 +22,6 @@ import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
-import { useTranslation } from '../../lib/okta-i18n';
 import {
   ChangeEvent,
   StepperRadioElement,
@@ -32,7 +31,6 @@ import {
 const StepperRadio: UISchemaElementComponent<{
   uischema: StepperRadioElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
   const { setStepperStepIndex, setData } = useWidgetContext();
   const {
     label = '',
@@ -58,7 +56,7 @@ const StepperRadio: UISchemaElementComponent<{
 
   return (
     <FormControl component="fieldset">
-      {label && (<FormLabel>{t(label)}</FormLabel>)}
+      {label && (<FormLabel>{label}</FormLabel>)}
       <RadioGroup
         name={id}
         id={id}
@@ -71,7 +69,7 @@ const StepperRadio: UISchemaElementComponent<{
               control={<Radio />}
               key={item.value}
               value={item.value}
-              label={t(item.label)}
+              label={item.label}
             />
           ))
         }

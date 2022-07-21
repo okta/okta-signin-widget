@@ -140,7 +140,7 @@ const formatAuthenticatorOptions = (
         ctaLabel: isEnroll
           ? loc('oie.enroll.authenticator.button.text', 'login')
           : loc('oie.verify.authenticator.button.text', 'login'),
-        description: loc(descr, descrParams),
+        description: descr && loc(descr, 'login', descrParams),
         idxMethodParams: {
           authenticator: {
             id,

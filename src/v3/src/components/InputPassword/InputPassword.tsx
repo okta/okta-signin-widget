@@ -13,15 +13,14 @@
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
 
 import { useOnChange, useValue } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
 import { getLabelName } from '../helpers';
 
 const InputPassword: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const { label } = uischema;
@@ -33,7 +32,7 @@ const InputPassword: UISchemaElementComponent<{
       name,
     },
   } = uischema.options;
-  const error = t((messages.value || [])[0]?.i18n.key);
+  const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);
@@ -41,11 +40,11 @@ const InputPassword: UISchemaElementComponent<{
 
   return (
     <PasswordInput
-      label={t(getLabelName(label!))}
+      label={getLabelName(label!)}
       value={value}
       name={name}
       id={name}
-      error={error !== ''}
+      error={error !== undefined}
       helperText={error}
       onChange={handleChange}
       fullWidth

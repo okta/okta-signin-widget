@@ -11,6 +11,7 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -27,19 +28,19 @@ export const transformPhoneChallenge: IdxStepTransformer = (
   formBag,
   widgetProps,
 ) => {
-  const { nextStep, availableSteps } = transaction;
+  const { nextStep: { canResend, relatesTo }, availableSteps } = transaction;
   const { uischema } = formBag;
   const { authClient } = widgetProps;
 
   let reminderElement: Undefinable<ReminderElement>;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
-  if (nextStep.canResend && resendStep) {
+  if (canResend && resendStep) {
     const { name } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
-        ctaText: 'oie.phone.verify.sms.resendText',
+        ctaText: loc('oie.phone.verify.sms.resendText', 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
         action: (params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};
@@ -53,36 +54,34 @@ export const transformPhoneChallenge: IdxStepTransformer = (
     };
   }
 
-  const redactedPhone = nextStep.relatesTo?.value?.profile?.phoneNumber as string;
+  const redactedPhone = relatesTo?.value?.profile?.phoneNumber as string;
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
+      // TODO: revisit this for oie i18n string (ChallengeAuthenticatorPhoneView.js)
       content: redactedPhone
-        ? 'next.phone.challenge.sms.informationalTextWithPhone'
-        : 'next.phone.challenge.sms.informationalText',
-      contentParams: [
-        redactedPhone,
-      ],
+        ? loc('next.phone.challenge.sms.informationalTextWithPhone', 'login', [redactedPhone])
+        : loc('next.phone.challenge.sms.informationalText', 'login'),
     },
   };
 
   const carrierChargeDisclaimerText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'oie.phone.carrier.charges',
+      content: loc('oie.phone.carrier.charges', 'login'),
     },
   };
 
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.phone.verify.title',
+      content: loc('oie.phone.verify.title', 'login'),
     },
   };
 
   const submitButtonControl: ButtonElement = {
     type: 'Button',
-    label: 'mfa.challenge.verify',
+    label: loc('mfa.challenge.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

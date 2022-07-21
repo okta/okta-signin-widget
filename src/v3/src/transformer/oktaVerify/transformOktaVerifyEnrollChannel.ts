@@ -11,6 +11,7 @@
  */
 
 import merge from 'lodash/merge';
+import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -63,7 +64,7 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
   stepOneElements.push({
     type: 'Title',
     options: {
-      content: CHANNEL_TO_KEY_MAP.title[selectedChannel],
+      content: loc(CHANNEL_TO_KEY_MAP.title[selectedChannel], 'login'),
     },
   } as TitleElement);
 
@@ -85,13 +86,13 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
   stepOneElements.push({
     type: 'Description',
     options: {
-      content: CHANNEL_TO_KEY_MAP.description[selectedChannel],
+      content: loc(CHANNEL_TO_KEY_MAP.description[selectedChannel], 'login'),
     },
   } as DescriptionElement);
 
   stepOneElements.push({
     type: 'Button',
-    label: 'oie.enroll.okta_verify.setupLink',
+    label: loc('oie.enroll.okta_verify.setupLink', 'login'),
     scope: '#/properties/setupLink',
     options: {
       type: ButtonType.SUBMIT,
@@ -100,7 +101,8 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
 
   stepOneElements.push({
     type: 'StepperButton',
-    label: 'next.enroll.okta_verify.switch.channel.link.text',
+    // TODO: revisit i18n key to use oie string (SwitchEnrollChannelLinkView.js)
+    label: loc('next.enroll.okta_verify.switch.channel.link.text', 'login'),
     options: {
       variant: 'secondary',
       nextStepIndex: 1,

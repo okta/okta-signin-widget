@@ -12,12 +12,13 @@
 
 import { Box, Button, CircularLoadIndicator } from '@okta/odyssey-react';
 import { IdxActionParams } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import { getMessageFromBrowserError } from '../../../../v2/ion/i18nTransformer';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
 import {
   ClickHandler,
   UISchemaElementComponent,
@@ -31,19 +32,10 @@ const WebAuthNSubmit: UISchemaElementComponent<{
 
   const { setMessage } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
-  const { t, i18n } = useTranslation();
   const [waiting, setWaiting] = useState<boolean>(false);
 
-  const waitingIndicatorLabel = t('renderers.waiting.indicator.label');
-  const waitingIndicatorStateLabel = t('renderers.waiting.indicator.state.label');
-
-  const getErrorMessage = (error: Error): string => {
-    const expectedErrorKey = `oie.browser.error.${error.name}`;
-    if (i18n.exists(expectedErrorKey)) {
-      return t(expectedErrorKey);
-    }
-    return error.message;
-  };
+  const waitingIndicatorLabel = loc('renderers.waiting.indicator.label', 'login');
+  const waitingIndicatorStateLabel = loc('renderers.waiting.indicator.state.label', 'login');
 
   const executeNextStep = () => {
     if (options?.showLoadingIndicator) {
@@ -53,13 +45,14 @@ const WebAuthNSubmit: UISchemaElementComponent<{
 
     options?.onClick()
       .then(async (params: IdxActionParams) => {
+        setMessage(undefined);
         onSubmitHandler({
           params,
           includeData: true,
         });
       })
       .catch((error: Error) => {
-        const message = getErrorMessage(error);
+        const message = getMessageFromBrowserError(error);
         setMessage({
           message,
           class: 'ERROR',
@@ -107,7 +100,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
               variant="primary"
               wide
             >
-              { t(options?.label) }
+              { options?.label }
             </Button>
           )
       }

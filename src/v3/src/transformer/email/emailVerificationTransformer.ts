@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -44,26 +45,24 @@ export const transformEmailVerification: IdxStepTransformer = (transaction, form
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.email.mfa.title',
+      content: loc('oie.email.mfa.title', 'login'),
     },
   };
 
   const redactedEmailAddress = relatesTo?.value?.profile?.email as string;
+  // TODO: revisit this to use oie i18n string (ChallengeAuthenticatorDataEmailView.js)
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
       content: redactedEmailAddress
-        ? 'next.email.verify.subtitleWithEmailAddress'
-        : 'next.email.verify.subtitleWithoutEmailAddress',
-      contentParams: [
-        redactedEmailAddress,
-      ],
+        ? loc('next.email.verify.subtitleWithEmailAddress', 'login', [redactedEmailAddress])
+        : loc('next.email.verify.subtitleWithoutEmailAddress', 'login'),
     },
   };
 
   const submitButtonControl: ButtonElement = {
     type: 'Button',
-    label: 'oie.email.verify.primaryButton',
+    label: loc('oie.email.verify.primaryButton', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

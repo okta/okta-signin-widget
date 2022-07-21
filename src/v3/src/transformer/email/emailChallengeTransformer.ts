@@ -11,6 +11,7 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -53,7 +54,7 @@ export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag
     reminderElement = {
       type: 'Reminder',
       options: {
-        ctaText: 'email.code.not.received',
+        ctaText: loc('email.code.not.received', 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
         action: (params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};
@@ -70,31 +71,31 @@ export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag
   if (passcodeElement) {
     verificationCodeElement = {
       ...passcodeElement as FieldElement,
-      label: 'email.enroll.enterCode',
+      label: loc('email.enroll.enterCode', 'login'),
     };
   }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
+  // TODO: revisit this to use oie i18n strings (AuthenticatorEmailViewUtil.js)
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
       content: redactedEmailAddress
-        ? 'next.email.challenge.informationalTextWithEmail'
-        : 'next.email.challenge.informationalText',
-      contentParams: (redactedEmailAddress && [redactedEmailAddress]) as string[],
+        ? loc('next.email.challenge.informationalTextWithEmail', 'login', [redactedEmailAddress])
+        : loc('next.email.challenge.informationalText', 'login'),
     },
   };
 
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.email.mfa.title',
+      content: loc('oie.email.mfa.title', 'login'),
     },
   };
 
   const submitButtonControl: ButtonElement = {
     type: 'Button',
-    label: 'mfa.challenge.verify',
+    label: loc('mfa.challenge.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
@@ -112,7 +113,7 @@ export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag
           informationalText,
           {
             type: 'StepperButton',
-            label: 'oie.email.verify.alternate.showCodeTextField',
+            label: loc('oie.email.verify.alternate.showCodeTextField', 'login'),
             options: {
               variant: 'secondary',
               nextStepIndex: 1,

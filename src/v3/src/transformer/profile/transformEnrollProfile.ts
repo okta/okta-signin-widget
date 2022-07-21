@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import { IDX_STEP, PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import {
   ButtonElement,
@@ -56,12 +57,12 @@ export const transformEnrollProfile: IdxStepTransformer = (transaction, formBag,
 
   const titleElement: TitleElement = {
     type: 'Title',
-    options: { content: 'oie.registration.form.title' },
+    options: { content: loc('oie.registration.form.title', 'login') },
   };
 
   const submitBtnElement: ButtonElement = {
     type: 'Button',
-    label: 'oie.registration.form.submit',
+    label: loc('oie.registration.form.submit', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
@@ -77,7 +78,7 @@ export const transformEnrollProfile: IdxStepTransformer = (transaction, formBag,
     const { name: step } = selectIdentifyStep;
     uischema.elements.push({
       type: 'Button',
-      label: 'haveaccount',
+      label: loc('haveaccount', 'login'),
       options: {
         type: ButtonType.BUTTON,
         variant: 'floating',

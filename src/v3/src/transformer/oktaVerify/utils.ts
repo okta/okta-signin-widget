@@ -12,6 +12,7 @@
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import set from 'lodash/set';
+import { loc } from 'okta';
 import {
   DescriptionElement,
   ListElement,
@@ -38,9 +39,9 @@ export const appendDescriptionElements = (
       type: 'List',
       options: {
         items: [
-          'oie.enroll.okta_verify.qrcode.step1',
-          'oie.enroll.okta_verify.qrcode.step2',
-          'oie.enroll.okta_verify.qrcode.step3',
+          loc('oie.enroll.okta_verify.qrcode.step1', 'login'),
+          loc('oie.enroll.okta_verify.qrcode.step2', 'login'),
+          loc('oie.enroll.okta_verify.qrcode.step3', 'login'),
         ],
         type: 'ordered',
       },
@@ -62,8 +63,8 @@ export const appendDescriptionElements = (
     elements.push({
       type: 'Description',
       options: {
-        content: 'next.enroll.okta_verify.email.info',
-        contentParams: [email],
+        // TODO: revist this to use oie i18n string (EnrollChannelPollDescriptionView.js)
+        content: loc('next.enroll.okta_verify.email.info', 'login', [email]),
       },
     } as DescriptionElement);
     return;
@@ -75,8 +76,8 @@ export const appendDescriptionElements = (
     elements.push({
       type: 'Description',
       options: {
-        content: 'next.enroll.okta_verify.sms.info',
-        contentParams: [phoneNumber],
+        // TODO: revist this to use oie i18n string (EnrollChannelPollDescriptionView.js)
+        content: loc('next.enroll.okta_verify.sms.info', 'login', [phoneNumber]),
       },
     } as DescriptionElement);
   }

@@ -18,7 +18,6 @@ import {
   DescriptionElement,
   InfoboxElement,
   MessageType,
-  MessageTypeVariant,
   Modify,
   TerminalKeyTransformer,
   UISchemaLayout,
@@ -66,7 +65,7 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
       type: 'InfoBox',
       options: {
         message: loc('oform.error.unexpected', 'login'),
-        class: MessageTypeVariant.ERROR,
+        class: 'ERROR',
         contentType: 'string',
       },
     } as InfoboxElement);

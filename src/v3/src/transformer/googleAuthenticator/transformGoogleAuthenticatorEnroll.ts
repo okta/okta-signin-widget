@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -46,7 +47,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transacti
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.enroll.google_authenticator.setup.title',
+      content: loc('oie.enroll.google_authenticator.setup.title', 'login'),
     },
   };
 
@@ -65,7 +66,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transacti
 
   const nextButton: StepperButtonElement = {
     type: 'StepperButton',
-    label: 'oform.next',
+    label: loc('oform.next', 'login'),
     options: {
       type: ButtonType.BUTTON,
       variant: 'primary',
@@ -82,13 +83,13 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transacti
           {
             type: 'Description',
             options: {
-              content: 'oie.enroll.google_authenticator.scanBarcode.description',
+              content: loc('oie.enroll.google_authenticator.scanBarcode.description', 'login'),
             },
           } as DescriptionElement,
           qrCodeElement,
           {
             type: 'StepperButton',
-            label: 'renderers.qrcode.setUpDifferentWay',
+            label: loc('oie.enroll.google_authenticator.cannotScanBarcode.title', 'login'),
             options: {
               variant: 'secondary',
               nextStepIndex: 1,
@@ -103,7 +104,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transacti
           {
             type: 'Description',
             options: {
-              content: 'oie.enroll.google_authenticator.manualSetupInstructions',
+              content: loc('oie.enroll.google_authenticator.manualSetupInstructions', 'login'),
             },
           } as DescriptionElement,
           manualKeyElement,
@@ -115,12 +116,12 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transacti
         elements: [
           {
             type: 'Description',
-            options: { content: 'oie.enroll.google_authenticator.enterCode.title' },
+            options: { content: loc('oie.enroll.google_authenticator.enterCode.title', 'login') },
           } as DescriptionElement,
           passcodeElement,
           {
             type: 'Button',
-            label: 'mfa.challenge.verify',
+            label: loc('oform.verify', 'login'),
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,

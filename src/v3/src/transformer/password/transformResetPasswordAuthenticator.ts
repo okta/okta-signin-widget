@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -20,9 +21,9 @@ import { transformEnrollPasswordAuthenticator } from './transformEnrollPasswordA
 
 const getContentTitleAndParams = (brandName?: string): TitleElement['options'] => {
   if (brandName) {
-    return { content: 'password.reset.title.specific', contentParams: [brandName] };
+    return { content: loc('password.reset.title.specific', 'login', [brandName]) };
   }
-  return { content: 'password.reset.title.generic' };
+  return { content: loc('password.reset.title.generic', 'login') };
 };
 
 export const transformResetPasswordAuthenticator: IdxStepTransformer = (
@@ -42,7 +43,7 @@ export const transformResetPasswordAuthenticator: IdxStepTransformer = (
 
   const submitBtnElement: ButtonElement = {
     type: 'Button',
-    label: 'password.reset',
+    label: loc('password.reset', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

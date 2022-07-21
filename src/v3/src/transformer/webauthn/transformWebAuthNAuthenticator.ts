@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import { IDX_STEP } from '../../constants';
 import {
   DescriptionElement,
@@ -38,8 +39,8 @@ const generateUISchemaElementAndInformationLabelFor = (
 
   return {
     infoTextLabel: name === IDX_STEP.ENROLL_AUTHENTICATOR
-      ? 'oie.enroll.webauthn.instructions'
-      : 'oie.verify.webauthn.instructions',
+      ? loc('oie.enroll.webauthn.instructions', 'login')
+      : loc('oie.verify.webauthn.instructions', 'login'),
     element: {
       type: 'WebAuthNSubmitButton',
       options: {
@@ -47,8 +48,8 @@ const generateUISchemaElementAndInformationLabelFor = (
           ? () => webAuthNEnrollmentHandler(transaction)
           : () => webAuthNAuthenticationHandler(transaction),
         label: name === IDX_STEP.ENROLL_AUTHENTICATOR
-          ? 'oie.enroll.webauthn.save'
-          : 'mfa.challenge.verify',
+          ? loc('oie.enroll.webauthn.save', 'login')
+          : loc('mfa.challenge.verify', 'login'),
         submitOnLoad: true,
         showLoadingIndicator: true,
       },
@@ -62,13 +63,13 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = (transaction, 
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.enroll.webauthn.title',
+      content: loc('oie.enroll.webauthn.title', 'login'),
     },
   };
   const informationalTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'webauthn.biometric.error.factorNotSupported',
+      content: loc('webauthn.biometric.error.factorNotSupported', 'login'),
     },
   };
 
@@ -76,7 +77,7 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = (transaction, 
     transaction,
   );
   if (elementAndInformationLabel) {
-    (informationalTextElement.options ?? {}).content = elementAndInformationLabel.infoTextLabel;
+    informationalTextElement.options.content = elementAndInformationLabel.infoTextLabel;
     uischema.elements.unshift(elementAndInformationLabel.element);
   }
   uischema.elements.unshift(informationalTextElement);

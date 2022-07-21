@@ -16,11 +16,11 @@ import {
   Link,
 } from '@mui/material';
 import { IdxActionParams } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
-import { useTranslation } from '../../lib/okta-i18n';
 import { ReminderElement, UISchemaElementComponent, Undefinable } from '../../types';
 
 export const DEFAULT_TIMEOUT_MS = 30_000;
@@ -28,7 +28,6 @@ export const DEFAULT_TIMEOUT_MS = 30_000;
 const ReminderPrompt: UISchemaElementComponent<{
   uischema: ReminderElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
   const { idxTransaction, widgetProps: { stateToken } } = useWidgetContext();
 
   const [show, setShow] = useState<boolean>(false);
@@ -67,7 +66,7 @@ const ReminderPrompt: UISchemaElementComponent<{
 
   const content = (
     <Box marginBottom={2}>
-      {t(uischema.options?.ctaText, uischema.options?.ctaTextParams)}
+      {uischema.options?.ctaText}
     </Box>
   );
   const actions = (
@@ -77,7 +76,7 @@ const ReminderPrompt: UISchemaElementComponent<{
       href="javascript:void(0);"
       onClick={() => resendHandler()}
     >
-      {t('email.button.resend')}
+      {loc('email.button.resend', 'login')}
     </Link>
   );
 

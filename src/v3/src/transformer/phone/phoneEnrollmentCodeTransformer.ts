@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -25,29 +26,30 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = (transaction, fo
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.phone.enroll.title',
+      content: loc('oie.phone.enroll.title', 'login'),
     },
   };
 
   const informationalTextElement: DescriptionElement = {
     type: 'Description',
     options: {
+      // TODO: revisit this for oie i18n string (ChallengeAuthenticatorPhoneView.js)
       content: relatesTo?.value?.methods?.[0]?.type === 'sms'
-        ? 'next.phone.verify.sms.codeSentText'
-        : 'next.phone.verify.voice.calling',
+        ? loc('next.phone.verify.sms.codeSentText', 'login')
+        : loc('next.phone.verify.voice.calling', 'login'),
     },
   };
 
   const carrierChargeDisclaimerText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'oie.phone.carrier.charges',
+      content: loc('oie.phone.carrier.charges', 'login'),
     },
   };
 
   const submitButton: ButtonElement = {
     type: 'Button',
-    label: 'mfa.challenge.verify',
+    label: loc('mfa.challenge.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

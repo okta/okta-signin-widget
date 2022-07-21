@@ -32,8 +32,7 @@ const getContentTitleAndParams = (
 
   if (brandName) {
     return {
-      content: loc('password.reset.title.specific', 'login'),
-      contentParams: [brandName],
+      content: loc('password.reset.title.specific', 'login', [brandName]),
     };
   }
   return { content: loc('password.reset.title.generic', 'login') };
