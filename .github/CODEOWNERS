@@ -9,7 +9,8 @@
 #  - [CODEOWNERS] https://help.github.com/articles/about-codeowners
 #  - [Widget] https://github.com/orgs/okta/teams/widget-contributors/members
 
-*    @pradeepdewda-okta @sherizada-okta @mauriciocastillosilva-okta @haishengwu-okta @magizh-okta @robertdamphousse-okta @TianGan-okta @aarongranick-okta @shuowu-okta @lesterchoi-okta @jaredperreault-okta @vijetmahabaleshwar-okta @venkatakommisetty-okta
+#   FIXME: revert codeowners before merging back to main branch
+*    @glenfannin-okta @leemchale-okta @lesterchoi-okta @shawyu-okta @shuowu-okta
 
 # Localization: pseudo-loc, i18n, etc.
 packages/@okta/pseudo-loc/    @nikhilvenkatraman-okta @jmelberg-okta
@@ -17,4 +18,4 @@ packages/@okta/i18n/          @nikhilvenkatraman-okta @jmelberg-okta @mauricioca
 test/testcafe/spec-en-leaks/  @nikhilvenkatraman-okta @jmelberg-okta
 
 # SIW Next (v3)
-src/v3/                       @glenfannin-okta @leemchale-okta @lesterchoi-okta @shawyu-okta @shuowu
+src/v3/                       @glenfannin-okta @leemchale-okta @lesterchoi-okta @shawyu-okta @shuowu-okta
