@@ -60,6 +60,7 @@
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.5",
+    "@okta/odyssey-design-tokens": "^0.14.3",
     "@okta/odyssey-react": "0.14.x",
     "@okta/odyssey-react-mui": "0.14.x",
     "@okta/odyssey-react-theme": "0.14.x",
