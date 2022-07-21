@@ -250,6 +250,12 @@ const authn = {
     // 'terminal-device-not-activated-internal-error'
     // 'error-invalid-device-code'
   ],
+  '/api/v1/authn/recovery/token': [
+    'recovery-password'
+  ],
+  '/api/v1/authn/cancel': [
+    'cancel'
+  ],
   '/.well-known/webfinger': [
     'forced-idp-discovery-okta-idp'
   ]
