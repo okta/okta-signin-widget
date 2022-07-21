@@ -12,7 +12,8 @@ const identifyRequestLogger = RequestLogger(/idx\/identify/, {
   stringifyRequestBody: true,
 });
 
-fixture('Smoke Test');
+fixture('Smoke Test')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
