@@ -16,7 +16,7 @@ END
 )
 
 echo 'starting testcafe v2->v3 parity tests'
-if ! yarn run-p -r 'test:parity-setup' "test:testcafe-run ${ENABLED_TESTS}" -- 2>/dev/null; then
+if ! yarn run-p -r 'test:parity-setup' "test:testcafe-run ${ENABLED_TESTS}"; then
 	echo "testcafe v2->v3 parity tests failed! Exiting..."
 	exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
 fi
