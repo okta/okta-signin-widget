@@ -21,7 +21,7 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
   const supportedLanguages = getSupportedLanguages(widgetProps);
 
   return Bundles.loadLanguage(languageCode, i18n, {
-    baseUrl: baseUrl,
-    rewrite: rewrite,
+    baseUrl: baseUrl ?? '/',
+    rewrite: rewrite ?? ((val) => val),
   }, supportedLanguages);
 };

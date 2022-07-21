@@ -78,6 +78,7 @@ export const uischemaLabelTransformer = (
 export const transactionMessageTransformer = (transaction: IdxTransaction): void => {
   const { messages = [] } = transaction;
   messages.forEach((message) => {
+    // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
     message.message = getMessage(message);
   });
 };

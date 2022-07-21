@@ -67,6 +67,7 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
     // add element after title in elements array
     uischema.elements.splice(1, 0, {
       type: 'Description',
+      // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
       options: { content: getMessage(messages[0]) },
     } as DescriptionElement);
   }

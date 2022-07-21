@@ -27,8 +27,8 @@ declare type i18nOptions = {
 }
 
 declare type Assets = {
-  baseUrl?: string;
-  rewrite?(origPath: string): string;
+  baseUrl: string;
+  rewrite(origPath: string): string;
 }
 
 /**

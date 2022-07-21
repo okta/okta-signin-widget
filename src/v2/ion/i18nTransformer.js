@@ -377,12 +377,19 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
 const isWebAuthnAPIError = (i18nKey) => i18nKey.startsWith(WEBAUTHN_API_GENERIC_ERROR_KEY);
 
 /**
+ * @typedef {Object} Message
+ * @property {string} message
+ * @property {Object=} i18n
+ * @property {string} i18n.key
+ * @property {string[]} i18n.params
+ */
+/**
  * - If `message.i18n.key` exists and has a value in 'login.properties'
  *   through the given key or via I18N_OVERRIDE_MAPPINGS, return the value.
  *
  * - returns `message.message` otherwise
  *
- * @param {import('@okta/okta-auth-js').IdxMessage} message
+ * @param {Message} message
  */
 const getMessage = (message) => {
   if (message.i18n?.key) {

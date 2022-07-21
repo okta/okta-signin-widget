@@ -169,23 +169,6 @@ export default {
       'index.js',
     );
 
-    // config.resolve.alias['preact'] = resolve(
-    //   __dirname,
-    //   'node_modules',
-    //   'preact',
-    //   'dist',
-    //   'preact.min.js',
-    // );
-
-    // config.resolve.alias['preact/compat'] = resolve(
-    //   __dirname,
-    //   'node_modules',
-    //   'preact',
-    //   'compat',
-    //   'dist',
-    //   'compat.js',
-    // );
-
     config.resolve.alias['nls'] = rootResolve('packages', '@okta/i18n/src/json');
     config.resolve.alias['okta-i18n-bundles'] = rootResolve('src', 'util', 'Bundles');
     config.resolve.alias['util/Logger'] = rootResolve('src', 'util', 'Logger');
