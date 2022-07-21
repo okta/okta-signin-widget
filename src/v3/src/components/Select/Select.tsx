@@ -17,15 +17,14 @@ import { h } from 'preact';
 import {
   ChangeEvent, FieldElement, UISchemaElementComponent,
 } from 'src/types';
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
 
 import { useOnChange, useValue } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
 import { getLabelName } from '../helpers';
 
 const Select: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const { label } = uischema;
@@ -38,7 +37,7 @@ const Select: UISchemaElementComponent<{
     },
     customOptions,
   } = uischema.options;
-  const error = t((messages.value || [])[0]?.i18n.key);
+  const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);
@@ -48,7 +47,7 @@ const Select: UISchemaElementComponent<{
     <Box>
       <NativeSelect
         error={error}
-        label={t(getLabelName(label!))}
+        label={getLabelName(label!)}
         name={name}
         id={name}
         value={value}
@@ -64,7 +63,7 @@ const Select: UISchemaElementComponent<{
                 key={option.value}
                 value={option.value}
               >
-                {t(option.label)}
+                {option.label}
               </NativeSelect.Option>
             )) || [],
           )

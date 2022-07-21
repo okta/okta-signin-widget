@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import AppSvg from '../../img/16pxApp.svg';
 import BrowserSvg from '../../img/16pxDevice.svg';
 import {
@@ -70,14 +71,14 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.consent.enduser.title',
+      content: loc('oie.consent.enduser.title', 'login'),
     },
   };
   uischema.elements.unshift(titleElement);
 
   const deny: ButtonElement = {
     type: 'Button',
-    label: 'oie.consent.enduser.deny.label',
+    label: loc('oie.consent.enduser.deny.label', 'login'),
     scope: '#/properties/deny',
     options: {
       type: ButtonType.BUTTON,
@@ -90,7 +91,7 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
 
   const allow: ButtonElement = {
     type: 'Button',
-    label: 'oie.consent.enduser.accept.label',
+    label: loc('oie.consent.enduser.accept.label', 'login'),
     scope: '#/properties/allow',
     options: {
       type: ButtonType.BUTTON,

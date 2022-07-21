@@ -180,13 +180,6 @@ export const STEPS_MISSING_RELATES_TO: string[] = [
   IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
 ];
 
-// export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {
-//   AUTHENTICATION: 'next.idx.return.link.otponly.enter.code.on.page.sigin.in',
-//   RECOVERY: 'next.idx.return.link.otponly.enter.code.on.page.password.reset',
-//   UNLOCK_ACCOUNT: 'next.idx.return.link.otponly.enter.code.on.page.account.unlock',
-//   ENROLLMENT: 'next.idx.return.link.otponly.enter.code.on.page.registration',
-// };
-
 export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {
   AUTHENTICATION: 'idx.return.link.otponly.enter.code.on.page.sign.in',
   RECOVERY: 'idx.return.link.otponly.enter.code.on.page.password.reset',

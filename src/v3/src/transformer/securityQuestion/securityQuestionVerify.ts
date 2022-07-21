@@ -12,6 +12,7 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
+import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -37,14 +38,14 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.security.question.challenge.title',
+      content: loc('oie.security.question.challenge.title', 'login'),
     },
   };
   uischema.elements.unshift(titleElement);
 
   const primaryButton: ButtonElement = {
     type: 'Button',
-    label: 'oform.verify',
+    label: loc('oform.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

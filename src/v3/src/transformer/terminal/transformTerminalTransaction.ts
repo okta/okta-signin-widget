@@ -15,6 +15,7 @@ import {
   IdxStatus,
   IdxTransaction,
 } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 
 import {
   DEVICE_CODE_ERROR_KEYS,
@@ -67,7 +68,7 @@ const appendTitleElement = (uischema: UISchemaLayout, messages?: IdxMessage[]): 
   }
   uischema.elements.unshift({
     type: 'Title',
-    options: { content: titleKey },
+    options: { content: loc(titleKey, 'login') },
   } as TitleElement);
 };
 
@@ -81,7 +82,7 @@ const appendViewLinks = (
   const cancelLink: LinkElement = {
     type: 'Link',
     options: {
-      label: 'goback',
+      label: loc('goback', 'login'),
       // eslint-disable-next-line no-script-url
       href: cancelStep?.action ? 'javascript:void(0)' : (baseUrl || '/'),
       dataSe: 'cancel',
@@ -101,7 +102,7 @@ const appendViewLinks = (
     const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
     const skipElement: ButtonElement = {
       type: 'Button',
-      label: 'oie.enroll.skip.setup',
+      label: loc('oie.enroll.skip.setup', 'login'),
       scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
@@ -118,7 +119,7 @@ const appendViewLinks = (
     };
     uischema.elements.push(skipElement);
   } else if (containsOneOfMessageKeys(DEVICE_CODE_ERROR_KEYS, transaction.messages)) {
-    cancelLink.options.label = 'oie.try.again';
+    cancelLink.options.label = loc('oie.try.again', 'login');
     uischema.elements.push(cancelLink);
   } else if (transaction.actions?.cancel
     || !containsOneOfMessageKeys(TERMINAL_KEYS_WITHOUT_CANCEL, transaction.messages)) {
@@ -168,8 +169,8 @@ const buildFormBagForInteractionCodeFlow = (
   formBag.uischema.elements.push({
     type: 'Spinner',
     options: {
-      label: 'loading.label',
-      valueText: 'loading.label',
+      label: loc('loading.label', 'login'),
+      valueText: loc('loading.label', 'login'),
     },
   } as SpinnerElement);
 

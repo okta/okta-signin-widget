@@ -21,28 +21,29 @@ import {
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { h } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
 
 import { useOnChange, useValue } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
 import { getLabelName } from '../helpers';
 
 const Radio: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const { label } = uischema;
   const {
-    inputMeta: {
-      // @ts-ignore expose type from auth-js
-      messages = {},
-      name,
-      options,
+    label,
+    options: {
+      inputMeta: {
+        // @ts-ignore expose type from auth-js
+        messages = {},
+        name,
+        options,
+      },
+      customOptions,
     },
-    customOptions,
-  } = uischema.options;
-  const error = t((messages.value || [])[0]?.i18n.key);
+  } = uischema;
+  const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);
@@ -53,7 +54,7 @@ const Radio: UISchemaElementComponent<{
       component="fieldset"
       error={error !== ''}
     >
-      {label && (<FormLabel>{t(getLabelName(label!))}</FormLabel>)}
+      {label && (<FormLabel>{getLabelName(label!)}</FormLabel>)}
       <RadioGroup
         name={name}
         id={name}
@@ -66,7 +67,7 @@ const Radio: UISchemaElementComponent<{
               control={<RadioMui />}
               key={item.value}
               value={item.value}
-              label={t(item.label)}
+              label={item.label}
             />
           ))
         }

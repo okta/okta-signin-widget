@@ -13,26 +13,21 @@
 import { Box } from '@mui/material';
 import { Text } from '@okta/odyssey-react';
 import { h } from 'preact';
-import { DescriptionElement, UISchemaElementComponent } from 'src/types';
-
-import { useTranslation } from '../../lib/okta-i18n';
+import { DescriptionElement, UISchemaElementComponent } from '../../types';
 
 const InformationalText: UISchemaElementComponent<{
   uischema: DescriptionElement
 }> = ({
   uischema,
 }) => {
-  const { t } = useTranslation();
-  const { content, contentParams } = uischema.options;
-
-  const textContent = t(content, contentParams);
+  const { content } = uischema.options;
 
   return (
     <Box
       display="flex"
       justifyContent="flex-start"
     >
-      <Text as="p">{textContent}</Text>
+      <Text as="p">{content}</Text>
     </Box>
   );
 };

@@ -16,6 +16,7 @@ import {
 } from '@okta/odyssey-react';
 import debounce from 'lodash/debounce';
 import get from 'lodash/get';
+import { loc } from 'okta';
 import { h } from 'preact';
 import {
   useCallback,
@@ -24,7 +25,6 @@ import {
 } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
-import { useTranslation } from '../../lib/okta-i18n';
 import {
   PasswordRequirementsElement,
   PasswordRequirementStatus,
@@ -51,7 +51,6 @@ const PasswordRequirements: UISchemaElementComponent<{
   } = uischema.options as PasswordRequirementsElement['options'];
   const password = get(data, fieldKey);
   const items = buildPasswordRequirementListItems(passwordRequirements);
-  const { t } = useTranslation();
 
   const [passwordValidations, setPasswordValidations] = useState<PasswordValidation>({});
 
@@ -100,18 +99,18 @@ const PasswordRequirements: UISchemaElementComponent<{
   return items?.length > 0 ? (
     <Box data-se="password-authenticator--rules">
       <Box marginBottom={2}>
-        <Text as="span">{t('password.complexity.requirements.header')}</Text>
+        <Text as="span">{loc('password.complexity.requirements.header', 'login')}</Text>
       </Box>
       <List
         id={id}
         listType="unordered"
         unstyled
       >
-        {items.map(({ ruleKey, label, value }) => (
+        {items.map(({ ruleKey, label }) => (
           <List.Item key={label}>
             <PasswordRequirementItem
               status={getPasswordStatus(ruleKey, passwordValidations)}
-              text={t(label, [value])}
+              text={label}
             />
           </List.Item>
         ))}

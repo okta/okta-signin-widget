@@ -17,7 +17,6 @@ import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
   FormBag,
   InfoboxElement,
-  MessageTypeVariant,
   UISchemaElement,
   WidgetProps,
 } from '../../types';
@@ -43,7 +42,7 @@ const appendSpecialErrorMessages = (
     type: 'InfoBox',
     options: {
       message: loc(message, 'login'),
-      class: MessageTypeVariant.ERROR,
+      class: 'ERROR',
     },
   } as InfoboxElement);
 };
@@ -56,7 +55,7 @@ export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) =
       type: 'InfoBox',
       options: {
         message: loc('oform.error.unexpected', 'login'),
-        class: MessageTypeVariant.ERROR,
+        class: 'ERROR',
         contentType: 'string',
       },
     } as InfoboxElement);
@@ -72,7 +71,7 @@ export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) =
         type: 'InfoBox',
         options: {
           message: getMessage(message),
-          class: MessageTypeVariant.ERROR,
+          class: 'ERROR',
           contentType: 'string',
         },
       } as InfoboxElement);

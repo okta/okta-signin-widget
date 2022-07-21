@@ -17,9 +17,9 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { h } from 'preact';
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
 
 import { useOnChange, useValue } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
 import {
   ChangeEvent, InputTextElement, UISchemaElementComponent,
 } from '../../types';
@@ -29,7 +29,6 @@ const InputText: UISchemaElementComponent<{
   type: string;
   uischema: InputTextElement;
 }> = ({ uischema, type }) => {
-  const { t } = useTranslation();
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const { label } = uischema;
@@ -41,8 +40,7 @@ const InputText: UISchemaElementComponent<{
       name,
     },
   } = uischema.options;
-  const messageI18nObj = (messages.value || [])[0]?.i18n;
-  const error = t(messageI18nObj?.key, messageI18nObj?.params);
+  const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     onChangeHandler(e.currentTarget.value);
@@ -50,13 +48,13 @@ const InputText: UISchemaElementComponent<{
 
   return (
     <Box>
-      <InputLabel htmlFor={name}>{t(getLabelName(label!))}</InputLabel>
+      <InputLabel htmlFor={name}>{getLabelName(label!)}</InputLabel>
       <OutlinedInput
         value={value}
         type={type || 'text'}
         name={name}
         id={name}
-        error={error !== ''}
+        error={error !== undefined}
         onChange={handleChange}
         fullWidth
         inputProps={{

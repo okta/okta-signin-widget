@@ -11,6 +11,7 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 
 import { InterstitialRedirectView } from '../../constants';
 import {
@@ -46,7 +47,7 @@ export const redirectTransformer = (
   if (interstitialBeforeLoginRedirect === InterstitialRedirectView.DEFAULT) {
     uischema.elements.push({
       type: 'Spinner',
-      options: { label: 'loading.label', valueText: 'loading.label' },
+      options: { label: loc('loading.label', 'login'), valueText: loc('loading.label', 'login') },
     } as SpinnerElement);
   }
 
@@ -54,7 +55,7 @@ export const redirectTransformer = (
     || interstitialBeforeLoginRedirect === InterstitialRedirectView.NONE) {
     uischema.elements.unshift({
       type: 'Description',
-      options: { content: 'oie.success.text.signingIn.with.ellipsis' },
+      options: { content: loc('oie.success.text.signingIn.with.ellipsis', 'login') },
     } as DescriptionElement);
     return formBag;
   }
@@ -75,7 +76,7 @@ export const redirectTransformer = (
 
   uischema.elements.unshift({
     type: 'Description',
-    options: { content: titleContent, contentParams },
+    options: { content: loc(titleContent, 'login', [contentParams]) },
   } as DescriptionElement);
 
   return formBag;

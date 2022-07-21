@@ -11,9 +11,8 @@
  */
 
 import { Box, CircularProgress } from '@mui/material';
+import { loc } from 'okta';
 import { FunctionComponent, h } from 'preact';
-
-import { useTranslation } from '../../lib/okta-i18n';
 
 const Spinner: FunctionComponent<{
   label?: string;
@@ -21,22 +20,18 @@ const Spinner: FunctionComponent<{
 }> = ({
   label,
   valueText,
-}) => {
-  const { t } = useTranslation();
-
-  return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <CircularProgress
-        aria-label={t(label || 'loading.label')}
-        aria-valuetext={t(valueText || 'loading.label')}
-      />
-    </Box>
-  );
-};
+}) => (
+  <Box
+    display="flex"
+    flexDirection="column"
+    justifyContent="center"
+    alignItems="center"
+  >
+    <CircularProgress
+      aria-label={label || loc('loading.label', 'login')}
+      aria-valuetext={valueText || loc('loading.label', 'login')}
+    />
+  </Box>
+);
 
 export default Spinner;

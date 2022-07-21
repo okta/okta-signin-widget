@@ -42,21 +42,26 @@ const updateLabel = (transaction: IdxTransaction, element: FieldElement): void =
         return;
       }
 
-      let i18nOptionPath;
+      let i18nOptionPath = '';
       const optionAuthenticatorKey = option.relatesTo?.key;
       if (optionAuthenticatorKey) {
         i18nOptionPath = `${i18nPath}.${optionAuthenticatorKey}`;
 
         if (optionAuthenticatorKey === AUTHENTICATOR_KEY.OV && typeof option.value === 'object') {
-          const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
-          if (methodType) {
-            i18nOptionPath = `${i18nOptionPath}.${methodType}`;
+          const methodType = getOptionValue(option.value as Input[], 'methodType');
+          if (methodType?.value) {
+            i18nOptionPath = `${i18nOptionPath}.${methodType?.value}`;
+          } else if (Array.isArray(methodType?.options)) {
+            methodType?.options.forEach((methodTypeOption) => {
+              const methodTypeOptionPath = `${i18nOptionPath}.${methodTypeOption.value}`;
+              methodTypeOption.label = getI18NValue(methodTypeOptionPath, methodTypeOption.label);
+            });
           }
         }
       } else if (option.value !== undefined) {
         i18nOptionPath = `${i18nPath}.${option.value}`;
       }
-      option.label = getI18NValue(i18nOptionPath ?? '', option.label);
+      option.label = getI18NValue(i18nOptionPath, option.label);
     });
   }
 };

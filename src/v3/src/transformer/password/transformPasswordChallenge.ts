@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -22,12 +23,12 @@ export const transformPasswordChallenge: IdxStepTransformer = ({ formBag }) => {
 
   const titleElement: TitleElement = {
     type: 'Title',
-    options: { content: 'oie.password.challenge.title' },
+    options: { content: loc('oie.password.challenge.title', 'login') },
   };
 
   const submitBtnElement: ButtonElement = {
     type: 'Button',
-    label: 'mfa.challenge.verify',
+    label: loc('mfa.challenge.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

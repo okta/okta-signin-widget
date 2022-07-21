@@ -18,12 +18,9 @@ import {
 import { h } from 'preact';
 import { ListElement, UISchemaElementComponent } from 'src/types';
 
-import { useTranslation } from '../../lib/okta-i18n';
-
 const List: UISchemaElementComponent<{
   uischema: ListElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
   const { options } = uischema;
 
   return options.items?.length ? (
@@ -32,11 +29,11 @@ const List: UISchemaElementComponent<{
       justifyContent="flex-start"
       marginBottom={4}
     >
-      { options.description && <Text as="p">{t(options.description)}</Text> }
+      { options.description && <Text as="p">{options.description}</Text> }
       <ListOdyssey listType={options.type ?? 'unordered'}>
         {
           options.items.map((item: string) => (
-            <ListOdyssey.Item key={item}>{t(item)}</ListOdyssey.Item>
+            <ListOdyssey.Item key={item}>{item}</ListOdyssey.Item>
           ))
         }
       </ListOdyssey>

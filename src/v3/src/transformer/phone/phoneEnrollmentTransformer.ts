@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -25,25 +26,10 @@ import { getUIElementWithName } from '../utils';
 export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
   const { uischema, data } = formBag;
 
-  uischema.elements = uischema.elements.map((element) => {
-    const controlElement = element as FieldElement;
-    if (controlElement.name === 'authenticator.phoneNumber') {
-      return {
-        ...controlElement,
-        label: 'mfa.phoneNumber.placeholder',
-        options: {
-          ...controlElement.options,
-          targetKey: 'authenticator.methodType',
-        },
-      };
-    }
-    return controlElement;
-  });
-
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.phone.enroll.title',
+      content: loc('oie.phone.enroll.title', 'login'),
     },
   };
 
@@ -55,7 +41,6 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
   data['authenticator.methodType'] = methodTypeElement!.options!.inputMeta.options![0].value;
 
   const phoneNumberElement = getUIElementWithName('authenticator.phoneNumber', uischema.elements) as FieldElement;
-  phoneNumberElement.label = 'mfa.phoneNumber.placeholder';
   phoneNumberElement.options = {
     ...phoneNumberElement.options,
     targetKey: 'authenticator.methodType',
@@ -64,14 +49,14 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
   const voiceInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'oie.phone.enroll.call.subtitle',
+      content: loc('oie.phone.enroll.call.subtitle', 'login'),
     },
   };
 
   const smsInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'oie.phone.enroll.sms.subtitle',
+      content: loc('oie.phone.enroll.sms.subtitle', 'login'),
     },
   };
 
@@ -86,7 +71,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
           phoneNumberElement,
           {
             type: 'Button',
-            label: 'oie.phone.sms.primaryButton',
+            label: loc('oie.phone.sms.primaryButton', 'login'),
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
@@ -102,7 +87,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
           phoneNumberElement,
           {
             type: 'Button',
-            label: 'oie.phone.call.primaryButton',
+            label: loc('oie.phone.call.primaryButton', 'login'),
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,

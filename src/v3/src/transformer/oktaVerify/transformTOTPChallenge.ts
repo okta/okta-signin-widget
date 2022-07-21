@@ -10,36 +10,27 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
   IdxStepTransformer,
   TitleElement,
-  UISchemaElement,
 } from '../../types';
-import { getUIElementWithName } from '../utils';
 
 export const transformTOTPChallenge: IdxStepTransformer = ({ formBag }) => {
   const { uischema } = formBag;
 
-  const codeElement = getUIElementWithName(
-    'credentials.totp',
-    uischema.elements as UISchemaElement[],
-  );
-  if (codeElement) {
-    codeElement.label = 'oie.okta_verify.totp.enterCodeText';
-  }
-
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.okta_verify.totp.title',
+      content: loc('oie.okta_verify.totp.title', 'login'),
     },
   };
 
   const buttonElement: ButtonElement = {
     type: 'Button',
-    label: 'mfa.challenge.verify',
+    label: loc('mfa.challenge.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

@@ -17,7 +17,6 @@ import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
 import {
   AuthenticatorButtonElement,
   ClickHandler,
@@ -37,15 +36,12 @@ const AuthenticatorButton: UISchemaElementComponent<{
       key: authenticationKey,
       actionParams,
       description,
-      descriptionParams: descrParams,
       ctaLabel,
       dataSe,
     },
   } = uischema;
-  const { t } = useTranslation();
   const { idxTransaction } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
-  const descriptionParams = descrParams?.map((param: string) => t(param));
 
   const onClick: ClickHandler = async () => {
     const { name: step } = idxTransaction!.nextStep!;
@@ -77,14 +73,14 @@ const AuthenticatorButton: UISchemaElementComponent<{
         </Box>
         {description && (
           <Box className={style.description}>
-            {t(description, descriptionParams)}
+            {description}
           </Box>
         )}
         <Box
           className={style.actionName}
           data-se={dataSe}
         >
-          {t(ctaLabel)}
+          {ctaLabel}
           <ArrowRight />
         </Box>
       </Box>

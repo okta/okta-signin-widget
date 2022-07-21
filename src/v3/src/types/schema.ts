@@ -169,7 +169,6 @@ export interface AuthenticatorButtonElement {
     key: string;
     ctaLabel: string;
     description?: string;
-    descriptionParams?: string[];
   };
 }
 
@@ -188,7 +187,6 @@ export interface TitleElement extends UISchemaElement {
   type: 'Title';
   options: {
     content: string;
-    contentParams?: string[];
   };
 }
 
@@ -198,7 +196,6 @@ export interface HeadingElement extends UISchemaElement {
     level: 1 | 2 | 3 | 4 | 5 | 6;
     visualLevel: 1 | 2 | 3 | 4 | 5 | 6;
     content: string;
-    contentParams?: string[];
   };
 }
 
@@ -206,7 +203,6 @@ export interface DescriptionElement extends UISchemaElement {
   type: 'Description';
   options: {
     content: string;
-    contentParams?: string[];
   };
 }
 
@@ -217,7 +213,6 @@ export interface ReminderElement extends UISchemaElement {
      * The call to action text in the reminder content area
      */
     ctaText: string;
-    ctaTextParams?: string[];
     /**
      * Override the default timeout before reminder appears
      */
@@ -263,7 +258,6 @@ export interface ImageWithTextElement extends UISchemaElement {
     id: string;
     SVGIcon: FunctionComponent;
     textContent: string;
-    contentParams?: string[];
   };
 }
 
@@ -288,7 +282,6 @@ export interface InfoboxElement extends UISchemaElement {
     message: string;
     class: string;
     contentType: string;
-    contentParams?: string[];
     title?: string;
   }
 }

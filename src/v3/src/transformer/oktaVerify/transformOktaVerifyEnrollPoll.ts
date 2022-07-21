@@ -11,6 +11,7 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -50,7 +51,7 @@ export const getTitleKey = (selectedChannel?: string): string => {
 
 export const switchChannelButton = (label: string): ButtonElement => ({
   type: 'Button',
-  label,
+  label: loc(label, 'login'),
   options: {
     type: ButtonType.BUTTON,
     variant: 'secondary',
@@ -80,7 +81,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     reminder = {
       type: 'Reminder',
       options: {
-        ctaText: CHANNEL_TO_CTA_KEY[selectedChannel],
+        ctaText: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
         action: (params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};
@@ -97,7 +98,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
   const title = {
     type: 'Title',
     options: {
-      content: getTitleKey(selectedChannel),
+      content: loc(getTitleKey(selectedChannel), 'login'),
     },
   };
 
@@ -113,9 +114,9 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
             type: 'List',
             options: {
               items: [
-                'oie.enroll.okta_verify.qrcode.step1',
-                'oie.enroll.okta_verify.qrcode.step2',
-                'oie.enroll.okta_verify.qrcode.step3',
+                loc('oie.enroll.okta_verify.qrcode.step1', 'login'),
+                loc('oie.enroll.okta_verify.qrcode.step2', 'login'),
+                loc('oie.enroll.okta_verify.qrcode.step3', 'login'),
               ],
               type: 'ordered',
             },
@@ -138,7 +139,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
           {
             type: 'Description',
             options: {
-              content: 'next.enroll.okta_verify.email.info',
+              content: loc('next.enroll.okta_verify.email.info', 'login'),
               // @ts-ignore OKTA-496373 - missing props from interface
               contentParams: [authenticator.contextualData?.email],
             },
@@ -154,7 +155,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
           {
             type: 'Description',
             options: {
-              content: 'next.enroll.okta_verify.sms.info',
+              content: loc('next.enroll.okta_verify.sms.info', 'login'),
               // @ts-ignore OKTA-496373 - missing props from interface
               contentParams: [authenticator.contextualData?.phoneNumber],
             },
