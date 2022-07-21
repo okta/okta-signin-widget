@@ -76,8 +76,7 @@
     "copy:types": "grunt copy:types",
     "build:types": "yarn clean:types && yarn generate:types && yarn copy:types",
     "start:mock-server": "MOCK_SERVER_PORT=3030 nodemon --delay 500ms -e js,json --watch playground --exec 'node playground/mocks/server.js'",
-    "test:parity-setup": "mkdir -p test-reports/testcafe && yarn workspace v3 dev",
-    "test:parity-ci": "run-p -r test:parity-setup test:testcafe-run -- 2>/dev/null"
+    "test:parity-setup": "mkdir -p test-reports/testcafe && yarn workspace v3 dev"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",

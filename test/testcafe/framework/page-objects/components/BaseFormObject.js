@@ -7,8 +7,7 @@ const SUBMIT_BUTTON_SELECTOR = '[data-type="save"]';
 const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
 
 const focusOnSubmitButton = () => {
-  // Client Function is not able to refer any variables defined outside this function.
-  // Not sure why at the time of writing.
+  // client function is not able to refer any variables defined outside
   const submitButton = '[data-type="save"]';
   document.querySelector(submitButton).focus();
 };
@@ -150,17 +149,16 @@ export default class BaseFormObject {
   }
 
   getNthErrorMessage(fieldName, value) {
-    const selectContainer = this.findFormFieldInput(fieldName)
-      .sibling('.o-form-input-error').nth(value);
+    const selectContainer = this.findFormFieldInput(fieldName).sibling('.o-form-input-error').nth(value);
     return selectContainer.innerText;
   }
+
   // =====================================
   // Chozen Dropdown
   // =====================================
 
   getValueFromDropdown(fieldName) {
-    const selectContainer = this.findFormFieldInput(fieldName)
-      .find('.chzn-container');
+    const selectContainer = this.findFormFieldInput(fieldName).find('.chzn-container');
     return selectContainer.innerText;
   }
 

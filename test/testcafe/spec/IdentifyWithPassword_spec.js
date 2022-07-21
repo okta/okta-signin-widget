@@ -13,10 +13,13 @@ const identifyWithPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/recover')
   .respond(xhrIdentifyRecover);
 
-const identifyRequestLogger = RequestLogger( /idx\/identify/, {
-  logRequestBody: true,
-  stringifyRequestBody: true,
-});
+const identifyRequestLogger = RequestLogger(
+  /idx\/identify/,
+  {
+    logRequestBody: true,
+    stringifyRequestBody: true,
+  }
+);
 
 fixture('Identify + Password');
 
@@ -38,15 +41,12 @@ test.requestHooks(identifyWithPasswordMock)('should show errors if required fiel
 
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-
-  await t.expect(await identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(await identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(await identityPage.hasPasswordErrorMessage()).eql(true);
   await t.expect(await identityPage.getPasswordErrorMessage()).eql('This field cannot be left blank');
 });
 
@@ -55,8 +55,8 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if a r
   await renderWidget({
     i18n: {
       en: {
-        'error.username.required': 'Username is required!', // default: 'This field cannot be left blank'
-        'error.password.required': 'Password is required!', // default: 'This field cannot be left blank'
+        'error.username.required': 'Username is required!',
+        'error.password.required': 'Password is required!',
       }
     }
   });
@@ -64,14 +64,12 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if a r
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(await identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(await identityPage.getIdentifierErrorMessage()).eql('Username is required!');
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(await identityPage.hasPasswordErrorMessage()).eql(true);
   await t.expect(await identityPage.getPasswordErrorMessage()).eql('Password is required!');
 });
 
