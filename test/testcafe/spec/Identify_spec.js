@@ -149,6 +149,8 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
+  await t.expect(identityPage.hasIdentifierError()).eql(true);
+  await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 });
 
@@ -173,6 +175,8 @@ test.requestHooks(identifyMock)('should show customized error if required field 
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
+  await t.expect(identityPage.hasIdentifierError()).eql(true);
+  await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
 });
 

@@ -40,6 +40,7 @@ test('should show errors if required fields are empty', async t => {
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
+  await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
 });
 

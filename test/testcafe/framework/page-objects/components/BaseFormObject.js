@@ -135,24 +135,22 @@ export default class BaseFormObject {
     await this.hasTextBoxError(name);
   }
 
-  async hasTextBoxErrorMessage(fieldName) {
-    // TODO re-use logic from getTextBoxErrorMessage
-    const input = this.findFormFieldInput(fieldName);
-    const errorId = await input?.getAttribute('aria-describedby');
-    return this.el.find(`#${errorId}`).exists;
+  hasTextBoxErrorMessage(fieldName) {
+    const selectContainer = this.findFormFieldInput(fieldName)
+      .sibling('.o-form-input-error');
+    return selectContainer.exists;
   }
 
-  async getTextBoxErrorMessage(fieldName) {
-    const input = this.findFormFieldInput(fieldName);
-    const errorId = await input?.getAttribute('aria-describedby');
-    return this.el.find(`#${errorId}`).innerText;
+  getTextBoxErrorMessage(fieldName) {
+    const selectContainer = this.findFormFieldInput(fieldName)
+      .sibling('.o-form-input-error');
+    return selectContainer.innerText;
   }
 
   getNthErrorMessage(fieldName, value) {
     const selectContainer = this.findFormFieldInput(fieldName).sibling('.o-form-input-error').nth(value);
     return selectContainer.innerText;
   }
-
   // =====================================
   // Chozen Dropdown
   // =====================================

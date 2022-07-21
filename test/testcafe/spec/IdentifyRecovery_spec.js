@@ -74,6 +74,7 @@ test.requestHooks(identifyRecoveryMock)('should show errors if required fields a
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
+  await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
 });
 
