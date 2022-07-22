@@ -11,7 +11,6 @@
  */
 
 import { Box } from '@mui/material';
-import * as Tokens from '@okta/odyssey-design-tokens';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
@@ -31,10 +30,10 @@ const AuthContainer: FunctionComponent = ({ children }) => {
         flex="auto"
         flexDirection="column"
         border={1}
-        borderRadius={Tokens.BorderRadiusBase}
-        borderColor={Tokens.ColorBorderDisplay}
-        bgcolor={Tokens.ColorBackgroundBase}
-        fontFamily={Tokens.FontFamilyBase}
+        borderRadius={1}
+        borderColor="grey.200"
+        bgcolor="common.white"
+        fontFamily="fontFamily"
         className={style.siwContainer}
       >
         {children}

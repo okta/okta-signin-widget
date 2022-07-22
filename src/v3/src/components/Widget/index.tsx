@@ -191,6 +191,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
   }, [idxTransaction, setMessages, bootstrap]);
 
+  // temporary override until odyssey-react-mui theme borderRadius value is fixed
+  odysseyTheme.shape.borderRadius = 4;
+
   return (
     <WidgetContextProvider value={{
       authClient,

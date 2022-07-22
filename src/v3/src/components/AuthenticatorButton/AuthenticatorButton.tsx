@@ -61,7 +61,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       display="flex"
       padding={2}
       border={1}
-      borderColor={Tokens.ColorPaletteNeutral200}
+      borderColor="grey.200"
       borderRadius={Tokens.BorderRadiusBase}
       boxShadow={Tokens.ShadowScale0}
       className={style.authButton}
