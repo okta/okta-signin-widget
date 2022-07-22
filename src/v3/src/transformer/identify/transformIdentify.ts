@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import set from 'lodash/set';
+
 import {
   ButtonElement,
   ButtonType,
@@ -23,7 +25,10 @@ import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
   const { features, username } = widgetProps;
-  const { uischema } = formBag;
+  const { uischema, schema } = formBag;
+
+  set(schema, ['errorMessage', 'properties', 'identifier'], 'error.username.required');
+  set(schema, ['errorMessage', 'properties', 'credentials.passcode'], 'error.password.required');
 
   const identifierElement = getUIElementWithName(
     'identifier',
@@ -47,12 +52,6 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
 
   if (passwordElement) {
     submitBtnElement.label = loc('oie.primaryauth.submit', 'login');
-    // TODO: add validation fn
-    passwordElement.options = {
-      ...passwordElement.options,
-      validate: (value: string | boolean | number | undefined) =>
-        !value ? 'error.password.required' : undefined
-    }
   }
 
   if (features?.showKeepMeSignedIn === false) {
@@ -69,12 +68,6 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
 
   // add username/identifier from config if provided
   if (identifierElement) {
-    identifierElement.options = {
-      ...identifierElement.options,
-      validate: (value: string | boolean | number | undefined) =>
-        !value ? 'error.username.required' : undefined
-    }
-
     if (username) {
       identifierElement.options = {
         ...identifierElement.options,
