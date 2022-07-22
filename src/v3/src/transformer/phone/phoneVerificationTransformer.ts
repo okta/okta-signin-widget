@@ -30,7 +30,8 @@ const TARGET_FIELD_NAME = 'authenticator.methodType';
 export const transformPhoneVerification: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep } = transaction;
   const { name: step } = nextStep;
-  const { uischema } = formBag;
+  const { schema, uischema } = formBag;
+  delete schema.properties[TARGET_FIELD_NAME].minLength;
 
   // Find methodType option, set first as selected, and hide element
   const methodTypeElement = getUIElementWithName(
