@@ -7,13 +7,13 @@ import success from '../../../playground/mocks/data/idp/idx/success';
 
 const identifyMockwithHCaptcha = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentifyWithPasswordWithHCaptcha, 200, { 'Access-Control-Allow-Origin': '*' })
+  .respond(xhrIdentifyWithPasswordWithHCaptcha)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(success);
   
 const identifyMockWithReCaptcha = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentifyWithPasswordWithReCaptcha,  200, { 'Access-Control-Allow-Origin': '*' })
+  .respond(xhrIdentifyWithPasswordWithReCaptcha)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(success);  
 
