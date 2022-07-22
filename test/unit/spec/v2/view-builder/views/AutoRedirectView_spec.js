@@ -15,7 +15,7 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
   beforeEach(function() { 
     testContext = {};
     testContext.init = (user = SuccessWithAppUser.user.value, app = SuccessWithAppUser.app.value) => {
-      const appState = new AppState();
+      const appState = new AppState({}, {});
       appState.set('user', user);
       appState.set('app', app);
 

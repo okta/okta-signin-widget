@@ -21,6 +21,8 @@ import {
 import { createOVOptions } from '../ion/ui-schema/ion-object-handler';
 import { _ } from '../mixins/mixins';
 import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
+import Settings from 'models/Settings';
+import Hooks from 'models/Hooks';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -72,6 +74,14 @@ const derived: Record<string, ModelProperty> = {
 export type AppStateProps = typeof local & typeof derived;
 
 export default class AppState extends Model {
+  settings: Settings;
+  hooks: Hooks;
+  
+  constructor(attributes, options) {
+    super(attributes, options);
+    this.settings = options.settings;
+    this.hooks = options.hooks;
+  }
 
   get<A extends Backbone._StringKey<AppStateProps>>(attributeName: A): any {
     return Model.prototype.get.call(this, attributeName);
@@ -252,7 +262,7 @@ export default class AppState extends Model {
     this.trigger('cache:clear');
   }
 
-  async setIonResponse(transformedResponse, hooks) {
+  async setIonResponse(transformedResponse) {
     const doRerender = this.shouldReRenderView(transformedResponse);
     this.clearAppStateCache();
     // set new app state properties
@@ -270,7 +280,7 @@ export default class AppState extends Model {
         Logger.error(JSON.stringify(transformedResponse, null, 2));
       }
 
-      const hook = hooks?.getHook(currentFormName); // may be undefined
+      const hook = this.hooks?.getHook(currentFormName); // may be undefined
       await executeHooksBefore(hook);
   
       this.unset('currentFormName', { silent: true });

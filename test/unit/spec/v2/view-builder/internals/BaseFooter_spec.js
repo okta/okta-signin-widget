@@ -25,7 +25,7 @@ describe('v2/view-builder/internals/BaseFooter', function() {
 
   beforeEach(() => {
     testContext = {
-      appState: new AppState(),
+      appState: new AppState({}, {}),
       settings: new Settings({ baseUrl: 'http://localhost:3000' }),
     };
   });

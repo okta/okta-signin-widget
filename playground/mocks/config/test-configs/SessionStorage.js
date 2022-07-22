@@ -1,4 +1,4 @@
-const identifyChallengeMockWithError = {
+const identifyChallengeMock = {
   '/idp/idx/introspect': [
     'identify'
   ],
@@ -8,16 +8,20 @@ const identifyChallengeMockWithError = {
   '/idp/idx/challenge/poll': [
     'authenticator-verification-email'
   ],
-  '/idp/idx/challenge/answer': [
-    'error-401-invalid-otp-passcode'
-  ],
   '/idp/idx/cancel': [
     'identify'
   ]
 };
 
+const identifyChallengeMockWithError = {
+  ...identifyChallengeMock,
+  '/idp/idx/challenge/answer': [
+    'error-401-invalid-otp-passcode'
+  ]
+};
+
 const challengeSuccessMock = {
-  ...identifyChallengeMockWithError,
+  ...identifyChallengeMock,
   '/oauth2/default/.well-known/openid-configuration': [
     'well-known-openid-configuration'
   ],

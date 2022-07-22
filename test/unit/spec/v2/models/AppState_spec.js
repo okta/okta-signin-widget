@@ -13,7 +13,7 @@ describe('v2/models/AppState', function() {
       if (currentFormName) {
         appStateData.currentFormName = currentFormName;
       }
-      this.appState = new AppState(appStateData);
+      this.appState = new AppState(appStateData, {});
     };
   });
 

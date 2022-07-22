@@ -14,7 +14,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
     testContext.init = (captcha = enrollProfileWithReCaptcha.captcha.value) => {
       const appState = new AppState({
         captcha
-      });
+      }, {});
       const settings = new Settings({ baseUrl: 'http://localhost:3000', language });
       testContext.view = new CaptchaView({
         appState,
