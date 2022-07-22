@@ -38,6 +38,7 @@ const Button: UISchemaElementComponent<{
       dataSe,
       actionParams,
       includeData,
+      actionName,
     },
   } = uischema;
 
@@ -45,6 +46,7 @@ const Button: UISchemaElementComponent<{
     onSubmitHandler({
       actionFn: uischema.options.action,
       params: actionParams,
+      actionName,
       includeData: Boolean(includeData),
       step: uischema.options.step,
     });

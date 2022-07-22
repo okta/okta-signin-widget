@@ -110,8 +110,7 @@ export function isUISchemaLayoutType(type: string) {
 }
 
 export interface FieldElement extends UISchemaElement {
-  name: string;
-  // TODO: refactor - dump inputMeta at top level of options
+  name: string; // TODO: strict name as 'Field' when transformer refactor is done
   // TODO: only use limited field as i18n field
   options: {
     inputMeta: Input;
@@ -152,6 +151,7 @@ export interface ButtonElement extends UISchemaElement {
     step?: string;
     // deprecate this field once auth-js can support `step` for all scenarios
     action?: NextStep['action'];
+    actionName?: string;
   };
 }
 

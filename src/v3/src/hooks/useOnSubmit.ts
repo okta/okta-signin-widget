@@ -23,6 +23,7 @@ type OnSubmitHandlerOptions = {
   actionFn?: NextStep['action'];
   params?: Record<string, unknown>;
   step?: string;
+  actionName?: string;
 };
 
 // excluded field from data bag
@@ -40,7 +41,7 @@ export const useOnSubmit = (): (options?: OnSubmitHandlerOptions | undefined) =>
 
   return useCallback(async (options?: OnSubmitHandlerOptions) => {
     const {
-      actionFn, params, includeData, step,
+      actionFn, params, includeData, step, actionName,
     } = options || {};
 
     const immutableData = getImmutableData(prevTransaction!, step);
@@ -54,7 +55,9 @@ export const useOnSubmit = (): (options?: OnSubmitHandlerOptions | undefined) =>
     if (params) {
       payload = merge(payload, params);
     }
-    if (step) {
+    if (actionName) {
+      payload = { ...payload, actions: [{ name: actionName }] };
+    } else if (step) {
       payload = { ...payload, step };
     }
     payload = merge(payload, immutableData);

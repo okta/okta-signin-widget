@@ -40,8 +40,8 @@ describe('Send correct payload when trigger flow entry button', () => {
   it('when click "Register" button', async () => {
     const { authClient, user, findByTestId } = await setup({ mockResponse });
 
-    const forgotPasswordButton = await findByTestId('enroll');
-    await user.click(forgotPasswordButton);
+    const registerButton = await findByTestId('enroll');
+    await user.click(registerButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       'POST',
@@ -63,8 +63,8 @@ describe('Send correct payload when trigger flow entry button', () => {
   it('when click "Unlock account" button', async () => {
     const { authClient, user, findByTestId } = await setup({ mockResponse });
 
-    const forgotPasswordButton = await findByTestId('unlock');
-    await user.click(forgotPasswordButton);
+    const unlockButton = await findByTestId('unlock');
+    await user.click(unlockButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/unlock-account',

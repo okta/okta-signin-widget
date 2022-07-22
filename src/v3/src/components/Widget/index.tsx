@@ -27,11 +27,13 @@ import {
   useState,
 } from 'preact/hooks';
 
+import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import { usePolling } from '../../hooks';
 import transformTransaction from '../../transformer/authJs';
 import { transformTerminalTransaction, transformUnhandledErrors } from '../../transformer/terminal';
 import { createForm } from '../../transformer/utils';
+import { transformIdxTransaction } from '../../transformernew';
 import {
   FormBag,
   IdxTransactionWithNextStep,
@@ -88,9 +90,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return transformTerminalTransaction(idxTransaction, widgetProps);
     }
 
-    const bag = transformTransaction(idxTransaction as IdxTransactionWithNextStep, widgetProps);
+    const step = idxTransaction.nextStep.name;
+    const bag = [
+      IDX_STEP.IDENTIFY,
+    ].includes(step)
+      ? transformIdxTransaction(idxTransaction as IdxTransactionWithNextStep)
+      : transformTransaction(idxTransaction as IdxTransactionWithNextStep, widgetProps);
+
     // Get data state ready before updating formBag
     setData(bag.data);
+
     return bag;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idxTransaction, authApiError]);
