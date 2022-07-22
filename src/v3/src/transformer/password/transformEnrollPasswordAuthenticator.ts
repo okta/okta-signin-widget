@@ -52,8 +52,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
         ...passwordElement.options?.attributes,
         autocomplete: 'new-password',
       },
-      validate: (value: string | boolean | number | undefined) =>
-        !value ? 'error.password.required' : undefined
     };
   }
   uischema.elements = removeUIElementWithName(
