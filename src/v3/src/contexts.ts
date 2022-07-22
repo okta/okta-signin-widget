@@ -11,7 +11,6 @@
  */
 
 import { IdxMessage, IdxTransaction, OktaAuth } from '@okta/okta-auth-js';
-import Ajv from 'ajv';
 import { createContext } from 'preact';
 import { MutableRef, StateUpdater, useContext } from 'preact/hooks';
 

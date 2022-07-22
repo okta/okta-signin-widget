@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Ajv from 'ajv';
+import Ajv, { ErrorObject } from 'ajv';
 import AjvErrors from 'ajv-errors';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { ThemeProvider } from '@okta/odyssey-react-theme';
@@ -222,6 +222,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (!idxTransaction) {
       return;
     }
+    setFormErrors([]);
+    setFormSubmitted(false);
 
     const { messages: newMessages = [], status } = idxTransaction;
 

@@ -61,8 +61,5 @@ export const transformer: FieldTransformer<Result> = (input: Input) => ({
         ? 'object'
         : (input.type ?? 'string'),
     ),
-    pattern: input.name === 'passcode' && !input.secret
-      ? fieldPatternMap.get('verificationCode')
-      : fieldPatternMap.get(input.name),
   },
 });

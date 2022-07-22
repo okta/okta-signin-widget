@@ -14,10 +14,10 @@ import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
-import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
-import { useOnChange, useValue } from '../../hooks';
+import { useOnChange, useOnValidate, useValue } from '../../hooks';
+import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
 import { getLabelName } from '../helpers';
 
 const InputPassword: UISchemaElementComponent<{
@@ -27,6 +27,7 @@ const InputPassword: UISchemaElementComponent<{
   const [fieldError, setFieldError] = useState<string | undefined>();
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
+  const onValidateHandler = useOnValidate(uischema);
   const { label } = uischema;
   const {
     attributes,
@@ -35,18 +36,18 @@ const InputPassword: UISchemaElementComponent<{
       messages = {},
       name,
     },
-    validate,
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setIsTouched(true);
     onChangeHandler(e.currentTarget.value);
-    setFieldError(t(validate?.(e.currentTarget.value) ?? ''));
+    onValidateHandler(e.currentTarget.value);
   };
 
   const handleInputBlur = () => {
     setIsTouched(true);
-    setFieldError(t(validate?.(value as string) ?? ''));
+    onValidateHandler();
   };
 
   return (
@@ -56,7 +57,7 @@ const InputPassword: UISchemaElementComponent<{
         value={value}
         name={name}
         id={name}
-        error={!!(error || (isTouched && fieldError))}
+        error={!!(error || ((formSubmitted || isTouched) && fieldError))}
         onBlur={handleInputBlur}
         onChange={handleChange}
         fullWidth

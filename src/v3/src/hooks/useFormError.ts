@@ -10,9 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './useFormError';
-export * from './useOnChange';
-export * from './useOnSubmit';
-export * from './usePolling';
-export * from './useOnValidate';
-export * from './useValue';
+import { useWidgetContext } from '../contexts';
+import { FieldElement } from '../types';
+
+export const useFormError = (uischema: FieldElement): string | undefined => {
+  const { name } = uischema.options.inputMeta;
+  const { formErrors } = useWidgetContext();
+
+  const fieldError = formErrors?.find((formError) => {
+    const [,path] = formError.instancePath.split('/');
+    return name === path;
+  });
+  return fieldError?.message;
+};
