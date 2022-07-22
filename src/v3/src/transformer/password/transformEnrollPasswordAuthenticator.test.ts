@@ -24,6 +24,7 @@ import {
   WidgetProps,
 } from '../../types';
 import { transformEnrollPasswordAuthenticator } from '.';
+import { JSONSchemaType } from 'ajv';
 
 describe('Enroll Password Authenticator Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
