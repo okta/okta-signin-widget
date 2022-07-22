@@ -86,3 +86,11 @@ When(
 );
 
 
+When(
+  /^user clicks the email magic link$/,
+  async function() {
+    const emailMagicLink = await this.a18nClient.getEmailMagicLink(this.credentials.profileId);
+    await browser.url(emailMagicLink);
+  }
+);
+

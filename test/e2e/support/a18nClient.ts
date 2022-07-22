@@ -89,6 +89,24 @@ export default class A18nClient {
     return await this.deleteOnProtectedURL(`${PROFILE_URL}/${profileId}`);
   }
 
+  async getEmailMagicLink(profileId: string) {
+    let retryAttemptsRemaining = 5;
+    let response;
+    while (!response?.content && retryAttemptsRemaining > 0) {
+      await waitForOneSecond();
+      response = await this.getOnURL(LATEST_EMAIL_URL.replace(':profileId', profileId)) as Record<string, string>;
+      --retryAttemptsRemaining;
+    }
+
+    const match = response?.content?.match(/<a id="email-authentication-button" href="(?<url>\S+)"/);
+    const url = match?.groups?.url;
+    if (!url) {
+      throw new Error('Unable to retrieve magic link from email.');
+    }
+
+    return url;
+  }
+
   private async deleteOnProtectedURL(url: string): Promise<string|never>{
     try {
       const response =  await fetch(url, {
