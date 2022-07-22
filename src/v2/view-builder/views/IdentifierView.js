@@ -10,7 +10,7 @@ import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
-import HtmlView from './shared/HtmlView';
+import CustomAccessDeniedErrorMessage from './shared/CustomAccessDeniedErrorMessage';
 
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 
@@ -170,9 +170,13 @@ const Body = BaseForm.extend({
     }
 
     const { errorSummary } = error.responseJSON;
+
     const options = {
       type: 'error',
-      content: new HtmlView({ message: errorSummary }),
+      content: new CustomAccessDeniedErrorMessage({
+        message: errorSummary,
+        links: this.options.appState.get('messages')[0]?.links || [],
+      }),
     };
 
     this.showMessages(createCallout(options));

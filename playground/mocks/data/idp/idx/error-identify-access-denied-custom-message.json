@@ -8,7 +8,11 @@
     "type": "array",
     "value": [
       {
-        "message": "You do not have <a href='#'>permission</a> to perform the requested action.",
+        "message": "You do not have permission to perform the requested action.",
+        "links": [
+          {"label": "Help link 1", "url": "https://www.okta.com/"},
+          {"label": "Help link 2", "url": "https://www.okta.com/help?page=1"}
+        ],
         "i18n": {
           "key": "security.access_denied_custom_message"
         },
