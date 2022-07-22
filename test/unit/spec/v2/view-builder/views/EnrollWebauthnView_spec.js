@@ -26,7 +26,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       const appState = new AppState({
         currentAuthenticator,
         authenticatorEnrollments,
-      });
+      }, {});
       spyOn(appState, 'getRemediationAuthenticationOptions').and.callFake(formName => {
         if (formName === 'select-authenticator-enroll') {
           return [ { label: 'some authenticator '} ];

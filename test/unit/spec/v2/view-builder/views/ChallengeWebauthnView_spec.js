@@ -22,7 +22,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
         currentAuthenticator,
         authenticatorEnrollments,
         app,
-      });
+      }, {});
       jest.spyOn(appState, 'getRemediationAuthenticationOptions').mockReturnValue(formName => {
         if (formName === 'select-authenticator-authenticate') {
           return [ { label: 'some authenticator '} ];

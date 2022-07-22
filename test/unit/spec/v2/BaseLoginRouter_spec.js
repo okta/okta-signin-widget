@@ -1,4 +1,4 @@
-import { _ } from 'okta';
+import { Controller, _ } from 'okta';
 import Util from 'helpers/mocks/Util';
 import BaseLoginRouter from 'v2/BaseLoginRouter';
 import FormController from 'v2/controllers/FormController';
@@ -19,6 +19,12 @@ import IdxSessionExpiredError from '../../../../playground/mocks/data/idp/idx/er
 import IdxRateLimitError from '../../../../playground/mocks/data/idp/idx/error-429-too-many-request-operation-ratelimit';
 import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
 
+const FakeController = Controller.extend({
+  postRender() {
+    this.trigger('afterRender', {});
+  }
+});
+
 const TestRouter = BaseLoginRouter.extend({
   routes: {
     '': 'defaultAuth',
@@ -26,12 +32,28 @@ const TestRouter = BaseLoginRouter.extend({
   },
 
   defaultAuth: function() {
-    this.render(FormController);
+    this.render(FakeController);
   },
 });
 
+jest.mock('v2/client/startLoginFlow', () => {
+  const actual = jest.requireActual('../../../../src/v2/client/startLoginFlow');
+  return {
+    startLoginFlow: actual.startLoginFlow
+  };
+});
+
+jest.mock('v2/client/updateAppState', () => {
+  const actual = jest.requireActual('../../../../src/v2/client/updateAppState');
+  return {
+    updateAppState: actual.updateAppState
+  };
+});
+
+
 const mocked = {
-  startLoginFlow: require('../../../../src/v2/client/startLoginFlow')
+  startLoginFlow: require('../../../../src/v2/client/startLoginFlow'),
+  updateAppState: require('../../../../src/v2/client/updateAppState')
 };
 
 describe('v2/BaseLoginRouter', function() {
@@ -92,11 +114,7 @@ describe('v2/BaseLoginRouter', function() {
       afterRenderHandler,
       afterErrorHandler,
       render: () => {
-        return new Promise((resolve, reject) => {
-          router.on('afterRender', resolve);
-          router.on('afterError', reject);
-          router.render(FormController);
-        });
+        return router.render(FakeController);
       },
     };
   }
@@ -114,9 +132,7 @@ describe('v2/BaseLoginRouter', function() {
         useInteractionCodeFlow: true
       });
       const { router } = testContext;
-      router.controller = {
-        constructor: () => {}
-      };
+      router.controller = new FakeController();
       jest.spyOn(router, 'render').mockImplementation();
       router.appState.trigger('restartLoginFlow');
       expect(router.render).toHaveBeenCalledWith(router.controller.constructor);
@@ -132,7 +148,7 @@ describe('v2/BaseLoginRouter', function() {
       expect(settings.get('recoveryToken')).toBe(recoveryToken);
       expect(authClient.options.recoveryToken).toBe(recoveryToken);
 
-      router.controller = {};
+      router.controller = new FakeController();
       let clearInsideRender = false;
       jest.spyOn(router, 'render').mockImplementation(() => {
         expect(authClient.options.recoveryToken).toBe(undefined);
@@ -153,7 +169,7 @@ describe('v2/BaseLoginRouter', function() {
       const { settings } = router;
       expect(settings.get('otp')).toBe(otp);
 
-      router.controller = {};
+      router.controller = new FakeController();
       let clearInsideRender = false;
       jest.spyOn(router, 'render').mockImplementation(() => {
         expect(settings.get('otp')).toBe(undefined);
@@ -199,15 +215,13 @@ describe('v2/BaseLoginRouter', function() {
       const { router, render, authClient } = testContext;
 
 
-      const { settings, appState } = router;
+      const { settings } = router;
       const error = new Error('test error');
       jest.spyOn(authClient.idx, 'start').mockRejectedValue(error);
-      jest.spyOn(appState, 'trigger');
       expect(settings.get('stateToken')).toBe('foo');
       expect(settings.get('proxyIdxResponse')).toBe(false);
   
       await render();
-      expect(appState.trigger).toHaveBeenCalledWith('error', error);
       expect(globalErrorFn).toHaveBeenCalledWith(error);
       expect(settings.get('stateToken')).toBe(undefined);
       expect(settings.get('proxyIdxResponse')).toBe(undefined);
@@ -231,7 +245,7 @@ describe('v2/BaseLoginRouter', function() {
         mockXhr(FakeIdxClientError, 400)
       ]);
 
-      await testContext.router.render(FormController);
+      await testContext.router.render(FormController); // use real FormController for error logic
       expect(testContext.router.handleError).toHaveBeenCalledWith(expect.objectContaining(FakeIdxClientError));
       expect(globalErrorFn).toBeCalledWith(expect.objectContaining(FakeIdxClientError));
       expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
@@ -258,7 +272,7 @@ describe('v2/BaseLoginRouter', function() {
         mockXhr(UnauthorizedClientError, 400)
       ]);
 
-      await testContext.router.render(FormController);
+      await testContext.router.render(FormController); // use real FormController for error logic
       expect(testContext.router.handleError).toHaveBeenCalledWith(expect.objectContaining(UnauthorizedClientError));
       expect(globalErrorFn).toBeCalledWith(expect.objectContaining(UnauthorizedClientError));
       expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
@@ -283,8 +297,8 @@ describe('v2/BaseLoginRouter', function() {
         };
 
         jest.spyOn(mocked.startLoginFlow, 'startLoginFlow').mockResolvedValue(mockIdxState);
-        jest.spyOn(TestRouter.prototype, 'handleUpdateAppState');
-  
+        jest.spyOn(mocked.updateAppState, 'updateAppState');
+
         setup({
           useInteractionCodeFlow: true,
           flow: 'default',
@@ -292,13 +306,13 @@ describe('v2/BaseLoginRouter', function() {
         });
   
         const { router, render, authClient } = testContext;
-  
-        authClient.transactionManager.clear = jest.fn();
+
+        jest.spyOn(authClient.transactionManager, 'clear');
     
         router.hasControllerRendered = true;    // skip `handleConfiguredFlow` for this test
         await render();
         expect(authClient.transactionManager.clear).toHaveBeenCalled();
-        expect(router.handleUpdateAppState).toHaveBeenCalledWith(mockIdxState);
+        expect(mocked.updateAppState.updateAppState).toHaveBeenCalledWith(router.appState, mockIdxState);
       });
   
       it('should NOT clear transaction meta when non-`idx.session.expired` error occurs on /introspect', async function() {
@@ -312,7 +326,7 @@ describe('v2/BaseLoginRouter', function() {
         };
   
         jest.spyOn(mocked.startLoginFlow, 'startLoginFlow').mockResolvedValue(mockIdxState);
-        jest.spyOn(TestRouter.prototype, 'handleUpdateAppState');
+        jest.spyOn(mocked.updateAppState, 'updateAppState');
   
         setup({
           useInteractionCodeFlow: true,
@@ -322,15 +336,42 @@ describe('v2/BaseLoginRouter', function() {
   
         const { router, render, authClient } = testContext;
   
-        authClient.transactionManager.clear = jest.fn();
+        jest.spyOn(authClient.transactionManager, 'clear');
     
         router.hasControllerRendered = true;    // skip `handleConfiguredFlow` for this test
         await render();
         expect(authClient.transactionManager.clear).not.toHaveBeenCalled();
-        expect(router.handleUpdateAppState).toHaveBeenCalledWith(mockIdxState);
+        expect(mocked.updateAppState.updateAppState).toHaveBeenCalledWith(router.appState, mockIdxState);
       });
     });
   });
+
+  // test for race condition between appState and form controller
+  it('should update appState before rendering the controller)', async function() {
+    setup({
+      flow: 'default',
+      stateToken: 'fake-token'
+    });
+
+    const { afterErrorHandler, afterRenderHandler, router, render } = testContext;
+    Util.mockAjax([
+      mockXhr(RAW_IDX_RESPONSE)
+    ]);
+    jest.spyOn(FormController.prototype, 'render').mockImplementation(() => {
+      try {
+        expect(router.appState.getCurrentViewState().name).toBe('identify');
+      } catch (e) {
+        router.trigger('afterError', e);
+        return;
+      }
+      router.trigger('afterRender');
+    });
+    await render();
+    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(afterRenderHandler).toHaveBeenCalled();
+    expect(router.appState.getCurrentViewState().name).toBe('identify');
+  });
+
 
   it('should render without error when flow not provided', async function() {
     setup({stateToken: 'foo'});
@@ -552,7 +593,7 @@ describe('v2/BaseLoginRouter', function() {
     const { authClient, router } = testContext;
     jest.spyOn(authClient.idx, 'getSavedTransactionMeta').mockResolvedValue(null);
 
-    await router.render(FormController);
+    await router.render(FakeController);
     expect(authClient.idx.getSavedTransactionMeta).toHaveBeenCalled();
     expect(globalErrorFn).toHaveBeenCalled();
     expect(globalErr).toBeInstanceOf(Errors.ConfiguredFlowError);
@@ -581,7 +622,7 @@ describe('v2/BaseLoginRouter', function() {
       mockXhr(EnrollProfile) // enroll
     ]);
 
-    await router.render(FormController);
+    await router.render(FakeController);
     expect(afterErrorHandler).toHaveBeenCalledTimes(0);
     expect(afterRenderHandler).toHaveBeenCalledTimes(1); // generic message is displayed
     expect(globalErrorFn).toHaveBeenCalled();

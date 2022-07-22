@@ -10,7 +10,7 @@ describe('v2/view-builder/views/polling', function() {
     Object.assign(testContext.pollingTestObj, polling);
 
     testContext.pollingTestObj.options = {};
-    testContext.pollingTestObj.options.appState = new AppState();
+    testContext.pollingTestObj.options.appState = new AppState({}, {});
     testContext.appState = testContext.pollingTestObj.options.appState;
     testContext.pollingTestObj.model = {};
   };
