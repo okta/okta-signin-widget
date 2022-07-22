@@ -17,6 +17,7 @@
       "src/*": [
         "./src/*"
       ],
+      "config/config.json": ["./src/config/config.json"],
       "react": [
         "node_modules/preact/compat"
       ],

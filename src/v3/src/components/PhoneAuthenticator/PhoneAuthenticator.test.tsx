@@ -40,14 +40,12 @@ const getComponentProps = (
   },
 });
 
-jest.mock('../../lib/okta-i18n', () => ({
-  useTranslation: () => ({
-    t: jest.fn()
-      .mockReturnValueOnce('Phone Number')
-      .mockReturnValueOnce('Country')
-      .mockReturnValueOnce('Extension'),
-  }),
-}));
+// jest.mock('okta', () => ({
+  // loc: jest.fn()
+  //   .mockReturnValueOnce('Phone Number')
+  //   .mockReturnValueOnce('Country')
+  //   .mockReturnValueOnce('Extension'),
+// }));
 
 let mockData: Record<string, unknown>;
 jest.mock('../../contexts', () => ({

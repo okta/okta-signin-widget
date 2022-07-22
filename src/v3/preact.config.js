@@ -41,7 +41,7 @@ const mergeContentSecurityPolicies = (...policies) => {
 };
 
 export default {
-  webpack(config) {
+  webpack(config, env) {
     config.output.libraryTarget = 'umd';
     config.output.filename = ({ chunk }) => (
       chunk.name === 'bundle' ? 'okta-sign-in.next.js' : '[name].next.js'

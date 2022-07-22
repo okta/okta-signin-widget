@@ -20,6 +20,12 @@ import {
   getComplexityItems,
 } from './passwordRequirementsData';
 
+jest.mock('okta', () => ({
+  loc: jest.fn().mockImplementation(
+    (key, bundle) => key,
+  ),
+}));
+
 describe('getComplexityItems', () => {
   it('should return excludeFirstName item', () => {
     const complexity = {
@@ -45,7 +51,7 @@ describe('getComplexityItems', () => {
     } as unknown as ComplexityRequirements;
 
     const result = getComplexityItems(complexity);
-    expect(result).toEqual([{ ruleKey: 'minLength', label: PASSWORD_REQUIREMENTS_KEYS.complexity.minLength, value: '5' }]);
+    expect(result).toEqual([{ ruleKey: 'minLength', label: PASSWORD_REQUIREMENTS_KEYS.complexity.minLength }]);
   });
 
   it('should not return items, if value < 1 or false', () => {
@@ -81,7 +87,7 @@ describe('getAgeItems', () => {
     } as unknown as AgeRequirements;
 
     const result = getAgeItems(age);
-    expect(result).toEqual([{ ruleKey: 'historyCount', label: PASSWORD_REQUIREMENTS_KEYS.age.historyCount, value: '5' }]);
+    expect(result).toEqual([{ ruleKey: 'historyCount', label: PASSWORD_REQUIREMENTS_KEYS.age.historyCount }]);
   });
 
   it('should return minAgeMinutes as minutes', () => {
@@ -91,7 +97,7 @@ describe('getAgeItems', () => {
 
     const result = getAgeItems(age);
     expect(result).toEqual([
-      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeMinutes, value: '40' },
+      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeMinutes },
     ]);
   });
 
@@ -102,7 +108,7 @@ describe('getAgeItems', () => {
 
     const result = getAgeItems(age);
     expect(result).toEqual([
-      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeHours, value: '2' },
+      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeHours },
     ]);
   });
 
@@ -113,7 +119,7 @@ describe('getAgeItems', () => {
 
     const result = getAgeItems(age);
     expect(result).toEqual([
-      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeDays, value: '2' },
+      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeDays },
     ]);
   });
 });
