@@ -57,7 +57,7 @@ test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to 
 });
 
 // TODO: enable this test OKTA-504996
-test.requestHooks(mockWithHCaptcha).skip('should be able to create account with hCaptcha enabled', async t => {
+test.requestHooks(mockWithHCaptcha)('should be able to create account with hCaptcha enabled', async t => {
   // mock is configured to show registration page immediately
   const registrationPage = new RegistrationPageObject(t);
   await registrationPage.navigateToPage();
