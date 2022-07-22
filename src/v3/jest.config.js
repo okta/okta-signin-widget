@@ -10,6 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+const path = require('path');
+const V2_ROOT = path.resolve(__dirname, '../..');
+const V2_LOCAL_PACKAGES = path.resolve(V2_ROOT, 'packages');
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
 const esModules = [
   '@okta/odyssey-react',
@@ -33,9 +36,11 @@ module.exports = {
   verbose: true,
   testURL: 'http://localhost:8080',
   testEnvironment: './config/jsdom-env-with-polyfills.js',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   moduleDirectories: [
     'node_modules',
+    `${V2_ROOT}/src`,
+    `${V2_LOCAL_PACKAGES}`,
   ],
   testMatch: [
     '**/__tests__/**/*.[jt]s?(x)',
@@ -45,6 +50,20 @@ module.exports = {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/src/tests/__mocks__/fileMock.js',
     '^.+\\.svg$': '<rootDir>/svgMockTransformer.js',
     '\\.(css|less|scss)$': 'identity-obj-proxy',
+    '^okta$': `${V2_LOCAL_PACKAGES}/@okta/courage-dist/esm/src/index.js`,
+    '^okta-i18n-bundles$': `${V2_ROOT}/src/util/Bundles`,
+    '^qtip$': '@okta/qtip2/dist/jquery.qtip.js',
+    // 'util/Logger': `${V2_ROOT}/src/util/Logger`,
+    // 'util/Bundles': `${V2_ROOT}/src/util/Bundles`,
+    // 'util/Enums': `${V2_ROOT}/src/util/Enums`,
+    // 'util/FactorUtil': `${V2_ROOT}/src/util/FactorUtil`,
+    // 'util/TimeUtil': `${V2_ROOT}/src/util/TimeUtil`,
+    // 'util/BrowserFeatures': `${V2_ROOT}/src/util/BrowserFeatures`,
+    // 'util/Enums': `${V2_ROOT}/src/util/Enums`,
+    '^config/config.json': `${V2_ROOT}/src/config/config.json`,
+    // '^nls$': `${V2_LOCAL_PACKAGES}/@okta/i18n/src/json`,
+    '^nls/(.*)': `${V2_LOCAL_PACKAGES}/@okta/i18n/src/json/$1`,
+    '^util/(.*)': `${V2_ROOT}/src/util/$1`,
     '^react$': '<rootDir>/node_modules/preact/compat',
     '^react-dom$': '<rootDir>/node_modules/preact/compat',
     '^react-dom/server$': '<rootDir>/node_modules/preact/compat',
@@ -52,8 +71,11 @@ module.exports = {
     '^create-react-class$': '<rootDir>/node_modules/preact/compat/lib/create-react-class',
     '^react-addons-css-transition-group$': 'preact-css-transition-group',
   },
+
   modulePaths: [
     '<rootDir>',
+    `${V2_ROOT}/src`,
+    `${V2_LOCAL_PACKAGES}`,
   ],
   reporters: [
     'default',
