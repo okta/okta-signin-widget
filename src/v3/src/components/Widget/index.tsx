@@ -31,12 +31,12 @@ import { WidgetContextProvider } from '../../contexts';
 import { usePolling } from '../../hooks';
 import transformTransaction from '../../transformer/authJs';
 import { transformTerminalTransaction, transformUnhandledErrors } from '../../transformer/terminal';
+import { createForm } from '../../transformer/utils';
 import {
   FormBag,
   IdxTransactionWithNextStep,
   MessageType,
   UISchemaLayout,
-  Undefinable,
   WidgetProps,
 } from '../../types';
 import { buildAuthCoinProps, isAuthClientSet } from '../../util';
@@ -74,14 +74,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [stepperStepIndex, setStepperStepIndex] = useState<number>(0);
 
   // Derived value from idxTransaction
-  const formBag = useMemo<Undefinable<FormBag>>(() => {
+  const formBag = useMemo<FormBag>(() => {
     if (authApiError) {
       return transformUnhandledErrors(widgetProps, authApiError);
     }
 
     // cancelled transactions will be bootstrapped again, so we wait if that happens
     if (idxTransaction === undefined || idxTransaction?.status === IdxStatus.CANCELED) {
-      return undefined;
+      return createForm();
     }
 
     if (TERMINAL_STATUSES.includes(idxTransaction.status) || !idxTransaction.nextStep) {
@@ -222,7 +222,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
               <IdentifierContainer />
               <InfoSection messages={messages} />
               {
-                formBag
+                formBag.uischema.elements.length > 0
                   ? <Form uischema={formBag.uischema as UISchemaLayout} />
                   : <Spinner />
               }

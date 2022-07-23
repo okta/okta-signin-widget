@@ -62,12 +62,12 @@ describe('Phone verification Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.sms.primaryButton');
     expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
-      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType).toBe('sms');
+      .options.actionParams?.['authenticator.methodType'])).toBe('sms');
     // secondary button
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
       .toBe('oie.phone.call.secondaryButton');
     expect(((updatedFormBag.uischema.elements[4] as ButtonElement).options
-      ?.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType).toBe('voice');
+      ?.actionParams?.['authenticator.methodType'])).toBe('voice');
   });
 
   it('should add correct UI elements to schema when multiple methodType choices exists'
@@ -95,13 +95,13 @@ describe('Phone verification Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.call.primaryButton');
     expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
-      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .options.actionParams?.['authenticator.methodType']))
       .toBe('voice');
     // secondary button
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
       .toBe('oie.phone.sms.secondaryButton');
     expect(((updatedFormBag.uischema.elements[4] as ButtonElement).options
-      ?.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType).toBe('sms');
+      ?.actionParams?.['authenticator.methodType'])).toBe('sms');
   });
 
   it('should add correct UI elements to schema when only voice methodType choice exists', () => {
@@ -128,7 +128,7 @@ describe('Phone verification Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.call.primaryButton');
     expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
-      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .options.actionParams?.['authenticator.methodType']))
       .toBe('voice');
   });
 
@@ -156,7 +156,7 @@ describe('Phone verification Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.sms.primaryButton');
     expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
-      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .options.actionParams?.['authenticator.methodType']))
       .toBe('sms');
   });
 
@@ -196,7 +196,7 @@ describe('Phone verification Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.sms.primaryButton');
     expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
-      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .options.actionParams?.['authenticator.methodType']))
       .toBe('sms');
   });
 
@@ -236,7 +236,7 @@ describe('Phone verification Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.call.primaryButton');
     expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
-      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .options.actionParams?.['authenticator.methodType']))
       .toBe('voice');
   });
 });

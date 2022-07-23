@@ -26,11 +26,7 @@ describe('Identity Recovery Transformer Tests', () => {
   beforeEach(() => {
     formBag = {
       data: {},
-      schema: {
-        properties: {
-          identifier: { type: 'string' },
-        },
-      },
+      schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{

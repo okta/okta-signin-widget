@@ -40,10 +40,8 @@ describe('Select Authenticator Utility Tests', () => {
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
-            idxMethodParams: {
-              authenticator: {
-                methodType: options[0].value,
-              },
+            actionParams: {
+              'authenticator.methodType': options[0].value,
             },
           },
         },
@@ -53,10 +51,8 @@ describe('Select Authenticator Utility Tests', () => {
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
-            idxMethodParams: {
-              authenticator: {
-                methodType: options[1].value,
-              },
+            actionParams: {
+              'authenticator.methodType': options[1].value,
             },
           },
         },
@@ -187,11 +183,11 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
       expect(authenticatorOptionValues[0].label).toBe('Code');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
-      expect(authenticatorOptionValues[0].options.idxMethodParams.authenticator.methodType).toBe('totp');
+      expect(authenticatorOptionValues[0].options.actionParams!['authenticator.methodType']).toBe('totp');
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
       expect(authenticatorOptionValues[1].label).toBe('Push');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
-      expect(authenticatorOptionValues[1].options.idxMethodParams.authenticator.methodType).toBe('push');
+      expect(authenticatorOptionValues[1].options.actionParams!['authenticator.methodType']).toBe('push');
     });
   });
 
@@ -295,10 +291,10 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
       expect(authenticatorOptionValues[0].label).toBe('Code');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
-      expect(authenticatorOptionValues[0].options.idxMethodParams.authenticator.methodType).toBe('totp');
+      expect(authenticatorOptionValues[0].options.actionParams!['authenticator.methodType']).toBe('totp');
       expect(authenticatorOptionValues[1].label).toBe('Push');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
-      expect(authenticatorOptionValues[1].options.idxMethodParams.authenticator.methodType).toBe('push');
+      expect(authenticatorOptionValues[1].options.actionParams!['authenticator.methodType']).toBe('push');
     });
   });
 });

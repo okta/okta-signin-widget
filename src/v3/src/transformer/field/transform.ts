@@ -52,8 +52,27 @@ export const transformStepInputs: StepTransformer = (step?: NextStep): FormBag =
     }, [])
     .filter((input) => input.visible !== false && input.mutable !== false)
     .reduce((acc: FormBag, input: Input) => {
+      const { name, required, mutable } = input;
+
+      // add uischema
       const uischema = mapUiElement(input);
       acc.uischema.elements = [...acc.uischema.elements, uischema];
+
+      // add client validation for "required" field
+      // do not validate immutable fields, they will always be added to payload programatically
+      if (required && mutable !== false) {
+        acc.dataSchema[name] = {
+          validate(data) {
+            const isValid = !!data[name];
+            return isValid ? undefined : {
+              i18n: {
+                key: 'model.validation.field.blank',
+              },
+            };
+          },
+        };
+      }
+
       // populate all input keys to guide auth-js how to proceed in the remediation engine
       // TODO: logic here can be removed once authjs can handle auto proceed without hints from the downstream
       const { options: { type } } = uischema as FieldElement;
@@ -64,7 +83,7 @@ export const transformStepInputs: StepTransformer = (step?: NextStep): FormBag =
       if (type === 'boolean') {
         defaultValue = false;
       }
-      acc.data[input.name] = defaultValue;
+      acc.data[name] = defaultValue;
       return acc;
     }, formbag);
 };

@@ -40,6 +40,8 @@ module.exports = {
   testMatch: [
     '**/__tests__/**/*.[jt]s?(x)',
     '**/?(*.)(test).[jt]s?(x)',
+    // TODO: remove when re-enable transformers tests - OKTA-516578
+    '!**/src/transformer/**/*.test.ts',
   ],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/src/tests/__mocks__/fileMock.js',
@@ -64,6 +66,9 @@ module.exports = {
   ],
   transformIgnorePatterns: [
     `/node_modules/(?!${esModules})`,
+    // TODO: remove when re-enable transformers tests - OKTA-516578
+    // eslint-disable-next-line no-useless-escape
+    '<rootDir>/src/transformer/^.*\.test\.*',
   ],
   setupFilesAfterEnv: [
     './jest.setup.js',

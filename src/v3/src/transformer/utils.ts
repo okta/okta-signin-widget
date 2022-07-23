@@ -23,16 +23,13 @@ import {
 } from '../types';
 
 export const createForm = (): FormBag => ({
-  schema: {
-    type: 'object',
-    properties: {},
-    required: [],
-  },
+  schema: {},
   uischema: {
     type: UISchemaLayoutType.VERTICAL,
     elements: [],
   },
   data: {},
+  dataSchema: {},
 });
 
 export const removeUIElementWithName = (

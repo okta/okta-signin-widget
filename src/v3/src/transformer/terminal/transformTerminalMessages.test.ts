@@ -44,11 +44,7 @@ describe('Terminal Message Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
-      schema: {
-        properties: {
-          authenticator: {},
-        },
-      },
+      schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [],

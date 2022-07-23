@@ -33,18 +33,7 @@ describe('Identify Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
-      schema: {
-        properties: {
-          rememberMe: { type: 'boolean' },
-          identifier: { type: 'string' },
-          credentials: {
-            type: 'object',
-            properties: {
-              passcode: { type: 'string' },
-            },
-          },
-        },
-      },
+      schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
@@ -90,12 +79,7 @@ describe('Identify Transformer Tests', () => {
   });
 
   it('should add UI elements for identifier and rememberMe inputs when no features are provided', () => {
-    formBag.schema = {
-      properties: {
-        rememberMe: { type: 'boolean' },
-        identifier: { type: 'string' },
-      },
-    };
+    formBag.schema = {};
     formBag.uischema.elements = [
       {
         type: 'Control',

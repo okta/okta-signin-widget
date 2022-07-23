@@ -18,7 +18,7 @@ import { InterstitialRedirectView } from 'src/constants';
 import { OktaReactI18nOptions } from 'src/lib/okta-i18n';
 
 import { JsonObject } from './json';
-import { FormBag } from './jsonforms';
+import { FormBag } from './schema';
 
 // TODO: Once SIW is merged into okta-signin-widget repo, remove this. Ticket#: OKTA-508189
 export interface EventErrorContext {

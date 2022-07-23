@@ -17,7 +17,8 @@
         "value": [
           {
             "name": "identifier",
-            "label": "Username"
+            "label": "Username",
+            "required": true
           },
           {
             "name": "credentials",

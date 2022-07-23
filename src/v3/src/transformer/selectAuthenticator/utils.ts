@@ -53,21 +53,18 @@ const buildOktaVerifyOptions = (
     type: 'AuthenticatorButton',
     label: option.label,
     options: {
-      inputOption: option,
       key: AUTHENTICATOR_KEY.OV,
       ctaLabel: isEnroll
         ? 'oie.enroll.authenticator.button.text'
         : 'oie.verify.authenticator.button.text',
       description: isEnroll && AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV],
-      idxMethodParams: {
-        authenticator: {
-          methodType: option.value,
-          id,
-        },
+      actionParams: {
+        'authenticator.methodType': option.value,
+        'authenticator.id': id,
       },
       dataSe: getAuthenticatorDataSeVal(AUTHENTICATOR_KEY.OV, option.value as string),
-    } as AuthenticatorButtonElement['options'],
-  } as AuthenticatorButtonElement));
+    },
+  })) as AuthenticatorButtonElement[];
 };
 
 const getAuthenticatorDescription = (
@@ -127,7 +124,6 @@ const formatAuthenticatorOptions = (
       type: 'AuthenticatorButton',
       label: option.label,
       options: {
-        inputOption: option,
         key: authenticatorKey,
         ctaLabel: isEnroll
           ? 'oie.enroll.authenticator.button.text'
@@ -142,18 +138,16 @@ const formatAuthenticatorOptions = (
           authenticatorKey,
           isEnroll,
         ),
-        idxMethodParams: {
-          authenticator: {
-            id,
-            methodType,
-            enrollmentId,
-          },
+        actionParams: {
+          'authenticator.id': id,
+          'authenticator.methodType': methodType,
+          'authenticator.enrollmentId': enrollmentId,
         },
         dataSe: getAuthenticatorDataSeVal(
           authenticatorKey,
           typeof methodType === 'string' ? methodType : undefined,
         ),
-      } as AuthenticatorButtonElement['options'],
+      },
     } as AuthenticatorButtonElement;
   })
 );
@@ -187,13 +181,11 @@ export const getOVMethodTypeAuthenticatorButtonElements = (
     options: {
       key: AUTHENTICATOR_KEY.OV,
       ctaLabel: 'oie.verify.authenticator.button.text',
-      idxMethodParams: {
-        authenticator: {
-          methodType: option.value as string,
-        },
+      actionParams: {
+        'authenticator.methodType': (option.value as string),
       },
-    } as AuthenticatorButtonElement['options'],
-  } as AuthenticatorButtonElement));
+    },
+  })) as AuthenticatorButtonElement[];
 };
 
 export const isOnlyPushWithAutoChallenge = (

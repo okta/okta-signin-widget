@@ -33,7 +33,7 @@ describe('SecurityQuestionEnroll Tests', () => {
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
-      schema: { properties: { credentials: { type: 'object' } } },
+      schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{
@@ -164,7 +164,7 @@ describe('SecurityQuestionEnroll Tests', () => {
     expect((customQuestionElements.elements[3] as ButtonElement).label).toBe('mfa.challenge.verify');
     expect((customQuestionElements.elements[3] as ButtonElement).options?.dataType).toBe('save');
     expect((customQuestionElements.elements[3] as ButtonElement).options?.type).toBe('submit');
-    expect((customQuestionElements.elements[3] as ButtonElement).options?.idxMethodParams)
+    expect((customQuestionElements.elements[3] as ButtonElement).options?.actionParams)
       .toEqual({ 'credentials.questionKey': 'custom' });
   });
 });

@@ -29,14 +29,7 @@ describe('EmailChallengeConsentTransformer Tests', () => {
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
-      schema: {
-        properties: {
-          consent: {
-            type: 'boolean',
-          },
-        },
-        required: ['consent'],
-      },
+      schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{ type: 'Control', name: 'consent' } as FieldElement],
@@ -72,12 +65,12 @@ describe('EmailChallengeConsentTransformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options?.textContent).toBe('Okta Dashboard');
 
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.idxMethodParams?.consent)
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.actionParams?.consent)
       .toBe(false);
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.dataType).toBe('cancel');
 
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.idxMethodParams?.consent)
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.actionParams?.consent)
       .toBe(true);
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.dataType).toBe('save');
   });

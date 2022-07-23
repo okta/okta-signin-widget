@@ -182,7 +182,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
-              idxMethodParams: { [QUESTION_KEY_INPUT_NAME]: 'custom' },
+              actionParams: { [QUESTION_KEY_INPUT_NAME]: 'custom' },
               dataType: 'save',
             },
           } as ButtonElement,
@@ -195,6 +195,10 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
   uischema.elements.unshift(questionTypeRadioEl);
   uischema.elements.unshift(titleElement);
   uischema.elements.push(securityQuestionStepper);
+
+  // TODO: support stepper dataSchema to pick validators based on selection
+  // eslint-disable-next-line no-param-reassign
+  formBag.dataSchema = {};
 
   return formBag;
 };

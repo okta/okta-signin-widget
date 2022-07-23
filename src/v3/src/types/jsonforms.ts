@@ -18,7 +18,7 @@ import {
 import { FunctionComponent, h } from 'preact';
 
 import { JsonObject } from './json';
-import { UISchemaLayout } from './schema';
+import { FormBag } from './schema';
 
 export type InputType = 'hidden' | 'password';
 
@@ -54,12 +54,6 @@ export type RequiredKeys<T, K extends keyof T> = Exclude<T, K> & Required<Pick<T
 
 // Utility to modify interfaces / types
 export type Modify<T, R> = Omit<T, keyof R> & R;
-
-export type FormBag = {
-  schema: Record<string, unknown>;
-  uischema: UISchemaLayout;
-  data: Record<string, unknown>;
-};
 
 export type TransformedResponse = {
   remediation?: FormBag[];

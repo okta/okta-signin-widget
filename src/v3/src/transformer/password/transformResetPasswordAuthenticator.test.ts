@@ -32,18 +32,7 @@ describe('Reset Password Authenticator Transformer Tests', () => {
   let mockProps: WidgetProps;
   beforeEach(() => {
     formBag = {
-      schema: {
-        properties: {
-          credentials: {
-            type: 'object',
-            properties: {
-              passcode: {
-                type: 'string',
-              },
-            },
-          },
-        },
-      },
+      schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{
@@ -133,16 +122,6 @@ describe('Reset Password Authenticator Transformer Tests', () => {
             complexity: {},
           },
         } as IdxAuthenticator,
-      },
-    };
-    formBag.schema.properties = {
-      credentials: {
-        type: 'object',
-        properties: {
-          passcode: {
-            type: 'string',
-          },
-        },
       },
     };
     const updatedFormBag = transformResetPasswordAuthenticator(transaction, formBag, mockProps);

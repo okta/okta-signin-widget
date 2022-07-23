@@ -34,12 +34,10 @@ const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
       key: AUTHENTICATOR_KEY.EMAIL,
       ctaLabel: 'Select',
       description: 'Enroll in email authenticator',
-      idxMethodParams: {
-        authenticator: {
-          id: '123abc',
-        },
+      actionParams: {
+        'authenticator.id': '123abc',
       },
-    } as AuthenticatorButtonElement['options'],
+    },
   } as AuthenticatorButtonElement);
   return authenticators;
 };
@@ -59,11 +57,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
   beforeEach(() => {
     formBag = {
       data: {},
-      schema: {
-        properties: {
-          authenticator: {},
-        },
-      },
+      schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [],
@@ -115,7 +109,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe('oie.setup.optional');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
-      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
+      .options.actionParams?.['authenticator.id'])).toBe('123abc');
 
     expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
@@ -138,7 +132,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe('oie.setup.required');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
-      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
+      .options.actionParams?.['authenticator.id'])).toBe('123abc');
   });
 
   it('should transform authenticator elements when step is skippable and brandName is provided', () => {
@@ -160,7 +154,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe('oie.setup.optional');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
-      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
+      .options.actionParams?.['authenticator.id'])).toBe('123abc');
     expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
       .toBe('oie.optional.authenticator.button.title');

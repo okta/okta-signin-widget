@@ -26,11 +26,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
-      schema: {
-        properties: {
-          authenticator: {},
-        },
-      },
+      schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [],

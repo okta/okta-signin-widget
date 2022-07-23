@@ -18,5 +18,6 @@ export * from './formUtils';
 export * from './getImmutableData';
 export * from './idxUtils';
 export * from './passwordUtils';
+export * from './resetMessagesToInputs';
 export * from './toNestedObject';
 export * from './webauthnUtils';

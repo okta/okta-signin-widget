@@ -11,7 +11,7 @@
  */
 
 import {
-  IdxActionParams,
+  IdxMessage,
   IdxTransaction,
   Input,
   NextStep,
@@ -23,6 +23,15 @@ import { FunctionComponent } from 'preact';
 import { PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
 
+export type FormBag = {
+  schema: Record<string, unknown>;
+  uischema: UISchemaLayout;
+  data: Record<string, unknown>;
+  // temp schema bag to handle client validation and form submission
+  dataSchema: Record<string, DataSchema>;
+
+};
+
 export type AutoCompleteValue = 'username'
 | 'current-password'
 | 'one-time-code'
@@ -33,6 +42,11 @@ export type AutoCompleteValue = 'username'
 | 'email';
 
 export type InputAttributes = { autocomplete?: AutoCompleteValue; };
+
+// flat params
+export type ActionParams = {
+  [key: string]: string | boolean | number;
+};
 
 /**
  * WebAuthNEnrollmentPayload
@@ -131,7 +145,7 @@ export interface ButtonElement extends UISchemaElement {
     variant?: 'primary' | 'floating' | 'secondary';
     wide?: boolean;
     deviceChallengeUrl?: string;
-    idxMethodParams?: IdxActionParams;
+    actionParams?: ActionParams;
     includeData?: boolean;
     dataType?: 'cancel' | 'save';
     dataSe?: string;
@@ -144,20 +158,11 @@ export interface ButtonElement extends UISchemaElement {
 export interface AuthenticatorButtonElement {
   type: 'AuthenticatorButton';
   label: string;
-  options: ButtonElement['options'] & {
-    inputOption: IdxOption;
+  options: Omit<ButtonElement['options'], 'type'> & {
     key: string;
     ctaLabel: string;
     description?: string;
     descriptionParams?: string[];
-    idxMethodParams: {
-      authenticator: {
-        id?: string,
-        enrollmentId?: string,
-        authenticatorId?: string,
-        methodType?: string,
-      };
-    };
   };
 }
 
@@ -241,7 +246,7 @@ export interface LinkElement extends UISchemaElement {
   options: {
     label: string;
     href?: string;
-    idxMethodParams?: IdxActionParams;
+    actionParams?: ActionParams;
     action: NextStep['action'];
   };
 }
@@ -321,4 +326,10 @@ export interface StepperRadioElement extends UISchemaElement {
 export interface RedirectElement extends UISchemaElement {
   type: 'Redirect',
   options: { url: string; },
+}
+
+type ValidateFunction = (data: FormBag['data']) => Partial<IdxMessage> | undefined;
+
+export interface DataSchema {
+  validate?: ValidateFunction;
 }
