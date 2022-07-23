@@ -136,12 +136,14 @@ export default {
     // understand `exports` field correctly in auth-js' subdeps using ESM bundle
     // of auth-js is required to enable tree-shaking
     // https://github.com/preactjs/preact-cli/issues/1579
-    config.resolve.alias['@okta/okta-auth-js'] = rootResolve(
+    // point to @okta/okta-auth-js in /v3/node_modules
+    config.resolve.alias['@okta/okta-auth-js'] = resolve(
+      __dirname,
       'node_modules',
-      '@okta',
-      'okta-auth-js',
+      '@okta/okta-auth-js',
       'esm',
-      'esm.browser.js',
+      'browser',
+      'index.js',
     );
 
     // broadcast-channel esnode bundle is loaded by default, browser one should
@@ -168,6 +170,7 @@ export default {
       entry: {
         playground: rootResolve('playground', 'main.ts'),
       },
+      mode: 'development',
       devtool: 'cheap-module-source-map',
       devServer: {
         headers: {
