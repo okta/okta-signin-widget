@@ -2,6 +2,7 @@ import { Selector, ClientFunction } from 'testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
+const CALLOUT = '[data-se="callout"]';
 
 const SUBMIT_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="save"]';
 const CANCEL_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="cancel"]';
@@ -120,7 +121,7 @@ export default class BaseFormObject {
   }
 
   getErrorBoxHtml() {
-    return this.getCallout(FORM_INFOBOX_ERROR).innerHTML;
+    return this.getCallout(CALLOUT).innerHTML;
   }
 
   getAllErrorBoxTexts() {

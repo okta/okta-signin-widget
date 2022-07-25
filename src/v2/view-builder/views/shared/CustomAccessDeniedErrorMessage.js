@@ -4,7 +4,9 @@ import hbs from 'handlebars-inline-precompile';
 export default View.extend({
   className: 'custom-access-denied-error-message',
   template: hbs`
-    <p>{{message}}</p>
+    {{#if message}}
+      <p>{{message}}</p>
+    {{/if}}
     {{#if links}}
       <div class="custom-links">
         {{#each links}}

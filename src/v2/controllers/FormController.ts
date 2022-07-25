@@ -350,10 +350,8 @@ export default Controller.extend({
       errorObj = { responseJSON: { errorSummary: loc('error.unsupported.response', 'login')}};
     }
 
-    this.options.appState.set('messages', idxStateError.messages)
-
     if(_.isFunction(form?.showCustomFormErrorCallout)) {
-      showErrorBanner = !form.showCustomFormErrorCallout(errorObj);
+      showErrorBanner = !form.showCustomFormErrorCallout(errorObj, idxStateError.messages);
     }
 
     // show error before updating app state.

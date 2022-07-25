@@ -164,7 +164,7 @@ const Body = BaseForm.extend({
     return newSchemas;
   },
 
-  showCustomFormErrorCallout(error) {
+  showCustomFormErrorCallout(error, messages) {
     if (!error?.responseJSON?.errorSummaryKeys?.includes(CUSTOM_ACCESS_DENIED_KEY)) {
       return false;
     }
@@ -175,7 +175,7 @@ const Body = BaseForm.extend({
       type: 'error',
       content: new CustomAccessDeniedErrorMessage({
         message: errorSummary,
-        links: this.options.appState.get('messages')[0]?.links || [],
+        links: messages[0]?.links,
       }),
     };
 
