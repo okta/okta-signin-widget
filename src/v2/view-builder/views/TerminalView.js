@@ -1,8 +1,9 @@
-import { loc } from 'okta';
+import { loc, createCallout } from 'okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { getBackToSignInLink, getSkipSetupLink, getReloadPageButtonLink } from '../utils/LinksUtil';
 import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
 import { OTPInformationTerminalView } from './consent/EmailMagicLinkOTPTerminalView';
+import CustomAccessDeniedErrorMessage from './shared/CustomAccessDeniedErrorMessage';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const IDX_RETURN_LINK_OTP_ONLY = 'idx.enter.otp.in.original.tab';
@@ -25,7 +26,8 @@ const EMAIL_ACTIVATION_EMAIL_EXPIRE = 'idx.expired.activation.token';
 const EMAIL_ACTIVATION_EMAIL_INVALID = 'idx.missing.activation.token';
 const EMAIL_ACTIVATION_EMAIL_SUBMITTED = 'idx.request.activation.email';
 const EMAIL_ACTIVATION_EMAIL_SUSPENDED = 'idx.activating.inactive.user';
- 
+
+const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 
 export const REGISTRATION_NOT_ENABLED = 'oie.registration.is.not.enabled';
 export const FORGOT_PASSWORD_NOT_ENABLED = 'oie.forgot.password.is.not.enabled';
@@ -131,6 +133,13 @@ const Body = BaseForm.extend({
       messagesObjs.value[0].class = 'ERROR';
     } else if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
       this.add(OTPInformationTerminalView);
+      hasCustomView = true;
+    } else if (this.options.appState.containsMessageStartingWithI18nKey(CUSTOM_ACCESS_DENIED_KEY)) {
+      this.add(createCallout({
+        type: 'error',
+        content: new CustomAccessDeniedErrorMessage(
+          { message: messagesObjs.value[0].message, links: messagesObjs.value[0].links })
+      }));
       hasCustomView = true;
     }
 
