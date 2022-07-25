@@ -132,8 +132,6 @@ describe('Expired Password Authenticator Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expired.title.specific');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.contentParams)
-      .toEqual(['Acme Corp.']);
     expect(updatedFormBag.uischema.elements[1]?.type).toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');

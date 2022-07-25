@@ -40,12 +40,11 @@ const getComponentProps = (
   },
 });
 
-// jest.mock('okta', () => ({
-  // loc: jest.fn()
-  //   .mockReturnValueOnce('Phone Number')
-  //   .mockReturnValueOnce('Country')
-  //   .mockReturnValueOnce('Extension'),
-// }));
+jest.mock('../../../../v2/ion/i18nTransformer', () => ({
+  getMessage: jest.fn().mockImplementation(
+    (message) => jest.fn().mockReturnValue(message?.message),
+  ),
+}));
 
 let mockData: Record<string, unknown>;
 jest.mock('../../contexts', () => ({
@@ -71,7 +70,7 @@ describe('PhoneAuthenticator tests', () => {
     props = getComponentProps({ targetKey: 'methodType' });
     const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
 
-    await findByLabelText(/Country/);
+    await findByLabelText(/country.label/);
     const phoneInput = await findByLabelText(/Phone Number/);
     const autocomplete = phoneInput?.getAttribute('autocomplete');
 
@@ -90,9 +89,9 @@ describe('PhoneAuthenticator tests', () => {
     props = getComponentProps({ targetKey: 'methodType' });
     const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
 
-    await findByLabelText(/Country/);
+    await findByLabelText(/country.label/);
     const phoneInput = await findByLabelText(/Phone Number/);
-    const extInput = await findByLabelText(/Extension/);
+    const extInput = await findByLabelText(/phone.extention.label/);
     const autocomplete = phoneInput?.getAttribute('autocomplete');
 
     expect(phoneInput.tagName).toMatch(/^input$/i);

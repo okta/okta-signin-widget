@@ -103,8 +103,6 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
-      .toBeUndefined();
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.optional');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
@@ -126,8 +124,6 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
-      .toBeUndefined();
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.required');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
@@ -148,8 +144,6 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle.custom');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
-      .toEqual(['Acme Corp.']);
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.optional');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');

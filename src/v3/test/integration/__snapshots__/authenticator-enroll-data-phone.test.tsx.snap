@@ -195,7 +195,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                         </span>
                       </label>
                     </div>
-                    
                   </fieldset>
                 </div>
                 <div
@@ -233,11 +232,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               value="AF"
                             >
                               Afghanistan
-                            </option>
-                            <option
-                              value="AX"
-                            >
-                              Åland Islands
                             </option>
                             <option
                               value="AL"
@@ -385,11 +379,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               British Indian Ocean Territory
                             </option>
                             <option
-                              value="VG"
-                            >
-                              Virgin Islands, British
-                            </option>
-                            <option
                               value="BN"
                             >
                               Brunei Darussalam
@@ -475,6 +464,11 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               Congo
                             </option>
                             <option
+                              value="CD"
+                            >
+                              Congo, the Democratic Republic of the
+                            </option>
+                            <option
                               value="CK"
                             >
                               Cook Islands
@@ -483,11 +477,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               value="CR"
                             >
                               Costa Rica
-                            </option>
-                            <option
-                              value="CI"
-                            >
-                              Côte d'Ivoire
                             </option>
                             <option
                               value="HR"
@@ -510,9 +499,9 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               Czech Republic
                             </option>
                             <option
-                              value="CD"
+                              value="CI"
                             >
-                              Congo, the Democratic Republic of the
+                              Côte d'Ivoire
                             </option>
                             <option
                               value="DK"
@@ -533,11 +522,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               value="DO"
                             >
                               Dominican Republic
-                            </option>
-                            <option
-                              value="TL"
-                            >
-                              Timor-Leste
                             </option>
                             <option
                               value="EC"
@@ -695,6 +679,11 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               Haiti
                             </option>
                             <option
+                              value="VA"
+                            >
+                              Holy See (Vatican City State)
+                            </option>
+                            <option
                               value="HN"
                             >
                               Honduras
@@ -783,6 +772,11 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               value="KI"
                             >
                               Kiribati
+                            </option>
+                            <option
+                              value="KP"
+                            >
+                              Korea, Democratic People's Republic of
                             </option>
                             <option
                               value="KR"
@@ -1025,11 +1019,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               Norfolk Island
                             </option>
                             <option
-                              value="KP"
-                            >
-                              Korea, Democratic People's Republic of
-                            </option>
-                            <option
                               value="MP"
                             >
                               Northern Mariana Islands
@@ -1110,11 +1099,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               Qatar
                             </option>
                             <option
-                              value="RE"
-                            >
-                              Réunion
-                            </option>
-                            <option
                               value="RO"
                             >
                               Romania
@@ -1128,6 +1112,11 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               value="RW"
                             >
                               Rwanda
+                            </option>
+                            <option
+                              value="RE"
+                            >
+                              Réunion
                             </option>
                             <option
                               value="SH"
@@ -1163,11 +1152,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               value="SM"
                             >
                               San Marino
-                            </option>
-                            <option
-                              value="ST"
-                            >
-                              São Tomé and Príncipe
                             </option>
                             <option
                               value="SA"
@@ -1280,6 +1264,11 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               Syrian Arab Republic
                             </option>
                             <option
+                              value="ST"
+                            >
+                              São Tomé and Príncipe
+                            </option>
+                            <option
                               value="TW"
                             >
                               Taiwan
@@ -1298,6 +1287,11 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               value="TH"
                             >
                               Thailand
+                            </option>
+                            <option
+                              value="TL"
+                            >
+                              Timor-Leste
                             </option>
                             <option
                               value="TG"
@@ -1345,11 +1339,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               Tuvalu
                             </option>
                             <option
-                              value="VI"
-                            >
-                              Virgin Islands, U.S.
-                            </option>
-                            <option
                               value="UG"
                             >
                               Uganda
@@ -1395,11 +1384,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               Vanuatu
                             </option>
                             <option
-                              value="VA"
-                            >
-                              Holy See (Vatican City State)
-                            </option>
-                            <option
                               value="VE"
                             >
                               Venezuela, Bolivarian Republic of
@@ -1408,6 +1392,16 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               value="VN"
                             >
                               Viet Nam
+                            </option>
+                            <option
+                              value="VG"
+                            >
+                              Virgin Islands, British
+                            </option>
+                            <option
+                              value="VI"
+                            >
+                              Virgin Islands, U.S.
                             </option>
                             <option
                               value="WF"
@@ -1433,6 +1427,11 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               value="ZW"
                             >
                               Zimbabwe
+                            </option>
+                            <option
+                              value="AX"
+                            >
+                              Åland Islands
                             </option>
                           </select>
                           <span
@@ -1472,7 +1471,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             <span
                               class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6rDd3P ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
                             >
-                              Phone number
+                              
                             </span>
                           </label>
                           <div

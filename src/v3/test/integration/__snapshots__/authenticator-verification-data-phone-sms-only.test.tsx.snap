@@ -86,7 +86,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                   <p
                     class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
                   >
-                    Send a code via SMS to +1 XXX-XXX-4601
+                    L10N_ERROR[next.phone.verify.sms.sendText.withPhoneNumber]
                   </p>
                 </div>
               </div>

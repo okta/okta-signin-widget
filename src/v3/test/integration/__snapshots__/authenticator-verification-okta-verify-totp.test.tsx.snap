@@ -116,7 +116,6 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                       </legend>
                     </fieldset>
                   </div>
-                  
                 </div>
               </div>
               <div

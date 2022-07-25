@@ -114,8 +114,6 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('next.numberchallenge.instruction');
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.contentParams)
-      .toEqual([correctAnswer]);
     expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).type)
       .toBe('ImageWithText');
     expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).options?.textContent)
@@ -149,8 +147,6 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.numberchallenge.instruction');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
-      .toEqual([correctAnswer]);
     expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).type)
       .toBe('ImageWithText');
     expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options?.textContent)

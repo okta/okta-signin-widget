@@ -269,8 +269,6 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       .toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('password.expiring.subtitle.specific');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
-      .toEqual([mockBrandName]);
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).type).toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
@@ -335,7 +333,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).type)
       .toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('some.mock.key');
+      .toBe('When your password is locked, you cannot access the account');
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).type)
       .toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)

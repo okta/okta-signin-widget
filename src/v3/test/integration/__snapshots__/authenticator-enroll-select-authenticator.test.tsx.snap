@@ -117,7 +117,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Okta Password
+                      Password
                     </div>
                     <div
                       class="description MuiBox-root emotion-6"
@@ -153,7 +153,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Okta Phone
+                      Phone
                     </div>
                     <div
                       class="description MuiBox-root emotion-6"
@@ -189,7 +189,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Security Key or Biometric Authenticator (FIDO2)
+                      Security Key or Biometric Authenticator
                     </div>
                     <div
                       class="description MuiBox-root emotion-6"
@@ -225,7 +225,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Okta Security Question
+                      Security Question
                     </div>
                     <div
                       class="description MuiBox-root emotion-6"
@@ -518,7 +518,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <div
                       class="description MuiBox-root emotion-6"
                     >
-                      Verify by entering a temporary code from the {0} app.
+                      L10N_ERROR[oie.symantecVip.authenticator.description]
                     </div>
                     <div
                       class="actionName MuiBox-root emotion-6"

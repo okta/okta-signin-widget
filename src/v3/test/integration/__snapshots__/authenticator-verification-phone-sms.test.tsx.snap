@@ -89,7 +89,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                   <p
                     class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
                   >
-                    A code was sent to +1 XXX-XXX-4601. Enter the code below to verify.
+                    L10N_ERROR[next.phone.challenge.sms.informationalTextWithPhone]
                   </p>
                 </div>
               </div>
@@ -116,7 +116,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                     class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                     for="credentials.passcode"
                   >
-                    Enter code
+                    Enter Code
                   </label>
                   <div
                     class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
@@ -145,7 +145,6 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                       </legend>
                     </fieldset>
                   </div>
-                  
                 </div>
               </div>
               <div

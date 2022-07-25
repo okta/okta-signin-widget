@@ -246,6 +246,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'ERROR',
       'idx.error.server.safe.mode.enrollment.unavailable',
     ));
+    transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
     const formBag = transformTerminalTransaction(transaction, mockProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
@@ -253,6 +254,9 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect((formBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.safe.mode.title');
     expect(formBag.uischema.elements[1].type).toBe('Button');
     expect((formBag.uischema.elements[1] as ButtonElement).label).toBe('oie.enroll.skip.setup');
+    expect((
+      formBag.uischema.elements[1] as ButtonElement
+    ).options?.action).toBeDefined();
   });
 
   it('should add title and try again link for'

@@ -118,8 +118,6 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.contentParams)
-      .toBeUndefined();
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.password.reset.verification');
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
@@ -146,8 +144,6 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.specific');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.contentParams)
-      .toEqual(['Acme Corp.']);
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.password.reset.verification');
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');

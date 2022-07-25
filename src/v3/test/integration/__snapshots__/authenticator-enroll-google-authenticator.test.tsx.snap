@@ -114,7 +114,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     tabindex="0"
                     type="button"
                   >
-                    Set up a different way
+                    Can't scan barcode?
                   </button>
                 </div>
                 <div
@@ -294,7 +294,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                         </legend>
                       </fieldset>
                     </div>
-                    
                   </div>
                 </div>
                 <div

@@ -23,6 +23,7 @@ import { Widget } from '../../../src/components/Widget';
 type Options = CreateAuthClientOptions & {
   widgetOptions?: Partial<WidgetOptions>;
 };
+jest.unmock('okta');
 
 export async function setup(options: Options): Promise<RenderResult & {
   authClient: OktaAuth;

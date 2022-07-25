@@ -34,7 +34,6 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
         elements: [{
           type: 'Control',
           name: 'credentials.passcode',
-          scope: '#/properties/credentials/properties/passcode',
         } as UISchemaElement],
       },
       data: {},

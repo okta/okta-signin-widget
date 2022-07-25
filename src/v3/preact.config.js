@@ -57,19 +57,10 @@ export default {
         COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
       }),
     );
-    if (env === 'production') {
-      config.plugins.push(
-        new DefinePlugin({
-          DEBUG: false
-        })
-      );
-    } else {
-      config.plugins.push(
-        new DefinePlugin({
-          DEBUG: true
-        })
-      );
-    }
+
+    // This is required for v2/util/Logger file, it contains a DEBUG variable that will be unresolved if this is not done.
+    // DefinePlugin just replaces variables in the code, see https://webpack.js.org/plugins/define-plugin/
+    config.plugins.push(new DefinePlugin({ DEBUG: env !== 'production' }));
 
     // use odyssey babel configs
     config.module.rules.push({

@@ -58,10 +58,15 @@ export const getComplexityItems = (complexity: ComplexityRequirements): ListItem
           label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity.excludeLastName, 'login'),
         });
       }
+    } else if (key === 'minLength' && value > 0) {
+      items.push({
+        ruleKey: key,
+        label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity[key as ComplexityKeys], 'login', [value]),
+      });
     } else if (value > 0 || value === true) {
       const item: ListItem = {
         ruleKey: key,
-        label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity[key as ComplexityKeys], 'login', [value]),
+        label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity[key as ComplexityKeys], 'login'),
       };
       items.push(item);
     }

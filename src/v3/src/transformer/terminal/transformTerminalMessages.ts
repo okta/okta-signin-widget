@@ -36,7 +36,7 @@ type ModifiedIdxMessage = Modify<IdxMessage, {
 
 const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[]): void => {
   messages.forEach((message) => {
-    if (!message.class || message.class === MessageType.INFO) {
+    if (!message.class || message.class === 'INFO') {
       const messageElement: DescriptionElement = {
         type: 'Description',
         options: { content: message.message },

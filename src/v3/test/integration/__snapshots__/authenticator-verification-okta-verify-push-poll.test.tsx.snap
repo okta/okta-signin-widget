@@ -92,6 +92,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                     <input
                       class="PrivateSwitchBase-input emotion-17"
                       data-se="autoChallenge"
+                      data-se-for-name="autoChallenge"
                       id="autoChallenge"
                       name="autoChallenge"
                       type="checkbox"

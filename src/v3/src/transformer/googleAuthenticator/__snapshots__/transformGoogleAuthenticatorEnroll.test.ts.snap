@@ -30,7 +30,7 @@ Object {
                 "type": "QRCode",
               },
               Object {
-                "label": "renderers.qrcode.setUpDifferentWay",
+                "label": "oie.enroll.google_authenticator.cannotScanBarcode.title",
                 "options": Object {
                   "nextStepIndex": 1,
                   "variant": "secondary",
@@ -85,11 +85,10 @@ Object {
               },
               Object {
                 "name": "credentials.passcode",
-                "scope": "#/properties/credentials/properties/passcode",
                 "type": "Control",
               },
               Object {
-                "label": "mfa.challenge.verify",
+                "label": "oform.verify",
                 "options": Object {
                   "type": "submit",
                 },

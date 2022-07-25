@@ -53,7 +53,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
     options: { content: loc('idx.return.link.otponly.warning.text', 'login') },
   };
 
-  const challengeIntent = CHALLENGE_INTENT_TO_I18KEY[intent];
+  const challengeIntent = loc(CHALLENGE_INTENT_TO_I18KEY[intent], 'login');
   const codeEntryInstructionElement: DescriptionElement = {
     type: 'Description',
     options: {

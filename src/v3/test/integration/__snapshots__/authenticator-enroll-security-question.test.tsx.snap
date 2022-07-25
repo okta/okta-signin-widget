@@ -329,7 +329,6 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                           </svg>
                         </span>
                       </div>
-                      
                     </div>
                   </div>
                 </div>

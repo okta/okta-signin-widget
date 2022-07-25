@@ -1,49 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`error-account-creation should render form 1`] = `
+exports[`error-session-expired should render form 1`] = `
 <div>
   <span>
     <main
-      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+      id="okta-sign-in"
     >
       <div
-        class="siwContainer MuiBox-root emotion-1"
+        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
       >
         <div
           class="okta-sign-in-header auth-header siwHeader"
         >
           <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-2"
+            class="MuiTypography-root MuiTypography-h1 emotion-0"
           />
         </div>
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiBox-root emotion-1"
         >
           <form
-            class="o-form"
-            data-se="form"
             novalidate=""
           >
             <div
-              class="MuiBox-root emotion-4"
+              class="MuiBox-root emotion-2"
             >
               <div
-                class="MuiBox-root emotion-5"
+                class="MuiBox-root emotion-3"
               >
                 <div
-                  class="MuiBox-root emotion-6"
+                  class="MuiBox-root emotion-4"
                 >
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxInfo MuiAlert-infobox emotion-7"
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-5"
                     role="alert"
                   >
                     <div
-                      class="MuiAlert-icon emotion-8"
+                      class="MuiAlert-icon emotion-6"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-9"
-                        data-testid="InfoOutlinedIcon"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-7"
+                        data-testid="ErrorOutlineIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -53,21 +52,21 @@ exports[`error-account-creation should render form 1`] = `
                       </svg>
                     </div>
                     <div
-                      class="MuiAlert-message emotion-10"
+                      class="MuiAlert-message emotion-8"
                     >
-                      There was an error creating your account. Please try registering again.
+                      You have been logged out due to inactivity. Refresh or return to the sign in screen.
                     </div>
                   </div>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-5"
+                class="MuiBox-root emotion-3"
               >
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-10"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-13"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-11"
                     href="/"
                   >
                     Back to sign in

@@ -10,9 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import Bundles from '../../util/Bundles';
 
-describe('i18nTransformer Tests', () => {
-  it('initial test', () => {
-    expect(true).toBe(true);
-  })
-});
+module.exports = {
+  ...jest.requireActual('okta'),
+  loc: jest.fn().mockImplementation(
+    // @ts-ignore
+    (key, bundle, params) => Bundles.login[key] ? key : new Error(`Invalid i18n key: ${key}`),
+  ),
+};

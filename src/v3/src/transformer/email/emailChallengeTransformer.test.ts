@@ -78,8 +78,6 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(layoutOne.elements[2].type).toBe('Description');
     expect((layoutOne.elements[2] as DescriptionElement).options?.content)
       .toBe('next.email.challenge.informationalTextWithEmail');
-    expect((layoutOne.elements[2] as DescriptionElement).options?.contentParams?.[0])
-      .toBe(redactedEmail);
 
     const layoutTwo = stepperElements[1];
 
@@ -88,8 +86,6 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(layoutTwo.elements[2].type).toBe('Description');
     expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
       .toBe('next.email.challenge.informationalTextWithEmail');
-    expect((layoutTwo.elements[2] as DescriptionElement).options?.contentParams?.[0])
-      .toBe(redactedEmail);
 
     expect((layoutTwo.elements[3] as FieldElement).label).toBe('email.enroll.enterCode');
 
@@ -118,15 +114,12 @@ describe('EmailChallengeTransformer Tests', () => {
 
     expect((layoutOne.elements[2] as DescriptionElement).options?.content)
       .toBe('next.email.challenge.informationalText');
-    expect((layoutOne.elements[2] as DescriptionElement).options?.contentParams).toBeUndefined();
 
     const layoutTwo = stepperElements[1];
 
     expect(layoutTwo.elements.length).toBe(5);
     expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
       .toBe('next.email.challenge.informationalText');
-    expect((layoutTwo.elements[2] as DescriptionElement).options?.contentParams)
-      .toBeUndefined();
   });
 
   it('should create email challenge UI elements when resend code is NOT available', () => {
@@ -158,8 +151,6 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(layoutOne.elements[1].type).toBe('Description');
     expect((layoutOne.elements[1] as DescriptionElement).options?.content)
       .toBe('next.email.challenge.informationalTextWithEmail');
-    expect((layoutOne.elements[1] as DescriptionElement).options?.contentParams?.[0])
-      .toBe(redactedEmail);
 
     const layoutTwo = stepperElements[1];
 
@@ -168,8 +159,6 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(layoutTwo.elements[1].type).toBe('Description');
     expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
       .toBe('next.email.challenge.informationalTextWithEmail');
-    expect((layoutTwo.elements[1] as DescriptionElement).options?.contentParams?.[0])
-      .toBe(redactedEmail);
 
     expect((layoutTwo.elements[2] as FieldElement).label).toBe('email.enroll.enterCode');
 

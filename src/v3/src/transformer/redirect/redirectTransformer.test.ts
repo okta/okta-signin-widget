@@ -73,8 +73,6 @@ describe('Success Redirect Transform Tests', () => {
     expect(formBag.uischema.elements[0].type).toBe('Description');
     expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName.and.identifier');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.contentParams)
-      .toEqual([appInfo.name, userInfo.identifier]);
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
@@ -100,7 +98,6 @@ describe('Success Redirect Transform Tests', () => {
     expect(formBag.uischema.elements[0].type).toBe('Description');
     expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.contentParams).toEqual([]);
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
@@ -123,8 +120,6 @@ describe('Success Redirect Transform Tests', () => {
     expect(formBag.uischema.elements[0].type).toBe('Description');
     expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.contentParams)
-      .toEqual([appInfo.name]);
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');

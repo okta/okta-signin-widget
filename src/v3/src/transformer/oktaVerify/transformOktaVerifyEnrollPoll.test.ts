@@ -134,10 +134,6 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     ).toBe('next.enroll.okta_verify.sms.info');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
-        .elements[2] as DescriptionElement).options?.contentParams,
-    ).toEqual(['+14215551262']);
-    expect(
-      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).label,
     ).toBe('next.enroll.okta_verify.switch.channel.link.text');
     expect(
@@ -202,10 +198,6 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[2] as DescriptionElement).options?.content,
     ).toBe('next.enroll.okta_verify.email.info');
-    expect(
-      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
-        .elements[2] as DescriptionElement).options?.contentParams,
-    ).toEqual(['noreply@noemail.com']);
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).label,
@@ -356,10 +348,6 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     ).toBe('next.enroll.okta_verify.sms.info');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
-        .elements[2] as DescriptionElement).options?.contentParams,
-    ).toEqual(['+14215551262']);
-    expect(
-      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).label,
     ).toBe('next.enroll.okta_verify.switch.channel.link.text');
     expect(
@@ -424,10 +412,6 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[2] as DescriptionElement).options?.content,
     ).toBe('next.enroll.okta_verify.email.info');
-    expect(
-      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
-        .elements[2] as DescriptionElement).options?.contentParams,
-    ).toEqual(['noreply@noemail.com']);
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).label,

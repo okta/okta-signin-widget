@@ -20,13 +20,9 @@ import {
 
 import WebAuthNSubmitButton from './WebAuthNSubmitButton';
 
-jest.mock('../../lib/okta-i18n', () => ({
-  useTranslation: () => ({
-    t: jest.fn().mockReturnValue('Operation not allowed'),
-    i18n: {
-      exists: (key: string) => key === 'oie.browser.error.NotAllowedError',
-    },
-  }),
+jest.mock('../../../../v2/ion/i18nTransformer', () => ({
+  getMessageFromBrowserError: (error: Error) =>
+      error.name ===  'NotAllowedError' ? 'Operation not allowed' : error.message,
 }));
 
 const setMessageMockFn = jest.fn();

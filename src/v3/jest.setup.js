@@ -11,6 +11,8 @@
  */
 
 /* eslint-disable import/extensions */
+import 'jest-canvas-mock';
+
 require('@testing-library/jest-dom');
 require('whatwg-fetch');
 const { createSerializer } = require('@emotion/jest');
@@ -21,6 +23,8 @@ const { initOktaReactI18n } = require('./src/lib/okta-i18n');
 configure({
   testIdAttribute: 'data-se',
 });
+
+global.DEBUG = false;
 
 expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));
 

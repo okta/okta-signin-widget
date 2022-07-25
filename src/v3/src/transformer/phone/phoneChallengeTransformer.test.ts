@@ -64,8 +64,6 @@ describe('PhoneChallengeTransformer Tests', () => {
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('next.phone.challenge.sms.informationalTextWithPhone');
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.contentParams?.[0])
-      .toBe(redactedPhone);
 
     expect(updatedFormBag.uischema.elements[3].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options?.content)
@@ -99,8 +97,6 @@ describe('PhoneChallengeTransformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.phone.challenge.sms.informationalTextWithPhone');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams?.[0])
-      .toBe(redactedPhone);
 
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)

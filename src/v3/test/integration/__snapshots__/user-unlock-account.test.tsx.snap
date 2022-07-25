@@ -79,7 +79,6 @@ exports[`user-unlock-account renders form 1`] = `
                       </legend>
                     </fieldset>
                   </div>
-                  
                 </div>
               </div>
               <div

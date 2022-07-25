@@ -104,7 +104,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Okta Password
+                      Password
                     </div>
                     <div
                       class="actionName MuiBox-root emotion-6"
@@ -135,7 +135,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      FIDO2 (WebAuthn)
+                      Security Key or Biometric Authenticator
                     </div>
                     <div
                       class="actionName MuiBox-root emotion-6"
@@ -166,7 +166,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      FIDO2 (WebAuthn)
+                      Security Key or Biometric Authenticator
                     </div>
                     <div
                       class="actionName MuiBox-root emotion-6"
@@ -197,7 +197,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Okta Email
+                      Email
                     </div>
                     <div
                       class="actionName MuiBox-root emotion-6"
@@ -233,7 +233,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="description MuiBox-root emotion-6"
                     >
-                      +1 XXX-XXX-5309
+                      L10N_ERROR[+1 XXX-XXX-5309]
                     </div>
                     <div
                       class="actionName MuiBox-root emotion-6"
@@ -269,7 +269,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="description MuiBox-root emotion-6"
                     >
-                      +1 XXX-XXX-5309
+                      L10N_ERROR[+1 XXX-XXX-5309]
                     </div>
                     <div
                       class="actionName MuiBox-root emotion-6"
@@ -300,7 +300,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Okta Security Question
+                      Security Question
                     </div>
                     <div
                       class="actionName MuiBox-root emotion-6"
@@ -331,7 +331,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Okta Verify
+                      Use Okta FastPass
                     </div>
                     <div
                       class="actionName MuiBox-root emotion-6"
@@ -608,7 +608,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Custom Push App
+                      Get a push notification
                     </div>
                     <div
                       class="actionName MuiBox-root emotion-6"

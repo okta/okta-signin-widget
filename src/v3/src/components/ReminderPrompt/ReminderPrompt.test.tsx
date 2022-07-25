@@ -63,7 +63,7 @@ describe('ReminderPrompt', () => {
     expect(container.firstChild).not.toBeNull();
 
     const box = getByRole('alert');
-    const sendAgainLink = within(box).getByText('Send again');
+    const sendAgainLink = within(box).getByText('email.button.resend');
 
     expect(mockActionFn).not.toHaveBeenCalled();
     fireEvent.click(sendAgainLink);
@@ -101,7 +101,7 @@ describe('ReminderPrompt', () => {
     expect(container.firstChild).not.toBeNull();
 
     const box = getByRole('alert');
-    const sendAgainLink = within(box).getByText('Send again');
+    const sendAgainLink = within(box).getByText('email.button.resend');
 
     expect(mockActionFn).not.toHaveBeenCalled();
     fireEvent.click(sendAgainLink);

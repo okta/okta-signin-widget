@@ -40,18 +40,15 @@ describe('Identify Transformer Tests', () => {
           {
             type: 'Control',
             name: 'identifier',
-            scope: '#/properties/identifier',
           } as UISchemaElement,
           {
             type: 'Control',
             name: 'credentials.passcode',
-            scope: '#/properties/credentials/properties/passcode',
             options: { secret: true },
           } as UISchemaElement,
           {
             type: 'Control',
             name: 'rememberMe',
-            scope: '#/properties/rememberMe',
           } as UISchemaElement,
         ],
       },
@@ -66,14 +63,12 @@ describe('Identify Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content).toBe('primaryauth.title');
-    expect((updatedFormBag.uischema.elements[1] as UISchemaElement).scope)
-      .toBe('#/properties/identifier');
-    expect((updatedFormBag.uischema.elements[2] as UISchemaElement).scope)
-      .toBe('#/properties/credentials/properties/passcode');
-    expect((updatedFormBag.uischema.elements[3] as UISchemaElement).scope)
-      .toBe('#/properties/rememberMe');
-    expect((updatedFormBag.uischema.elements[3] as UISchemaElement).label)
-      .toBe('oie.remember');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('identifier');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).name)
+      .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[4] as UISchemaElement).label)
       .toBe('oie.primaryauth.submit');
   });
@@ -97,12 +92,10 @@ describe('Identify Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content).toBe('primaryauth.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).scope)
-      .toBe('#/properties/identifier');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).scope)
-      .toBe('#/properties/rememberMe');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).label)
-      .toBe('oie.remember');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('identifier');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).label)
       .toBe('oform.next');
   });
@@ -115,10 +108,10 @@ describe('Identify Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content).toBe('primaryauth.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).scope)
-      .toBe('#/properties/identifier');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).scope)
-      .toBe('#/properties/credentials/properties/passcode');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('identifier');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).label)
       .toBe('oie.primaryauth.submit');
   });
@@ -130,15 +123,13 @@ describe('Identify Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content).toBe('primaryauth.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).scope)
-      .toBe('#/properties/identifier');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('identifier');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.defaultOption).toBe('testUser');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).scope)
-      .toBe('#/properties/credentials/properties/passcode');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).scope)
-      .toBe('#/properties/rememberMe');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).label)
-      .toBe('oie.remember');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).name)
+      .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).label)
       .toBe('oie.primaryauth.submit');
   });
@@ -150,15 +141,13 @@ describe('Identify Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content).toBe('primaryauth.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).scope)
-      .toBe('#/properties/identifier');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('identifier');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.defaultOption).toBe('testUserFromCookie');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).scope)
-      .toBe('#/properties/credentials/properties/passcode');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).scope)
-      .toBe('#/properties/rememberMe');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).label)
-      .toBe('oie.remember');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).name)
+      .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).label)
       .toBe('oie.primaryauth.submit');
   });

@@ -12,7 +12,7 @@
 
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  FormBag, InfoboxElement, MessageTypeVariant,
+  FormBag, InfoboxElement,
   UISchemaLayoutType, WidgetProps,
 } from 'src/types';
 
@@ -62,9 +62,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.contentType).toBe('string');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
-      .toBe(MessageTypeVariant.ERROR);
+      .toBe('ERROR');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
-      .toBe('Force FIPS compliance upgrade key ios message.');
+      .toBe(OV_OVERRIDE_MESSAGE_KEY.OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.title)
       .toBe('oie.okta_verify.enroll.force.upgrade.title');
   });
@@ -82,9 +82,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.contentType).toBe('string');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
-      .toBe(MessageTypeVariant.ERROR);
+      .toBe('ERROR');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
-      .toBe('OV Enroll Biometrics key message.');
+      .toBe(OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.title)
       .toBe('oie.authenticator.app.method.push.enroll.enable.biometrics.title');
   });

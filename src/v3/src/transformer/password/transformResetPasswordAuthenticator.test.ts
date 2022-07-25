@@ -131,8 +131,6 @@ describe('Reset Password Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as TitleElement).type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.specific');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.contentParams)
-      .toEqual(['Acme Corp.']);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).type)
       .toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
