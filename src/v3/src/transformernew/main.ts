@@ -22,6 +22,10 @@ import { transformLayout } from './layout';
 import { transformStyle } from './style';
 import { transformTestAttributes } from './testAttribute';
 
+export type TransformStepFn = (formbag: FormBag) => FormBag;
+// TODO: update to include all possible context in higher order fn argument
+export type WithContextTransformStepFn = (transaction: IdxTransaction) => TransformStepFn;
+
 // use this function after each transformation step to log the formbag output
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const logger = (formbag: FormBag) => {
@@ -31,10 +35,10 @@ const logger = (formbag: FormBag) => {
 };
 
 export const transformIdxTransaction = (transaction: IdxTransaction): FormBag => {
-  const transformFn = flow([
+  const transformationStepFns: TransformStepFn[] = [
     // Transform form fields from authjs transaction (based on selected step)
     transformFields(transaction),
-    transformAttributes(transaction),
+    transformAttributes,
     // Transform all action buttons
     transformButtons(transaction),
     // Transform custom layout and all ui elements that should be rendered on form
@@ -42,11 +46,11 @@ export const transformIdxTransaction = (transaction: IdxTransaction): FormBag =>
     // IMPORTANT: steps below should happen after "transformLayout"
     // they should include centralized logic that target to all uielements in schema
     transformI18n(transaction),
-    transformStyle(transaction),
-    transformTestAttributes(transaction),
-  ]);
-
-  return transformFn({
+    transformStyle,
+    transformTestAttributes,
+  ];
+  
+  return flow(transformationStepFns)({
     schema: {
       type: 'object',
       properties: {},

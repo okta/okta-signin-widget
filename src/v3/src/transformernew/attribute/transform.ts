@@ -10,12 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from '@okta/okta-auth-js';
-
+import { TransformStepFn } from '../main';
 import {
   AutoCompleteValue,
   FieldElement,
-  FormBag,
   InputAttributes,
   Nullable,
 } from '../../types';
@@ -73,12 +71,9 @@ export const transformField = (field: FieldElement): FieldElement => {
   };
 };
 
-export const transformAttributes = (
-  _: IdxTransaction,
-) => (formbag: FormBag): FormBag => {
+export const transformAttributes: TransformStepFn = (formbag) => {
   const { uischema } = formbag;
-  uischema.elements = uischema.elements
-    .map((field) => transformField(field as FieldElement));
+  uischema.elements = uischema.elements.map((field) => transformField(field as FieldElement));
 
   return formbag;
 };

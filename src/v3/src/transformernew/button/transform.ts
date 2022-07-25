@@ -10,15 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from '@okta/okta-auth-js';
+import { ButtonElement, ButtonType } from '../../types';
+import { WithContextTransformStepFn } from '../main';
 
-import { ButtonElement, ButtonType, FormBag } from '../../types';
-
-export const transformButtons = (
-  transaction: IdxTransaction,
-) => (
-  formbag: FormBag,
-): FormBag => {
+export const transformButtons: WithContextTransformStepFn = (transaction) => (formbag) => {
   const { availableSteps = [], nextStep } = transaction;
 
   return availableSteps

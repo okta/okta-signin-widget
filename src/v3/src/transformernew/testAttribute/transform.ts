@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from '@okta/okta-auth-js';
-
-import { ButtonElement, ButtonType, FormBag } from '../../types';
+import { ButtonElement, ButtonType } from '../../types';
+import { TransformStepFn } from '../main';
 import { updateElementsInLayout } from '../util';
 
 const map: Record<string, string> = {
@@ -21,11 +20,7 @@ const map: Record<string, string> = {
   'button.unlock-account': 'unlock',
 };
 
-export const transformTestAttributes = (
-  _: IdxTransaction,
-) => (
-  formbag: FormBag,
-): FormBag => {
+export const transformTestAttributes: TransformStepFn = (formbag) => {
   const { uischema } = formbag;
 
   updateElementsInLayout({

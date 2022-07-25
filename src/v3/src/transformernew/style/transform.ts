@@ -10,16 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from '@okta/okta-auth-js';
-
-import { ButtonElement, ButtonType, FormBag } from '../../types';
+import { ButtonElement, ButtonType } from '../../types';
+import { TransformStepFn } from '../main';
 import { updateElementsInLayout } from '../util';
 
-export const transformStyle = (
-  _: IdxTransaction,
-) => (
-  formbag: FormBag,
-): FormBag => {
+export const transformStyle: TransformStepFn = (formbag) => {
   const { uischema } = formbag;
 
   updateElementsInLayout({

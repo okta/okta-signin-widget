@@ -11,10 +11,8 @@
  */
 
 // Temp solution to pass test, will be replaced once https://github.com/okta/okta-signin-widget/pull/2617 is ready
-
-import { IdxTransaction } from '@okta/okta-auth-js';
-
-import { ButtonElement, FieldElement, FormBag } from '../../types';
+import { ButtonElement, FieldElement } from '../../types';
+import { WithContextTransformStepFn } from '../main';
 import { updateElementsInLayout } from '../util';
 
 const map: Record<string, string> = {
@@ -27,11 +25,7 @@ const map: Record<string, string> = {
   'button.currentAuthenticator-recover': 'forgotpassword',
 };
 
-export const transformI18n = (
-  transaction: IdxTransaction,
-) => (
-  formbag: FormBag,
-): FormBag => {
+export const transformI18n: WithContextTransformStepFn = (transaction) => (formbag) => {
   const stepName = transaction.nextStep?.name;
   const { uischema } = formbag;
 

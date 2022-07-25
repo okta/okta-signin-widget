@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction, Input, NextStep } from '@okta/okta-auth-js';
+import { Input, NextStep } from '@okta/okta-auth-js';
 
 import {
   FieldElement, FormBag, UISchemaElement,
 } from '../../types';
 import { flattenInputs } from '../../util';
+import { WithContextTransformStepFn } from '../main';
 import { transformer as typeTransformer } from './type';
 
 const mapUiElement = (input: Input): UISchemaElement => {
@@ -83,6 +84,6 @@ export const transformStepInputs = (formbag: FormBag, step?: NextStep): FormBag 
     }, formbag);
 };
 
-export const transformFields = (
-  transaction: IdxTransaction,
-) => (formbag: FormBag): FormBag => transformStepInputs(formbag, transaction.nextStep);
+export const transformFields: WithContextTransformStepFn = (
+  transaction
+) => (formbag) => transformStepInputs(formbag, transaction.nextStep);

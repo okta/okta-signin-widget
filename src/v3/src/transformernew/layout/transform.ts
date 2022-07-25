@@ -10,15 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from '@okta/okta-auth-js';
-
-import { FormBag } from '../../types';
+import { WithContextTransformStepFn } from '../main';
 import TransformerMap from './idxTransformerMapping';
 import { mapLayout } from './mapLayout';
 
-export const transformLayout = (
-  transaction: IdxTransaction,
-) => (formbag: FormBag): FormBag => {
+export const transformLayout: WithContextTransformStepFn = (transaction) => (formbag) => {
   const { context, nextStep } = transaction;
 
   if (!nextStep) {
