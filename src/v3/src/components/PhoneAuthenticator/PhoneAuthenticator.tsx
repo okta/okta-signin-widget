@@ -60,7 +60,9 @@ const PhoneAuthenticator: UISchemaElementComponent<{
 
   const renderExtension = () => (
     showExtension && (
-      <Box>
+      <Box
+        width={0.25}
+      >
         <TextInput
           type="text"
           data-se="extension"
@@ -107,11 +109,11 @@ const PhoneAuthenticator: UISchemaElementComponent<{
       </Box>
       <Box
         display="flex"
-        justifyContent="space-between"
+        flexWrap="wrap"
       >
         <Box
-          width={1}
-          marginRight={showExtension ? 1 : 0}
+          width={showExtension ? 0.7 : 1}
+          marginRight={showExtension ? 2 : 0}
         >
           <TextInput
             type="tel"
