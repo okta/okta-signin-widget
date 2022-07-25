@@ -170,7 +170,6 @@ export default {
       entry: {
         playground: rootResolve('playground', 'main.ts'),
       },
-      mode: 'development',
       devtool: 'cheap-module-source-map',
       devServer: {
         headers: {
