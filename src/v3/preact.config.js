@@ -12,10 +12,15 @@
 
 /* eslint-disable import/no-extraneous-dependencies,no-param-reassign */
 import { resolve } from 'path';
+import webpack from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { omit } from 'lodash';
 import playgroundConfig from '../../webpack.playground.config';
+
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
+
+const gitRevisionPlugin = new GitRevisionPlugin();
 
 // util: resolve paths relative to the project root
 const rootResolve = (...parts) => resolve(__dirname, '../../', ...parts);
@@ -56,6 +61,12 @@ export default {
     // remove MiniCssExtractPlugin
     config.plugins = config.plugins.filter(
       (plugin) => !(plugin instanceof MiniCssExtractPlugin),
+    );
+
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
+      }),
     );
 
     // use odyssey babel configs
