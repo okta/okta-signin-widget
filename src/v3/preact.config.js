@@ -12,13 +12,12 @@
 
 /* eslint-disable import/no-extraneous-dependencies,no-param-reassign */
 import { resolve } from 'path';
-import webpack from 'webpack';
+import { DefinePlugin } from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { omit } from 'lodash';
+import GitRevisionPlugin from 'git-revision-webpack-plugin';
 import playgroundConfig from '../../webpack.playground.config';
-
-const GitRevisionPlugin = require('git-revision-webpack-plugin');
 
 const gitRevisionPlugin = new GitRevisionPlugin();
 
@@ -64,7 +63,7 @@ export default {
     );
 
     config.plugins.push(
-      new webpack.DefinePlugin({
+      new DefinePlugin({
         COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
       }),
     );
