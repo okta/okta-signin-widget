@@ -52,6 +52,7 @@ async function setup(t) {
 test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign in with hCaptcha enabled', async t => {
   const identityPage = await setup(t);
 
+  
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
