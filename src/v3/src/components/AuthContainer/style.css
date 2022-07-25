@@ -12,6 +12,6 @@
 /* TODO: this max width may chaged, will discuss w/ UX */
 @media screen and (max-width: 391px) {
   .siwContainer {
-    border: none;
+    border: none !important;
   }
 }
