@@ -65,7 +65,18 @@
                   "name": "subscribe",
                   "type": "boolean",
                   "label": "Subscribe me",
-                  "required": false
+                  "required": true,
+                  "options":[
+                    {
+                      "label":"display",
+                      "value":{
+                        "type":"object",
+                        "value":{
+                          "inputType":"checkbox"
+                        }
+                      }
+                    }
+                  ]
                 }
               ]
             }
