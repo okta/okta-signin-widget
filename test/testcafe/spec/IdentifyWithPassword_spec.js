@@ -156,12 +156,12 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
 });
 
-test.requestHooks(identifyWithPasswordErrorMock)('should show custom access denied error message\'s links', async t => {
+test.requestHooks(identifyWithPasswordErrorMock)('should show custom access denied error message', async t => {
   const identityPage = await setup(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('adasdas');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-  await t.expect(identityPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><div class="custom-links"><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></div></div>');
+  await t.expect(identityPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');
 });

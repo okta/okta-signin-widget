@@ -2,5 +2,6 @@
     .custom-links {
         display: flex;
         flex-direction: column;
+        margin-left: 0; // unset ul style
     }
 }

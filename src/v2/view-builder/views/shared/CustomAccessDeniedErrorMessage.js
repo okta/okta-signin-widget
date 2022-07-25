@@ -8,13 +8,15 @@ export default View.extend({
       <p>{{message}}</p>
     {{/if}}
     {{#if links}}
-      <div class="custom-links">
+      <ul class="custom-links">
         {{#each links}}
-        <a href={{url}} target="_blank" rel="noopener noreferrer">
-          {{label}}
-        </a>
+        <li>
+          <a href={{url}} target="_blank" rel="noopener noreferrer">
+            {{label}}
+          </a>
+        </li>
         {{/each}}
-      </div>
+      </ul>
     {{/if}}
   `,
   getTemplateData() {
