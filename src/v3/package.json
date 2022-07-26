@@ -21,8 +21,6 @@
       "ajv-errors",
       "@types/ajv-errors",
       "@types/jest",
-      "preact",
-      "preact/**",
       "preact-cli",
       "preact-cli/**",
       "preact-cli-plugin-env-vars",
@@ -48,7 +46,8 @@
     "test:dev": "NODE_ENV=development jest",
     "test:e2e": "NODE_ENV=test testcafe --config-file test/e2e/.testcaferc.js test/e2e/tests/**/*.ts",
     "test:e2e:screenshots": "yarn test:e2e -s path=test/e2e/screenshots,thumbnails=false",
-    "test:report": "yarn build:i18n && PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage"
+    "test:report": "yarn build:i18n && PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage",
+    "serve": "sirv ../../dist/dist/js --port 3000"
   },
   "browserslist": [
     "> 0.1%",
@@ -131,6 +130,7 @@
     "preact-render-to-string": "^5.1.19",
     "preact-svg-loader": "^0.2.1",
     "properties": "^1.2.1",
+    "sirv-cli": "^2.0.2",
     "svgo": "^2.3.0",
     "testcafe": "^1.18.2",
     "ts-jest": "^26.5.6",

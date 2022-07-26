@@ -2,12 +2,15 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password.json';
+import xhrInteract from '../../../playground/mocks/data/oauth2/interact.json';
 
-const identifyWithPasswordMock = RequestMock()
+const mocks = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(xhrInteract)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithPassword);
 
-const identifyRequestLogger = RequestLogger(/idx\/identify/, {
+const logger = RequestLogger(/idx\/identify/, {
   logRequestBody: true,
   stringifyRequestBody: true,
 });
@@ -27,7 +30,7 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have identifier and password fields', async t => {
+test.requestHooks(logger, mocks)('should have identifier and password fields', async t => {
   const identityPage = await setup(t);
   await renderWidget({});
   await identityPage.fillIdentifierField('myusername');

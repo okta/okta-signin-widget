@@ -12,9 +12,6 @@ echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 # NOTE: add a testcafe fixture to the list of specs to run for parity testing by
 # adding fixture metadata {"v3": true}. See example in
 # test/testcafe/spec/Smoke_spec.js
-
-# fixture('Smoke Test').meta('v3', true);
-
 echo 'starting testcafe v2->v3 parity tests'
 if ! yarn test:parity-ci; then
 	echo "testcafe v2->v3 parity tests failed! Exiting..."

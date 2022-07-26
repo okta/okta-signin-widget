@@ -156,7 +156,7 @@ export default {
       'index.js',
     );
 
-    // configs to inherit from webpack.playground.config.js
+    // inherit from webpack.playground.config.js omitting these properties
     const inherited = omit(playgroundConfig, [
       'devServer.headers.Content-Security-Policy', // merge instead of override
       'devServer.port',
@@ -172,6 +172,7 @@ export default {
         playground: rootResolve('playground', 'main.ts'),
       },
       devtool: 'cheap-module-source-map',
+
       devServer: {
         headers: {
           'Content-Security-Policy': mergeContentSecurityPolicies(
@@ -182,6 +183,7 @@ export default {
       },
     };
 
+    // NOTE do not reassign config. preact cli requires this object to modified
     Object.assign(config, webpackMerge(config, inherited, overrides));
   },
 };
