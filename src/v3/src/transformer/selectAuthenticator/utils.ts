@@ -68,43 +68,6 @@ const buildOktaVerifyOptions = (
   })) as AuthenticatorButtonElement[];
 };
 
-const getAuthenticatorDescription = (
-  options: IdxOption[],
-  authenticatorKey: string,
-  isEnroll?: boolean,
-): string | undefined => {
-  if (!authenticatorKey) {
-    return undefined;
-  }
-  const descrParams = getOnPremDescriptionParams(
-    options,
-    authenticatorKey,
-    isEnroll,
-  );
-  if (isEnroll) {
-    return loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[authenticatorKey], 'login', descrParams);
-  }
-
-  if (authenticatorKey === AUTHENTICATOR_KEY.PHONE) {
-    return getAuthenticatorOption(
-      options,
-      authenticatorKey,
-    )?.relatesTo?.profile?.phoneNumber as string;
-  }
-
-  if (authenticatorKey === AUTHENTICATOR_KEY.CUSTOM_APP) {
-    return getAuthenticatorOption(
-      options,
-      authenticatorKey,
-    )?.relatesTo?.displayName as string;
-  }
-
-  if (authenticatorKey === AUTHENTICATOR_KEY.OV) {
-    return loc('oie.okta_verify.label', 'login');
-  }
-  return undefined;
-};
-
 const getOnPremDescriptionParams = (
   options: IdxOption[],
   authenticatorKey: string,
@@ -145,6 +108,43 @@ const getOnPremDescriptionParams = (
         authenticatorKey,
       )?.relatesTo?.displayName || '';
       return [appName];
+  }
+  return undefined;
+};
+
+const getAuthenticatorDescription = (
+  options: IdxOption[],
+  authenticatorKey: string,
+  isEnroll?: boolean,
+): string | undefined => {
+  if (!authenticatorKey) {
+    return undefined;
+  }
+  const descrParams = getOnPremDescriptionParams(
+    options,
+    authenticatorKey,
+    isEnroll,
+  );
+  if (isEnroll) {
+    return loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[authenticatorKey], 'login', descrParams);
+  }
+
+  if (authenticatorKey === AUTHENTICATOR_KEY.PHONE) {
+    return getAuthenticatorOption(
+      options,
+      authenticatorKey,
+    )?.relatesTo?.profile?.phoneNumber as string || undefined;
+  }
+
+  if (authenticatorKey === AUTHENTICATOR_KEY.CUSTOM_APP) {
+    return getAuthenticatorOption(
+      options,
+      authenticatorKey,
+    )?.relatesTo?.displayName as string || undefined;
+  }
+
+  if (authenticatorKey === AUTHENTICATOR_KEY.OV) {
+    return loc('oie.okta_verify.label', 'login');
   }
   return undefined;
 };

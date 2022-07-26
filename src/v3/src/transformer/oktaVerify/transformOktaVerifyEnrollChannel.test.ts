@@ -111,7 +111,7 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[4] as StepperButtonElement).label,
-    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
+    ).toBe('oie.enroll.okta_verify.switch.channel.link.text');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[4] as StepperButtonElement).options?.variant,
@@ -173,7 +173,7 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[4] as StepperButtonElement).label,
-    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
+    ).toBe('oie.enroll.okta_verify.switch.channel.link.text');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[4] as StepperButtonElement).options?.variant,

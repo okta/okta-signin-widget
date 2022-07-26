@@ -28,7 +28,6 @@ export const AUTHENTICATOR_KEY: Record<string, string> = {
   SYMANTEC_VIP: 'symantec_vip',
   YUBIKEY: 'yubikey_token',
   CUSTOM_APP: 'custom_app',
-  SMS: 'sms',
   DEFAULT: '__',
 };
 

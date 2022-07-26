@@ -3,6 +3,7 @@
 exports[`Google Authenticator Enroll Transformer Tests should add Stepper layout to UI Schema elements when GA Enroll params exists in Idx response 1`] = `
 Object {
   "data": Object {},
+  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [

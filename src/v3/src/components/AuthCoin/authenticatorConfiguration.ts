@@ -96,11 +96,6 @@ const AuthenticatorConfiguration: {
     customizable: true,
     description: 'Security Question',
   },
-  [AUTHENTICATOR_KEY.SMS]: {
-    icon: SMSIcon,
-    customizable: true,
-    description: 'SMS',
-  },
   [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
     icon: SymantecVipIcon,
     customizable: false,
