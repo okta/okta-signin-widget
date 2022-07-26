@@ -32,6 +32,9 @@ export const transformPhoneChallenge: IdxStepTransformer = ({
   const { uischema } = formBag;
   const { authClient } = widgetProps;
 
+  const { methods, profile } = nextStep.relatesTo?.value || {};
+  const { phoneNumber } = profile || {};
+  const methodType = methods?.[0]?.type;
   let reminderElement: Undefinable<ReminderElement>;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
@@ -54,14 +57,15 @@ export const transformPhoneChallenge: IdxStepTransformer = ({
     };
   }
 
-  const redactedPhone = nextStep.relatesTo?.value?.profile?.phoneNumber as string;
+  const sendInfoText = methodType === 'voice'
+    ? loc('mfa.calling', 'login')
+    : loc('oie.phone.verify.sms.codeSentText', 'login');
+  const phoneInfoText = phoneNumber || loc('oie.phone.alternate.title', 'login');
+  const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
-      // TODO: revisit this for oie i18n string (ChallengeAuthenticatorPhoneView.js)
-      content: redactedPhone
-        ? loc('next.phone.challenge.sms.informationalTextWithPhone', 'login', [redactedPhone])
-        : loc('next.phone.challenge.sms.informationalText', 'login'),
+      content: `${sendInfoText} ${phoneInfoText}. ${enterCodeInfoText}`,
     },
   };
 

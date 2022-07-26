@@ -625,7 +625,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                         </legend>
                       </fieldset>
                     </div>
-                    
                   </div>
                 </div>
                 <div

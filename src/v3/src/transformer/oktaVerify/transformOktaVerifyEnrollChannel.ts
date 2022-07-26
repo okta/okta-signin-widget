@@ -87,7 +87,7 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
   elements.push({
     type: 'Button',
     // TODO: revisit i18n key to use oie string (SwitchEnrollChannelLinkView.js)
-    label: loc('next.enroll.okta_verify.switch.channel.link.text', 'login'),
+    label: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
     options: {
       type: ButtonType.BUTTON,
       variant: 'secondary',

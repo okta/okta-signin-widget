@@ -92,7 +92,9 @@ export const createNavButtonConfig = (hasQrCode: boolean): {
         variant: 'secondary',
         label: hasQrCode
           ? 'enroll.totp.cannotScan'
-          : 'next.enroll.okta_verify.switch.channel.link.text',
+          // (SwitchEnrollChannelLinkView.js)
+          // TODO: This key has an anchor tag embedded in the text, how to proceed?
+          : 'oie.enroll.okta_verify.switch.channel.link.text',
       },
     } as Record<StepperNavButtonConfigDirection, StepperNavButtonConfigAttrs>,
   };
@@ -100,7 +102,9 @@ export const createNavButtonConfig = (hasQrCode: boolean): {
   if (hasQrCode) {
     set(stepperNavBtnConfig, 'navButtonsConfig.prev', {
       variant: 'secondary',
-      label: 'next.enroll.okta_verify.switch.channel.link.text',
+      // (SwitchEnrollChannelLinkView.js)
+      // TODO: This key has anchor tag embedded in the text, how to proceed?
+      label: 'oie.enroll.okta_verify.switch.channel.link.text',
     } as StepperNavButtonConfigAttrs);
   }
 

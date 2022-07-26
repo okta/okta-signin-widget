@@ -19,8 +19,7 @@ import {
 
 import { transformPhoneCodeEnrollment } from '.';
 
-// TODO: Using custom i18n keys for SIW Next
-describe.skip('PhoneEnrollmentCodeTransformer Tests', () => {
+describe('PhoneEnrollmentCodeTransformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const mockProps: WidgetProps = {};
   let formBag: FormBag;
@@ -32,6 +31,7 @@ describe.skip('PhoneEnrollmentCodeTransformer Tests', () => {
         elements: [],
       },
       data: {},
+      dataSchema: {},
     };
   });
 

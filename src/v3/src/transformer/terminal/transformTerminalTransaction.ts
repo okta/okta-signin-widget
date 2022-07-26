@@ -169,8 +169,8 @@ const buildFormBagForInteractionCodeFlow = (
   formBag.uischema.elements.push({
     type: 'Spinner',
     options: {
-      label: loc('loading.label', 'login'),
-      valueText: loc('loading.label', 'login'),
+      label: 'Loading...',
+      valueText: 'Loading...',
     },
   } as SpinnerElement);
 

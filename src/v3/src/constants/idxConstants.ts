@@ -166,7 +166,7 @@ export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP: Record<string, string> = {
   [AUTHENTICATOR_KEY.ON_PREM]: 'oie.on_prem.authenticator.description',
   [AUTHENTICATOR_KEY.RSA]: 'oie.rsa.authenticator.description',
   [AUTHENTICATOR_KEY.DUO]: 'oie.duo.authenticator.description',
-  [AUTHENTICATOR_KEY.IDP]: 'oie.custom_otp.description',
+  [AUTHENTICATOR_KEY.IDP]: 'oie.idp.authenticator.description',
   [AUTHENTICATOR_KEY.CUSTOM_OTP]: 'oie.custom_otp.description',
   [AUTHENTICATOR_KEY.SYMANTEC_VIP]: 'oie.symantecVip.authenticator.description',
   [AUTHENTICATOR_KEY.YUBIKEY]: 'oie.yubikey.authenticator.description',

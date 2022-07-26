@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup, updateDynamicAttribute } from './util';
+import { setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-ov-email-channel.json';
 
 describe('okta-verify-email-channel-enrollment', () => {
@@ -24,7 +24,6 @@ describe('okta-verify-email-channel-enrollment', () => {
     const emailEl = await findByTestId(/email/) as HTMLInputElement;
     const submitBtn = await findByText(/Send me the setup link/);
 
-    updateDynamicAttribute(container, ['id', 'for']);
     expect(container).toMatchSnapshot();
 
     await user.type(emailEl, 'tester@okta1.com');

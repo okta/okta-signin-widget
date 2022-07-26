@@ -26,6 +26,7 @@ describe('PhoneEnrollmentTransformer Tests', () => {
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {

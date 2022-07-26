@@ -37,6 +37,7 @@ describe('PhoneChallengeTransformer Tests', () => {
         elements: [],
       },
       data: {},
+      dataSchema: {},
     };
   });
 

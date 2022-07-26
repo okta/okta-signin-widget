@@ -47,7 +47,7 @@ export const redirectTransformer = (
   if (interstitialBeforeLoginRedirect === InterstitialRedirectView.DEFAULT) {
     uischema.elements.push({
       type: 'Spinner',
-      options: { label: loc('loading.label', 'login'), valueText: loc('loading.label', 'login') },
+      options: { label: 'Loading...', valueText: 'Loading...' },
     } as SpinnerElement);
   }
 

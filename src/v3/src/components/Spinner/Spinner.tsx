@@ -28,8 +28,8 @@ const Spinner: FunctionComponent<{
     alignItems="center"
   >
     <CircularProgress
-      aria-label={label || loc('loading.label', 'login')}
-      aria-valuetext={valueText || loc('loading.label', 'login')}
+      aria-label={label || 'Loading...'}
+      aria-valuetext={valueText || 'Loading...'}
     />
   </Box>
 );

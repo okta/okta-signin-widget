@@ -50,13 +50,14 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
   };
 
   const redactedEmailAddress = relatesTo?.value?.profile?.email as string;
-  // TODO: revisit this to use oie i18n string (ChallengeAuthenticatorDataEmailView.js)
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
       content: redactedEmailAddress
-        ? loc('next.email.verify.subtitleWithEmailAddress', 'login', [redactedEmailAddress])
-        : loc('next.email.verify.subtitleWithoutEmailAddress', 'login'),
+        ? loc('oie.email.verify.subtitleWithEmailAddress', 'login', [redactedEmailAddress])
+            .replace('<$1>', '')
+            .replace('</$1>', '')
+        : loc('oie.email.verify.subtitleWithoutEmailAddress', 'login'),
     },
   };
 

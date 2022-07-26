@@ -35,9 +35,6 @@ const WebAuthNSubmit: UISchemaElementComponent<{
   const onSubmitHandler = useOnSubmit();
   const [waiting, setWaiting] = useState<boolean>(false);
 
-  const waitingIndicatorLabel = loc('renderers.waiting.indicator.label', 'login');
-  const waitingIndicatorStateLabel = loc('renderers.waiting.indicator.state.label', 'login');
-
   const executeNextStep = () => {
     if (options?.showLoadingIndicator) {
       setWaiting(true);
@@ -88,8 +85,8 @@ const WebAuthNSubmit: UISchemaElementComponent<{
           ? (
             <CircularLoadIndicator
               id="okta-spinner"
-              aria-label={waitingIndicatorLabel}
-              aria-valuetext={waitingIndicatorStateLabel}
+              aria-label="Loading..."
+              aria-valuetext="Loading..."
             />
           )
           : (

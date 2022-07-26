@@ -76,18 +76,31 @@ const getAuthenticatorDescription = (
   if (!authenticatorKey) {
     return undefined;
   }
+  const descrParams = getOnPremDescriptionParams(
+    options,
+    authenticatorKey,
+    isEnroll,
+  );
   if (isEnroll) {
-    if (authenticatorKey === AUTHENTICATOR_KEY.ON_PREM) {
-      return 'oie.on_prem.authenticator.description';
-    }
-    return AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[authenticatorKey];
+    return loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[authenticatorKey], 'login', descrParams);
   }
 
   if (authenticatorKey === AUTHENTICATOR_KEY.PHONE) {
     return getAuthenticatorOption(
       options,
-      AUTHENTICATOR_KEY.PHONE,
+      authenticatorKey,
     )?.relatesTo?.profile?.phoneNumber as string;
+  }
+
+  if (authenticatorKey === AUTHENTICATOR_KEY.CUSTOM_APP) {
+    return getAuthenticatorOption(
+      options,
+      authenticatorKey,
+    )?.relatesTo?.displayName as string;
+  }
+
+  if (authenticatorKey === AUTHENTICATOR_KEY.OV) {
+    return loc('oie.okta_verify.label', 'login');
   }
   return undefined;
 };
@@ -97,14 +110,43 @@ const getOnPremDescriptionParams = (
   authenticatorKey: string,
   isEnroll?: boolean,
 ): string[] | undefined => {
-  if (!isEnroll || authenticatorKey !== AUTHENTICATOR_KEY.ON_PREM) {
+  const authenticatorDescrWithParams = [
+    AUTHENTICATOR_KEY.ON_PREM,
+    AUTHENTICATOR_KEY.IDP,
+    AUTHENTICATOR_KEY.CUSTOM_APP,
+    AUTHENTICATOR_KEY.SYMANTEC_VIP,
+  ]
+  if (!isEnroll || !authenticatorDescrWithParams.includes(authenticatorKey)) {
     return undefined;
   }
-  const vendorName = getAuthenticatorOption(
-    options,
-    AUTHENTICATOR_KEY.ON_PREM,
-  )?.relatesTo?.displayName || 'oie.on_prem.authenticator.default.vendorName';
-  return [vendorName];
+
+  switch(authenticatorKey) {
+    case AUTHENTICATOR_KEY.ON_PREM:
+      const vendorName = getAuthenticatorOption(
+        options,
+        authenticatorKey,
+      )?.relatesTo?.displayName || loc('oie.on_prem.authenticator.default.vendorName', 'login');
+      return [vendorName];
+    case AUTHENTICATOR_KEY.IDP:
+      const idpName = getAuthenticatorOption(
+        options,
+        authenticatorKey,
+      )?.relatesTo?.displayName || '';
+      return [idpName];
+    case AUTHENTICATOR_KEY.CUSTOM_APP:
+      const customAppName = getAuthenticatorOption(
+        options,
+        authenticatorKey,
+      )?.label || '';
+      return [customAppName];
+    case AUTHENTICATOR_KEY.SYMANTEC_VIP:
+      const appName = getAuthenticatorOption(
+        options,
+        authenticatorKey,
+      )?.relatesTo?.displayName || '';
+      return [appName];
+  }
+  return undefined;
 };
 
 const formatAuthenticatorOptions = (
@@ -116,17 +158,7 @@ const formatAuthenticatorOptions = (
     const id = getOptionValue(option.value as Input[], 'id')?.value;
     const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
     const enrollmentId = getOptionValue(option.value as Input[], 'enrollmentId')?.value;
-
-    const descr = getAuthenticatorDescription(
-      options,
-      authenticatorKey,
-      isEnroll,
-    );
-    const descrParams = getOnPremDescriptionParams(
-      options,
-      authenticatorKey,
-      isEnroll,
-    );
+    
     return {
       type: 'AuthenticatorButton',
       label: option.label,
@@ -135,7 +167,11 @@ const formatAuthenticatorOptions = (
         ctaLabel: isEnroll
           ? loc('oie.enroll.authenticator.button.text', 'login')
           : loc('oie.verify.authenticator.button.text', 'login'),
-        description: descr && loc(descr, 'login', descrParams),
+        description: getAuthenticatorDescription(
+          options,
+          authenticatorKey,
+          isEnroll,
+        ),
         actionParams: {
           'authenticator.id': id,
           'authenticator.methodType': methodType,

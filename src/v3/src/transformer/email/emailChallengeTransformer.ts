@@ -66,13 +66,14 @@ export const transformEmailChallenge: IdxStepTransformer = ({
   passcodeElement!.label = loc('email.enroll.enterCode', 'login');
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-  // TODO: revisit this to use oie i18n strings (AuthenticatorEmailViewUtil.js)
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
       content: redactedEmailAddress
-        ? loc('next.email.challenge.informationalTextWithEmail', 'login', [redactedEmailAddress])
-        : loc('next.email.challenge.informationalText', 'login'),
+        ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [redactedEmailAddress])
+            .replace('<$1>', '')
+            .replace('</$1>', '')
+        : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login'),
     },
   };
 

@@ -397,7 +397,6 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                         </fieldset>
                       </div>
                     </div>
-                    
                   </div>
                 </div>
                 <div

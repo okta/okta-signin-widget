@@ -92,7 +92,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                     <p
                       class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
                     >
-                      L10N_ERROR[next.email.challenge.informationalTextWithEmail]
+                      We sent an email to f****************e@example.com. 
                     </p>
                   </div>
                 </div>
@@ -221,7 +221,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                     <p
                       class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
                     >
-                      L10N_ERROR[next.email.challenge.informationalTextWithEmail]
+                      We sent an email to f****************e@example.com. 
                     </p>
                   </div>
                 </div>
@@ -392,7 +392,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                     <p
                       class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
                     >
-                      L10N_ERROR[next.email.challenge.informationalTextWithEmail]
+                      We sent an email to t***t@idx.com. 
                     </p>
                   </div>
                 </div>

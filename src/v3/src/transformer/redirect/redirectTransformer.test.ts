@@ -76,8 +76,8 @@ describe('Success Redirect Transform Tests', () => {
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('loading.label');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('Loading...');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('Loading...');
   });
 
   it('should add generic description & redirect elements for DEFAULT Interstitial view '
@@ -101,8 +101,8 @@ describe('Success Redirect Transform Tests', () => {
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('loading.label');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('Loading...');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('Loading...');
   });
 
   it('should add app name to description element for DEFAULT Interstitial view '
@@ -123,8 +123,8 @@ describe('Success Redirect Transform Tests', () => {
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('Loading...');
     expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText)
-      .toBe('loading.label');
+      .toBe('Loading...');
   });
 });

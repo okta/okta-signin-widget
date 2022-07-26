@@ -97,10 +97,10 @@ exports[`webauthn-enroll should render form 1`] = `
                   class="MuiBox-root emotion-16"
                 >
                   <span
-                    aria-label="L10N_ERROR[renderers.waiting.indicator.label]"
+                    aria-label="Loading..."
                     aria-valuemax="1"
                     aria-valuemin="0"
-                    aria-valuetext="L10N_ERROR[renderers.waiting.indicator.state.label]"
+                    aria-valuetext="Loading..."
                     class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-48Fcvf"
                     id="okta-spinner"
                     role="progressbar"

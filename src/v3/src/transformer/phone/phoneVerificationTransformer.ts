@@ -58,22 +58,19 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   uischema.elements.unshift(carrierInfoText);
 
   const redactedPhoneNumber = nextStep.relatesTo?.value?.profile?.phoneNumber as string;
+  const phoneInfoText = redactedPhoneNumber
+    ? redactedPhoneNumber
+    : loc('oie.phone.alternate.title', 'login');
   const smsInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      // TODO: revisit this for oie i18n string (ChallengeAuthenticatorDataPhoneView.js)
-      content: redactedPhoneNumber
-        ? loc('next.phone.verify.sms.sendText.withPhoneNumber', 'login', [redactedPhoneNumber])
-        : loc('next.phone.verify.sms.sendText.withoutPhoneNumber', 'login'),
+      content: `${loc('oie.phone.verify.sms.sendText', 'login')} ${phoneInfoText}`,
     },
   };
   const voiceInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      // TODO: revisit this for oie i18n string (ChallengeAuthenticatorDataPhoneView.js)
-      content: redactedPhoneNumber
-        ? loc('next.phone.verify.call.sendText.withPhoneNumber', 'login', [redactedPhoneNumber])
-        : loc('next.phone.verify.call.sendText.withoutPhoneNumber', 'login'),
+      content: `${loc('oie.phone.verify.call.sendText', 'login')} ${phoneInfoText}`,
     },
   };
 

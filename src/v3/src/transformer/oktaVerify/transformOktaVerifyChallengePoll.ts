@@ -52,8 +52,9 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
       uischema.elements.unshift({
         type: 'Reminder',
         options: {
-          // TODO: revisit to use oie i18n string (ResendNumberChallengeView.js)
-          ctaText: loc('next.numberchallenge.warning', 'login'),
+          ctaText: loc('oie.numberchallenge.warning', 'login')
+            .replace('<$1>', '')
+            .replace('</$1>', ''),
           // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
           action: (params?: IdxActionParams) => {
             const { stateHandle, ...rest } = params ?? {};
@@ -78,8 +79,11 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
 
     const description: DescriptionElement = {
       type: 'Description',
-      // TODO: revisit to use oie i18n string (NumberChallengePhoneView.js)
-      options: { content: loc('next.numberchallenge.instruction', 'login', [correctAnswer]) },
+      options: {
+        content: loc('oie.numberchallenge.instruction', 'login', [correctAnswer])
+          .replace('<$1>', '')
+          .replace('</$1>', ''),
+      },
     };
 
     uischema.elements.push(description);
@@ -87,8 +91,8 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
     uischema.elements.push({
       type: 'Spinner',
       options: {
-        label: loc('loading.label', 'login'),
-        valueText: loc('loading.label', 'login'),
+        label: 'Loading...',
+        valueText: 'Loading...',
       },
     } as SpinnerElement);
   } else if (selectedMethod.type === 'push') {
@@ -110,8 +114,8 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
     uischema.elements.push({
       type: 'Spinner',
       options: {
-        label: loc('loading.label', 'login'),
-        valueText: loc('loading.label', 'login'),
+        label: 'Loading...',
+        valueText: 'Loading...',
       },
     } as SpinnerElement);
   }

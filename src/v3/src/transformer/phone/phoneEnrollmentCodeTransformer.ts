@@ -30,13 +30,17 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
     },
   };
 
+  const phoneNumber = relatesTo?.value?.profile?.phoneNumber;
+  const methodType = relatesTo?.value?.methods?.[0]?.type;
+  const sendInfoText = methodType === 'sms'
+    ? loc('oie.phone.verify.sms.codeSentText', 'login')
+    : loc('mfa.calling', 'login');
+  const phoneInfoText = phoneNumber ? phoneNumber : loc('oie.phone.alternate.title', 'login');
+  const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
   const informationalTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      // TODO: revisit this for oie i18n string (ChallengeAuthenticatorPhoneView.js)
-      content: relatesTo?.value?.methods?.[0]?.type === 'sms'
-        ? loc('next.phone.verify.sms.codeSentText', 'login')
-        : loc('next.phone.verify.voice.calling', 'login'),
+      content: `${sendInfoText} ${phoneInfoText}. ${enterCodeInfoText}`,
     },
   };
 
