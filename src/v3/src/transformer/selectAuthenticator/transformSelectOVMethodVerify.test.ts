@@ -71,6 +71,7 @@ describe('Transform Select OV Method Verify Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,

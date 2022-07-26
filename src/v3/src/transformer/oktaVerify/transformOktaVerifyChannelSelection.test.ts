@@ -44,6 +44,7 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
       action: jest.fn(),
     }];
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,

@@ -34,6 +34,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
   beforeEach(() => {
     transaction = getStubTransactionWithNextStep();
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,

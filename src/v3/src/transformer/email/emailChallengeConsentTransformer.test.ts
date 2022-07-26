@@ -29,6 +29,7 @@ describe('EmailChallengeConsentTransformer Tests', () => {
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,

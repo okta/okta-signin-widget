@@ -11,6 +11,7 @@
  */
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
@@ -42,7 +43,7 @@ describe('PhoneChallengeTransformer Tests', () => {
   });
 
   it('should create SMS challenge UI elements when resend code is available', () => {
-    transaction.availableSteps = [{ name: 'resend' }];
+    transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
     transaction.nextStep = {
       name: 'mock-step',
       canResend: true,
@@ -51,6 +52,7 @@ describe('PhoneChallengeTransformer Tests', () => {
           profile: {
             phoneNumber: redactedPhone,
           },
+          methods: [{ type: 'sms' }],
         } as unknown as IdxAuthenticator,
       },
     };
@@ -60,11 +62,9 @@ describe('PhoneChallengeTransformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
 
-    expect(updatedFormBag.uischema.type).toBe(LayoutType.VERTICAL);
-
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.phone.challenge.sms.informationalTextWithPhone');
+    expect(loc).toHaveBeenCalledWith('oie.phone.verify.sms.codeSentText', 'login');
+    expect(loc).toHaveBeenCalledWith('oie.phone.verify.enterCodeText', 'login');
 
     expect(updatedFormBag.uischema.elements[3].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options?.content)
@@ -84,6 +84,7 @@ describe('PhoneChallengeTransformer Tests', () => {
           profile: {
             phoneNumber: redactedPhone,
           },
+          methods: [{ type: 'sms' }],
         } as unknown as IdxAuthenticator,
       },
     };
@@ -93,11 +94,9 @@ describe('PhoneChallengeTransformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
 
-    expect(updatedFormBag.uischema.type).toBe(LayoutType.VERTICAL);
-
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.phone.challenge.sms.informationalTextWithPhone');
+    expect(loc).toHaveBeenCalledWith('oie.phone.verify.sms.codeSentText', 'login');
+    expect(loc).toHaveBeenCalledWith('oie.phone.verify.enterCodeText', 'login');
 
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
@@ -109,29 +108,89 @@ describe('PhoneChallengeTransformer Tests', () => {
   });
 
   it('should create SMS challenge UI elements when phone number not available', () => {
-    transaction.availableSteps = [{ name: 'resend' }];
     transaction.nextStep = {
       name: '',
-      canResend: true,
+      canResend: false,
     };
     const updatedFormBag = transformPhoneChallenge(transaction, formBag, mockProps);
 
     expect(updatedFormBag).toMatchSnapshot();
 
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
 
-    expect(updatedFormBag.uischema.type).toBe(LayoutType.VERTICAL);
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    expect(loc).toHaveBeenCalledWith('oie.phone.verify.sms.codeSentText', 'login');
+    expect(loc).toHaveBeenCalledWith('oie.phone.alternate.title', 'login');
+    expect(loc).toHaveBeenCalledWith('oie.phone.verify.enterCodeText', 'login');
 
-    expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.phone.challenge.sms.informationalText');
-
-    expect((updatedFormBag.uischema.elements[3] as DescriptionElement).type).toBe('Description');
-    expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
 
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
+  });
+
+  it('should create voice challenge UI elements when phoneNumber not available', () => {
+    transaction.nextStep = {
+      name: 'mock-step',
+      canResend: false,
+      relatesTo: {
+        value: {
+          methods: [{ type: 'voice' }],
+        } as unknown as IdxAuthenticator,
+      },
+    };
+    const updatedFormBag = transformPhoneChallenge(transaction, formBag, mockProps);
+
+    expect(updatedFormBag).toMatchSnapshot();
+
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    expect(loc).toHaveBeenCalledWith('mfa.calling', 'login');
+    expect(loc).toHaveBeenCalledWith('oie.phone.alternate.title', 'login');
+    expect(loc).toHaveBeenCalledWith('oie.phone.verify.enterCodeText', 'login');
+
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
+
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
+  });
+
+  it('should create voice challenge UI elements when phoneNumber is available', () => {
+    transaction.nextStep = {
+      name: 'mock-step',
+      canResend: false,
+      relatesTo: {
+        value: {
+          profile: {
+            phoneNumber: redactedPhone,
+          },
+          methods: [{ type: 'voice' }],
+        } as unknown as IdxAuthenticator,
+      },
+    };
+    const updatedFormBag = transformPhoneChallenge(transaction, formBag, mockProps);
+
+    expect(updatedFormBag).toMatchSnapshot();
+
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    expect(loc).toHaveBeenCalledWith('mfa.calling', 'login');
+    expect(loc).toHaveBeenCalledWith('oie.phone.verify.enterCodeText', 'login');
+
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
+
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
 });

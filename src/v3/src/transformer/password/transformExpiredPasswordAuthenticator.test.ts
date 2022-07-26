@@ -31,6 +31,7 @@ describe('Expired Password Authenticator Transformer Tests', () => {
   let mockProps: WidgetProps;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,

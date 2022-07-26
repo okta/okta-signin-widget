@@ -36,6 +36,7 @@ describe('WebAuthN Transformer Tests', () => {
   describe('WebAuthN Enroll Tests', () => {
     beforeEach(() => {
       formBag = {
+        dataSchema: {},
         schema: {},
         uischema: {
           type: UISchemaLayoutType.VERTICAL,

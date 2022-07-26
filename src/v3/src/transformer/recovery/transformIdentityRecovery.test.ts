@@ -25,6 +25,7 @@ describe('Identity Recovery Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {
@@ -47,8 +48,8 @@ describe('Identity Recovery Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('password.forgot.email.or.username.placeholder');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('identifier');
   });
 
   it('should add branded title and update label for forgot password identifier field'
@@ -61,7 +62,7 @@ describe('Identity Recovery Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.specific');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('password.forgot.email.or.username.placeholder');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('identifier');
   });
 });

@@ -30,6 +30,7 @@ describe('Google Authenticator Verify Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,

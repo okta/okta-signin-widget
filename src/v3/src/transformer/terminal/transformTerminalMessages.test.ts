@@ -44,6 +44,7 @@ describe('Terminal Message Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,

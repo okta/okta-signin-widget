@@ -51,6 +51,7 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {

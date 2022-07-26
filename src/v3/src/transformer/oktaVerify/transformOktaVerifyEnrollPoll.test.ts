@@ -39,6 +39,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -48,6 +49,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     };
 
     channelSelectFormBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -123,7 +125,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       (((updatedFormBag.uischema.elements[0] as StepperLayout)
         .elements[0] as UISchemaLayout)
         .elements[0] as ReminderElement).options?.ctaText,
-    ).toBe('next.enroll.okta_verify.sms.notReceived');
+    ).toBe('oie.enroll.okta_verify.sms.notReceived');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[1] as TitleElement).options?.content,
@@ -131,11 +133,11 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[2] as DescriptionElement).options?.content,
-    ).toBe('next.enroll.okta_verify.sms.info');
+    ).toBe('oie.enroll.okta_verify.sms.info');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).label,
-    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
+    ).toBe('oie.enroll.okta_verify.switch.channel.link.text');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).options?.variant,
@@ -189,7 +191,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[0] as ReminderElement).options?.ctaText,
-    ).toBe('next.enroll.okta_verify.email.notReceived');
+    ).toBe('oie.enroll.okta_verify.email.notReceived');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[1] as TitleElement).options?.content,
@@ -197,11 +199,11 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[2] as DescriptionElement).options?.content,
-    ).toBe('next.enroll.okta_verify.email.info');
+    ).toBe('oie.enroll.okta_verify.email.info');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).label,
-    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
+    ).toBe('oie.enroll.okta_verify.switch.channel.link.text');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).options?.variant,
@@ -293,7 +295,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout)
         .elements[1] as StepperButtonElement).label,
-    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
+    ).toBe('oie.enroll.okta_verify.switch.channel.link.text');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout)
         .elements[1] as StepperButtonElement).options?.variant,
@@ -337,7 +339,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[0] as ReminderElement).options?.ctaText,
-    ).toBe('next.enroll.okta_verify.sms.notReceived');
+    ).toBe('oie.enroll.okta_verify.sms.notReceived');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[1] as TitleElement).options?.content,
@@ -345,11 +347,11 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[2] as DescriptionElement).options?.content,
-    ).toBe('next.enroll.okta_verify.sms.info');
+    ).toBe('oie.enroll.okta_verify.sms.info');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).label,
-    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
+    ).toBe('oie.enroll.okta_verify.switch.channel.link.text');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).options?.variant,
@@ -403,7 +405,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[0] as ReminderElement).options?.ctaText,
-    ).toBe('next.enroll.okta_verify.email.notReceived');
+    ).toBe('oie.enroll.okta_verify.email.notReceived');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[1] as TitleElement).options?.content,
@@ -411,11 +413,11 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[2] as DescriptionElement).options?.content,
-    ).toBe('next.enroll.okta_verify.email.info');
+    ).toBe('oie.enroll.okta_verify.email.info');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).label,
-    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
+    ).toBe('oie.enroll.okta_verify.switch.channel.link.text');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[3] as StepperButtonElement).options?.variant,

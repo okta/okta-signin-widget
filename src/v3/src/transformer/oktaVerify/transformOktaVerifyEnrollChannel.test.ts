@@ -37,6 +37,7 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -46,6 +47,7 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
     };
 
     channelSelectFormBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,

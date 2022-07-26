@@ -34,6 +34,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       },
     };
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -107,13 +108,13 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Reminder');
     expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.ctaText)
-      .toBe('next.numberchallenge.warning');
+      .toBe('oie.numberchallenge.warning');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[1] as TitleElement).options?.content)
       .toBe('oie.okta_verify.push.sent');
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.numberchallenge.instruction');
+      .toBe('oie.numberchallenge.instruction');
     expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).type)
       .toBe('ImageWithText');
     expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).options?.textContent)
@@ -146,7 +147,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       .toBe('oie.okta_verify.push.sent');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.numberchallenge.instruction');
+      .toBe('oie.numberchallenge.instruction');
     expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).type)
       .toBe('ImageWithText');
     expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options?.textContent)

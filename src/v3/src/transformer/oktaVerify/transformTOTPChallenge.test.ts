@@ -30,6 +30,7 @@ describe('Transform Okta Verify Totp Challenge Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {

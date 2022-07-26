@@ -52,6 +52,7 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {

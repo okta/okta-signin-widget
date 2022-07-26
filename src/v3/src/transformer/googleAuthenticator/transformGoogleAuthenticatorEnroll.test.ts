@@ -28,6 +28,7 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,

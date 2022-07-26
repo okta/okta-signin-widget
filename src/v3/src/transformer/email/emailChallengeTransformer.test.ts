@@ -11,6 +11,8 @@
  */
 
 import { IdxAuthenticator, OktaAuth } from '@okta/okta-auth-js';
+import { loc } from 'okta';
+
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
@@ -23,7 +25,6 @@ import {
   WidgetProps,
 } from 'src/types';
 
-import * as utils from '../utils';
 import { transformEmailChallenge } from '.';
 
 describe('EmailChallengeTransformer Tests', () => {
@@ -37,8 +38,8 @@ describe('EmailChallengeTransformer Tests', () => {
   let formBag: FormBag;
 
   beforeEach(() => {
-    jest.spyOn(utils, 'getCurrentTimestamp').mockReturnValue(123456789);
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -63,6 +64,12 @@ describe('EmailChallengeTransformer Tests', () => {
     transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
     const updatedFormBag = transformEmailChallenge(transaction, formBag, mockProps);
 
+    expect(loc).toHaveBeenCalledWith(
+      'oie.email.verify.alternate.magicLinkToEmailAddress',
+      'login',
+      [redactedEmail],
+    );
+
     expect(updatedFormBag).toMatchSnapshot();
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
@@ -77,7 +84,7 @@ describe('EmailChallengeTransformer Tests', () => {
 
     expect(layoutOne.elements[2].type).toBe('Description');
     expect((layoutOne.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalTextWithEmail');
+      .toBe('oie.email.verify.alternate.magicLinkToEmailAddress');
 
     const layoutTwo = stepperElements[1];
 
@@ -85,7 +92,7 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(layoutTwo.elements.length).toBe(5);
     expect(layoutTwo.elements[2].type).toBe('Description');
     expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalTextWithEmail');
+      .toBe('oie.email.verify.alternate.magicLinkToEmailAddress');
 
     expect((layoutTwo.elements[3] as FieldElement).label).toBe('email.enroll.enterCode');
 
@@ -113,13 +120,13 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(layoutOne.elements.length).toBe(4);
 
     expect((layoutOne.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalText');
+      .toBe('oie.email.verify.alternate.magicLinkToYourEmail');
 
     const layoutTwo = stepperElements[1];
 
     expect(layoutTwo.elements.length).toBe(5);
     expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalText');
+      .toBe('oie.email.verify.alternate.magicLinkToYourEmail');
   });
 
   it('should create email challenge UI elements when resend code is NOT available', () => {
@@ -136,6 +143,12 @@ describe('EmailChallengeTransformer Tests', () => {
     };
     const updatedFormBag = transformEmailChallenge(transaction, formBag, mockProps);
 
+    expect(loc).toHaveBeenCalledWith(
+      'oie.email.verify.alternate.magicLinkToEmailAddress',
+      'login',
+      [redactedEmail],
+    );
+
     expect(updatedFormBag).toMatchSnapshot();
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
@@ -150,7 +163,7 @@ describe('EmailChallengeTransformer Tests', () => {
 
     expect(layoutOne.elements[1].type).toBe('Description');
     expect((layoutOne.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalTextWithEmail');
+      .toBe('oie.email.verify.alternate.magicLinkToEmailAddress');
 
     const layoutTwo = stepperElements[1];
 
@@ -158,7 +171,7 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(layoutTwo.elements.length).toBe(4);
     expect(layoutTwo.elements[1].type).toBe('Description');
     expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalTextWithEmail');
+      .toBe('oie.email.verify.alternate.magicLinkToEmailAddress');
 
     expect((layoutTwo.elements[2] as FieldElement).label).toBe('email.enroll.enterCode');
 

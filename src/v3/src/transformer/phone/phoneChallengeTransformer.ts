@@ -39,20 +39,20 @@ export const transformPhoneChallenge: IdxStepTransformer = ({
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
   if (resendStep) {
-    const { name } = resendStep;
+    const { name, action } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
         ctaText: loc('oie.phone.verify.sms.resendText', 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: (params?: IdxActionParams) => {
+        action: action && ((params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};
           return authClient?.idx.proceed({
             // @ts-ignore stateHandle can be undefined
             stateHandle,
             actions: [{ name, params: rest }],
           });
-        },
+        }),
       },
     };
   }

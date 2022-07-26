@@ -11,6 +11,7 @@
  */
 
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 
 import { CHALLENGE_INTENT_TO_I18KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
@@ -27,6 +28,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema:{},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -100,6 +102,13 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(loc).toHaveBeenCalledWith(CHALLENGE_INTENT_TO_I18KEY['AUTHENTICATION'], 'login');
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.enter.code.on.page',
+      'login',
+      [CHALLENGE_INTENT_TO_I18KEY['AUTHENTICATION']],
+    );
+
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     const [
       el1, el2, el3,
@@ -119,7 +128,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
   });
 
   it('should add sign up instructions (with enroll intent), otp and warning text'
-    + ' when client & app dataare missing from context', () => {
+    + ' when client & app data are missing from context', () => {
     transaction.context = {
       currentAuthenticator: {
         // @ts-ignore TODO: OKTA-504299 otp missing from contextualData interface
@@ -128,6 +137,13 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
       intent: 'ENROLLMENT',
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
+
+    expect(loc).toHaveBeenCalledWith(CHALLENGE_INTENT_TO_I18KEY['ENROLLMENT'], 'login');
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.enter.code.on.page',
+      'login',
+      [CHALLENGE_INTENT_TO_I18KEY['ENROLLMENT']],
+    );
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     const [
@@ -158,6 +174,13 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(loc).toHaveBeenCalledWith(CHALLENGE_INTENT_TO_I18KEY['RECOVERY'], 'login');
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.enter.code.on.page',
+      'login',
+      [CHALLENGE_INTENT_TO_I18KEY['RECOVERY']],
+    );
+
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     const [
       el1, el2, el3,
@@ -186,6 +209,13 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
       intent: 'UNLOCK_ACCOUNT',
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
+
+    expect(loc).toHaveBeenCalledWith(CHALLENGE_INTENT_TO_I18KEY['UNLOCK_ACCOUNT'], 'login');
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.enter.code.on.page',
+      'login',
+      [CHALLENGE_INTENT_TO_I18KEY['UNLOCK_ACCOUNT']],
+    );
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     const [
@@ -220,6 +250,14 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(loc).toHaveBeenCalledWith(CHALLENGE_INTENT_TO_I18KEY['AUTHENTICATION'], 'login');
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.enter.code.on.page',
+      'login',
+      [CHALLENGE_INTENT_TO_I18KEY['AUTHENTICATION']],
+    );
+    expect(loc).toHaveBeenCalledWith('idx.return.link.otponly.app', 'login', [mockAppName]);
+
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     const [
       el1, el2, el3, el4, el5,
@@ -242,7 +280,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
       .toBe('idx.return.link.otponly.request');
     expect(el4.type).toBe('ImageWithText');
     expect(el4.options?.textContent)
-      .toBe(mockAppName);
+      .toBe('idx.return.link.otponly.app');
     expect(el4.options?.SVGIcon).not.toBeUndefined();
     expect(el5.type).toBe('Description');
     expect(el5.options?.content)
@@ -271,6 +309,20 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(loc).toHaveBeenCalledWith(CHALLENGE_INTENT_TO_I18KEY['AUTHENTICATION'], 'login');
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.enter.code.on.page',
+      'login',
+      [CHALLENGE_INTENT_TO_I18KEY['AUTHENTICATION']],
+    );
+    expect(loc).toHaveBeenCalledWith('idx.return.link.otponly.app', 'login', [mockAppName]);
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.browser.on.os',
+      'login',
+      ['FIREFOX', 'iOS'],
+    );
+    
+
     expect(updatedFormBag.uischema.elements.length).toBe(6);
     const [
       el1, el2, el3, el4, el5, el6,
@@ -298,7 +350,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     expect(el4.options?.SVGIcon).not.toBeUndefined();
     expect(el5.type).toBe('ImageWithText');
     expect(el5.options?.textContent)
-      .toBe(mockAppName);
+      .toBe('idx.return.link.otponly.app');
     expect(el5.options?.SVGIcon).not.toBeUndefined();
     expect(el6.type).toBe('Description');
     expect(el6.options?.content)
@@ -336,6 +388,25 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(loc).toHaveBeenCalledWith(CHALLENGE_INTENT_TO_I18KEY['AUTHENTICATION'], 'login');
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.enter.code.on.page',
+      'login',
+      [CHALLENGE_INTENT_TO_I18KEY['AUTHENTICATION']],
+    );
+    expect(loc).toHaveBeenCalledWith('idx.return.link.otponly.app', 'login', [mockAppName]);
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.browser.on.os',
+      'login',
+      ['FIREFOX', 'iOS'],
+    );
+    expect(loc).toHaveBeenCalledWith(
+      'geolocation.formatting.partial',
+      'login',
+      ['Toronto', 'Canada'],
+    );
+    
+
     expect(updatedFormBag.uischema.elements.length).toBe(7);
     const [
       el1, el2, el3, el4, el5, el6, el7,
@@ -364,7 +435,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     expect(el4.options?.SVGIcon).not.toBeUndefined();
     expect(el5.type).toBe('ImageWithText');
     expect(el5.options?.textContent)
-      .toBe(mockAppName);
+      .toBe('idx.return.link.otponly.app');
     expect(el5.options?.SVGIcon).not.toBeUndefined();
     expect(el6.type).toBe('ImageWithText');
     expect(el6.options?.textContent)
@@ -379,6 +450,24 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     + ' when all expected data exists in context', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(loc).toHaveBeenCalledWith(CHALLENGE_INTENT_TO_I18KEY['AUTHENTICATION'], 'login');
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.enter.code.on.page',
+      'login',
+      [CHALLENGE_INTENT_TO_I18KEY['AUTHENTICATION']],
+    );
+    expect(loc).toHaveBeenCalledWith('idx.return.link.otponly.app', 'login', [mockAppName]);
+    expect(loc).toHaveBeenCalledWith(
+      'idx.return.link.otponly.browser.on.os',
+      'login',
+      ['FIREFOX', 'iOS'],
+    );
+    expect(loc).toHaveBeenCalledWith(
+      'geolocation.formatting.all',
+      'login',
+      ['Toronto', 'Ontario', 'Canada'],
+    );
+
     expect(updatedFormBag.uischema.elements.length).toBe(7);
     const [
       el1, el2, el3, el4, el5, el6, el7,
@@ -407,7 +496,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     expect(el4.options?.SVGIcon).not.toBeUndefined();
     expect(el5.type).toBe('ImageWithText');
     expect(el5.options?.textContent)
-      .toBe(mockAppName);
+      .toBe('idx.return.link.otponly.app');
     expect(el5.options?.SVGIcon).not.toBeUndefined();
     expect(el6.type).toBe('ImageWithText');
     expect(el6.options?.textContent)

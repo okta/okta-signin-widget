@@ -56,6 +56,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {

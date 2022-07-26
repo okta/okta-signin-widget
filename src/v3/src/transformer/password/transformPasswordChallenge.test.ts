@@ -28,6 +28,7 @@ describe('Password Challenge Transformer Tests', () => {
   let mockProps: WidgetProps;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,

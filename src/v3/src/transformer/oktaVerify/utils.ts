@@ -64,7 +64,9 @@ export const appendDescriptionElements = (
       type: 'Description',
       options: {
         // TODO: revist this to use oie i18n string (EnrollChannelPollDescriptionView.js)
-        content: loc('next.enroll.okta_verify.email.info', 'login', [email]),
+        content: loc('oie.enroll.okta_verify.email.info', 'login', [email])
+          .replace('<span class="strong">', '')
+          .replace('</span>', ''),
       },
     } as DescriptionElement);
     return;
@@ -77,7 +79,9 @@ export const appendDescriptionElements = (
       type: 'Description',
       options: {
         // TODO: revist this to use oie i18n string (EnrollChannelPollDescriptionView.js)
-        content: loc('next.enroll.okta_verify.sms.info', 'login', [phoneNumber]),
+        content: loc('oie.enroll.okta_verify.sms.info', 'login', [phoneNumber])
+          .replace('<span class="strong">', '')
+          .replace('</span>', ''),
       },
     } as DescriptionElement);
   }
