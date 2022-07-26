@@ -36,7 +36,7 @@ const updateLabel = (transaction: IdxTransaction, element: FieldElement): void =
     element.label = getI18NValue(i18nPath, element.label, params);
   }
 
-  if (Array.isArray(element.options.inputMeta.options)) {
+  if (Array.isArray(element.options?.inputMeta?.options)) {
     element.options.inputMeta.options.forEach((option) => {
       if (!option.label) {
         return;
@@ -58,7 +58,7 @@ const updateLabel = (transaction: IdxTransaction, element: FieldElement): void =
             });
           }
         }
-      } else if (option.value !== undefined) {
+      } else if (option.value !== undefined && typeof option.value !== 'object') {
         i18nOptionPath = `${i18nPath}.${option.value}`;
       }
       option.label = getI18NValue(i18nOptionPath, option.label);
