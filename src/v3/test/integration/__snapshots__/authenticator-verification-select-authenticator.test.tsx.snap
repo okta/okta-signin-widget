@@ -4,29 +4,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
 <div>
   <span>
     <main
-      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
     >
       <div
-        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+        class="siwContainer MuiBox-root emotion-1"
       >
         <div
           class="okta-sign-in-header auth-header siwHeader"
         >
           <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-0"
+            class="MuiTypography-root MuiTypography-h1 emotion-2"
           />
         </div>
         <div
-          class="MuiBox-root emotion-1"
+          class="MuiBox-root emotion-3"
         >
           <div
-            class="identifier-container MuiBox-root emotion-2"
+            class="identifier-container MuiBox-root emotion-4"
           >
             <div
-              class="identifierContainer MuiBox-root emotion-3"
+              class="identifierContainer MuiBox-root emotion-5"
             >
               <span
-                class="userIconContainer MuiBox-root emotion-4"
+                class="userIconContainer MuiBox-root emotion-6"
               >
                 <svg
                   class="ods-2icygl"
@@ -44,7 +44,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-4"
+                class="identifier identifierSpan MuiBox-root emotion-6"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -57,26 +57,26 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
             novalidate=""
           >
             <div
-              class="MuiBox-root emotion-6"
+              class="MuiBox-root emotion-8"
             >
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-10"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h3 emotion-9"
+                    class="MuiTypography-root MuiTypography-h3 emotion-11"
                   >
                     Verify it's you with a security method
                   </h2>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-2famef ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  class="MuiBox-root emotion-10"
                 >
                   <p
                     class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
@@ -86,28 +86,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Okta Password
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="okta_password-password"
                     >
                       Select
@@ -117,28 +117,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       FIDO2 (WebAuthn)
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="webauthn-webauthn"
                     >
                       Select
@@ -148,28 +148,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       FIDO2 (WebAuthn)
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="webauthn-webauthn"
                     >
                       Select
@@ -179,28 +179,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Okta Email
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="okta_email-email"
                     >
                       Select
@@ -210,33 +210,33 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Phone
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs description"
+                      class="description MuiBox-root emotion-6"
                     >
                       +1 XXX-XXX-5309
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="phone_number"
                     >
                       Select
@@ -246,33 +246,33 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Phone
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs description"
+                      class="description MuiBox-root emotion-6"
                     >
                       +1 XXX-XXX-5309
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="phone_number"
                     >
                       Select
@@ -282,28 +282,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Okta Security Question
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="security_question"
                     >
                       Select
@@ -313,28 +313,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Okta Verify
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="okta_verify-signed_nonce"
                     >
                       Select
@@ -344,28 +344,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Google Authenticator
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="google_otp"
                     >
                       Select
@@ -375,28 +375,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Atko Custom On-prem
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="onprem_mfa"
                     >
                       Select
@@ -406,28 +406,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       RSA SecurID
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="rsa_token"
                     >
                       Select
@@ -437,28 +437,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Duo Security
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="duo-idp"
                     >
                       Select
@@ -468,28 +468,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       IDP Authenticator
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="external_idp"
                     >
                       Select
@@ -499,28 +499,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Atko Custom OTP Authenticator
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="custom_otp-idp"
                     >
                       Select
@@ -530,28 +530,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Symantec VIP
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="symantec_vip"
                     >
                       Select
@@ -561,28 +561,28 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       YubiKey Authenticator
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="yubikey_token"
                     >
                       Select
@@ -592,26 +592,26 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  class="authButton MuiBox-root emotion-15"
                   role="button"
                   tabindex="0"
                 >
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                    class="iconContainer MuiBox-root emotion-6"
                   />
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                    class="infoSection MuiBox-root emotion-6"
                   >
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                      class="title MuiBox-root emotion-6"
                     >
                       Custom Push App
                     </div>
                     <div
-                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      class="actionName MuiBox-root emotion-6"
                       data-se="custom_app"
                     >
                       Select
@@ -621,10 +621,10 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-9"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-119"
                   data-se="cancel"
                   tabindex="0"
                   type="button"

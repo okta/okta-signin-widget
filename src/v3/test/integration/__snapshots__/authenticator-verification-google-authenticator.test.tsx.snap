@@ -4,34 +4,34 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
 <div>
   <span>
     <main
-      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
     >
       <div
-        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+        class="siwContainer MuiBox-root emotion-1"
       >
         <div
           class="okta-sign-in-header auth-header siwHeader authCoinSpacing"
         >
           <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-0"
+            class="MuiTypography-root MuiTypography-h1 emotion-2"
           />
           <div
-            class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer authCoinOverlay"
+            class="iconContainer authCoinOverlay MuiBox-root emotion-3"
           >
             <mocksvgicon />
           </div>
         </div>
         <div
-          class="MuiBox-root emotion-1"
+          class="MuiBox-root emotion-4"
         >
           <div
-            class="identifier-container MuiBox-root emotion-2"
+            class="identifier-container MuiBox-root emotion-5"
           >
             <div
-              class="identifierContainer MuiBox-root emotion-3"
+              class="identifierContainer MuiBox-root emotion-6"
             >
               <span
-                class="userIconContainer MuiBox-root emotion-4"
+                class="userIconContainer MuiBox-root emotion-3"
               >
                 <svg
                   class="ods-2icygl"
@@ -49,7 +49,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-4"
+                class="identifier identifierSpan MuiBox-root emotion-3"
                 data-se="identifier"
               >
                 glen.fannin@icloud.com
@@ -62,26 +62,26 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
             novalidate=""
           >
             <div
-              class="MuiBox-root emotion-6"
+              class="MuiBox-root emotion-9"
             >
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h3 emotion-9"
+                    class="MuiTypography-root MuiTypography-h3 emotion-12"
                   >
                     Verify with Google Authenticator
                   </h2>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-2famef ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  class="MuiBox-root emotion-11"
                 >
                   <p
                     class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
@@ -91,24 +91,24 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-4"
+                  class="MuiBox-root emotion-3"
                 >
                   <label
-                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-13"
+                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
                     for="credentials.passcode"
                   >
                     Enter code
                   </label>
                   <div
-                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-14"
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-18"
                   >
                     <input
                       aria-invalid="false"
                       autocomplete="one-time-code"
-                      class="MuiOutlinedInput-input MuiInputBase-input emotion-15"
+                      class="MuiOutlinedInput-input MuiInputBase-input emotion-19"
                       data-se="credentials.passcode"
                       id="credentials.passcode"
                       name="credentials.passcode"
@@ -116,10 +116,10 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                     />
                     <fieldset
                       aria-hidden="true"
-                      class="MuiOutlinedInput-notchedOutline emotion-16"
+                      class="MuiOutlinedInput-notchedOutline emotion-20"
                     >
                       <legend
-                        class="emotion-17"
+                        class="emotion-21"
                       >
                         <span
                           class="notranslate"
@@ -133,10 +133,10 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <button
-                  class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-19"
+                  class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
                   data-se="#/properties/submit"
                   tabindex="0"
                   type="submit"
@@ -145,10 +145,10 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-21"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-25"
                   data-se="switchAuthenticator"
                   tabindex="0"
                   type="button"
@@ -157,10 +157,10 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-21"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-25"
                   data-se="cancel"
                   tabindex="0"
                   type="button"

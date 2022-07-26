@@ -4,20 +4,20 @@ exports[`enroll-profile should render form 1`] = `
 <div>
   <span>
     <main
-      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
     >
       <div
-        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+        class="siwContainer MuiBox-root emotion-1"
       >
         <div
           class="okta-sign-in-header auth-header siwHeader"
         >
           <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-0"
+            class="MuiTypography-root MuiTypography-h1 emotion-2"
           />
         </div>
         <div
-          class="MuiBox-root emotion-1"
+          class="MuiBox-root emotion-3"
         >
           <form
             class="o-form"
@@ -25,40 +25,40 @@ exports[`enroll-profile should render form 1`] = `
             novalidate=""
           >
             <div
-              class="MuiBox-root emotion-2"
+              class="MuiBox-root emotion-4"
             >
               <div
-                class="MuiBox-root emotion-3"
+                class="MuiBox-root emotion-5"
               >
                 <div
-                  class="MuiBox-root emotion-4"
+                  class="MuiBox-root emotion-6"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h3 emotion-5"
+                    class="MuiTypography-root MuiTypography-h3 emotion-7"
                   >
                     Sign up
                   </h2>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-3"
+                class="MuiBox-root emotion-5"
               >
                 <div
-                  class="MuiBox-root emotion-7"
+                  class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-8"
+                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-10"
                     for="userProfile.firstName"
                   >
                     First name
                   </label>
                   <div
-                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-9"
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-11"
                   >
                     <input
                       aria-invalid="false"
                       autocomplete="given-name"
-                      class="MuiOutlinedInput-input MuiInputBase-input emotion-10"
+                      class="MuiOutlinedInput-input MuiInputBase-input emotion-12"
                       data-se="userProfile.firstName"
                       id="userProfile.firstName"
                       name="userProfile.firstName"
@@ -66,10 +66,10 @@ exports[`enroll-profile should render form 1`] = `
                     />
                     <fieldset
                       aria-hidden="true"
-                      class="MuiOutlinedInput-notchedOutline emotion-11"
+                      class="MuiOutlinedInput-notchedOutline emotion-13"
                     >
                       <legend
-                        class="emotion-12"
+                        class="emotion-14"
                       >
                         <span
                           class="notranslate"
@@ -83,24 +83,24 @@ exports[`enroll-profile should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-3"
+                class="MuiBox-root emotion-5"
               >
                 <div
-                  class="MuiBox-root emotion-7"
+                  class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-8"
+                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-10"
                     for="userProfile.lastName"
                   >
                     Last name
                   </label>
                   <div
-                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-9"
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-11"
                   >
                     <input
                       aria-invalid="false"
                       autocomplete="family-name"
-                      class="MuiOutlinedInput-input MuiInputBase-input emotion-10"
+                      class="MuiOutlinedInput-input MuiInputBase-input emotion-12"
                       data-se="userProfile.lastName"
                       id="userProfile.lastName"
                       name="userProfile.lastName"
@@ -108,10 +108,10 @@ exports[`enroll-profile should render form 1`] = `
                     />
                     <fieldset
                       aria-hidden="true"
-                      class="MuiOutlinedInput-notchedOutline emotion-11"
+                      class="MuiOutlinedInput-notchedOutline emotion-13"
                     >
                       <legend
-                        class="emotion-12"
+                        class="emotion-14"
                       >
                         <span
                           class="notranslate"
@@ -125,24 +125,24 @@ exports[`enroll-profile should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-3"
+                class="MuiBox-root emotion-5"
               >
                 <div
-                  class="MuiBox-root emotion-7"
+                  class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-8"
+                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-10"
                     for="userProfile.email"
                   >
                     Email
                   </label>
                   <div
-                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-9"
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-11"
                   >
                     <input
                       aria-invalid="false"
                       autocomplete="email"
-                      class="MuiOutlinedInput-input MuiInputBase-input emotion-10"
+                      class="MuiOutlinedInput-input MuiInputBase-input emotion-12"
                       data-se="userProfile.email"
                       id="userProfile.email"
                       name="userProfile.email"
@@ -150,10 +150,10 @@ exports[`enroll-profile should render form 1`] = `
                     />
                     <fieldset
                       aria-hidden="true"
-                      class="MuiOutlinedInput-notchedOutline emotion-11"
+                      class="MuiOutlinedInput-notchedOutline emotion-13"
                     >
                       <legend
-                        class="emotion-12"
+                        class="emotion-14"
                       >
                         <span
                           class="notranslate"
@@ -167,10 +167,10 @@ exports[`enroll-profile should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-3"
+                class="MuiBox-root emotion-5"
               >
                 <button
-                  class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-28"
+                  class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-30"
                   data-se="#/properties/submit"
                   data-type="save"
                   tabindex="0"
@@ -180,10 +180,10 @@ exports[`enroll-profile should render form 1`] = `
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-3"
+                class="MuiBox-root emotion-5"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-30"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-32"
                   data-se="back"
                   tabindex="0"
                   type="button"

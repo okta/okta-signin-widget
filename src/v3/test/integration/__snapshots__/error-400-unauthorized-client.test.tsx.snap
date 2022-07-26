@@ -4,20 +4,20 @@ exports[`error-400-unauthorized-client should render form 1`] = `
 <div>
   <span>
     <main
-      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
     >
       <div
-        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+        class="siwContainer MuiBox-root emotion-1"
       >
         <div
           class="okta-sign-in-header auth-header siwHeader"
         >
           <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-0"
+            class="MuiTypography-root MuiTypography-h1 emotion-2"
           />
         </div>
         <div
-          class="MuiBox-root emotion-1"
+          class="MuiBox-root emotion-3"
         >
           <form
             class="o-form"
@@ -25,24 +25,24 @@ exports[`error-400-unauthorized-client should render form 1`] = `
             novalidate=""
           >
             <div
-              class="MuiBox-root emotion-2"
+              class="MuiBox-root emotion-4"
             >
               <div
-                class="MuiBox-root emotion-3"
+                class="MuiBox-root emotion-5"
               >
                 <div
-                  class="MuiBox-root emotion-4"
+                  class="MuiBox-root emotion-6"
                 >
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxInfo MuiAlert-infobox emotion-5"
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxInfo MuiAlert-infobox emotion-7"
                     role="alert"
                   >
                     <div
-                      class="MuiAlert-icon emotion-6"
+                      class="MuiAlert-icon emotion-8"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-7"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-9"
                         data-testid="InfoOutlinedIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -53,7 +53,7 @@ exports[`error-400-unauthorized-client should render form 1`] = `
                       </svg>
                     </div>
                     <div
-                      class="MuiAlert-message emotion-8"
+                      class="MuiAlert-message emotion-10"
                     >
                       Something went wrong. Potential misconfiguration detected. Please contact support.
                     </div>
