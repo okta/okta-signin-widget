@@ -30,7 +30,7 @@ type Options = CreateAuthClientOptions & {
  * For integration tests we want the translated string to render
  * According to jest documentation, must use the unmock function below
  * https://jestjs.io/docs/manual-mocks#examples
-*/ 
+*/
 jest.unmock('okta');
 
 export async function setup(options: Options): Promise<RenderResult & {

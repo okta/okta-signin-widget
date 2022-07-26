@@ -11,7 +11,6 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -25,6 +24,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
+import { loc } from '../../util';
 
 const STEPS = {
   QR_POLLING: 0,

@@ -11,7 +11,6 @@
  */
 
 import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -22,6 +21,7 @@ import {
   TitleElement,
   Undefinable,
 } from '../../types';
+import { loc } from '../../util';
 
 export const transformPhoneChallenge: IdxStepTransformer = ({
   transaction,

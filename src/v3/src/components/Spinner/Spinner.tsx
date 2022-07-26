@@ -11,7 +11,6 @@
  */
 
 import { Box, CircularProgress } from '@mui/material';
-import { loc } from 'okta';
 import { FunctionComponent, h } from 'preact';
 
 const Spinner: FunctionComponent<{

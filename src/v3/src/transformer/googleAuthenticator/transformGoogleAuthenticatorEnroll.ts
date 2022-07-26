@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -24,6 +23,7 @@ import {
   UISchemaElement,
   UISchemaLayoutType,
 } from '../../types';
+import { loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({

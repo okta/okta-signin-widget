@@ -21,8 +21,7 @@ import {
 import WebAuthNSubmitButton from './WebAuthNSubmitButton';
 
 jest.mock('../../../../v2/ion/i18nTransformer', () => ({
-  getMessageFromBrowserError: (error: Error) =>
-      error.name ===  'NotAllowedError' ? 'Operation not allowed' : error.message,
+  getMessageFromBrowserError: (error: Error) => (error.name === 'NotAllowedError' ? 'Operation not allowed' : error.message),
 }));
 
 const setMessageMockFn = jest.fn();

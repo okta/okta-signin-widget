@@ -123,7 +123,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                       autocomplete="one-time-code"
                       class="MuiOutlinedInput-input MuiInputBase-input emotion-21"
                       data-se="credentials.passcode"
-                      id="generated"
+                      id="credentials.passcode"
                       name="credentials.passcode"
                       type="text"
                     />

@@ -12,7 +12,6 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
-import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -20,6 +19,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
+import { loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transaction, formBag }) => {

@@ -14,8 +14,8 @@ import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
 
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useOnChange, useValue } from '../../hooks';
 import { getLabelName } from '../helpers';
 

@@ -28,9 +28,8 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
-import { getLanguageCode, loadLanguage } from '../../util';
-import Bundles from '../../../../util/Bundles';
 
+import Bundles from '../../../../util/Bundles';
 import { WidgetContextProvider } from '../../contexts';
 import { usePolling } from '../../hooks';
 import transformTransaction from '../../transformer/authJs';
@@ -42,7 +41,13 @@ import {
   UISchemaLayout,
   WidgetProps,
 } from '../../types';
-import { buildAuthCoinProps, isAndroidOrIOS, isAuthClientSet } from '../../util';
+import {
+  buildAuthCoinProps,
+  getLanguageCode,
+  isAndroidOrIOS,
+  isAuthClientSet,
+  loadLanguage,
+} from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { mapThemeFromBrand } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
@@ -52,7 +57,6 @@ import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer/IdentifierContainer';
 import InfoSection from '../InfoSection/InfoSection';
 import Spinner from '../Spinner';
-
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
@@ -220,12 +224,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
     // for multiple error messages
     newMessages?.forEach((newMessage) => {
-      const { class: type, message } = newMessage;
+      const { class: type, message: msg } = newMessage;
       if (type === MessageType.ERROR) {
         // error event
         events?.afterError?.({
           stepName: idxTransaction?.nextStep?.name,
-        }, { message });
+        }, { message: msg });
       }
     });
 

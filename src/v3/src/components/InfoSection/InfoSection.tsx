@@ -20,24 +20,19 @@ type Props = {
   message?: IdxMessage;
 };
 
-const InfoSection: FunctionComponent<Props> = ({ message }) => {
-
-  return message ? (
-    <Box
-      marginBottom={4}
-      width={1}
+const InfoSection: FunctionComponent<Props> = ({ message }) => (message ? (
+  <Box
+    marginBottom={4}
+    width={1}
+  >
+    <Alert
+      key={message.i18n?.key || message.message}
+      severity={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
+      variant="infobox"
     >
-      {
-        <Alert
-          key={message.i18n?.key || message.message}
-          severity={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
-          variant="infobox"
-        >
-          {message.message}
-        </Alert>
-      }
-    </Box>
-  ) : null;
-};
+      {message.message}
+    </Alert>
+  </Box>
+) : null);
 
 export default InfoSection;

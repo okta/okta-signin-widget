@@ -11,7 +11,6 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 
 import { InterstitialRedirectView } from '../../constants';
 import {
@@ -21,7 +20,7 @@ import {
   SpinnerElement,
   WidgetProps,
 } from '../../types';
-import { getAppInfo, getUserInfo } from '../../util';
+import { getAppInfo, getUserInfo, loc } from '../../util';
 import { createForm } from '../utils';
 
 export const redirectTransformer = (

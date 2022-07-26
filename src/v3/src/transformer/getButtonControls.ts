@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import {
   IdxActionParams,
   IdxTransaction,
@@ -24,6 +23,7 @@ import {
   ButtonType,
   UISchemaElement,
 } from '../types';
+import { loc } from '../util';
 
 interface GetButtonControls {
   elements: UISchemaElement[];

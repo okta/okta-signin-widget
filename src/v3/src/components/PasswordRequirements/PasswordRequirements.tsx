@@ -16,7 +16,6 @@ import {
 } from '@okta/odyssey-react';
 import debounce from 'lodash/debounce';
 import get from 'lodash/get';
-import { loc } from 'okta';
 import { h } from 'preact';
 import {
   useCallback,
@@ -32,7 +31,7 @@ import {
   UISchemaElementComponent,
   Undefinable,
 } from '../../types';
-import { validatePassword } from '../../util';
+import { loc, validatePassword } from '../../util';
 import PasswordRequirementItem from './PasswordRequirementItem';
 import {
   buildPasswordRequirementListItems,

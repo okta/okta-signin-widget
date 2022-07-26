@@ -13,11 +13,10 @@
 import { Box } from '@mui/material';
 import { Button, CircularLoadIndicator } from '@okta/odyssey-react';
 import { IdxActionParams } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { getMessageFromBrowserError } from '../../../../v2/ion/i18nTransformer';
 
+import { getMessageFromBrowserError } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import {

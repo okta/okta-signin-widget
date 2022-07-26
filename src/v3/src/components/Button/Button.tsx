@@ -11,7 +11,6 @@
  */
 
 import { Button as ButtonMui } from '@mui/material';
-import { loc } from 'okta';
 import { h } from 'preact';
 
 import { useOnSubmit } from '../../hooks';
@@ -20,6 +19,7 @@ import {
   ClickHandler,
   UISchemaElementComponent,
 } from '../../types';
+import { loc } from '../../util';
 
 const Button: UISchemaElementComponent<{
   uischema: ButtonElement

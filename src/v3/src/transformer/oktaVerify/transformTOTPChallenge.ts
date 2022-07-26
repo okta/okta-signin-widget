@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
+import { loc } from '../../util';
 
 export const transformTOTPChallenge: IdxStepTransformer = ({ formBag }) => {
   const { uischema } = formBag;

@@ -26,10 +26,9 @@ const Link: UISchemaElementComponent<{
       href,
       action: actionFn,
       actionParams,
-    }
+    },
   } = uischema;
   const onSubmitHandler = useOnSubmit();
-
 
   const onClick: ClickHandler = async (e) => {
     e.preventDefault();

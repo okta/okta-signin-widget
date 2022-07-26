@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
-
 import { CHALLENGE_INTENT_TO_I18KEY } from '../../constants';
 import AppSvg from '../../img/16pxApp.svg';
 import BrowserSvg from '../../img/16pxDevice.svg';
@@ -24,6 +22,7 @@ import {
   UISchemaElement,
   Undefinable,
 } from '../../types';
+import { loc } from '../../util';
 
 type ExcludesFalse = <T>(x: T | false) => x is T;
 

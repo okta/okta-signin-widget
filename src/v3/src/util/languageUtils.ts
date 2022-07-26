@@ -11,8 +11,7 @@
  */
 
 import Bundles from '../../../util/Bundles';
-
-import { WidgetProps } from "../types";
+import { WidgetProps } from '../types';
 import { getLanguageCode, getSupportedLanguages } from './settingsUtils';
 
 export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {

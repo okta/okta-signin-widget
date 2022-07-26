@@ -11,7 +11,6 @@
  */
 
 import { IdxTransaction, NextStep } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 import {
   DescriptionElement,
   IdxStepTransformer,
@@ -19,6 +18,7 @@ import {
   UISchemaElement,
 } from 'src/types';
 
+import { loc } from '../../util';
 import { removeUIElementWithName } from '../utils';
 import { getAuthenticatorVerifyButtonElements } from './utils';
 

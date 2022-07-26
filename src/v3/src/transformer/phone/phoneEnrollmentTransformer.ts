@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -21,6 +20,7 @@ import {
   TitleElement,
   UISchemaLayoutType,
 } from '../../types';
+import { loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
@@ -41,6 +41,8 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
   data['authenticator.methodType'] = methodTypeElement!.options!.inputMeta.options![0].value;
 
   const phoneNumberElement = getUIElementWithName('authenticator.phoneNumber', uischema.elements) as FieldElement;
+  // TODO: Top level transformer (flattener logic) removes label so we have to add it here manually
+  phoneNumberElement.label = loc('mfa.phoneNumber.placeholder', 'login');
   phoneNumberElement.options = {
     ...phoneNumberElement.options,
     targetKey: 'authenticator.methodType',

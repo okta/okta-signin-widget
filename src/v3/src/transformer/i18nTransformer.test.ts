@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxAuthenticator, IdxMessage, IdxTransaction } from "@okta/okta-auth-js";
-import { getStubTransaction } from "src/mocks/utils/utils";
-import { FieldElement, FormBag, UISchemaElement } from "src/types";
-import { transactionMessageTransformer, uischemaLabelTransformer } from "./i18nTransformer";
-import { createForm } from "./utils";
+import { IdxAuthenticator, IdxMessage, IdxTransaction } from '@okta/okta-auth-js';
+import { getStubTransaction } from 'src/mocks/utils/utils';
+import { FieldElement, FormBag, UISchemaElement } from 'src/types';
 
+import { transactionMessageTransformer, uischemaLabelTransformer } from './i18nTransformer';
+import { createForm } from './utils';
 
 describe('i18nTransformer Tests', () => {
   let transaction: IdxTransaction;
@@ -30,27 +30,31 @@ describe('i18nTransformer Tests', () => {
     it('should not perform updates on elements when formbag doesnt contain elements with an applicable label field or options', () => {
       const element: UISchemaElement = { type: 'Control' };
       formBag.uischema.elements = [element];
-      
+
       uischemaLabelTransformer(transaction, formBag);
-      
+
       expect(formBag.uischema.elements).toEqual([element]);
     });
-  
+
     it('should update label for control elements that does not contain options', () => {
       transaction.nextStep = {
         name: 'identify',
       };
       formBag.uischema.elements = [
-        { type: 'Control', label: 'SomeFakeLabel1', name: 'identifier', options: { inputMeta: { name: 'identifier' } } } as FieldElement,
-        { type: 'Control', label: 'SomeFakeLabel2', name: 'credentials.passcode', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
+        {
+          type: 'Control', label: 'SomeFakeLabel1', name: 'identifier', options: { inputMeta: { name: 'identifier' } },
+        } as FieldElement,
+        {
+          type: 'Control', label: 'SomeFakeLabel2', name: 'credentials.passcode', options: { inputMeta: { name: 'credentials.passcode' } },
+        } as FieldElement,
       ];
-      
+
       uischemaLabelTransformer(transaction, formBag);
-      
+
       expect((formBag.uischema.elements[0] as FieldElement).label).toBe('primaryauth.username.placeholder');
       expect((formBag.uischema.elements[1] as FieldElement).label).toBe('primaryauth.password.placeholder');
     });
-  
+
     it('should update label for control elements that contains options and authenticator key', () => {
       transaction.nextStep = {
         name: 'select-authenticator-enroll',
@@ -79,9 +83,9 @@ describe('i18nTransformer Tests', () => {
           },
         } as FieldElement,
       ];
-      
+
       uischemaLabelTransformer(transaction, formBag);
-      
+
       expect((formBag.uischema.elements[0] as FieldElement)
         .options.inputMeta.options?.[0].label).toBe('oie.password.label');
     });
@@ -93,7 +97,7 @@ describe('i18nTransformer Tests', () => {
 
       expect(transaction.messages).toBeUndefined();
     });
-  
+
     it('should update message property with translated key when transaction contains messages', () => {
       transaction.messages = [{
         message: 'Some incorrect message from server',

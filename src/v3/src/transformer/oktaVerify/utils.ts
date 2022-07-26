@@ -12,7 +12,6 @@
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import set from 'lodash/set';
-import { loc } from 'okta';
 import {
   DescriptionElement,
   ListElement,
@@ -21,6 +20,8 @@ import {
   StepperNavButtonConfigDirection,
   UISchemaElement,
 } from 'src/types';
+
+import { loc } from '../../util';
 
 export const appendDescriptionElements = (
   elements: UISchemaElement[],
@@ -64,9 +65,7 @@ export const appendDescriptionElements = (
       type: 'Description',
       options: {
         // TODO: revist this to use oie i18n string (EnrollChannelPollDescriptionView.js)
-        content: loc('oie.enroll.okta_verify.email.info', 'login', [email])
-          .replace('<span class="strong">', '')
-          .replace('</span>', ''),
+        content: loc('oie.enroll.okta_verify.email.info', 'login', [email]),
       },
     } as DescriptionElement);
     return;
@@ -79,9 +78,7 @@ export const appendDescriptionElements = (
       type: 'Description',
       options: {
         // TODO: revist this to use oie i18n string (EnrollChannelPollDescriptionView.js)
-        content: loc('oie.enroll.okta_verify.sms.info', 'login', [phoneNumber])
-          .replace('<span class="strong">', '')
-          .replace('</span>', ''),
+        content: loc('oie.enroll.okta_verify.sms.info', 'login', [phoneNumber]),
       },
     } as DescriptionElement);
   }

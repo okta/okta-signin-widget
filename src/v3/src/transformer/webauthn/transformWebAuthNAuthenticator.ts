@@ -12,7 +12,6 @@
 
 import { IdxTransaction } from '@okta/okta-auth-js';
 
-import { loc } from 'okta';
 import { IDX_STEP } from '../../constants';
 import {
   DescriptionElement,
@@ -22,6 +21,7 @@ import {
 } from '../../types';
 import {
   isCredentialsApiAvailable,
+  loc,
   webAuthNAuthenticationHandler,
   webAuthNEnrollmentHandler,
 } from '../../util';

@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -18,6 +17,7 @@ import {
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
+import { loc } from '../../util';
 
 export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep: { relatesTo } = {} } = transaction;
@@ -35,7 +35,7 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
   const sendInfoText = methodType === 'sms'
     ? loc('oie.phone.verify.sms.codeSentText', 'login')
     : loc('mfa.calling', 'login');
-  const phoneInfoText = phoneNumber ? phoneNumber : loc('oie.phone.alternate.title', 'login');
+  const phoneInfoText = phoneNumber || loc('oie.phone.alternate.title', 'login');
   const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
   const informationalTextElement: DescriptionElement = {
     type: 'Description',

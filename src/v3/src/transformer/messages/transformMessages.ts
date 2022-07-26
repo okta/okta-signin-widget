@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import { IdxMessage } from '@okta/okta-auth-js';
 
 import { IDX_STEP, OV_UV_ENABLE_BIOMETRIC_SERVER_KEY } from '../../constants';
@@ -19,7 +18,7 @@ import {
   IdxStepTransformer,
   InfoboxElement,
 } from '../../types';
-import { containsMessageKey, containsOneOfMessageKeys } from '../../util';
+import { containsMessageKey, containsOneOfMessageKeys, loc } from '../../util';
 import { transactionMessageTransformer } from '../i18nTransformer';
 
 export const OV_OVERRIDE_MESSAGE_KEY: Record<string, string> = {
@@ -67,7 +66,7 @@ const transformCustomMessages = (formBag: FormBag, messages: IdxMessage[]): Form
       contentType: 'string',
       class: message.class ?? 'INFO',
       message: message.message,
-      title: loc(message.title, 'login'),
+      title: message.title && loc(message.title, 'login'),
     },
   } as InfoboxElement));
 

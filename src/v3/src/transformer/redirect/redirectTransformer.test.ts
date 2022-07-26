@@ -57,7 +57,7 @@ describe('Success Redirect Transform Tests', () => {
     + 'when app name, identifier exists in transaction and showIdentifier option is false', () => {
     const appInfo = { name: 'Okta Dashboard' };
     const userInfo = { identifier: 'testuser@okta.com' };
-    transaction.context.app.value = { name: 'Okta Dashboard' };
+    transaction.context.app.value = appInfo;
     transaction.context.user = { type: 'object', value: userInfo };
     mockProps = {
       interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT,
@@ -108,7 +108,7 @@ describe('Success Redirect Transform Tests', () => {
   it('should add app name to description element for DEFAULT Interstitial view '
     + 'when identifier is missing from transaction', () => {
     const appInfo = { name: 'Okta Dashboard' };
-    transaction.context.app.value = { name: 'Okta Dashboard' };
+    transaction.context.app.value = appInfo;
     mockProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT };
     const formBag = redirectTransformer(
       transaction,

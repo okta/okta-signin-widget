@@ -10,15 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { loc as localize } from 'okta';
 
-import Bundles from '../../util/Bundles.ts';
+export const loc = (
+  key: string,
+  bundleName?: string,
+  params?: Array<string | number | boolean | unknown>,
+): string => {
+  const localizedText = localize(key, bundleName, params);
 
-module.exports = {
-  ...jest.requireActual('okta'),
-  loc: jest.fn().mockImplementation(
-    // eslint-disable-next-line no-unused-vars
-    (key, bundle, params) => (Bundles.login[key] ? key : new Error(`Invalid i18n key: ${key}`)),
-  ),
+  return localizedText
+    .replace('<$1>', '')
+    .replace('</$1>', '')
+    .replace('<span class="strong">', '')
+    .replace('</span>', '');
 };

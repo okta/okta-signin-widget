@@ -20,7 +20,6 @@ describe('authenticator-enroll-security-question', () => {
 
     await findByText(/Set up security question/);
     await findByText(/What is the food you least liked/);
-
     expect(container).toMatchSnapshot();
   });
 

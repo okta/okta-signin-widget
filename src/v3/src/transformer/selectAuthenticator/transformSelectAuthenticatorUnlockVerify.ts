@@ -12,12 +12,12 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
-import { loc } from 'okta';
 import {
   IdxStepTransformer,
   TitleElement,
   UISchemaElement,
 } from '../../types';
+import { loc } from '../../util';
 import { removeUIElementWithName } from '../utils';
 import { getAuthenticatorVerifyButtonElements } from './utils';
 

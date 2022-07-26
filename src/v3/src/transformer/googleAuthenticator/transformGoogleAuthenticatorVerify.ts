@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -18,6 +17,7 @@ import {
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
+import { loc } from '../../util';
 
 export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({ formBag }) => {
   const { uischema } = formBag;

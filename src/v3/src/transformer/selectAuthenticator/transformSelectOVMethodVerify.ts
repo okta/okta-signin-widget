@@ -11,7 +11,6 @@
  */
 
 import { Input } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -22,6 +21,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
+import { loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { getOVMethodTypeAuthenticatorButtonElements, isOnlyPushWithAutoChallenge } from './utils';
 

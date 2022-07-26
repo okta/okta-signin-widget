@@ -13,6 +13,7 @@
 import { Box } from '@mui/material';
 import { Text } from '@okta/odyssey-react';
 import { h } from 'preact';
+
 import { DescriptionElement, UISchemaElementComponent } from '../../types';
 
 const InformationalText: UISchemaElementComponent<{

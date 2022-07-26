@@ -11,6 +11,7 @@
  */
 
 const path = require('path');
+
 const V2_ROOT = path.resolve(__dirname, '../..');
 const V2_LOCAL_PACKAGES = path.resolve(V2_ROOT, 'packages');
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
@@ -58,7 +59,6 @@ module.exports = {
     'util/FactorUtil': `${V2_ROOT}/src/util/FactorUtil`,
     'util/TimeUtil': `${V2_ROOT}/src/util/TimeUtil`,
     'util/BrowserFeatures': `${V2_ROOT}/src/util/BrowserFeatures`,
-    'util/Enums': `${V2_ROOT}/src/util/Enums`,
     '^config/config.json': `${V2_ROOT}/src/config/config.json`,
     '^nls$': `${V2_LOCAL_PACKAGES}/@okta/i18n/src/json`,
     '^nls/(.*)': `${V2_LOCAL_PACKAGES}/@okta/i18n/src/json/$1`,
@@ -72,7 +72,7 @@ module.exports = {
   },
 
   modulePaths: [
-    '<rootDir>'
+    '<rootDir>',
   ],
   reporters: [
     'default',

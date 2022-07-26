@@ -23,7 +23,7 @@ import {
 const InfoBox: UISchemaElementComponent<{
   uischema: InfoboxElement
 }> = ({ uischema }) => {
-  const { options: { message, title, class: messageClass} } = uischema;
+  const { options: { message, title, class: messageClass } } = uischema;
 
   return (
     <Box

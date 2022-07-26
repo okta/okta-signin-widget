@@ -10,19 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import { IdxMessage } from '@okta/okta-auth-js';
 
 import { TERMINAL_KEY } from '../../constants';
 import {
   DescriptionElement,
   InfoboxElement,
-  MessageType,
   Modify,
   TerminalKeyTransformer,
   UISchemaLayout,
 } from '../../types';
-import { containsMessageKey } from '../../util';
+import { containsMessageKey, loc } from '../../util';
 import { transactionMessageTransformer } from '../i18nTransformer';
 import { transformEmailMagicLinkOTPOnly } from './transformEmailMagicLinkOTPOnlyElements';
 

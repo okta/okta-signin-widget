@@ -11,14 +11,12 @@
  */
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
   FormBag,
-  LayoutType,
   UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
@@ -63,8 +61,8 @@ describe('PhoneChallengeTransformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(5);
 
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
-    expect(loc).toHaveBeenCalledWith('oie.phone.verify.sms.codeSentText', 'login');
-    expect(loc).toHaveBeenCalledWith('oie.phone.verify.enterCodeText', 'login');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe(`oie.phone.verify.sms.codeSentText ${redactedPhone}. oie.phone.verify.enterCodeText`);
 
     expect(updatedFormBag.uischema.elements[3].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options?.content)
@@ -95,8 +93,8 @@ describe('PhoneChallengeTransformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(4);
 
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(loc).toHaveBeenCalledWith('oie.phone.verify.sms.codeSentText', 'login');
-    expect(loc).toHaveBeenCalledWith('oie.phone.verify.enterCodeText', 'login');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+      .toBe(`oie.phone.verify.sms.codeSentText ${redactedPhone}. oie.phone.verify.enterCodeText`);
 
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
@@ -119,9 +117,8 @@ describe('PhoneChallengeTransformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(4);
 
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(loc).toHaveBeenCalledWith('oie.phone.verify.sms.codeSentText', 'login');
-    expect(loc).toHaveBeenCalledWith('oie.phone.alternate.title', 'login');
-    expect(loc).toHaveBeenCalledWith('oie.phone.verify.enterCodeText', 'login');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+      .toBe('oie.phone.verify.sms.codeSentText oie.phone.alternate.title. oie.phone.verify.enterCodeText');
 
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
@@ -149,9 +146,8 @@ describe('PhoneChallengeTransformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(4);
 
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(loc).toHaveBeenCalledWith('mfa.calling', 'login');
-    expect(loc).toHaveBeenCalledWith('oie.phone.alternate.title', 'login');
-    expect(loc).toHaveBeenCalledWith('oie.phone.verify.enterCodeText', 'login');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+      .toBe('mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText');
 
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
@@ -182,8 +178,8 @@ describe('PhoneChallengeTransformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(4);
 
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(loc).toHaveBeenCalledWith('mfa.calling', 'login');
-    expect(loc).toHaveBeenCalledWith('oie.phone.verify.enterCodeText', 'login');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+      .toBe(`mfa.calling ${redactedPhone}. oie.phone.verify.enterCodeText`);
 
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)

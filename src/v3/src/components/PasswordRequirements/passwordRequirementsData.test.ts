@@ -22,7 +22,7 @@ import {
 
 jest.mock('okta', () => ({
   loc: jest.fn().mockImplementation(
-    (key, bundle) => key,
+    (key) => key,
   ),
 }));
 

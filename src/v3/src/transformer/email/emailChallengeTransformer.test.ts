@@ -11,8 +11,6 @@
  */
 
 import { IdxAuthenticator, OktaAuth } from '@okta/okta-auth-js';
-import { loc } from 'okta';
-
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
@@ -63,12 +61,6 @@ describe('EmailChallengeTransformer Tests', () => {
     };
     transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
     const updatedFormBag = transformEmailChallenge(transaction, formBag, mockProps);
-
-    expect(loc).toHaveBeenCalledWith(
-      'oie.email.verify.alternate.magicLinkToEmailAddress',
-      'login',
-      [redactedEmail],
-    );
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -142,12 +134,6 @@ describe('EmailChallengeTransformer Tests', () => {
       },
     };
     const updatedFormBag = transformEmailChallenge(transaction, formBag, mockProps);
-
-    expect(loc).toHaveBeenCalledWith(
-      'oie.email.verify.alternate.magicLinkToEmailAddress',
-      'login',
-      [redactedEmail],
-    );
 
     expect(updatedFormBag).toMatchSnapshot();
 

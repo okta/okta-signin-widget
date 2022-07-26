@@ -11,11 +11,11 @@
  */
 
 import {
+  IdxActionParams,
   IdxMessage,
   IdxStatus,
   IdxTransaction,
 } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 
 import {
   DEVICE_CODE_ERROR_KEYS,
@@ -40,6 +40,7 @@ import {
   containsOneOfMessageKeys,
   getUserInfo,
   isAuthClientSet,
+  loc,
   removeUsernameCookie,
   setUsernameCookie,
 } from '../../util';

@@ -12,12 +12,11 @@
 
 import union from 'lodash/union';
 
-import BrowserFeatures from '../../../util/BrowserFeatures';
 import config from '../../../config/config.json';
-import Util from '../../../util/Util';
-
-import { WidgetProps } from '../types';
 import { LanguageCode } from '../../../types';
+import BrowserFeatures from '../../../util/BrowserFeatures';
+import Util from '../../../util/Util';
+import { WidgetProps } from '../types';
 
 export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   const { i18n, language, assets: { languages } = {} } = widgetProps;
@@ -43,7 +42,7 @@ export const getLanguageCode = (widgetProps: WidgetProps): string => {
     }
     return lang;
   });
-  
+
   const preferredLanguages = [...userLanguages];
   const supportedLangsLowercase = Util.toLower(supportedLanguages);
 
@@ -65,14 +64,15 @@ export const getLanguageCode = (widgetProps: WidgetProps): string => {
 
   // Perform a case insensitive search - this is necessary in the case
   // of browsers like Safari
-  let i;
   let supportedPos;
+  let supportedLanguage = config.defaultLanguage;
 
-  for (i = 0; i < expanded.length; i++) {
-    supportedPos = supportedLangsLowercase.indexOf(expanded[i]);
+  expanded.forEach((expandedVal) => {
+    supportedPos = supportedLangsLowercase.indexOf(expandedVal);
     if (supportedPos > -1) {
-      return supportedLanguages[supportedPos];
+      supportedLanguage = supportedLanguages[supportedPos];
     }
-  }
-  return config.defaultLanguage;
+  });
+
+  return supportedLanguage;
 };

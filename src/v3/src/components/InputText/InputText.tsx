@@ -17,8 +17,8 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { h } from 'preact';
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
 
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent, InputTextElement, UISchemaElementComponent,

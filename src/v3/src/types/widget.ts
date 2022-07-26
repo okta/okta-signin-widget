@@ -15,9 +15,8 @@ import {
   RawIdxResponse,
 } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { InterstitialRedirectView } from 'src/constants';
-import { OktaReactI18nOptions } from 'src/lib/okta-i18n';
-import { LanguageCallback, LanguageCode } from '../../../types';
 
+import { LanguageCallback, LanguageCode } from '../../../types';
 import { JsonObject } from './json';
 import { FormBag } from './schema';
 

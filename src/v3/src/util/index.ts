@@ -18,6 +18,7 @@ export * from './formUtils';
 export * from './getImmutableData';
 export * from './idxUtils';
 export * from './languageUtils';
+export * from './locUtil';
 export * from './passwordUtils';
 export * from './resetMessagesToInputs';
 export * from './settingsUtils';

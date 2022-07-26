@@ -13,7 +13,6 @@
 import { Box } from '@mui/material';
 import { NativeSelect, TextInput } from '@okta/odyssey-react';
 import get from 'lodash/get';
-import { loc } from 'okta';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
@@ -22,6 +21,7 @@ import CountryUtil from '../../../../util/CountryUtil';
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import { useOnChange } from '../../hooks';
+import { loc } from '../../util';
 import { getLabelName } from '../helpers';
 
 const PhoneAuthenticator: UISchemaElementComponent<{
@@ -60,6 +60,11 @@ const PhoneAuthenticator: UISchemaElementComponent<{
     }
     return `${code}${phone}`;
   };
+
+  useEffect(() => {
+    onChangeHandler(formatPhone(phone, phoneCode, extension));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phoneCode, phone, extension, showExtension]);
 
   const renderExtension = () => (
     showExtension && (
@@ -105,11 +110,6 @@ const PhoneAuthenticator: UISchemaElementComponent<{
       </NativeSelect>
     </Box>
   );
-
-  useEffect(() => {
-    onChangeHandler(formatPhone(phone, phoneCode, extension));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phoneCode, phone, extension, showExtension]);
 
   return (
     <Box>

@@ -16,12 +16,12 @@ import {
   Link,
 } from '@mui/material';
 import { IdxActionParams } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { ReminderElement, UISchemaElementComponent, Undefinable } from '../../types';
+import { loc } from '../../util';
 
 export const DEFAULT_TIMEOUT_MS = 30_000;
 

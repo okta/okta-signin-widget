@@ -11,7 +11,6 @@
  */
 
 import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -26,6 +25,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
+import { loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const transformEmailChallenge: IdxStepTransformer = ({
@@ -71,8 +71,6 @@ export const transformEmailChallenge: IdxStepTransformer = ({
     options: {
       content: redactedEmailAddress
         ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [redactedEmailAddress])
-            .replace('<$1>', '')
-            .replace('</$1>', '')
         : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login'),
     },
   };

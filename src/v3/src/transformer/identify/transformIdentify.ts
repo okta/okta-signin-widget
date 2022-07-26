@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
-
 import {
   ButtonElement,
   ButtonType,
@@ -20,7 +18,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getUsernameCookie } from '../../util';
+import { getUsernameCookie, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps }) => {

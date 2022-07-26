@@ -23,6 +23,8 @@ import {
 import { transformIdentify } from './transformIdentify';
 
 jest.mock('../../util', () => ({
+  // @ts-ignore spreading required here for loc impl
+  ...jest.requireActual('../../util'),
   getUsernameCookie: jest.fn().mockReturnValue('testUserFromCookie'),
 }));
 

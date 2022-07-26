@@ -12,10 +12,10 @@
 
 import { Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-import { loc } from 'okta';
 
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY } from '../../constants';
 import { AuthenticatorButtonElement } from '../../types';
+import { loc } from '../../util';
 
 const getAuthenticatorOption = (
   options: IdxOption[],
@@ -78,38 +78,43 @@ const getOnPremDescriptionParams = (
     AUTHENTICATOR_KEY.IDP,
     AUTHENTICATOR_KEY.CUSTOM_APP,
     AUTHENTICATOR_KEY.SYMANTEC_VIP,
-  ]
+  ];
   if (!isEnroll || !authenticatorDescrWithParams.includes(authenticatorKey)) {
     return undefined;
   }
 
-  switch(authenticatorKey) {
-    case AUTHENTICATOR_KEY.ON_PREM:
+  switch (authenticatorKey) {
+    case AUTHENTICATOR_KEY.ON_PREM: {
       const vendorName = getAuthenticatorOption(
         options,
         authenticatorKey,
       )?.relatesTo?.displayName || loc('oie.on_prem.authenticator.default.vendorName', 'login');
       return [vendorName];
-    case AUTHENTICATOR_KEY.IDP:
+    }
+    case AUTHENTICATOR_KEY.IDP: {
       const idpName = getAuthenticatorOption(
         options,
         authenticatorKey,
       )?.relatesTo?.displayName || '';
       return [idpName];
-    case AUTHENTICATOR_KEY.CUSTOM_APP:
+    }
+    case AUTHENTICATOR_KEY.CUSTOM_APP: {
       const customAppName = getAuthenticatorOption(
         options,
         authenticatorKey,
       )?.label || '';
       return [customAppName];
-    case AUTHENTICATOR_KEY.SYMANTEC_VIP:
+    }
+    case AUTHENTICATOR_KEY.SYMANTEC_VIP: {
       const appName = getAuthenticatorOption(
         options,
         authenticatorKey,
       )?.relatesTo?.displayName || '';
       return [appName];
+    }
+    default:
+      return undefined;
   }
-  return undefined;
 };
 
 const getAuthenticatorDescription = (
@@ -158,7 +163,7 @@ const formatAuthenticatorOptions = (
     const id = getOptionValue(option.value as Input[], 'id')?.value;
     const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
     const enrollmentId = getOptionValue(option.value as Input[], 'enrollmentId')?.value;
-    
+
     return {
       type: 'AuthenticatorButton',
       label: option.label,

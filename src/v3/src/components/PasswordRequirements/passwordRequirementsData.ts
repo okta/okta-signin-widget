@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import { PASSWORD_REQUIREMENTS_KEYS } from '../../constants';
 import {
   AgeRequirements,
@@ -19,6 +18,7 @@ import {
   GetAgeFromMinutes,
   PasswordSettings,
 } from '../../types';
+import { loc } from '../../util';
 
 interface ListItem {
   ruleKey: string;

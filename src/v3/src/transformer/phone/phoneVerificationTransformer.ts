@@ -12,7 +12,6 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -23,6 +22,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
+import { loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
@@ -58,9 +58,7 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   uischema.elements.unshift(carrierInfoText);
 
   const redactedPhoneNumber = nextStep.relatesTo?.value?.profile?.phoneNumber as string;
-  const phoneInfoText = redactedPhoneNumber
-    ? redactedPhoneNumber
-    : loc('oie.phone.alternate.title', 'login');
+  const phoneInfoText = redactedPhoneNumber || loc('oie.phone.alternate.title', 'login');
   const smsInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {

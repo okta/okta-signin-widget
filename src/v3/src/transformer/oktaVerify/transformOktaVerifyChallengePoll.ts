@@ -11,7 +11,6 @@
  */
 
 import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 
 import PhoneSvg from '../../img/phone-icon.svg';
 import {
@@ -22,6 +21,7 @@ import {
   SpinnerElement,
   TitleElement,
 } from '../../types';
+import { loc } from '../../util';
 
 export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
   transaction,
@@ -52,9 +52,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
       uischema.elements.unshift({
         type: 'Reminder',
         options: {
-          ctaText: loc('oie.numberchallenge.warning', 'login')
-            .replace('<$1>', '')
-            .replace('</$1>', ''),
+          ctaText: loc('oie.numberchallenge.warning', 'login'),
           // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
           action: (params?: IdxActionParams) => {
             const { stateHandle, ...rest } = params ?? {};
@@ -80,9 +78,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
     const description: DescriptionElement = {
       type: 'Description',
       options: {
-        content: loc('oie.numberchallenge.instruction', 'login', [correctAnswer])
-          .replace('<$1>', '')
-          .replace('</$1>', ''),
+        content: loc('oie.numberchallenge.instruction', 'login', [correctAnswer]),
       },
     };
 

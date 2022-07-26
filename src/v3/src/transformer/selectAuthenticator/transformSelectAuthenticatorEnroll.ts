@@ -12,7 +12,6 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
-import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -21,6 +20,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
+import { loc } from '../../util';
 import { removeUIElementWithName } from '../utils';
 import { getAuthenticatorEnrollButtonElements } from './utils';
 

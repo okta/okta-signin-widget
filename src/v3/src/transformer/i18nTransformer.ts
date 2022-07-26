@@ -33,6 +33,7 @@ const updateLabel = (transaction: IdxTransaction, element: FieldElement): void =
 
   if (element.label) {
     const params = getI18NParams(nextStep, authenticatorKey);
+    // eslint-disable-next-line no-param-reassign
     element.label = getI18NValue(i18nPath, element.label, params);
   }
 
@@ -54,6 +55,7 @@ const updateLabel = (transaction: IdxTransaction, element: FieldElement): void =
           } else if (Array.isArray(methodType?.options)) {
             methodType?.options.forEach((methodTypeOption) => {
               const methodTypeOptionPath = `${i18nOptionPath}.${methodTypeOption.value}`;
+              // eslint-disable-next-line no-param-reassign
               methodTypeOption.label = getI18NValue(methodTypeOptionPath, methodTypeOption.label);
             });
           }
@@ -61,6 +63,7 @@ const updateLabel = (transaction: IdxTransaction, element: FieldElement): void =
       } else if (option.value !== undefined && typeof option.value !== 'object') {
         i18nOptionPath = `${i18nPath}.${option.value}`;
       }
+      // eslint-disable-next-line no-param-reassign
       option.label = getI18NValue(i18nOptionPath, option.label);
     });
   }
@@ -79,6 +82,7 @@ export const transactionMessageTransformer = (transaction: IdxTransaction): void
   const { messages = [] } = transaction;
   messages.forEach((message) => {
     // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
+    // eslint-disable-next-line no-param-reassign
     message.message = getMessage(message);
   });
 };

@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
@@ -20,7 +19,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { isAndroidOrIOS } from '../../util';
+import { isAndroidOrIOS, loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const CHANNEL_SCOPE = '#/properties/authenticator/properties/channel';

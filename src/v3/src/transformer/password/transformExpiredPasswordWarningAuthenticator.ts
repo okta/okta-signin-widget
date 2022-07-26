@@ -11,7 +11,6 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
   ButtonElement,
@@ -21,6 +20,7 @@ import {
   PasswordSettings,
   TitleElement,
 } from '../../types';
+import { loc } from '../../util';
 import { transformEnrollPasswordAuthenticator } from './transformEnrollPasswordAuthenticator';
 
 const getContentTitleAndParams = (daysToExpiry: number): TitleElement['options'] => {

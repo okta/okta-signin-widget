@@ -11,7 +11,6 @@
  */
 
 import { AuthApiError } from '@okta/okta-auth-js';
-import { loc } from 'okta';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
@@ -20,6 +19,7 @@ import {
   UISchemaElement,
   WidgetProps,
 } from '../../types';
+import { loc } from '../../util';
 import { createForm } from '../utils';
 
 type ErrorTransformer = (widgetProps: WidgetProps, error?: AuthApiError) => FormBag;

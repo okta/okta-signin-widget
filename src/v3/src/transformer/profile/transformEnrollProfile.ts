@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import { IDX_STEP, PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import {
   ButtonElement,
@@ -22,7 +21,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getUserInfo } from '../../util';
+import { getUserInfo, loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBag }) => {

@@ -12,7 +12,6 @@
 
 import { Input, NextStep } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -25,6 +24,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
+import { loc } from '../../util';
 
 type Question = {
   questionKey: string;

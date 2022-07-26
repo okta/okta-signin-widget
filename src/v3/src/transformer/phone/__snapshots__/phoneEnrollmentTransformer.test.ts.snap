@@ -48,7 +48,7 @@ Object {
                 "type": "Control",
               },
               Object {
-                "label": "Phone number",
+                "label": "mfa.phoneNumber.placeholder",
                 "name": "authenticator.phoneNumber",
                 "options": Object {
                   "targetKey": "authenticator.methodType",
@@ -97,7 +97,7 @@ Object {
                 "type": "Control",
               },
               Object {
-                "label": "Phone number",
+                "label": "mfa.phoneNumber.placeholder",
                 "name": "authenticator.phoneNumber",
                 "options": Object {
                   "targetKey": "authenticator.methodType",

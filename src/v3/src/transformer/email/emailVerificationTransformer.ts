@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -20,6 +19,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
+import { loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
@@ -55,8 +55,6 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
     options: {
       content: redactedEmailAddress
         ? loc('oie.email.verify.subtitleWithEmailAddress', 'login', [redactedEmailAddress])
-            .replace('<$1>', '')
-            .replace('</$1>', '')
         : loc('oie.email.verify.subtitleWithoutEmailAddress', 'login'),
     },
   };

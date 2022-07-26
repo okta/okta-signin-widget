@@ -211,7 +211,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                       >
                         <label
                           class="ods-4o5zYQ ods-76eppy ods-5VQ9Rl ods-7KS5Kt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-g8inGu"
-                          for="generated"
+                          for="countryList"
                         >
                           <span
                             class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6rDd3P ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
@@ -226,7 +226,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             autocomplete="tel-country-code"
                             class="ods-1B2Zfy"
                             data-se="countryList"
-                            id="generated"
+                            id="countryList"
                           >
                             <option
                               value="AF"
@@ -1466,12 +1466,12 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                         >
                           <label
                             class="ods-4o5zYQ ods-76eppy ods-5VQ9Rl ods-7KS5Kt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-g8inGu"
-                            for="generated"
+                            for="authenticator.phoneNumber"
                           >
                             <span
                               class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6rDd3P ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
                             >
-                              
+                              Phone number
                             </span>
                           </label>
                           <div
@@ -1481,7 +1481,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               autocomplete="tel-national"
                               class="ods-7qBw9I"
                               data-se="authenticator.phoneNumber"
-                              id="generated"
+                              id="authenticator.phoneNumber"
                               name="authenticator.phoneNumber"
                               type="tel"
                             />

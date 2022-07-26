@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
 import {
   FieldElement,
   IdxStepTransformer,
@@ -20,7 +19,7 @@ import {
 } from 'src/types';
 
 import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
-import { getUserInfo } from '../../util';
+import { getUserInfo, loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 const getPasswordMatchingKey = (
