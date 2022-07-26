@@ -1,8 +1,9 @@
 import { loc, Model, _ } from 'okta';
-import { BaseForm, BaseFooter, BaseView } from '../internals';
+import { BaseForm, BaseFooter, BaseView, createIdpButtons } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { getPasswordComplexityDescriptionForHtmlList } from '../utils/AuthenticatorUtil';
 import { generatePasswordPolicyHtml } from './password/PasswordPolicyUtil';
+import signInWithIdps from './signin/SignInWithIdps';
 
 const Body = BaseForm.extend({
   title() {
@@ -136,6 +137,12 @@ export default BaseView.extend({
 
     // Prompt for password w/ SSR if enabled (credentials object in remediation)
     this.renderPasswordPolicySettings();
+
+    const idpButtons = createIdpButtons(this.options);
+    if (Array.isArray(idpButtons) && idpButtons.length) {
+      this._addIdpView(idpButtons);
+    }
+    
   },
   renderPasswordPolicySettings() {
     // retrieve password policy from "credentials" object in remediation
@@ -149,5 +156,21 @@ export default BaseView.extend({
         getPasswordComplexityDescriptionForHtmlList(credentials?.relatesTo?.value?.settings),
         false);
     }
+  },
+
+  _addIdpView(idpButtons) {
+    // We check the 'idpDisplay' option config to determine whether to render the idp buttons 
+    // above or below the login fields
+    const idpDisplay = this.options.settings.get('idpDisplay');
+    const isPrimaryIdpDisplay = idpDisplay && idpDisplay.toUpperCase() === 'PRIMARY';
+
+    this.add(signInWithIdps, {
+      prepend: isPrimaryIdpDisplay,
+      selector: isPrimaryIdpDisplay ? '.o-form-fieldset-container' : '.o-form-button-bar',
+      options: {
+        idpButtons,
+        isPrimaryIdpDisplay
+      }
+    });
   },
 });

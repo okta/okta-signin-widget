@@ -799,6 +799,13 @@ When handling an [email verify callback](#email-verify-callback), the value of `
 
 Defaults to `['openid', 'email']`. Specify what information to make available in the returned `id_token` or `access_token`. For OIDC, you must include `openid` as one of the scopes. For a list of available scopes, see [Scopes and Claims](https://developer.okta.com/docs/api/resources/oidc#access-token-scopes-and-claims).
 
+#### idpDisplay
+Display order for external [identity providers][] relative to the Okta login form. Defaults to `SECONDARY`.
+
+  - `PRIMARY` - Display External IDP buttons above the Okta login form
+  - `SECONDARY` - Display External IDP buttons below the Okta login form
+
+
 ### Brand
 
 #### logo
