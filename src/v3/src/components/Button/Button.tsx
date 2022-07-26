@@ -11,6 +11,7 @@
  */
 
 import { Button as ButtonMui } from '@mui/material';
+import { loc } from 'okta';
 import { h } from 'preact';
 
 import { useOnSubmit } from '../../hooks';
@@ -65,7 +66,7 @@ const Button: UISchemaElementComponent<{
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(type !== 'submit' && { onClick })}
     >
-      {typeof label === 'string' ? label : 'oie.registration.form.update.submit'}
+      {typeof label === 'string' ? label : loc('oie.registration.form.update.submit')}
     </ButtonMui>
   );
 };

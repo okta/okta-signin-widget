@@ -51,7 +51,7 @@ const Link: UISchemaElementComponent<{
           >
             {getLabelName(label)}
           </LinkMui>
-        ) : <LinkMui href={href}>{label}</LinkMui>
+        ) : <LinkMui href={href}>{getLabelName(label)}</LinkMui>
       }
     </Box>
   );

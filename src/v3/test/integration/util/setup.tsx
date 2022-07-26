@@ -23,6 +23,14 @@ import { Widget } from '../../../src/components/Widget';
 type Options = CreateAuthClientOptions & {
   widgetOptions?: Partial<WidgetOptions>;
 };
+
+/*
+ * See manual mock for okta package in src/v3/__mocks__/okta.js
+ * This globally overwrites the okta package's loc function
+ * For integration tests we want the translated string to render
+ * According to jest documentation, must use the unmock function below
+ * https://jestjs.io/docs/manual-mocks#examples
+*/ 
 jest.unmock('okta');
 
 export async function setup(options: Options): Promise<RenderResult & {
