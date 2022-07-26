@@ -11,5 +11,6 @@ declare const _default: {
      */
     getUrlQueryString: (queries: any) => string;
     isABaseView(obj: any): boolean;
+    isSafari(): boolean;
 };
 export default _default;

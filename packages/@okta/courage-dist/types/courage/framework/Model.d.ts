@@ -1,3 +1,4 @@
+/// <reference types="jquery" />
 import Backbone from 'backbone';
 export interface ValidationMessage {
     message: string;
@@ -28,7 +29,10 @@ export interface ModelSchema {
     derived?: Record<string, ModelProperty>;
     local?: Record<string, ModelProperty>;
 }
-export declare class FrameworkModelClass extends Backbone.Model {
+export declare type ModelSaveOptions<T> = Backbone.ModelSaveOptions & T & {
+    [key: string]: any;
+};
+export declare class FrameworkModelClass<T extends Backbone.ObjectHash = any> extends Backbone.Model {
     static isCourageModel: true;
     static ERROR_BLANK: 'model.validation.field.blank';
     static ERROR_WRONG_TYPE: 'model.validation.field.wrong.type';
@@ -53,6 +57,8 @@ export declare class FrameworkModelClass extends Backbone.Model {
     reset(options: any): any;
     isSynced(): boolean;
     flat?: boolean;
+    save(attributes?: Partial<T> | null, options?: ModelSaveOptions<T>): JQueryXHR;
+    save(key: string, value: any, options?: ModelSaveOptions<T>): JQueryXHR;
     _validateSchema(): any;
     __getDerivedValue(name: any): any;
 }
