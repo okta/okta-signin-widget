@@ -1,0 +1,115 @@
+{
+  "stateToken": "00EPMl_-Vn1hX-3CRz8qjcmdHIIXx89qaNR6d705mU",
+  "type": "CREDENTIAL_VERIFY",
+  "expiresAt": "2022-07-19T16:47:13.000Z",
+  "status": "MFA_REQUIRED",
+  "_embedded": {
+    "user": {
+      "id": "00u1f72JteyclYxWX0g4",
+      "passwordChanged": "2022-01-06T03:31:55.000Z",
+      "profile": {
+        "login": "testuser@okta.com",
+        "firstName": "Test",
+        "lastName": "User",
+        "locale": "en_US",
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "factors": [
+      {
+        "id": "clf7aj7Uo0ysppIXK0g4",
+        "factorType": "call",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "profile": {
+          "phoneNumber": "+1 XXX-XXX-4444"
+        },
+        "_links": {
+          "verify": {
+            "href": "http://localhost:3000/api/v1/authn/factors/clf7aj7Uo0ysppIXK0g4/verify",
+            "hints": { "allow": ["POST"] }
+          }
+        }
+      },
+      {
+        "id": "ufs7aj94kVhHKqBgx0g4",
+        "factorType": "question",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "profile": {
+          "question": "name_of_first_plush_toy",
+          "questionText": "What is the name of your first stuffed animal?"
+        },
+        "_links": {
+          "verify": {
+            "href": "http://localhost:3000/api/v1/authn/factors/ufs7aj94kVhHKqBgx0g4/verify",
+            "hints": { "allow": ["POST"] }
+          }
+        }
+      },
+      {
+        "id": "emf7aj8Xy6dQzX9tO0g4",
+        "factorType": "email",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "profile": { "email": "t...@okta.com" },
+        "_links": {
+          "verify": {
+            "href": "http://localhost:3000/api/v1/authn/factors/emf7aj8Xy6dQzX9tO0g4/verify",
+            "hints": { "allow": ["POST"] }
+          }
+        }
+      },
+      {
+        "id": "sms7aj6YStf0WLNgI0g4",
+        "factorType": "sms",
+        "provider": "OKTA",
+        "vendorName": "OKTA",
+        "profile": { "phoneNumber": "+1 XXX-XXX-4444" },
+        "_links": {
+          "verify": {
+            "href": "http://localhost:3000/api/v1/authn/factors/sms7aj6YStf0WLNgI0g4/verify",
+            "hints": { "allow": ["POST"] }
+          }
+        }
+      },
+      {
+        "id": "uft7aiuGxx7SQNvRD0g4",
+        "factorType": "token:software:totp",
+        "provider": "GOOGLE",
+        "vendorName": "GOOGLE",
+        "profile": { "credentialId": "testuser@okta.com" },
+        "_links": {
+          "verify": {
+            "href": "http://localhost:3000/api/v1/authn/factors/uft7aiuGxx7SQNvRD0g4/verify",
+            "hints": { "allow": ["POST"] }
+          }
+        }
+      }
+    ],
+    "policy": {
+      "allowRememberDevice": false,
+      "rememberDeviceLifetimeInMinutes": 0,
+      "rememberDeviceByDefault": false,
+      "factorsPolicyInfo": {}
+    },
+    "target": {
+      "type": "APP",
+      "name": "mfa_adfs",
+      "label": "Microsoft ADFS (MFA)",
+      "_links": {
+        "logo": {
+          "name": "medium",
+          "href": "http://localhost:3000/assets/img/logos/microsoft.f400559a1fa6da092cc039a93f9722fd.png",
+          "type": "image/png"
+        }
+      }
+    }
+  },
+  "_links": {
+    "cancel": {
+      "href": "http://localhost:3000/api/v1/authn/cancel",
+      "hints": { "allow": ["POST"] }
+    }
+  }
+}
