@@ -25,6 +25,8 @@ exports[`terminal-return-email-error should render form 1`] = `
           class="MuiBox-root emotion-1"
         >
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

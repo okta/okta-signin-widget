@@ -57,6 +57,8 @@ exports[`terminal-return-email renders form 1`] = `
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

@@ -57,6 +57,8 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
@@ -178,6 +180,8 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

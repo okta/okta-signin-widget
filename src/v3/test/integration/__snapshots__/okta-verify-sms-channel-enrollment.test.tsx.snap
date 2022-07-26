@@ -57,6 +57,8 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and d
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
@@ -291,6 +293,8 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
