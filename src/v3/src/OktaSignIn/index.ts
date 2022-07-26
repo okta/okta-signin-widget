@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+/* global COMMITHASH */
+
 import { OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
@@ -109,6 +111,7 @@ export default class OktaSignIn {
       const userAgent = this.authClient._oktaUserAgent;
       if (userAgent) {
         userAgent.addEnvironment('okta-signin-widget-next');
+        userAgent.addEnvironment(COMMITHASH);
       }
 
       if (options.el) {
