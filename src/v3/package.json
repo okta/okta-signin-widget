@@ -41,13 +41,13 @@
     "prelint": "yarn build:i18n",
     "lint": "eslint .",
     "lint:report": "scripts/buildtools/lint-report.sh",
+    "serve": "sirv ../../dist/dist/js --port 3000",
     "pretest": "yarn build:i18n",
     "test": "jest",
     "test:dev": "NODE_ENV=development jest",
     "test:e2e": "NODE_ENV=test testcafe --config-file test/e2e/.testcaferc.js test/e2e/tests/**/*.ts",
     "test:e2e:screenshots": "yarn test:e2e -s path=test/e2e/screenshots,thumbnails=false",
-    "test:report": "yarn build:i18n && PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage",
-    "serve": "sirv ../../dist/dist/js --port 3000"
+    "test:report": "yarn build:i18n && PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage"
   },
   "browserslist": [
     "> 0.1%",
