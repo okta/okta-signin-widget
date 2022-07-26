@@ -169,13 +169,18 @@ const Body = BaseForm.extend({
       return false;
     }
 
+    const message = messages.find(message => message.i18n.key === CUSTOM_ACCESS_DENIED_KEY);
+    if (!message) {
+      return false;
+    }
+
     const { errorSummary } = error.responseJSON;
 
     const options = {
       type: 'error',
       content: new CustomAccessDeniedErrorMessage({
         message: errorSummary,
-        links: messages[0]?.links,
+        links: message.links,
       }),
     };
 
