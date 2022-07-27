@@ -98,6 +98,8 @@ describe('Enroll Profile Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
       .toBe('password-authenticator--list');
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.header)
+      .toBe('password.complexity.requirements.header');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.userInfo)
       .toEqual(mockUserInfo);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)

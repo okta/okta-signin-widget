@@ -47,6 +47,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
       type: 'PasswordRequirements',
       options: {
         id: 'password-authenticator--list',
+        header: loc('password.complexity.requirements.header', 'login'),
         userInfo: getUserInfo(transaction),
         settings: passwordSettings,
         requirements: buildPasswordRequirementListItems(passwordSettings),

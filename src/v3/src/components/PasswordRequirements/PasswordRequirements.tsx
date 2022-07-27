@@ -31,7 +31,7 @@ import {
   UISchemaElementComponent,
   Undefinable,
 } from '../../types';
-import { loc, validatePassword } from '../../util';
+import { validatePassword } from '../../util';
 import PasswordRequirementItem from './PasswordRequirementItem';
 
 const PasswordRequirements: UISchemaElementComponent<{
@@ -39,11 +39,12 @@ const PasswordRequirements: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const { data } = useWidgetContext();
   const {
-    id,
-    settings,
-    requirements,
-    userInfo,
     fieldKey,
+    header,
+    id,
+    requirements,
+    settings,
+    userInfo,
     validationDelayMs,
   } = uischema.options as PasswordRequirementsElement['options'];
   const password = get(data, fieldKey);
@@ -95,7 +96,7 @@ const PasswordRequirements: UISchemaElementComponent<{
   return requirements?.length > 0 ? (
     <Box data-se="password-authenticator--rules">
       <Box marginBottom={2}>
-        <Text as="span">{loc('password.complexity.requirements.header', 'login')}</Text>
+        <Text as="span">{header}</Text>
       </Box>
       <List
         id={id}

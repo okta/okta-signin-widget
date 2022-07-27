@@ -235,6 +235,7 @@ export interface PasswordRequirementsElement extends UISchemaElement {
   type: 'PasswordRequirements',
   options: {
     id: string;
+    header: string;
     userInfo: UserInfo;
     settings: PasswordSettings;
     requirements: ListItem[];
