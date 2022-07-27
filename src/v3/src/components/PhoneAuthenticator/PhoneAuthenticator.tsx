@@ -19,7 +19,7 @@ import { useEffect, useState } from 'preact/hooks';
 import CountryUtil from '../../../../util/CountryUtil';
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
-import { useOnChange } from '../../hooks';
+import { useOnChange, useOnValidate } from '../../hooks';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
 import { getTranslation } from '../../util';
 import { getLabelName } from '../helpers';
@@ -44,11 +44,13 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   const { data } = useWidgetContext();
   const countries = CountryUtil.getCountries() as Record<string, string>;
   const [phone, setPhone] = useState<string>('');
+  const [fieldError, setFieldError] = useState<string | undefined>();
   // Sets US as default code
   const [phoneCode, setPhoneCode] = useState(`+${CountryUtil.getCallingCodeForCountry('US')}`);
   const [extension, setExtension] = useState<string>('');
   const targetValue = get(data, targetKey);
   const showExtension = targetValue === 'voice';
+  const onValidateHandler = useOnValidate(uischema);
   const onChangeHandler = useOnChange(uischema);
 
   const formatPhone = (
@@ -64,6 +66,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
 
   useEffect(() => {
     onChangeHandler(formatPhone(phone, phoneCode, extension));
+    onValidateHandler(setFieldError, phone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phoneCode, phone, extension, showExtension]);
 
