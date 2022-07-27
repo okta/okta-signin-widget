@@ -17,8 +17,8 @@ import { getStubTransactionWithNextStep } from '../../mocks/utils/utils';
 import {
   FieldElement,
   FormBag,
-  PasswordEnrollmentElement,
   PasswordRequirementsElement,
+  PasswordWithConfirmationElement,
   TitleElement,
   UISchemaLayoutType,
   WidgetProps,
@@ -91,15 +91,15 @@ describe('Reset Password Authenticator Transformer Tests', () => {
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
       .toBe('password-authenticator--list');
-    expect((updatedFormBag.uischema.elements[2] as PasswordEnrollmentElement).type)
-      .toBe('PasswordEnrollment');
-    expect((updatedFormBag.uischema.elements[2] as PasswordEnrollmentElement).options.ctaLabel)
-      .toBe('password.reset');
-    expect((updatedFormBag.uischema.elements[2] as PasswordEnrollmentElement)
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
+      .toBe('PasswordWithConfirmation');
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
+      .options.ctaLabel).toBe('password.reset');
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[2] as PasswordEnrollmentElement)
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
-    expect((updatedFormBag.uischema.elements[2] as PasswordEnrollmentElement)
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
   });
 
@@ -117,15 +117,15 @@ describe('Reset Password Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as TitleElement).type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
-    expect((updatedFormBag.uischema.elements[1] as PasswordEnrollmentElement).type)
-      .toBe('PasswordEnrollment');
-    expect((updatedFormBag.uischema.elements[1] as PasswordEnrollmentElement).options.ctaLabel)
-      .toBe('password.reset');
-    expect((updatedFormBag.uischema.elements[1] as PasswordEnrollmentElement)
+    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement).type)
+      .toBe('PasswordWithConfirmation');
+    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
+      .options.ctaLabel).toBe('password.reset');
+    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[1] as PasswordEnrollmentElement)
+    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
-    expect((updatedFormBag.uischema.elements[1] as PasswordEnrollmentElement)
+    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
   });
 
@@ -162,15 +162,15 @@ describe('Reset Password Authenticator Transformer Tests', () => {
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
       .toBe('password-authenticator--list');
-    expect((updatedFormBag.uischema.elements[2] as PasswordEnrollmentElement).type)
-      .toBe('PasswordEnrollment');
-    expect((updatedFormBag.uischema.elements[2] as PasswordEnrollmentElement).options.ctaLabel)
-      .toBe('password.reset');
-    expect((updatedFormBag.uischema.elements[2] as PasswordEnrollmentElement)
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
+      .toBe('PasswordWithConfirmation');
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
+      .options.ctaLabel).toBe('password.reset');
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[2] as PasswordEnrollmentElement)
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
-    expect((updatedFormBag.uischema.elements[2] as PasswordEnrollmentElement)
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
   });
 });

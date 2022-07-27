@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { PasswordEnrollmentElement, UISchemaElement } from '../../types';
+import { PasswordWithConfirmationElement, UISchemaElement } from '../../types';
 
 export const getPasswordMatchingKey = (
   data: Record<string, unknown>,
@@ -31,13 +31,13 @@ export const getPasswordMatchingKey = (
   return undefined;
 };
 
-export const updatePasswordEnrollmentBtnLabel = (
+export const updatePasswordWithConfirmationBtnLabel = (
   elements: UISchemaElement[],
   label: string,
-) => {
+): void => {
   const pwEnrollmentEle = elements.find(
-    (element) => element.type === 'PasswordEnrollment',
-  ) as PasswordEnrollmentElement;
+    (element) => element.type === 'PasswordWithConfirmation',
+  ) as PasswordWithConfirmationElement;
   if (pwEnrollmentEle) {
     pwEnrollmentEle.options = {
       ...pwEnrollmentEle.options,
