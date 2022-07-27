@@ -21,7 +21,6 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { ReminderElement, UISchemaElementComponent, Undefinable } from '../../types';
-import { loc } from '../../util';
 
 export const DEFAULT_TIMEOUT_MS = 30_000;
 
@@ -64,20 +63,27 @@ const ReminderPrompt: UISchemaElementComponent<{
     await uischema.options?.action?.(params);
   };
 
+  const renderActionLink = () => {
+    if (!uischema.options.linkLabel) {
+      return undefined;
+    }
+
+    return (
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+      <Link
+        // eslint-disable-next-line no-script-url
+        href="javascript:void(0);"
+        onClick={() => resendHandler()}
+      >
+        {uischema.options.linkLabel}
+      </Link>
+    );
+  };
+
   const content = (
     <Box marginBottom={2}>
       {uischema.options?.ctaText}
     </Box>
-  );
-  const actions = (
-    // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <Link
-      // eslint-disable-next-line no-script-url
-      href="javascript:void(0);"
-      onClick={() => resendHandler()}
-    >
-      {loc('email.button.resend', 'login')}
-    </Link>
   );
 
   return show ? (
@@ -87,7 +93,7 @@ const ReminderPrompt: UISchemaElementComponent<{
         variant="infobox"
       >
         {content}
-        {!uischema.options?.excludeLink && actions}
+        {renderActionLink()}
       </Alert>
     </Box>
   ) : null;

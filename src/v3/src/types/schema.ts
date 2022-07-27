@@ -21,7 +21,7 @@ import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { FunctionComponent } from 'preact';
 
 import { ClickHandler } from './handlers';
-import { PasswordSettings } from './password';
+import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
 
 export type FormBag = {
@@ -217,8 +217,7 @@ export interface ReminderElement extends UISchemaElement {
      * Override the default timeout before reminder appears
      */
     timeout?: number;
-    // Used to exclude the action section of the InfoBox
-    excludeLink?: boolean;
+    linkLabel?: string;
     action?: NextStep['action'];
   };
 }
@@ -237,7 +236,8 @@ export interface PasswordRequirementsElement extends UISchemaElement {
   options: {
     id: string;
     userInfo: UserInfo;
-    data: PasswordSettings;
+    settings: PasswordSettings;
+    requirements: ListItem[];
     fieldKey: string;
     validationDelayMs: number;
   }

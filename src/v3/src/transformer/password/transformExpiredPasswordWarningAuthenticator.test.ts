@@ -95,7 +95,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       .toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.data)
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {}, daysToExpiry: 5 });
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
       .toBe('credentials.passcode');
@@ -153,7 +153,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.data)
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {}, daysToExpiry: 0 });
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
       .toBe('credentials.passcode');
@@ -211,7 +211,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.userInfo?.identifier)
       .toEqual('someuser@noemail.com');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.data)
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {} });
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.fieldKey).toBe('credentials.passcode');
@@ -273,7 +273,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).type).toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
-    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)?.options?.data)
+    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)?.options?.settings)
       .toEqual({ complexity: {} });
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)
       .options?.fieldKey).toBe('credentials.passcode');
@@ -339,7 +339,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       .toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
-    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.data)
+    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {} });
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.fieldKey)
       .toBe('credentials.passcode');
@@ -400,7 +400,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       .toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.data)
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {} });
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
       .toBe('credentials.passcode');

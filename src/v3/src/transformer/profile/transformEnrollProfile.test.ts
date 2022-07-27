@@ -100,7 +100,7 @@ describe('Enroll Profile Transformer Tests', () => {
       .toBe('password-authenticator--list');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.userInfo)
       .toEqual(mockUserInfo);
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.data)
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({});
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
       .toEqual('credentials.passcode');

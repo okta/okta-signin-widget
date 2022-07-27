@@ -84,6 +84,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       type: 'Reminder',
       options: {
         ctaText: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
+        linkLabel: loc('email.button.resend', 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
         action: (params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};

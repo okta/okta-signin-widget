@@ -127,6 +127,11 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
         .elements[0] as ReminderElement).options?.ctaText,
     ).toBe('oie.enroll.okta_verify.sms.notReceived');
     expect(
+      (((updatedFormBag.uischema.elements[0] as StepperLayout)
+        .elements[0] as UISchemaLayout)
+        .elements[0] as ReminderElement).options?.linkLabel,
+    ).toBe('email.button.resend');
+    expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[1] as TitleElement).options?.content,
     ).toBe('oie.enroll.okta_verify.setup.sms.title');
@@ -192,6 +197,10 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[0] as ReminderElement).options?.ctaText,
     ).toBe('oie.enroll.okta_verify.email.notReceived');
+    expect(
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[0] as ReminderElement).options?.linkLabel,
+    ).toBe('email.button.resend');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[1] as TitleElement).options?.content,
@@ -342,6 +351,10 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     ).toBe('oie.enroll.okta_verify.sms.notReceived');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[0] as ReminderElement).options?.linkLabel,
+    ).toBe('email.button.resend');
+    expect(
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[1] as TitleElement).options?.content,
     ).toBe('oie.enroll.okta_verify.setup.sms.title');
     expect(
@@ -406,6 +419,10 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[0] as ReminderElement).options?.ctaText,
     ).toBe('oie.enroll.okta_verify.email.notReceived');
+    expect(
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[0] as ReminderElement).options?.linkLabel,
+    ).toBe('email.button.resend');
     expect(
       (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements[1] as TitleElement).options?.content,

@@ -89,6 +89,7 @@ Object {
         "options": Object {
           "action": [Function],
           "ctaText": "oie.phone.verify.sms.resendText",
+          "linkLabel": "email.button.resend",
         },
         "type": "Reminder",
       },

@@ -33,9 +33,6 @@ import {
 } from '../../types';
 import { loc, validatePassword } from '../../util';
 import PasswordRequirementItem from './PasswordRequirementItem';
-import {
-  buildPasswordRequirementListItems,
-} from './passwordRequirementsData';
 
 const PasswordRequirements: UISchemaElementComponent<{
   uischema: PasswordRequirementsElement
@@ -43,13 +40,13 @@ const PasswordRequirements: UISchemaElementComponent<{
   const { data } = useWidgetContext();
   const {
     id,
-    data: passwordRequirements,
+    settings,
+    requirements,
     userInfo,
     fieldKey,
     validationDelayMs,
   } = uischema.options as PasswordRequirementsElement['options'];
   const password = get(data, fieldKey);
-  const items = buildPasswordRequirementListItems(passwordRequirements);
 
   const [passwordValidations, setPasswordValidations] = useState<PasswordValidation>({});
 
@@ -72,12 +69,12 @@ const PasswordRequirements: UISchemaElementComponent<{
   };
 
   const onValidatePassword = (pw: string): void => {
-    if (!passwordRequirements) {
+    if (!settings) {
       setPasswordValidations({});
       return;
     }
 
-    const validations = validatePassword(pw, userInfo, passwordRequirements);
+    const validations = validatePassword(pw, userInfo, settings);
     if (!Object.keys(validations).length) {
       setPasswordValidations({});
       return;
@@ -95,7 +92,7 @@ const PasswordRequirements: UISchemaElementComponent<{
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [password]);
 
-  return items?.length > 0 ? (
+  return requirements?.length > 0 ? (
     <Box data-se="password-authenticator--rules">
       <Box marginBottom={2}>
         <Text as="span">{loc('password.complexity.requirements.header', 'login')}</Text>
@@ -105,7 +102,7 @@ const PasswordRequirements: UISchemaElementComponent<{
         listType="unordered"
         unstyled
       >
-        {items.map(({ ruleKey, label }) => (
+        {requirements.map(({ ruleKey, label }) => (
           <List.Item key={label}>
             <PasswordRequirementItem
               status={getPasswordStatus(ruleKey, passwordValidations)}

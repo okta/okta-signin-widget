@@ -63,3 +63,8 @@ export interface PasswordSettings {
 export type PasswordValidation = {
   [key: string]: boolean;
 };
+
+export interface ListItem {
+  ruleKey: string;
+  label: string;
+}

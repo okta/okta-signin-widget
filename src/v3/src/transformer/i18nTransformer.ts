@@ -21,7 +21,6 @@ const geti18nPath = (fieldName: string, stepName: string, authenticatorKey: stri
   const authenticatorKeyPath = authenticatorKey
     ? `.${authenticatorKey}`
     : '';
-  // stepName.authenticatorKey.fieldName
   return `${stepName}${authenticatorKeyPath}.${fieldName}`;
 };
 

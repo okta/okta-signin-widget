@@ -22,6 +22,7 @@ import {
   UISchemaElement,
 } from '../../types';
 import { getUserInfo, loc } from '../../util';
+import { buildPasswordRequirementListItems } from '../password';
 import { getUIElementWithName } from '../utils';
 
 export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBag }) => {
@@ -41,12 +42,14 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
         autocomplete: 'new-password',
       },
     };
+    const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordRequirementsData;
     const passwordRequirementsElement: PasswordRequirementsElement = {
       type: 'PasswordRequirements',
       options: {
         id: 'password-authenticator--list',
         userInfo: getUserInfo(transaction),
-        data: (relatesTo?.value?.settings || {}) as PasswordRequirementsData,
+        settings: passwordSettings,
+        requirements: buildPasswordRequirementListItems(passwordSettings),
         fieldKey: 'credentials.passcode',
         validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
       },

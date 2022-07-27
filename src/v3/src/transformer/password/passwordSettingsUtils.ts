@@ -16,14 +16,10 @@ import {
   ComplexityKeys,
   ComplexityRequirements,
   GetAgeFromMinutes,
+  ListItem,
   PasswordSettings,
 } from '../../types';
 import { loc } from '../../util';
-
-interface ListItem {
-  ruleKey: string;
-  label: string;
-}
 
 export const getAgeFromMinutes = (minutes: number): GetAgeFromMinutes => {
   const hours = minutes / 60;
@@ -37,7 +33,7 @@ export const getAgeFromMinutes = (minutes: number): GetAgeFromMinutes => {
   return { unitLabel: PASSWORD_REQUIREMENTS_KEYS.age.minAgeDays, value: Math.ceil(days) };
 };
 
-export const getComplexityItems = (complexity: ComplexityRequirements): ListItem[] => {
+export const getComplexityItems = (complexity?: ComplexityRequirements): ListItem[] => {
   const items: ListItem[] = [];
 
   if (!complexity) {
@@ -102,7 +98,7 @@ export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
 };
 
 export const buildPasswordRequirementListItems = (data: PasswordSettings): ListItem[] => {
-  const complexityItems = getComplexityItems(data.complexity!);
+  const complexityItems = getComplexityItems(data.complexity);
   const ageItems = getAgeItems(data.age);
   return [...complexityItems, ...ageItems];
 };

@@ -21,6 +21,7 @@ import {
 import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import { getUserInfo, loc } from '../../util';
 import { getUIElementWithName } from '../utils';
+import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
 const getPasswordMatchingKey = (
   data: Record<string, unknown>,
@@ -79,7 +80,8 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     options: {
       id: 'password-authenticator--list',
       userInfo: getUserInfo(transaction),
-      data: passwordSettings,
+      settings: passwordSettings,
+      requirements: buildPasswordRequirementListItems(passwordSettings),
       fieldKey: passwordMatchingKey,
       validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
     },

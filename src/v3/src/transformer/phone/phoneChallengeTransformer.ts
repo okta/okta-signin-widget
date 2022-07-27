@@ -44,6 +44,7 @@ export const transformPhoneChallenge: IdxStepTransformer = ({
       type: 'Reminder',
       options: {
         ctaText: loc('oie.phone.verify.sms.resendText', 'login'),
+        linkLabel: loc('email.button.resend', 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
         action: action && ((params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};

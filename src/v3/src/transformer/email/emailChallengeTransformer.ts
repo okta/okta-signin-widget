@@ -46,6 +46,7 @@ export const transformEmailChallenge: IdxStepTransformer = ({
       type: 'Reminder',
       options: {
         ctaText: loc('email.code.not.received', 'login'),
+        linkLabel: loc('email.button.resend', 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
         action: (params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};

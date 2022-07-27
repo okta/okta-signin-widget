@@ -321,7 +321,7 @@ test.page(
   await takeScreenshot(t, 'authenticator-enroll-google-authenticator-qrcode');
 
   await t
-    .click(Selector('button').withExactText('Set up a different way'));
+    .click(Selector('button').withExactText('Can\'t scan barcode?'));
 
   await checkA11y(t);
   await takeScreenshot(t, 'authenticator-enroll-google-authenticator-secret-key');
@@ -369,7 +369,7 @@ test.page(
 });
 
 test.page(
-  'http://localhost:8080/?siw-use-mocks=true&siw-mock-response=/idp/idx/identify/error-session-expired',
+  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/identify/error-session-expired',
 )('error-session-expired', async (t) => {
   await checkA11y(t);
   await takeScreenshot(t, 'error-session-expired');

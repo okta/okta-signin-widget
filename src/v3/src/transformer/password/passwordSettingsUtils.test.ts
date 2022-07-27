@@ -18,7 +18,7 @@ import {
 import {
   getAgeItems,
   getComplexityItems,
-} from './passwordRequirementsData';
+} from './passwordSettingsUtils';
 
 jest.mock('okta', () => ({
   loc: jest.fn().mockImplementation(

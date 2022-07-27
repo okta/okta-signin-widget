@@ -53,6 +53,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
         type: 'Reminder',
         options: {
           ctaText: loc('oie.numberchallenge.warning', 'login'),
+          linkLabel: loc('email.button.resend', 'login'),
           // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
           action: (params?: IdxActionParams) => {
             const { stateHandle, ...rest } = params ?? {};
@@ -96,7 +97,6 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
       type: 'Reminder',
       options: {
         ctaText: loc('oktaverify.warning', 'login'),
-        excludeLink: true,
       },
     } as ReminderElement);
     uischema.elements.unshift({

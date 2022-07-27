@@ -16,7 +16,7 @@ import {
   UserInfo,
 } from 'src/types';
 
-const PasswordValidatorFunctionNames = Object.freeze({
+const PasswordValidatorFunctionNames: Record<string, string> = Object.freeze({
   MinLengthValidator: 'minLengthValidator',
   MinLowerCaseValidator: 'minLowerCaseValidator',
   MinUpperCaseValidator: 'minUpperCaseValidator',

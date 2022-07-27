@@ -19,7 +19,6 @@ import {
   ClickHandler,
   UISchemaElementComponent,
 } from '../../types';
-import { loc } from '../../util';
 
 const Button: UISchemaElementComponent<{
   uischema: ButtonElement
@@ -66,7 +65,7 @@ const Button: UISchemaElementComponent<{
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(type !== 'submit' && { onClick })}
     >
-      {typeof label === 'string' ? label : loc('oie.registration.form.update.submit')}
+      {label}
     </ButtonMui>
   );
 };

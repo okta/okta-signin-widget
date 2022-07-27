@@ -78,8 +78,8 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('Reminder');
     expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.ctaText)
       .toBe('oktaverify.warning');
-    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.excludeLink)
-      .toBe(true);
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.linkLabel)
+      .toBeUndefined();
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.okta_verify.push.sent');
@@ -109,6 +109,8 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('Reminder');
     expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.ctaText)
       .toBe('oie.numberchallenge.warning');
+    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.linkLabel)
+      .toBe('email.button.resend');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[1] as TitleElement).options?.content)
       .toBe('oie.okta_verify.push.sent');
