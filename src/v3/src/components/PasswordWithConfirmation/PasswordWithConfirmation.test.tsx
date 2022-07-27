@@ -17,9 +17,9 @@ import {
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup';
 import { h, JSX } from 'preact';
-import { PasswordEnrollmentElement, UISchemaElementComponentProps } from '../../types';
 
-import PasswordEnrollment from './PasswordEnrollment';
+import { PasswordWithConfirmationElement, UISchemaElementComponentProps } from '../../types';
+import PasswordWithConfirmation from './PasswordWithConfirmation';
 
 function setup(jsx: JSX.Element): RenderResult & { user: UserEvent } {
   return {
@@ -36,12 +36,12 @@ jest.mock('../../hooks', () => ({
 }));
 
 describe('PasswordEnrollment tests', () => {
-  let props: UISchemaElementComponentProps & { uischema: PasswordEnrollmentElement; };
+  let props: UISchemaElementComponentProps & { uischema: PasswordWithConfirmationElement; };
 
   beforeEach(() => {
     props = {
       uischema: {
-        type: 'PasswordEnrollment',
+        type: 'PasswordWithConfirmation',
         options: {
           ctaLabel: 'Change password',
           input: {
@@ -62,7 +62,7 @@ describe('PasswordEnrollment tests', () => {
     // mockUseValueHook.mockReturnValue('');
     const {
       findByLabelText, findByTestId, findByText, user,
-    } = setup(<PasswordEnrollment {...props} />);
+    } = setup(<PasswordWithConfirmation {...props} />);
 
     const newPasswordInput = await findByLabelText(/New password/);
     await findByLabelText(/Re-enter password/);
@@ -82,7 +82,7 @@ describe('PasswordEnrollment tests', () => {
     // mockUseValueHook.mockReturnValue('abc123!');
     const {
       findByLabelText, findByText, findByTestId, user,
-    } = setup(<PasswordEnrollment {...props} />);
+    } = setup(<PasswordWithConfirmation {...props} />);
 
     const newPasswordInput = await findByLabelText(/New password/);
     await findByLabelText(/Re-enter password/);
@@ -91,7 +91,7 @@ describe('PasswordEnrollment tests', () => {
 
     expect(autocomplete).toBe('new-password');
 
-    await user.type(newPasswordInput, 'abc123!')
+    await user.type(newPasswordInput, 'abc123!');
 
     await user.click(submitBtn);
 
@@ -102,7 +102,7 @@ describe('PasswordEnrollment tests', () => {
 
   it('should display field level errors when field values do not match', async () => {
     // mockUseValueHook.mockReturnValue('abc123!');
-    const { findByLabelText, findByText, user } = setup(<PasswordEnrollment {...props} />);
+    const { findByLabelText, findByText, user } = setup(<PasswordWithConfirmation {...props} />);
 
     const newPasswordInput = await findByLabelText(/New password/);
     const confirmPasswordInput = await findByLabelText(/Re-enter password/);
@@ -110,7 +110,7 @@ describe('PasswordEnrollment tests', () => {
 
     expect(autocomplete).toBe('new-password');
 
-    await user.type(newPasswordInput, 'abc123!')
+    await user.type(newPasswordInput, 'abc123!');
     await user.type(confirmPasswordInput, '123456');
 
     expect(mockSubmitHook).not.toHaveBeenCalled();
@@ -122,7 +122,7 @@ describe('PasswordEnrollment tests', () => {
     // mockUseValueHook.mockReturnValue('abc123!');
     const {
       findByLabelText, findByText, findByTestId, user,
-    } = setup(<PasswordEnrollment {...props} />);
+    } = setup(<PasswordWithConfirmation {...props} />);
 
     const newPasswordInput = await findByLabelText(/New password/);
     const confirmPasswordInput = await findByLabelText(/Re-enter password/);
@@ -131,7 +131,7 @@ describe('PasswordEnrollment tests', () => {
 
     expect(autocomplete).toBe('new-password');
 
-    await user.type(newPasswordInput, 'abc123!')
+    await user.type(newPasswordInput, 'abc123!');
     await user.type(confirmPasswordInput, '123456');
 
     await user.click(submitBtn);
@@ -142,11 +142,10 @@ describe('PasswordEnrollment tests', () => {
   });
 
   it('should submit form when field values match', async () => {
-    
     // mockUseValueHook.mockReturnValue(password);
     const {
       findByLabelText, findByTestId, user,
-    } = setup(<PasswordEnrollment {...props} />);
+    } = setup(<PasswordWithConfirmation {...props} />);
 
     const newPasswordInput = await findByLabelText(/New password/);
     const confirmPasswordInput = await findByLabelText(/Re-enter password/);
@@ -156,7 +155,7 @@ describe('PasswordEnrollment tests', () => {
     expect(autocomplete).toBe('new-password');
 
     const password = 'abc123!';
-    await user.type(newPasswordInput, password)
+    await user.type(newPasswordInput, password);
     await user.type(confirmPasswordInput, password);
 
     await user.click(submitBtn);

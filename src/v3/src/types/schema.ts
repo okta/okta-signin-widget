@@ -339,15 +339,14 @@ type ValidateFunction = (data: FormBag['data']) => Partial<IdxMessage> | undefin
 export interface DataSchema {
   validate?: ValidateFunction;
 }
-
 export interface TranslationInfo {
   name: string;
   i18nKey: string;
   value: string;
 }
 
-export interface PasswordEnrollmentElement extends UISchemaElement {
-  type: 'PasswordEnrollment';
+export interface PasswordWithConfirmationElement extends UISchemaElement {
+  type: 'PasswordWithConfirmation';
   options: {
     input: FieldElement,
     ctaLabel: string;

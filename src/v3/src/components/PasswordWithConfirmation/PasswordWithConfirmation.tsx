@@ -19,14 +19,14 @@ import { useOnSubmit, useValue } from '../../hooks';
 import { useTranslation } from '../../lib/okta-i18n';
 import {
   ChangeEvent,
-  PasswordEnrollmentElement,
+  PasswordWithConfirmationElement,
   SubmitEvent,
   UISchemaElementComponent,
 } from '../../types';
 import InputPassword from '../InputPassword';
 
-const PasswordEnrollment: UISchemaElementComponent<{
-  uischema: PasswordEnrollmentElement
+const PasswordWithConfirmation: UISchemaElementComponent<{
+  uischema: PasswordWithConfirmationElement
 }> = ({ uischema }) => {
   const { ctaLabel, input } = uischema.options;
 
@@ -113,4 +113,4 @@ const PasswordEnrollment: UISchemaElementComponent<{
   );
 };
 
-export default PasswordEnrollment;
+export default PasswordWithConfirmation;

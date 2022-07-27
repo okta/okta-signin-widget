@@ -19,7 +19,7 @@ import {
 } from '../../types';
 import { loc } from '../../util';
 import { transformEnrollPasswordAuthenticator } from './transformEnrollPasswordAuthenticator';
-import { updatePasswordEnrollmentBtnLabel } from './utils';
+import { updatePasswordWithConfirmationBtnLabel } from './utils';
 
 const getContentTitleAndParams = (brandName?: string): TitleElement['options'] => {
   if (brandName) {
@@ -38,7 +38,7 @@ export const transformResetPasswordAuthenticator: IdxStepTransformer = ({
   const baseFormBag = transformEnrollPasswordAuthenticator({ transaction, formBag, widgetProps });
   const { uischema } = baseFormBag;
 
-  updatePasswordEnrollmentBtnLabel(
+  updatePasswordWithConfirmationBtnLabel(
     uischema.elements as UISchemaElement[],
     'password.reset',
   );
