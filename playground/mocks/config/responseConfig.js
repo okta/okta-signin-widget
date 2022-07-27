@@ -907,7 +907,8 @@ const userUnlockAccount = {
     'authenticator-verification-email'
   ],
   '/idp/idx/challenge/answer': [
-    'user-account-unlock-success'
+    'user-account-unlock-success',
+    //'user-account-unlock-success-land-on-app'
   ]
 };
 
