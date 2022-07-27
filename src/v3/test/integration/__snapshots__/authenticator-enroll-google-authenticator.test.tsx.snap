@@ -57,6 +57,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
@@ -217,6 +219,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
@@ -396,6 +400,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
@@ -545,6 +551,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

@@ -57,6 +57,8 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

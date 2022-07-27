@@ -57,6 +57,8 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
@@ -291,6 +293,8 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

@@ -57,6 +57,8 @@ exports[`okta-verify-poll-enrollment should render poll form 1`] = `
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
@@ -220,6 +222,8 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

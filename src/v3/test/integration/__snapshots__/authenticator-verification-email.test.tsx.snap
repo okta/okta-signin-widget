@@ -57,6 +57,8 @@ exports[`authenticator-verification-email renders correct form renders the initi
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
@@ -184,6 +186,8 @@ exports[`authenticator-verification-email renders correct form renders the otp c
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
@@ -354,6 +358,8 @@ exports[`authenticator-verification-email renders correct form renders the otp c
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
