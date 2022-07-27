@@ -15,7 +15,7 @@ import { Button } from '@okta/odyssey-react';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { PartialTheme } from '@okta/odyssey-react-theme/dist/ThemeProvider/context';
 import chroma from 'chroma-js';
-import { BrandColors, Nullable, Undefinable } from 'src/types';
+import { BrandColors } from 'src/types';
 
 type DerivedTheme = {
   primaryColor: string;
@@ -35,7 +35,7 @@ const getInverseTextColor = (primaryColor: string): string => {
   return '#1d1d21';
 };
 
-export const deriveThemeFromBrand = (brand: BrandColors): Nullable<DerivedTheme> => {
+export const deriveThemeFromBrand = (brand: BrandColors): DerivedTheme | null => {
   try {
     const isLightPrimaryColor = chroma(brand.primaryColor).get('hsl.l') > 0.24;
 
@@ -109,7 +109,7 @@ export const mapMuiThemeFromBrand = (brand: BrandColors | undefined): Theme => {
   return odysseyTheme;
 };
 
-export const mapThemeFromBrand = (brand: Undefinable<BrandColors>): PartialTheme => {
+export const mapThemeFromBrand = (brand: BrandColors | undefined): PartialTheme => {
   if (brand) {
     const derivedTheme = deriveThemeFromBrand(brand);
 
