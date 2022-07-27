@@ -61,8 +61,10 @@ jest.mock('../../contexts', () => ({
 }));
 
 let mockHandleFunction = jest.fn().mockImplementation(() => ({}));
+const validationHook = jest.fn().mockImplementation(() => ({}));
 jest.mock('../../hooks', () => ({
   useOnChange: () => mockHandleFunction,
+  useOnValidate: () => validationHook,
 }));
 
 describe('PhoneAuthenticator tests', () => {

@@ -17,7 +17,7 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
@@ -47,6 +47,11 @@ const InputText: UISchemaElementComponent<{
     },
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
+
+  // For server side errors, need to reset the touched value
+  useEffect(() => {
+    setIsTouched(false);
+  }, [error]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setIsTouched(true);

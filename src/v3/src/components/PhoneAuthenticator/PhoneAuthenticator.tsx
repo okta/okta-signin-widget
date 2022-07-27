@@ -70,6 +70,11 @@ const PhoneAuthenticator: UISchemaElementComponent<{
     onValidateHandler(setFieldError, phone);
   };
 
+  // For server side errors, need to reset the touched value
+  useEffect(() => {
+    setIsTouched(false);
+  }, [serverError]);
+
   useEffect(() => {
     setIsTouched(true);
     onChangeHandler(formatPhone(phone, phoneCode, extension));
