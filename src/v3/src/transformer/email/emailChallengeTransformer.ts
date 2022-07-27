@@ -74,7 +74,7 @@ export const transformEmailChallenge: IdxStepTransformer = ({
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: `${maginLinkText} ${instrText}`,
+      content: `${maginLinkText}${instrText}`,
     },
   };
 

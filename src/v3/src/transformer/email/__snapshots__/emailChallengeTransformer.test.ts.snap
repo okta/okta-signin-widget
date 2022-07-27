@@ -27,7 +27,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "oie.email.verify.alternate.magicLinkToYourEmail",
+                  "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
@@ -60,7 +60,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "oie.email.verify.alternate.magicLinkToYourEmail",
+                  "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
@@ -107,7 +107,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "oie.email.verify.alternate.magicLinkToEmailAddress",
+                  "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
@@ -132,7 +132,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "oie.email.verify.alternate.magicLinkToEmailAddress",
+                  "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
@@ -187,7 +187,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "oie.email.verify.alternate.magicLinkToEmailAddress",
+                  "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
@@ -220,7 +220,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "oie.email.verify.alternate.magicLinkToEmailAddress",
+                  "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
