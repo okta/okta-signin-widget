@@ -57,6 +57,8 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

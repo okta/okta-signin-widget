@@ -20,6 +20,8 @@ exports[`error-feature-not-enabled should render form 1`] = `
           class="MuiBox-root emotion-1"
         >
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

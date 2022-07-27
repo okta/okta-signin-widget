@@ -52,6 +52,8 @@ exports[`unlock-account-success renders form 1`] = `
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

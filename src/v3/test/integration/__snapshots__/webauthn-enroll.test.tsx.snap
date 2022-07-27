@@ -57,6 +57,8 @@ exports[`webauthn-enroll should render form 1`] = `
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
@@ -216,6 +218,8 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div

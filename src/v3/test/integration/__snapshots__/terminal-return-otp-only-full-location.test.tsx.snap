@@ -57,6 +57,8 @@ exports[`terminal-return-otp-only-full-location renders form 1`] = `
             </div>
           </div>
           <form
+            class="o-form"
+            data-se="form"
             novalidate=""
           >
             <div
