@@ -65,7 +65,7 @@
                   "name": "required",
                   "type": "boolean",
                   "label": "Required",
-                  "required": false,
+                  "required": true,
                   "options":[
                     {
                       "label":"display",
