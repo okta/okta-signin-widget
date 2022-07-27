@@ -44,6 +44,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   const { data } = useWidgetContext();
   const countries = CountryUtil.getCountries() as Record<string, string>;
   const [phone, setPhone] = useState<string>('');
+  const [isTouched, setIsTouched] = useState<boolean>(false);
   const [fieldError, setFieldError] = useState<string | undefined>();
   // Sets US as default code
   const [phoneCode, setPhoneCode] = useState(`+${CountryUtil.getCallingCodeForCountry('US')}`);
@@ -64,7 +65,13 @@ const PhoneAuthenticator: UISchemaElementComponent<{
     return `${code}${phone}`;
   };
 
+  const handleBlur = () => {
+    setIsTouched(true);
+    onValidateHandler(setFieldError, phone);
+  };
+
   useEffect(() => {
+    setIsTouched(true);
     onChangeHandler(formatPhone(phone, phoneCode, extension));
     onValidateHandler(setFieldError, phone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,7 +136,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
           <TextInput
             type="tel"
             data-se={fieldName}
-            error={error}
+            error={isTouched ? fieldError : serverError}
             name={fieldName}
             label={getLabelName(label as string)}
             id={fieldName}
@@ -140,6 +147,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
             }}
+            onBlur={handleBlur}
           />
         </Box>
         { renderExtension() }
