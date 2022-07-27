@@ -10,23 +10,23 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { initOktaReactI18n } from './lib/okta-i18n';
-import enTranslations from './properties/json/login.json';
+// import { initOktaReactI18n } from './lib/okta-i18n';
+// import enTranslations from './properties/json/login.json';
 
-export const initI18n = () => initOktaReactI18n({
-  debug: false,
-  namespace: 'okta-signin-widget',
-  supportedLanguages: ['en', 'cs', 'da', 'de', 'el', 'es', 'fi', 'fr', 'hu', 'id', 'it', 'ja', 'ko', 'ms', 'nb',
-    'nl_NL', 'ok_PL', 'pl', 'pt_BR', 'ro', 'ru', 'sv', 'th', 'tr', 'uk', 'vi', 'zh_CN', 'zh_TW'],
-  fallbackLanguage: 'en',
-  translations: {
-    en: enTranslations,
-  },
-  backendOptions: {
-    baseUri: '',
-    rewrite: (file) => file,
-  },
-  languageDetectorOptions: {
-    localeCookieName: 'okta_user_lang',
-  },
-});
+// export const initI18n = () => initOktaReactI18n({
+//   debug: false,
+//   namespace: 'okta-signin-widget',
+//   supportedLanguages: ['en', 'cs', 'da', 'de', 'el', 'es', 'fi', 'fr', 'hu', 'id', 'it', 'ja', 'ko', 'ms', 'nb',
+//     'nl_NL', 'ok_PL', 'pl', 'pt_BR', 'ro', 'ru', 'sv', 'th', 'tr', 'uk', 'vi', 'zh_CN', 'zh_TW'],
+//   fallbackLanguage: 'en',
+//   translations: {
+//     en: enTranslations,
+//   },
+//   backendOptions: {
+//     baseUri: '',
+//     rewrite: (file) => file,
+//   },
+//   languageDetectorOptions: {
+//     localeCookieName: 'okta_user_lang',
+//   },
+// });
