@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import set from 'lodash/set';
-
 import {
   ButtonElement,
   ButtonType,
+  DataSchema,
   FieldElement,
   IdxStepTransformer,
   TitleElement,
@@ -23,12 +22,28 @@ import {
 import { getUsernameCookie, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
+const updateErrorMessages = (
+  dataSchema: Record<string, DataSchema>,
+  fieldName: string,
+  errorKey: string,
+) => {
+  // eslint-disable-next-line no-param-reassign
+  dataSchema[fieldName] = {
+    validate(data) {
+      const isValid = !!data[fieldName];
+      return isValid ? undefined : {
+        i18n: {
+          // TODO: OKTA-476303 use loc function here so key is translated
+          key: errorKey,
+        },
+      };
+    },
+  };
+};
+
 export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
   const { features, username } = widgetProps;
-  const { uischema, schema } = formBag;
-
-  set(schema, ['errorMessage', 'properties', 'identifier'], 'error.username.required');
-  set(schema, ['errorMessage', 'properties', 'credentials.passcode'], 'error.password.required');
+  const { uischema, dataSchema } = formBag;
 
   const identifierElement = getUIElementWithName(
     'identifier',
@@ -52,6 +67,8 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
 
   if (passwordElement) {
     submitBtnElement.label = loc('oie.primaryauth.submit', 'login');
+    // Overwrite error messages with custom keys
+    updateErrorMessages(dataSchema, 'credentials.passcode', 'error.password.required');
   }
 
   if (features?.showKeepMeSignedIn === false) {
@@ -66,8 +83,11 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
     options: { content: loc('primaryauth.title', 'login') },
   };
 
-  // add username/identifier from config if provided
   if (identifierElement) {
+    // Overwrite error messages with custom keys
+    updateErrorMessages(dataSchema, 'identifier', 'error.username.required');
+
+    // add username/identifier from config if provided
     if (username) {
       identifierElement.options = {
         ...identifierElement.options,

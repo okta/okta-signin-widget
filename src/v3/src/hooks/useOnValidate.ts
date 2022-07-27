@@ -10,22 +10,29 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useCallback } from 'preact/hooks';
+import { StateUpdater, useCallback } from 'preact/hooks';
 
 import { useWidgetContext } from '../contexts';
 import { FieldElement } from '../types';
+import { getSubmitButtonSchema } from '../util';
 
 export const useOnValidate = (uischema: FieldElement) => {
   const { name } = uischema.options.inputMeta;
-  const { ajv, formBag: { schema } = {}, setFormErrors, data } = useWidgetContext();
+  const { formBag: { dataSchema }, data, stepperStepIndex } = useWidgetContext();
+  const submitButtonSchema = getSubmitButtonSchema(uischema, stepperStepIndex);
+  const { actionParams: params } = submitButtonSchema?.options || {};
 
-  return useCallback((value?: string | boolean | number) => {
+  return useCallback((
+    setFieldError: StateUpdater<string | undefined>,
+    value?: string | boolean | number,
+  ) => {
     const updatedData = { ...data, ...(value && { [name]: value }) };
-    const validate = ajv.compile(schema!)
-    if (!validate(updatedData)) {
-      setFormErrors(validate.errors);
+    const validator = dataSchema[name];
+    if (typeof validator?.validate === 'function') {
+      const message = validator.validate({ ...updatedData, ...params });
+      setFieldError(message?.i18n?.key);
     } else {
-      setFormErrors(undefined);
+      setFieldError(undefined);
     }
-  }, [setFormErrors, data, ajv, schema]);
+  }, [data, dataSchema, name, params]);
 };

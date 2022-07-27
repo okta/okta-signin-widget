@@ -12,7 +12,6 @@
 
 import { Box, Button, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
-
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 

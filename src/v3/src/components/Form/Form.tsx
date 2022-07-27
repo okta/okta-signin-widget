@@ -11,7 +11,7 @@
  */
 
 import { IdxMessage } from '@okta/okta-auth-js';
-import { clone } from 'lodash';
+import clone from 'lodash/clone';
 import { FunctionComponent, h } from 'preact';
 import { useCallback, useRef } from 'preact/hooks';
 
