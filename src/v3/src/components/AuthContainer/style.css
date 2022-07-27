@@ -8,10 +8,3 @@
   /* To prevent overflow scroll */
   min-height: 98vh; 
 }
-
-/* TODO: this max width may chaged, will discuss w/ UX */
-@media screen and (max-width: 391px) {
-  .siwContainer {
-    border: none !important;
-  }
-}

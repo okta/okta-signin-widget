@@ -11,6 +11,7 @@
  */
 
 import { Box } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
@@ -18,6 +19,7 @@ import style from './style.css';
 
 const AuthContainer: FunctionComponent = ({ children }) => {
   const classes = classNames('auth-container', 'main-container', style.mainViewContainer);
+  const borderMatches = useMediaQuery('screen and (max-width: 391px)');
   return (
     <Box
       component="main"
@@ -29,7 +31,7 @@ const AuthContainer: FunctionComponent = ({ children }) => {
       <Box
         flex="auto"
         flexDirection="column"
-        border={1}
+        border={borderMatches ? 0 : 1}
         borderRadius={1}
         borderColor="grey.200"
         bgcolor="common.white"
