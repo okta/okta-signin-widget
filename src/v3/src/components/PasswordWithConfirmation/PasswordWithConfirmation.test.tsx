@@ -29,10 +29,13 @@ function setup(jsx: JSX.Element): RenderResult & { user: UserEvent } {
 }
 
 const mockSubmitHook = jest.fn().mockImplementation(() => ({}));
+const validationHook = jest.fn().mockImplementation(() => ({}));
+const useValueHook = jest.fn().mockReturnValue('');
 jest.mock('../../hooks', () => ({
   useOnSubmit: () => mockSubmitHook,
-  useValue: (val: string) => val,
+  useValue: () => useValueHook(),
   useOnChange: () => jest.fn().mockImplementation(() => {}),
+  useOnValidate: () => validationHook,
 }));
 
 describe('PasswordEnrollment tests', () => {
@@ -59,7 +62,6 @@ describe('PasswordEnrollment tests', () => {
   });
 
   it('should display field level errors and not submit form when fields are empty', async () => {
-    // mockUseValueHook.mockReturnValue('');
     const {
       findByLabelText, findByTestId, findByText, user,
     } = setup(<PasswordWithConfirmation {...props} />);
@@ -79,7 +81,6 @@ describe('PasswordEnrollment tests', () => {
   });
 
   it('should display field level error and not submit form when confirm password field is left empty', async () => {
-    // mockUseValueHook.mockReturnValue('abc123!');
     const {
       findByLabelText, findByText, findByTestId, user,
     } = setup(<PasswordWithConfirmation {...props} />);
@@ -101,7 +102,6 @@ describe('PasswordEnrollment tests', () => {
   });
 
   it('should display field level errors when field values do not match', async () => {
-    // mockUseValueHook.mockReturnValue('abc123!');
     const { findByLabelText, findByText, user } = setup(<PasswordWithConfirmation {...props} />);
 
     const newPasswordInput = await findByLabelText(/New password/);
@@ -119,7 +119,6 @@ describe('PasswordEnrollment tests', () => {
   });
 
   it('should display field level errors and not submit form when field values do not match', async () => {
-    // mockUseValueHook.mockReturnValue('abc123!');
     const {
       findByLabelText, findByText, findByTestId, user,
     } = setup(<PasswordWithConfirmation {...props} />);
@@ -142,7 +141,8 @@ describe('PasswordEnrollment tests', () => {
   });
 
   it('should submit form when field values match', async () => {
-    // mockUseValueHook.mockReturnValue(password);
+    const password = 'abc123!';
+    useValueHook.mockReturnValue(password);
     const {
       findByLabelText, findByTestId, user,
     } = setup(<PasswordWithConfirmation {...props} />);
@@ -154,7 +154,6 @@ describe('PasswordEnrollment tests', () => {
 
     expect(autocomplete).toBe('new-password');
 
-    const password = 'abc123!';
     await user.type(newPasswordInput, password);
     await user.type(confirmPasswordInput, password);
 
