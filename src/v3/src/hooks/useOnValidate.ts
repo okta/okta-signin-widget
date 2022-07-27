@@ -14,13 +14,10 @@ import { StateUpdater, useCallback } from 'preact/hooks';
 
 import { useWidgetContext } from '../contexts';
 import { FieldElement } from '../types';
-import { getSubmitButtonSchema } from '../util';
 
 export const useOnValidate = (uischema: FieldElement) => {
   const { name } = uischema.options.inputMeta;
-  const { formBag: { dataSchema }, data, stepperStepIndex } = useWidgetContext();
-  const submitButtonSchema = getSubmitButtonSchema(uischema, stepperStepIndex);
-  const { actionParams: params } = submitButtonSchema?.options || {};
+  const { formBag: { dataSchema }, data } = useWidgetContext();
 
   return useCallback((
     setFieldError: StateUpdater<string | undefined>,
@@ -29,10 +26,10 @@ export const useOnValidate = (uischema: FieldElement) => {
     const updatedData = { ...data, ...(value && { [name]: value }) };
     const validator = dataSchema[name];
     if (typeof validator?.validate === 'function') {
-      const message = validator.validate({ ...updatedData, ...params });
+      const message = validator.validate({ ...updatedData });
       setFieldError(message?.i18n?.key);
     } else {
       setFieldError(undefined);
     }
-  }, [data, dataSchema, name, params]);
+  }, [data, dataSchema, name]);
 };

@@ -27,6 +27,12 @@ const updateErrorMessages = (
   fieldName: string,
   errorKey: string,
 ) => {
+  // TODO: once OKTA-476303 is merged, remove this and
+  // add isCustomizedI18nKey check for adding keys here
+  const disabled = true;
+  if (disabled) {
+    return;
+  }
   // eslint-disable-next-line no-param-reassign
   dataSchema[fieldName] = {
     validate(data) {

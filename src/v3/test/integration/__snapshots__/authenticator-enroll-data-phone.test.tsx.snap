@@ -1479,6 +1479,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             class="ods-10aW0m"
                           >
                             <input
+                              aria-describedby="authenticator.phoneNumber-error"
                               autocomplete="tel-national"
                               class="ods-7qBw9I"
                               data-se="authenticator.phoneNumber"
@@ -1487,6 +1488,12 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               type="tel"
                             />
                           </div>
+                          <p
+                            class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-3yFBXm"
+                            id="generated"
+                          >
+                            model.validation.field.blank
+                          </p>
                         </div>
                       </div>
                     </div>
