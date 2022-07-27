@@ -17,7 +17,7 @@ import { AUTHENTICATOR_KEY, IDX_STEP } from '../constants';
 import { getAuthenticatorKey, hasMinAuthenticatorOptions } from '../util';
 import { transformInputs } from './field';
 import { getButtonControls } from './getButtonControls';
-import { uischemaLabelTransformer } from './i18nTransformer';
+import { transformAdditionalPhoneUITranslations, uischemaLabelTransformer } from './i18nTransformer';
 import TransformerMap from './idxTransformerMapping';
 import { transformMessages } from './messages/transformMessages';
 
@@ -38,6 +38,7 @@ export default ({
 
   const formBag = transformInputs(transaction, stepName!);
   uischemaLabelTransformer(transaction, formBag);
+  transformAdditionalPhoneUITranslations(transaction, formBag, widgetProps);
 
   const authenticatorKey = getAuthenticatorKey(transaction) ?? AUTHENTICATOR_KEY.DEFAULT;
   const customTransformer = TransformerMap[stepName]?.[authenticatorKey];

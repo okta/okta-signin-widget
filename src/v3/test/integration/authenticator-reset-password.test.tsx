@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { setup, updateDynamicAttribute } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/answer/password-reset.json';
 
@@ -18,6 +18,7 @@ describe('authenticator-reset-password', () => {
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Reset your password/);
+    updateDynamicAttribute(container, ['aria-labelledby', 'id']);
     expect(container).toMatchSnapshot();
   });
 
@@ -27,6 +28,7 @@ describe('authenticator-reset-password', () => {
       widgetOptions: { brandName: 'Acme Corp' },
     });
     await findByText(/Reset your Acme Corp password/);
+    updateDynamicAttribute(container, ['aria-labelledby', 'id']);
     expect(container).toMatchSnapshot();
   });
 

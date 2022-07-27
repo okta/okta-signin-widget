@@ -13,30 +13,12 @@
 import { IdxTransaction, Input, NextStep } from '@okta/okta-auth-js';
 
 import {
-  FieldElement, FormBag, StepTransformer, TranslationInfo, UISchemaElement,
+  FieldElement, FormBag, StepTransformer, UISchemaElement,
 } from '../../types';
-import { flattenInputs, loc } from '../../util';
+import { flattenInputs } from '../../util';
 import { createForm } from '../utils';
 import { transformer as attributesTransformer } from './attributes';
 import { transformer as typeTransformer } from './type';
-
-const getAdditionalUITranslations = (name: string | undefined): TranslationInfo[] | undefined => {
-  if (!name?.endsWith('phoneNumber')) {
-    return undefined;
-  }
-  return [
-    {
-      fieldName: 'country',
-      i18nKey: 'country.label',
-      value: loc('country.label', 'login'),
-    },
-    {
-      fieldName: 'extension',
-      i18nKey: 'phone.extention.label',
-      value: loc('phone.extention.label', 'login'),
-    },
-  ];
-};
 
 const mapUiElement = (input: Input): UISchemaElement => {
   const { name, label } = input;
@@ -51,7 +33,6 @@ const mapUiElement = (input: Input): UISchemaElement => {
       inputMeta: { ...input },
       ...fieldType?.[input.name],
       ...attributes,
-      translations: getAdditionalUITranslations(name),
     },
   } as UISchemaElement;
 };

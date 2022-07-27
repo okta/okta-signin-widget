@@ -340,7 +340,7 @@ export interface DataSchema {
 }
 
 export interface TranslationInfo {
-  fieldName: string;
+  name: string;
   i18nKey: string;
   value: string;
 }

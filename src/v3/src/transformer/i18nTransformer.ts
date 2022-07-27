@@ -14,7 +14,13 @@ import { IdxTransaction, Input } from '@okta/okta-auth-js';
 
 import { getI18NParams, getI18NValue, getMessage } from '../../../v2/ion/i18nTransformer';
 import { AUTHENTICATOR_KEY } from '../constants';
-import { FieldElement, FormBag, UISchemaElement } from '../types';
+import {
+  FieldElement,
+  FormBag,
+  IdxStepTransformer,
+  UISchemaElement,
+} from '../types';
+import { loc } from '../util';
 import { getOptionValue } from './selectAuthenticator/utils';
 
 const geti18nPath = (fieldName: string, stepName: string, authenticatorKey: string): string => {
@@ -84,4 +90,30 @@ export const transactionMessageTransformer = (transaction: IdxTransaction): void
     // eslint-disable-next-line no-param-reassign
     message.message = getMessage(message);
   });
+};
+
+export const transformAdditionalPhoneUITranslations: IdxStepTransformer = (_, formBag) => {
+  const { uischema } = formBag;
+
+  const phoneElement = uischema.elements.find((element) => (element as FieldElement)
+    .name?.endsWith('phoneNumber')) as FieldElement;
+
+  if (phoneElement) {
+    phoneElement.options = {
+      ...phoneElement.options,
+      translations: [
+        {
+          name: 'country',
+          i18nKey: 'country.label',
+          value: loc('country.label', 'login'),
+        },
+        {
+          name: 'extension',
+          i18nKey: 'phone.extention.label',
+          value: loc('phone.extention.label', 'login'),
+        },
+      ],
+    };
+  }
+  return formBag;
 };

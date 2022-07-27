@@ -39,8 +39,8 @@ const getComponentProps = (
     options: {
       inputMeta: { name: 'phoneNumber' },
       translations: [
-        { fieldName: 'country', i18nKey: 'country.label', value: 'Country' },
-        { fieldName: 'extension', i18nKey: 'extension.label', value: 'Extension' },
+        { name: 'country', i18nKey: 'country.label', value: 'Country' },
+        { name: 'extension', i18nKey: 'extension.label', value: 'Extension' },
       ],
       ...options,
     },
