@@ -67,7 +67,7 @@ const InputText: UISchemaElementComponent<{
         type={type || 'text'}
         name={name}
         id={name}
-        error={!!(error || (isTouched && fieldError))}
+        error={isTouched ? !!fieldError : !!error}
         onBlur={handleInputBlur}
         onChange={handleChange}
         fullWidth
@@ -76,12 +76,12 @@ const InputText: UISchemaElementComponent<{
           ...attributes,
         }}
       />
-      {(error || (isTouched && fieldError)) && (
+      {(isTouched ? !!fieldError : !!error) && (
         <FormHelperText
           data-se={`${name}-error`}
           error
         >
-          {error || fieldError}
+          {isTouched ? fieldError : error}
         </FormHelperText>
       )}
     </Box>
