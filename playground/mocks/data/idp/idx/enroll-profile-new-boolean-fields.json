@@ -62,10 +62,27 @@
                   ]
                 },
                 {
-                  "name": "subscribe",
+                  "name": "required",
                   "type": "boolean",
-                  "label": "Subscribe me",
-                  "required": true,
+                  "label": "Required",
+                  "required": false,
+                  "options":[
+                    {
+                      "label":"display",
+                      "value":{
+                        "type":"object",
+                        "value":{
+                          "inputType":"checkbox"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "optional",
+                  "type": "boolean",
+                  "label": "Optional",
+                  "required": false,
                   "options":[
                     {
                       "label":"display",

@@ -32,14 +32,12 @@ const getRadioUiSchema = ({ label, required, options }) => ({
   sublabel: required? null : loc('oie.form.field.optional', 'login'),
 });
 
-const getCheckboxUiSchemaSSR = ({ label, type, required }) => ({
-  // For checkbox, we need the label only on the right side of it.
+const getCheckboxUiSchemaWithDefaultValue = ({ label, type, required }) => ({
   placeholder: label,
   label: false,
   modelType: type,
   type: 'checkbox',
-  required: required || false,
-  // Set default value as false
+  required: required,
   value: false,
 });
 
@@ -56,7 +54,7 @@ const createUiSchemaForBoolean = (ionFormField, remediationForm) => {
   } else if (Array.isArray(ionFormField.options) && ionFormField.options[0]?.value?.value?.inputType === 'radio') {
     return getRadioUiSchema(ionFormField);
   } else if (Array.isArray(ionFormField.options) && ionFormField.options[0]?.value?.value?.inputType === 'checkbox') {
-    return getCheckboxUiSchemaSSR(ionFormField);
+    return getCheckboxUiSchemaWithDefaultValue(ionFormField);
   } else {
     return getCheckboxUiSchema(ionFormField);
   }
