@@ -15,13 +15,13 @@ import { NativeSelect, TextInput } from '@okta/odyssey-react';
 import get from 'lodash/get';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import CountryUtil from '../../../../util/CountryUtil';
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import { useOnChange } from '../../hooks';
-import { loc } from '../../util';
+import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
+import { getTranslation } from '../../util';
 import { getLabelName } from '../helpers';
 
 const PhoneAuthenticator: UISchemaElementComponent<{
@@ -30,6 +30,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   const {
     label,
     options: {
+      translations = [],
       targetKey = '',
       inputMeta: {
         name: fieldName,
@@ -75,7 +76,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
           type="text"
           data-se="extension"
           name="extension"
-          label={loc('phone.extention.label', 'login')}
+          label={getTranslation(translations, 'extension')}
           value={extension}
           autocomplete="tel-extension"
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -91,7 +92,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
       <NativeSelect
         id="countryList"
         data-se="countryList"
-        label={loc('country.label', 'login')}
+        label={getTranslation(translations, 'country')}
         autocomplete="tel-country-code"
         onChange={(e: ChangeEvent) => { setPhoneCode(`+${CountryUtil.getCallingCodeForCountry(e.currentTarget.value)}`); }}
       >

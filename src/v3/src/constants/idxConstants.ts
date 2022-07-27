@@ -172,13 +172,6 @@ export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP: Record<string, string> = {
   [AUTHENTICATOR_KEY.CUSTOM_APP]: 'oie.custom.app.authenticator.description',
 };
 
-// TODO: OKTA-503490 temporary sln to fix issue with missing relatesTo obj
-export const STEPS_MISSING_RELATES_TO: string[] = [
-  IDX_STEP.ENROLL_POLL,
-  IDX_STEP.ENROLLMENT_CHANNEL_DATA,
-  IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
-];
-
 export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {
   AUTHENTICATION: 'idx.return.link.otponly.enter.code.on.page.sign.in',
   RECOVERY: 'idx.return.link.otponly.enter.code.on.page.password.reset',

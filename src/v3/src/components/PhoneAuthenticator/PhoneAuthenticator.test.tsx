@@ -36,7 +36,14 @@ const getComponentProps = (
     type: 'Control',
     label: 'Phone Number',
     name: 'phoneNumber',
-    options: { inputMeta: { name: 'phoneNumber' }, ...options },
+    options: {
+      inputMeta: { name: 'phoneNumber' },
+      translations: [
+        { fieldName: 'country', i18nKey: 'country.label', value: 'Country' },
+        { fieldName: 'extension', i18nKey: 'extension.label', value: 'Extension' },
+      ],
+      ...options,
+    },
   },
 });
 
@@ -70,7 +77,7 @@ describe('PhoneAuthenticator tests', () => {
     props = getComponentProps({ targetKey: 'methodType' });
     const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
 
-    await findByLabelText(/country.label/);
+    await findByLabelText(/Country/);
     const phoneInput = await findByLabelText(/Phone Number/);
     const autocomplete = phoneInput?.getAttribute('autocomplete');
 
@@ -89,9 +96,9 @@ describe('PhoneAuthenticator tests', () => {
     props = getComponentProps({ targetKey: 'methodType' });
     const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
 
-    await findByLabelText(/country.label/);
+    await findByLabelText(/Country/);
     const phoneInput = await findByLabelText(/Phone Number/);
-    const extInput = await findByLabelText(/phone.extention.label/);
+    const extInput = await findByLabelText(/Extension/);
     const autocomplete = phoneInput?.getAttribute('autocomplete');
 
     expect(phoneInput.tagName).toMatch(/^input$/i);

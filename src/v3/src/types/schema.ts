@@ -132,6 +132,7 @@ export interface FieldElement extends UISchemaElement {
     type?: string;
     customOptions?: IdxOption[],
     targetKey?: string;
+    translations?: TranslationInfo[];
   };
 }
 
@@ -336,4 +337,10 @@ type ValidateFunction = (data: FormBag['data']) => Partial<IdxMessage> | undefin
 
 export interface DataSchema {
   validate?: ValidateFunction;
+}
+
+export interface TranslationInfo {
+  fieldName: string;
+  i18nKey: string;
+  value: string;
 }

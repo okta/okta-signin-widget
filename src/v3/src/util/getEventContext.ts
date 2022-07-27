@@ -14,25 +14,31 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 
 import { EventContext } from '../../../types';
 import { getV1ClassName } from '../../../v2/ion/ViewClassNamesFactory';
+import { getAuthenticatorKey } from './getAuthenticatorKey';
+import { isPasswordRecovery } from './isPasswordRecovery';
 
 export const getEventContext = (transaction: IdxTransaction): EventContext => {
-  const formName = transaction.nextStep?.name;
-  const authenticatorKey = transaction.context.currentAuthenticator.value.key;
-  const methodType = transaction.context.currentAuthenticator.value.type;
+  const { nextStep: { name: formName } = {} } = transaction;
+  const authenticatorKey = getAuthenticatorKey(transaction);
+  const methodType = transaction.context.currentAuthenticator?.value?.type;
+  const isPasswordRecoveryFlow = isPasswordRecovery(transaction);
 
   const controller = getV1ClassName(
     formName,
     authenticatorKey,
     methodType,
-    false, // FIXME isPasswordRecoveryFlow
+    isPasswordRecoveryFlow,
   );
 
   if (!controller) {
-    throw new Error(`Controller not found: ${controller}`);
+    // TODO: Lester FIXME
+    // throw new Error(`Controller not found: ${controller}`);
+    console.warn(`Controller not found: ${controller}`);
   }
 
   return {
-    controller,
+    // TODO: Lester FIXME
+    controller: controller ?? '',
     formName,
     authenticatorKey,
     methodType,

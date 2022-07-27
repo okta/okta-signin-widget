@@ -19,7 +19,6 @@ import {
   IdxStepTransformer,
   ReminderElement,
   TitleElement,
-  Undefinable,
 } from '../../types';
 import { loc } from '../../util';
 
@@ -35,7 +34,7 @@ export const transformPhoneChallenge: IdxStepTransformer = ({
   const { methods, profile } = nextStep.relatesTo?.value || {};
   const { phoneNumber } = profile || {};
   const methodType = methods?.[0]?.type;
-  let reminderElement: Undefinable<ReminderElement>;
+  let reminderElement: ReminderElement | undefined;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
   if (resendStep) {

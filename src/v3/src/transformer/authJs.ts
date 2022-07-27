@@ -13,8 +13,8 @@
 import { IdxFeature, IdxTransaction } from '@okta/okta-auth-js';
 import { FormBag, WidgetProps } from 'src/types';
 
-import { AUTHENTICATOR_KEY, IDX_STEP, STEPS_MISSING_RELATES_TO } from '../constants';
-import { hasMinAuthenticatorOptions } from '../util';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../constants';
+import { getAuthenticatorKey, hasMinAuthenticatorOptions } from '../util';
 import { transformInputs } from './field';
 import { getButtonControls } from './getButtonControls';
 import { uischemaLabelTransformer } from './i18nTransformer';
@@ -31,7 +31,7 @@ type Options = {
 export default ({
   transaction, prevTransaction, step, widgetProps,
 } : Options): FormBag => {
-  const { nextStep, context, availableSteps } = transaction;
+  const { nextStep, availableSteps } = transaction;
 
   const enabledFeatures = transaction?.enabledFeatures;
   const stepName = (step || nextStep?.name) as string;
@@ -39,10 +39,7 @@ export default ({
   const formBag = transformInputs(transaction, stepName!);
   uischemaLabelTransformer(transaction, formBag);
 
-  const authenticatorKey = (STEPS_MISSING_RELATES_TO.includes(stepName)
-    // TODO: OKTA-503490 temporary sln to grab auth key for enroll-poll step its missing relatesTo obj
-    ? context.currentAuthenticator?.value?.key
-    : nextStep?.relatesTo?.value?.key) ?? AUTHENTICATOR_KEY.DEFAULT;
+  const authenticatorKey = getAuthenticatorKey(transaction) ?? AUTHENTICATOR_KEY.DEFAULT;
   const customTransformer = TransformerMap[stepName]?.[authenticatorKey];
   const updatedFormBag = customTransformer?.transform?.({
     transaction,

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction, NextStep } from '@okta/okta-auth-js';
+import { NextStep } from '@okta/okta-auth-js';
 import {
   DescriptionElement,
   IdxStepTransformer,
@@ -18,15 +18,15 @@ import {
   UISchemaElement,
 } from 'src/types';
 
-import { loc } from '../../util';
+import { isPasswordRecovery, loc } from '../../util';
 import { removeUIElementWithName } from '../utils';
 import { getAuthenticatorVerifyButtonElements } from './utils';
 
 const getContentTitleAndParams = (
-  isPasswordRecovery: boolean,
+  isPwRecovery: boolean,
   brandName?: string,
 ): TitleElement['options'] => {
-  if (!isPasswordRecovery) {
+  if (!isPwRecovery) {
     return { content: loc('oie.select.authenticators.verify.title', 'login') };
   }
 
@@ -37,11 +37,6 @@ const getContentTitleAndParams = (
   }
   return { content: loc('password.reset.title.generic', 'login') };
 };
-
-const isPasswordRecovery = (transaction: IdxTransaction): boolean => (
-  // @ts-ignore OKTA-486472 (prop is missing from interface)
-  transaction.rawIdxState.recoveryAuthenticator?.value?.type === 'password'
-);
 
 export const transformSelectAuthenticatorVerify: IdxStepTransformer = ({
   transaction,
