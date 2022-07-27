@@ -11,7 +11,7 @@
  */
 
 import { Box } from '@mui/material';
-import { h, FunctionComponent } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import { useFormContext } from '../../contexts';

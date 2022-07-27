@@ -40,8 +40,8 @@ import {
   UISchemaLayout,
   WidgetProps,
 } from '../../types';
-import { getEventContext } from '../../util/getEventContext';
 import { buildAuthCoinProps, isAndroidOrIOS, isAuthClientSet } from '../../util';
+import { getEventContext } from '../../util/getEventContext';
 import { mapThemeFromBrand } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';

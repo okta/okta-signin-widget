@@ -74,6 +74,7 @@ const Form: FunctionComponent<{
   }, [
     data,
     currTransaction,
+    dataSchemaRef,
     setIdxTransaction,
     onSubmitHandler,
   ]);
