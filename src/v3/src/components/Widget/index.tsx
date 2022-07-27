@@ -11,7 +11,6 @@
  */
 
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { ThemeProvider } from '@okta/odyssey-react-theme';
 import {
   AuthApiError,
@@ -49,7 +48,7 @@ import {
   loadLanguage,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
-import { mapThemeFromBrand } from '../../util/theme';
+import { mapMuiThemeFromBrand, mapThemeFromBrand } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
@@ -260,7 +259,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}
-      <MuiThemeProvider theme={odysseyTheme}>
+      <MuiThemeProvider theme={mapMuiThemeFromBrand(brandColors)}>
         <ThemeProvider theme={mapThemeFromBrand(brandColors)}>
           <AuthContainer>
             <AuthHeader

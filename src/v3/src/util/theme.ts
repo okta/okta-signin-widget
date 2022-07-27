@@ -10,7 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Theme } from '@mui/material/styles';
 import { Button } from '@okta/odyssey-react';
+import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { PartialTheme } from '@okta/odyssey-react-theme/dist/ThemeProvider/context';
 import chroma from 'chroma-js';
 import { BrandColors, Nullable, Undefinable } from 'src/types';
@@ -87,6 +89,24 @@ export const deriveThemeFromBrand = (brand: BrandColors): Nullable<DerivedTheme>
 
     return null;
   }
+};
+
+export const mapMuiThemeFromBrand = (brand: BrandColors | undefined): Theme => {
+  if (brand) {
+    const derivedTheme = deriveThemeFromBrand(brand);
+
+    if (derivedTheme) {
+      odysseyTheme.palette.primary = {
+        main: derivedTheme.primaryColor,
+        light: derivedTheme.primaryColorLight,
+        lighter: derivedTheme.primaryColorLightest,
+        dark: derivedTheme.primaryColorDark,
+        contrastText: derivedTheme.inverseTextColor,
+      };
+      odysseyTheme.palette.text.primary = derivedTheme.textColor;
+    }
+  }
+  return odysseyTheme;
 };
 
 export const mapThemeFromBrand = (brand: Undefinable<BrandColors>): PartialTheme => {
