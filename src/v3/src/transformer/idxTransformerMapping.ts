@@ -154,6 +154,10 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.ENROLL_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.EMAIL]: {
+      transform: transformEmailChallenge,
+      buttonConfig: { showDefaultSubmit: false },
+    },
     [AUTHENTICATOR_KEY.PASSWORD]: {
       transform: transformEnrollPasswordAuthenticator,
     },

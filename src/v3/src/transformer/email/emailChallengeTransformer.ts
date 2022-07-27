@@ -67,12 +67,14 @@ export const transformEmailChallenge: IdxStepTransformer = ({
   passcodeElement!.label = loc('email.enroll.enterCode', 'login');
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
+  const maginLinkText = redactedEmailAddress
+    ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [redactedEmailAddress])
+    : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
+  const instrText = loc('oie.email.verify.alternate.instructions', 'login');
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: redactedEmailAddress
-        ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [redactedEmailAddress])
-        : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login'),
+      content: `${maginLinkText} ${instrText}`,
     },
   };
 
