@@ -14,7 +14,7 @@ setup_service google-chrome-stable 91.0.4472.77-1
 function run_e2e() {
   echo "Starting e2e test suite"
 
-  yarn workspace v3 test:e2e
+  yarn workspace v3 test:e2e --no-color
 }
 
 export CI=true

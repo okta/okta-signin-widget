@@ -83,7 +83,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async hasShowTogglePasswordIcon() {
-    return await Selector('.password-toggle').count;
+    return await Selector('[data-se="password-toggle"]').count > 0;
   }
 
   getSaveButtonLabel() {
@@ -110,6 +110,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.waitForTextBoxError('identifier');
   }
 
+  /**
+   * @deprecated
+   * @see hasIdentifierErrorMessage
+   */
   hasIdentifierError() {
     return this.form.hasTextBoxError('identifier');
   }
@@ -122,6 +126,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.getTextBoxErrorMessage('identifier');
   }
 
+  /**
+   * @deprecated
+   * @see hasPasswordErrorMessage
+   */
   hasPasswordError() {
     return this.form.hasTextBoxError('credentials\\.passcode');
   }

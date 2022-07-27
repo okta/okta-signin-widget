@@ -40,6 +40,7 @@ import {
   WidgetProps,
 } from '../../types';
 import { buildAuthCoinProps, isAuthClientSet } from '../../util';
+import { getEventContext } from '../../util/getEventContext';
 import { mapThemeFromBrand } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
@@ -167,10 +168,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
     const { messages: newMessages = [], status } = idxTransaction;
 
-    events?.afterRender?.({
-      stepName: idxTransaction.nextStep?.name,
-      authenticatorKey: idxTransaction.nextStep?.relatesTo?.value?.key,
-    });
+    events?.afterRender?.(getEventContext(idxTransaction));
 
     // for multiple error messages
     newMessages?.forEach((newMessage) => {

@@ -31,6 +31,7 @@ export const transformIdentify: IdxStepTransformer = (_, formBag, widgetProps) =
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
+      dataType: 'save',
     },
   };
 

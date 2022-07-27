@@ -48,7 +48,7 @@ const suiteMap = {
 exports.handler = async (argv) => {
   const packageDir = process.cwd();
   const testType = suiteMap[argv.type];
-  
+
   // Start building the test command
   let { cmd } = testType;
 
@@ -74,7 +74,7 @@ exports.handler = async (argv) => {
   cmd += `${help} ${additionalArgs}`;
 
   testcafeTransformArgs.forEach(arg => {
-    const regex = new RegExp(`${arg}(.*?(?=-|$))`); // Capture everything except the next flag
+    const regex = new RegExp(`\b${arg}\b(.*?(?=-|$))`); // Capture everything except the next flag
     const matches = cmd.match(regex) || [];
     if (matches.length > 1) {
       cmd = cmd.replace(regex, `${arg} "${matches[1].trim()}" `);

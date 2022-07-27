@@ -49,7 +49,7 @@
     "test:e2e:lang": "yarn workspace @okta/e2e test:lang",
     "test:testcafe-setup": "mkdir -p test-reports/testcafe && yarn start --mock mockDuo --open false",
     "test:testcafe-run": "yarn test -t testcafe -c 2 chrome:headless --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
-    "test:testcafe-ci": "run-p -r test:testcafe-setup \"test:testcafe-run\" -- 2>/dev/null",
+    "test:testcafe-ci": "run-p -r test:testcafe-setup test:testcafe-run -- 2>/dev/null",
     "test:testcafe-en-leaks-setup": "mkdir -p test-reports/testcafe && grunt exec:pseudo-loc && yarn start --open false",
     "test:testcafe-run-en-leaks": "yarn test -t testcafe -c 2 chrome test/testcafe/spec-en-leaks/ --reporter spec",
     "test:testcafe-run-en-leaks-ci": "yarn test -t testcafe -c 2 chrome:headless test/testcafe/spec-en-leaks/ --reporter xunit:build2/reports/junit/testcafe-results.xml",
@@ -75,7 +75,10 @@
     "generate:types": "ttsc --noEmit false --declaration --emitDeclarationOnly --declarationMap",
     "copy:types": "grunt copy:types",
     "build:types": "yarn clean:types && yarn generate:types && yarn copy:types",
-    "start:mock-server": "MOCK_SERVER_PORT=3030 nodemon --delay 500ms -e js,json --watch playground --exec 'node playground/mocks/server.js'"
+    "start:mock-server": "MOCK_SERVER_PORT=3030 nodemon --delay 500ms -e js,json --watch playground --exec 'node playground/mocks/server.js'",
+    "test:parity-setup": "mkdir -p test-reports/testcafe && yarn generate-config && yarn workspace v3 build && yarn workspace v3 serve",
+    "test:parity-run": "yarn test -t testcafe --config-file .testcaferc-parity.js -c 2 chrome:headless --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
+    "test:parity-ci": "run-p -r test:parity-setup test:parity-run"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
