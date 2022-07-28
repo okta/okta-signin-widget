@@ -34,7 +34,7 @@ const STEPS = {
 
 const REMINDER_CHANNELS = ['sms', 'email'];
 const CHANNEL_TO_CTA_KEY: { [channel: string]: string } = {
-  // TODO: These i18n keys contain anchor tags in them, how to proceed?
+  // TODO: OKTA-518743 These i18n keys contain anchor tags in them, how to proceed?
   // See OVResendView.js
   email: 'oie.enroll.okta_verify.email.notReceived',
   sms: 'oie.enroll.okta_verify.sms.notReceived',

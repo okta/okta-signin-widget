@@ -27,6 +27,7 @@ const Spinner: FunctionComponent<{
     alignItems="center"
   >
     <CircularProgress
+      // TODO: OKTA-518793 - replace english string with key once created
       aria-label={label || 'Loading...'}
       aria-valuetext={valueText || 'Loading...'}
     />

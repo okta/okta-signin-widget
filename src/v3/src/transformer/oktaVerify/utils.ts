@@ -64,7 +64,7 @@ export const appendDescriptionElements = (
     elements.push({
       type: 'Description',
       options: {
-        // TODO: revist this to use oie i18n string (EnrollChannelPollDescriptionView.js)
+        // TODO: OKTA-518743 revist this to use oie i18n string (EnrollChannelPollDescriptionView.js)
         content: loc('oie.enroll.okta_verify.email.info', 'login', [email]),
       },
     } as DescriptionElement);
@@ -77,7 +77,7 @@ export const appendDescriptionElements = (
     elements.push({
       type: 'Description',
       options: {
-        // TODO: revist this to use oie i18n string (EnrollChannelPollDescriptionView.js)
+        // TODO: OKTA-518743 revist this to use oie i18n string (EnrollChannelPollDescriptionView.js)
         content: loc('oie.enroll.okta_verify.sms.info', 'login', [phoneNumber]),
       },
     } as DescriptionElement);
@@ -94,7 +94,7 @@ export const createNavButtonConfig = (hasQrCode: boolean): {
         label: hasQrCode
           ? 'enroll.totp.cannotScan'
           // (SwitchEnrollChannelLinkView.js)
-          // TODO: This key has an anchor tag embedded in the text, how to proceed?
+          // TODO: OKTA-518743 This key has an anchor tag embedded in the text, how to proceed?
           : 'oie.enroll.okta_verify.switch.channel.link.text',
       },
     } as Record<StepperNavButtonConfigDirection, StepperNavButtonConfigAttrs>,
@@ -104,7 +104,7 @@ export const createNavButtonConfig = (hasQrCode: boolean): {
     set(stepperNavBtnConfig, 'navButtonsConfig.prev', {
       variant: 'secondary',
       // (SwitchEnrollChannelLinkView.js)
-      // TODO: This key has anchor tag embedded in the text, how to proceed?
+      // TODO: OKTA-518743 This key has anchor tag embedded in the text, how to proceed?
       label: 'oie.enroll.okta_verify.switch.channel.link.text',
     } as StepperNavButtonConfigAttrs);
   }

@@ -46,6 +46,7 @@ export const redirectTransformer = (
   if (interstitialBeforeLoginRedirect === InterstitialRedirectView.DEFAULT) {
     uischema.elements.push({
       type: 'Spinner',
+      // TODO: OKTA-518793 - replace english string with key once created
       options: { label: 'Loading...', valueText: 'Loading...' },
     } as SpinnerElement);
   }

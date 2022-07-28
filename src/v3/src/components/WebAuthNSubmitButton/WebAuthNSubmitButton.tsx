@@ -84,6 +84,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
           ? (
             <CircularLoadIndicator
               id="okta-spinner"
+              // TODO: OKTA-518793 - replace english string with key once created
               aria-label="Loading..."
               aria-valuetext="Loading..."
             />

@@ -88,6 +88,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
     uischema.elements.push({
       type: 'Spinner',
       options: {
+        // TODO: OKTA-518793 - replace english string with key once created
         label: 'Loading...',
         valueText: 'Loading...',
       },
@@ -110,6 +111,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
     uischema.elements.push({
       type: 'Spinner',
       options: {
+        // TODO: OKTA-518793 - replace english string with key once created
         label: 'Loading...',
         valueText: 'Loading...',
       },
