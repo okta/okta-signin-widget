@@ -1,4 +1,7 @@
 import { t, ClientFunction } from 'testcafe';
+import { RequestMock as TestCafeRequestMock } from 'testcafe';
+import xhrInteract from '../../../../playground/mocks/data/oauth2/interact.json';
+import xhrWellknownOpenidConfiguration from '../../../../playground/mocks/data/oauth2/well-known-openid-configuration.json';
 
 const READY_MESSAGE = '===== playground widget ready event received =====';
 const AFTER_RENDER_MESSAGE = '===== playground widget afterRender event received =====';
@@ -80,3 +83,14 @@ export async function assertRequestMatches(loggedRequest, url, method, body) {
     await t.expect(requestBody).eql(body);
   }
 }
+
+/**
+ * Provides mock responses for common endpoints. Use this export instead of
+ * importing from "testcafe" directly to avoid falling back to dyson mock server
+ * for these requests.
+ */
+export const RequestMock = (...args) => TestCafeRequestMock(...args)
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(xhrInteract)
+  .onRequestTo('http://localhost:3000/oauth2/default/.well-known/openid-configuration')
+  .respond(xhrWellknownOpenidConfiguration);
