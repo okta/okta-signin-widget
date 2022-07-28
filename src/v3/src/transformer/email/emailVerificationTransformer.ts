@@ -65,6 +65,7 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
       actionParams: {
         'authenticator.methodType': methodTypeElement.options.inputMeta.options?.[0].value as string,
       },

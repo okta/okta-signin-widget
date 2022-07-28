@@ -40,8 +40,8 @@ describe('authenticator-verification-okta-verify-push', () => {
       {
         data: JSON.stringify({
           authenticator: {
-            methodType: 'push',
             autoChallenge: true,
+            methodType: 'push',
             id: 'aut2h3fft4y9pDPCS1d7',
           },
           stateHandle: 'fake-stateHandle',
@@ -78,8 +78,8 @@ describe('authenticator-verification-okta-verify-push', () => {
       {
         data: JSON.stringify({
           authenticator: {
-            methodType: 'push',
             autoChallenge: false,
+            methodType: 'push',
             id: 'aut2h3fft4y9pDPCS1d7',
           },
           stateHandle: 'fake-stateHandle',

@@ -19,7 +19,10 @@ import {
 } from '../../types';
 import { loc } from '../../util';
 
-export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({ formBag }) => {
+export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
+  formBag,
+  transaction,
+}) => {
   const { uischema } = formBag;
 
   const titleElement: TitleElement = {
@@ -40,6 +43,7 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({ formBag
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
     },
   };
 

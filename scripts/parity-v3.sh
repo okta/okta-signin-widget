@@ -9,12 +9,6 @@ export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
-# generated code is required
-if ! yarn codegen; then
-  echo "build codegen failed! Exiting..."
-  exit ${TEST_FAILURE}
-fi
-
 # NOTE: add a testcafe fixture to the list of specs to run for parity testing by
 # adding fixture metadata {"v3": true}. See example in
 # test/testcafe/spec/Smoke_spec.js

@@ -69,6 +69,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
       dataType: 'save',
     },
   };

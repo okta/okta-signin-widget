@@ -26,6 +26,7 @@ const Link: UISchemaElementComponent<{
       href,
       action: actionFn,
       actionParams,
+      step,
     },
   } = uischema;
   const onSubmitHandler = useOnSubmit();
@@ -36,6 +37,7 @@ const Link: UISchemaElementComponent<{
     onSubmitHandler({
       params: actionParams,
       actionFn,
+      step,
     });
   };
 

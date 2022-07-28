@@ -21,42 +21,67 @@ describe('authenticator-enroll-phone-sms', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should send correct payload', async () => {
-    const {
-      authClient, user, findByTestId, findByText,
-    } = await setup({ mockResponse });
+  describe('Send correct payload', () => {
+    it('when submit the form', async () => {
+      const {
+        authClient, user, findByTestId, findByText,
+      } = await setup({ mockResponse });
 
-    await findByText(/Set up phone authentication/);
-    await findByText(/A code was sent to your phone. Enter the code below to verify./);
-    await findByText(/Carrier messaging charges may apply/);
+      await findByText(/Set up phone authentication/);
+      await findByText(/A code was sent to your phone. Enter the code below to verify./);
+      await findByText(/Carrier messaging charges may apply/);
 
-    const submitButton = await findByTestId('#/properties/submit');
-    const otpEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const submitButton = await findByTestId('#/properties/submit');
+      const otpEle = await findByTestId('credentials.passcode') as HTMLInputElement;
 
-    const otp = '123456';
-    await user.type(otpEle, otp);
+      const otp = '123456';
+      await user.type(otpEle, otp);
 
-    expect(otpEle.value).toEqual(otp);
+      expect(otpEle.value).toEqual(otp);
 
-    await user.click(submitButton);
+      await user.click(submitButton);
 
-    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
-      {
-        data: JSON.stringify({
-          credentials: {
-            passcode: otp,
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
+        {
+          data: JSON.stringify({
+            credentials: {
+              passcode: otp,
+            },
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
           },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          withCredentials: true,
         },
-        withCredentials: true,
-      },
-    );
+      );
+    });
+
+    it('when back to authenticators list', async () => {
+      const {
+        authClient, user, findByText,
+      } = await setup({ mockResponse });
+
+      await user.click(await findByText(/Return to authenticator list/));
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
+        {
+          data: JSON.stringify({
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
+    });
   });
 });

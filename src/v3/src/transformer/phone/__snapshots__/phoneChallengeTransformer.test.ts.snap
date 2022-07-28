@@ -28,6 +28,7 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
+          "step": "",
           "type": "submit",
         },
         "scope": "#/properties/submit",
@@ -67,6 +68,7 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
+          "step": "mock-step",
           "type": "submit",
         },
         "scope": "#/properties/submit",
@@ -114,6 +116,7 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
+          "step": "mock-step",
           "type": "submit",
         },
         "scope": "#/properties/submit",
@@ -153,6 +156,7 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
+          "step": "mock-step",
           "type": "submit",
         },
         "scope": "#/properties/submit",
@@ -192,6 +196,7 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
+          "step": "mock-step",
           "type": "submit",
         },
         "scope": "#/properties/submit",

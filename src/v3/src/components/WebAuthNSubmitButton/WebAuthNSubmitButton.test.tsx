@@ -45,6 +45,7 @@ describe('WebAuthNControlSubmitControl Tests', () => {
         type: 'WebAuthNSubmitButton',
         options: {
           label: 'Verify',
+          step: 'enroll-authenticator',
           onClick: jest.fn().mockImplementation(
             () => Promise.resolve({}),
           ),

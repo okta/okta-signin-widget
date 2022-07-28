@@ -23,25 +23,6 @@ import { getUserInfo, loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
-const getPasswordMatchingKey = (
-  data: Record<string, unknown>,
-): string | undefined => {
-  if ('credentials.passcode' in data) {
-    return 'credentials.passcode';
-  }
-
-  if ('credentials.password' in data) {
-    return 'credentials.password';
-  }
-
-  if ('credentials.newPassword' in data) {
-    return 'credentials.newPassword';
-  }
-
-  // Should never hit this case as it should be one of values defined above
-  return undefined;
-};
-
 export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   transaction,
   formBag,
@@ -49,17 +30,21 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   const { nextStep: { relatesTo } = {} } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
 
-  const { uischema, data } = formBag;
+  const { uischema } = formBag;
 
-  const passwordMatchingKey = getPasswordMatchingKey(data);
-  if (!passwordMatchingKey) {
-    return formBag;
-  }
-
-  const passwordElement = getUIElementWithName(
+  // TODO: remove passwordMatchingKey - still used in fieldKey
+  let passwordMatchingKey = 'credentials.passcode';
+  let passwordElement = getUIElementWithName(
     passwordMatchingKey,
     uischema.elements as FieldElement[],
   ) as FieldElement;
+  if (!passwordElement) {
+    passwordMatchingKey = 'credentials.newPassword';
+    passwordElement = getUIElementWithName(
+      passwordMatchingKey,
+      uischema.elements as FieldElement[],
+    ) as FieldElement;
+  }
   if (passwordElement) {
     passwordElement.options = {
       ...passwordElement.options,

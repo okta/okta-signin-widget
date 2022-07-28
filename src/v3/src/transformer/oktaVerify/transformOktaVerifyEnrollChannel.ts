@@ -80,6 +80,7 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
     scope: '#/properties/setupLink',
     options: {
       type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
     },
   } as ButtonElement);
 

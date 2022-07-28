@@ -26,6 +26,7 @@ Object {
       Object {
         "label": "oie.enroll.okta_verify.setupLink",
         "options": Object {
+          "step": "",
           "type": "submit",
         },
         "scope": "#/properties/setupLink",
@@ -73,6 +74,7 @@ Object {
       Object {
         "label": "oie.enroll.okta_verify.setupLink",
         "options": Object {
+          "step": "",
           "type": "submit",
         },
         "scope": "#/properties/setupLink",

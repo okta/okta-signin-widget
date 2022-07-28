@@ -84,6 +84,7 @@ const appendViewLinks = (
     type: 'Link',
     options: {
       label: loc('goback', 'login'),
+      step: 'cancel',
       // eslint-disable-next-line no-script-url
       href: cancelStep?.action ? 'javascript:void(0)' : (baseUrl || '/'),
       dataSe: 'cancel',
@@ -116,6 +117,7 @@ const appendViewLinks = (
             actions: [{ name: skipStep?.name, params: rest }],
           });
         }),
+        step: transaction.nextStep!.name,
       },
     };
     uischema.elements.push(skipElement);

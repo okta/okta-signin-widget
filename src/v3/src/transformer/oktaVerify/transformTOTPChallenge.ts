@@ -18,7 +18,7 @@ import {
 } from '../../types';
 import { loc } from '../../util';
 
-export const transformTOTPChallenge: IdxStepTransformer = ({ formBag }) => {
+export const transformTOTPChallenge: IdxStepTransformer = ({ formBag, transaction }) => {
   const { uischema } = formBag;
 
   const titleElement: TitleElement = {
@@ -34,6 +34,7 @@ export const transformTOTPChallenge: IdxStepTransformer = ({ formBag }) => {
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
     },
   };
 

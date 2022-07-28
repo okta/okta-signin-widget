@@ -45,6 +45,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
         setMessage(undefined);
         onSubmitHandler({
           params,
+          step: options.step,
           includeData: true,
         });
       })

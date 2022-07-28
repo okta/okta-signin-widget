@@ -52,14 +52,17 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
       type: 'Title',
       options: { content: loc('oie.okta_verify.push.title', 'login') },
     } as TitleElement);
-    uischema.elements.push({
+
+    const sendPushButton: ButtonElement = {
       type: 'Button',
       label: loc('oie.okta_verify.sendPushButton', 'login'),
       scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
+        step: transaction.nextStep!.name,
       },
-    } as ButtonElement);
+    };
+    uischema.elements.push(sendPushButton);
   } else {
     const methodType = (authenticator.value as Input[])?.find(({ name }) => name === 'methodType');
     if (!methodType?.options) {

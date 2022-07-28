@@ -23,7 +23,7 @@ import {
 import { loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
-export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
+export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transaction }) => {
   const { uischema, data } = formBag;
 
   const titleElement: TitleElement = {
@@ -77,6 +77,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
+              step: transaction.nextStep!.name,
             },
           } as ButtonElement,
         ],
@@ -93,6 +94,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
+              step: transaction.nextStep!.name,
             },
           } as ButtonElement,
         ],

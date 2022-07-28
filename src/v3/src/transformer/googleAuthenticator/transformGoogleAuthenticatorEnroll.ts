@@ -131,6 +131,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
+              step: transaction.nextStep!.name,
             },
           } as ButtonElement,
         ],

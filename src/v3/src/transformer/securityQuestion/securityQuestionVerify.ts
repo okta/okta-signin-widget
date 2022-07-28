@@ -49,6 +49,7 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
     },
   };
   uischema.elements.push(primaryButton);
