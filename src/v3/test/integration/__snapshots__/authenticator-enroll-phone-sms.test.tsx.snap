@@ -66,6 +66,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
               class="MuiBox-root emotion-9"
             >
               <div
+<<<<<<< HEAD
                 class="MuiBox-root emotion-10"
               >
                 <div
@@ -73,6 +74,18 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 >
                   <h2
                     class="MuiTypography-root MuiTypography-h3 emotion-12"
+=======
+                class="MuiBox-root emotion-7"
+              />
+              <div
+                class="MuiBox-root emotion-7"
+              >
+                <div
+                  class="MuiBox-root emotion-9"
+                >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h3 emotion-10"
+>>>>>>> fd20864ab (update snapshots)
                   >
                     Set up phone authentication
                   </h2>
@@ -111,18 +124,31 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                   class="MuiBox-root emotion-3"
                 >
                   <label
+<<<<<<< HEAD
                     class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
                     for="credentials.passcode"
+=======
+                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-15"
+                    for="generated"
+>>>>>>> fd20864ab (update snapshots)
                   >
                     Enter Code
                   </label>
                   <div
+<<<<<<< HEAD
                     class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
+=======
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
+>>>>>>> fd20864ab (update snapshots)
                   >
                     <input
                       aria-invalid="false"
                       autocomplete="one-time-code"
+<<<<<<< HEAD
                       class="MuiOutlinedInput-input MuiInputBase-input emotion-21"
+=======
+                      class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
+>>>>>>> fd20864ab (update snapshots)
                       data-se="credentials.passcode"
                       id="credentials.passcode"
                       name="credentials.passcode"
@@ -130,10 +156,17 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     />
                     <fieldset
                       aria-hidden="true"
+<<<<<<< HEAD
                       class="MuiOutlinedInput-notchedOutline emotion-22"
                     >
                       <legend
                         class="emotion-23"
+=======
+                      class="MuiOutlinedInput-notchedOutline emotion-18"
+                    >
+                      <legend
+                        class="emotion-19"
+>>>>>>> fd20864ab (update snapshots)
                       >
                         <span
                           class="notranslate"
@@ -149,7 +182,11 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 class="MuiBox-root emotion-10"
               >
                 <button
+<<<<<<< HEAD
                   class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
+=======
+                  class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
+>>>>>>> fd20864ab (update snapshots)
                   data-se="#/properties/submit"
                   tabindex="0"
                   type="submit"
@@ -161,7 +198,11 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 class="MuiBox-root emotion-10"
               >
                 <button
+<<<<<<< HEAD
                   class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
+=======
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-23"
+>>>>>>> fd20864ab (update snapshots)
                   data-se="switchAuthenticator"
                   tabindex="0"
                   type="button"
@@ -173,7 +214,11 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 class="MuiBox-root emotion-10"
               >
                 <button
+<<<<<<< HEAD
                   class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
+=======
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-23"
+>>>>>>> fd20864ab (update snapshots)
                   data-se="cancel"
                   tabindex="0"
                   type="button"
