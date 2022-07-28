@@ -39,9 +39,39 @@ function addBeacon(view, NextBeacon, selector, options) {
   view.currentBeacon = view.first();
 }
 
+function typeOfTransition(currentBeacon, NextBeacon, options) {
+  if (!currentBeacon && !NextBeacon) {
+    return 'none';
+  }
+  // Show Loading beacon
+  if (!currentBeacon && options.loading) {
+    return 'load';
+  }
+  // Swap/Hide Loading beacon
+  if (currentBeacon && isLoadingBeacon(currentBeacon)) {
+    return NextBeacon ? 'swap' : 'unload';
+  }
+  if (currentBeacon && currentBeacon.equals(NextBeacon, options)) {
+    return 'same';
+  }
+  if (!currentBeacon && NextBeacon) {
+    return 'add';
+  }
+  if (currentBeacon && !NextBeacon) {
+    return 'remove';
+  }
+  if (currentBeacon instanceof NextBeacon) {
+    return 'fade';
+  }
+  // If none of the above
+  // then we are changing the type of beacon
+  // ex. from SecurityBeacon to FactorBeacon
+  return 'swap';
+}
+
 export default class Header extends View {
   currentBeacon;
-
+  
   preinitialize(...args) {
     this.currentBeacon = null;
     /* eslint-disable @okta/okta/no-unlocalized-text-in-templates */
@@ -74,74 +104,74 @@ export default class Header extends View {
   }
 
   /* eslint complexity: 0 */
-  private setBeacon(NextBeacon, options): void {
+  setBeacon(NextBeacon, options) {
     const selector = '[data-type="beacon-container"]';
     const container = this.$(selector);
-    const transition = this.typeOfTransition(NextBeacon, options);
+    const transition = typeOfTransition(this.currentBeacon, NextBeacon, options);
 
     switch (transition) {
-      case 'none':
-        this.$el.addClass(NO_BEACON_CLS);
-        return;
-      case 'same':
-        return;
-      case 'add':
-        this.$el.removeClass(NO_BEACON_CLS);
-        addBeacon(this, NextBeacon, selector, options);
-        return Animations.explode(container).done();
-      case 'remove':
-        this.$el.addClass(NO_BEACON_CLS);
-        return Animations.implode(container)
-            .then(() => {
-              removeBeacon(this);
-            })
-            .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
-      case 'fade':
-        // Other transitions are performed on the beacon container,
-        // but this transition is on the content inside the beacon.
-        // For a SecurityBeacon the username change will update the
-        // AppState and trigger an transition to a new Becon
-        // Since there is no url change this method is not called.
-        // For a FactorBeacon a page refresh has occurred
-        // so we execute the beacon's own transition method.
-        if (!this.currentBeacon.fadeOut) {
-          throw new Error('The current beacon is missing the "fadeOut" method');
-        }
-        options.animate = true;
-        return this.currentBeacon
-            .fadeOut()
-            .then(() => {
-              removeBeacon(this);
-              addBeacon(this, NextBeacon, selector, options);
-            })
-            .done(); // TODO: can this be removed if fadeOut returns standard ES6 Promise?
-      case 'swap':
-        return Animations.swapBeacons({
-          $el: container,
-          swap: () => {
-            // Order of these calls is important for -
-            // loader --> security/factor beacon swap.
-            removeBeacon(this);
+    case 'none':
+      this.$el.addClass(NO_BEACON_CLS);
+      return;
+    case 'same':
+      return;
+    case 'add':
+      this.$el.removeClass(NO_BEACON_CLS);
+      addBeacon(this, NextBeacon, selector, options);
+      return Animations.explode(container);
+    case 'remove':
+      this.$el.addClass(NO_BEACON_CLS);
+      return Animations.implode(container)
+        .then(() => {
+          removeBeacon(this);
+        })
+        .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
+    case 'fade':
+      // Other transitions are performed on the beacon container,
+      // but this transition is on the content inside the beacon.
+      // For a SecurityBeacon the username change will update the
+      // AppState and trigger an transition to a new Becon
+      // Since there is no url change this method is not called.
+      // For a FactorBeacon a page refresh has occurred
+      // so we execute the beacon's own transition method.
+      if (!this.currentBeacon.fadeOut) {
+        throw new Error('The current beacon is missing the "fadeOut" method');
+      }
+      options.animate = true;
+      return this.currentBeacon
+        .fadeOut()
+        .then(() => {
+          removeBeacon(this);
+          addBeacon(this, NextBeacon, selector, options);
+        })
+        .done(); // TODO: can this be removed if fadeOut returns standard ES6 Promise?
+    case 'swap':
+      return Animations.swapBeacons({
+        $el: container,
+        swap: () => {
+          const isLoading = isLoadingBeacon(this.currentBeacon);
+
+          // Order of these calls is important for -
+          // loader --> security/factor beacon swap.
+          removeBeacon(this);
+          if (isLoading) {
             container.removeClass(LOADING_BEACON_CLS);
             this.$el.removeClass(NO_BEACON_CLS);
-            addBeacon(this, NextBeacon, selector, options);
-          },
-        }).done(); // TODO: can this be removed if Animations.swapBeacons returns standard ES6 Promise?
-      case 'load':
-        // Show the loading beacon. Add a couple of classes
-        // before triggering the add beacon code.
-        container.addClass(LOADING_BEACON_CLS);
-        addBeacon(this, NextBeacon, selector, options);
-        return Animations.explode(container).done();
-      case 'unload':
-        // Hide the loading beacon.
-        return Animations.implode(container)
-            .then(() => {
-              removeBeacon(this);
-              container.removeClass(LOADING_BEACON_CLS);
-            }).done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
-      default:
-        throw new Error('the "' + transition + '" is not recognized');
+          }
+          addBeacon(this, NextBeacon, selector, options);
+        },
+      }).done(); // TODO: can this be removed if Animations.swapBeacons returns standard ES6 Promise?
+    case 'load':
+      // Show the loading beacon. Add a couple of classes
+      // before triggering the add beacon code.
+      container.addClass(LOADING_BEACON_CLS);
+      addBeacon(this, NextBeacon, selector, options);
+      return Animations.explode(container);
+    case 'unload':
+      // Hide the loading beacon.
+      return this.removeLoadingBeacon();
+    default:
+      throw new Error('the "' + transition + '" is not recognized');
     }
   }
 
@@ -155,7 +185,14 @@ export default class Header extends View {
 
   // Hide the beacon on primary auth failure. On primary auth success, setBeacon does this job.
   removeLoadingBeacon() {
-    this.setBeacon(null, null);
+    const container = this.$('[data-type="beacon-container"]');
+
+    return Animations.implode(container)
+      .then(() => {
+        removeBeacon(this);
+        container.removeClass(LOADING_BEACON_CLS);
+      })
+      .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
   }
 
   getTemplateData() {
@@ -164,35 +201,5 @@ export default class Header extends View {
 
   getContentEl() {
     return this.$('.auth-content-inner');
-  }
-
-  private typeOfTransition(NextBeacon, options): string {
-    if (!this.currentBeacon && !NextBeacon) {
-      return 'none';
-    }
-    // Show Loading beacon
-    if (!this.currentBeacon && options.loading) {
-      return 'load';
-    }
-    // Swap/Hide Loading beacon
-    if (isLoadingBeacon(this.currentBeacon)) {
-      return NextBeacon ? 'swap' : 'unload';
-    }
-    if (this.currentBeacon && this.currentBeacon.equals(NextBeacon, options)) {
-      return 'same';
-    }
-    if (!this.currentBeacon && NextBeacon) {
-      return 'add';
-    }
-    if (this.currentBeacon && !NextBeacon) {
-      return 'remove';
-    }
-    if (this.currentBeacon instanceof NextBeacon) {
-      return 'fade';
-    }
-    // If none of the above
-    // then we are changing the type of beacon
-    // ex. from SecurityBeacon to FactorBeacon
-    return 'swap';
   }
 }
