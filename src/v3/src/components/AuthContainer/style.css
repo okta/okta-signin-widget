@@ -1,5 +1,5 @@
 .siwContainer {
-  max-width: 608px;
+  max-width: 432px;
   min-width: 320px;
 }
 
@@ -7,11 +7,4 @@
   min-width: 100%;
   /* To prevent overflow scroll */
   min-height: 98vh; 
-}
-
-/* TODO: this max width may chaged, will discuss w/ UX */
-@media screen and (max-width: 391px) {
-  .siwContainer {
-    border: none;
-  }
 }

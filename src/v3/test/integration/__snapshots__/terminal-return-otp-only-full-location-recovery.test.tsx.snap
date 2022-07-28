@@ -4,34 +4,34 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
 <div>
   <span>
     <main
-      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
     >
       <div
-        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+        class="siwContainer MuiBox-root emotion-1"
       >
         <div
           class="okta-sign-in-header auth-header siwHeader authCoinSpacing"
         >
           <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-0"
+            class="MuiTypography-root MuiTypography-h1 emotion-2"
           />
           <div
-            class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer authCoinOverlay"
+            class="iconContainer authCoinOverlay MuiBox-root emotion-3"
           >
             <mocksvgicon />
           </div>
         </div>
         <div
-          class="MuiBox-root emotion-1"
+          class="MuiBox-root emotion-4"
         >
           <div
-            class="identifier-container MuiBox-root emotion-2"
+            class="identifier-container MuiBox-root emotion-5"
           >
             <div
-              class="identifierContainer MuiBox-root emotion-3"
+              class="identifierContainer MuiBox-root emotion-6"
             >
               <span
-                class="userIconContainer MuiBox-root emotion-4"
+                class="userIconContainer MuiBox-root emotion-3"
               >
                 <svg
                   class="ods-2icygl"
@@ -49,7 +49,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-4"
+                class="identifier identifierSpan MuiBox-root emotion-3"
                 data-se="identifier"
               >
                 test@okta.com
@@ -62,26 +62,26 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
             novalidate=""
           >
             <div
-              class="MuiBox-root emotion-6"
+              class="MuiBox-root emotion-9"
             >
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h3 emotion-9"
+                    class="MuiTypography-root MuiTypography-h3 emotion-12"
                   >
                     Your verification code
                   </h2>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-2famef ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  class="MuiBox-root emotion-11"
                 >
                   <p
                     class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
@@ -91,23 +91,23 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-16"
                 >
                   <h3
-                    class="MuiTypography-root MuiTypography-h3 emotion-9"
+                    class="MuiTypography-root MuiTypography-h3 emotion-12"
                   >
                     123456
                   </h3>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-2famef ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  class="MuiBox-root emotion-11"
                 >
                   <p
                     class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
@@ -117,19 +117,19 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-7kea9D ods-66Tc65 ods-2famef ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  class="MuiBox-root emotion-21"
                   id="browser"
                 >
                   <div
-                    class="ods-4o5zYQ ods-45W57S ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                    class="MuiBox-root emotion-22"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                    class="MuiBox-root emotion-3"
                   >
                     <span
                       class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
@@ -140,19 +140,19 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-7kea9D ods-66Tc65 ods-2famef ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  class="MuiBox-root emotion-21"
                   id="app"
                 >
                   <div
-                    class="ods-4o5zYQ ods-45W57S ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                    class="MuiBox-root emotion-22"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                    class="MuiBox-root emotion-3"
                   >
                     <span
                       class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
@@ -163,19 +163,19 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-7kea9D ods-66Tc65 ods-2famef ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  class="MuiBox-root emotion-21"
                   id="location"
                 >
                   <div
-                    class="ods-4o5zYQ ods-45W57S ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                    class="MuiBox-root emotion-22"
                   >
                     <mocksvgicon />
                   </div>
                   <div
-                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                    class="MuiBox-root emotion-3"
                   >
                     <span
                       class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
@@ -186,10 +186,10 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="ods-4o5zYQ ods-76eppy ods-2famef ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  class="MuiBox-root emotion-11"
                 >
                   <p
                     class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"

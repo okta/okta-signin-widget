@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import {
-  Box,
   List as ListOdyssey,
   Text,
 } from '@okta/odyssey-react';
@@ -27,11 +27,10 @@ const List: UISchemaElementComponent<{
   const { options } = uischema;
 
   return options.items?.length ? (
-    // @ts-ignore OKTA-471233
     <Box
       display="flex"
       justifyContent="flex-start"
-      marginBottom="m"
+      marginBottom={4}
     >
       { options.description && <Text as="p">{t(options.description)}</Text> }
       <ListOdyssey listType={options.type ?? 'unordered'}>

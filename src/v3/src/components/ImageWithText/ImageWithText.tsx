@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Text } from '@okta/odyssey-react';
+import { Box } from '@mui/material';
+import { Text } from '@okta/odyssey-react';
 import { withTheme } from '@okta/odyssey-react-theme';
 import { h } from 'preact';
 import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
@@ -26,7 +27,6 @@ const ImageWithText: UISchemaElementComponent<{
   const Icon = uischema.options.SVGIcon;
 
   return (
-    // @ts-ignore OKTA-471233
     <Box
       id={uischema.options.id}
       display="flex"
@@ -34,11 +34,9 @@ const ImageWithText: UISchemaElementComponent<{
       alignItems="center"
       flexWrap="wrap"
     >
-      {/* @ts-ignore OKTA-471233 */}
-      <Box marginRight="s">
+      <Box marginRight={2}>
         <Icon />
       </Box>
-      {/* @ts-ignore OKTA-471233 */}
       <Box>
         <Text as="span">{t(uischema.options.textContent, uischema.options.contentParams)}</Text>
       </Box>

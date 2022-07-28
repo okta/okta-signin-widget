@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react';
+import { Box } from '@mui/material';
+import * as Tokens from '@okta/odyssey-design-tokens';
 import { withTheme } from '@okta/odyssey-react-theme';
 import { h } from 'preact';
 
@@ -56,14 +57,13 @@ const AuthenticatorButton: UISchemaElementComponent<{
   };
 
   return (
-    // @ts-ignore OKTA-471233
     <Box
       display="flex"
-      padding="s"
-      hoverBorderColor="primary"
-      borderColor="display"
-      borderRadius="base"
-      boxShadow="default"
+      padding={2}
+      border={1}
+      borderColor="grey.200"
+      borderRadius={Tokens.BorderRadiusBase}
+      boxShadow={Tokens.ShadowScale0}
       className={style.authButton}
       role="button"
       tabIndex={0}
@@ -71,19 +71,15 @@ const AuthenticatorButton: UISchemaElementComponent<{
       onKeyPress={onClick}
     >
       { authenticationKey && <AuthCoin authenticatorKey={authenticationKey} /> }
-      {/* @ts-ignore OKTA-471233 */}
       <Box className={style.infoSection}>
-        {/* @ts-ignore OKTA-471233 */}
         <Box className={style.title}>
           {label}
         </Box>
         {description && (
-          // @ts-ignore OKTA-471233
           <Box className={style.description}>
             {t(description, descriptionParams)}
           </Box>
         )}
-        {/* @ts-ignore OKTA-471233 */}
         <Box
           className={style.actionName}
           data-se={dataSe}

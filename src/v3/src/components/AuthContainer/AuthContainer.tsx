@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react';
+import { Box, useMediaQuery } from '@mui/material';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
@@ -18,24 +18,23 @@ import style from './style.css';
 
 const AuthContainer: FunctionComponent = ({ children }) => {
   const classes = classNames('auth-container', 'main-container', style.mainViewContainer);
+  const isMobileWidth = useMediaQuery('screen and (max-width: 391px)');
   return (
-    // @ts-ignore OKTA-471233
     <Box
-      as="main"
+      component="main"
       display="flex"
       justifyContent="center"
       alignItems="center"
       className={classes}
     >
-      {/* @ts-ignore OKTA-471233 */}
       <Box
         flex="auto"
         flexDirection="column"
-        borderColor="display"
-        maxWidth="full"
-        width="full"
-        borderRadius="base"
-        backgroundColor="default"
+        border={isMobileWidth ? 0 : 1}
+        borderRadius={1}
+        borderColor="grey.200"
+        bgcolor="common.white"
+        fontFamily="fontFamily"
         className={style.siwContainer}
       >
         {children}

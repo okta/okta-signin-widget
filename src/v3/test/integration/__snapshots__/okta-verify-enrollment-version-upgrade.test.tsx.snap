@@ -4,34 +4,34 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
 <div>
   <span>
     <main
-      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
     >
       <div
-        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+        class="siwContainer MuiBox-root emotion-1"
       >
         <div
           class="okta-sign-in-header auth-header siwHeader authCoinSpacing"
         >
           <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-0"
+            class="MuiTypography-root MuiTypography-h1 emotion-2"
           />
           <div
-            class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer authCoinOverlay"
+            class="iconContainer authCoinOverlay MuiBox-root emotion-3"
           >
             <mocksvgicon />
           </div>
         </div>
         <div
-          class="MuiBox-root emotion-1"
+          class="MuiBox-root emotion-4"
         >
           <div
-            class="identifier-container MuiBox-root emotion-2"
+            class="identifier-container MuiBox-root emotion-5"
           >
             <div
-              class="identifierContainer MuiBox-root emotion-3"
+              class="identifierContainer MuiBox-root emotion-6"
             >
               <span
-                class="userIconContainer MuiBox-root emotion-4"
+                class="userIconContainer MuiBox-root emotion-3"
               >
                 <svg
                   class="ods-2icygl"
@@ -49,7 +49,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-4"
+                class="identifier identifierSpan MuiBox-root emotion-3"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -62,25 +62,25 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
             novalidate=""
           >
             <div
-              class="MuiBox-root emotion-6"
+              class="MuiBox-root emotion-9"
             >
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxInfo MuiAlert-infobox emotion-9"
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxInfo MuiAlert-infobox emotion-12"
                     role="alert"
                     title="Update Okta Verify"
                   >
                     <div
-                      class="MuiAlert-icon emotion-10"
+                      class="MuiAlert-icon emotion-13"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-11"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
                         data-testid="InfoOutlinedIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -91,7 +91,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                       </svg>
                     </div>
                     <div
-                      class="MuiAlert-message emotion-12"
+                      class="MuiAlert-message emotion-15"
                     >
                       The device used to set up Okta Verify does not meet your organization’s security requirements because it is not FIPS compliant. Contact your administrator for help.
                     </div>
@@ -99,26 +99,26 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="MuiBox-root emotion-7"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-15"
+                    class="MuiBox-root emotion-18"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-16"
+                      class="MuiTypography-root MuiTypography-h3 emotion-19"
                     >
                       Set up Okta Verify
                     </h2>
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-7"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="ods-4o5zYQ ods-76eppy ods-2famef ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                    class="MuiBox-root emotion-21"
                   >
                     <ol
                       class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-5GAsrW ods-1goWbr"
@@ -142,10 +142,10 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-7"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="qrContainer MuiBox-root emotion-4"
+                    class="qrContainer MuiBox-root emotion-3"
                   >
                     <img
                       alt=""
@@ -155,10 +155,10 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-7"
+                  class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
+                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
                     tabindex="0"
                     type="button"
                   >
@@ -167,10 +167,10 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-23"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
                   data-se="switchAuthenticator"
                   tabindex="0"
                   type="button"
@@ -179,10 +179,10 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-10"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-23"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
                   data-se="cancel"
                   tabindex="0"
                   type="button"

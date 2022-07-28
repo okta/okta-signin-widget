@@ -4,34 +4,34 @@ exports[`okta-verify-poll-enrollment should render poll form 1`] = `
 <div>
   <span>
     <main
-      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
     >
       <div
-        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+        class="siwContainer MuiBox-root emotion-1"
       >
         <div
           class="okta-sign-in-header auth-header siwHeader authCoinSpacing"
         >
           <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-0"
+            class="MuiTypography-root MuiTypography-h1 emotion-2"
           />
           <div
-            class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer authCoinOverlay"
+            class="iconContainer authCoinOverlay MuiBox-root emotion-3"
           >
             <mocksvgicon />
           </div>
         </div>
         <div
-          class="MuiBox-root emotion-1"
+          class="MuiBox-root emotion-4"
         >
           <div
-            class="identifier-container MuiBox-root emotion-2"
+            class="identifier-container MuiBox-root emotion-5"
           >
             <div
-              class="identifierContainer MuiBox-root emotion-3"
+              class="identifierContainer MuiBox-root emotion-6"
             >
               <span
-                class="userIconContainer MuiBox-root emotion-4"
+                class="userIconContainer MuiBox-root emotion-3"
               >
                 <svg
                   class="ods-2icygl"
@@ -49,7 +49,7 @@ exports[`okta-verify-poll-enrollment should render poll form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-4"
+                class="identifier identifierSpan MuiBox-root emotion-3"
                 data-se="identifier"
               >
                 tester2@test.com
@@ -62,29 +62,29 @@ exports[`okta-verify-poll-enrollment should render poll form 1`] = `
             novalidate=""
           >
             <div
-              class="MuiBox-root emotion-6"
+              class="MuiBox-root emotion-9"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-10"
+                      class="MuiTypography-root MuiTypography-h3 emotion-13"
                     >
                       Set up Okta Verify
                     </h2>
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="ods-4o5zYQ ods-76eppy ods-2famef ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                    class="MuiBox-root emotion-15"
                   >
                     <ol
                       class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-5GAsrW ods-1goWbr"
@@ -108,10 +108,10 @@ exports[`okta-verify-poll-enrollment should render poll form 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="qrContainer MuiBox-root emotion-4"
+                    class="qrContainer MuiBox-root emotion-3"
                   >
                     <img
                       alt="Okta Verify"
@@ -121,10 +121,10 @@ exports[`okta-verify-poll-enrollment should render poll form 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-15"
+                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-19"
                     tabindex="0"
                     type="button"
                   >
@@ -133,10 +133,10 @@ exports[`okta-verify-poll-enrollment should render poll form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-11"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-17"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-21"
                   data-se="switchAuthenticator"
                   tabindex="0"
                   type="button"
@@ -145,10 +145,10 @@ exports[`okta-verify-poll-enrollment should render poll form 1`] = `
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-11"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-17"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-21"
                   data-se="cancel"
                   tabindex="0"
                   type="button"
@@ -169,34 +169,34 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
 <div>
   <span>
     <main
-      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
     >
       <div
-        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+        class="siwContainer MuiBox-root emotion-1"
       >
         <div
           class="okta-sign-in-header auth-header siwHeader authCoinSpacing"
         >
           <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-0"
+            class="MuiTypography-root MuiTypography-h1 emotion-2"
           />
           <div
-            class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer authCoinOverlay"
+            class="iconContainer authCoinOverlay MuiBox-root emotion-3"
           >
             <mocksvgicon />
           </div>
         </div>
         <div
-          class="MuiBox-root emotion-1"
+          class="MuiBox-root emotion-4"
         >
           <div
-            class="identifier-container MuiBox-root emotion-2"
+            class="identifier-container MuiBox-root emotion-5"
           >
             <div
-              class="identifierContainer MuiBox-root emotion-3"
+              class="identifierContainer MuiBox-root emotion-6"
             >
               <span
-                class="userIconContainer MuiBox-root emotion-4"
+                class="userIconContainer MuiBox-root emotion-3"
               >
                 <svg
                   class="ods-2icygl"
@@ -214,7 +214,7 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-4"
+                class="identifier identifierSpan MuiBox-root emotion-3"
                 data-se="identifier"
               >
                 tester2@test.com
@@ -227,58 +227,58 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
             novalidate=""
           >
             <div
-              class="MuiBox-root emotion-6"
+              class="MuiBox-root emotion-9"
             >
               <div
-                class="MuiBox-root emotion-6"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-10"
+                      class="MuiTypography-root MuiTypography-h3 emotion-13"
                     >
                       More options
                     </h2>
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <fieldset
-                    class="MuiFormControl-root emotion-12"
+                    class="MuiFormControl-root emotion-15"
                   >
                     <label
-                      class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-13"
+                      class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
                     >
                       Which option do you want to try?
                     </label>
                     <div
-                      class="MuiFormGroup-root emotion-14"
+                      class="MuiFormGroup-root emotion-17"
                       id="generated"
                       role="radiogroup"
                     >
                       <label
-                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-15"
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
                       >
                         <span
-                          class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-16"
+                          class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-19"
                         >
                           <input
-                            class="PrivateSwitchBase-input emotion-17"
+                            class="PrivateSwitchBase-input emotion-20"
                             name="authenticator.channel"
                             type="radio"
                             value="email"
                           />
                           <span
-                            class="emotion-18"
+                            class="emotion-21"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-19"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
                               data-testid="RadioButtonUncheckedIcon"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -289,7 +289,7 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
                             </svg>
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-20"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-23"
                               data-testid="RadioButtonCheckedIcon"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -301,29 +301,29 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
                           </span>
                         </span>
                         <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-21"
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
                         >
                           Email me a setup link
                         </span>
                       </label>
                       <label
-                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-15"
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
                       >
                         <span
-                          class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-16"
+                          class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-19"
                         >
                           <input
-                            class="PrivateSwitchBase-input emotion-17"
+                            class="PrivateSwitchBase-input emotion-20"
                             name="authenticator.channel"
                             type="radio"
                             value="sms"
                           />
                           <span
-                            class="emotion-18"
+                            class="emotion-21"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-19"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
                               data-testid="RadioButtonUncheckedIcon"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -334,7 +334,7 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
                             </svg>
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-27"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-30"
                               data-testid="RadioButtonCheckedIcon"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -346,7 +346,7 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
                           </span>
                         </span>
                         <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-21"
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
                         >
                           Text me a setup link
                         </span>
@@ -356,10 +356,10 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
                   </fieldset>
                 </div>
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-30"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-33"
                     data-se="#/properties/submit"
                     tabindex="0"
                     type="submit"
@@ -368,10 +368,10 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
                   </button>
                 </div>
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-32"
+                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-35"
                     tabindex="0"
                     type="button"
                   >
@@ -380,10 +380,10 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-11"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-34"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-37"
                   data-se="switchAuthenticator"
                   tabindex="0"
                   type="button"
@@ -392,10 +392,10 @@ exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-8"
+                class="MuiBox-root emotion-11"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-34"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-37"
                   data-se="cancel"
                   tabindex="0"
                   type="button"

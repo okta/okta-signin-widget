@@ -1,6 +1,6 @@
 .authButton:hover {
   cursor: pointer;
-
+  border-color: var(--ColorBorderPrimaryBase, #1662dd);
 }
 .authButton:hover .actionName {
   color: var(--ColorHover);
