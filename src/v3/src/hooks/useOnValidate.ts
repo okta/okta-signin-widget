@@ -17,19 +17,19 @@ import { FieldElement } from '../types';
 
 export const useOnValidate = (uischema: FieldElement) => {
   const { name } = uischema.options.inputMeta;
-  const { formBag: { dataSchema }, data } = useWidgetContext();
+  const { dataSchemaRef, data } = useWidgetContext();
 
   return useCallback((
     setFieldError: StateUpdater<string | undefined>,
     value?: string | boolean | number,
   ) => {
     const updatedData = { ...data, ...(value && { [name]: value }) };
-    const validator = dataSchema[name];
+    const validator = dataSchemaRef.current?.[name];
     if (typeof validator?.validate === 'function') {
       const message = validator.validate({ ...updatedData });
       setFieldError(message?.i18n?.key);
     } else {
       setFieldError(undefined);
     }
-  }, [data, dataSchema, name]);
+  }, [data, dataSchemaRef, name]);
 };

@@ -82,7 +82,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     });
 
     // Verify added elements
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expiring.title');
@@ -92,8 +92,6 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {}, daysToExpiry: 5 });
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
-      .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
@@ -101,13 +99,13 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('password.expired.submit');
-    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .label).toBe('password.expired.submit');
   });
 
   it('should add updated title element and submit button elements w/ 0 days to expire to UI Schema', () => {
@@ -130,7 +128,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     });
 
     // Verify added elements
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expiring.today');
@@ -139,8 +137,6 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {}, daysToExpiry: 0 });
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
-      .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
@@ -148,13 +144,13 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('password.expired.submit');
-    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .label).toBe('password.expired.submit');
   });
 
   it('should add updated title element and submit button elements when daysToExpire is not present to UI Schema', () => {
@@ -175,7 +171,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     });
 
     // Verify added elements
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expiring.soon');
@@ -187,21 +183,19 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {} });
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
-      .options?.fieldKey).toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
       .toBe('password-authenticator--list');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('password.expired.submit');
-    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .label).toBe('password.expired.submit');
   });
 
   it('should add updated title element, submit button, and additional subtitle elements to UI Schema for expired PW step with brandName provided', () => {
@@ -224,7 +218,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     });
 
     // Verify added elements
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expiring.soon');
@@ -238,21 +232,19 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)?.options?.settings)
       .toEqual({ complexity: {} });
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)
-      .options?.fieldKey).toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)?.options?.id)
       .toBe('password-authenticator--list');
     expect((updatedFormBag.uischema.elements[3] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[3] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('password.expired.submit');
-    expect((updatedFormBag.uischema.elements[3] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[3] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[3] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement)
+      .label).toBe('password.expired.submit');
   });
 
   it('should add updated title element, submit button, and additional subtitle elements to UI Schema for expired PW step with messages in the transaction', () => {
@@ -278,7 +270,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     });
 
     // Verify added elements
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expiring.soon');
@@ -292,8 +284,6 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {} });
-    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.fieldKey)
-      .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.id)
@@ -301,13 +291,13 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[3] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('password.expired.submit');
-    expect((updatedFormBag.uischema.elements[3] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[3] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[3] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement)
+      .label).toBe('password.expired.submit');
   });
 
   it('should add updated title element, submit button and skip button elements to UI Schema for expired PW step with skip remediation in the transaction', () => {
@@ -332,7 +322,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     });
 
     // Verify added elements
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expiring.soon');
@@ -342,8 +332,6 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {} });
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
-      .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
@@ -351,17 +339,17 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('password.expired.submit');
-    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label).toBe('password.expiring.later');
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.variant).toBe('floating');
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.wide).toBe(false);
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.step).toBe('skip');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .label).toBe('password.expired.submit');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label).toBe('password.expiring.later');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.variant).toBe('floating');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.wide).toBe(false);
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.step).toBe('skip');
   });
 });

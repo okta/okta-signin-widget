@@ -20,11 +20,9 @@ import {
   IdxStepTransformer,
   PasswordSettings,
   TitleElement,
-  UISchemaElement,
 } from '../../types';
 import { loc } from '../../util';
 import { transformEnrollPasswordAuthenticator } from './transformEnrollPasswordAuthenticator';
-import { updatePasswordWithConfirmationBtnLabel } from './utils';
 
 const getContentTitleAndParams = (daysToExpiry: number): TitleElement['options'] => {
   if (daysToExpiry > 0) {
@@ -50,11 +48,6 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
 
   const baseFormBag = transformEnrollPasswordAuthenticator({ transaction, formBag, widgetProps });
   const { uischema } = baseFormBag;
-
-  updatePasswordWithConfirmationBtnLabel(
-    uischema.elements as UISchemaElement[],
-    'password.expired.submit',
-  );
 
   const titleElement: TitleElement = {
     type: 'Title',

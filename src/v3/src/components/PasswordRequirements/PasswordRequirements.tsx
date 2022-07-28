@@ -38,7 +38,6 @@ const PasswordRequirements: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const { data } = useWidgetContext();
   const {
-    fieldKey,
     header,
     id,
     requirements,
@@ -46,7 +45,7 @@ const PasswordRequirements: UISchemaElementComponent<{
     userInfo,
     validationDelayMs,
   } = uischema.options as PasswordRequirementsElement['options'];
-  const password = get(data, fieldKey);
+  const password = get(data, 'credentials.passcode');
 
   const [passwordValidations, setPasswordValidations] = useState<PasswordValidation>({});
 

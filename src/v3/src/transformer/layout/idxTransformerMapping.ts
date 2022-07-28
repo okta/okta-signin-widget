@@ -160,7 +160,6 @@ const TransformerMap: {
     },
     [AUTHENTICATOR_KEY.PASSWORD]: {
       transform: transformEnrollPasswordAuthenticator,
-      buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.PHONE]: {
       transform: transformPhoneCodeEnrollment,

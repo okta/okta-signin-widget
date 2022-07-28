@@ -86,16 +86,12 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
       .toBe('password.complexity.requirements.header');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: { minLength: 1 } });
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
-      .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
       .toBe('password-authenticator--list');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
-    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('oform.next');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
@@ -111,7 +107,9 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
         value: {} as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformEnrollPasswordAuthenticator(transaction, formBag, mockProps);
+    const updatedFormBag = transformEnrollPasswordAuthenticator({
+      transaction, formBag, widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(2);
@@ -120,8 +118,6 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
       .toBe('oie.password.enroll.title');
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
-    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('oform.next');
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
