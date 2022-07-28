@@ -18,8 +18,9 @@ import { getAuthenticatorKey } from './getAuthenticatorKey';
 import { isPasswordRecovery } from './isPasswordRecovery';
 
 export const getEventContext = (transaction: IdxTransaction): EventContext => {
-  const { nextStep: { name: formName } = {} } = transaction;
-  const authenticatorKey = getAuthenticatorKey(transaction);
+  const { nextStep: { name: formName } = {}, context } = transaction;
+  const authenticatorKey = context.currentAuthenticator?.value?.key
+    || getAuthenticatorKey(transaction);
   const methodType = transaction.context.currentAuthenticator?.value?.type;
   const isPasswordRecoveryFlow = isPasswordRecovery(transaction);
 
