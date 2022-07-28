@@ -4922,6 +4922,11 @@
   resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-0.14.2.tgz#51a9b307f942172f544c3a3834a9a6e9f7643a2e"
   integrity sha512-esV8YXCb3S9f92Ulsy4l1jK2tCc+HSD6xx/9j9k0ZczC1sLYRo6GiPNS0GTFxx+wL9VHv/aU90+GUhhP7mF9Zg==
 
+"@okta/odyssey-design-tokens@^0.14.x":
+  version "0.14.3"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-0.14.3.tgz#44aa4c3ecbf199cbfa53cc83d33d654f0ad7228c"
+  integrity sha512-jaCnuGsQjzhjw+lkF0fMkKwZkX0oVNGT4CRcQcJzTtn/vT4LbXLw1h2klM1eDv8HvIq1KLZS8n8AUtJeV911lA==
+
 "@okta/odyssey-postcss-preset@0.14.x":
   version "0.14.2"
   resolved "https://registry.yarnpkg.com/@okta/odyssey-postcss-preset/-/odyssey-postcss-preset-0.14.2.tgz#33604687fcddba176c2d1614187c5215c1556cc7"
@@ -4963,10 +4968,10 @@
     "@react-aria/focus" "3.5.0"
     choices.js "^9.0.1"
 
-"@okta/okta-auth-js@6.7.2":
-  version "6.7.2"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.7.2.tgz#0581818a93eb3fc700ac8d0f82179e01c228f434"
-  integrity sha512-vtDNYkqATGbkle8s3MMU6bhIvmbMqZdxr01Nti96mF2fvhbr/7dloPY3lebTjY8+tWfDG4QZN7Ti+3YLr+tMJA==
+"@okta/okta-auth-js@6.7.3":
+  version "6.7.3"
+  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.7.3.tgz#f3f3be4cc7d210595955fc6c0889c41f058e32c4"
+  integrity sha512-SasHFbvIbYKtqWBK6KpeKO6zdZJpHGmXl3m17kebsnA5ZoMHSFGF2CAeyWtm2YMn3UNCX2p5m02wOSRkGSro0g==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@babel/runtime-corejs3" "^7.17.0"

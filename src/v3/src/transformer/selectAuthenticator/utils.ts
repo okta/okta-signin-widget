@@ -14,7 +14,7 @@ import { Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY } from '../../constants';
-import { AuthenticatorButtonElement } from '../../types';
+import { ActionParams, AuthenticatorButtonElement } from '../../types';
 import { loc } from '../../util';
 
 const getAuthenticatorOption = (
@@ -50,22 +50,27 @@ const buildOktaVerifyOptions = (
     return [];
   }
 
-  return methodType.options.map((option) => ({
-    type: 'AuthenticatorButton',
-    label: option.label,
-    options: {
-      key: AUTHENTICATOR_KEY.OV,
-      ctaLabel: isEnroll
-        ? loc('oie.enroll.authenticator.button.text', 'login')
-        : loc('oie.verify.authenticator.button.text', 'login'),
-      description: isEnroll && loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV], 'login'),
-      actionParams: {
-        'authenticator.methodType': option.value,
-        'authenticator.id': id,
+  return methodType.options.map((option) => {
+    const authenticatorButton: AuthenticatorButtonElement = {
+      type: 'AuthenticatorButton',
+      label: option.label,
+      options: {
+        key: AUTHENTICATOR_KEY.OV,
+        ctaLabel: isEnroll
+          ? loc('oie.enroll.authenticator.button.text', 'login')
+          : loc('oie.verify.authenticator.button.text', 'login'),
+        description: isEnroll
+          ? loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV], 'login')
+          : undefined,
+        actionParams: {
+          'authenticator.methodType': option.value,
+          'authenticator.id': id,
+        } as ActionParams,
+        dataSe: getAuthenticatorDataSeVal(AUTHENTICATOR_KEY.OV, option.value as string),
       },
-      dataSe: getAuthenticatorDataSeVal(AUTHENTICATOR_KEY.OV, option.value as string),
-    },
-  })) as AuthenticatorButtonElement[];
+    };
+    return authenticatorButton;
+  });
 };
 
 const getOnPremDescriptionParams = (

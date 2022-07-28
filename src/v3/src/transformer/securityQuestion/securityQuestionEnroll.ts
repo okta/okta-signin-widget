@@ -150,6 +150,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
+              step: transaction.nextStep!.name,
               dataType: 'save',
             },
           } as ButtonElement,
@@ -169,6 +170,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
             scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
+              step: transaction.nextStep!.name,
               actionParams: { [QUESTION_KEY_INPUT_NAME]: 'custom' },
               dataType: 'save',
             },

@@ -51,7 +51,7 @@ export type ActionParams = {
 
 export interface ActionOptions {
   actionParams?: ActionParams;
-  step?: string;
+  step: string;
   // deprecate this field once auth-js can support `step` for all scenarios
   action?: NextStep['action'];
 }
@@ -166,7 +166,7 @@ export interface ButtonElement extends UISchemaElement {
 export interface AuthenticatorButtonElement {
   type: 'AuthenticatorButton';
   label: string;
-  options: Omit<ButtonElement['options'], 'type'> & {
+  options: Omit<ButtonElement['options'], 'type' | 'step'> & {
     key: string;
     ctaLabel: string;
     description?: string;
@@ -177,6 +177,7 @@ export interface WebAuthNButtonElement extends UISchemaElement {
   type: 'WebAuthNSubmitButton';
   options: {
     label: string;
+    step: string;
     onClick: (() => Promise<WebAuthNEnrollmentPayload>)
     | (() => Promise<WebAuthNVerificationPayload>)
     submitOnLoad?: boolean;
@@ -313,7 +314,7 @@ export interface StepperLayout {
 export interface StepperButtonElement {
   type: 'StepperButton',
   label: string;
-  options: ButtonElement['options']
+  options: Omit<ButtonElement['options'], 'step'>
   & {
     nextStepIndex: number;
   }

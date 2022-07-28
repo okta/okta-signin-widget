@@ -45,6 +45,7 @@ const generateUISchemaElementAndInformationLabelFor = (
     element: {
       type: 'WebAuthNSubmitButton',
       options: {
+        step: name,
         onClick: name === IDX_STEP.ENROLL_AUTHENTICATOR
           ? () => webAuthNEnrollmentHandler(transaction)
           : () => webAuthNAuthenticationHandler(transaction),
@@ -54,7 +55,7 @@ const generateUISchemaElementAndInformationLabelFor = (
         submitOnLoad: true,
         showLoadingIndicator: true,
       },
-    },
+    } as WebAuthNButtonElement,
   };
 };
 

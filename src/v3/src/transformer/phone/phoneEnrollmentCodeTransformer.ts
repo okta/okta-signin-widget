@@ -57,6 +57,7 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
     },
   };
 

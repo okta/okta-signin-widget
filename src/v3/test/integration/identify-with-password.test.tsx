@@ -51,7 +51,6 @@ describe('identify-with-password', () => {
             credentials: {
               passcode: 'fake-password',
             },
-            rememberMe: false,
             stateHandle: 'fake-stateHandle',
           }),
           headers: {

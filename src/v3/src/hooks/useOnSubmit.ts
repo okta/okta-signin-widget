@@ -21,7 +21,7 @@ type OnSubmitHandlerOptions = {
   includeData?: boolean;
   actionFn?: NextStep['action'];
   params?: Record<string, unknown>;
-  step?: string;
+  step: string;
   stepToRender?: string;
 };
 
@@ -29,7 +29,7 @@ type OnSubmitHandlerOptions = {
 // TODO: figure out a better approach to guide data submission
 const OMITTED_PROPERTIES = ['credentials.confirmPassword'];
 
-export const useOnSubmit = (): (options?: OnSubmitHandlerOptions | undefined) => Promise<void> => {
+export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void> => {
   const {
     authClient,
     data,
@@ -38,10 +38,10 @@ export const useOnSubmit = (): (options?: OnSubmitHandlerOptions | undefined) =>
     setStepToRender,
   } = useWidgetContext();
 
-  return useCallback(async (options?: OnSubmitHandlerOptions) => {
+  return useCallback(async (options: OnSubmitHandlerOptions) => {
     const {
       actionFn, params, includeData, step, stepToRender,
-    } = options || {};
+    } = options;
 
     const immutableData = getImmutableData(currTransaction!, step);
 
@@ -54,9 +54,7 @@ export const useOnSubmit = (): (options?: OnSubmitHandlerOptions | undefined) =>
     if (params) {
       payload = merge(payload, params);
     }
-    if (step) {
-      payload = { ...payload, step };
-    }
+    payload = { ...payload, step };
     payload = merge(payload, immutableData);
     payload = toNestedObject(payload);
     if (currTransaction!.context.stateHandle) {

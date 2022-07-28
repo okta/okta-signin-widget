@@ -85,7 +85,7 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
       variant: 'secondary',
       actionParams: { consent: false },
       dataType: 'cancel',
-      step,
+      step: step!,
     },
   };
 
@@ -98,7 +98,7 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
       variant: 'secondary',
       dataType: 'save',
       actionParams: { consent: true },
-      step,
+      step: step!,
     },
   };
 

@@ -44,6 +44,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const onSubmitHandler = useOnSubmit();
 
   const onClick: ClickHandler = async () => {
+    // TODO: pass step from uischema
     const { name: step } = idxTransaction!.nextStep!;
     onSubmitHandler({
       params: actionParams,

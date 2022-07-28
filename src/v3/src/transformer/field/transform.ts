@@ -13,7 +13,7 @@
 import { IdxTransaction, Input, NextStep } from '@okta/okta-auth-js';
 
 import {
-  FieldElement, FormBag, StepTransformer, UISchemaElement,
+  FormBag, StepTransformer, UISchemaElement,
 } from '../../types';
 import { flattenInputs } from '../../util';
 import { createForm } from '../utils';
@@ -73,17 +73,6 @@ export const transformStepInputs: StepTransformer = (step?: NextStep): FormBag =
         };
       }
 
-      // populate all input keys to guide auth-js how to proceed in the remediation engine
-      // TODO: logic here can be removed once authjs can handle auto proceed without hints from the downstream
-      const { options: { type } } = uischema as FieldElement;
-      let defaultValue;
-      if (type === 'string') {
-        defaultValue = '';
-      }
-      if (type === 'boolean') {
-        defaultValue = false;
-      }
-      acc.data[name] = defaultValue;
       return acc;
     }, formbag);
 };

@@ -58,6 +58,7 @@ export const getButtonControls = (
       options: {
         type: ButtonType.SUBMIT,
         dataType: 'save',
+        step: transaction.nextStep!.name,
       },
     };
 

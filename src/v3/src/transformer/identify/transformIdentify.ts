@@ -21,7 +21,7 @@ import {
 import { getUsernameCookie, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
-export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps }) => {
+export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
   const { features, username } = widgetProps;
   const { uischema } = formBag;
 
@@ -32,6 +32,7 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps }) 
     options: {
       type: ButtonType.SUBMIT,
       dataType: 'save',
+      step: transaction.nextStep!.name,
     },
   };
 
