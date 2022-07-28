@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams } from '@okta/okta-auth-js';
+import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
 
 import {
   ButtonElement,
@@ -27,7 +27,7 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({
   formBag,
   widgetProps,
 }) => {
-  const { nextStep: { relatesTo } = {}, availableSteps } = transaction;
+  const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
   const { authClient } = widgetProps;
 
@@ -61,8 +61,9 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({
     },
   };
 
-  const phoneNumber = relatesTo?.value?.profile?.phoneNumber;
-  const methodType = relatesTo?.value?.methods?.[0]?.type;
+  const { methods, profile } = nextStep.relatesTo?.value || {};
+  const { phoneNumber } = profile || {};
+  const methodType = methods?.[0]?.type;
   const sendInfoText = methodType === 'sms'
     ? loc('oie.phone.verify.sms.codeSentText', 'login')
     : loc('mfa.calling', 'login');
