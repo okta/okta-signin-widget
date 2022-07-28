@@ -19,37 +19,37 @@ import {
   IdxStepTransformer,
   ReminderElement,
   TitleElement,
-  Undefinable,
 } from '../../types';
 import { loc } from '../../util';
-  
-export const transformPhoneCodeEnrollment: IdxStepTransformer = (
+
+export const transformPhoneCodeEnrollment: IdxStepTransformer = ({
   transaction,
   formBag,
   widgetProps,
-) => {
-  const { nextStep: { relatesTo } = {}, nextStep, availableSteps } = transaction;
+}) => {
+  const { nextStep: { relatesTo } = {}, availableSteps } = transaction;
   const { uischema } = formBag;
   const { authClient } = widgetProps;
 
-  let reminderElement: Undefinable<ReminderElement>;
+  let reminderElement: ReminderElement | undefined;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
-  if (nextStep.canResend && resendStep) {
-    const { name } = resendStep;
+  if (resendStep) {
+    const { name, action } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
-        ctaText: 'oie.phone.verify.sms.resendText',
+        ctaText: loc('oie.phone.verify.sms.resendText', 'login'),
+        linkLabel: loc('email.button.resend', 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: (params?: IdxActionParams) => {
+        action: action && ((params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};
           return authClient?.idx.proceed({
             // @ts-ignore stateHandle can be undefined
             stateHandle,
             actions: [{ name, params: rest }],
           });
-        },
+        }),
       },
     };
   }
