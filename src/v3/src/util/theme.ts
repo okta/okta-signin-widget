@@ -93,6 +93,9 @@ export const deriveThemeFromBrand = (brand: BrandColors): DerivedTheme | null =>
 };
 
 export const mapMuiThemeFromBrand = (brand: BrandColors | undefined): Theme => {
+  // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
+  odysseyTheme.shape.borderRadius = 4;
+
   const odysseyThemeCopy = cloneDeep(odysseyTheme);
 
   if (brand) {

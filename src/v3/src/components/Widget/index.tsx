@@ -240,9 +240,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idxTransaction, bootstrap]);
 
-  // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
-  odysseyTheme.shape.borderRadius = 4;
-
   return (
     <WidgetContextProvider value={{
       authClient,
