@@ -92,6 +92,7 @@ Object {
               Object {
                 "label": "oform.verify",
                 "options": Object {
+                  "step": "enroll-authenticator",
                   "type": "submit",
                 },
                 "scope": "#/properties/submit",

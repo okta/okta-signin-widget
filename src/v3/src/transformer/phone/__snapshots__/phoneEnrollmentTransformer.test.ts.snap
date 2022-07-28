@@ -57,6 +57,7 @@ Object {
               Object {
                 "label": "oie.phone.sms.primaryButton",
                 "options": Object {
+                  "step": "",
                   "type": "submit",
                 },
                 "scope": "#/properties/submit",
@@ -105,6 +106,7 @@ Object {
               Object {
                 "label": "oie.phone.call.primaryButton",
                 "options": Object {
+                  "step": "",
                   "type": "submit",
                 },
                 "scope": "#/properties/submit",

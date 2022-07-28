@@ -70,6 +70,7 @@ Object {
                 "label": "mfa.challenge.verify",
                 "options": Object {
                   "dataType": "save",
+                  "step": "",
                   "type": "submit",
                 },
                 "scope": "#/properties/submit",
@@ -134,6 +135,7 @@ Object {
                     "credentials.questionKey": "custom",
                   },
                   "dataType": "save",
+                  "step": "",
                   "type": "submit",
                 },
                 "scope": "#/properties/submit",
