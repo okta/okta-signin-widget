@@ -25,6 +25,7 @@ import {
 import { transformIdentify } from './identify';
 import {
   transformOktaVerifyChallengePoll,
+  transformOktaVerifyChannelSelection,
   transformOktaVerifyEnrollChannel,
   transformOktaVerifyEnrollPoll,
   transformTOTPChallenge,
@@ -194,6 +195,14 @@ const TransformerMap: {
         showForgotPassword: true,
       },
     },
+    [AUTHENTICATOR_KEY.PASSWORD]: {
+      transform: transformIdentify,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showForgotPassword: true,
+      },
+    },
   },
   [IDX_STEP.IDENTIFY_RECOVERY]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
@@ -203,6 +212,12 @@ const TransformerMap: {
   [IDX_STEP.ENROLL_POLL]: {
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyEnrollPoll,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.SELECT_ENROLLMENT_CHANNEL]: {
+    [AUTHENTICATOR_KEY.OV]: {
+      transform: transformOktaVerifyChannelSelection,
       buttonConfig: { showDefaultSubmit: false },
     },
   },

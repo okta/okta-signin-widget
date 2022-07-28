@@ -76,6 +76,7 @@ export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) =
         },
       } as InfoboxElement);
 
+      // TODO: re-visit, handle side effects in hooks
       // If the session expired, this clears session to allow new transaction bootstrap
       if (message.i18n.key === 'idx.session.expired') {
         const { authClient } = widgetProps;

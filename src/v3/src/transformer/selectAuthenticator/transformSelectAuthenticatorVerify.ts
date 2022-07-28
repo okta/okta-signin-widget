@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from '@okta/okta-auth-js';
+import { IdxTransaction, NextStep } from '@okta/okta-auth-js';
 import {
   DescriptionElement,
   IdxStepTransformer,
@@ -43,13 +43,13 @@ const isPasswordRecovery = (transaction: IdxTransaction): boolean => (
   transaction.rawIdxState.recoveryAuthenticator?.value?.type === 'password'
 );
 
-export const transformSelectAuthenticatorVerify: IdxStepTransformer = (
+export const transformSelectAuthenticatorVerify: IdxStepTransformer = ({
   transaction,
   formBag,
   widgetProps,
-) => {
+}) => {
   const { brandName } = widgetProps;
-  const { nextStep: { inputs } } = transaction;
+  const { nextStep: { inputs } = {} as NextStep } = transaction;
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
   if (!authenticator?.options) {
     return formBag;

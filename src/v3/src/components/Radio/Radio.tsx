@@ -22,7 +22,6 @@ import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { h } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
-import { useWidgetContext } from '../../contexts';
 import { useOnChange, useValue } from '../../hooks';
 import { useTranslation } from '../../lib/okta-i18n';
 import { getLabelName } from '../helpers';
@@ -31,7 +30,6 @@ const Radio: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
   const { t } = useTranslation();
-  const { setStepperStepIndex } = useWidgetContext();
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const { label } = uischema;
@@ -42,17 +40,12 @@ const Radio: UISchemaElementComponent<{
       name,
       options,
     },
-    isStepper,
     customOptions,
   } = uischema.options;
   const error = t((messages.value || [])[0]?.i18n.key);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);
-    if (isStepper) {
-      const stepIdx = options!.findIndex((opt) => opt.value === e.currentTarget.value);
-      setStepperStepIndex(stepIdx);
-    }
   };
 
   return (

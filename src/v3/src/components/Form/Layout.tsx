@@ -12,27 +12,40 @@
 
 import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
+import { useEffect } from 'preact/hooks';
 
-import { useWidgetContext } from '../../contexts';
+import { useFormContext } from '../../contexts';
 import {
-  FieldElement,
-  isUISchemaLayoutType,
+  ButtonElement,
+  ButtonType,
+  StepperLayout,
   UISchemaElement,
   UISchemaElementComponent,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { isProductionEnvironment } from '../../util';
+import { isDevelopmentEnvironment, isTestEnvironment } from '../../util';
 import renderers from './renderers';
+// eslint-disable-next-line import/no-cycle
+import Stepper from './Stepper';
 
-export const renderUISchemaLayout: FunctionComponent<UISchemaLayout> = (uischema) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { stepperStepIndex } = useWidgetContext();
+type LayoutProps = {
+  uischema: UISchemaLayout;
+};
+
+const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
+  const { submissionOptionsRef } = useFormContext();
   const { type, elements } = uischema;
 
-  if (type === UISchemaLayoutType.STEPPER) {
-    return renderUISchemaLayout((elements as UISchemaLayout[])[stepperStepIndex]);
-  }
+  // track submission options in form, which will be used when form onSubmit event is triggered
+  // one form should not have more than one submit button
+  useEffect(() => {
+    // eslint-disable-next-line max-len
+    const submitButton = elements.find((element) => (element as ButtonElement).options?.type === ButtonType.SUBMIT) as ButtonElement;
+    if (submitButton) {
+      submissionOptionsRef.current = submitButton.options;
+    }
+  }, [elements, submissionOptionsRef]);
 
   const flexDirection = type === UISchemaLayoutType.HORIZONTAL ? 'row' : 'column';
   return (
@@ -42,29 +55,43 @@ export const renderUISchemaLayout: FunctionComponent<UISchemaLayout> = (uischema
     >
       {
         elements.map((element, index) => {
-          if (isUISchemaLayoutType(element.type)) {
-            return renderUISchemaLayout(element as UISchemaLayout);
+          const elementKey = `${element.type}_${index}`;
+
+          if (element.type === UISchemaLayoutType.STEPPER) {
+            return (
+              <Stepper
+                key={elementKey}
+                uischema={element as StepperLayout}
+              />
+            );
+          }
+
+          if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
+            .includes((element as UISchemaLayout).type)) {
+            return (
+              <Layout
+                key={elementKey}
+                uischema={element as UISchemaLayout}
+              />
+            );
           }
 
           const renderer = renderers.find((r) => r.tester(element));
-
           if (!renderer) {
             // TODO: for now do not render for unmatch render object
             // remove unnecessary uischema in future refactor and throw error
             // throw new Error(`Failed to find render component for uischema: ${JSON.stringify(element)}`);
-            if (!isProductionEnvironment()) {
+            if (isDevelopmentEnvironment() || isTestEnvironment()) {
               console.warn(`Failed to find render component for uischema: ${JSON.stringify(element)}`);
             }
             return null;
           }
 
-          const elementKey = `${(element as FieldElement).name || element.type}_${index}`;
           const Component = renderer.renderer as UISchemaElementComponent;
-
           return (
             <Box
-              marginBottom={4}
               key={elementKey}
+              marginBottom={4}
             >
               <Component uischema={element as UISchemaElement} />
             </Box>
@@ -74,3 +101,5 @@ export const renderUISchemaLayout: FunctionComponent<UISchemaLayout> = (uischema
     </Box>
   );
 };
+
+export default Layout;

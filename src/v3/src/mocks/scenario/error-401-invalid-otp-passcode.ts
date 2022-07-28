@@ -29,22 +29,6 @@ scenario('error-401-invalid-otp-passcode', (rest) => ([
     );
   }),
   rest.post('*/idp/idx/introspect', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/introspect/default.json');
-    return res(
-      ctx.status(200),
-      ctx.json(body),
-    );
-  }),
-  // send email/pw, return mfa challenge response remediation
-  rest.post('*/idp/idx/identify', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/identify/default.json');
-    return res(
-      ctx.status(200),
-      ctx.json(body),
-    );
-  }),
-  // enter a code step
-  rest.post('*/idp/idx/challenge', async (req, res, ctx) => {
     const { default: body } = await import('../response/idp/idx/challenge/default.json');
     return res(
       ctx.status(200),

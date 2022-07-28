@@ -64,10 +64,6 @@ export interface WithDefaultValue<T = unknown> {
   default: T;
 }
 
-export type IdxTransactionWithNextStep = Modify<IdxTransaction, {
-  nextStep: NextStep;
-}>;
-
 export type FieldTransformer<U = JsonObject, T = Input> = (input: T) => U | null;
 
 export type StepTransformer = (step?: NextStep) => FormBag;

@@ -107,6 +107,8 @@ module.exports = {
           ignoreProps: true,
           noAttributeStrings: true,
         }],
+        // check hooks deps
+        'react-hooks/exhaustive-deps': 'error',
         // enforce simple-import-sort recommendations
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',

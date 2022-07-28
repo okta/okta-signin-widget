@@ -17,11 +17,7 @@ import {
   TitleElement,
 } from '../../types';
 
-export const transformPasswordChallenge: IdxStepTransformer = (
-  transaction,
-  formBag,
-  _,
-) => {
+export const transformPasswordChallenge: IdxStepTransformer = ({ formBag }) => {
   const { uischema } = formBag;
 
   const titleElement: TitleElement = {

@@ -10,13 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams } from '@okta/okta-auth-js';
+import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
 
 import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
-  FieldElement,
   IdxStepTransformer,
   ReminderElement,
   StepperButtonElement,
@@ -26,29 +25,21 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { getUIElementWithName, removeUIElementWithName } from '../utils';
+import { getUIElementWithName } from '../utils';
 
-const TARGET_ELEMENT_KEY = 'credentials.passcode';
-
-export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag, widgetProps) => {
-  const { nextStep, availableSteps } = transaction;
+export const transformEmailChallenge: IdxStepTransformer = ({
+  transaction,
+  formBag,
+  widgetProps,
+}) => {
+  const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
   const { authClient } = widgetProps;
 
-  const passcodeElement = getUIElementWithName(
-    TARGET_ELEMENT_KEY,
-    uischema.elements as UISchemaElement[],
-  );
-  uischema.elements = removeUIElementWithName(
-    TARGET_ELEMENT_KEY,
-    uischema.elements as UISchemaElement[],
-  );
-
   let reminderElement: ReminderElement | undefined;
-  let verificationCodeElement: FieldElement | undefined;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
-  if (nextStep.canResend && resendStep) {
+  if (resendStep) {
     const { name } = resendStep;
     reminderElement = {
       type: 'Reminder',
@@ -67,12 +58,11 @@ export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag
     };
   }
 
-  if (passcodeElement) {
-    verificationCodeElement = {
-      ...passcodeElement as FieldElement,
-      label: 'email.enroll.enterCode',
-    };
-  }
+  const passcodeElement = getUIElementWithName(
+    'credentials.passcode',
+    uischema.elements as UISchemaElement[],
+  );
+  passcodeElement!.label = 'email.enroll.enterCode';
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
   const informationalText: DescriptionElement = {
@@ -101,39 +91,42 @@ export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag
     },
   };
 
-  const emailChallengeStepper: StepperLayout = {
+  const showCodeStepperButton: StepperButtonElement = {
+    type: 'StepperButton',
+    label: 'oie.email.verify.alternate.showCodeTextField',
+    options: {
+      type: ButtonType.BUTTON,
+      variant: 'secondary',
+      nextStepIndex: 1,
+    },
+  };
+
+  const stepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
     elements: [
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
-          reminderElement,
+          ...(reminderElement ? [reminderElement] : []),
           titleElement,
           informationalText,
-          {
-            type: 'StepperButton',
-            label: 'oie.email.verify.alternate.showCodeTextField',
-            options: {
-              variant: 'secondary',
-              nextStepIndex: 1,
-            },
-          } as StepperButtonElement,
-        ].filter(Boolean),
+          showCodeStepperButton,
+        ],
       } as UISchemaLayout,
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
-          reminderElement,
+          ...(reminderElement ? [reminderElement] : []),
           titleElement,
           informationalText,
-          verificationCodeElement,
+          passcodeElement,
           submitButtonControl,
-        ].filter(Boolean),
+        ],
       } as UISchemaLayout,
     ],
   };
 
-  uischema.elements.unshift(emailChallengeStepper);
+  uischema.elements = [stepper];
 
   return formBag;
 };

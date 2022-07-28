@@ -25,8 +25,11 @@ import {
 } from '../../types';
 import { getUIElementWithName } from '../utils';
 
-export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep: { relatesTo } } = transaction;
+export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
+  transaction,
+  formBag,
+}) => {
+  const { nextStep: { relatesTo } = {} } = transaction;
 
   if (!relatesTo || !relatesTo.value?.contextualData?.qrcode) {
     // N/A for this transformer
@@ -63,6 +66,16 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transacti
     options: { label: displayName, data: href },
   };
 
+  const stepOneStepperButton: StepperButtonElement = {
+    type: 'StepperButton',
+    label: 'renderers.qrcode.setUpDifferentWay',
+    options: {
+      type: ButtonType.BUTTON,
+      variant: 'secondary',
+      nextStepIndex: 1,
+    },
+  };
+
   const nextButton: StepperButtonElement = {
     type: 'StepperButton',
     label: 'oform.next',
@@ -86,14 +99,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transacti
             },
           } as DescriptionElement,
           qrCodeElement,
-          {
-            type: 'StepperButton',
-            label: 'renderers.qrcode.setUpDifferentWay',
-            options: {
-              variant: 'secondary',
-              nextStepIndex: 1,
-            },
-          } as StepperButtonElement,
+          stepOneStepperButton,
           nextButton,
         ],
       },

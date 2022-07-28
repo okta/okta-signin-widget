@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup, updateDynamicAttribute } from './util';
+import { setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-ov-sms-channel.json';
 
 describe('okta-verify-sms-channel-enrollment', () => {
@@ -24,7 +24,6 @@ describe('okta-verify-sms-channel-enrollment', () => {
     const phoneEl = await findByTestId(/phoneNumber/) as HTMLInputElement;
     const submitBtn = await findByText(/Send me the setup link/);
 
-    updateDynamicAttribute(container, ['id', 'for']);
     expect(container).toMatchSnapshot();
 
     const mockPhoneNumber = '2165551234';
@@ -47,24 +46,5 @@ describe('okta-verify-sms-channel-enrollment', () => {
         withCredentials: true,
       },
     );
-  });
-
-  it('should render sms channel form and display channel selection form when clicking try a different method link', async () => {
-    const {
-      container, findByText, user,
-    } = await setup({ mockResponse });
-
-    const channelSelectionBtn = await findByText(/Try a different way/);
-
-    user.click(channelSelectionBtn);
-
-    await findByText(/More options/);
-    await findByText(/Which option do you want to try\?/);
-    await findByText(/Scan a QR code/);
-    await findByText(/Email me a setup link/);
-    await findByText(/Next/);
-
-    updateDynamicAttribute(container, ['id', 'for']);
-    expect(container).toMatchSnapshot();
   });
 });

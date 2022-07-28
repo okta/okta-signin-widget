@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxTransaction } from '@okta/okta-auth-js';
+
 import { IDX_STEP } from '../../constants';
 import {
   DescriptionElement,
   IdxStepTransformer,
-  IdxTransactionWithNextStep,
   TitleElement,
   WebAuthNButtonElement,
 } from '../../types';
@@ -27,12 +28,12 @@ import {
 const SUPPORTED_STEPS = [IDX_STEP.ENROLL_AUTHENTICATOR, IDX_STEP.CHALLENGE_AUTHENTICATOR];
 
 const generateUISchemaElementAndInformationLabelFor = (
-  transaction: IdxTransactionWithNextStep,
+  transaction: IdxTransaction,
 ): { infoTextLabel: string; element: WebAuthNButtonElement; } | undefined => {
-  const { nextStep: { name } } = transaction;
+  const { nextStep: { name } = {} } = transaction;
   // This verifies that the browser supports the credentials API
   // and the step is supported for this transformer
-  if (!isCredentialsApiAvailable() || !SUPPORTED_STEPS.includes(name)) {
+  if (!isCredentialsApiAvailable() || !SUPPORTED_STEPS.includes(name!)) {
     return undefined;
   }
 
@@ -56,7 +57,7 @@ const generateUISchemaElementAndInformationLabelFor = (
   };
 };
 
-export const transformWebAuthNAuthenticator: IdxStepTransformer = (transaction, formBag) => {
+export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction, formBag }) => {
   const { uischema } = formBag;
 
   const titleElement: TitleElement = {

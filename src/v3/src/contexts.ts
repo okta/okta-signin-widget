@@ -12,13 +12,15 @@
 
 import { IdxMessage, IdxTransaction, OktaAuth } from '@okta/okta-auth-js';
 import { createContext } from 'preact';
-import { StateUpdater, useContext } from 'preact/hooks';
+import { MutableRef, StateUpdater, useContext } from 'preact/hooks';
 
 import {
+  ActionOptions,
   FormBag,
   WidgetProps,
 } from './types';
 
+// Widget context
 type IWidgetContext = {
   authClient: OktaAuth;
   widgetProps: WidgetProps;
@@ -27,13 +29,13 @@ type IWidgetContext = {
   // (RenderSuccessCallback / RenderErrorCallback) once merged into okta-signin-widget
   onSuccessCallback?: (data: Record<string, unknown>) => void;
   onErrorCallback?: (data: Record<string, unknown>) => void;
-  formBag: FormBag;
   idxTransaction: IdxTransaction | undefined;
   setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
+  stepToRender: string | undefined;
+  setStepToRender: StateUpdater<string | undefined>;
   data: Record<string, unknown>;
   setData: StateUpdater<Record<string, unknown>>;
-  stepperStepIndex: number;
-  setStepperStepIndex: StateUpdater<number>;
+  dataSchemaRef: MutableRef<FormBag['dataSchema'] | undefined>;
 };
 
 const createWidgetContext = <T extends unknown>() => {
@@ -55,3 +57,23 @@ const createWidgetContext = <T extends unknown>() => {
 const [useWidgetContext, WidgetContextProvider] = createWidgetContext<IWidgetContext>();
 
 export { useWidgetContext, WidgetContextProvider };
+
+// Form context
+type IFormContext = {
+  submissionOptionsRef: MutableRef<ActionOptions | undefined>;
+};
+
+export const FormContext = createContext<IFormContext>({} as IFormContext);
+
+export const useFormContext = () => useContext(FormContext);
+
+// Stepper context
+type IStepperContext = {
+  setStepIndex: StateUpdater<number | undefined>;
+};
+
+export const StepperContext = createContext<IStepperContext>({
+  setStepIndex: () => {},
+});
+
+export const useStepperContext = () => useContext(StepperContext);

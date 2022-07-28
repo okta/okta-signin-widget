@@ -24,8 +24,8 @@ import {
 import { getUserInfo } from '../../util';
 import { getUIElementWithName } from '../utils';
 
-export const transformEnrollProfile: IdxStepTransformer = (transaction, formBag, _) => {
-  const { availableSteps, nextStep: { relatesTo } } = transaction;
+export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBag }) => {
+  const { availableSteps, nextStep: { relatesTo } = {} } = transaction;
   const { uischema } = formBag;
 
   // If passcode exists in elements, add password requirements element to Ui

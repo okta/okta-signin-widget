@@ -15,6 +15,7 @@ import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { ThemeProvider } from '@okta/odyssey-react-theme';
 import {
   AuthApiError,
+  AuthenticatorKey,
   IdxMessage,
   IdxStatus,
   IdxTransaction,
@@ -24,6 +25,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'preact/hooks';
 
@@ -34,12 +36,11 @@ import { transformTerminalTransaction, transformUnhandledErrors } from '../../tr
 import { createForm } from '../../transformer/utils';
 import {
   FormBag,
-  IdxTransactionWithNextStep,
   MessageType,
   UISchemaLayout,
   WidgetProps,
 } from '../../types';
-import { buildAuthCoinProps, isAuthClientSet } from '../../util';
+import { buildAuthCoinProps, isAndroidOrIOS, isAuthClientSet } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { mapThemeFromBrand } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
@@ -66,13 +67,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     events,
   } = widgetProps;
 
-  const TERMINAL_STATUSES = [IdxStatus.TERMINAL, IdxStatus.SUCCESS];
   const [data, setData] = useState({});
   const [messages, setMessages] = useState<IdxMessage[]>([]);
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
+  const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
+  const prevIdxTransactionRef = useRef<IdxTransaction>();
   const [authApiError, setAuthApiError] = useState<AuthApiError>();
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
-  const [stepperStepIndex, setStepperStepIndex] = useState<number>(0);
+  const dataSchemaRef = useRef<FormBag['dataSchema']>();
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
@@ -85,16 +87,46 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return createForm();
     }
 
-    if (TERMINAL_STATUSES.includes(idxTransaction.status) || !idxTransaction.nextStep) {
+    if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
+        || !idxTransaction.nextStep) {
       return transformTerminalTransaction(idxTransaction, widgetProps);
     }
 
-    const bag = transformTransaction(idxTransaction as IdxTransactionWithNextStep, widgetProps);
+    let step = stepToRender;
+    // Mobile devices cannot scan QR codes while navigating through flow
+    // so we force them to select either email / sms for enrollment
+    if (idxTransaction.context.currentAuthenticator?.value.key === AuthenticatorKey.OKTA_VERIFY
+        && idxTransaction.nextStep.name === 'enroll-poll'
+        && isAndroidOrIOS()) {
+      step = 'select-enrollment-channel';
+    }
+    const bag = transformTransaction({
+      transaction: idxTransaction,
+      prevTransaction: prevIdxTransactionRef.current,
+      step,
+      widgetProps,
+    });
+
     // Get data state ready before updating formBag
     setData(bag.data);
+
     return bag;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idxTransaction, authApiError]);
+  }, [
+    idxTransaction,
+    authApiError,
+    stepToRender,
+    widgetProps,
+  ]);
+
+  // track previous idxTransaction
+  useEffect(() => {
+    prevIdxTransactionRef.current = idxTransaction;
+  }, [idxTransaction]);
+
+  // update dataSchemaRef in context
+  useEffect(() => {
+    dataSchemaRef.current = formBag.dataSchema;
+  }, [formBag]);
 
   const handleError = (error: unknown) => {
     // TODO: handle error based on types
@@ -124,6 +156,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     } catch (error) {
       handleError(error);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, stateToken, setIdxTransaction, setAuthApiError]);
 
   const resume = useCallback(async () => {
@@ -136,6 +169,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     } catch (error) {
       handleError(error);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, setIdxTransaction, setAuthApiError]);
 
   // bootstrap / resume the widget
@@ -189,6 +223,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setIdxTransaction(undefined);
       bootstrap();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idxTransaction, setMessages, bootstrap]);
 
   // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
@@ -201,12 +236,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       onSuccessCallback: onSuccess,
       idxTransaction,
       setIdxTransaction,
+      stepToRender,
+      setStepToRender,
       setMessages,
       data,
       setData,
-      stepperStepIndex,
-      setStepperStepIndex,
-      formBag,
+      dataSchemaRef,
     }}
     >
       {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}

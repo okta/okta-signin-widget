@@ -13,66 +13,36 @@
 import { IdxMessage } from '@okta/okta-auth-js';
 import { clone } from 'lodash';
 import { FunctionComponent, h } from 'preact';
+import { useCallback, useRef } from 'preact/hooks';
 
-import { useWidgetContext } from '../../contexts';
+import { FormContext, useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
-import {
-  ButtonElement,
-  ButtonType,
-  isUISchemaLayoutType,
-  SubmitEvent,
-  UISchemaLayout,
-  UISchemaLayoutType,
-} from '../../types';
+import { ActionOptions, SubmitEvent, UISchemaLayout } from '../../types';
 import { resetMessagesToInputs } from '../../util';
-import { renderUISchemaLayout } from './renderUISchemaLayout';
-
-// TODO: remove this function once submission related meta is in schema
-const getSubmitButtonSchema: any = (uischema: UISchemaLayout, stepperStepIndex: number) => {
-  const { type, elements } = uischema;
-  if (type === UISchemaLayoutType.STEPPER) {
-    return getSubmitButtonSchema(
-      (elements as UISchemaLayout[])[stepperStepIndex],
-      stepperStepIndex,
-    );
-  }
-
-  return elements.reduce((acc, element) => {
-    if (isUISchemaLayoutType(element.type)) {
-      return getSubmitButtonSchema(element as UISchemaLayout, stepperStepIndex);
-    }
-
-    if ((element as ButtonElement).options.type === ButtonType.SUBMIT) {
-      return acc || element;
-    }
-
-    return acc;
-  }, null);
-};
+import Layout from './Layout';
 
 const Form: FunctionComponent<{
   uischema: UISchemaLayout;
 }> = ({ uischema }) => {
+  const submissionOptionsRef = useRef<ActionOptions>();
   const {
-    stepperStepIndex,
-    formBag,
     data,
     idxTransaction: currTransaction,
     setIdxTransaction,
+    dataSchemaRef,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
 
-  const handleSubmit = async (e: SubmitEvent) => {
+  const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();
 
-    const submitButtonSchema = getSubmitButtonSchema(uischema, stepperStepIndex);
-    const { actionParams: params, step } = submitButtonSchema?.options || {};
+    const { actionParams: params, step } = submissionOptionsRef.current!;
 
     // client side validation - only validate for fields in nextStep
     const { nextStep } = currTransaction!;
     if (!step || step === nextStep!.name) {
       // aggregate field level messages based on validation rules in each field
-      const messages = Object.entries(formBag.dataSchema)
+      const messages = Object.entries(dataSchemaRef.current!)
         .reduce((acc: Record<string, Partial<IdxMessage>>, curr) => {
           const [name, elementSchema] = curr;
           if (typeof elementSchema.validate === 'function') {
@@ -101,17 +71,30 @@ const Form: FunctionComponent<{
       params,
       step,
     });
-  };
+  }, [
+    data,
+    currTransaction,
+    dataSchemaRef,
+    setIdxTransaction,
+    onSubmitHandler,
+  ]);
 
   return (
-    <form
-      noValidate
-      onSubmit={handleSubmit}
-      className="o-form" // FIXME update page objects using .o-form selectors
-      data-se="form"
+    <FormContext.Provider value={{
+      submissionOptionsRef,
+    }}
     >
-      {renderUISchemaLayout(uischema)}
-    </form>
+      <form
+        noValidate
+        onSubmit={handleSubmit}
+        className="o-form" // FIXME update page objects using .o-form selectors
+        data-se="form"
+      >
+        <Layout uischema={uischema} />
+      </form>
+
+    </FormContext.Provider>
+
   );
 };
 

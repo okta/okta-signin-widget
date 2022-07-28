@@ -15,15 +15,10 @@ import {
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
-  StepperButtonElement,
-  StepperLayout,
   TitleElement,
   UISchemaElement,
-  UISchemaLayout,
-  UISchemaLayoutType,
 } from '../../types';
-import { getUIElementWithName, removeUIElementWithName } from '../utils';
-import { transformOktaVerifyChannelSelection } from './transformOktaVerifyChannelSelection';
+import { getUIElementWithName } from '../utils';
 
 const CHANNELS = ['phoneNumber', 'email'];
 const CHANNEL_TO_KEY_MAP: {
@@ -40,25 +35,21 @@ const CHANNEL_TO_KEY_MAP: {
   },
 };
 
-export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
+export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
   transaction,
   formBag,
-  widgetProps,
-) => {
+}) => {
   const { context } = transaction;
-  // TODO: OKTA-503490 temporary sln access missing relatesTo obj
-  const authenticator = context?.currentAuthenticator?.value;
-  if (!authenticator) {
-    return formBag;
-  }
+  const authenticator = context.currentAuthenticator.value;
   const { uischema } = formBag;
   const selectedChannel = authenticator.contextualData?.selectedChannel;
   if (!selectedChannel) {
     return formBag;
   }
 
-  const stepOneElements: UISchemaElement[] = [];
-  stepOneElements.push({
+  const elements: UISchemaElement[] = [];
+
+  elements.push({
     type: 'Title',
     options: {
       content: CHANNEL_TO_KEY_MAP.title[selectedChannel],
@@ -68,26 +59,21 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
   CHANNELS.forEach((channelName) => {
     const element = getUIElementWithName(
       channelName,
-      formBag.uischema.elements as UISchemaElement[],
+      uischema.elements as UISchemaElement[],
     );
     if (element) {
-      stepOneElements.push(element);
-
-      uischema.elements = removeUIElementWithName(
-        channelName,
-        formBag.uischema.elements as UISchemaElement[],
-      );
+      elements.push(element);
     }
   });
 
-  stepOneElements.push({
+  elements.push({
     type: 'Description',
     options: {
       content: CHANNEL_TO_KEY_MAP.description[selectedChannel],
     },
   } as DescriptionElement);
 
-  stepOneElements.push({
+  elements.push({
     type: 'Button',
     label: 'oie.enroll.okta_verify.setupLink',
     scope: '#/properties/setupLink',
@@ -96,37 +82,18 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
     },
   } as ButtonElement);
 
-  stepOneElements.push({
-    type: 'StepperButton',
+  elements.push({
+    type: 'Button',
     label: 'next.enroll.okta_verify.switch.channel.link.text',
     options: {
+      type: ButtonType.BUTTON,
       variant: 'secondary',
-      nextStepIndex: 1,
+      step: 'select-enrollment-channel',
+      stepToRender: 'select-enrollment-channel',
     },
-  } as StepperButtonElement);
+  } as ButtonElement);
 
-  const channelSelectionFormBag = transformOktaVerifyChannelSelection(
-    transaction,
-    formBag,
-    widgetProps,
-  );
-
-  const stepper: StepperLayout = {
-    type: UISchemaLayoutType.STEPPER,
-    elements: [
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: stepOneElements,
-      } as UISchemaLayout,
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [...channelSelectionFormBag.uischema.elements],
-      } as UISchemaLayout,
-    ],
-  };
-
-  // prepend
-  uischema.elements.unshift(stepper);
+  uischema.elements = elements;
 
   return formBag;
 };

@@ -10,7 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export const isProductionEnvironment = (): boolean => {
+export const isDevelopmentEnvironment = (): boolean => {
   const { NODE_ENV } = process.env;
-  return NODE_ENV === 'production';
+  return NODE_ENV === 'development';
+};
+
+export const isTestEnvironment = (): boolean => {
+  const { NODE_ENV } = process.env;
+  return NODE_ENV === 'test';
 };

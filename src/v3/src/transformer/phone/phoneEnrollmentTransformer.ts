@@ -22,7 +22,7 @@ import {
 } from '../../types';
 import { getUIElementWithName } from '../utils';
 
-export const transformPhoneEnrollment: IdxStepTransformer = (_, formBag) => {
+export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag }) => {
   const { uischema, data } = formBag;
 
   uischema.elements = uischema.elements.map((element) => {
@@ -51,7 +51,6 @@ export const transformPhoneEnrollment: IdxStepTransformer = (_, formBag) => {
   methodTypeElement.options = {
     ...methodTypeElement.options,
     format: 'radio',
-    isStepper: true,
   };
   data['authenticator.methodType'] = methodTypeElement!.options!.inputMeta.options![0].value;
 

@@ -25,14 +25,14 @@ const getContentTitleAndParams = (brandName?: string): TitleElement['options'] =
   return { content: 'password.reset.title.generic' };
 };
 
-export const transformResetPasswordAuthenticator: IdxStepTransformer = (
+export const transformResetPasswordAuthenticator: IdxStepTransformer = ({
   transaction,
   formBag,
   widgetProps,
-) => {
+}) => {
   const { brandName } = widgetProps;
 
-  const baseFormBag = transformEnrollPasswordAuthenticator(transaction, formBag, widgetProps);
+  const baseFormBag = transformEnrollPasswordAuthenticator({ transaction, formBag, widgetProps });
   const { uischema } = baseFormBag;
 
   const titleElement: TitleElement = {

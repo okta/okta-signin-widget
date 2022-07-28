@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Input } from '@okta/okta-auth-js';
+import { Input, NextStep } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 
 import {
@@ -24,7 +24,6 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { removeUIElementWithName } from '../utils';
 
 type Question = {
   questionKey: string;
@@ -35,8 +34,8 @@ const QUESTION_KEY_INPUT_NAME = 'credentials.questionKey';
 const CUSTOM_QUESTION_INPUT_NAME = 'credentials.question';
 const ANSWER_INPUT_NAME = 'credentials.answer';
 
-export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep: { relatesTo, inputs } } = transaction;
+export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transaction, formBag }) => {
+  const { nextStep: { relatesTo, inputs } = {} as NextStep } = transaction;
   if (!relatesTo?.value) {
     return formBag;
   }
@@ -46,11 +45,6 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
 
   const customQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => (value as Input[])?.some(({ name }) => name === 'question'));
   const predefinedQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => !(value as Input[])?.some(({ name }) => name === 'question'));
-  // removes default element from uischema
-  uischema.elements = removeUIElementWithName(
-    'credentials',
-    uischema.elements as FieldElement[],
-  );
 
   const predefinedAnswerInput = (predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
   const predefinedAnswerElement: FieldElement = {
@@ -114,17 +108,6 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
     },
   };
 
-  const customQuestionKeyElement: FieldElement = {
-    type: 'Control',
-    name: QUESTION_KEY_INPUT_NAME,
-    options: {
-      inputMeta: {
-        ...(customQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'questionKey'),
-        name: QUESTION_KEY_INPUT_NAME,
-      },
-    },
-  };
-
   // Add the title to the top
   const titleElement: TitleElement = {
     type: 'Title',
@@ -136,7 +119,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
   const questionTypeRadioEl: StepperRadioElement = {
     type: 'StepperRadio',
     options: {
-      id: 'questionType',
+      name: 'questionType',
       defaultOption: 'predefined',
       customOptions: [{
         value: 'predefined',
@@ -156,6 +139,8 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
+          titleElement,
+          questionTypeRadioEl,
           predefinedQuestionsElement,
           predefinedAnswerElement,
           {
@@ -173,7 +158,8 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
-          customQuestionKeyElement,
+          titleElement,
+          questionTypeRadioEl,
           customQuestionElement,
           customAnswerElement,
           {
@@ -191,10 +177,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
     ],
   };
 
-  // Title -> Type -> Stepper elements
-  uischema.elements.unshift(questionTypeRadioEl);
-  uischema.elements.unshift(titleElement);
-  uischema.elements.push(securityQuestionStepper);
+  uischema.elements = [securityQuestionStepper];
 
   // TODO: support stepper dataSchema to pick validators based on selection
   // eslint-disable-next-line no-param-reassign

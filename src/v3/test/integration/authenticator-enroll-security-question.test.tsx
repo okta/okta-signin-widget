@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup, updateDynamicAttribute } from './util';
+import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/securityquestion-enroll-mfa.json';
 
@@ -21,8 +21,6 @@ describe('authenticator-enroll-security-question', () => {
     await findByText(/Set up security question/);
     await findByText(/What is the food you least liked/);
 
-    // TODO: remove when odyssey-react fixes the Radio random id issue
-    updateDynamicAttribute(container, ['id', 'for']);
     expect(container).toMatchSnapshot();
   });
 

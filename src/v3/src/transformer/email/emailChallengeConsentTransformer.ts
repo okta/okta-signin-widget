@@ -22,14 +22,14 @@ import {
 } from '../../types';
 import { removeUIElementWithName } from '../utils';
 
-export const transformEmailChallengeConsent: IdxStepTransformer = (transaction, formBag) => {
+export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction, formBag }) => {
   const { uischema } = formBag;
   const {
     nextStep: {
       // @ts-ignore requestInfo missing from NextStep interface
       requestInfo,
       name: step,
-    },
+    } = {},
   } = transaction;
 
   // removing consent field as it is controlled by buttons

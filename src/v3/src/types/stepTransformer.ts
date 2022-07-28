@@ -10,12 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransactionWithNextStep } from './jsonforms';
+import { IdxTransaction } from '@okta/okta-auth-js';
+
 import { FormBag } from './schema';
 import { WidgetProps } from './widget';
 
-export type IdxStepTransformer = (
-  transaction: IdxTransactionWithNextStep,
-  formBag: FormBag,
-  widgetProps: WidgetProps,
-) => FormBag;
+type Options = {
+  transaction: IdxTransaction;
+  prevTransaction?: IdxTransaction;
+  formBag: FormBag;
+  widgetProps: WidgetProps;
+};
+
+export type IdxStepTransformer = (options: Options) => FormBag;

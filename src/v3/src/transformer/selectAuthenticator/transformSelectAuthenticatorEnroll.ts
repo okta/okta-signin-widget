@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { NextStep } from '@okta/okta-auth-js';
+
 import {
   ButtonElement,
   ButtonType,
@@ -31,13 +33,13 @@ const getContentDescrAndParams = (brandName?: string): TitleElement['options'] =
   return { content: 'oie.select.authenticators.enroll.subtitle' };
 };
 
-export const transformSelectAuthenticatorEnroll: IdxStepTransformer = (
+export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   transaction,
   formBag,
   widgetProps,
-) => {
+}) => {
   const { brandName } = widgetProps;
-  const { nextStep: { inputs, canSkip }, availableSteps } = transaction;
+  const { nextStep: { inputs, canSkip } = {} as NextStep, availableSteps } = transaction;
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
   if (!authenticator?.options) {
     return formBag;
@@ -52,6 +54,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = (
   );
   uischema.elements.push({
     type: 'Description',
+    // TODO: re-visit, canSkip should not exist when use GenericRemediator
     options: { content: canSkip ? 'oie.setup.optional' : 'oie.setup.required' },
   } as DescriptionElement);
   uischema.elements = uischema.elements.concat(authenticatorButtonElements);

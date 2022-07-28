@@ -65,128 +65,127 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
               class="MuiBox-root emotion-9"
             >
               <div
-                class="MuiBox-root emotion-10"
+                class="MuiBox-root emotion-9"
               >
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <h2
-                    class="MuiTypography-root MuiTypography-h3 emotion-12"
-                  >
-                    Set up security question
-                  </h2>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <fieldset
-                  class="MuiFormControl-root emotion-14"
-                >
-                  
                   <div
-                    class="MuiFormGroup-root emotion-15"
-                    id="generated"
-                    role="radiogroup"
+                    class="MuiBox-root emotion-12"
                   >
-                    <label
-                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-16"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-13"
                     >
-                      <span
-                        class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-17"
-                      >
-                        <input
-                          class="PrivateSwitchBase-input emotion-18"
-                          name="questionType"
-                          type="radio"
-                          value="predefined"
-                        />
-                        <span
-                          class="emotion-19"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-20"
-                            data-testid="RadioButtonUncheckedIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                            />
-                          </svg>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-21"
-                            data-testid="RadioButtonCheckedIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                            />
-                          </svg>
-                        </span>
-                      </span>
-                      <span
-                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
-                      >
-                        Choose a security question
-                      </span>
-                    </label>
-                    <label
-                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-16"
-                    >
-                      <span
-                        class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-17"
-                      >
-                        <input
-                          class="PrivateSwitchBase-input emotion-18"
-                          name="questionType"
-                          type="radio"
-                          value="custom"
-                        />
-                        <span
-                          class="emotion-19"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-20"
-                            data-testid="RadioButtonUncheckedIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                            />
-                          </svg>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-28"
-                            data-testid="RadioButtonCheckedIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                            />
-                          </svg>
-                        </span>
-                      </span>
-                      <span
-                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
-                      >
-                        Create my own security question
-                      </span>
-                    </label>
+                      Set up security question
+                    </h2>
                   </div>
-                </fieldset>
-              </div>
-              <div
-                class="MuiBox-root emotion-9"
-              >
+                </div>
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-11"
+                >
+                  <fieldset
+                    class="MuiFormControl-root emotion-15"
+                  >
+                    
+                    <div
+                      class="MuiFormGroup-root emotion-16"
+                      role="radiogroup"
+                    >
+                      <label
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-17"
+                      >
+                        <span
+                          class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-18"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-19"
+                            name="questionType"
+                            type="radio"
+                            value="predefined"
+                          />
+                          <span
+                            class="emotion-20"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-21"
+                              data-testid="RadioButtonUncheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                              />
+                            </svg>
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
+                              data-testid="RadioButtonCheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                              />
+                            </svg>
+                          </span>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
+                        >
+                          Choose a security question
+                        </span>
+                      </label>
+                      <label
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-17"
+                      >
+                        <span
+                          class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-18"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-19"
+                            name="questionType"
+                            type="radio"
+                            value="custom"
+                          />
+                          <span
+                            class="emotion-20"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-21"
+                              data-testid="RadioButtonUncheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                              />
+                            </svg>
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-29"
+                              data-testid="RadioButtonCheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                              />
+                            </svg>
+                          </span>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
+                        >
+                          Create my own security question
+                        </span>
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
                 >
                   <div
                     class="MuiBox-root emotion-3"
@@ -196,7 +195,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                     >
                       <label
                         class="ods-4o5zYQ ods-76eppy ods-5VQ9Rl ods-7KS5Kt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-g8inGu"
-                        for="generated"
+                        for="credentials.questionKey"
                       >
                         <span
                           class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6rDd3P ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
@@ -209,7 +208,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                       >
                         <select
                           class="ods-1B2Zfy"
-                          id="generated"
+                          id="credentials.questionKey"
                           name="credentials.questionKey"
                         >
                           <option
@@ -335,7 +334,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
                     class="MuiBox-root emotion-3"
@@ -345,7 +344,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                     >
                       <label
                         class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-36"
-                        for="generated"
+                        for="credentials.answer"
                       >
                         Answer
                       </label>
@@ -356,7 +355,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                           aria-invalid="false"
                           class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-38"
                           data-se="credentials.answer"
-                          id="generated"
+                          id="credentials.answer"
                           name="credentials.answer"
                           type="password"
                         />
@@ -403,7 +402,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-11"
                 >
                   <button
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-45"
@@ -417,7 +416,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-10"
+                class="MuiBox-root emotion-11"
               >
                 <button
                   class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-47"
@@ -429,7 +428,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-10"
+                class="MuiBox-root emotion-11"
               >
                 <button
                   class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-47"
