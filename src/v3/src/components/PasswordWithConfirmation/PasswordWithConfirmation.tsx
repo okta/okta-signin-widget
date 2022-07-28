@@ -10,17 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button, FormHelperText } from '@mui/material';
+import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 
-import { useOnSubmit, useValue } from '../../hooks';
+import { useWidgetContext } from '../../contexts';
+import { useValue } from '../../hooks';
 import { useTranslation } from '../../lib/okta-i18n';
 import {
   ChangeEvent,
+  DataSchema,
+  FormBag,
   PasswordWithConfirmationElement,
-  SubmitEvent,
   UISchemaElementComponent,
 } from '../../types';
 import InputPassword from '../InputPassword';
@@ -28,14 +30,23 @@ import InputPassword from '../InputPassword';
 const PasswordWithConfirmation: UISchemaElementComponent<{
   uischema: PasswordWithConfirmationElement
 }> = ({ uischema }) => {
-  const { ctaLabel, input } = uischema.options;
-
   const { t } = useTranslation();
+  const { input } = uischema.options;
+  const {
+    inputMeta: {
+      // @ts-ignore expose type from auth-js
+      messages: newPasswordMessages = {},
+    },
+  } = input.options;
+  const newPasswordError = t((newPasswordMessages.value || [])[0]?.i18n.key);
+
   const value = useValue(input);
   const [isTouched, setIsTouched] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string | undefined>();
-  const onSubmitHandler = useOnSubmit();
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string | undefined>(
+    t('model.validation.field.blank')
+  );
+  const { dataSchemaRef } = useWidgetContext();
 
   const handleConfirmPasswordValidation = (password: string | undefined): void => {
     if (!password) {
@@ -51,28 +62,44 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
     setConfirmPasswordError(undefined);
   };
 
-  const handleSubmit = async (e: SubmitEvent) => {
-    e.preventDefault();
-    if (confirmPassword === value) {
-      onSubmitHandler({
-        includeData: true,
-      });
-      return;
-    }
-    setIsTouched(true);
-    handleConfirmPasswordValidation(confirmPassword);
-  };
-
   const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsTouched(true);
     setConfirmPassword(e.currentTarget.value);
+    updateDataSchemaValidation(e.currentTarget.value);
     handleConfirmPasswordValidation(e.currentTarget.value);
   };
 
   const handleConfirmPasswordBlur = () => {
     setIsTouched(true);
+    updateDataSchemaValidation();
     handleConfirmPasswordValidation(confirmPassword);
   };
+
+  const updateDataSchemaValidation = (confirmPw?: string): void => {
+    dataSchemaRef.current![input.name] = {
+      validate: (data: FormBag['data']) => {
+        const newPw = data[input.name];
+        if (!newPw) {
+          return { i18n: { key: t('model.validation.field.blank') } };
+        }
+        const comparisonPw = (confirmPw ?? confirmPassword);
+
+        if (comparisonPw !== newPw) {
+          setIsTouched(true);
+          // Do not display error on new password field when confirm is missing
+          // but do not allow submission
+          return { i18n: { key: '' } };
+        }
+
+        return undefined;
+      }
+    } as DataSchema
+  };
+
+  useEffect(() => {
+    // on load, update validate function to prevent submission w/o confirm pw data
+    updateDataSchemaValidation();
+  }, [newPasswordError]);
 
   return (
     <Box>
@@ -95,20 +122,10 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
             autocomplete: 'new-password',
           }}
         />
-        {confirmPasswordError && (
+        {!!(isTouched && !!confirmPasswordError) && (
           <FormHelperText error>{confirmPasswordError}</FormHelperText>
         )}
       </Box>
-      <Button
-        type="submit"
-        variant="primary"
-        fullWidth
-        data-se="#/properties/submit"
-        data-type="save"
-        onClick={handleSubmit}
-      >
-        {t(ctaLabel)}
-      </Button>
     </Box>
   );
 };

@@ -38,7 +38,14 @@ jest.mock('../../hooks', () => ({
   useOnValidate: () => validationHook,
 }));
 
-describe('PasswordEnrollment tests', () => {
+const mockDataSchemaRef = { current: { } };
+jest.mock('../../contexts', () => ({
+  useWidgetContext: jest.fn().mockImplementation(
+    () => ({ dataSchemaRef: mockDataSchemaRef }),
+  ),
+}));
+
+describe('PasswordWithConfirmation tests', () => {
   let props: UISchemaElementComponentProps & { uischema: PasswordWithConfirmationElement; };
 
   beforeEach(() => {

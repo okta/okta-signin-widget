@@ -241,7 +241,6 @@ export interface PasswordRequirementsElement extends UISchemaElement {
     userInfo: UserInfo;
     settings: PasswordSettings;
     requirements: ListItem[];
-    fieldKey: string;
     validationDelayMs: number;
   }
 }
@@ -349,6 +348,5 @@ export interface PasswordWithConfirmationElement extends UISchemaElement {
   type: 'PasswordWithConfirmation';
   options: {
     input: FieldElement,
-    ctaLabel: string;
   };
 }

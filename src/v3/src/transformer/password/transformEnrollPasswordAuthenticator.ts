@@ -61,10 +61,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
   const passwordWithConfirmationElement: PasswordWithConfirmationElement = {
     type: 'PasswordWithConfirmation',
-    options: {
-      input: passwordElement,
-      ctaLabel: 'oform.next',
-    },
+    options: { input: passwordElement },
   };
 
   const titleElement: TitleElement = {

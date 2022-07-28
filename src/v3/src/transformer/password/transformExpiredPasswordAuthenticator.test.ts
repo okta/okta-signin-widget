@@ -15,6 +15,7 @@ import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { IDX_STEP } from '../../constants';
 import { getStubTransactionWithNextStep } from '../../mocks/utils/utils';
 import {
+  ButtonElement,
   FieldElement,
   FormBag,
   PasswordRequirementsElement,
@@ -75,7 +76,7 @@ describe('Expired Password Authenticator Transformer Tests', () => {
     });
 
     // Verify added elements
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expired.title.generic');
@@ -84,8 +85,6 @@ describe('Expired Password Authenticator Transformer Tests', () => {
       .options?.userInfo?.identifier).toEqual('someuser@noemail.com');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: { minLength: 1 } });
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
-      .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
@@ -93,13 +92,13 @@ describe('Expired Password Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('password.expired.submit');
-    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .label).toBe('password.expired.submit');
   });
 
   it('should add updated title element and submit button to UI Schema for expired PW step without password policy settings', () => {
@@ -109,23 +108,25 @@ describe('Expired Password Authenticator Transformer Tests', () => {
         value: {} as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformExpiredPasswordAuthenticator(transaction, formBag, mockProps);
+    const updatedFormBag = transformExpiredPasswordAuthenticator({
+      transaction, formBag, widgetProps,
+    });
 
     // Verify added elements
-    expect(updatedFormBag.uischema.elements.length).toBe(2);
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expired.title.generic');
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('password.expired.submit');
-    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement)
+      .label).toBe('password.expired.submit');
   });
 
   it('should add updated title element and submit button to UI Schema for expired PW step with brandName provided', () => {
@@ -145,7 +146,7 @@ describe('Expired Password Authenticator Transformer Tests', () => {
     });
 
     // Verify added elements
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expired.title.specific');
@@ -154,8 +155,6 @@ describe('Expired Password Authenticator Transformer Tests', () => {
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: { minLength: 1 } });
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
-      .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
@@ -164,12 +163,12 @@ describe('Expired Password Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.ctaLabel).toBe('password.expired.submit');
-    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
       .options.input.options.attributes?.autocomplete).toBe('new-password');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .label).toBe('password.expired.submit');
   });
 });

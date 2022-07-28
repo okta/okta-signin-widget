@@ -104,8 +104,6 @@ describe('Enroll Profile Transformer Tests', () => {
       .toEqual(mockUserInfo);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({});
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
-      .toEqual('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS);
     expect((updatedFormBag.uischema.elements[2] as FieldElement).label)
