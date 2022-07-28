@@ -15,6 +15,7 @@ import { Button } from '@okta/odyssey-react';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { PartialTheme } from '@okta/odyssey-react-theme/dist/ThemeProvider/context';
 import chroma from 'chroma-js';
+import { cloneDeep } from 'lodash';
 import { BrandColors } from 'src/types';
 
 type DerivedTheme = {
@@ -92,21 +93,24 @@ export const deriveThemeFromBrand = (brand: BrandColors): DerivedTheme | null =>
 };
 
 export const mapMuiThemeFromBrand = (brand: BrandColors | undefined): Theme => {
+  const odysseyThemeCopy = cloneDeep(odysseyTheme);
+
   if (brand) {
     const derivedTheme = deriveThemeFromBrand(brand);
 
     if (derivedTheme) {
-      odysseyTheme.palette.primary = {
+      odysseyThemeCopy.palette.primary = {
         main: derivedTheme.primaryColor,
         light: derivedTheme.primaryColorLight,
         lighter: derivedTheme.primaryColorLightest,
         dark: derivedTheme.primaryColorDark,
         contrastText: derivedTheme.inverseTextColor,
       };
-      odysseyTheme.palette.text.primary = derivedTheme.textColor;
+
+      odysseyThemeCopy.palette.text.primary = derivedTheme.textColor;
     }
   }
-  return odysseyTheme;
+  return odysseyThemeCopy;
 };
 
 export const mapThemeFromBrand = (brand: BrandColors | undefined): PartialTheme => {
