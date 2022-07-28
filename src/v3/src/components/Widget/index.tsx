@@ -11,7 +11,6 @@
  */
 
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { ThemeProvider } from '@okta/odyssey-react-theme';
 import {
   AuthApiError,
@@ -49,7 +48,7 @@ import {
   loadLanguage,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
-import { mapThemeFromBrand } from '../../util/theme';
+import { mapMuiThemeFromBrand, mapThemeFromBrand } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
@@ -241,9 +240,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idxTransaction, bootstrap]);
 
-  // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
-  odysseyTheme.shape.borderRadius = 4;
-
   return (
     <WidgetContextProvider value={{
       authClient,
@@ -260,7 +256,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}
-      <MuiThemeProvider theme={odysseyTheme}>
+      <MuiThemeProvider theme={mapMuiThemeFromBrand(brandColors)}>
         <ThemeProvider theme={mapThemeFromBrand(brandColors)}>
           <AuthContainer>
             <AuthHeader

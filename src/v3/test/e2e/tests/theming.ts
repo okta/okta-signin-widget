@@ -15,8 +15,9 @@ import { Selector } from 'testcafe';
 fixture('Theming')
   .page('http://localhost:8080/?siw-use-mocks=true&siw-mock-scenario=authenticator-verification-phone-sms');
 
-// TODO: Test is skipped until we re-integrate theme variables to the MUI theme
-// OKTA-514615
+// TODO: Test is skipped until odyssey-mui fully supports theming
+// We can migrate this test to jest at the same time
+// OKTA-519086
 test.skip('Theme configuration applies correctly', async (t) => {
   const submitButton = Selector('button')
     .withAttribute('data-se', '#/properties/submit');

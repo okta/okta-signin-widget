@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
 
-import { deriveThemeFromBrand } from './theme';
+import { deriveThemeFromBrand, mapMuiThemeFromBrand } from './theme';
 
 describe('theme utilities', () => {
   describe('deriveTheme generates', () => {
@@ -73,6 +74,19 @@ describe('theme utilities', () => {
       expect(deriveThemeFromBrand({ primaryColor: '' })).toBeNull();
 
       jest.restoreAllMocks();
+    });
+  });
+  describe('mapMuiThemeFromBrand', () => {
+    it('overrides odyssey theme palette', () => {
+      const mappedTheme = mapMuiThemeFromBrand({ primaryColor: '#ff0000' });
+
+      expect(mappedTheme.palette.primary).not.toEqual(odysseyTheme.palette.primary);
+      // the text color remains the same as original
+      expect(mappedTheme.palette.text.primary).toEqual(odysseyTheme.palette.text.primary);
+    });
+
+    it('handles undefined brand', () => {
+      expect(mapMuiThemeFromBrand(undefined)).toEqual(odysseyTheme);
     });
   });
 });
