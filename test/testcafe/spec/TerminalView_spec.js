@@ -12,6 +12,7 @@ import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-ac
 import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 import errorTerminalMultipleErrors from '../../../playground/mocks/data/idp/idx/error-terminal-multiple-errors';
+import customAccessDeniedErrorMessage from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message.json';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -60,6 +61,10 @@ const accessDeniedOnOtherDeivceMock = RequestMock()
 const terminalUnlockAccountFailedPermissionsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalUnlockAccountFailedPermissions);
+
+const terminalCustomAccessDeniedErrorMessageMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(customAccessDeniedErrorMessage);
 
 fixture('Terminal view');
 
@@ -154,4 +159,10 @@ test.requestHooks(terminalMultipleErrorsMock)('should render each error message 
     'Please enter a password',
     'Your session has expired. Please try to sign in again.'
   ]);
+});
+
+test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
+  const terminalViewPage = await setup(t);
+
+  await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');
 });

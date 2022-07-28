@@ -2,6 +2,7 @@ import { Selector, ClientFunction } from 'testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
+const CALLOUT = '[data-se="callout"]';
 
 const SUBMIT_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="save"]';
 const CANCEL_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="cancel"]';
@@ -119,6 +120,10 @@ export default class BaseFormObject {
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
+  getErrorBoxHtml() {
+    return this.getCallout(CALLOUT).innerHTML;
+  }
+
   getAllErrorBoxTexts() {
     return this.getInnerTexts(FORM_INFOBOX_ERROR);
   }
@@ -230,7 +235,9 @@ export default class BaseFormObject {
   // =====================================
 
   getCallout(selector) {
-    return Selector(selector);
+    return Selector(selector).addCustomDOMProperties({
+      innerHTML: el => el.innerHTML,
+    });
   }
 
   async clickElement(selector) {

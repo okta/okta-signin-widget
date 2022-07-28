@@ -4,6 +4,8 @@ import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import xhrIdentifyRecover from '../../../playground/mocks/data/idp/idx/identify-recovery';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
+import xhrErrorIdentifyAccessDeniedCustomMessage
+  from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message';
 
 const identifyWithPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -12,6 +14,12 @@ const identifyWithPasswordMock = RequestMock()
   .respond(xhrErrorIdentify, 403)
   .onRequestTo('http://localhost:3000/idp/idx/recover')
   .respond(xhrIdentifyRecover);
+
+const identifyWithPasswordErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrErrorIdentifyAccessDeniedCustomMessage, 403);
 
 const identifyRequestLogger = RequestLogger(
   /idx\/identify/,
@@ -148,3 +156,12 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
 });
 
+test.requestHooks(identifyWithPasswordErrorMock)('should show custom access denied error message', async t => {
+  const identityPage = await setup(t);
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.fillPasswordField('adasdas');
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+  await t.expect(identityPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');
+});
