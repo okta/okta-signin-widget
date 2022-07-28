@@ -81,7 +81,7 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   if (!['email', 'sms'].includes(lastSelectedChannel)) {
     const switchChannelButton = {
       type: 'Button',
-      label: loc('next.enroll.okta_verify.switch.channel.link.text', 'login'),
+      label: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
       options: {
         type: ButtonType.BUTTON,
         step: 'select-enrollment-channel',

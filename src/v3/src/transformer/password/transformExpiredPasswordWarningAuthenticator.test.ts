@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxTransaction } from '@okta/okta-auth-js';
 import { IDX_STEP } from 'src/constants';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
@@ -18,7 +19,6 @@ import {
   DescriptionElement,
   FieldElement,
   FormBag,
-  IdxTransactionWithNextStep,
   PasswordRequirementsElement,
   TitleElement,
   UISchemaLayoutType,
@@ -28,9 +28,9 @@ import {
 import { transformExpiredPasswordWarningAuthenticator } from './transformExpiredPasswordWarningAuthenticator';
 
 describe('Expired Password Warning Authenticator Transformer Tests', () => {
-  let transaction: IdxTransactionWithNextStep;
+  let transaction: IdxTransaction;
   let formBag: FormBag;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
   beforeEach(() => {
     transaction = getStubTransactionWithNextStep();
     formBag = {
@@ -59,7 +59,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
         },
       },
     };
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should add updated title element and submit button elements w/ 5 days to expire to UI Schema', () => {
@@ -80,11 +80,11 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformExpiredPasswordWarningAuthenticator(
+    const updatedFormBag = transformExpiredPasswordWarningAuthenticator({
       transaction,
       formBag,
-      mockProps,
-    );
+      widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(5);
@@ -139,11 +139,11 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformExpiredPasswordWarningAuthenticator(
+    const updatedFormBag = transformExpiredPasswordWarningAuthenticator({
       transaction,
       formBag,
-      mockProps,
-    );
+      widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(5);
@@ -195,11 +195,11 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformExpiredPasswordWarningAuthenticator(
+    const updatedFormBag = transformExpiredPasswordWarningAuthenticator({
       transaction,
       formBag,
-      mockProps,
-    );
+      widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(5);
@@ -239,7 +239,7 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
 
   it('should add updated title element, submit button, and additional subtitle elements to UI Schema for expired PW step with brandName provided', () => {
     const mockBrandName = 'Acme Corp.';
-    mockProps = { brandName: mockBrandName };
+    widgetProps = { brandName: mockBrandName };
     transaction.nextStep = {
       name: IDX_STEP.REENROLL_AUTHENTICATOR,
       relatesTo: {
@@ -255,11 +255,11 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformExpiredPasswordWarningAuthenticator(
+    const updatedFormBag = transformExpiredPasswordWarningAuthenticator({
       transaction,
       formBag,
-      mockProps,
-    );
+      widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(6);
@@ -320,11 +320,11 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       class: 'INFO',
       i18n: { key: 'some.mock.key' },
     }];
-    const updatedFormBag = transformExpiredPasswordWarningAuthenticator(
+    const updatedFormBag = transformExpiredPasswordWarningAuthenticator({
       transaction,
       formBag,
-      mockProps,
-    );
+      widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(6);
@@ -385,11 +385,11 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       name: 'skip',
       action: jest.fn(),
     }];
-    const updatedFormBag = transformExpiredPasswordWarningAuthenticator(
+    const updatedFormBag = transformExpiredPasswordWarningAuthenticator({
       transaction,
       formBag,
-      mockProps,
-    );
+      widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(6);

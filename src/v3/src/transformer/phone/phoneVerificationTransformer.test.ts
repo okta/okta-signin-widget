@@ -23,7 +23,7 @@ import { transformPhoneVerification } from '.';
 
 describe('Phone verification Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
@@ -50,7 +50,7 @@ describe('Phone verification Transformer Tests', () => {
 
   it('should add correct UI elements to schema when multiple methodType choices exists'
     + ' and sms is the first methodType choice', () => {
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -83,7 +83,7 @@ describe('Phone verification Transformer Tests', () => {
         },
       },
     } as FieldElement];
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -116,7 +116,7 @@ describe('Phone verification Transformer Tests', () => {
         },
       },
     } as FieldElement];
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -144,7 +144,7 @@ describe('Phone verification Transformer Tests', () => {
         },
       },
     } as FieldElement];
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -185,7 +185,7 @@ describe('Phone verification Transformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -226,7 +226,7 @@ describe('Phone verification Transformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)

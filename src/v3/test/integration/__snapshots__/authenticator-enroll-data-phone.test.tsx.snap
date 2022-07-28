@@ -5,6 +5,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -101,7 +102,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                   >
                     <div
                       class="MuiFormGroup-root emotion-18"
-                      id="generated"
+                      id="authenticator.methodType"
                       role="radiogroup"
                     >
                       <label

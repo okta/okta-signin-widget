@@ -34,6 +34,7 @@ Object {
                 "label": "oie.enroll.google_authenticator.cannotScanBarcode.title",
                 "options": Object {
                   "nextStepIndex": 1,
+                  "type": "button",
                   "variant": "secondary",
                 },
                 "type": "StepperButton",

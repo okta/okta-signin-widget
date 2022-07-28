@@ -35,6 +35,7 @@ Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
                 "options": Object {
                   "nextStepIndex": 1,
+                  "type": "button",
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
@@ -115,6 +116,7 @@ Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
                 "options": Object {
                   "nextStepIndex": 1,
+                  "type": "button",
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
@@ -195,6 +197,7 @@ Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
                 "options": Object {
                   "nextStepIndex": 1,
+                  "type": "button",
                   "variant": "secondary",
                 },
                 "type": "StepperButton",

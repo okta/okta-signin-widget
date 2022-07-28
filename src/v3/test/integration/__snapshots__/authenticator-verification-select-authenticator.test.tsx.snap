@@ -5,6 +5,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -334,6 +335,11 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       Use Okta FastPass
                     </div>
                     <div
+                      class="description MuiBox-root emotion-6"
+                    >
+                      Okta Verify
+                    </div>
+                    <div
                       class="actionName MuiBox-root emotion-6"
                       data-se="okta_verify-signed_nonce"
                     >
@@ -611,6 +617,11 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       Get a push notification
                     </div>
                     <div
+                      class="description MuiBox-root emotion-6"
+                    >
+                      Custom Push App
+                    </div>
+                    <div
                       class="actionName MuiBox-root emotion-6"
                       data-se="custom_app"
                     >
@@ -624,7 +635,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 class="MuiBox-root emotion-9"
               >
                 <button
-                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-119"
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-121"
                   data-se="cancel"
                   tabindex="0"
                   type="button"

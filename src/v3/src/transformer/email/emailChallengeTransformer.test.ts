@@ -28,7 +28,7 @@ import { transformEmailChallenge } from '.';
 describe('EmailChallengeTransformer Tests', () => {
   const redactedEmail = 'fxxxe@xxx.com';
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {
+  const widgetProps: WidgetProps = {
     authClient: {
       idx: { proceed: jest.fn() },
     } as unknown as OktaAuth,
@@ -60,7 +60,9 @@ describe('EmailChallengeTransformer Tests', () => {
       },
     };
     transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
-    const updatedFormBag = transformEmailChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformEmailChallenge({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -101,7 +103,9 @@ describe('EmailChallengeTransformer Tests', () => {
       },
     };
     transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
-    const updatedFormBag = transformEmailChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformEmailChallenge({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -122,9 +126,9 @@ describe('EmailChallengeTransformer Tests', () => {
   });
 
   it('should create email challenge UI elements when resend code is NOT available', () => {
+    transaction.availableSteps = [];
     transaction.nextStep = {
       name: 'mock-step',
-      canResend: false,
       relatesTo: {
         value: {
           profile: {
@@ -133,7 +137,9 @@ describe('EmailChallengeTransformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformEmailChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformEmailChallenge({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
 

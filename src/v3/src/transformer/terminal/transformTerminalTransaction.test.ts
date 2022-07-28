@@ -54,12 +54,12 @@ jest.mock('../../util', () => {
 describe('Terminal Transaction Transformer Tests', () => {
   let transaction: IdxTransaction;
   let mockAuthClient: any;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
 
   beforeEach(() => {
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
-    mockProps = {};
+    widgetProps = {};
   });
 
   afterEach(() => {
@@ -103,8 +103,8 @@ describe('Terminal Transaction Transformer Tests', () => {
     it('should add successCallback renderer for interaction code flow', () => {
       transaction.tokens = mockTokens;
       transaction.interactionCode = '123456789aabbcc';
-      mockProps = { authClient: mockAuthClient, useInteractionCodeFlow: true };
-      const formBag = transformTerminalTransaction(transaction, mockProps);
+      widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true };
+      const formBag = transformTerminalTransaction(transaction, widgetProps);
 
       expect(formBag.uischema.elements[0].type).toBe('Spinner');
       expect((formBag.uischema.elements[0] as SpinnerElement).options?.label).toBe('Loading...');
@@ -117,8 +117,8 @@ describe('Terminal Transaction Transformer Tests', () => {
     it('should add successCallback renderer for interaction code flow in remediation mode', () => {
       transaction.tokens = mockTokens;
       transaction.interactionCode = '123456789aabbcc';
-      mockProps = { authClient: mockAuthClient, useInteractionCodeFlow: true, codeChallenge: 'bbccdde' };
-      const formBag = transformTerminalTransaction(transaction, mockProps);
+      widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true, codeChallenge: 'bbccdde' };
+      const formBag = transformTerminalTransaction(transaction, widgetProps);
 
       expect(formBag.uischema.elements[0].type).toBe('Spinner');
       expect((formBag.uischema.elements[0] as SpinnerElement).options?.label).toBe('Loading...');
@@ -136,34 +136,34 @@ describe('Terminal Transaction Transformer Tests', () => {
     it('should throw error when in interaction code flow and missing transaction meta', () => {
       transaction.meta = undefined;
       transaction.interactionCode = '123456789aabbcc';
-      mockProps = { authClient: mockAuthClient, useInteractionCodeFlow: true };
+      widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true };
       expect(() => {
-        transformTerminalTransaction(transaction, mockProps);
+        transformTerminalTransaction(transaction, widgetProps);
       }).toThrow('Could not load transaction data from storage');
     });
 
     it('should call redirect Transformer funcion when interaction code flow requires redirection', () => {
       transaction.interactionCode = '123456789aabbcc';
-      mockProps = {
+      widgetProps = {
         authClient: mockAuthClient,
         useInteractionCodeFlow: true,
         redirectUri: 'http://acme.okta1.com',
         redirect: 'always',
       };
-      const formBag = transformTerminalTransaction(transaction, mockProps);
+      const formBag = transformTerminalTransaction(transaction, widgetProps);
 
       expect(formBag).toEqual({});
     });
 
     it('should throw error when interaction code flow requires redirection but missing redirect URI', () => {
       transaction.interactionCode = '123456789aabbcc';
-      mockProps = {
+      widgetProps = {
         authClient: mockAuthClient,
         useInteractionCodeFlow: true,
         redirect: 'always',
       };
       expect(() => {
-        transformTerminalTransaction(transaction, mockProps);
+        transformTerminalTransaction(transaction, widgetProps);
       }).toThrow('redirectUri is required');
     });
 
@@ -175,20 +175,20 @@ describe('Terminal Transaction Transformer Tests', () => {
           href: 'http://acme.okta1.com',
         },
       };
-      mockProps = { authClient: mockAuthClient };
-      const formBag = transformTerminalTransaction(transaction, mockProps);
+      widgetProps = { authClient: mockAuthClient };
+      const formBag = transformTerminalTransaction(transaction, widgetProps);
 
       expect(formBag).toEqual({});
     });
 
     it('should throw error when transaction doesnt contain messages and useInteractionCodeFlow is not provided', () => {
       transaction.interactionCode = '123456789aabbcc';
-      mockProps = {
+      widgetProps = {
         authClient: mockAuthClient,
         redirect: 'always',
       };
       expect(() => {
-        transformTerminalTransaction(transaction, mockProps);
+        transformTerminalTransaction(transaction, widgetProps);
       }).toThrow('Set "useInteractionCodeFlow" to true in configuration to enable the '
         + 'interaction_code" flow for self-hosted widget.');
     });
@@ -199,7 +199,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     transaction.error = {
       errorSummary: mockErrorMessage,
     };
-    const formBag = transformTerminalTransaction(transaction, mockProps);
+    const formBag = transformTerminalTransaction(transaction, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
@@ -213,7 +213,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'INFO',
       TERMINAL_KEY.RETURN_TO_ORIGINAL_TAB_KEY,
     ));
-    const formBag = transformTerminalTransaction(transaction, mockProps);
+    const formBag = transformTerminalTransaction(transaction, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Title');
@@ -228,7 +228,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'INFO',
       TERMINAL_KEY.RETURN_LINK_EXPIRED_KEY,
     ));
-    const formBag = transformTerminalTransaction(transaction, mockProps);
+    const formBag = transformTerminalTransaction(transaction, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Title');
@@ -247,7 +247,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'idx.error.server.safe.mode.enrollment.unavailable',
     ));
     transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
-    const formBag = transformTerminalTransaction(transaction, mockProps);
+    const formBag = transformTerminalTransaction(transaction, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Title');
@@ -261,14 +261,14 @@ describe('Terminal Transaction Transformer Tests', () => {
 
   it('should add title and try again link for'
     + ' idx.device.not.activated.consent.denied message key when baseUrl is provided', () => {
-    mockProps = { baseUrl: 'https://acme.okta1.com' };
+    widgetProps = { baseUrl: 'https://acme.okta1.com' };
     const mockErrorMessage = 'Set up is temporarily unavailable due to server maintenance. Try again later.';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
       'ERROR',
       TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED,
     ));
-    const formBag = transformTerminalTransaction(transaction, mockProps);
+    const formBag = transformTerminalTransaction(transaction, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Title');
@@ -287,7 +287,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'INFO',
       TERMINAL_KEY.UNLOCK_ACCOUNT_KEY,
     ));
-    const formBag = transformTerminalTransaction(transaction, mockProps);
+    const formBag = transformTerminalTransaction(transaction, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Title');
@@ -302,7 +302,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       'ERROR',
       TERMINAL_KEY.TOO_MANY_REQUESTS,
     ));
-    const formBag = transformTerminalTransaction(transaction, mockProps);
+    const formBag = transformTerminalTransaction(transaction, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
@@ -321,8 +321,8 @@ describe('Terminal Transaction Transformer Tests', () => {
         },
       },
     } as unknown as IdxContext;
-    mockProps = { features: { rememberMyUsernameOnOIE: true, rememberMe: true } };
-    transformTerminalTransaction(transaction, mockProps);
+    widgetProps = { features: { rememberMyUsernameOnOIE: true, rememberMe: true } };
+    transformTerminalTransaction(transaction, widgetProps);
 
     expect(setUsernameCookie).toHaveBeenCalledWith(mockIdentifier);
   });
@@ -337,8 +337,8 @@ describe('Terminal Transaction Transformer Tests', () => {
         },
       },
     } as unknown as IdxContext;
-    mockProps = { features: { rememberMyUsernameOnOIE: true, rememberMe: false } };
-    transformTerminalTransaction(transaction, mockProps);
+    widgetProps = { features: { rememberMyUsernameOnOIE: true, rememberMe: false } };
+    transformTerminalTransaction(transaction, widgetProps);
 
     expect(removeUsernameCookie).toHaveBeenCalled();
   });

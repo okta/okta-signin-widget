@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransformOktaVerifyEnrollChannel Tests should append email input field to elements list when email is the selectedChannel 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.enroll.channel.email.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "name": "email",
+        "type": "Control",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.channel.email.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.setupLink",
+        "options": Object {
+          "type": "submit",
+        },
+        "scope": "#/properties/setupLink",
+        "type": "Button",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.switch.channel.link.text",
+        "options": Object {
+          "step": "select-enrollment-channel",
+          "stepToRender": "select-enrollment-channel",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`TransformOktaVerifyEnrollChannel Tests should append phone input field to elements list when sms is the selectedChannel 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.enroll.channel.sms.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "name": "phoneNumber",
+        "type": "Control",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.channel.sms.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.setupLink",
+        "options": Object {
+          "type": "submit",
+        },
+        "scope": "#/properties/setupLink",
+        "type": "Button",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.switch.channel.link.text",
+        "options": Object {
+          "step": "select-enrollment-channel",
+          "stepToRender": "select-enrollment-channel",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

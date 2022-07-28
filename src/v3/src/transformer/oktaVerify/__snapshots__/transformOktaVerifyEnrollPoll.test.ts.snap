@@ -1,0 +1,391 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransformOktaVerifyEnrollPoll Tests should add Stepper elements when selectedChannel is qrcode and canResend = true 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "items": Array [
+                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step2",
+                    "oie.enroll.okta_verify.qrcode.step3",
+                  ],
+                  "type": "ordered",
+                },
+                "type": "List",
+              },
+              Object {
+                "options": Object {
+                  "data": "",
+                  "label": undefined,
+                },
+                "type": "QRCode",
+              },
+              Object {
+                "label": "enroll.totp.cannotScan",
+                "options": Object {
+                  "step": "select-enrollment-channel",
+                  "stepToRender": "select-enrollment-channel",
+                  "type": "button",
+                  "variant": "secondary",
+                },
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.email.info",
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "oie.enroll.okta_verify.switch.channel.link.text",
+                "options": Object {
+                  "step": "select-enrollment-channel",
+                  "stepToRender": "select-enrollment-channel",
+                  "type": "button",
+                  "variant": "secondary",
+                },
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.sms.info",
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "oie.enroll.okta_verify.switch.channel.link.text",
+                "options": Object {
+                  "step": "select-enrollment-channel",
+                  "stepToRender": "select-enrollment-channel",
+                  "type": "button",
+                  "variant": "secondary",
+                },
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "options": Object {
+          "defaultStepIndex": [Function],
+        },
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`TransformOktaVerifyEnrollPoll Tests should return a channel selection formBag when email is selected channel and canResend = true 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "action": [Function],
+                  "ctaText": "oie.enroll.okta_verify.email.notReceived",
+                  "linkLabel": "email.button.resend",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.email.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "items": Array [
+                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step2",
+                    "oie.enroll.okta_verify.qrcode.step3",
+                  ],
+                  "type": "ordered",
+                },
+                "type": "List",
+              },
+              Object {
+                "options": Object {
+                  "data": undefined,
+                  "label": undefined,
+                },
+                "type": "QRCode",
+              },
+              Object {
+                "label": "enroll.totp.cannotScan",
+                "options": Object {
+                  "step": "select-enrollment-channel",
+                  "stepToRender": "select-enrollment-channel",
+                  "type": "button",
+                  "variant": "secondary",
+                },
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "action": [Function],
+                  "ctaText": "oie.enroll.okta_verify.email.notReceived",
+                  "linkLabel": "email.button.resend",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.email.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.email.info",
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "oie.enroll.okta_verify.switch.channel.link.text",
+                "options": Object {
+                  "step": "select-enrollment-channel",
+                  "stepToRender": "select-enrollment-channel",
+                  "type": "button",
+                  "variant": "secondary",
+                },
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "action": [Function],
+                  "ctaText": "oie.enroll.okta_verify.email.notReceived",
+                  "linkLabel": "email.button.resend",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.email.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.sms.info",
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "oie.enroll.okta_verify.switch.channel.link.text",
+                "options": Object {
+                  "step": "select-enrollment-channel",
+                  "stepToRender": "select-enrollment-channel",
+                  "type": "button",
+                  "variant": "secondary",
+                },
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "options": Object {
+          "defaultStepIndex": [Function],
+        },
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`TransformOktaVerifyEnrollPoll Tests should return a channel selection formBag when sms is selected channel with canResend = true 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "action": [Function],
+                  "ctaText": "oie.enroll.okta_verify.sms.notReceived",
+                  "linkLabel": "email.button.resend",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.sms.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "items": Array [
+                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step2",
+                    "oie.enroll.okta_verify.qrcode.step3",
+                  ],
+                  "type": "ordered",
+                },
+                "type": "List",
+              },
+              Object {
+                "options": Object {
+                  "data": undefined,
+                  "label": undefined,
+                },
+                "type": "QRCode",
+              },
+              Object {
+                "label": "enroll.totp.cannotScan",
+                "options": Object {
+                  "step": "select-enrollment-channel",
+                  "stepToRender": "select-enrollment-channel",
+                  "type": "button",
+                  "variant": "secondary",
+                },
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "action": [Function],
+                  "ctaText": "oie.enroll.okta_verify.sms.notReceived",
+                  "linkLabel": "email.button.resend",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.sms.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.email.info",
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "oie.enroll.okta_verify.switch.channel.link.text",
+                "options": Object {
+                  "step": "select-enrollment-channel",
+                  "stepToRender": "select-enrollment-channel",
+                  "type": "button",
+                  "variant": "secondary",
+                },
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "action": [Function],
+                  "ctaText": "oie.enroll.okta_verify.sms.notReceived",
+                  "linkLabel": "email.button.resend",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.sms.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.sms.info",
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "oie.enroll.okta_verify.switch.channel.link.text",
+                "options": Object {
+                  "step": "select-enrollment-channel",
+                  "stepToRender": "select-enrollment-channel",
+                  "type": "button",
+                  "variant": "secondary",
+                },
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "options": Object {
+          "defaultStepIndex": [Function],
+        },
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

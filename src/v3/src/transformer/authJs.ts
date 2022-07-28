@@ -38,7 +38,7 @@ export default ({
 
   const formBag = transformInputs(transaction, stepName!);
   uischemaLabelTransformer(transaction, formBag);
-  transformAdditionalPhoneUITranslations(transaction, formBag, widgetProps);
+  transformAdditionalPhoneUITranslations({ transaction, formBag, widgetProps });
 
   const authenticatorKey = getAuthenticatorKey(transaction) ?? AUTHENTICATOR_KEY.DEFAULT;
   const customTransformer = TransformerMap[stepName]?.[authenticatorKey];

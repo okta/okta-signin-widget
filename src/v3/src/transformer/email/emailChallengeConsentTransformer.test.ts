@@ -25,7 +25,7 @@ import { transformEmailChallengeConsent } from '.';
 
 describe('EmailChallengeConsentTransformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
@@ -52,7 +52,7 @@ describe('EmailChallengeConsentTransformer Tests', () => {
   });
 
   it('should create email consent ui elements with valid response', () => {
-    const updatedFormBag = transformEmailChallengeConsent(transaction, formBag, mockProps);
+    const updatedFormBag = transformEmailChallengeConsent({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');

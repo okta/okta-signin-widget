@@ -11,6 +11,7 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
+
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
   ButtonElement,

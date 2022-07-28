@@ -5,6 +5,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -128,6 +129,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"

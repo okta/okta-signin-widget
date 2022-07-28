@@ -23,7 +23,7 @@ import { transformGoogleAuthenticatorEnroll } from '.';
 
 describe('Google Authenticator Enroll Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
 
   beforeEach(() => {
@@ -45,7 +45,7 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
     transaction.nextStep = {
       name: IDX_STEP.ENROLL_AUTHENTICATOR,
     };
-    expect(transformGoogleAuthenticatorEnroll(transaction, formBag, mockProps)).toBe(formBag);
+    expect(transformGoogleAuthenticatorEnroll({ transaction, formBag, widgetProps })).toBe(formBag);
   });
 
   it('should add Stepper layout to UI Schema elements '
@@ -70,7 +70,9 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformGoogleAuthenticatorEnroll(transaction, formBag, mockProps);
+    const updatedFormBag = transformGoogleAuthenticatorEnroll({
+      transaction, formBag, widgetProps,
+    });
     expect(updatedFormBag).toMatchSnapshot();
   });
 });

@@ -5,6 +5,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -167,6 +168,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -347,6 +349,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -498,6 +501,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"

@@ -29,7 +29,7 @@ import { transformResetPasswordAuthenticator } from './transformResetPasswordAut
 describe('Reset Password Authenticator Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
   beforeEach(() => {
     formBag = {
       dataSchema: {},
@@ -57,7 +57,7 @@ describe('Reset Password Authenticator Transformer Tests', () => {
         },
       },
     };
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should add updated title element and submit button to UI Schema for reset PW step', () => {
@@ -76,7 +76,9 @@ describe('Reset Password Authenticator Transformer Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformResetPasswordAuthenticator(transaction, formBag, mockProps);
+    const updatedFormBag = transformResetPasswordAuthenticator({
+      transaction, formBag, widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(5);
@@ -114,7 +116,7 @@ describe('Reset Password Authenticator Transformer Tests', () => {
   });
 
   it('should add updated title element and submit button to UI Schema for reset PW step with brandName provided', () => {
-    mockProps = { brandName: 'Acme Corp.' };
+    widgetProps = { brandName: 'Acme Corp.' };
     transaction.nextStep = {
       name: IDX_STEP.RESET_AUTHENTICATOR,
       relatesTo: {
@@ -125,7 +127,9 @@ describe('Reset Password Authenticator Transformer Tests', () => {
         } as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformResetPasswordAuthenticator(transaction, formBag, mockProps);
+    const updatedFormBag = transformResetPasswordAuthenticator({
+      transaction, formBag, widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(5);

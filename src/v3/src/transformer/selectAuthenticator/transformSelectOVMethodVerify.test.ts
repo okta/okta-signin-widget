@@ -67,7 +67,7 @@ jest.mock('./utils', () => ({
 describe('Transform Select OV Method Verify Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
 
   beforeEach(() => {
     formBag = {
@@ -101,19 +101,19 @@ describe('Transform Select OV Method Verify Tests', () => {
   });
 
   it('should not transform elements when transaction is missing inputs', () => {
-    transaction.nextStep.inputs = undefined;
-    expect(transformSelectOVMethodVerify(transaction, formBag, mockProps)).toEqual(formBag);
+    transaction.nextStep!.inputs = undefined;
+    expect(transformSelectOVMethodVerify({ transaction, formBag, widgetProps })).toEqual(formBag);
   });
 
   it('should not transform elements when transaction is missing methodType from input values', () => {
-    transaction.nextStep.inputs = [{ name: 'authenticator' }];
-    expect(transformSelectOVMethodVerify(transaction, formBag, mockProps)).toEqual(formBag);
+    transaction.nextStep!.inputs = [{ name: 'authenticator' }];
+    expect(transformSelectOVMethodVerify({ transaction, formBag, widgetProps })).toEqual(formBag);
   });
 
   it('should transform elements when transaction only contains push method type '
     + 'with autoChallenge option', () => {
     isPushOnly = true;
-    const updatedFormBag = transformSelectOVMethodVerify(transaction, formBag, mockProps);
+    const updatedFormBag = transformSelectOVMethodVerify({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -154,7 +154,7 @@ describe('Transform Select OV Method Verify Tests', () => {
       ],
     };
     isPushOnly = false;
-    const updatedFormBag = transformSelectOVMethodVerify(transaction, formBag, mockProps);
+    const updatedFormBag = transformSelectOVMethodVerify({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');

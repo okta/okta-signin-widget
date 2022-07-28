@@ -5,6 +5,7 @@ exports[`error-recovery-token-invalid should render form 1`] = `
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -34,7 +35,7 @@ exports[`error-recovery-token-invalid should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxInfo MuiAlert-infobox emotion-7"
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-7"
                     role="alert"
                   >
                     <div
@@ -43,7 +44,7 @@ exports[`error-recovery-token-invalid should render form 1`] = `
                       <svg
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-9"
-                        data-testid="InfoOutlinedIcon"
+                        data-testid="ErrorOutlineIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >

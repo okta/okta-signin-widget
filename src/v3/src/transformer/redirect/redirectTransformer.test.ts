@@ -23,15 +23,15 @@ import { redirectTransformer } from '.';
 describe('Success Redirect Transform Tests', () => {
   const REDIRECT_URL = 'https://acme.okta1.com';
   let transaction: IdxTransaction;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
 
   beforeEach(() => {
     transaction = getStubTransaction();
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should add description & redirect elements only when interstitialRedirect option is not set', () => {
-    const formBag = redirectTransformer(transaction, REDIRECT_URL, mockProps);
+    const formBag = redirectTransformer(transaction, REDIRECT_URL, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Description');
@@ -42,8 +42,8 @@ describe('Success Redirect Transform Tests', () => {
   });
 
   it('should add description & redirect elements only when interstitialRedirect option is set to NONE', () => {
-    mockProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.NONE };
-    const formBag = redirectTransformer(transaction, REDIRECT_URL, mockProps);
+    widgetProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.NONE };
+    const formBag = redirectTransformer(transaction, REDIRECT_URL, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Description');
@@ -59,14 +59,14 @@ describe('Success Redirect Transform Tests', () => {
     const userInfo = { identifier: 'testuser@okta.com' };
     transaction.context.app.value = appInfo;
     transaction.context.user = { type: 'object', value: userInfo };
-    mockProps = {
+    widgetProps = {
       interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT,
       features: { showIdentifier: false },
     };
     const formBag = redirectTransformer(
       transaction,
       REDIRECT_URL,
-      mockProps,
+      widgetProps,
     );
 
     expect(formBag.uischema.elements.length).toBe(3);
@@ -84,14 +84,14 @@ describe('Success Redirect Transform Tests', () => {
     + 'when showIdentifier option is true and appInfo does not exist in transaction', () => {
     const userInfo = { identifier: 'testuser@okta.com' };
     transaction.context.user = { type: 'object', value: userInfo };
-    mockProps = {
+    widgetProps = {
       interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT,
       features: { showIdentifier: true },
     };
     const formBag = redirectTransformer(
       transaction,
       REDIRECT_URL,
-      mockProps,
+      widgetProps,
     );
 
     expect(formBag.uischema.elements.length).toBe(3);
@@ -109,11 +109,11 @@ describe('Success Redirect Transform Tests', () => {
     + 'when identifier is missing from transaction', () => {
     const appInfo = { name: 'Okta Dashboard' };
     transaction.context.app.value = appInfo;
-    mockProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT };
+    widgetProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT };
     const formBag = redirectTransformer(
       transaction,
       REDIRECT_URL,
-      mockProps,
+      widgetProps,
     );
 
     expect(formBag.uischema.elements.length).toBe(3);

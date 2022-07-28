@@ -72,7 +72,8 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
   const { authClient } = widgetProps;
 
   const authenticator = context.currentAuthenticator.value;
-  const selectedChannel = authenticator.contextualData?.selectedChannel;
+  // @ts-ignore OKTA-496373 - missing props from interface
+  const { selectedChannel, phoneNumber = '', email = '' } = authenticator.contextualData;
 
   let reminder: ReminderElement | undefined;
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
@@ -142,12 +143,11 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
           {
             type: 'Description',
             options: {
-              content: loc('next.enroll.okta_verify.email.info', 'login'),
               // @ts-ignore OKTA-496373 - missing props from interface
-              contentParams: [authenticator.contextualData?.email],
+              content: loc('oie.enroll.okta_verify.email.info', 'login', [email]),
             },
           } as DescriptionElement,
-          switchChannelButton('next.enroll.okta_verify.switch.channel.link.text'),
+          switchChannelButton('oie.enroll.okta_verify.switch.channel.link.text'),
         ],
       },
       {
@@ -158,12 +158,11 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
           {
             type: 'Description',
             options: {
-              content: loc('next.enroll.okta_verify.sms.info', 'login'),
               // @ts-ignore OKTA-496373 - missing props from interface
-              contentParams: [authenticator.contextualData?.phoneNumber],
+              content: loc('oie.enroll.okta_verify.sms.info', 'login', [phoneNumber]),
             },
           } as DescriptionElement,
-          switchChannelButton('next.enroll.okta_verify.switch.channel.link.text'),
+          switchChannelButton('oie.enroll.okta_verify.switch.channel.link.text'),
         ],
       },
     ],

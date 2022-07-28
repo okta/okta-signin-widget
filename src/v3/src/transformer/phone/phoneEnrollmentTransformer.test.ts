@@ -22,7 +22,7 @@ import { transformPhoneEnrollment } from '.';
 
 describe('PhoneEnrollmentTransformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
@@ -57,7 +57,7 @@ describe('PhoneEnrollmentTransformer Tests', () => {
   });
 
   it('should create phone enrollment UI elements when multiple method types exist in transaction', () => {
-    const updatedFormBag = transformPhoneEnrollment(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneEnrollment({ transaction, formBag, widgetProps });
     expect(updatedFormBag).toMatchSnapshot();
   });
 });

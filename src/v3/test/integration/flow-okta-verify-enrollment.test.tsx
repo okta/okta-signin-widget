@@ -160,7 +160,7 @@ describe('flow-okta-verify-enrollment', () => {
     // email polling
     await findByText(/Check your email/);
     expect(container).toMatchSnapshot();
-    await user.click(await findByText(/Try a different way/));
+    await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
@@ -301,7 +301,7 @@ describe('flow-okta-verify-enrollment', () => {
     // sms polling
     await findByText(/Check your text messages/);
     expect(container).toMatchSnapshot();
-    await user.click(await findByText(/Try a different way/));
+    await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
@@ -366,7 +366,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Email me a setup link/);
     await findByText(/Text me a setup link/);
-    await user.click(await findByText(/Try a different way/));
+    await user.click(await findByText(/try a different way/));
 
     // qr polling
     await findByText(/Set up Okta Verify/);
@@ -391,7 +391,7 @@ describe('flow-okta-verify-enrollment', () => {
 
     // data enrollment
     await findByText(/Set up Okta Verify via email link/);
-    await user.click(await findByText(/Try a different way/));
+    await user.click(await findByText(/try a different way/));
 
     // channel selection
     await findByText(/More options/);

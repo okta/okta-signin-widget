@@ -92,7 +92,7 @@ export const transactionMessageTransformer = (transaction: IdxTransaction): void
   });
 };
 
-export const transformAdditionalPhoneUITranslations: IdxStepTransformer = (_, formBag) => {
+export const transformAdditionalPhoneUITranslations: IdxStepTransformer = ({ formBag }) => {
   const { uischema } = formBag;
 
   const phoneElement = uischema.elements.find((element) => (element as FieldElement)

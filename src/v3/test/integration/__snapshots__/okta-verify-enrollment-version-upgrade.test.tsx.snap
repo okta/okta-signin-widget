@@ -5,6 +5,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -71,7 +72,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxInfo MuiAlert-infobox emotion-12"
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-12"
                     role="alert"
                     title="Update Okta Verify"
                   >
@@ -81,7 +82,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                       <svg
                         aria-hidden="true"
                         class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
-                        data-testid="InfoOutlinedIcon"
+                        data-testid="ErrorOutlineIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >

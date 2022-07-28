@@ -22,7 +22,7 @@ import { transformEnrollPasswordAuthenticator } from '.';
 describe('Enroll Password Authenticator Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
   beforeEach(() => {
     formBag = {
       dataSchema: {},
@@ -50,7 +50,7 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
         },
       },
     };
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should add title, password requirements and confirm password elements to UI Schema for enroll PW step', () => {
@@ -64,7 +64,9 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformEnrollPasswordAuthenticator(transaction, formBag, mockProps);
+    const updatedFormBag = transformEnrollPasswordAuthenticator({
+      transaction, formBag, widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(4);

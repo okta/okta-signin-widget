@@ -10,33 +10,33 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "options": Object {
-          "content": "oie.security.question.enroll.title",
-        },
-        "type": "Title",
-      },
-      Object {
-        "options": Object {
-          "customOptions": Array [
-            Object {
-              "label": "oie.security.question.questionKey.label",
-              "value": "predefined",
-            },
-            Object {
-              "key": "credentials.questionKey",
-              "label": "oie.security.question.createQuestion.label",
-              "value": "custom",
-            },
-          ],
-          "defaultOption": "predefined",
-          "id": "questionType",
-        },
-        "type": "StepperRadio",
-      },
-      Object {
         "elements": Array [
           Object {
             "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.security.question.enroll.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "customOptions": Array [
+                    Object {
+                      "label": "oie.security.question.questionKey.label",
+                      "value": "predefined",
+                    },
+                    Object {
+                      "key": "credentials.questionKey",
+                      "label": "oie.security.question.createQuestion.label",
+                      "value": "custom",
+                    },
+                  ],
+                  "defaultOption": "predefined",
+                  "name": "questionType",
+                },
+                "type": "StepperRadio",
+              },
               Object {
                 "label": "oie.security.question.questionKey.label",
                 "name": "credentials.questionKey",
@@ -81,14 +81,28 @@ Object {
           Object {
             "elements": Array [
               Object {
-                "name": "credentials.questionKey",
                 "options": Object {
-                  "inputMeta": Object {
-                    "name": "credentials.questionKey",
-                    "value": "custom",
-                  },
+                  "content": "oie.security.question.enroll.title",
                 },
-                "type": "Control",
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "customOptions": Array [
+                    Object {
+                      "label": "oie.security.question.questionKey.label",
+                      "value": "predefined",
+                    },
+                    Object {
+                      "key": "credentials.questionKey",
+                      "label": "oie.security.question.createQuestion.label",
+                      "value": "custom",
+                    },
+                  ],
+                  "defaultOption": "predefined",
+                  "name": "questionType",
+                },
+                "type": "StepperRadio",
               },
               Object {
                 "label": "oie.security.question.createQuestion.label",

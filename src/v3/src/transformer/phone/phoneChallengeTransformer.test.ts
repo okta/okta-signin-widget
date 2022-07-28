@@ -26,9 +26,10 @@ import { transformPhoneChallenge } from '.';
 describe('PhoneChallengeTransformer Tests', () => {
   const redactedPhone = '+1 XXX-XXX-4601';
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   beforeEach(() => {
+    transaction.availableSteps = [];
     formBag = {
       schema: {},
       uischema: {
@@ -54,7 +55,7 @@ describe('PhoneChallengeTransformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -86,7 +87,7 @@ describe('PhoneChallengeTransformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -110,7 +111,7 @@ describe('PhoneChallengeTransformer Tests', () => {
       name: '',
       canResend: false,
     };
-    const updatedFormBag = transformPhoneChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -139,7 +140,7 @@ describe('PhoneChallengeTransformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -171,7 +172,7 @@ describe('PhoneChallengeTransformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
 

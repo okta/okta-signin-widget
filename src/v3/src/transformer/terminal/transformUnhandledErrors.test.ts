@@ -17,10 +17,10 @@ import { transformUnhandledErrors } from './transformUnhandledErrors';
 
 describe('Unhandled Error Transformer Tests', () => {
   let apiError: AuthApiError;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
 
   beforeEach(() => {
-    mockProps = {};
+    widgetProps = {};
     apiError = {
       name: '',
       message: '',
@@ -30,7 +30,7 @@ describe('Unhandled Error Transformer Tests', () => {
   });
 
   it('should add Infobox with unexpected error message when error is not provided', () => {
-    const formBag = transformUnhandledErrors(mockProps);
+    const formBag = transformUnhandledErrors(widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(1);
     const el = formBag.uischema.elements[0] as InfoboxElement;
@@ -46,7 +46,7 @@ describe('Unhandled Error Transformer Tests', () => {
       errorCode: 'invalid_request',
       errorSummary: mockErrorMessage,
     };
-    const formBag = transformUnhandledErrors(mockProps, apiError);
+    const formBag = transformUnhandledErrors(widgetProps, apiError);
 
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('InfoBox');
@@ -63,7 +63,7 @@ describe('Unhandled Error Transformer Tests', () => {
       errorCode: 'access_denied',
       errorSummary: mockErrorMessage,
     };
-    const formBag = transformUnhandledErrors(mockProps, apiError);
+    const formBag = transformUnhandledErrors(widgetProps, apiError);
 
     expect(formBag.uischema.elements.length).toBe(1);
     const el = formBag.uischema.elements[0] as InfoboxElement;
@@ -79,7 +79,7 @@ describe('Unhandled Error Transformer Tests', () => {
       errorCode: 'some_error_key',
       errorSummary: mockErrorMessage,
     };
-    const formBag = transformUnhandledErrors(mockProps, apiError);
+    const formBag = transformUnhandledErrors(widgetProps, apiError);
 
     expect(formBag.uischema.elements.length).toBe(1);
     const el = formBag.uischema.elements[0] as InfoboxElement;

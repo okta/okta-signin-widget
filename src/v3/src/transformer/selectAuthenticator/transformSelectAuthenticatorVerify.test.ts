@@ -48,7 +48,7 @@ jest.mock('./utils', () => ({
 
 describe('Verify Authenticator Selector Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
@@ -72,11 +72,11 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
         ],
       }],
     };
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should not transform elements when IDX Step does not exist in remediations', () => {
-    expect(transformSelectAuthenticatorVerify(transaction, formBag, mockProps))
+    expect(transformSelectAuthenticatorVerify({ transaction, formBag, widgetProps }))
       .toEqual(formBag);
   });
 
@@ -85,13 +85,15 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     };
 
-    expect(transformSelectAuthenticatorVerify(transaction, formBag, mockProps))
+    expect(transformSelectAuthenticatorVerify({ transaction, formBag, widgetProps }))
       .toEqual(formBag);
   });
 
   it('should add UI elements for verification authenticator selector'
     + ' when not in password recovery flow', () => {
-    const updatedFormBag = transformSelectAuthenticatorVerify(transaction, formBag, mockProps);
+    const updatedFormBag = transformSelectAuthenticatorVerify({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -114,7 +116,9 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformSelectAuthenticatorVerify(transaction, formBag, mockProps);
+    const updatedFormBag = transformSelectAuthenticatorVerify({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -128,7 +132,7 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
 
   it('should add UI elements for verification authenticator selector'
     + ' when in password recovery flow and brand name is provided', () => {
-    mockProps = { brandName: 'Acme Corp.' };
+    widgetProps = { brandName: 'Acme Corp.' };
     transaction.rawIdxState = {
       version: '',
       stateHandle: '',
@@ -140,7 +144,9 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformSelectAuthenticatorVerify(transaction, formBag, mockProps);
+    const updatedFormBag = transformSelectAuthenticatorVerify({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)

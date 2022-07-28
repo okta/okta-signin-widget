@@ -52,7 +52,7 @@ const Radio: UISchemaElementComponent<{
   return (
     <FormControl
       component="fieldset"
-      error={error !== ''}
+      error={!!error}
     >
       {label && (<FormLabel>{getLabelName(label!)}</FormLabel>)}
       <RadioGroup

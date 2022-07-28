@@ -5,6 +5,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -111,7 +112,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                 >
                   <label
                     class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
-                    for="generated"
+                    for="credentials.passcode"
                   >
                     Enter Code
                   </label>

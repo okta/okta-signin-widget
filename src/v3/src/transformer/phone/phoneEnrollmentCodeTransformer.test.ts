@@ -21,7 +21,7 @@ import { transformPhoneCodeEnrollment } from '.';
 
 describe('PhoneEnrollmentCodeTransformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
@@ -44,7 +44,7 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
         } as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneCodeEnrollment(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -71,7 +71,7 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
         } as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneCodeEnrollment(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -100,7 +100,7 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneCodeEnrollment(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -129,7 +129,7 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneCodeEnrollment(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');

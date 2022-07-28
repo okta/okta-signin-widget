@@ -25,7 +25,7 @@ import { transformGoogleAuthenticatorVerify } from './transformGoogleAuthenticat
 
 describe('Google Authenticator Verify Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
 
   beforeEach(() => {
@@ -41,7 +41,9 @@ describe('Google Authenticator Verify Transformer Tests', () => {
   });
 
   it('should add UI elements', () => {
-    const updatedFormBag = transformGoogleAuthenticatorVerify(transaction, formBag, mockProps);
+    const updatedFormBag = transformGoogleAuthenticatorVerify({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
