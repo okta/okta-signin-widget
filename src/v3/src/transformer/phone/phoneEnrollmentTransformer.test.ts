@@ -22,10 +22,11 @@ import { transformPhoneEnrollment } from '.';
 
 describe('PhoneEnrollmentTransformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {
@@ -56,29 +57,7 @@ describe('PhoneEnrollmentTransformer Tests', () => {
   });
 
   it('should create phone enrollment UI elements when multiple method types exist in transaction', () => {
-    const updatedFormBag = transformPhoneEnrollment(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneEnrollment({ transaction, formBag, widgetProps });
     expect(updatedFormBag).toMatchSnapshot();
-  });
-
-  // TODO: re-visit when add phone number client side validation
-  // it's not safe to use one client side regext to validate, since phone number standard varies by regions
-  // before a good hint is available from idx response, it would be safe to just depend on backend validation
-  it.skip('should validate phoneNumber format', () => {
-    const updatedFormBag = transformPhoneEnrollment(transaction, formBag, mockProps);
-
-    const phoneNumberPattern = (updatedFormBag.schema as any).properties?.phoneNumber?.pattern ?? '';
-    expect(new RegExp(phoneNumberPattern).test('+12165551234')).toBe(true);
-    expect(new RegExp(phoneNumberPattern).test('+12165551234x42')).toBe(true);
-    expect(new RegExp(phoneNumberPattern).test('+12165551234x1')).toBe(true);
-    expect(new RegExp(phoneNumberPattern).test('+12165551234x5564')).toBe(true);
-    expect(new RegExp(phoneNumberPattern).test('+99855544864')).toBe(true);
-    expect(new RegExp(phoneNumberPattern).test('+351557896531')).toBe(true);
-    expect(new RegExp(phoneNumberPattern).test('+351557896531x9964458')).toBe(true);
-    expect(new RegExp(phoneNumberPattern).test('+x453+43459344')).toBe(false);
-    expect(new RegExp(phoneNumberPattern).test('abc123')).toBe(false);
-    expect(new RegExp(phoneNumberPattern).test('aaaaaa')).toBe(false);
-    expect(new RegExp(phoneNumberPattern).test('3151115555')).toBe(false);
-    expect(new RegExp(phoneNumberPattern).test('3151115555x9')).toBe(false);
-    expect(new RegExp(phoneNumberPattern).test('+154')).toBe(false);
   });
 });

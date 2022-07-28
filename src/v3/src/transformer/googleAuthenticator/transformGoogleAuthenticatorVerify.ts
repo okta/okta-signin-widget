@@ -17,6 +17,7 @@ import {
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
+import { loc } from '../../util';
 
 export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({ formBag }) => {
   const { uischema } = formBag;
@@ -24,18 +25,18 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({ formBag
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.verify.google_authenticator.otp.title',
+      content: loc('oie.verify.google_authenticator.otp.title', 'login'),
     },
   };
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'oie.verify.google_authenticator.otp.description',
+      content: loc('oie.verify.google_authenticator.otp.description', 'login'),
     },
   };
   const submitButtonElement: ButtonElement = {
     type: 'Button',
-    label: 'mfa.challenge.verify',
+    label: loc('mfa.challenge.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

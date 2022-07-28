@@ -47,6 +47,7 @@ describe('ReminderPrompt', () => {
         type: 'Reminder',
         options: {
           ctaText: 'Didnt receive the email?',
+          linkLabel: 'Send again?',
           action: mockActionFn,
         },
       },
@@ -63,7 +64,7 @@ describe('ReminderPrompt', () => {
     expect(container.firstChild).not.toBeNull();
 
     const box = getByRole('alert');
-    const sendAgainLink = within(box).getByText('Send again');
+    const sendAgainLink = await within(box).findByText('Send again?');
 
     expect(mockActionFn).not.toHaveBeenCalled();
     fireEvent.click(sendAgainLink);
@@ -85,6 +86,7 @@ describe('ReminderPrompt', () => {
         type: 'Reminder',
         options: {
           ctaText: 'Didnt receive the email?',
+          linkLabel: 'Send again?',
           action: mockActionFn,
         },
       },
@@ -101,7 +103,7 @@ describe('ReminderPrompt', () => {
     expect(container.firstChild).not.toBeNull();
 
     const box = getByRole('alert');
-    const sendAgainLink = within(box).getByText('Send again');
+    const sendAgainLink = await within(box).findByText('Send again?');
 
     expect(mockActionFn).not.toHaveBeenCalled();
     fireEvent.click(sendAgainLink);
@@ -118,6 +120,7 @@ describe('ReminderPrompt', () => {
         type: 'Reminder',
         options: {
           ctaText: 'Didnt receive the email?',
+          linkLabel: 'Send again?',
           timeout: CUSTOM_TIMEOUT,
           action: mockActionFn,
         },

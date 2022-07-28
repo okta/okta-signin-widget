@@ -11,32 +11,17 @@
  */
 
 /* eslint-disable import/extensions */
+import 'jest-canvas-mock';
+
 require('@testing-library/jest-dom');
 require('whatwg-fetch');
 const { createSerializer } = require('@emotion/jest');
 const { configure } = require('@testing-library/preact');
-const enTranslations = require('./src/properties/json/login.json');
-const { initOktaReactI18n } = require('./src/lib/okta-i18n');
 
 configure({
   testIdAttribute: 'data-se',
 });
 
-expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));
+global.DEBUG = false;
 
-initOktaReactI18n({
-  debug: false,
-  namespace: 'okta-signin-widget',
-  supportedLanguages: ['en'],
-  fallbackLanguage: 'en',
-  translations: {
-    en: enTranslations,
-  },
-  backendOptions: {
-    baseUri: '',
-    rewrite: (file) => file,
-  },
-  languageDetectorOptions: {
-    localeCookieName: 'okta_user_lang',
-  },
-});
+expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));

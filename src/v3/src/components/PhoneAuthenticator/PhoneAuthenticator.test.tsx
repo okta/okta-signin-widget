@@ -36,17 +36,21 @@ const getComponentProps = (
     type: 'Control',
     label: 'Phone Number',
     name: 'phoneNumber',
-    options: { inputMeta: { name: 'phoneNumber' }, ...options },
+    options: {
+      inputMeta: { name: 'phoneNumber' },
+      translations: [
+        { name: 'country', i18nKey: 'country.label', value: 'Country' },
+        { name: 'extension', i18nKey: 'extension.label', value: 'Extension' },
+      ],
+      ...options,
+    },
   },
 });
 
-jest.mock('../../lib/okta-i18n', () => ({
-  useTranslation: () => ({
-    t: jest.fn()
-      .mockReturnValueOnce('Phone Number')
-      .mockReturnValueOnce('Country')
-      .mockReturnValueOnce('Extension'),
-  }),
+jest.mock('../../../../v2/ion/i18nTransformer', () => ({
+  getMessage: jest.fn().mockImplementation(
+    (message) => jest.fn().mockReturnValue(message?.message),
+  ),
 }));
 
 let mockData: Record<string, unknown>;

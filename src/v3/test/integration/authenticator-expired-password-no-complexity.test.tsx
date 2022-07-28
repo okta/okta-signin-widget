@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup, updateDynamicAttribute } from './util';
+import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/authenticator-expired-password-no-complexity.json';
 
@@ -18,7 +18,6 @@ describe('authenticator-expired-password-no-complexity', () => {
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Your password has expired/);
-    updateDynamicAttribute(container, ['aria-labelledby', 'id']);
     expect(container).toMatchSnapshot();
   });
 

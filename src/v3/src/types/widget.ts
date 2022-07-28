@@ -15,8 +15,8 @@ import {
   RawIdxResponse,
 } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { InterstitialRedirectView } from 'src/constants';
-import { OktaReactI18nOptions } from 'src/lib/okta-i18n';
 
+import { LanguageCallback, LanguageCode } from '../../../types';
 import { JsonObject } from './json';
 import { FormBag } from './schema';
 
@@ -139,9 +139,11 @@ export type WidgetOptions = {
     requestContext: string;
   };
   assets?: {
-    baseUrl: string;
+    baseUrl?: string;
+    languages?: string[];
+    rewrite?: (assetPath: string) => string;
   };
-  i18n?: OktaReactI18nOptions;
+  i18n?: Record<LanguageCode, { [i18nKey: string]: string }>;
   piv?: {
     certAuthUrl: string;
     isCustomDomain?: boolean;
@@ -150,7 +152,7 @@ export type WidgetOptions = {
   };
   customButtons?: CustomButton[];
   features?: OktaWidgetFeatures;
-  language?: OktaLanguageCode | string;
+  language?: LanguageCode | LanguageCallback | string;
   helpSupportNumber?: string;
   helpLinks?: {
     custom?: CustomLink[];
@@ -221,34 +223,6 @@ interface ProxyIdxResponse {
     challengeMethod: string,
   }
 }
-
-type OktaLanguageCode =
-  | 'cs' // - Czech
-  | 'da' // - Danish
-  | 'de' // - German
-  | 'el' // - Greek
-  | 'en' // - English
-  | 'es' // - Spanish
-  | 'fi' // - Finnish
-  | 'fr' // - French
-  | 'hu' // - Hungarian
-  | 'id' // - Indonesian
-  | 'it' // - Italian
-  | 'ja' // - Japanese
-  | 'ko' // - Korean
-  | 'ms' // - Malaysian
-  | 'nb' // - Norwegian
-  | 'nl-NL' // - Dutch
-  | 'pl' // - Polish
-  | 'pt-BR' // - Portuguese (Brazil)
-  | 'ro' // - Romanian
-  | 'ru' // - Russian
-  | 'sv' // - Swedish
-  | 'th' // - Thai
-  | 'tr' // - Turkish
-  | 'uk' // - Ukrainian
-  | 'zh-CN' // - Chinese (PRC)
-  | 'zh-TW'; // - Chinese (Taiwan)
 
 type CustomButton = {
   title: string;

@@ -20,19 +20,14 @@ import {
 
 import WebAuthNSubmitButton from './WebAuthNSubmitButton';
 
-jest.mock('../../lib/okta-i18n', () => ({
-  useTranslation: () => ({
-    t: jest.fn().mockReturnValue('Operation not allowed'),
-    i18n: {
-      exists: (key: string) => key === 'oie.browser.error.NotAllowedError',
-    },
-  }),
+jest.mock('../../../../v2/ion/i18nTransformer', () => ({
+  getMessageFromBrowserError: (error: Error) => (error.name === 'NotAllowedError' ? 'Operation not allowed' : error.message),
 }));
 
-const setMessagesMockFn = jest.fn();
+const setMessageMockFn = jest.fn();
 jest.mock('../../contexts', () => ({
   useWidgetContext: () => ({
-    setMessages: setMessagesMockFn,
+    setMessage: setMessageMockFn,
   }),
 }));
 
@@ -67,7 +62,7 @@ describe('WebAuthNControlSubmitControl Tests', () => {
 
     fireEvent.click(button);
     await waitFor(() => {
-      expect(setMessagesMockFn).toBeCalled();
+      expect(setMessageMockFn).toBeCalled();
       expect(mockSubmitHook).toBeCalled();
     });
   });
@@ -94,11 +89,11 @@ describe('WebAuthNControlSubmitControl Tests', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(setMessagesMockFn).toHaveBeenLastCalledWith([{
+      expect(setMessageMockFn).toHaveBeenLastCalledWith({
         message: 'Operation not allowed',
         class: MessageType.ERROR,
         i18n: { key: 'Operation not allowed' },
-      }]);
+      });
     });
   });
 
@@ -124,11 +119,11 @@ describe('WebAuthNControlSubmitControl Tests', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(setMessagesMockFn).toHaveBeenLastCalledWith([{
+      expect(setMessageMockFn).toHaveBeenLastCalledWith({
         message: 'Something went wrong',
         class: MessageType.ERROR,
         i18n: { key: 'Something went wrong' },
-      }]);
+      });
     });
   });
 });

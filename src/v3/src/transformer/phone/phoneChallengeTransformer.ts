@@ -19,8 +19,8 @@ import {
   IdxStepTransformer,
   ReminderElement,
   TitleElement,
-  Undefinable,
 } from '../../types';
+import { loc } from '../../util';
 
 export const transformPhoneChallenge: IdxStepTransformer = ({
   transaction,
@@ -31,58 +31,61 @@ export const transformPhoneChallenge: IdxStepTransformer = ({
   const { uischema } = formBag;
   const { authClient } = widgetProps;
 
-  let reminderElement: Undefinable<ReminderElement>;
+  const { methods, profile } = nextStep.relatesTo?.value || {};
+  const { phoneNumber } = profile || {};
+  const methodType = methods?.[0]?.type;
+  let reminderElement: ReminderElement | undefined;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
   if (resendStep) {
-    const { name } = resendStep;
+    const { name, action } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
-        ctaText: 'oie.phone.verify.sms.resendText',
+        ctaText: loc('oie.phone.verify.sms.resendText', 'login'),
+        linkLabel: loc('email.button.resend', 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: (params?: IdxActionParams) => {
+        action: action && ((params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};
           return authClient?.idx.proceed({
             // @ts-ignore stateHandle can be undefined
             stateHandle,
             actions: [{ name, params: rest }],
           });
-        },
+        }),
       },
     };
   }
 
-  const redactedPhone = nextStep.relatesTo?.value?.profile?.phoneNumber as string;
+  const sendInfoText = methodType === 'voice'
+    ? loc('mfa.calling', 'login')
+    : loc('oie.phone.verify.sms.codeSentText', 'login');
+  const phoneInfoText = phoneNumber || loc('oie.phone.alternate.title', 'login');
+  const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: redactedPhone
-        ? 'next.phone.challenge.sms.informationalTextWithPhone'
-        : 'next.phone.challenge.sms.informationalText',
-      contentParams: [
-        redactedPhone,
-      ],
+      content: `${sendInfoText} ${phoneInfoText}. ${enterCodeInfoText}`,
     },
   };
 
   const carrierChargeDisclaimerText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'oie.phone.carrier.charges',
+      content: loc('oie.phone.carrier.charges', 'login'),
     },
   };
 
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.phone.verify.title',
+      content: loc('oie.phone.verify.title', 'login'),
     },
   };
 
   const submitButtonControl: ButtonElement = {
     type: 'Button',
-    label: 'mfa.challenge.verify',
+    label: loc('mfa.challenge.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

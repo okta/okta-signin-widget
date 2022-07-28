@@ -5,6 +5,7 @@ Object {
   "data": Object {
     "authenticator.methodType": "sms",
   },
+  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -42,7 +43,6 @@ Object {
                       },
                     ],
                   },
-                  "isStepper": true,
                 },
                 "type": "Control",
               },
@@ -91,7 +91,6 @@ Object {
                       },
                     ],
                   },
-                  "isStepper": true,
                 },
                 "type": "Control",
               },

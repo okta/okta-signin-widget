@@ -24,6 +24,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
+import { loc } from '../../util';
 
 const STEPS = {
   QR_POLLING: 0,
@@ -33,8 +34,10 @@ const STEPS = {
 
 const REMINDER_CHANNELS = ['sms', 'email'];
 const CHANNEL_TO_CTA_KEY: { [channel: string]: string } = {
-  email: 'next.enroll.okta_verify.email.notReceived',
-  sms: 'next.enroll.okta_verify.sms.notReceived',
+  // TODO: OKTA-518743 These i18n keys contain anchor tags in them, how to proceed?
+  // See OVResendView.js
+  email: 'oie.enroll.okta_verify.email.notReceived',
+  sms: 'oie.enroll.okta_verify.sms.notReceived',
 };
 
 export const getTitleKey = (selectedChannel?: string): string => {
@@ -50,7 +53,7 @@ export const getTitleKey = (selectedChannel?: string): string => {
 
 export const switchChannelButton = (label: string): ButtonElement => ({
   type: 'Button',
-  label,
+  label: loc(label, 'login'),
   options: {
     type: ButtonType.BUTTON,
     variant: 'secondary',
@@ -69,7 +72,8 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
   const { authClient } = widgetProps;
 
   const authenticator = context.currentAuthenticator.value;
-  const selectedChannel = authenticator.contextualData?.selectedChannel;
+  // @ts-ignore OKTA-496373 - missing props from interface
+  const { selectedChannel, phoneNumber = '', email = '' } = authenticator.contextualData;
 
   let reminder: ReminderElement | undefined;
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
@@ -80,7 +84,8 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     reminder = {
       type: 'Reminder',
       options: {
-        ctaText: CHANNEL_TO_CTA_KEY[selectedChannel],
+        ctaText: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
+        linkLabel: loc('email.button.resend', 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
         action: (params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};
@@ -97,7 +102,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
   const title = {
     type: 'Title',
     options: {
-      content: getTitleKey(selectedChannel),
+      content: loc(getTitleKey(selectedChannel), 'login'),
     },
   };
 
@@ -113,9 +118,9 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
             type: 'List',
             options: {
               items: [
-                'oie.enroll.okta_verify.qrcode.step1',
-                'oie.enroll.okta_verify.qrcode.step2',
-                'oie.enroll.okta_verify.qrcode.step3',
+                loc('oie.enroll.okta_verify.qrcode.step1', 'login'),
+                loc('oie.enroll.okta_verify.qrcode.step2', 'login'),
+                loc('oie.enroll.okta_verify.qrcode.step3', 'login'),
               ],
               type: 'ordered',
             },
@@ -138,12 +143,11 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
           {
             type: 'Description',
             options: {
-              content: 'next.enroll.okta_verify.email.info',
               // @ts-ignore OKTA-496373 - missing props from interface
-              contentParams: [authenticator.contextualData?.email],
+              content: loc('oie.enroll.okta_verify.email.info', 'login', [email]),
             },
           } as DescriptionElement,
-          switchChannelButton('next.enroll.okta_verify.switch.channel.link.text'),
+          switchChannelButton('oie.enroll.okta_verify.switch.channel.link.text'),
         ],
       },
       {
@@ -154,12 +158,11 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
           {
             type: 'Description',
             options: {
-              content: 'next.enroll.okta_verify.sms.info',
               // @ts-ignore OKTA-496373 - missing props from interface
-              contentParams: [authenticator.contextualData?.phoneNumber],
+              content: loc('oie.enroll.okta_verify.sms.info', 'login', [phoneNumber]),
             },
           } as DescriptionElement,
-          switchChannelButton('next.enroll.okta_verify.switch.channel.link.text'),
+          switchChannelButton('oie.enroll.okta_verify.switch.channel.link.text'),
         ],
       },
     ],

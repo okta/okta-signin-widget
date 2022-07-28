@@ -19,7 +19,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { isAndroidOrIOS } from '../../util';
+import { isAndroidOrIOS, loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const CHANNEL_SCOPE = '#/properties/authenticator/properties/channel';
@@ -44,8 +44,8 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
     type: 'Title',
     options: {
       content: isAndroidOrIOSView
-        ? 'oie.enroll.okta_verify.setup.title'
-        : 'oie.enroll.okta_verify.select.channel.title',
+        ? loc('oie.enroll.okta_verify.setup.title', 'login')
+        : loc('oie.enroll.okta_verify.select.channel.title', 'login'),
     },
   };
   elements.push(titleElement);
@@ -54,14 +54,14 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
     'authenticator.channel',
     formBag.uischema.elements as UISchemaElement[],
   ) as FieldElement;
-  channelSelectionElement.label = 'oie.enroll.okta_verify.select.channel.description';
+  channelSelectionElement.label = loc('oie.enroll.okta_verify.select.channel.description', 'login');
   channelSelectionElement.options.format = 'radio';
   const { options: { inputMeta: { options = [] } } } = channelSelectionElement;
   channelSelectionElement.options.customOptions = options
     .filter((opt) => opt.value !== lastSelectedChannel)
     .map((opt) => ({
       value: opt.value as string,
-      label: CHANNEL_TO_LABEL_KEY_MAP[opt.value as string],
+      label: loc(CHANNEL_TO_LABEL_KEY_MAP[opt.value as string], 'login'),
     }));
   elements.push(channelSelectionElement);
 
@@ -69,7 +69,7 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
 
   const submitButton: ButtonElement = {
     type: 'Button',
-    label: 'oform.next',
+    label: loc('oform.next', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
@@ -81,7 +81,7 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   if (!['email', 'sms'].includes(lastSelectedChannel)) {
     const switchChannelButton = {
       type: 'Button',
-      label: 'next.enroll.okta_verify.switch.channel.link.text',
+      label: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
       options: {
         type: ButtonType.BUTTON,
         step: 'select-enrollment-channel',

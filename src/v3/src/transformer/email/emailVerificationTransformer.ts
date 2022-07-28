@@ -19,6 +19,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
+import { loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
@@ -44,7 +45,7 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.email.mfa.title',
+      content: loc('oie.email.mfa.title', 'login'),
     },
   };
 
@@ -53,17 +54,14 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
     type: 'Description',
     options: {
       content: redactedEmailAddress
-        ? 'next.email.verify.subtitleWithEmailAddress'
-        : 'next.email.verify.subtitleWithoutEmailAddress',
-      contentParams: [
-        redactedEmailAddress,
-      ],
+        ? loc('oie.email.verify.subtitleWithEmailAddress', 'login', [redactedEmailAddress])
+        : loc('oie.email.verify.subtitleWithoutEmailAddress', 'login'),
     },
   };
 
   const submitButtonControl: ButtonElement = {
     type: 'Button',
-    label: 'oie.email.verify.primaryButton',
+    label: loc('oie.email.verify.primaryButton', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

@@ -25,10 +25,11 @@ import { transformSecurityQuestionVerify } from '.';
 
 describe('SecurityQuestionVerify Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -59,7 +60,7 @@ describe('SecurityQuestionVerify Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformSecurityQuestionVerify(transaction, formBag, mockProps);
+    const updatedFormBag = transformSecurityQuestionVerify({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -95,7 +96,7 @@ describe('SecurityQuestionVerify Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformSecurityQuestionVerify(transaction, formBag, mockProps);
+    const updatedFormBag = transformSecurityQuestionVerify({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
 

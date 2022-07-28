@@ -3,6 +3,7 @@
 exports[`SecurityQuestionVerify Tests should create security question verify UI elements 1`] = `
 Object {
   "data": Object {},
+  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -40,6 +41,7 @@ Object {
 exports[`SecurityQuestionVerify Tests should create security question verify UI elements for custom question 1`] = `
 Object {
   "data": Object {},
+  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [

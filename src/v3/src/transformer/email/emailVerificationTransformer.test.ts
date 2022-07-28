@@ -21,10 +21,11 @@ import { transformEmailVerification } from '.';
 
 describe('Email Verification Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -47,7 +48,7 @@ describe('Email Verification Transformer Tests', () => {
 
   it('should update methodType element and add appropriate UI elements to schema'
     + ' when redacted email does not exist in Idx response', () => {
-    const updatedFormBag = transformEmailVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformEmailVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -55,7 +56,7 @@ describe('Email Verification Transformer Tests', () => {
       .toBe('oie.email.mfa.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.email.verify.subtitleWithoutEmailAddress');
+      .toBe('oie.email.verify.subtitleWithoutEmailAddress');
     expect(((updatedFormBag.uischema.elements[2] as ButtonElement)
       .options?.actionParams?.['authenticator.methodType'])).toBe('email');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
@@ -76,7 +77,7 @@ describe('Email Verification Transformer Tests', () => {
       },
     };
 
-    const updatedFormBag = transformEmailVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformEmailVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -84,7 +85,7 @@ describe('Email Verification Transformer Tests', () => {
       .toBe('oie.email.mfa.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.email.verify.subtitleWithEmailAddress');
+      .toBe('oie.email.verify.subtitleWithEmailAddress');
     expect(((updatedFormBag.uischema.elements[2] as ButtonElement)
       .options?.actionParams?.['authenticator.methodType']))
       .toBe('email');

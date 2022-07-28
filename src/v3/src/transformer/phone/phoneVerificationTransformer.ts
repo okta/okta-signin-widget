@@ -22,6 +22,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
+import { loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
@@ -50,29 +51,24 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   const carrierInfoText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'oie.phone.carrier.charges',
+      content: loc('oie.phone.carrier.charges', 'login'),
     },
   };
   // (Display order) 3rd element in the elements array
   uischema.elements.unshift(carrierInfoText);
 
   const redactedPhoneNumber = nextStep.relatesTo?.value?.profile?.phoneNumber as string;
+  const phoneInfoText = redactedPhoneNumber || loc('oie.phone.alternate.title', 'login');
   const smsInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      content: redactedPhoneNumber
-        ? 'next.phone.verify.sms.sendText.withPhoneNumber'
-        : 'next.phone.verify.sms.sendText.withoutPhoneNumber',
-      contentParams: redactedPhoneNumber ? [redactedPhoneNumber] : undefined,
+      content: `${loc('oie.phone.verify.sms.sendText', 'login')} ${phoneInfoText}`,
     },
   };
   const voiceInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      content: redactedPhoneNumber
-        ? 'next.phone.verify.call.sendText.withPhoneNumber'
-        : 'next.phone.verify.call.sendText.withoutPhoneNumber',
-      contentParams: redactedPhoneNumber ? [redactedPhoneNumber] : undefined,
+      content: `${loc('oie.phone.verify.call.sendText', 'login')} ${phoneInfoText}`,
     },
   };
 
@@ -87,7 +83,7 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.phone.verify.title',
+      content: loc('oie.phone.verify.title', 'login'),
     },
   };
   // (Display order) 1st element in the elements array
@@ -96,8 +92,8 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   const primaryButton: ButtonElement = {
     type: 'Button',
     label: primaryMethod === 'sms'
-      ? 'oie.phone.sms.primaryButton'
-      : 'oie.phone.call.primaryButton',
+      ? loc('oie.phone.sms.primaryButton', 'login')
+      : loc('oie.phone.call.primaryButton', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
@@ -111,8 +107,8 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   const secondaryButton: ButtonElement = {
     type: 'Button',
     label: primaryMethod === 'sms'
-      ? 'oie.phone.call.secondaryButton'
-      : 'oie.phone.sms.secondaryButton',
+      ? loc('oie.phone.call.secondaryButton', 'login')
+      : loc('oie.phone.sms.secondaryButton', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

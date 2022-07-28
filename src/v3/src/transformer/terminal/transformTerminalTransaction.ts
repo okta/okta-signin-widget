@@ -11,6 +11,7 @@
  */
 
 import {
+  IdxActionParams,
   IdxMessage,
   IdxStatus,
   IdxTransaction,
@@ -39,6 +40,7 @@ import {
   containsOneOfMessageKeys,
   getUserInfo,
   isAuthClientSet,
+  loc,
   removeUsernameCookie,
   setUsernameCookie,
 } from '../../util';
@@ -67,7 +69,7 @@ const appendTitleElement = (uischema: UISchemaLayout, messages?: IdxMessage[]): 
   }
   uischema.elements.unshift({
     type: 'Title',
-    options: { content: titleKey },
+    options: { content: loc(titleKey, 'login') },
   } as TitleElement);
 };
 
@@ -81,26 +83,44 @@ const appendViewLinks = (
   const cancelLink: LinkElement = {
     type: 'Link',
     options: {
-      label: 'goback',
+      label: loc('goback', 'login'),
       // eslint-disable-next-line no-script-url
       href: cancelStep?.action ? 'javascript:void(0)' : (baseUrl || '/'),
-      action: cancelStep?.action,
+      dataSe: 'cancel',
+      // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+      action: cancelStep?.action && ((params?: IdxActionParams) => {
+        const { stateHandle, ...rest } = params ?? {};
+        return widgetProps.authClient?.idx.proceed({
+          // @ts-ignore stateHandle can be undefined
+          stateHandle,
+          actions: [{ name: 'cancel', params: rest }],
+        });
+      }),
     },
   };
 
   if (containsMessageKeyPrefix(TERMINAL_KEY.SAFE_MODE_KEY_PREFIX, transaction.messages)) {
+    const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
     const skipElement: ButtonElement = {
       type: 'Button',
-      label: 'oie.enroll.skip.setup',
+      label: loc('oie.enroll.skip.setup', 'login'),
       scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
-        action: cancelStep?.action,
+        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+        action: skipStep?.action && ((params?: IdxActionParams) => {
+          const { stateHandle, ...rest } = params ?? {};
+          return widgetProps.authClient?.idx.proceed({
+            // @ts-ignore stateHandle can be undefined
+            stateHandle,
+            actions: [{ name: skipStep?.name, params: rest }],
+          });
+        }),
       },
     };
     uischema.elements.push(skipElement);
   } else if (containsOneOfMessageKeys(DEVICE_CODE_ERROR_KEYS, transaction.messages)) {
-    cancelLink.options.label = 'oie.try.again';
+    cancelLink.options.label = loc('oie.try.again', 'login');
     uischema.elements.push(cancelLink);
   } else if (transaction.actions?.cancel
     || !containsOneOfMessageKeys(TERMINAL_KEYS_WITHOUT_CANCEL, transaction.messages)) {
@@ -150,8 +170,9 @@ const buildFormBagForInteractionCodeFlow = (
   formBag.uischema.elements.push({
     type: 'Spinner',
     options: {
-      label: 'loading.label',
-      valueText: 'loading.label',
+      // TODO: OKTA-518793 - replace english string with key once created
+      label: 'Loading...',
+      valueText: 'Loading...',
     },
   } as SpinnerElement);
 

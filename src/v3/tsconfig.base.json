@@ -17,6 +17,27 @@
       "src/*": [
         "./src/*"
       ],
+      "config/config.json": [
+        "../config/config.json"
+      ],
+      "nls/*": [
+        "../../packages/@okta/i18n/src/json/*"
+      ],
+      "okta-i18n-bundles": [
+        "../util/Bundles.ts"
+      ],
+      "okta": [
+        "../../packages/@okta/courage-dist"
+      ],
+      "qtip": [
+        "../../packages/@okta/qtip2/dist/jquery.qtip.js"
+      ],
+      "util/*": [
+        "../util/*"
+      ],
+      "preact/hooks": [
+        "./node_modules/preact/hooks"
+      ],
       "react": [
         "node_modules/preact/compat"
       ],

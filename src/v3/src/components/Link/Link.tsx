@@ -14,40 +14,43 @@ import { Box, Link as LinkMui } from '@mui/material';
 import { h } from 'preact';
 
 import { useOnSubmit } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
 import { ClickHandler, LinkElement, UISchemaElementComponent } from '../../types';
 import { getLabelName } from '../helpers';
 
 const Link: UISchemaElementComponent<{
   uischema: LinkElement
 }> = ({ uischema }) => {
-  const { options } = uischema;
+  const {
+    options: {
+      label,
+      href,
+      action: actionFn,
+      actionParams,
+    },
+  } = uischema;
   const onSubmitHandler = useOnSubmit();
-  const { t } = useTranslation();
-
-  const label = t(getLabelName(options?.label));
 
   const onClick: ClickHandler = async (e) => {
     e.preventDefault();
 
     onSubmitHandler({
-      params: options.actionParams,
-      actionFn: options.action,
+      params: actionParams,
+      actionFn,
     });
   };
 
   return (
     <Box marginTop={4}>
       {
-        options?.action !== undefined ? (
+        actionFn !== undefined ? (
           <LinkMui
             // eslint-disable-next-line no-script-url
             href="javascript:void(0)"
             onClick={onClick}
           >
-            {label}
+            {getLabelName(label)}
           </LinkMui>
-        ) : <LinkMui href={options?.href}>{label}</LinkMui>
+        ) : <LinkMui href={href}>{getLabelName(label)}</LinkMui>
       }
     </Box>
   );

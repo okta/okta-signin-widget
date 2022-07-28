@@ -17,6 +17,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
+import { loc } from '../../util';
 import { removeUIElementWithName } from '../utils';
 import { getAuthenticatorVerifyButtonElements } from './utils';
 
@@ -42,7 +43,7 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'unlockaccount',
+      content: loc('unlockaccount', 'login'),
     },
   };
   uischema.elements.unshift(titleElement);

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup, updateDynamicAttribute } from './util';
+import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-phone-voice-code-mfa.json';
 
@@ -18,7 +18,6 @@ describe('authenticator-enroll-phone-voice', () => {
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Set up phone authentication/);
-    updateDynamicAttribute(container, ['id', 'for']);
     expect(container).toMatchSnapshot();
   });
 

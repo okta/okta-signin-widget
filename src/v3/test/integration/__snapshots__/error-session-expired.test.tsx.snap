@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`error-session-expired should render form 1`] = `
+<div>
+  <span>
+    <main
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
+    >
+      <div
+        class="siwContainer MuiBox-root emotion-1"
+      >
+        <div
+          class="okta-sign-in-header auth-header siwHeader"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h1 emotion-2"
+          />
+        </div>
+        <div
+          class="MuiBox-root emotion-3"
+        >
+          <form
+            class="o-form"
+            data-se="form"
+            novalidate=""
+          >
+            <div
+              class="MuiBox-root emotion-4"
+            >
+              <div
+                class="MuiBox-root emotion-5"
+              >
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-7"
+                    role="alert"
+                  >
+                    <div
+                      class="MuiAlert-icon emotion-8"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-9"
+                        data-testid="ErrorOutlineIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      class="MuiAlert-message emotion-10"
+                    >
+                      You have been logged out due to inactivity. Refresh or return to the sign in screen.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-5"
+              >
+                <div
+                  class="MuiBox-root emotion-12"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-13"
+                    href="/"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </span>
+</div>
+`;

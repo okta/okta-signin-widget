@@ -5,6 +5,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -116,7 +117,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                     class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                     for="credentials.passcode"
                   >
-                    Enter code
+                    Enter Code
                   </label>
                   <div
                     class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
@@ -145,7 +146,6 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                       </legend>
                     </fieldset>
                   </div>
-                  
                 </div>
               </div>
               <div

@@ -5,6 +5,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -117,7 +118,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Okta Password
+                      Password
                     </div>
                     <div
                       class="description MuiBox-root emotion-6"
@@ -153,7 +154,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Okta Phone
+                      Phone
                     </div>
                     <div
                       class="description MuiBox-root emotion-6"
@@ -189,7 +190,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <div
                       class="title MuiBox-root emotion-6"
                     >
-                      Security Key or Biometric Authenticator (FIDO2)
+                      Security Key or Biometric Authenticator
                     </div>
                     <div
                       class="description MuiBox-root emotion-6"

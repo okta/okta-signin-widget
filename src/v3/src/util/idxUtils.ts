@@ -13,9 +13,7 @@
 import { IdxMessage, IdxRemediation, IdxTransaction } from '@okta/okta-auth-js';
 import {
   AuthCoinProps,
-  Nullable,
   RequiredKeys,
-  Undefinable,
   UserInfo,
   WidgetProps,
 } from 'src/types';
@@ -25,8 +23,8 @@ import {
   AUTHENTICATOR_KEY,
   EMAIL_AUTHENTICATOR_TERMINAL_KEYS,
   IDX_STEP,
-  STEPS_MISSING_RELATES_TO,
 } from '../constants';
+import { getAuthenticatorKey } from './getAuthenticatorKey';
 
 export const getUserInfo = (transaction: IdxTransaction): UserInfo => {
   const { context: { user } } = transaction;
@@ -62,8 +60,8 @@ export const containsOneOfMessageKeys = (
 ): boolean => keys.some((key) => containsMessageKey(key, messages));
 
 export const buildAuthCoinProps = (
-  transaction?: Nullable<IdxTransaction>,
-): Undefinable<AuthCoinProps> => {
+  transaction?: IdxTransaction | null,
+): AuthCoinProps | undefined => {
   if (!transaction) {
     return undefined;
   }
@@ -74,14 +72,9 @@ export const buildAuthCoinProps = (
     return { authenticatorKey: AUTHENTICATOR_KEY.EMAIL };
   }
 
-  // TODO: OKTA-503490 temporary sln to grab auth key for steps missing relatesTo obj
-  if (nextStep?.name && STEPS_MISSING_RELATES_TO.includes(nextStep.name)
-    && transaction.context.currentAuthenticator?.value?.key) {
-    return { authenticatorKey: transaction.context.currentAuthenticator.value.key };
-  }
-
-  if (nextStep?.relatesTo?.value?.key) {
-    return { authenticatorKey: nextStep.relatesTo.value.key };
+  const authenticatorKey = getAuthenticatorKey(transaction);
+  if (authenticatorKey) {
+    return { authenticatorKey };
   }
 
   return undefined;
@@ -100,7 +93,7 @@ export const hasMinAuthenticatorOptions = (
     return false;
   }
 
-  const step: Undefinable<IdxRemediation> = transaction.neededToProceed.find(
+  const step: IdxRemediation | undefined = transaction.neededToProceed.find(
     ({ name }) => name === stepName,
   );
   if (!step) {

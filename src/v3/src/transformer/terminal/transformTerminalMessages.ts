@@ -16,13 +16,12 @@ import { TERMINAL_KEY } from '../../constants';
 import {
   DescriptionElement,
   InfoboxElement,
-  MessageType,
-  MessageTypeVariant,
   Modify,
   TerminalKeyTransformer,
   UISchemaLayout,
 } from '../../types';
-import { containsMessageKey } from '../../util';
+import { containsMessageKey, loc } from '../../util';
+import { transactionMessageTransformer } from '../i18nTransformer';
 import { transformEmailMagicLinkOTPOnly } from './transformEmailMagicLinkOTPOnlyElements';
 
 type ModifiedIdxMessage = Modify<IdxMessage, {
@@ -35,7 +34,7 @@ type ModifiedIdxMessage = Modify<IdxMessage, {
 
 const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[]): void => {
   messages.forEach((message) => {
-    if (!message.class || message.class === MessageType.INFO) {
+    if (!message.class || message.class === 'INFO') {
       const messageElement: DescriptionElement = {
         type: 'Description',
         options: { content: message.message },
@@ -46,8 +45,7 @@ const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[])
         type: 'InfoBox',
         options: {
           message: message.message,
-          contentParams: message.i18n?.params as string[],
-          class: MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.WARNING,
+          class: message.class ?? 'WARNING',
           contentType: 'string',
         },
       };
@@ -64,8 +62,8 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
     uischema.elements.push({
       type: 'InfoBox',
       options: {
-        message: 'oform.error.unexpected',
-        class: MessageTypeVariant.ERROR,
+        message: loc('oform.error.unexpected', 'login'),
+        class: 'ERROR',
         contentType: 'string',
       },
     } as InfoboxElement);
@@ -73,27 +71,28 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
   }
 
   if (!messages?.length) {
-    // N/A for this transformer
     return formBag;
   }
+
+  transactionMessageTransformer(transaction);
 
   const displayedMessages: ModifiedIdxMessage[] = messages;
 
   if (containsMessageKey(TERMINAL_KEY.OPERATION_CANCELED_ON_OTHER_DEVICE_KEY, messages)) {
-    displayedMessages[0].message = 'idx.operation.cancelled.on.other.device';
-    displayedMessages.push({ message: 'oie.consent.enduser.deny.description' });
+    displayedMessages[0].message = loc('idx.operation.cancelled.on.other.device', 'login');
+    displayedMessages.push({ message: loc('oie.consent.enduser.deny.description', 'login') });
   } else if (containsMessageKey(TERMINAL_KEY.UNLOCK_ACCOUNT_KEY, messages)) {
-    displayedMessages[0].message = TERMINAL_KEY.UNLOCK_ACCOUNT_KEY;
+    displayedMessages[0].message = loc(TERMINAL_KEY.UNLOCK_ACCOUNT_KEY, 'login');
   } else if (containsMessageKey(TERMINAL_KEY.RETURN_TO_ORIGINAL_TAB_KEY, messages)) {
-    displayedMessages[0].message = 'oie.consent.enduser.email.allow.description';
-    displayedMessages.push({ message: 'oie.return.to.original.tab' });
+    displayedMessages[0].message = loc('oie.consent.enduser.email.allow.description', 'login');
+    displayedMessages.push({ message: loc('oie.return.to.original.tab', 'login') });
   } else if (containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, messages)) {
-    displayedMessages[0].message = 'oie.tooManyRequests';
+    displayedMessages[0].message = loc('oie.tooManyRequests', 'login');
   } else if (containsMessageKey(TERMINAL_KEY.RETURN_LINK_EXPIRED_KEY, messages)) {
     displayedMessages[0].class = 'ERROR';
   } else if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
     displayedMessages[0].class = 'ERROR';
-    displayedMessages[0].message = TERMINAL_KEY.SESSION_EXPIRED;
+    displayedMessages[0].message = loc(TERMINAL_KEY.SESSION_EXPIRED, 'login');
   } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, messages)) {
     return transformEmailMagicLinkOTPOnly(transaction, formBag);
   }

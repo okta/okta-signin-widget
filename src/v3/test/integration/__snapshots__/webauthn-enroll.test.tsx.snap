@@ -5,6 +5,7 @@ exports[`webauthn-enroll should render form 1`] = `
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -97,10 +98,10 @@ exports[`webauthn-enroll should render form 1`] = `
                   class="MuiBox-root emotion-16"
                 >
                   <span
-                    aria-label="Waiting for input"
+                    aria-label="Loading..."
                     aria-valuemax="1"
                     aria-valuemin="0"
-                    aria-valuetext="Waiting..."
+                    aria-valuetext="Loading..."
                     class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-48Fcvf"
                     id="okta-spinner"
                     role="progressbar"
@@ -166,6 +167,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"

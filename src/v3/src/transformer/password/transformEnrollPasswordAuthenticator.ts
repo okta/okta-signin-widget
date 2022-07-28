@@ -19,8 +19,9 @@ import {
 } from 'src/types';
 
 import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
-import { getUserInfo } from '../../util';
+import { getUserInfo, loc } from '../../util';
 import { getUIElementWithName } from '../utils';
+import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
 const getPasswordMatchingKey = (
   data: Record<string, unknown>,
@@ -71,15 +72,17 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
   const titleElement: TitleElement = {
     type: 'Title',
-    options: { content: 'oie.password.enroll.title' },
+    options: { content: loc('oie.password.enroll.title', 'login') },
   };
 
   const passwordRequirementsElement: PasswordRequirementsElement = {
     type: 'PasswordRequirements',
     options: {
       id: 'password-authenticator--list',
+      header: loc('password.complexity.requirements.header', 'login'),
       userInfo: getUserInfo(transaction),
-      data: passwordSettings,
+      settings: passwordSettings,
+      requirements: buildPasswordRequirementListItems(passwordSettings),
       fieldKey: passwordMatchingKey,
       validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
     },
@@ -87,7 +90,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
   const confirmPasswordElement: FieldElement = {
     type: 'Control',
-    label: 'oie.password.confirmPasswordLabel',
+    label: loc('oie.password.confirmPasswordLabel', 'login'),
     name: 'credentials.confirmPassword',
     options: {
       inputMeta: { name: 'credentials.confirmPassword', secret: true },

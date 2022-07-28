@@ -22,7 +22,6 @@ import PhoneCallIcon from '../../img/authCoinIcons/phoneCall.svg';
 import RSAIcon from '../../img/authCoinIcons/rsa.svg';
 import EmailIcon from '../../img/authCoinIcons/secondaryEmail.svg';
 import SecurityQuestionIcon from '../../img/authCoinIcons/securityQuestion.svg';
-import SMSIcon from '../../img/authCoinIcons/sms.svg';
 import SymantecVipIcon from '../../img/authCoinIcons/symantec.svg';
 import WebAuthNIcon from '../../img/authCoinIcons/webauthn.svg';
 import YubikeyIcon from '../../img/authCoinIcons/yubikey.svg';
@@ -95,11 +94,6 @@ const AuthenticatorConfiguration: {
     icon: SecurityQuestionIcon,
     customizable: true,
     description: 'Security Question',
-  },
-  [AUTHENTICATOR_KEY.SMS]: {
-    icon: SMSIcon,
-    customizable: true,
-    description: 'SMS',
   },
   [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
     icon: SymantecVipIcon,

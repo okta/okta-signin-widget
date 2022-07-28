@@ -10,27 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxStatus } from '@okta/okta-auth-js';
-import { FunctionComponent, h } from 'preact';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 
-type MessageProps = {
-  type: IdxStatus,
-  message: string,
-  // eslint-disable-next-line react/require-default-props
-  i18n?: string | null,
+import Bundles from '../../util/Bundles.ts';
+
+module.exports = {
+  ...jest.requireActual('okta'),
+  loc: jest.fn().mockImplementation(
+    // eslint-disable-next-line no-unused-vars
+    (key, bundle, params) => (Bundles.login[key] ? key : new Error(`Invalid i18n key: ${key}`)),
+  ),
 };
-
-export const Message: FunctionComponent<MessageProps> = ({
-  i18n = null,
-  message,
-  type,
-}: MessageProps) => (
-  <div role="alert">
-    <span>{ type }</span>
-    <p>
-      { i18n ?? message }
-    </p>
-  </div>
-);
-
-export default Message;

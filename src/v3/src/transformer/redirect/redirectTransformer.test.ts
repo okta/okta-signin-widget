@@ -23,15 +23,15 @@ import { redirectTransformer } from '.';
 describe('Success Redirect Transform Tests', () => {
   const REDIRECT_URL = 'https://acme.okta1.com';
   let transaction: IdxTransaction;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
 
   beforeEach(() => {
     transaction = getStubTransaction();
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should add description & redirect elements only when interstitialRedirect option is not set', () => {
-    const formBag = redirectTransformer(transaction, REDIRECT_URL, mockProps);
+    const formBag = redirectTransformer(transaction, REDIRECT_URL, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Description');
@@ -42,8 +42,8 @@ describe('Success Redirect Transform Tests', () => {
   });
 
   it('should add description & redirect elements only when interstitialRedirect option is set to NONE', () => {
-    mockProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.NONE };
-    const formBag = redirectTransformer(transaction, REDIRECT_URL, mockProps);
+    widgetProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.NONE };
+    const formBag = redirectTransformer(transaction, REDIRECT_URL, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Description');
@@ -57,79 +57,74 @@ describe('Success Redirect Transform Tests', () => {
     + 'when app name, identifier exists in transaction and showIdentifier option is false', () => {
     const appInfo = { name: 'Okta Dashboard' };
     const userInfo = { identifier: 'testuser@okta.com' };
-    transaction.context.app.value = { name: 'Okta Dashboard' };
+    transaction.context.app.value = appInfo;
     transaction.context.user = { type: 'object', value: userInfo };
-    mockProps = {
+    widgetProps = {
       interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT,
       features: { showIdentifier: false },
     };
     const formBag = redirectTransformer(
       transaction,
       REDIRECT_URL,
-      mockProps,
+      widgetProps,
     );
 
     expect(formBag.uischema.elements.length).toBe(3);
     expect(formBag.uischema.elements[0].type).toBe('Description');
     expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName.and.identifier');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.contentParams)
-      .toEqual([appInfo.name, userInfo.identifier]);
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('loading.label');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('Loading...');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('Loading...');
   });
 
   it('should add generic description & redirect elements for DEFAULT Interstitial view '
     + 'when showIdentifier option is true and appInfo does not exist in transaction', () => {
     const userInfo = { identifier: 'testuser@okta.com' };
     transaction.context.user = { type: 'object', value: userInfo };
-    mockProps = {
+    widgetProps = {
       interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT,
       features: { showIdentifier: true },
     };
     const formBag = redirectTransformer(
       transaction,
       REDIRECT_URL,
-      mockProps,
+      widgetProps,
     );
 
     expect(formBag.uischema.elements.length).toBe(3);
     expect(formBag.uischema.elements[0].type).toBe('Description');
     expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.contentParams).toEqual([]);
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('loading.label');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('Loading...');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('Loading...');
   });
 
   it('should add app name to description element for DEFAULT Interstitial view '
     + 'when identifier is missing from transaction', () => {
     const appInfo = { name: 'Okta Dashboard' };
-    transaction.context.app.value = { name: 'Okta Dashboard' };
-    mockProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT };
+    transaction.context.app.value = appInfo;
+    widgetProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT };
     const formBag = redirectTransformer(
       transaction,
       REDIRECT_URL,
-      mockProps,
+      widgetProps,
     );
 
     expect(formBag.uischema.elements.length).toBe(3);
     expect(formBag.uischema.elements[0].type).toBe('Description');
     expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.contentParams)
-      .toEqual([appInfo.name]);
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('Loading...');
     expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText)
-      .toBe('loading.label');
+      .toBe('Loading...');
   });
 });

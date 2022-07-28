@@ -52,10 +52,11 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
   const isSkippable = jest.fn();
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {
@@ -76,11 +77,12 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         ],
       }],
     };
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should not transform elements when IDX Step does not exist in remediations', () => {
-    expect(transformSelectAuthenticatorEnroll(transaction, formBag, mockProps)).toEqual(formBag);
+    expect(transformSelectAuthenticatorEnroll({ transaction, formBag, widgetProps }))
+      .toEqual(formBag);
   });
 
   it('should not transform elements when inputs are missing from step', () => {
@@ -88,13 +90,16 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
     };
 
-    expect(transformSelectAuthenticatorEnroll(transaction, formBag, mockProps)).toEqual(formBag);
+    expect(transformSelectAuthenticatorEnroll({ transaction, formBag, widgetProps }))
+      .toEqual(formBag);
   });
 
   it('should transform authenticator elements when step is skippable', () => {
-    transaction.nextStep.canSkip = isSkippable.mockReturnValue(true)();
+    transaction.nextStep!.canSkip = isSkippable.mockReturnValue(true)();
     transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
-    const updatedFormBag = transformSelectAuthenticatorEnroll(transaction, formBag, mockProps);
+    const updatedFormBag = transformSelectAuthenticatorEnroll({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -103,8 +108,6 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
-      .toBeUndefined();
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.optional');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
@@ -117,7 +120,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
   });
 
   it('should transform authenticator elements when step is not skippable', () => {
-    const updatedFormBag = transformSelectAuthenticatorEnroll(transaction, formBag, mockProps);
+    const updatedFormBag = transformSelectAuthenticatorEnroll({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -126,8 +131,6 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
-      .toBeUndefined();
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.required');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
@@ -136,10 +139,12 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
   });
 
   it('should transform authenticator elements when step is skippable and brandName is provided', () => {
-    mockProps = { brandName: 'Acme Corp.' };
-    transaction.nextStep.canSkip = isSkippable.mockReturnValue(true)();
+    widgetProps = { brandName: 'Acme Corp.' };
+    transaction.nextStep!.canSkip = isSkippable.mockReturnValue(true)();
     transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
-    const updatedFormBag = transformSelectAuthenticatorEnroll(transaction, formBag, mockProps);
+    const updatedFormBag = transformSelectAuthenticatorEnroll({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -148,8 +153,6 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle.custom');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
-      .toEqual(['Acme Corp.']);
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.optional');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');

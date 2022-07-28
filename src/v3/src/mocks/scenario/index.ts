@@ -39,6 +39,7 @@ import './register-with-email-mfa';
 import './resetpassword-email-securityquestion';
 import './resetpassword-email-google-auth-verify';
 import './securityquestion-enroll-mfa';
+import './select-authenticator';
 import './terminal-enduser-email-consent-denied';
 import './terminal-invalid-forgot-password-token';
 import './terminal-invalid-reset-password-token';

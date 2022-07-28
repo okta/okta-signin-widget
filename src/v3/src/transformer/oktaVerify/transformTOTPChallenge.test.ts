@@ -26,10 +26,11 @@ import { transformTOTPChallenge } from './transformTOTPChallenge';
 describe('Transform Okta Verify Totp Challenge Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {
@@ -46,14 +47,14 @@ describe('Transform Okta Verify Totp Challenge Tests', () => {
   });
 
   it('should build UI elements for OV TOTP remediation', () => {
-    const updatedFormBag = transformTOTPChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformTOTPChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.okta_verify.totp.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('oie.okta_verify.totp.enterCodeText');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('credentials.totp');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toBe('mfa.challenge.verify');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).type)

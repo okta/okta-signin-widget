@@ -17,6 +17,7 @@ import {
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
+import { loc } from '../../util';
 
 export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep: { relatesTo } = {} } = transaction;
@@ -25,29 +26,34 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.phone.enroll.title',
+      content: loc('oie.phone.enroll.title', 'login'),
     },
   };
 
+  const phoneNumber = relatesTo?.value?.profile?.phoneNumber;
+  const methodType = relatesTo?.value?.methods?.[0]?.type;
+  const sendInfoText = methodType === 'sms'
+    ? loc('oie.phone.verify.sms.codeSentText', 'login')
+    : loc('mfa.calling', 'login');
+  const phoneInfoText = phoneNumber || loc('oie.phone.alternate.title', 'login');
+  const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
   const informationalTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      content: relatesTo?.value?.methods?.[0]?.type === 'sms'
-        ? 'next.phone.verify.sms.codeSentText'
-        : 'next.phone.verify.voice.calling',
+      content: `${sendInfoText} ${phoneInfoText}. ${enterCodeInfoText}`,
     },
   };
 
   const carrierChargeDisclaimerText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: 'oie.phone.carrier.charges',
+      content: loc('oie.phone.carrier.charges', 'login'),
     },
   };
 
   const submitButton: ButtonElement = {
     type: 'Button',
-    label: 'mfa.challenge.verify',
+    label: loc('mfa.challenge.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

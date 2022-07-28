@@ -133,14 +133,14 @@ describe('Select Authenticator Utility Tests', () => {
               profile: {},
             },
           };
-          if (key === AUTHENTICATOR_KEY.PHONE) {
+          if (AUTHENTICATOR_KEY[key] === AUTHENTICATOR_KEY.PHONE) {
             option.relatesTo.profile = { phoneNumber: mockPhoneNumber };
           }
           return option;
         });
       const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options);
 
-      expect(authenticatorOptionValues.length).toBe(15);
+      expect(authenticatorOptionValues.length).toBe(14);
       options.forEach((option) => {
         const currentOption = authenticatorOptionValues
           .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
@@ -149,8 +149,7 @@ describe('Select Authenticator Utility Tests', () => {
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.verify.authenticator.button.text');
         expect(currentOption?.options.description)
-          .toBe(option.value === AUTHENTICATOR_KEY.PHONE ? mockPhoneNumber : undefined);
-        expect(currentOption?.options.descriptionParams).toBeUndefined();
+          .toBe(option.relatesTo?.key === AUTHENTICATOR_KEY.PHONE ? mockPhoneNumber : undefined);
       });
     });
 
@@ -214,14 +213,14 @@ describe('Select Authenticator Utility Tests', () => {
               profile: {},
             },
           };
-          if (key === AUTHENTICATOR_KEY.PHONE) {
+          if (AUTHENTICATOR_KEY[key] === AUTHENTICATOR_KEY.PHONE) {
             option.relatesTo.profile = { phoneNumber: mockPhoneNumber };
           }
           return option;
         });
       const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options);
 
-      expect(authenticatorOptionValues.length).toBe(15);
+      expect(authenticatorOptionValues.length).toBe(14);
       options.forEach((option) => {
         const currentOption = authenticatorOptionValues
           .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
@@ -230,10 +229,7 @@ describe('Select Authenticator Utility Tests', () => {
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.enroll.authenticator.button.text');
         expect(currentOption?.options.description)
-          .toBe(option.relatesTo?.key === AUTHENTICATOR_KEY.ON_PREM
-            ? 'next.oie.on_prem.authenticator.default.description'
-            : AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[option.relatesTo?.key as string]);
-        expect(currentOption?.options.descriptionParams).toBeUndefined();
+          .toBe(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[option.relatesTo?.key as string]);
       });
     });
 
@@ -259,7 +255,6 @@ describe('Select Authenticator Utility Tests', () => {
         .toBe('oie.enroll.authenticator.button.text');
       expect(authenticatorOptionValues[0].options.description)
         .toBe(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.ON_PREM]);
-      expect(authenticatorOptionValues[0].options.descriptionParams).toEqual([displayName]);
     });
 
     it('should return formatted Okta Verify method type options '

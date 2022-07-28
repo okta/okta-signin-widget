@@ -21,10 +21,11 @@ import { transformIdentityRecovery } from './transformIdentityRecovery';
 describe('Identity Recovery Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {
@@ -36,34 +37,32 @@ describe('Identity Recovery Transformer Tests', () => {
         } as FieldElement],
       },
     };
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should add generic title and update label for forgot password identifier field'
     + ' when no brand name exists', () => {
-    const updatedFormBag = transformIdentityRecovery(transaction, formBag, mockProps);
+    const updatedFormBag = transformIdentityRecovery({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('password.forgot.email.or.username.placeholder');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('identifier');
   });
 
   it('should add branded title and update label for forgot password identifier field'
     + ' when brand name exists', () => {
     const mockBrandName = 'Acme Corp';
-    mockProps = { brandName: mockBrandName };
-    const updatedFormBag = transformIdentityRecovery(transaction, formBag, mockProps);
+    widgetProps = { brandName: mockBrandName };
+    const updatedFormBag = transformIdentityRecovery({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.specific');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.contentParams)
-      .toEqual([mockBrandName]);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('password.forgot.email.or.username.placeholder');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('identifier');
   });
 });

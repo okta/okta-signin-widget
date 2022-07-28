@@ -21,6 +21,7 @@ import {
   SpinnerElement,
   TitleElement,
 } from '../../types';
+import { loc } from '../../util';
 
 export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
   transaction,
@@ -42,7 +43,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
   if (selectedMethod.type === 'push' && correctAnswer) {
     uischema.elements.unshift({
       type: 'Title',
-      options: { content: 'oie.okta_verify.push.sent' },
+      options: { content: loc('oie.okta_verify.push.sent', 'login') },
     } as TitleElement);
 
     const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
@@ -51,7 +52,8 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
       uischema.elements.unshift({
         type: 'Reminder',
         options: {
-          ctaText: 'next.numberchallenge.warning',
+          ctaText: loc('oie.numberchallenge.warning', 'login'),
+          linkLabel: loc('email.button.resend', 'login'),
           // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
           action: (params?: IdxActionParams) => {
             const { stateHandle, ...rest } = params ?? {};
@@ -76,7 +78,9 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
 
     const description: DescriptionElement = {
       type: 'Description',
-      options: { content: 'next.numberchallenge.instruction', contentParams: [correctAnswer] },
+      options: {
+        content: loc('oie.numberchallenge.instruction', 'login', [correctAnswer]),
+      },
     };
 
     uischema.elements.push(description);
@@ -84,31 +88,32 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
     uischema.elements.push({
       type: 'Spinner',
       options: {
-        label: 'loading.label',
-        valueText: 'loading.label',
+        // TODO: OKTA-518793 - replace english string with key once created
+        label: 'Loading...',
+        valueText: 'Loading...',
       },
     } as SpinnerElement);
   } else if (selectedMethod.type === 'push') {
     uischema.elements.unshift({
       type: 'Reminder',
       options: {
-        ctaText: 'oktaverify.warning',
-        excludeLink: true,
+        ctaText: loc('oktaverify.warning', 'login'),
       },
     } as ReminderElement);
     uischema.elements.unshift({
       type: 'Title',
-      options: { content: 'oie.okta_verify.push.title' },
+      options: { content: loc('oie.okta_verify.push.title', 'login') },
     } as TitleElement);
     uischema.elements.push({
       type: 'Description',
-      options: { content: 'oie.okta_verify.push.sent' },
+      options: { content: loc('oie.okta_verify.push.sent', 'login') },
     } as DescriptionElement);
     uischema.elements.push({
       type: 'Spinner',
       options: {
-        label: 'loading.label',
-        valueText: 'loading.label',
+        // TODO: OKTA-518793 - replace english string with key once created
+        label: 'Loading...',
+        valueText: 'Loading...',
       },
     } as SpinnerElement);
   }

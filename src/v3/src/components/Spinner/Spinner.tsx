@@ -13,30 +13,25 @@
 import { Box, CircularProgress } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
-import { useTranslation } from '../../lib/okta-i18n';
-
 const Spinner: FunctionComponent<{
   label?: string;
   valueText?: string;
 }> = ({
   label,
   valueText,
-}) => {
-  const { t } = useTranslation();
-
-  return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <CircularProgress
-        aria-label={t(label || 'loading.label')}
-        aria-valuetext={t(valueText || 'loading.label')}
-      />
-    </Box>
-  );
-};
+}) => (
+  <Box
+    display="flex"
+    flexDirection="column"
+    justifyContent="center"
+    alignItems="center"
+  >
+    <CircularProgress
+      // TODO: OKTA-518793 - replace english string with key once created
+      aria-label={label || 'Loading...'}
+      aria-valuetext={valueText || 'Loading...'}
+    />
+  </Box>
+);
 
 export default Spinner;

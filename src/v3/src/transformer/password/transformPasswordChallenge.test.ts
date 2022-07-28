@@ -25,9 +25,10 @@ import { transformPasswordChallenge } from './transformPasswordChallenge';
 describe('Password Challenge Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -35,11 +36,11 @@ describe('Password Challenge Transformer Tests', () => {
       },
       data: {},
     };
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should add title & submt button elements to ui schema when transforming password challenge step', () => {
-    const updatedFormBag = transformPasswordChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformPasswordChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');

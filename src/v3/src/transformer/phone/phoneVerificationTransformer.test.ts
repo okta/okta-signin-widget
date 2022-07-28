@@ -23,10 +23,11 @@ import { transformPhoneVerification } from '.';
 
 describe('Phone verification Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -49,13 +50,13 @@ describe('Phone verification Transformer Tests', () => {
 
   it('should add correct UI elements to schema when multiple methodType choices exists'
     + ' and sms is the first methodType choice', () => {
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.phone.verify.sms.sendText.withoutPhoneNumber');
+      .toBe('oie.phone.verify.sms.sendText oie.phone.alternate.title');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
     // primary button
@@ -82,13 +83,13 @@ describe('Phone verification Transformer Tests', () => {
         },
       },
     } as FieldElement];
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.phone.verify.call.sendText.withoutPhoneNumber');
+      .toBe('oie.phone.verify.call.sendText oie.phone.alternate.title');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
     // primary button
@@ -115,13 +116,13 @@ describe('Phone verification Transformer Tests', () => {
         },
       },
     } as FieldElement];
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.phone.verify.call.sendText.withoutPhoneNumber');
+      .toBe('oie.phone.verify.call.sendText oie.phone.alternate.title');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
     // primary button
@@ -143,13 +144,13 @@ describe('Phone verification Transformer Tests', () => {
         },
       },
     } as FieldElement];
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.phone.verify.sms.sendText.withoutPhoneNumber');
+      .toBe('oie.phone.verify.sms.sendText oie.phone.alternate.title');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
     // primary button
@@ -162,6 +163,7 @@ describe('Phone verification Transformer Tests', () => {
 
   it('should add correct UI elements to schema when only sms methodType choice exists'
     + ' and redacted phoneNumber exists in Idx response ', () => {
+    const mockPhoneNumber = '+121xxxxx34';
     formBag.uischema.elements = [{
       type: 'Control',
       name: 'authenticator.methodType',
@@ -178,18 +180,18 @@ describe('Phone verification Transformer Tests', () => {
       relatesTo: {
         value: {
           profile: {
-            phoneNumber: '+121xxxxx34',
+            phoneNumber: mockPhoneNumber,
           },
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.phone.verify.sms.sendText.withPhoneNumber');
+      .toBe(`oie.phone.verify.sms.sendText ${mockPhoneNumber}`);
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
     // primary button
@@ -202,6 +204,7 @@ describe('Phone verification Transformer Tests', () => {
 
   it('should add correct UI elements to schema when only voice methodType choice exists'
     + ' and redacted phoneNumber exists in Idx response ', () => {
+    const mockPhoneNumber = '+121xxxxx34';
     formBag.uischema.elements = [{
       type: 'Control',
       name: 'authenticator.methodType',
@@ -218,18 +221,18 @@ describe('Phone verification Transformer Tests', () => {
       relatesTo: {
         value: {
           profile: {
-            phoneNumber: '+121xxxxx34',
+            phoneNumber: mockPhoneNumber,
           },
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
+    const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.phone.verify.call.sendText.withPhoneNumber');
+      .toBe(`oie.phone.verify.call.sendText ${mockPhoneNumber}`);
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
     // primary button

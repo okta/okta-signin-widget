@@ -20,7 +20,7 @@ import {
   SpinnerElement,
   WidgetProps,
 } from '../../types';
-import { getAppInfo, getUserInfo } from '../../util';
+import { getAppInfo, getUserInfo, loc } from '../../util';
 import { createForm } from '../utils';
 
 export const redirectTransformer = (
@@ -46,7 +46,8 @@ export const redirectTransformer = (
   if (interstitialBeforeLoginRedirect === InterstitialRedirectView.DEFAULT) {
     uischema.elements.push({
       type: 'Spinner',
-      options: { label: 'loading.label', valueText: 'loading.label' },
+      // TODO: OKTA-518793 - replace english string with key once created
+      options: { label: 'Loading...', valueText: 'Loading...' },
     } as SpinnerElement);
   }
 
@@ -54,7 +55,7 @@ export const redirectTransformer = (
     || interstitialBeforeLoginRedirect === InterstitialRedirectView.NONE) {
     uischema.elements.unshift({
       type: 'Description',
-      options: { content: 'oie.success.text.signingIn.with.ellipsis' },
+      options: { content: loc('oie.success.text.signingIn.with.ellipsis', 'login') },
     } as DescriptionElement);
     return formBag;
   }
@@ -75,7 +76,7 @@ export const redirectTransformer = (
 
   uischema.elements.unshift({
     type: 'Description',
-    options: { content: titleContent, contentParams },
+    options: { content: loc(titleContent, 'login', [contentParams]) },
   } as DescriptionElement);
 
   return formBag;

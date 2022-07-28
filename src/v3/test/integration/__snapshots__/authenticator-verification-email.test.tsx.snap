@@ -5,6 +5,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -134,6 +135,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -264,7 +266,6 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         </legend>
                       </fieldset>
                     </div>
-                    
                   </div>
                 </div>
                 <div
@@ -306,6 +307,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"

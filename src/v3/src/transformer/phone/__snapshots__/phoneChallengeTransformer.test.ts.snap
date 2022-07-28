@@ -3,16 +3,10 @@
 exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when phone number not available 1`] = `
 Object {
   "data": Object {},
+  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
-      Object {
-        "options": Object {
-          "action": [Function],
-          "ctaText": "oie.phone.verify.sms.resendText",
-        },
-        "type": "Reminder",
-      },
       Object {
         "options": Object {
           "content": "oie.phone.verify.title",
@@ -21,10 +15,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "next.phone.challenge.sms.informationalText",
-          "contentParams": Array [
-            undefined,
-          ],
+          "content": "oie.phone.verify.sms.codeSentText oie.phone.alternate.title. oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
@@ -51,6 +42,7 @@ Object {
 exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when resend code is NOT available 1`] = `
 Object {
   "data": Object {},
+  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -62,10 +54,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "next.phone.challenge.sms.informationalTextWithPhone",
-          "contentParams": Array [
-            "+1 XXX-XXX-4601",
-          ],
+          "content": "oie.phone.verify.sms.codeSentText +1 XXX-XXX-4601. oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
@@ -92,6 +81,7 @@ Object {
 exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when resend code is available 1`] = `
 Object {
   "data": Object {},
+  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -99,6 +89,7 @@ Object {
         "options": Object {
           "action": [Function],
           "ctaText": "oie.phone.verify.sms.resendText",
+          "linkLabel": "email.button.resend",
         },
         "type": "Reminder",
       },
@@ -110,10 +101,85 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "next.phone.challenge.sms.informationalTextWithPhone",
-          "contentParams": Array [
-            "+1 XXX-XXX-4601",
-          ],
+          "content": "oie.phone.verify.sms.codeSentText +1 XXX-XXX-4601. oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "type": "submit",
+        },
+        "scope": "#/properties/submit",
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneChallengeTransformer Tests should create voice challenge UI elements when phoneNumber is available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "mfa.calling +1 XXX-XXX-4601. oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "type": "submit",
+        },
+        "scope": "#/properties/submit",
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneChallengeTransformer Tests should create voice challenge UI elements when phoneNumber not available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },

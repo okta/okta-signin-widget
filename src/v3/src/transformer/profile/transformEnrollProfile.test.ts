@@ -28,9 +28,10 @@ import { transformEnrollProfile } from './transformEnrollProfile';
 describe('Enroll Profile Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -38,12 +39,12 @@ describe('Enroll Profile Transformer Tests', () => {
       },
       data: {},
     };
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should only add title and submit button when select-identify doesnt exist in available steps '
     + 'and passcode element doesnt exist in schema', () => {
-    const updatedFormBag = transformEnrollProfile(transaction, formBag, mockProps);
+    const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -88,7 +89,7 @@ describe('Enroll Profile Transformer Tests', () => {
       value: mockUserInfo,
     };
 
-    const updatedFormBag = transformEnrollProfile(transaction, formBag, mockProps);
+    const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -97,9 +98,11 @@ describe('Enroll Profile Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
       .toBe('password-authenticator--list');
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.header)
+      .toBe('password.complexity.requirements.header');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.userInfo)
       .toEqual(mockUserInfo);
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.data)
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({});
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
       .toEqual('credentials.passcode');
@@ -126,7 +129,7 @@ describe('Enroll Profile Transformer Tests', () => {
       action: jest.fn(),
     }];
 
-    const updatedFormBag = transformEnrollProfile(transaction, formBag, mockProps);
+    const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');

@@ -12,13 +12,14 @@
 
 import { AuthApiError } from '@okta/okta-auth-js';
 
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
   FormBag,
   InfoboxElement,
-  MessageTypeVariant,
   UISchemaElement,
   WidgetProps,
 } from '../../types';
+import { loc } from '../../util';
 import { createForm } from '../utils';
 
 type ErrorTransformer = (widgetProps: WidgetProps, error?: AuthApiError) => FormBag;
@@ -40,8 +41,8 @@ const appendSpecialErrorMessages = (
   elements.push({
     type: 'InfoBox',
     options: {
-      message,
-      class: MessageTypeVariant.ERROR,
+      message: loc(message, 'login'),
+      class: 'ERROR',
     },
   } as InfoboxElement);
 };
@@ -53,8 +54,8 @@ export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) =
     formBag.uischema.elements.push({
       type: 'InfoBox',
       options: {
-        message: 'oform.error.unexpected',
-        class: MessageTypeVariant.ERROR,
+        message: loc('oform.error.unexpected', 'login'),
+        class: 'ERROR',
         contentType: 'string',
       },
     } as InfoboxElement);
@@ -69,9 +70,8 @@ export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) =
       formBag.uischema.elements.push({
         type: 'InfoBox',
         options: {
-          message: message.i18n.key,
-          contentParams: message.i18n.params,
-          class: MessageTypeVariant.ERROR,
+          message: getMessage(message),
+          class: 'ERROR',
           contentType: 'string',
         },
       } as InfoboxElement);

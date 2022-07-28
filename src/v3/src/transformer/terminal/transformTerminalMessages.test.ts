@@ -15,7 +15,7 @@ import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 import { TERMINAL_KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
 import {
-  DescriptionElement, FormBag, InfoboxElement, MessageTypeVariant, UISchemaLayoutType,
+  DescriptionElement, FormBag, InfoboxElement, UISchemaLayoutType,
 } from '../../types';
 import { transformTerminalMessages } from './transformTerminalMessages';
 
@@ -44,6 +44,7 @@ describe('Terminal Message Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -71,7 +72,7 @@ describe('Terminal Message Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message).toBe('oform.error.unexpected');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.class).toBe(MessageTypeVariant.ERROR);
+    ).options?.class).toBe('ERROR');
   });
 
   it('should transform elements when terminal key indicates to return to orig tab', () => {
@@ -106,7 +107,7 @@ describe('Terminal Message Transformer Tests', () => {
     ).options?.message).toBe(mockErrorMessage);
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.class).toBe(MessageTypeVariant.ERROR);
+    ).options?.class).toBe('ERROR');
   });
 
   it('should add info Box element for link expired message key', () => {
@@ -122,10 +123,10 @@ describe('Terminal Message Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.message).toBe(mockErrorMessage);
+    ).options?.message).toBe('idx.return.link.expired');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.class).toBe(MessageTypeVariant.ERROR);
+    ).options?.class).toBe('ERROR');
   });
 
   it('should add Description element with message for'
@@ -161,7 +162,7 @@ describe('Terminal Message Transformer Tests', () => {
     ).options?.message).toBe('idx.operation.cancelled.on.other.device');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.class).toBe(MessageTypeVariant.ERROR);
+    ).options?.class).toBe('ERROR');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content).toBe('oie.consent.enduser.deny.description');
   });
@@ -182,7 +183,7 @@ describe('Terminal Message Transformer Tests', () => {
     ).options?.message).toBe('oie.tooManyRequests');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.class).toBe(MessageTypeVariant.ERROR);
+    ).options?.class).toBe('ERROR');
   });
 
   it('should add Info box element with message for idx.session.expired message key', () => {
@@ -201,7 +202,7 @@ describe('Terminal Message Transformer Tests', () => {
     ).options?.message).toBe(TERMINAL_KEY.SESSION_EXPIRED);
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.class).toBe(MessageTypeVariant.ERROR);
+    ).options?.class).toBe('ERROR');
   });
 
   it('should return custom formBag when message key contains idx.enter.otp.in.original.tab', () => {

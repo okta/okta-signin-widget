@@ -13,26 +13,19 @@
 import {
   IdxStepTransformer,
   TitleElement,
-  UISchemaElement,
 } from '../../types';
-import { getUIElementWithName } from '../utils';
+import { loc } from '../../util';
 
 const getContentTitleAndParams = (brandName?: string): TitleElement['options'] => {
   if (brandName) {
-    return { content: 'password.reset.title.specific', contentParams: [brandName] };
+    return { content: loc('password.reset.title.specific', 'login', [brandName]) };
   }
-  return { content: 'password.reset.title.generic' };
+  return { content: loc('password.reset.title.generic', 'login') };
 };
 
 export const transformIdentityRecovery: IdxStepTransformer = ({ formBag, widgetProps }) => {
   const { brandName } = widgetProps;
   const { uischema } = formBag;
-
-  const identifierElement = getUIElementWithName('identifier', uischema.elements as UISchemaElement[]);
-
-  if (identifierElement) {
-    identifierElement.label = 'password.forgot.email.or.username.placeholder';
-  }
 
   const titleElement: TitleElement = {
     type: 'Title',

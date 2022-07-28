@@ -47,10 +47,11 @@ jest.mock('./utils', () => ({
 
 describe('Unlock Verification Authenticator Selector Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       data: {},
       schema: {},
       uischema: {
@@ -73,7 +74,7 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
   });
 
   it('should not transform elements when IDX Step does not exist in remediations', () => {
-    expect(transformSelectAuthenticatorUnlockVerify(transaction, formBag, mockProps))
+    expect(transformSelectAuthenticatorUnlockVerify({ transaction, formBag, widgetProps }))
       .toEqual(formBag);
   });
 
@@ -82,16 +83,16 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
       name: IDX_STEP.SELECT_AUTHENTICATOR_UNLOCK,
     };
 
-    expect(transformSelectAuthenticatorUnlockVerify(transaction, formBag, mockProps))
+    expect(transformSelectAuthenticatorUnlockVerify({ transaction, formBag, widgetProps }))
       .toEqual(formBag);
   });
 
   it('should add UI elements for unlock verification authenticator selector', () => {
-    const updatedFormBag = transformSelectAuthenticatorUnlockVerify(
+    const updatedFormBag = transformSelectAuthenticatorUnlockVerify({
       transaction,
       formBag,
-      mockProps,
-    );
+      widgetProps,
+    });
 
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');

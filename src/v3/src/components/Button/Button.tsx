@@ -14,7 +14,6 @@ import { Button as ButtonMui } from '@mui/material';
 import { h } from 'preact';
 
 import { useOnSubmit } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
 import {
   ButtonElement,
   ClickHandler,
@@ -26,7 +25,6 @@ const Button: UISchemaElementComponent<{
 }> = ({
   uischema,
 }) => {
-  const { t } = useTranslation();
   const onSubmitHandler = useOnSubmit();
   const {
     label,
@@ -67,7 +65,7 @@ const Button: UISchemaElementComponent<{
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(type !== 'submit' && { onClick })}
     >
-      {typeof label === 'string' ? t(label) : t('oie.registration.form.update.submit')}
+      {label}
     </ButtonMui>
   );
 };

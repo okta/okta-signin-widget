@@ -22,9 +22,10 @@ import { transformEnrollPasswordAuthenticator } from '.';
 describe('Enroll Password Authenticator Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -49,7 +50,7 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
         },
       },
     };
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should add title, password requirements and confirm password elements to UI Schema for enroll PW step', () => {
@@ -63,7 +64,9 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformEnrollPasswordAuthenticator(transaction, formBag, mockProps);
+    const updatedFormBag = transformEnrollPasswordAuthenticator({
+      transaction, formBag, widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(4);
@@ -73,7 +76,9 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1]?.type).toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.data)
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.header)
+      .toBe('password.complexity.requirements.header');
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {} });
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
       .toBe('credentials.passcode');

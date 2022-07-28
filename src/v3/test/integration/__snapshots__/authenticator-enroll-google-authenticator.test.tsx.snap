@@ -5,6 +5,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -114,7 +115,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     tabindex="0"
                     type="button"
                   >
-                    Set up a different way
+                    Can't scan barcode?
                   </button>
                 </div>
                 <div
@@ -167,6 +168,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -294,7 +296,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                         </legend>
                       </fieldset>
                     </div>
-                    
                   </div>
                 </div>
                 <div
@@ -348,6 +349,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -499,6 +501,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -626,7 +629,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                         </legend>
                       </fieldset>
                     </div>
-                    
                   </div>
                 </div>
                 <div

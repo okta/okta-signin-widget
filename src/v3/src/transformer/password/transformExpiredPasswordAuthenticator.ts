@@ -16,13 +16,14 @@ import {
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
+import { loc } from '../../util';
 import { transformEnrollPasswordAuthenticator } from './transformEnrollPasswordAuthenticator';
 
 const getContentTitleAndParams = (brandName?: string): TitleElement['options'] => {
   if (brandName) {
-    return { content: 'password.expired.title.specific', contentParams: [brandName] };
+    return { content: loc('password.expired.title.specific', 'login', [brandName]) };
   }
-  return { content: 'password.expired.title.generic' };
+  return { content: loc('password.expired.title.generic', 'login') };
 };
 
 export const transformExpiredPasswordAuthenticator: IdxStepTransformer = ({
@@ -42,7 +43,7 @@ export const transformExpiredPasswordAuthenticator: IdxStepTransformer = ({
 
   const submitBtnElement: ButtonElement = {
     type: 'Button',
-    label: 'password.expired.submit',
+    label: loc('password.expired.submit', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

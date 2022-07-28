@@ -16,12 +16,11 @@ import { IdxActionParams } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
+import { getMessageFromBrowserError } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
 import {
   ClickHandler,
-  MessageType,
   UISchemaElementComponent,
   WebAuthNButtonElement,
 } from '../../types';
@@ -31,42 +30,31 @@ const WebAuthNSubmit: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const { options } = uischema;
 
-  const { setMessages } = useWidgetContext();
+  const { setMessage } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
-  const { t, i18n } = useTranslation();
   const [waiting, setWaiting] = useState<boolean>(false);
-
-  const waitingIndicatorLabel = t('renderers.waiting.indicator.label');
-  const waitingIndicatorStateLabel = t('renderers.waiting.indicator.state.label');
-
-  const getErrorMessage = (error: Error): string => {
-    const expectedErrorKey = `oie.browser.error.${error.name}`;
-    if (i18n.exists(expectedErrorKey)) {
-      return t(expectedErrorKey);
-    }
-    return error.message;
-  };
 
   const executeNextStep = () => {
     if (options?.showLoadingIndicator) {
       setWaiting(true);
     }
-    setMessages([]);
+    setMessage(undefined);
 
     options?.onClick()
       .then(async (params: IdxActionParams) => {
+        setMessage(undefined);
         onSubmitHandler({
           params,
           includeData: true,
         });
       })
       .catch((error: Error) => {
-        const message = getErrorMessage(error);
-        setMessages([{
+        const message = getMessageFromBrowserError(error);
+        setMessage({
           message,
-          class: MessageType.ERROR,
+          class: 'ERROR',
           i18n: { key: message },
-        }]);
+        });
       })
       .finally(() => setWaiting(false));
   };
@@ -96,8 +84,9 @@ const WebAuthNSubmit: UISchemaElementComponent<{
           ? (
             <CircularLoadIndicator
               id="okta-spinner"
-              aria-label={waitingIndicatorLabel}
-              aria-valuetext={waitingIndicatorStateLabel}
+              // TODO: OKTA-518793 - replace english string with key once created
+              aria-label="Loading..."
+              aria-valuetext="Loading..."
             />
           )
           : (
@@ -108,7 +97,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
               variant="primary"
               wide
             >
-              { t(options?.label) }
+              { options?.label }
             </Button>
           )
       }

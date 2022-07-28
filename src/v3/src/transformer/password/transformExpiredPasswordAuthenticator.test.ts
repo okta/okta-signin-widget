@@ -28,9 +28,10 @@ import { transformExpiredPasswordAuthenticator } from '.';
 describe('Expired Password Authenticator Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
-  let mockProps: WidgetProps;
+  let widgetProps: WidgetProps;
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -55,7 +56,7 @@ describe('Expired Password Authenticator Transformer Tests', () => {
         },
       },
     };
-    mockProps = {};
+    widgetProps = {};
   });
 
   it('should add updated title element and submit button to UI Schema for expired PW step', () => {
@@ -74,7 +75,9 @@ describe('Expired Password Authenticator Transformer Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformExpiredPasswordAuthenticator(transaction, formBag, mockProps);
+    const updatedFormBag = transformExpiredPasswordAuthenticator({
+      transaction, formBag, widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(5);
@@ -84,7 +87,7 @@ describe('Expired Password Authenticator Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1]?.type).toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.userInfo?.identifier).toEqual('someuser@noemail.com');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.data)
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {} });
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
       .toBe('credentials.passcode');
@@ -109,7 +112,7 @@ describe('Expired Password Authenticator Transformer Tests', () => {
   });
 
   it('should add updated title element and submit button to UI Schema for expired PW step with brandName provided', () => {
-    mockProps = { brandName: 'Acme Corp.' };
+    widgetProps = { brandName: 'Acme Corp.' };
     transaction.nextStep = {
       name: IDX_STEP.REENROLL_AUTHENTICATOR,
       relatesTo: {
@@ -125,19 +128,19 @@ describe('Expired Password Authenticator Transformer Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformExpiredPasswordAuthenticator(transaction, formBag, mockProps);
+    const updatedFormBag = transformExpiredPasswordAuthenticator({
+      transaction, formBag, widgetProps,
+    });
 
     // Verify added elements
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.expired.title.specific');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.contentParams)
-      .toEqual(['Acme Corp.']);
     expect(updatedFormBag.uischema.elements[1]?.type).toBe('PasswordRequirements');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.userInfo?.identifier).toBe('someuser@noemail.com');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.data)
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: {} });
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
       .toBe('credentials.passcode');

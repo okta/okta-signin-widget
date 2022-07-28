@@ -23,13 +23,12 @@ import {
   WidgetProps,
 } from 'src/types';
 
-import * as utils from '../utils';
 import { transformEmailChallenge } from '.';
 
 describe('EmailChallengeTransformer Tests', () => {
   const redactedEmail = 'fxxxe@xxx.com';
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {
+  const widgetProps: WidgetProps = {
     authClient: {
       idx: { proceed: jest.fn() },
     } as unknown as OktaAuth,
@@ -37,8 +36,8 @@ describe('EmailChallengeTransformer Tests', () => {
   let formBag: FormBag;
 
   beforeEach(() => {
-    jest.spyOn(utils, 'getCurrentTimestamp').mockReturnValue(123456789);
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -61,7 +60,9 @@ describe('EmailChallengeTransformer Tests', () => {
       },
     };
     transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
-    const updatedFormBag = transformEmailChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformEmailChallenge({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -77,9 +78,7 @@ describe('EmailChallengeTransformer Tests', () => {
 
     expect(layoutOne.elements[2].type).toBe('Description');
     expect((layoutOne.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalTextWithEmail');
-    expect((layoutOne.elements[2] as DescriptionElement).options?.contentParams?.[0])
-      .toBe(redactedEmail);
+      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
 
     const layoutTwo = stepperElements[1];
 
@@ -87,9 +86,7 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(layoutTwo.elements.length).toBe(5);
     expect(layoutTwo.elements[2].type).toBe('Description');
     expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalTextWithEmail');
-    expect((layoutTwo.elements[2] as DescriptionElement).options?.contentParams?.[0])
-      .toBe(redactedEmail);
+      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
 
     expect((layoutTwo.elements[3] as FieldElement).label).toBe('email.enroll.enterCode');
 
@@ -106,7 +103,9 @@ describe('EmailChallengeTransformer Tests', () => {
       },
     };
     transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
-    const updatedFormBag = transformEmailChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformEmailChallenge({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -117,22 +116,19 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(layoutOne.elements.length).toBe(4);
 
     expect((layoutOne.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalText');
-    expect((layoutOne.elements[2] as DescriptionElement).options?.contentParams).toBeUndefined();
+      .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
 
     const layoutTwo = stepperElements[1];
 
     expect(layoutTwo.elements.length).toBe(5);
     expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalText');
-    expect((layoutTwo.elements[2] as DescriptionElement).options?.contentParams)
-      .toBeUndefined();
+      .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
   });
 
   it('should create email challenge UI elements when resend code is NOT available', () => {
+    transaction.availableSteps = [];
     transaction.nextStep = {
       name: 'mock-step',
-      canResend: false,
       relatesTo: {
         value: {
           profile: {
@@ -141,7 +137,9 @@ describe('EmailChallengeTransformer Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    const updatedFormBag = transformEmailChallenge(transaction, formBag, mockProps);
+    const updatedFormBag = transformEmailChallenge({
+      transaction, formBag, widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -157,9 +155,7 @@ describe('EmailChallengeTransformer Tests', () => {
 
     expect(layoutOne.elements[1].type).toBe('Description');
     expect((layoutOne.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalTextWithEmail');
-    expect((layoutOne.elements[1] as DescriptionElement).options?.contentParams?.[0])
-      .toBe(redactedEmail);
+      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
 
     const layoutTwo = stepperElements[1];
 
@@ -167,9 +163,7 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(layoutTwo.elements.length).toBe(4);
     expect(layoutTwo.elements[1].type).toBe('Description');
     expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.email.challenge.informationalTextWithEmail');
-    expect((layoutTwo.elements[1] as DescriptionElement).options?.contentParams?.[0])
-      .toBe(redactedEmail);
+      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
 
     expect((layoutTwo.elements[2] as FieldElement).label).toBe('email.enroll.enterCode');
 

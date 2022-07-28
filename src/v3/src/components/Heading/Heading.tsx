@@ -12,15 +12,13 @@
 
 import { Box, Typography } from '@mui/material';
 import { h } from 'preact';
-import { useTranslation } from 'react-i18next';
-import { HeadingElement, UISchemaElementComponent } from 'src/types';
+
+import { HeadingElement, UISchemaElementComponent } from '../../types';
 
 const Heading: UISchemaElementComponent<{
   uischema: HeadingElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
   const { options } = uischema;
-  const textContent = t(options.content, options.contentParams);
 
   return (
     <Box
@@ -32,7 +30,7 @@ const Heading: UISchemaElementComponent<{
         variant={`h${options?.level ?? 2}`}
         component={`h${options?.visualLevel ?? 3}`}
       >
-        {textContent}
+        {options.content}
       </Typography>
     </Box>
   );

@@ -13,30 +13,24 @@
 import { Box, Typography } from '@mui/material';
 import { h } from 'preact';
 
-import { useTranslation } from '../../lib/okta-i18n';
 import { TitleElement, UISchemaElementComponent } from '../../types';
 
 const Title: UISchemaElementComponent<{
   uischema: TitleElement
 }> = (
   { uischema: { options } },
-) => {
-  const { t } = useTranslation();
-  const textContent = t(options?.content, options?.contentParams);
-
-  return (
-    <Box
-      display="flex"
-      justifyContent="flex-start"
+) => (
+  <Box
+    display="flex"
+    justifyContent="flex-start"
+  >
+    <Typography
+      component="h2"
+      variant="h3"
     >
-      <Typography
-        component="h2"
-        variant="h3"
-      >
-        {textContent}
-      </Typography>
-    </Box>
-  );
-};
+      {options?.content}
+    </Typography>
+  </Box>
+);
 
 export default Title;

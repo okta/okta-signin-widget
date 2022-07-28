@@ -3,6 +3,7 @@
 exports[`EmailChallengeTransformer Tests should create email challenge UI elements when profile email is NOT available 1`] = `
 Object {
   "data": Object {},
+  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -14,6 +15,7 @@ Object {
                 "options": Object {
                   "action": [Function],
                   "ctaText": "email.code.not.received",
+                  "linkLabel": "email.button.resend",
                 },
                 "type": "Reminder",
               },
@@ -25,8 +27,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "next.email.challenge.informationalText",
-                  "contentParams": undefined,
+                  "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
@@ -34,6 +35,7 @@ Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
                 "options": Object {
                   "nextStepIndex": 1,
+                  "type": "button",
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
@@ -47,6 +49,7 @@ Object {
                 "options": Object {
                   "action": [Function],
                   "ctaText": "email.code.not.received",
+                  "linkLabel": "email.button.resend",
                 },
                 "type": "Reminder",
               },
@@ -58,8 +61,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "next.email.challenge.informationalText",
-                  "contentParams": undefined,
+                  "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
@@ -90,6 +92,7 @@ Object {
 exports[`EmailChallengeTransformer Tests should create email challenge UI elements when resend code is NOT available 1`] = `
 Object {
   "data": Object {},
+  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -105,10 +108,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "next.email.challenge.informationalTextWithEmail",
-                  "contentParams": Array [
-                    "fxxxe@xxx.com",
-                  ],
+                  "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
@@ -116,6 +116,7 @@ Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
                 "options": Object {
                   "nextStepIndex": 1,
+                  "type": "button",
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
@@ -133,10 +134,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "next.email.challenge.informationalTextWithEmail",
-                  "contentParams": Array [
-                    "fxxxe@xxx.com",
-                  ],
+                  "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
@@ -167,6 +165,7 @@ Object {
 exports[`EmailChallengeTransformer Tests should create email challenge UI elements when resend code is available 1`] = `
 Object {
   "data": Object {},
+  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -178,6 +177,7 @@ Object {
                 "options": Object {
                   "action": [Function],
                   "ctaText": "email.code.not.received",
+                  "linkLabel": "email.button.resend",
                 },
                 "type": "Reminder",
               },
@@ -189,10 +189,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "next.email.challenge.informationalTextWithEmail",
-                  "contentParams": Array [
-                    "fxxxe@xxx.com",
-                  ],
+                  "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },
@@ -200,6 +197,7 @@ Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
                 "options": Object {
                   "nextStepIndex": 1,
+                  "type": "button",
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
@@ -213,6 +211,7 @@ Object {
                 "options": Object {
                   "action": [Function],
                   "ctaText": "email.code.not.received",
+                  "linkLabel": "email.button.resend",
                 },
                 "type": "Reminder",
               },
@@ -224,10 +223,7 @@ Object {
               },
               Object {
                 "options": Object {
-                  "content": "next.email.challenge.informationalTextWithEmail",
-                  "contentParams": Array [
-                    "fxxxe@xxx.com",
-                  ],
+                  "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
               },

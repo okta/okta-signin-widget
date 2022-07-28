@@ -22,7 +22,7 @@ import { transformOktaVerifyChallengePoll } from './transformOktaVerifyChallenge
 describe('Transform Okta Verify Challenge Poll Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let formBag: FormBag;
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
 
   beforeEach(() => {
     transaction.nextStep = {
@@ -34,6 +34,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       },
     };
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -52,7 +53,8 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    expect(transformOktaVerifyChallengePoll(transaction, formBag, mockProps)).toEqual(formBag);
+    expect(transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps }))
+      .toEqual(formBag);
   });
 
   it('should not update formBag when selected authenticator method is unrecognized', () => {
@@ -64,11 +66,12 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
         } as IdxAuthenticator,
       },
     };
-    expect(transformOktaVerifyChallengePoll(transaction, formBag, mockProps)).toEqual(formBag);
+    expect(transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps }))
+      .toEqual(formBag);
   });
 
   it('should transform elements when method type is standard push only', () => {
-    const updatedFormBag = transformOktaVerifyChallengePoll(transaction, formBag, mockProps);
+    const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -77,8 +80,8 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('Reminder');
     expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.ctaText)
       .toBe('oktaverify.warning');
-    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.excludeLink)
-      .toBe(true);
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.linkLabel)
+      .toBeUndefined();
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.okta_verify.push.sent');
@@ -102,20 +105,20 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformOktaVerifyChallengePoll(transaction, formBag, mockProps);
+    const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Reminder');
     expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.ctaText)
-      .toBe('next.numberchallenge.warning');
+      .toBe('oie.numberchallenge.warning');
+    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.linkLabel)
+      .toBe('email.button.resend');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[1] as TitleElement).options?.content)
       .toBe('oie.okta_verify.push.sent');
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
-      .toBe('next.numberchallenge.instruction');
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.contentParams)
-      .toEqual([correctAnswer]);
+      .toBe('oie.numberchallenge.instruction');
     expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).type)
       .toBe('ImageWithText');
     expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).options?.textContent)
@@ -127,6 +130,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
 
   it('should transform elements when method type is push and '
     + 'has enhanced security when resend is unavailable', () => {
+    transaction.availableSteps = [];
     const correctAnswer = '42';
     transaction.nextStep = {
       ...transaction.nextStep,
@@ -140,7 +144,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformOktaVerifyChallengePoll(transaction, formBag, mockProps);
+    const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -148,9 +152,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       .toBe('oie.okta_verify.push.sent');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('next.numberchallenge.instruction');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
-      .toEqual([correctAnswer]);
+      .toBe('oie.numberchallenge.instruction');
     expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).type)
       .toBe('ImageWithText');
     expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options?.textContent)

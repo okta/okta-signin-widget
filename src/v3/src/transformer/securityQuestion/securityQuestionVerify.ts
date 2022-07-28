@@ -19,6 +19,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
+import { loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transaction, formBag }) => {
@@ -37,14 +38,14 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.security.question.challenge.title',
+      content: loc('oie.security.question.challenge.title', 'login'),
     },
   };
   uischema.elements.unshift(titleElement);
 
   const primaryButton: ButtonElement = {
     type: 'Button',
-    label: 'oform.verify',
+    label: loc('oform.verify', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,

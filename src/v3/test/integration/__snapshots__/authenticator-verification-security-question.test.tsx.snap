@@ -5,6 +5,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -142,7 +143,6 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                       </fieldset>
                     </div>
                   </div>
-                  
                 </div>
               </div>
               <div

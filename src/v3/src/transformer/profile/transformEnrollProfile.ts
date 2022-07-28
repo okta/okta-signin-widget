@@ -21,7 +21,8 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getUserInfo } from '../../util';
+import { getUserInfo, loc } from '../../util';
+import { buildPasswordRequirementListItems } from '../password';
 import { getUIElementWithName } from '../utils';
 
 export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBag }) => {
@@ -41,12 +42,15 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
         autocomplete: 'new-password',
       },
     };
+    const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordRequirementsData;
     const passwordRequirementsElement: PasswordRequirementsElement = {
       type: 'PasswordRequirements',
       options: {
         id: 'password-authenticator--list',
+        header: loc('password.complexity.requirements.header', 'login'),
         userInfo: getUserInfo(transaction),
-        data: (relatesTo?.value?.settings || {}) as PasswordRequirementsData,
+        settings: passwordSettings,
+        requirements: buildPasswordRequirementListItems(passwordSettings),
         fieldKey: 'credentials.passcode',
         validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
       },
@@ -56,12 +60,12 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
 
   const titleElement: TitleElement = {
     type: 'Title',
-    options: { content: 'oie.registration.form.title' },
+    options: { content: loc('oie.registration.form.title', 'login') },
   };
 
   const submitBtnElement: ButtonElement = {
     type: 'Button',
-    label: 'oie.registration.form.submit',
+    label: loc('oie.registration.form.submit', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
@@ -77,7 +81,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     const { name: step } = selectIdentifyStep;
     uischema.elements.push({
       type: 'Button',
-      label: 'haveaccount',
+      label: loc('haveaccount', 'login'),
       options: {
         type: ButtonType.BUTTON,
         variant: 'floating',

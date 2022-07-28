@@ -5,6 +5,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
   <span>
     <main
       class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
+      id="okta-sign-in"
     >
       <div
         class="siwContainer MuiBox-root emotion-1"
@@ -89,6 +90,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                     <input
                       class="PrivateSwitchBase-input emotion-16"
                       data-se="authenticator.autoChallenge"
+                      data-se-for-name="authenticator.autoChallenge"
                       id="authenticator.autoChallenge"
                       name="authenticator.autoChallenge"
                       type="checkbox"

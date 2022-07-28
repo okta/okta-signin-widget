@@ -14,13 +14,11 @@ import { Button } from '@mui/material';
 import { h } from 'preact';
 
 import { useStepperContext } from '../../contexts';
-import { useTranslation } from '../../lib/okta-i18n';
 import { StepperButtonElement, UISchemaElementComponent } from '../../types';
 
 const StepperButton: UISchemaElementComponent<{
   uischema: StepperButtonElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
   const { setStepIndex } = useStepperContext();
   const {
     label,
@@ -41,7 +39,7 @@ const StepperButton: UISchemaElementComponent<{
       type="button"
       fullWidth
     >
-      {t(label as string)}
+      {label}
     </Button>
   );
 };

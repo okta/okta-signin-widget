@@ -93,7 +93,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-unlock-account.authenticator.okta_email': 'oie.email.label',
   'select-authenticator-unlock-account.authenticator.phone_number': 'oie.phone.label',
   'select-authenticator-unlock-account.authenticator.okta_verify.push': 'oie.okta_verify.push.title',
-  
+
   'authenticator-verification-data.okta_verify.authenticator.methodType.signed_nonce':
     'oie.okta_verify.signed_nonce.label',
   'authenticator-verification-data.okta_verify.authenticator.methodType.push': 'oie.okta_verify.push.title',
@@ -144,7 +144,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'reenroll-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
   'reenroll-authenticator-warning.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
   'incorrectPassword': 'oie.password.incorrect.message',
-  
+
   'profile-update.userProfile.secondEmail': 'oie.user.profile.secondary.email',
 
   'user-code.userCode': 'device.code.activate.label',
@@ -174,7 +174,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-poll.okta_verify.autoChallenge': 'autoPush', // authenticator-verification-okta-verify-push-autoChallenge-on
   'authenticator-verification-data.authenticator.autoChallenge': 'autoPush', // authenticator-verification-data-okta-verify-push-autoChallenge-off.json
   'authenticator-verification-data.okta_verify.authenticator.autoChallenge': 'autoPush',
-  
+
   // Existing overrides
   ...I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS, //enroll-profile strings
 };
@@ -265,7 +265,7 @@ const getI18nKey = (i18nPath) => {
   let i18nKey;
   // Extract security question value from i18nPath
   SECURITY_QUESTION_PREFIXES.forEach(prefix => {
-    if (i18nPath.indexOf(prefix) === 0 ) {
+    if (i18nPath.indexOf(prefix) === 0) {
       const securityQuestionValue = i18nPath.replace(prefix, '');
       i18nKey = `security.${securityQuestionValue}`;
     }
@@ -374,7 +374,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
 
 };
 
-const isWebAuthnAPIError = ( i18nKey ) => i18nKey.startsWith(WEBAUTHN_API_GENERIC_ERROR_KEY);
+const isWebAuthnAPIError = (i18nKey) => i18nKey.startsWith(WEBAUTHN_API_GENERIC_ERROR_KEY);
 
 /**
  * @typedef {Object} Message
@@ -494,6 +494,7 @@ export {
   getMessage,
   getMessageKey,
   getI18NParams,
+  getI18NValue,
   doesI18NKeyExist,
   isCustomizedI18nKey,
   getMessageFromBrowserError

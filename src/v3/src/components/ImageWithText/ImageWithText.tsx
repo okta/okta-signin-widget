@@ -16,14 +16,12 @@ import { withTheme } from '@okta/odyssey-react-theme';
 import { h } from 'preact';
 import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
 
-import { useTranslation } from '../../lib/okta-i18n';
 import { theme } from './ImageWithText.theme';
 import style from './style.module.css';
 
 const ImageWithText: UISchemaElementComponent<{
   uischema: ImageWithTextElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
   const Icon = uischema.options.SVGIcon;
 
   return (
@@ -38,7 +36,7 @@ const ImageWithText: UISchemaElementComponent<{
         <Icon />
       </Box>
       <Box>
-        <Text as="span">{t(uischema.options.textContent, uischema.options.contentParams)}</Text>
+        <Text as="span">{uischema.options.textContent}</Text>
       </Box>
     </Box>
   );

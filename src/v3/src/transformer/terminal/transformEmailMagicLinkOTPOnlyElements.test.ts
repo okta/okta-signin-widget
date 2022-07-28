@@ -12,7 +12,6 @@
 
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 
-import { CHALLENGE_INTENT_TO_I18KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
 import {
   DescriptionElement, FormBag, HeadingElement, ImageWithTextElement, UISchemaLayoutType,
@@ -27,6 +26,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      dataSchema: {},
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
@@ -80,9 +80,6 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('idx.enter.otp.in.original.tab');
-    expect((
-      updatedFormBag.uischema.elements[0] as DescriptionElement
-    ).options?.contentParams).toBeUndefined();
     expect(updatedFormBag.uischema.elements[1].type).toBe('Heading');
     expect((updatedFormBag.uischema.elements[1] as HeadingElement).options?.level).toBe(3);
     expect((updatedFormBag.uischema.elements[1] as HeadingElement).options?.visualLevel).toBe(3);
@@ -111,9 +108,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe(CHALLENGE_INTENT_TO_I18KEY.AUTHENTICATION);
-    expect(el1.options?.contentParams)
-      .toBeUndefined();
+      .toBe('idx.return.link.otponly.enter.code.on.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -124,7 +119,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
   });
 
   it('should add sign up instructions (with enroll intent), otp and warning text'
-    + ' when client & app dataare missing from context', () => {
+    + ' when client & app data are missing from context', () => {
     transaction.context = {
       currentAuthenticator: {
         // @ts-ignore TODO: OKTA-504299 otp missing from contextualData interface
@@ -142,9 +137,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe(CHALLENGE_INTENT_TO_I18KEY.ENROLLMENT);
-    expect(el1.options?.contentParams)
-      .toBeUndefined();
+      .toBe('idx.return.link.otponly.enter.code.on.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -173,9 +166,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(updatedFormBag.uischema.elements[0].type).toBe('Description');
     expect(el1.options?.content)
-      .toBe(CHALLENGE_INTENT_TO_I18KEY.RECOVERY);
-    expect(el1.options?.contentParams)
-      .toBeUndefined();
+      .toBe('idx.return.link.otponly.enter.code.on.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -204,9 +195,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe(CHALLENGE_INTENT_TO_I18KEY.UNLOCK_ACCOUNT);
-    expect(el1.options?.contentParams)
-      .toBeUndefined();
+      .toBe('idx.return.link.otponly.enter.code.on.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -243,9 +232,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe(CHALLENGE_INTENT_TO_I18KEY.AUTHENTICATION);
-    expect(el1.options?.contentParams)
-      .toBeUndefined();
+      .toBe('idx.return.link.otponly.enter.code.on.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -255,7 +242,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
       .toBe('idx.return.link.otponly.request');
     expect(el4.type).toBe('ImageWithText');
     expect(el4.options?.textContent)
-      .toBe(mockAppName);
+      .toBe('idx.return.link.otponly.app');
     expect(el4.options?.SVGIcon).not.toBeUndefined();
     expect(el5.type).toBe('Description');
     expect(el5.options?.content)
@@ -297,9 +284,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe(CHALLENGE_INTENT_TO_I18KEY.AUTHENTICATION);
-    expect(el1.options?.contentParams)
-      .toBeUndefined();
+      .toBe('idx.return.link.otponly.enter.code.on.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -310,12 +295,10 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     expect(el4.type).toBe('ImageWithText');
     expect(el4.options?.textContent)
       .toBe('idx.return.link.otponly.browser.on.os');
-    expect(el4.options?.contentParams)
-      .toEqual(['FIREFOX', 'iOS']);
     expect(el4.options?.SVGIcon).not.toBeUndefined();
     expect(el5.type).toBe('ImageWithText');
     expect(el5.options?.textContent)
-      .toBe(mockAppName);
+      .toBe('idx.return.link.otponly.app');
     expect(el5.options?.SVGIcon).not.toBeUndefined();
     expect(el6.type).toBe('Description');
     expect(el6.options?.content)
@@ -367,9 +350,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe(CHALLENGE_INTENT_TO_I18KEY.AUTHENTICATION);
-    expect(el1.options?.contentParams)
-      .toBeUndefined();
+      .toBe('idx.return.link.otponly.enter.code.on.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -380,18 +361,14 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     expect(el4.type).toBe('ImageWithText');
     expect(el4.options?.textContent)
       .toBe('idx.return.link.otponly.browser.on.os');
-    expect(el4.options?.contentParams)
-      .toEqual(['FIREFOX', 'iOS']);
     expect(el4.options?.SVGIcon).not.toBeUndefined();
     expect(el5.type).toBe('ImageWithText');
     expect(el5.options?.textContent)
-      .toBe(mockAppName);
+      .toBe('idx.return.link.otponly.app');
     expect(el5.options?.SVGIcon).not.toBeUndefined();
     expect(el6.type).toBe('ImageWithText');
     expect(el6.options?.textContent)
       .toBe('geolocation.formatting.partial');
-    expect(el6.options?.contentParams)
-      .toEqual(['Toronto', 'Canada']);
     expect(el6.options?.SVGIcon).not.toBeUndefined();
     expect(el7.type).toBe('Description');
     expect(el7.options?.content)
@@ -416,9 +393,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe(CHALLENGE_INTENT_TO_I18KEY.AUTHENTICATION);
-    expect(el1.options?.contentParams)
-      .toBeUndefined();
+      .toBe('idx.return.link.otponly.enter.code.on.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -429,18 +404,14 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     expect(el4.type).toBe('ImageWithText');
     expect(el4.options?.textContent)
       .toBe('idx.return.link.otponly.browser.on.os');
-    expect(el4.options?.contentParams)
-      .toEqual(['FIREFOX', 'iOS']);
     expect(el4.options?.SVGIcon).not.toBeUndefined();
     expect(el5.type).toBe('ImageWithText');
     expect(el5.options?.textContent)
-      .toBe(mockAppName);
+      .toBe('idx.return.link.otponly.app');
     expect(el5.options?.SVGIcon).not.toBeUndefined();
     expect(el6.type).toBe('ImageWithText');
     expect(el6.options?.textContent)
       .toBe('geolocation.formatting.all');
-    expect(el6.options?.contentParams)
-      .toEqual(['Toronto', 'Ontario', 'Canada']);
     expect(el6.options?.SVGIcon).not.toBeUndefined();
     expect(el7.type).toBe('Description');
     expect(el7.options?.content)

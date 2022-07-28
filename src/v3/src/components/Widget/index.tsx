@@ -29,6 +29,7 @@ import {
   useState,
 } from 'preact/hooks';
 
+import Bundles from '../../../../util/Bundles';
 import { WidgetContextProvider } from '../../contexts';
 import { usePolling } from '../../hooks';
 import transformTransaction from '../../transformer/authJs';
@@ -40,7 +41,13 @@ import {
   UISchemaLayout,
   WidgetProps,
 } from '../../types';
-import { buildAuthCoinProps, isAndroidOrIOS, isAuthClientSet } from '../../util';
+import {
+  buildAuthCoinProps,
+  getLanguageCode,
+  isAndroidOrIOS,
+  isAuthClientSet,
+  loadLanguage,
+} from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { mapThemeFromBrand } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
@@ -68,13 +75,24 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   } = widgetProps;
 
   const [data, setData] = useState({});
-  const [messages, setMessages] = useState<IdxMessage[]>([]);
+  const [message, setMessage] = useState<IdxMessage | undefined>();
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
   const [authApiError, setAuthApiError] = useState<AuthApiError>();
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
+
+  useEffect(() => {
+    // If we need to load a language (or apply custom i18n overrides), do
+    // this now and re-run render after it's finished.
+    if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
+      (async () => {
+        await loadLanguage(widgetProps);
+      })();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
@@ -206,17 +224,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
     // for multiple error messages
     newMessages?.forEach((newMessage) => {
-      const { class: type, message } = newMessage;
+      const { class: type, message: msg } = newMessage;
       if (type === MessageType.ERROR) {
         // error event
         events?.afterError?.({
           stepName: idxTransaction?.nextStep?.name,
-        }, { message });
+        }, { message: msg });
       }
     });
-
-    // set form level messages
-    setMessages(newMessages);
 
     // clear idxTransaction to start loading state
     if (status === IdxStatus.CANCELED) {
@@ -224,7 +239,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       bootstrap();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idxTransaction, setMessages, bootstrap]);
+  }, [idxTransaction, bootstrap]);
 
   // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
   odysseyTheme.shape.borderRadius = 4;
@@ -238,7 +253,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setIdxTransaction,
       stepToRender,
       setStepToRender,
-      setMessages,
+      setMessage,
       data,
       setData,
       dataSchemaRef,
@@ -256,7 +271,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             />
             <AuthContent>
               <IdentifierContainer />
-              <InfoSection messages={messages} />
+              <InfoSection message={message} />
               {
                 formBag.uischema.elements.length > 0
                   ? <Form uischema={formBag.uischema as UISchemaLayout} />

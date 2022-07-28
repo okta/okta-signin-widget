@@ -21,7 +21,7 @@ import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { FunctionComponent } from 'preact';
 
 import { ClickHandler } from './handlers';
-import { PasswordSettings } from './password';
+import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
 
 export type FormBag = {
@@ -132,6 +132,7 @@ export interface FieldElement extends UISchemaElement {
     type?: string;
     customOptions?: IdxOption[],
     targetKey?: string;
+    translations?: TranslationInfo[];
   };
 }
 
@@ -169,7 +170,6 @@ export interface AuthenticatorButtonElement {
     key: string;
     ctaLabel: string;
     description?: string;
-    descriptionParams?: string[];
   };
 }
 
@@ -188,7 +188,6 @@ export interface TitleElement extends UISchemaElement {
   type: 'Title';
   options: {
     content: string;
-    contentParams?: string[];
   };
 }
 
@@ -198,7 +197,6 @@ export interface HeadingElement extends UISchemaElement {
     level: 1 | 2 | 3 | 4 | 5 | 6;
     visualLevel: 1 | 2 | 3 | 4 | 5 | 6;
     content: string;
-    contentParams?: string[];
   };
 }
 
@@ -206,7 +204,6 @@ export interface DescriptionElement extends UISchemaElement {
   type: 'Description';
   options: {
     content: string;
-    contentParams?: string[];
   };
 }
 
@@ -217,13 +214,11 @@ export interface ReminderElement extends UISchemaElement {
      * The call to action text in the reminder content area
      */
     ctaText: string;
-    ctaTextParams?: string[];
     /**
      * Override the default timeout before reminder appears
      */
     timeout?: number;
-    // Used to exclude the action section of the InfoBox
-    excludeLink?: boolean;
+    linkLabel?: string;
     action?: NextStep['action'];
   };
 }
@@ -241,8 +236,10 @@ export interface PasswordRequirementsElement extends UISchemaElement {
   type: 'PasswordRequirements',
   options: {
     id: string;
+    header: string;
     userInfo: UserInfo;
-    data: PasswordSettings;
+    settings: PasswordSettings;
+    requirements: ListItem[];
     fieldKey: string;
     validationDelayMs: number;
   }
@@ -253,6 +250,7 @@ export interface LinkElement extends UISchemaElement {
   options: ActionOptions & {
     label: string;
     href?: string;
+    dataSe?: string;
   };
 }
 
@@ -262,7 +260,6 @@ export interface ImageWithTextElement extends UISchemaElement {
     id: string;
     SVGIcon: FunctionComponent;
     textContent: string;
-    contentParams?: string[];
   };
 }
 
@@ -287,7 +284,6 @@ export interface InfoboxElement extends UISchemaElement {
     message: string;
     class: string;
     contentType: string;
-    contentParams?: string[];
     title?: string;
   }
 }
@@ -341,4 +337,10 @@ type ValidateFunction = (data: FormBag['data']) => Partial<IdxMessage> | undefin
 
 export interface DataSchema {
   validate?: ValidateFunction;
+}
+
+export interface TranslationInfo {
+  name: string;
+  i18nKey: string;
+  value: string;
 }

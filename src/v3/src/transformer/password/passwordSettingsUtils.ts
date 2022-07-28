@@ -16,14 +16,10 @@ import {
   ComplexityKeys,
   ComplexityRequirements,
   GetAgeFromMinutes,
+  ListItem,
   PasswordSettings,
 } from '../../types';
-
-interface ListItem {
-  ruleKey: string;
-  label: string;
-  value?: string;
-}
+import { loc } from '../../util';
 
 export const getAgeFromMinutes = (minutes: number): GetAgeFromMinutes => {
   const hours = minutes / 60;
@@ -37,7 +33,7 @@ export const getAgeFromMinutes = (minutes: number): GetAgeFromMinutes => {
   return { unitLabel: PASSWORD_REQUIREMENTS_KEYS.age.minAgeDays, value: Math.ceil(days) };
 };
 
-export const getComplexityItems = (complexity: ComplexityRequirements): ListItem[] => {
+export const getComplexityItems = (complexity?: ComplexityRequirements): ListItem[] => {
   const items: ListItem[] = [];
 
   if (!complexity) {
@@ -49,23 +45,25 @@ export const getComplexityItems = (complexity: ComplexityRequirements): ListItem
       if (value.includes('firstName')) {
         items.push({
           ruleKey: 'firstName',
-          label: PASSWORD_REQUIREMENTS_KEYS.complexity.excludeFirstName,
+          label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity.excludeFirstName, 'login'),
         });
       }
       if (value.includes('lastName')) {
         items.push({
           ruleKey: 'lastName',
-          label: PASSWORD_REQUIREMENTS_KEYS.complexity.excludeLastName,
+          label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity.excludeLastName, 'login'),
         });
       }
+    } else if (key === 'minLength' && value > 0) {
+      items.push({
+        ruleKey: key,
+        label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity[key as ComplexityKeys], 'login', [value]),
+      });
     } else if (value > 0 || value === true) {
       const item: ListItem = {
         ruleKey: key,
-        label: PASSWORD_REQUIREMENTS_KEYS.complexity[key as ComplexityKeys],
+        label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity[key as ComplexityKeys], 'login'),
       };
-      if (key === 'minLength') {
-        item.value = `${value}`;
-      }
       items.push(item);
     }
   });
@@ -83,8 +81,7 @@ export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
   if (age.historyCount > 0) {
     items.push({
       ruleKey: 'historyCount',
-      label: PASSWORD_REQUIREMENTS_KEYS.age.historyCount,
-      value: `${age.historyCount}`,
+      label: loc(PASSWORD_REQUIREMENTS_KEYS.age.historyCount, 'login', [age.historyCount]),
     });
   }
 
@@ -93,8 +90,7 @@ export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
 
     items.push({
       ruleKey: 'minAgeMinutes',
-      label: unitLabel,
-      value: `${value}`,
+      label: loc(unitLabel, 'login', [value]),
     });
   }
 
@@ -102,7 +98,7 @@ export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
 };
 
 export const buildPasswordRequirementListItems = (data: PasswordSettings): ListItem[] => {
-  const complexityItems = getComplexityItems(data.complexity!);
+  const complexityItems = getComplexityItems(data.complexity);
   const ageItems = getAgeItems(data.age);
   return [...complexityItems, ...ageItems];
 };

@@ -25,7 +25,7 @@ import { transformWebAuthNAuthenticator } from '.';
 
 describe('WebAuthN Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   let mockCredentialsContainer: CredentialsContainer;
 
@@ -36,6 +36,7 @@ describe('WebAuthN Transformer Tests', () => {
   describe('WebAuthN Enroll Tests', () => {
     beforeEach(() => {
       formBag = {
+        dataSchema: {},
         schema: {},
         uischema: {
           type: UISchemaLayoutType.VERTICAL,
@@ -54,7 +55,7 @@ describe('WebAuthN Transformer Tests', () => {
       navigatorCredentials.mockReturnValue(
         { credentials: {} } as unknown as Navigator,
       );
-      const updatedFormBag = transformWebAuthNAuthenticator(transaction, formBag, mockProps);
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
       expect(updatedFormBag.uischema.elements.length).toBe(2);
@@ -82,7 +83,7 @@ describe('WebAuthN Transformer Tests', () => {
         { credentials: mockCredentialsContainer } as unknown as Navigator,
       );
 
-      const updatedFormBag = transformWebAuthNAuthenticator(transaction, formBag, mockProps);
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
       expect(updatedFormBag.uischema.elements.length).toBe(3);
@@ -107,6 +108,7 @@ describe('WebAuthN Transformer Tests', () => {
   describe('WebAuthN Challenge Tests', () => {
     beforeEach(() => {
       formBag = {
+        dataSchema: {},
         schema: {},
         uischema: {
           type: UISchemaLayoutType.VERTICAL,
@@ -124,7 +126,7 @@ describe('WebAuthN Transformer Tests', () => {
       navigatorCredentials.mockReturnValue(
         { credentials: {} } as unknown as Navigator,
       );
-      const updatedFormBag = transformWebAuthNAuthenticator(transaction, formBag, mockProps);
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
       expect(updatedFormBag.uischema.elements.length).toBe(2);
@@ -151,7 +153,7 @@ describe('WebAuthN Transformer Tests', () => {
       navigatorCredentials.mockReturnValue(
         { credentials: mockCredentialsContainer } as unknown as Navigator,
       );
-      const updatedFormBag = transformWebAuthNAuthenticator(transaction, formBag, mockProps);
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
       expect(updatedFormBag.uischema.elements.length).toBe(3);
