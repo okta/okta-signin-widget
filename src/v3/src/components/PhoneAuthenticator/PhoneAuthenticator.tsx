@@ -19,7 +19,7 @@ import { useEffect, useState } from 'preact/hooks';
 import CountryUtil from '../../../../util/CountryUtil';
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
-import { useOnChange, useOnValidate } from '../../hooks';
+import { useOnChange, useFieldValidation } from '../../hooks';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
 import { getTranslation } from '../../util';
 import { getLabelName } from '../helpers';
@@ -51,7 +51,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   const [extension, setExtension] = useState<string>('');
   const targetValue = get(data, targetKey);
   const showExtension = targetValue === 'voice';
-  const onValidateHandler = useOnValidate(uischema);
+  const onValidateHandler = useFieldValidation(uischema);
   const onChangeHandler = useOnChange(uischema);
 
   const formatPhone = (

@@ -16,7 +16,7 @@ import { getMessage } from '../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../contexts';
 import { FieldElement } from '../types';
 
-export const useOnValidate = (uischema: FieldElement) => {
+export const useFieldValidation = (uischema: FieldElement) => {
   const { name } = uischema.options.inputMeta;
   const { dataSchemaRef, data } = useWidgetContext();
 

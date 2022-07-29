@@ -55,7 +55,7 @@ const PasswordRequirements: UISchemaElementComponent<{
     ruleKey: string,
     passwordValidation: PasswordValidation,
   ): PasswordRequirementStatus | undefined => {
-    if (!passwordValidation) {
+    if (!Object.keys(passwordValidation).length) {
       return undefined;
     }
 

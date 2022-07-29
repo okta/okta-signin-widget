@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+export * from './useFieldValidation';
 export * from './useOnChange';
 export * from './useOnSubmit';
-export * from './useOnValidate';
 export * from './usePolling';
 export * from './useValue';

@@ -85,20 +85,7 @@ describe('authenticator-expired-password', () => {
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
-      {
-        data: JSON.stringify({
-          credentials: {
-            passcode: password,
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      expect.anything(),
     );
   });
 
@@ -118,20 +105,7 @@ describe('authenticator-expired-password', () => {
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
-      {
-        data: JSON.stringify({
-          credentials: {
-            passcode: '',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      expect.anything(),
     );
   });
 });

@@ -16,7 +16,7 @@ import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
-import { useOnChange, useOnValidate, useValue } from '../../hooks';
+import { useOnChange, useFieldValidation, useValue } from '../../hooks';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
 import { getLabelName } from '../helpers';
 
@@ -27,7 +27,7 @@ const InputPassword: UISchemaElementComponent<{
   const [fieldError, setFieldError] = useState<string | undefined>();
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const onValidateHandler = useOnValidate(uischema);
+  const onValidateHandler = useFieldValidation(uischema);
   const { label } = uischema;
   const {
     attributes,

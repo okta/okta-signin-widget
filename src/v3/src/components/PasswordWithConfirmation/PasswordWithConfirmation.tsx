@@ -67,15 +67,29 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
       validate: (data: FormBag['data']) => {
         const newPw = data[input.name];
         const comparisonPw = (confirmPw ?? confirmPassword);
+        // if new password field is missing value, return error and
+        // display at new password field level
         if (!newPw) {
           setIsTouched(true);
           return { i18n: { key: 'model.validation.field.blank' } };
         }
 
         if (comparisonPw !== newPw) {
+          // if new password and confirm password values do not match
+          // mark the confirm password field as touched (to trigger field level error)
           setIsTouched(true);
-          // Do not display error on new password field when confirm is missing
-          // but do not allow submission
+
+          /**
+           * The handleSubmit function (in Form.tsx) will only prevent submission
+           * if there is a Message object returned from the validate function
+           *
+           * In this scenario, when the new password and confirm password fields do not match
+           * we need to return an empty message key to prevent submission
+           *
+           * This component handles the display of the error on the confirm password field
+           * At this point, we know the new password has fulfilled its requirement
+           * so we cant display an error message on that field
+           */
           return { i18n: { key: '' } };
         }
 

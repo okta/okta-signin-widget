@@ -186,8 +186,7 @@ describe('Terminal Message Transformer Tests', () => {
     ).options?.class).toBe('ERROR');
   });
 
-  // TODO: Update test descr
-  it('should not add Info box element for idx.session.expired message key', () => {
+  it('should add error Info box element for idx.session.expired message key', () => {
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
