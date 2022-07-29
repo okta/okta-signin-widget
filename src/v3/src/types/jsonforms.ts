@@ -13,7 +13,6 @@
 import {
   IdxTransaction,
   Input,
-  NextStep,
 } from '@okta/okta-auth-js';
 import { FunctionComponent, h } from 'preact';
 
@@ -66,7 +65,6 @@ export interface WithDefaultValue<T = unknown> {
 
 export type FieldTransformer<U = JsonObject, T = Input> = (input: T) => U | null;
 
-export type StepTransformer = (step?: NextStep) => FormBag;
 export type TerminalKeyTransformer = (transaction: IdxTransaction, formBag: FormBag) => FormBag;
 
 export type UISchemaOptions = {

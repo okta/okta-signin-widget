@@ -31,7 +31,7 @@ import {
 import Bundles from '../../../../util/Bundles';
 import { WidgetContextProvider } from '../../contexts';
 import { usePolling } from '../../hooks';
-import transformTransaction from '../../transformer/authJs';
+import { transformIdxTransaction } from '../../transformer';
 import { transformTerminalTransaction, transformUnhandledErrors } from '../../transformer/terminal';
 import { createForm } from '../../transformer/utils';
 import {
@@ -109,7 +109,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return transformTerminalTransaction(idxTransaction, widgetProps);
     }
 
-    let step = stepToRender;
+    let step = stepToRender || idxTransaction.nextStep.name;
     // Mobile devices cannot scan QR codes while navigating through flow
     // so we force them to select either email / sms for enrollment
     if (idxTransaction.context.currentAuthenticator?.value.key === AuthenticatorKey.OKTA_VERIFY
@@ -117,7 +117,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         && isAndroidOrIOS()) {
       step = 'select-enrollment-channel';
     }
-    const bag = transformTransaction({
+    const bag = transformIdxTransaction({
       transaction: idxTransaction,
       prevTransaction: prevIdxTransactionRef.current,
       step,

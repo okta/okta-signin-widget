@@ -12,16 +12,15 @@
 
 import { IdxTransaction, Input } from '@okta/okta-auth-js';
 
-import { getI18NParams, getI18NValue, getMessage } from '../../../v2/ion/i18nTransformer';
-import { AUTHENTICATOR_KEY } from '../constants';
+import { getI18NParams, getI18NValue, getMessage } from '../../../../v2/ion/i18nTransformer';
+import { AUTHENTICATOR_KEY } from '../../constants';
 import {
   FieldElement,
   FormBag,
-  IdxStepTransformer,
-  UISchemaElement,
-} from '../types';
-import { loc } from '../util';
-import { getOptionValue } from './selectAuthenticator/utils';
+  TransformStepFnWithOptions, UISchemaElement,
+} from '../../types';
+import { loc } from '../../util';
+import { getOptionValue } from '../selectAuthenticator/utils';
 
 const geti18nPath = (fieldName: string, stepName: string, authenticatorKey: string): string => {
   const authenticatorKeyPath = authenticatorKey
@@ -92,7 +91,7 @@ export const transactionMessageTransformer = (transaction: IdxTransaction): void
   });
 };
 
-export const transformAdditionalPhoneUITranslations: IdxStepTransformer = ({ formBag }) => {
+export const transformAdditionalPhoneUITranslations = (formBag: FormBag) => {
   const { uischema } = formBag;
 
   const phoneElement = uischema.elements.find((element) => (element as FieldElement)
@@ -116,4 +115,10 @@ export const transformAdditionalPhoneUITranslations: IdxStepTransformer = ({ for
     };
   }
   return formBag;
+};
+
+export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) => {
+  uischemaLabelTransformer(options.transaction, formbag);
+  transformAdditionalPhoneUITranslations(formbag);
+  return formbag;
 };

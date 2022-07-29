@@ -14,8 +14,8 @@ import { IdxAuthenticator, IdxMessage, IdxTransaction } from '@okta/okta-auth-js
 import { getStubTransaction } from 'src/mocks/utils/utils';
 import { FieldElement, FormBag, UISchemaElement } from 'src/types';
 
-import { transactionMessageTransformer, uischemaLabelTransformer } from './i18nTransformer';
-import { createForm } from './utils';
+import { createForm } from '../utils';
+import { transactionMessageTransformer, uischemaLabelTransformer } from './transform';
 
 describe('i18nTransformer Tests', () => {
   let transaction: IdxTransaction;

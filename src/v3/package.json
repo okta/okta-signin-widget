@@ -36,8 +36,10 @@
   "scripts": {
     "build": "preact build --no-prerender --no-sw --dest ../../dist/dist/js",
     "clean-svg": "svgo -f src/img/authCoinIcons",
-    "dev": "preact watch --no-prerender --no-sw --port 3000",
     "codegen": "yarn workspace @okta/okta-signin-widget codegen",
+    "dev": "preact watch --no-prerender --no-sw --port 3000",
+    "eslint": "eslint",
+    "jest": "jest",
     "lint": "yarn codegen && eslint .",
     "lint:report": "scripts/buildtools/lint-report.sh",
     "serve": "sirv ../../dist/dist/js --port 3000",
