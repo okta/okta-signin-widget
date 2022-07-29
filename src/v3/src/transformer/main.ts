@@ -26,7 +26,7 @@ import { transformMessages } from './messages';
 
 // use this function after each transformation step to log the formbag output
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const logger = (formbag: FormBag) => {
+const logger: TransformStepFn = (formbag) => {
   // eslint-disable-next-line no-console
   console.log(formbag);
   return formbag;
