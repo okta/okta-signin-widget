@@ -73,7 +73,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   // For server side errors, need to reset the touched value
   useEffect(() => {
     setIsTouched(false);
-  }, [serverError]);
+  }, [error]);
 
   useEffect(() => {
     setIsTouched(true);
@@ -141,7 +141,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
           <TextInput
             type="tel"
             data-se={fieldName}
-            error={isTouched ? fieldError : serverError}
+            error={isTouched ? fieldError : error}
             name={fieldName}
             label={getLabelName(label as string)}
             id={fieldName}

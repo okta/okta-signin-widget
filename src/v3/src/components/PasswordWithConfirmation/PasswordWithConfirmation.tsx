@@ -15,9 +15,9 @@ import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import { useValue } from '../../hooks';
-import { useTranslation } from '../../lib/okta-i18n';
 import {
   ChangeEvent,
   DataSchema,
@@ -30,36 +30,58 @@ import InputPassword from '../InputPassword';
 const PasswordWithConfirmation: UISchemaElementComponent<{
   uischema: PasswordWithConfirmationElement
 }> = ({ uischema }) => {
-  const { t } = useTranslation();
-  const { input } = uischema.options;
+  const { input, fieldRequiredErrorMessage, passwordMatchErrorMessage } = uischema.options;
   const {
     inputMeta: {
       // @ts-ignore expose type from auth-js
       messages: newPasswordMessages = {},
     },
   } = input.options;
-  const newPasswordError = t((newPasswordMessages.value || [])[0]?.i18n.key);
+  const newPasswordError = newPasswordMessages?.value?.[0]
+    && getMessage(newPasswordMessages.value[0]);
 
   const value = useValue(input);
   const [isTouched, setIsTouched] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [confirmPasswordError, setConfirmPasswordError] = useState<string | undefined>(
-    t('model.validation.field.blank')
+    fieldRequiredErrorMessage,
   );
   const { dataSchemaRef } = useWidgetContext();
 
   const handleConfirmPasswordValidation = (password: string | undefined): void => {
     if (!password) {
-      setConfirmPasswordError(t('model.validation.field.blank'));
+      setConfirmPasswordError(fieldRequiredErrorMessage);
       return;
     }
 
     if (value !== password) {
-      setConfirmPasswordError(t('password.error.match'));
+      setConfirmPasswordError(passwordMatchErrorMessage);
       return;
     }
 
     setConfirmPasswordError(undefined);
+  };
+
+  const updateDataSchemaValidation = (confirmPw?: string): void => {
+    dataSchemaRef.current![input.name] = {
+      validate: (data: FormBag['data']) => {
+        const newPw = data[input.name];
+        const comparisonPw = (confirmPw ?? confirmPassword);
+        if (!newPw) {
+          setIsTouched(true);
+          return { i18n: { key: 'model.validation.field.blank' } };
+        }
+
+        if (comparisonPw !== newPw) {
+          setIsTouched(true);
+          // Do not display error on new password field when confirm is missing
+          // but do not allow submission
+          return { i18n: { key: '' } };
+        }
+
+        return undefined;
+      },
+    } as DataSchema;
   };
 
   const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -75,30 +97,10 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
     handleConfirmPasswordValidation(confirmPassword);
   };
 
-  const updateDataSchemaValidation = (confirmPw?: string): void => {
-    dataSchemaRef.current![input.name] = {
-      validate: (data: FormBag['data']) => {
-        const newPw = data[input.name];
-        if (!newPw) {
-          return { i18n: { key: t('model.validation.field.blank') } };
-        }
-        const comparisonPw = (confirmPw ?? confirmPassword);
-
-        if (comparisonPw !== newPw) {
-          setIsTouched(true);
-          // Do not display error on new password field when confirm is missing
-          // but do not allow submission
-          return { i18n: { key: '' } };
-        }
-
-        return undefined;
-      }
-    } as DataSchema
-  };
-
   useEffect(() => {
     // on load, update validate function to prevent submission w/o confirm pw data
     updateDataSchemaValidation();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newPasswordError]);
 
   return (
@@ -108,7 +110,7 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
       </Box>
       <Box marginBottom={4}>
         <PasswordInput
-          label={t('oie.password.confirmPasswordLabel')}
+          label={uischema.label}
           value={confirmPassword}
           name="credentials.confirmPassword"
           id="credentials.confirmPassword"

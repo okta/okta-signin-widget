@@ -1359,6 +1359,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                           class="ods-10aW0m"
                         >
                           <input
+                            aria-describedby="phoneNumber-error"
                             autocomplete="tel-national"
                             class="ods-7qBw9I"
                             data-se="phoneNumber"
@@ -1367,6 +1368,12 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                             type="tel"
                           />
                         </div>
+                        <p
+                          class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-3yFBXm"
+                          id="phoneNumber-error"
+                        >
+                          This field cannot be left blank
+                        </p>
                       </div>
                     </div>
                   </div>

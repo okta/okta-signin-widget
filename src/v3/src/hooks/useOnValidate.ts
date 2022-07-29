@@ -12,6 +12,7 @@
 
 import { StateUpdater, useCallback } from 'preact/hooks';
 
+import { getMessage } from '../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../contexts';
 import { FieldElement } from '../types';
 
@@ -27,9 +28,13 @@ export const useOnValidate = (uischema: FieldElement) => {
     const validator = dataSchemaRef.current?.[name];
     if (typeof validator?.validate === 'function') {
       const message = validator.validate({ ...updatedData });
-      setFieldError(message?.i18n?.key);
-    } else {
-      setFieldError(undefined);
+      if (message?.i18n?.key) {
+        // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
+        // eslint-disable-next-line no-param-reassign
+        setFieldError(getMessage(message));
+        return;
+      }
     }
+    setFieldError(undefined);
   }, [data, dataSchemaRef, name]);
 };

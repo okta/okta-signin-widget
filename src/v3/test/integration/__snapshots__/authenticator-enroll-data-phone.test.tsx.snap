@@ -1490,9 +1490,9 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                           </div>
                           <p
                             class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-3yFBXm"
-                            id="generated"
+                            id="authenticator.phoneNumber-error"
                           >
-                            model.validation.field.blank
+                            This field cannot be left blank
                           </p>
                         </div>
                       </div>
