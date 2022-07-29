@@ -15,4 +15,8 @@ import type { ThemeReducer } from '@okta/odyssey-react-theme';
 export const theme: ThemeReducer = (t) => ({
   ColorHover: t.ColorPrimaryDark,
   ColorPrimaryBase: t.ColorPrimaryBase,
+  FocusOutlineColor: t.FocusOutlineColorPrimary,
+  FocusOutlineOffset: t.FocusOutlineOffsetBase,
+  FocusOutlineStyle: t.FocusOutlineStyle,
+  FocusOutlineWidth: t.FocusOutlineWidthBase,
 });

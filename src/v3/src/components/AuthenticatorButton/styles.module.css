@@ -5,6 +5,12 @@
 .authButton:hover .actionName {
   color: var(--ColorHover);
 }
+.authButton:focus {
+  outline-color: var(--FocusOutlineColor);
+  outline-offset: var(--FocusOutlineOffset);
+  outline-style: var(--FocusOutlineStyle);
+  outline-width: var(--FocusOutlineWidth);
+}
 
 .infoSection {
   display: flex;
