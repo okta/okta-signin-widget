@@ -21,7 +21,7 @@ import { useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
-  useOnChange, useFieldValidation, useValue,
+  useFieldValidation, useOnChange, useValue,
 } from '../../hooks';
 import {
   ChangeEvent, InputTextElement, UISchemaElementComponent,

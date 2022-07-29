@@ -19,7 +19,7 @@ import { useEffect, useState } from 'preact/hooks';
 import CountryUtil from '../../../../util/CountryUtil';
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
-import { useOnChange, useFieldValidation } from '../../hooks';
+import { useFieldValidation, useOnChange } from '../../hooks';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
 import { getTranslation } from '../../util';
 import { getLabelName } from '../helpers';
