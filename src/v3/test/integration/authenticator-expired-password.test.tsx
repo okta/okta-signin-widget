@@ -104,7 +104,7 @@ describe('authenticator-expired-password', () => {
 
   it('should not make network without completing any password fields', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByTestId, findByText, findAllByText,
     } = await setup({ mockResponse });
 
     await findByText(/Your password has expired/);
@@ -114,7 +114,7 @@ describe('authenticator-expired-password', () => {
 
     await user.click(submitButton);
 
-    await findByText(/This field cannot be left blank/);
+    await findAllByText(/This field cannot be left blank/);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',

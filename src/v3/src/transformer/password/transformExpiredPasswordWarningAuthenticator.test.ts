@@ -350,6 +350,6 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.variant).toBe('floating');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.wide).toBe(false);
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.step).toBe('skip');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.action).toBeDefined();
   });
 });
