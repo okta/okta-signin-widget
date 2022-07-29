@@ -10,18 +10,49 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
+
 import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
+  ReminderElement,
   TitleElement,
 } from '../../types';
 import { loc } from '../../util';
 
-export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { nextStep: { relatesTo } = {} } = transaction;
+export const transformPhoneCodeEnrollment: IdxStepTransformer = ({
+  transaction,
+  formBag,
+  widgetProps,
+}) => {
+  const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
+  const { authClient } = widgetProps;
+
+  let reminderElement: ReminderElement | undefined;
+
+  const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
+  if (resendStep) {
+    const { name, action } = resendStep;
+    reminderElement = {
+      type: 'Reminder',
+      options: {
+        ctaText: loc('oie.phone.verify.sms.resendText', 'login'),
+        linkLabel: loc('email.button.resend', 'login'),
+        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+        action: action && ((params?: IdxActionParams) => {
+          const { stateHandle, ...rest } = params ?? {};
+          return authClient?.idx.proceed({
+            // @ts-ignore stateHandle can be undefined
+            stateHandle,
+            actions: [{ name, params: rest }],
+          });
+        }),
+      },
+    };
+  }
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -30,8 +61,9 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
     },
   };
 
-  const phoneNumber = relatesTo?.value?.profile?.phoneNumber;
-  const methodType = relatesTo?.value?.methods?.[0]?.type;
+  const { methods, profile } = nextStep.relatesTo?.value || {};
+  const { phoneNumber } = profile || {};
+  const methodType = methods?.[0]?.type;
   const sendInfoText = methodType === 'sms'
     ? loc('oie.phone.verify.sms.codeSentText', 'login')
     : loc('mfa.calling', 'login');
@@ -67,6 +99,9 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
   uischema.elements.unshift(informationalTextElement);
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitButton);
+  if (reminderElement) {
+    uischema.elements.unshift(reminderElement);
+  }
 
   return formBag;
 };
