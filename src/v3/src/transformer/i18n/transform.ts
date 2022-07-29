@@ -17,9 +17,11 @@ import { AUTHENTICATOR_KEY } from '../../constants';
 import {
   FieldElement,
   FormBag,
-  TransformStepFnWithOptions, UISchemaElement,
+  TransformStepFnWithOptions,
+  UISchemaElement,
+  WidgetProps,
 } from '../../types';
-import { loc } from '../../util';
+import { getLanguageCode, loc } from '../../util';
 import { getOptionValue } from '../selectAuthenticator/utils';
 
 const geti18nPath = (fieldName: string, stepName: string, authenticatorKey: string): string => {
@@ -115,6 +117,14 @@ export const transformAdditionalPhoneUITranslations = (formBag: FormBag) => {
     };
   }
   return formBag;
+};
+
+// Determines if key has been overwritten for customization
+export const isCustomizedI18nKey = (i18nKey: string, widgetProps: WidgetProps): boolean => {
+  const { i18n } = widgetProps;
+  const language = getLanguageCode(widgetProps);
+  const customizedProperty = i18n && i18n[language] && i18n[language][i18nKey];
+  return !!customizedProperty;
 };
 
 export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) => {

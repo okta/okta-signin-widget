@@ -18,38 +18,44 @@ import {
   IdxStepTransformer,
   TitleElement,
   UISchemaElement,
+  WidgetProps,
 } from '../../types';
 import { getUsernameCookie, loc } from '../../util';
+import { isCustomizedI18nKey } from '../i18nTransformer';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
-const updateErrorMessages = (
+const addCustomizedErrorKeys = (
   dataSchema: Record<string, DataSchema>,
-  fieldName: string,
-  errorKey: string,
-) => {
-  // TODO: once OKTA-476303 is merged, remove this and
-  // add isCustomizedI18nKey check for adding keys here
-  const disabled = true;
-  if (disabled) {
-    return;
-  }
-  // eslint-disable-next-line no-param-reassign
-  dataSchema[fieldName] = {
-    validate(data) {
-      const isValid = !!data[fieldName];
-      return isValid ? undefined : {
-        i18n: {
-          // TODO: OKTA-476303 use loc function here so key is translated
-          key: errorKey,
+  elements: UISchemaElement[],
+  widgetProps: WidgetProps,
+): void => {
+  [
+    { field: 'identifier', key: 'error.username.required' },
+    { field: 'credentials.passcode', key: 'error.password.required' },
+  ].forEach((obj) => {
+    const ele = getUIElementWithName(
+      obj.field,
+      elements as UISchemaElement[],
+    ) as FieldElement;
+    if (ele && isCustomizedI18nKey(obj.key, widgetProps)) {
+      // eslint-disable-next-line no-param-reassign
+      dataSchema[obj.field] = {
+        validate(data) {
+          const isValid = !!data[obj.field];
+          return isValid ? undefined : {
+            i18n: { key: obj.key },
+          };
         },
       };
-    },
-  };
+    }
+  });
 };
 
 export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
   const { features, username } = widgetProps;
-  const { uischema, dataSchema } = formBag;
+  const { uischema, dataSchema, data } = formBag;
+
+  addCustomizedErrorKeys(dataSchema, uischema.elements, widgetProps);
 
   const identifierElement = getUIElementWithName(
     'identifier',
@@ -73,8 +79,6 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
 
   if (passwordElement) {
     submitBtnElement.label = loc('oie.primaryauth.submit', 'login');
-    // Overwrite error messages with custom keys
-    updateErrorMessages(dataSchema, 'credentials.passcode', 'error.password.required');
   }
 
   if (features?.showKeepMeSignedIn === false) {
@@ -90,21 +94,12 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
   };
 
   if (identifierElement) {
-    // Overwrite error messages with custom keys
-    updateErrorMessages(dataSchema, 'identifier', 'error.username.required');
-
     // add username/identifier from config if provided
     if (username) {
-      identifierElement.options = {
-        ...identifierElement.options,
-        defaultOption: username,
-      };
+      data.identifier = username;
     } else if (features?.rememberMe && features?.rememberMyUsernameOnOIE) {
       const usernameCookie = getUsernameCookie();
-      identifierElement.options = {
-        ...identifierElement.options,
-        defaultOption: usernameCookie ?? undefined,
-      };
+      data.identifier = usernameCookie ?? undefined;
     }
   }
 
