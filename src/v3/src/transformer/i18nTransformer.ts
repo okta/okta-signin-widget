@@ -19,8 +19,9 @@ import {
   FormBag,
   IdxStepTransformer,
   UISchemaElement,
+  WidgetProps,
 } from '../types';
-import { loc } from '../util';
+import { getLanguageCode, loc } from '../util';
 import { getOptionValue } from './selectAuthenticator/utils';
 
 const geti18nPath = (fieldName: string, stepName: string, authenticatorKey: string): string => {
@@ -90,6 +91,14 @@ export const transactionMessageTransformer = (transaction: IdxTransaction): void
     // eslint-disable-next-line no-param-reassign
     message.message = getMessage(message);
   });
+};
+
+// Determines if key has been overwritten for customization
+export const isCustomizedI18nKey = (i18nKey: string, widgetProps: WidgetProps): boolean => {
+  const { i18n } = widgetProps;
+  const language = getLanguageCode(widgetProps);
+  const customizedProperty = i18n && i18n[language] && i18n[language][i18nKey];
+  return !!customizedProperty;
 };
 
 export const transformAdditionalPhoneUITranslations: IdxStepTransformer = ({ formBag }) => {
