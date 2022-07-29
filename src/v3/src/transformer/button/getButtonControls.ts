@@ -17,13 +17,13 @@ import {
   OktaAuth,
 } from '@okta/okta-auth-js';
 
-import { IDX_STEP } from '../constants';
+import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
   UISchemaElement,
-} from '../types';
-import { loc } from '../util';
+} from '../../types';
+import { loc } from '../../util';
 
 interface GetButtonControls {
   elements: UISchemaElement[];

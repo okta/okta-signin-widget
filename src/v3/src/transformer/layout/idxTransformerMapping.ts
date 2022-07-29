@@ -12,50 +12,50 @@
 
 import { IdxStepTransformer } from 'src/types';
 
-import { AUTHENTICATOR_KEY, IDX_STEP } from '../constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import {
   transformEmailChallenge,
   transformEmailChallengeConsent,
   transformEmailVerification,
-} from './email';
+} from '../email';
 import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
-} from './googleAuthenticator';
-import { transformIdentify } from './identify';
+} from '../googleAuthenticator';
+import { transformIdentify } from '../identify';
 import {
   transformOktaVerifyChallengePoll,
   transformOktaVerifyChannelSelection,
   transformOktaVerifyEnrollChannel,
   transformOktaVerifyEnrollPoll,
   transformTOTPChallenge,
-} from './oktaVerify';
+} from '../oktaVerify';
 import {
   transformEnrollPasswordAuthenticator,
   transformExpiredPasswordAuthenticator,
   transformExpiredPasswordWarningAuthenticator,
   transformPasswordChallenge,
   transformResetPasswordAuthenticator,
-} from './password';
+} from '../password';
 import {
   transformPhoneChallenge,
   transformPhoneCodeEnrollment,
   transformPhoneEnrollment,
   transformPhoneVerification,
-} from './phone';
-import { transformEnrollProfile } from './profile';
-import { transformIdentityRecovery } from './recovery';
+} from '../phone';
+import { transformEnrollProfile } from '../profile';
+import { transformIdentityRecovery } from '../recovery';
 import {
   transformSecurityQuestionEnroll,
   transformSecurityQuestionVerify,
-} from './securityQuestion';
+} from '../securityQuestion';
 import {
   transformSelectAuthenticatorEnroll,
   transformSelectAuthenticatorUnlockVerify,
   transformSelectAuthenticatorVerify,
   transformSelectOVMethodVerify,
-} from './selectAuthenticator';
-import { transformWebAuthNAuthenticator } from './webauthn';
+} from '../selectAuthenticator';
+import { transformWebAuthNAuthenticator } from '../webauthn';
 
 /**
  * TransformerMap

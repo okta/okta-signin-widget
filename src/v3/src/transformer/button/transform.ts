@@ -15,8 +15,8 @@ import { IdxFeature } from '@okta/okta-auth-js';
 import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import { TransformStepFnWithOptions } from '../../types';
 import { getAuthenticatorKey, hasMinAuthenticatorOptions } from '../../util';
-import { getButtonControls } from '../getButtonControls';
-import TransformerMap from '../idxTransformerMapping';
+import { getButtonControls } from './getButtonControls';
+import TransformerMap from '../layout/idxTransformerMapping';
 
 export const transformButtons: TransformStepFnWithOptions = (options) => (formbag) => {
   const { transaction, step, widgetProps } = options;

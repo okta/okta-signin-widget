@@ -13,7 +13,7 @@
 import { AUTHENTICATOR_KEY } from '../../constants';
 import { TransformStepFnWithOptions } from '../../types';
 import { getAuthenticatorKey } from '../../util';
-import TransformerMap from '../idxTransformerMapping';
+import TransformerMap from './idxTransformerMapping';
 
 export const transformLayout: TransformStepFnWithOptions = (options) => (formBag) => {
   const {
