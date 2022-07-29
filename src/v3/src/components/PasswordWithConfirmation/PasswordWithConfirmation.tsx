@@ -13,7 +13,7 @@
 import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useCallback, useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
@@ -37,76 +37,97 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
       messages: newPasswordMessages = {},
     },
   } = input.options;
-  const newPasswordError = newPasswordMessages?.value?.[0]
-    && getMessage(newPasswordMessages.value[0]);
+  const error = newPasswordMessages?.value?.[0] && getMessage(newPasswordMessages.value[0]);
+
+  console.log('aaaa', error);
+
+  
 
   const value = useValue(input);
-  const [isTouched, setIsTouched] = useState<boolean>(false);
+  // const [isTouched, setIsTouched] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string | undefined>(
-    fieldRequiredErrorMessage,
-  );
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string | undefined>();
   const { dataSchemaRef } = useWidgetContext();
 
-  const handleConfirmPasswordValidation = (password: string | undefined): void => {
-    if (!password) {
-      setConfirmPasswordError(fieldRequiredErrorMessage);
-      return;
+  const validate = useCallback((data: FormBag['data']) => {
+    const password = data[input.name];
+
+    console.log('validate', password, confirmPassword);
+    
+    if (confirmPassword === password) {
+      return undefined;
     }
 
-    if (value !== password) {
-      setConfirmPasswordError(passwordMatchErrorMessage);
-      return;
+    return {
+      i18n: {
+        key: 'password.error.match',
+      }
     }
-
-    setConfirmPasswordError(undefined);
-  };
-
-  const updateDataSchemaValidation = (confirmPw?: string): void => {
-    dataSchemaRef.current![input.name] = {
-      validate: (data: FormBag['data']) => {
-        const newPw = data[input.name];
-        const comparisonPw = (confirmPw ?? confirmPassword);
-        if (!newPw) {
-          setIsTouched(true);
-          return { i18n: { key: 'model.validation.field.blank' } };
-        }
-
-        if (comparisonPw !== newPw) {
-          setIsTouched(true);
-          // Do not display error on new password field when confirm is missing
-          // but do not allow submission
-          return { i18n: { key: '' } };
-        }
-
-        return undefined;
-      },
-    } as DataSchema;
-  };
-
-  const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsTouched(true);
-    setConfirmPassword(e.currentTarget.value);
-    updateDataSchemaValidation(e.currentTarget.value);
-    handleConfirmPasswordValidation(e.currentTarget.value);
-  };
-
-  const handleConfirmPasswordBlur = () => {
-    setIsTouched(true);
-    updateDataSchemaValidation();
-    handleConfirmPasswordValidation(confirmPassword);
-  };
+  }, [confirmPassword]);
 
   useEffect(() => {
-    // on load, update validate function to prevent submission w/o confirm pw data
-    updateDataSchemaValidation();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newPasswordError]);
+    dataSchemaRef.current![input.name].validate = validate;
+  }, [validate]);
+
+  // const handleConfirmPasswordValidation = (password: string | undefined): void => {
+  //   if (!password) {
+  //     setConfirmPasswordError(fieldRequiredErrorMessage);
+  //     return;
+  //   }
+
+  //   if (value !== password) {
+  //     setConfirmPasswordError(passwordMatchErrorMessage);
+  //     return;
+  //   }
+
+  //   setConfirmPasswordError(undefined);
+  // };
+
+  // const updateDataSchemaValidation = (confirmPw?: string): void => {
+  //   dataSchemaRef.current![input.name] = {
+  //     validate: (data: FormBag['data']) => {
+  //       const newPw = data[input.name];
+  //       const comparisonPw = (confirmPw ?? confirmPassword);
+  //       if (!newPw) {
+  //         setIsTouched(true);
+  //         return { i18n: { key: 'model.validation.field.blank' } };
+  //       }
+
+  //       if (comparisonPw !== newPw) {
+  //         setIsTouched(true);
+  //         // Do not display error on new password field when confirm is missing
+  //         // but do not allow submission
+  //         return { i18n: { key: '' } };
+  //       }
+
+  //       return undefined;
+  //     },
+  //   } as DataSchema;
+  // };
+
+  const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // setIsTouched(true);
+    setConfirmPassword(e.currentTarget.value);
+    // updateDataSchemaValidation(e.currentTarget.value);
+    // handleConfirmPasswordValidation(e.currentTarget.value);
+  };
+
+  // const handleConfirmPasswordBlur = () => {
+  //   setIsTouched(true);
+  //   updateDataSchemaValidation();
+  //   handleConfirmPasswordValidation(confirmPassword);
+  // };
+
+  // useEffect(() => {
+  //   // on load, update validate function to prevent submission w/o confirm pw data
+  //   updateDataSchemaValidation();
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [newPasswordError]);
 
   return (
     <Box>
       <Box marginBottom={4}>
-        <InputPassword uischema={input} />
+        <InputPassword uischema={input} noError />
       </Box>
       <Box marginBottom={4}>
         <PasswordInput
@@ -114,9 +135,9 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
           value={confirmPassword}
           name="credentials.confirmPassword"
           id="credentials.confirmPassword"
-          error={!!(isTouched && confirmPasswordError)}
+          error={!!(confirmPasswordError)}
           helperText={confirmPasswordError}
-          onBlur={handleConfirmPasswordBlur}
+          // onBlur={handleConfirmPasswordBlur}
           onChange={handleConfirmPasswordChange}
           fullWidth
           inputProps={{
@@ -124,8 +145,8 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
             autocomplete: 'new-password',
           }}
         />
-        {!!(isTouched && !!confirmPasswordError) && (
-          <FormHelperText error>{confirmPasswordError}</FormHelperText>
+        {!!(error) && (
+          <FormHelperText error>{error}</FormHelperText>
         )}
       </Box>
     </Box>

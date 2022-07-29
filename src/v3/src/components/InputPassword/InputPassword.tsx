@@ -13,21 +13,18 @@
 import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
-import { useOnChange, useOnValidate, useValue } from '../../hooks';
-import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
+import { useOnChange, useValue } from '../../hooks';
 import { getLabelName } from '../helpers';
 
 const InputPassword: UISchemaElementComponent<{
-  uischema: FieldElement
-}> = ({ uischema }) => {
-  const [isTouched, setIsTouched] = useState<boolean>(false);
-  const [fieldError, setFieldError] = useState<string | undefined>();
+  uischema: FieldElement,
+  noError?: boolean,
+}> = ({ uischema, noError }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const onValidateHandler = useOnValidate(uischema);
   const { label } = uischema;
   const {
     attributes,
@@ -39,20 +36,8 @@ const InputPassword: UISchemaElementComponent<{
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
-  // For server side errors, need to reset the touched value
-  useEffect(() => {
-    setIsTouched(false);
-  }, [error]);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setIsTouched(true);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);
-    onValidateHandler(setFieldError, e.currentTarget.value);
-  };
-
-  const handleInputBlur = () => {
-    setIsTouched(true);
-    onValidateHandler(setFieldError);
   };
 
   return (
@@ -62,8 +47,7 @@ const InputPassword: UISchemaElementComponent<{
         value={value}
         name={name}
         id={name}
-        error={isTouched ? !!fieldError : !!error}
-        onBlur={handleInputBlur}
+        error={!noError && error !== undefined}
         onChange={handleChange}
         fullWidth
         inputProps={{
@@ -71,12 +55,12 @@ const InputPassword: UISchemaElementComponent<{
           ...attributes,
         }}
       />
-      {(isTouched ? !!fieldError : !!error) && (
+      {!noError && error && (
         <FormHelperText
           data-se={`${name}-error`}
           error
         >
-          {isTouched ? fieldError : error}
+          {error}
         </FormHelperText>
       )}
     </Box>
