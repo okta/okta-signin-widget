@@ -43,10 +43,6 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
   const phoneNumberElement = getUIElementWithName('authenticator.phoneNumber', uischema.elements) as FieldElement;
   // TODO: Top level transformer (flattener logic) removes label so we have to add it here manually
   phoneNumberElement.label = loc('mfa.phoneNumber.placeholder', 'login');
-  phoneNumberElement.options = {
-    ...phoneNumberElement.options,
-    targetKey: 'authenticator.methodType',
-  };
 
   const voiceInfoTextElement: DescriptionElement = {
     type: 'Description',

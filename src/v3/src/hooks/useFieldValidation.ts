@@ -27,11 +27,11 @@ export const useFieldValidation = (uischema: FieldElement) => {
     const updatedData = { ...data, ...(value && { [name]: value }) };
     const validator = dataSchemaRef.current?.[name];
     if (typeof validator?.validate === 'function') {
-      const message = validator.validate({ ...updatedData });
-      if (message?.i18n?.key) {
+      const messages = validator.validate({ ...updatedData });
+      if (messages?.[0]?.i18n?.key) {
         // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
         // eslint-disable-next-line no-param-reassign
-        setFieldError(getMessage(message));
+        setFieldError(getMessage(messages?.[0]));
         return;
       }
     }

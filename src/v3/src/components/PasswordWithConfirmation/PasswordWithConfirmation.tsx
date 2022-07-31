@@ -12,115 +12,129 @@
 
 import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
+import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useCallback, useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
-import { useValue } from '../../hooks';
+import { useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent,
-  DataSchema,
   FormBag,
   PasswordWithConfirmationElement,
   UISchemaElementComponent,
 } from '../../types';
-import InputPassword from '../InputPassword';
+import { getLabelName } from '../helpers';
+
+enum PasswordType {
+  NEW,
+  CONFIRM,
+}
 
 const PasswordWithConfirmation: UISchemaElementComponent<{
   uischema: PasswordWithConfirmationElement
 }> = ({ uischema }) => {
-  const { input, fieldRequiredErrorMessage, passwordMatchErrorMessage } = uischema.options;
+  const { input } = uischema.options;
   const {
-    inputMeta: {
-      // @ts-ignore expose type from auth-js
-      messages: newPasswordMessages = {},
+    name: newPwName,
+    label: newPwLabel,
+    options: {
+      inputMeta: {
+        // @ts-ignore expose type from auth-js
+        messages = {},
+      },
+      attributes,
     },
-  } = input.options;
-  const newPasswordError = newPasswordMessages?.value?.[0]
-    && getMessage(newPasswordMessages.value[0]);
+  } = input;
 
+  const { dataSchemaRef } = useWidgetContext();
   const value = useValue(input);
+  const onChangeHandler = useOnChange(input);
+  // Must use this flag to determine which field contains error
+  const [hasNewPwError, setHasNewPwError] = useState<boolean>(false);
+  const [isNewPwTouched, setIsNewPwTouched] = useState<boolean>(false);
   const [isTouched, setIsTouched] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string | undefined>(
-    fieldRequiredErrorMessage,
-  );
-  const { dataSchemaRef } = useWidgetContext();
+  const newPasswordError = hasNewPwError && messages?.value?.[0]
+    && getMessage(messages.value[0]);
+  const confirmPasswordError = !hasNewPwError
+    ? (messages?.value?.[0] && getMessage(messages.value[0]))
+    : (messages?.value?.[1] && getMessage(messages.value[1]));
 
-  const handleConfirmPasswordValidation = (password: string | undefined): void => {
-    if (!password) {
-      setConfirmPasswordError(fieldRequiredErrorMessage);
-      return;
+  // Overrides default validate function for password field
+  const validate = useCallback((data: FormBag['data']) => {
+    const newPw = data[input.name];
+    const errorMessages: Partial<IdxMessage>[] = [];
+    if (!newPw) {
+      setIsNewPwTouched(false);
+      setHasNewPwError(true);
+      errorMessages.push({ i18n: { key: 'model.validation.field.blank' } });
+    } else {
+      setHasNewPwError(false);
     }
 
-    if (value !== password) {
-      setConfirmPasswordError(passwordMatchErrorMessage);
-      return;
+    if (!confirmPassword) {
+      setIsTouched(false);
+      errorMessages.push({ i18n: { key: 'model.validation.field.blank' } });
+    } else if (confirmPassword !== newPw) {
+      setIsTouched(false);
+      errorMessages.push({ i18n: { key: 'password.error.match' } });
     }
 
-    setConfirmPasswordError(undefined);
+    return errorMessages.length ? errorMessages : undefined;
+  }, [confirmPassword, input.name, setHasNewPwError, setIsTouched, setIsNewPwTouched]);
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>, type: PasswordType) => {
+    if (type === PasswordType.NEW) {
+      setIsNewPwTouched(true);
+      onChangeHandler(e.currentTarget.value);
+    } else {
+      setIsTouched(true);
+      setConfirmPassword(e.currentTarget.value);
+    }
   };
 
-  const updateDataSchemaValidation = (confirmPw?: string): void => {
-    dataSchemaRef.current![input.name] = {
-      validate: (data: FormBag['data']) => {
-        const newPw = data[input.name];
-        const comparisonPw = (confirmPw ?? confirmPassword);
-        // if new password field is missing value, return error and
-        // display at new password field level
-        if (!newPw) {
-          setIsTouched(true);
-          return { i18n: { key: 'model.validation.field.blank' } };
-        }
-
-        if (comparisonPw !== newPw) {
-          // if new password and confirm password values do not match
-          // mark the confirm password field as touched (to trigger field level error)
-          setIsTouched(true);
-
-          /**
-           * The handleSubmit function (in Form.tsx) will only prevent submission
-           * if there is a Message object returned from the validate function
-           *
-           * In this scenario, when the new password and confirm password fields do not match
-           * we need to return an empty message key to prevent submission
-           *
-           * This component handles the display of the error on the confirm password field
-           * At this point, we know the new password has fulfilled its requirement
-           * so we cant display an error message on that field
-           */
-          return { i18n: { key: '' } };
-        }
-
-        return undefined;
-      },
-    } as DataSchema;
-  };
-
-  const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsTouched(true);
-    setConfirmPassword(e.currentTarget.value);
-    updateDataSchemaValidation(e.currentTarget.value);
-    handleConfirmPasswordValidation(e.currentTarget.value);
-  };
-
-  const handleConfirmPasswordBlur = () => {
-    setIsTouched(true);
-    updateDataSchemaValidation();
-    handleConfirmPasswordValidation(confirmPassword);
+  const handlePasswordBlur = (type: PasswordType) => {
+    if (type === PasswordType.NEW) {
+      setIsNewPwTouched(true);
+    } else {
+      setIsTouched(true);
+    }
   };
 
   useEffect(() => {
-    // on load, update validate function to prevent submission w/o confirm pw data
-    updateDataSchemaValidation();
+    // update validate function to prevent submission w/o confirm pw data
+    // when server messages are set, we must reset the validate function
+    dataSchemaRef.current![input.name].validate = validate;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newPasswordError]);
+  }, [validate, newPasswordError, confirmPasswordError, input.name]);
 
   return (
     <Box>
       <Box marginBottom={4}>
-        <InputPassword uischema={input} />
+        <PasswordInput
+          label={getLabelName(newPwLabel!)}
+          value={value}
+          name={newPwName}
+          id={newPwName}
+          error={!isNewPwTouched && !!newPasswordError}
+          onBlur={() => handlePasswordBlur(PasswordType.NEW)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => handlePasswordChange(e, PasswordType.NEW)}
+          fullWidth
+          inputProps={{
+            'data-se': newPwName,
+            ...attributes,
+          }}
+        />
+        {(!isNewPwTouched && !!newPasswordError) && (
+          <FormHelperText
+            data-se={`${newPwName}-error`}
+            error
+          >
+            {newPasswordError}
+          </FormHelperText>
+        )}
       </Box>
       <Box marginBottom={4}>
         <PasswordInput
@@ -128,18 +142,24 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
           value={confirmPassword}
           name="credentials.confirmPassword"
           id="credentials.confirmPassword"
-          error={!!(isTouched && confirmPasswordError)}
-          helperText={confirmPasswordError}
-          onBlur={handleConfirmPasswordBlur}
-          onChange={handleConfirmPasswordChange}
+          error={!!(!isTouched && confirmPasswordError)}
+          onBlur={() => handlePasswordBlur(PasswordType.CONFIRM)}
+          onChange={
+            (e: ChangeEvent<HTMLInputElement>) => handlePasswordChange(e, PasswordType.CONFIRM)
+          }
           fullWidth
           inputProps={{
             'data-se': 'credentials.confirmPassword',
             autocomplete: 'new-password',
           }}
         />
-        {!!(isTouched && !!confirmPasswordError) && (
-          <FormHelperText error>{confirmPasswordError}</FormHelperText>
+        {!!(!isTouched && !!confirmPasswordError) && (
+          <FormHelperText
+            data-se="credentials.confirmPassword-error"
+            error
+          >
+            {confirmPasswordError}
+          </FormHelperText>
         )}
       </Box>
     </Box>

@@ -55,10 +55,6 @@ const PasswordRequirements: UISchemaElementComponent<{
     ruleKey: string,
     passwordValidation: PasswordValidation,
   ): PasswordRequirementStatus | undefined => {
-    if (!Object.keys(passwordValidation).length) {
-      return undefined;
-    }
-
     const ruleValue = passwordValidation[ruleKey];
     if (ruleValue) {
       return 'complete';

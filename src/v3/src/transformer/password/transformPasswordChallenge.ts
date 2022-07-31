@@ -13,13 +13,28 @@
 import {
   ButtonElement,
   ButtonType,
+  FieldElement,
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
 import { loc } from '../../util';
+import { isCustomizedI18nKey } from '../i18nTransformer';
+import { getUIElementWithName } from '../utils';
 
-export const transformPasswordChallenge: IdxStepTransformer = ({ formBag, transaction }) => {
+export const transformPasswordChallenge: IdxStepTransformer = ({
+  formBag,
+  transaction,
+  widgetProps,
+}) => {
   const { uischema } = formBag;
+
+  const passcodeEle = getUIElementWithName(
+    'credentials.passcode',
+    uischema.elements,
+  ) as FieldElement;
+  if (passcodeEle && isCustomizedI18nKey('primaryauth.password.tooltip', widgetProps)) {
+    passcodeEle.options.hint = loc('primaryauth.password.tooltip', 'login');
+  }
 
   const titleElement: TitleElement = {
     type: 'Title',

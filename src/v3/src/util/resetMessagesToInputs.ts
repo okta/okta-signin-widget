@@ -14,7 +14,7 @@ import { IdxMessage, Input } from '@okta/okta-auth-js';
 
 export function resetMessagesToInputs(
   inputs: Input[],
-  messages: Record<string, Partial<IdxMessage>>,
+  messages: Record<string, Partial<IdxMessage>[]>,
 ): void {
   const fn = (items: Input[], namePrefix: string) => {
     items.forEach((input) => {
@@ -24,12 +24,12 @@ export function resetMessagesToInputs(
         return;
       }
 
-      const message = messages[name];
+      const validationMessages = messages[name];
       // @ts-ignore update Input type in okta-auth-js
       // eslint-disable-next-line no-param-reassign
-      input.messages = message ? {
+      input.messages = validationMessages?.length ? {
         type: 'object',
-        value: [message],
+        value: validationMessages,
       } : undefined;
     });
   };

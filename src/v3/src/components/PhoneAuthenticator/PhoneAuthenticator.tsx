@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { NativeSelect, TextInput } from '@okta/odyssey-react';
+import {
+  Box, FormHelperText, InputAdornment, InputLabel, OutlinedInput,
+} from '@mui/material';
+import { NativeSelect } from '@okta/odyssey-react';
 import get from 'lodash/get';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
@@ -31,12 +33,12 @@ const PhoneAuthenticator: UISchemaElementComponent<{
     label,
     options: {
       translations = [],
-      targetKey = '',
       inputMeta: {
         name: fieldName,
         // @ts-ignore expose type from auth-js
         messages = {},
       },
+      attributes,
     },
   } = uischema;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
@@ -49,8 +51,8 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   // Sets US as default code
   const [phoneCode, setPhoneCode] = useState(`+${CountryUtil.getCallingCodeForCountry('US')}`);
   const [extension, setExtension] = useState<string>('');
-  const targetValue = get(data, targetKey);
-  const showExtension = targetValue === 'voice';
+  const methodType = get(data, 'authenticator.methodType');
+  const showExtension = methodType === 'voice';
   const onValidateHandler = useFieldValidation(uischema);
   const onChangeHandler = useOnChange(uischema);
 
@@ -70,32 +72,32 @@ const PhoneAuthenticator: UISchemaElementComponent<{
     onValidateHandler(setFieldError, phone);
   };
 
-  // For server side errors, need to reset the touched value
   useEffect(() => {
-    setIsTouched(false);
-  }, [error]);
-
-  useEffect(() => {
-    setIsTouched(true);
     onChangeHandler(formatPhone(phone, phoneCode, extension));
     onValidateHandler(setFieldError, phone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phoneCode, phone, extension, showExtension]);
 
+  // For server side errors, need to reset the touched value
+  useEffect(() => {
+    setIsTouched(false);
+  }, [error]);
+
   const renderExtension = () => (
     showExtension && (
-      <Box
-        width={0.25}
-      >
-        <TextInput
-          type="text"
-          data-se="extension"
-          name="extension"
-          label={getTranslation(translations, 'extension')}
+      <Box width={0.25}>
+        <InputLabel htmlFor="extension">{getTranslation(translations, 'extension')}</InputLabel>
+        <OutlinedInput
           value={extension}
-          autocomplete="tel-extension"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          type="text"
+          name="extension"
+          id="extension"
+          onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setExtension(e.currentTarget.value);
+          }}
+          inputProps={{
+            'data-se': 'extension',
+            autocomplete: 'tel-extension',
           }}
         />
       </Box>
@@ -138,22 +140,33 @@ const PhoneAuthenticator: UISchemaElementComponent<{
           width={showExtension ? 0.7 : 1}
           marginRight={showExtension ? 2 : 0}
         >
-          <TextInput
+          <InputLabel htmlFor={fieldName}>{getLabelName(label!)}</InputLabel>
+          <OutlinedInput
             type="tel"
-            data-se={fieldName}
-            error={isTouched ? fieldError : error}
             name={fieldName}
-            label={getLabelName(label as string)}
             id={fieldName}
-            prefix={phoneCode}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...(uischema.options?.attributes && uischema.options.attributes)}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            error={isTouched ? !!fieldError : !!error}
+            onBlur={handleBlur}
+            onKeyUp={() => setIsTouched(true)}
+            onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
             }}
-            onBlur={handleBlur}
+            startAdornment={<InputAdornment position="start">{phoneCode}</InputAdornment>}
+            fullWidth
+            inputProps={{
+              'data-se': fieldName,
+              ...attributes,
+            }}
           />
+          {(isTouched ? !!fieldError : !!error) && (
+            <FormHelperText
+              data-se={`${fieldName}-error`}
+              error
+            >
+              {isTouched ? fieldError : error}
+            </FormHelperText>
+          )}
         </Box>
         { renderExtension() }
       </Box>

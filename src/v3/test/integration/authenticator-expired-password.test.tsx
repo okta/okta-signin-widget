@@ -77,11 +77,10 @@ describe('authenticator-expired-password', () => {
     const password = 'superSecretP@ssword12';
     await user.type(newPasswordEle, password);
 
-    // incorrect password match
     await user.type(confirmPasswordEle, 'abc123');
+    await user.click(submitButton);
     await findByText(/New passwords must match/);
 
-    await user.click(submitButton);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
@@ -89,7 +88,7 @@ describe('authenticator-expired-password', () => {
     );
   });
 
-  it('should not make network without completing any password fields', async () => {
+  it('should not make network request without completing any password fields', async () => {
     const {
       authClient, user, findByTestId, findByText, findAllByText,
     } = await setup({ mockResponse });

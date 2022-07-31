@@ -42,11 +42,29 @@ const addCustomizedErrorKeys = (
       dataSchema[obj.field] = {
         validate(data) {
           const isValid = !!data[obj.field];
-          return isValid ? undefined : {
+          return isValid ? undefined : [{
             i18n: { key: obj.key },
-          };
+          }];
         },
       };
+    }
+  });
+};
+
+const addHint = (
+  elements: UISchemaElement[],
+  widgetProps: WidgetProps,
+) => {
+  [
+    { field: 'identifier', key: 'primaryauth.username.tooltip' },
+    { field: 'credentials.passcode', key: 'primaryauth.password.tooltip' },
+  ].forEach((obj) => {
+    const ele = getUIElementWithName(
+      obj.field,
+      elements as UISchemaElement[],
+    ) as FieldElement;
+    if (ele && isCustomizedI18nKey(obj.key, widgetProps)) {
+      ele.options.hint = loc(obj.key, 'login');
     }
   });
 };
@@ -55,6 +73,7 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
   const { features, username } = widgetProps;
   const { uischema, dataSchema, data } = formBag;
 
+  addHint(uischema.elements, widgetProps);
   addCustomizedErrorKeys(dataSchema, uischema.elements, widgetProps);
 
   const identifierElement = getUIElementWithName(

@@ -131,8 +131,8 @@ export interface FieldElement extends UISchemaElement {
     defaultOption?: string | number | boolean;
     type?: string;
     customOptions?: IdxOption[],
-    targetKey?: string;
     translations?: TranslationInfo[];
+    hint?: string;
   };
 }
 
@@ -333,7 +333,8 @@ export interface RedirectElement extends UISchemaElement {
   options: { url: string; },
 }
 
-type ValidateFunction = (data: FormBag['data']) => Partial<IdxMessage> | undefined;
+type ValidateFunction = (data: FormBag['data']) => Partial<IdxMessage>[]
+| undefined;
 
 export interface DataSchema {
   validate?: ValidateFunction;
@@ -349,7 +350,5 @@ export interface PasswordWithConfirmationElement extends UISchemaElement {
   type: 'PasswordWithConfirmation';
   options: {
     input: FieldElement,
-    passwordMatchErrorMessage: string;
-    fieldRequiredErrorMessage: string;
   };
 }
