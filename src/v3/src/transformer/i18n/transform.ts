@@ -123,8 +123,7 @@ export const transformAdditionalPhoneUITranslations = (formBag: FormBag) => {
 export const isCustomizedI18nKey = (i18nKey: string, widgetProps: WidgetProps): boolean => {
   const { i18n } = widgetProps;
   const language = getLanguageCode(widgetProps);
-  const customizedProperty = i18n && i18n[language] && i18n[language][i18nKey];
-  return !!customizedProperty;
+  return !!i18n?.[language]?.[i18nKey];
 };
 
 export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) => {
