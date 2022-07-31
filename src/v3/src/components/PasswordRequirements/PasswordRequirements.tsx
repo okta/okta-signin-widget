@@ -45,9 +45,10 @@ const PasswordRequirements: UISchemaElementComponent<{
     userInfo,
     validationDelayMs,
   } = uischema.options as PasswordRequirementsElement['options'];
-  const password = 'credentials.passcode' in data
-    ? get(data, 'credentials.passcode')
-    : get(data, 'credentials.newPassword');
+  const password = get(
+    data,
+    'credentials.passcode' in data ? 'credentials.passcode' : 'credentials.newPassword',
+  );
 
   const [passwordValidations, setPasswordValidations] = useState<PasswordValidation>({});
 
