@@ -1,8 +1,13 @@
 import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
-import { checkConsoleMessages } from '../framework/shared';
-import ResetPasswordPageObject from '../framework/page-objects/ResetPasswordPageObject';
-import recoveryPasswordResponse from '../../../playground/mocks/data/api/v1/authn/recovery-password';
-import cancelResponse from '../../../playground/mocks/data/api/v1/authn/cancel';
+import { checkConsoleMessages } from '../../framework/shared';
+import ResetPasswordPageObject from '../../framework/page-objects-v1/ResetPasswordPageObject';
+import recoveryPasswordResponse from '../../../../playground/mocks/data/api/v1/authn/recovery-password';
+import cancelResponse from '../../../../playground/mocks/data/api/v1/authn/cancel';
+
+const renderWidget = ClientFunction((settings) => {
+  // function `renderPlaygroundWidget` is defined in playground/main.js
+  window.renderPlaygroundWidget(settings);
+});
 
 const resetPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn/recovery/token')
@@ -20,15 +25,22 @@ const logger = RequestLogger(/token|cancel/, {
 
 async function setup(t) {
   const resetPasswordPage = new ResetPasswordPageObject(t);
-
-  await resetPasswordPage.navigateToPage();
+  await resetPasswordPage.navigateToPage({ render: false });
+  
+  await resetPasswordPage.mockCrypto();
+  await renderWidget({
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
+    features: {
+      router: true,
+    },
+  });
   return resetPasswordPage;
 }
 
 test.requestHooks(logger, resetPasswordMock)(
   'should clear the reset password transaction after going back to sign in and not navigate back to the security question after clicking the browser back button',
   async (t) => {
-    const resetPasswordPage = await setup(t);
+    let resetPasswordPage = await setup(t);
 
     await checkConsoleMessages({ controller: 'recovery-loading' });
     let pageUrl = await resetPasswordPage.getPageUrl();
@@ -39,7 +51,7 @@ test.requestHooks(logger, resetPasswordMock)(
 
     const goBack = ClientFunction(() => window.history.back());
     await goBack();
-    
+
     pageUrl = await resetPasswordPage.getPageUrl();
     await t.expect(pageUrl).eql('http://localhost:3000/');
 
