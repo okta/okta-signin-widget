@@ -1,3 +1,4 @@
+// Common view for OV push and custom push.
 import { Collection } from 'okta';
 import { BaseForm } from '../../internals';
 import AuthenticatorVerifyOptions from '../../components/AuthenticatorVerifyOptions';
@@ -14,7 +15,8 @@ const Body = SelectAuthenticatorVerifyViewBody.extend({
     this._sortMethodOptionsIfDeviceKnown(methodsSchema.options);
 
     const methodOptions = methodsSchema.options.map((option) => {
-      return Object.assign({}, option, getAuthenticatorDataForVerification({authenticatorKey: AUTHENTICATOR_KEY.OV}));
+      return Object.assign({}, option, getAuthenticatorDataForVerification({authenticatorKey:
+            this.isOV()?AUTHENTICATOR_KEY.OV:AUTHENTICATOR_KEY.CUSTOM_APP}));
     });
     return [{
       View: AuthenticatorVerifyOptions,
@@ -42,7 +44,10 @@ const Body = SelectAuthenticatorVerifyViewBody.extend({
         methodOptions.unshift(signedNonceModel);
       }
     }
-  }
+  },
+  isOV() {
+    return this.options.appState.get('authenticatorKey') === AUTHENTICATOR_KEY.OV;
+  },
 });
 
 export default Body;
