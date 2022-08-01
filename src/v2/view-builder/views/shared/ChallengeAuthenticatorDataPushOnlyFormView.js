@@ -5,7 +5,9 @@ import { loc } from 'okta';
 
 
 const Body = BaseForm.extend(Object.assign({
-  className: this.isOV() ? 'okta-verify-send-push-form' : 'custom-app-send-push-form',
+  className:   function() {
+    return this.isOV() ? 'okta-verify-send-push-form' : 'custom-app-send-push-form';
+  },
 
   save() {
     return this.isOV() ? loc('oie.okta_verify.sendPushButton', 'login'): loc('oie.custom_app.sendPushButton', 'login');
