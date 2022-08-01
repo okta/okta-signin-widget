@@ -17,7 +17,7 @@ const LOG_IGNORE_PATTERNS = [
 ];
 
 export const renderWidget = ClientFunction((settings) => {
-  // function `renderPlaygroundWidget` is defined in playground/main.js
+  // @ts-ignore
   window.renderPlaygroundWidget(settings);
 });
 
@@ -26,16 +26,17 @@ export const renderWidget = ClientFunction((settings) => {
 // 2. Widget transitions to a new page and animations have finished (afterRender)
 // 3. Context object from the 'afterReady' event
 export async function checkConsoleMessages(context = {}) {
-  if (!Array.isArray(context)) {
-    context = ['ready', 'afterRender', context];
-  }
+  const ctx = !Array.isArray(context)
+    ? ['ready', 'afterRender', context]
+    : context;
+
   let { log } = await t.getBrowserConsoleMessages();
   log = log.filter((msg) => LOG_IGNORE_PATTERNS.every(rx => !rx.test(msg)));
 
-  await t.expect(log.length).eql(context.length);
+  await t.expect(log.length).eql(ctx.length);
 
-  for (let i = 0; i < context.length; i++) {
-    switch (context[i]) {
+  for (let i = 0; i < ctx.length; i++) {
+    switch (ctx[i]) {
     case 'ready':
       await t.expect(log[i]).eql(READY_MESSAGE);
       break;
@@ -45,12 +46,12 @@ export async function checkConsoleMessages(context = {}) {
     default: {
       /* eslint max-depth: [2, 3] */
       const parsedLog = JSON.parse(log[i]);
-      if (context[i].status === 'SUCCESS') {
+      if (ctx[i].status === 'SUCCESS') {
         await t.expect(parsedLog.status).eql('SUCCESS');
-        await t.expect(parsedLog.tokens.accessToken.accessToken).eql(context[i].accessToken);
-        await t.expect(parsedLog.tokens.idToken.idToken).eql(context[i].idToken);
+        await t.expect(parsedLog.tokens.accessToken.accessToken).eql(ctx[i].accessToken);
+        await t.expect(parsedLog.tokens.idToken.idToken).eql(ctx[i].idToken);
       } else {
-        await t.expect(parsedLog).eql(context[i]);
+        await t.expect(parsedLog).eql(ctx[i]);
       }
     }
     }
@@ -67,12 +68,13 @@ export const getStateHandleFromSessionStorage = ClientFunction(() => {
 });
 
 export function getAuthJSVersion() {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const JSON = require('@okta/okta-auth-js/package.json');
   return JSON.version;
 }
 
 export async function assertRequestMatches(loggedRequest, url, method, body) {
-  let { request } = loggedRequest;
+  const { request } = loggedRequest;
   await t.expect(request.url).eql(url);
   if (method) {
     await t.expect(request.method).eql(method);
@@ -87,9 +89,8 @@ export async function assertRequestMatches(loggedRequest, url, method, body) {
 /**
  * Provides mock responses for common endpoints. Use this export instead of
  * importing from "testcafe" directly to avoid falling back to dyson mock server
- * for these requests.
  */
-export const RequestMock = (...args) => TestCafeRequestMock(...args)
+export const RequestMock = () => TestCafeRequestMock()
   .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
   .respond(xhrInteract)
   .onRequestTo('http://localhost:3000/oauth2/default/.well-known/openid-configuration')

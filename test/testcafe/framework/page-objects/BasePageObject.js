@@ -6,16 +6,16 @@ const GO_BACK_LINK = '.auth-footer .js-go-back';
 const SKIP_LINK = '.auth-footer .js-skip';
 const SKIP_SET_UP_LINK = '.auth-footer .js-skip-setup';
 const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
-const ionMessagesSelector = '.ion-messages-container';
+const ION_MESSAGES_SELECTOR = '.ion-messages-container';
 const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
 const FACTOR_PAGE_HELP_LINK = '[data-se="factorPageHelpLink"]';
 
 export default class BasePageObject {
-  constructor(t) {
+  constructor(t, { beacon, url, form } = {}) {
     this.t = t;
-    this.url = '';
-    this.beacon = new Selector('.beacon-container');
-    this.form = new BaseFormObject(t);
+    this.url = url || '';
+    this.beacon = beacon || Selector('.beacon-container');
+    this.form = form || new BaseFormObject(t);
   }
 
   async mockCrypto() {
@@ -23,7 +23,7 @@ export default class BasePageObject {
       if (typeof window.crypto === 'undefined') {
         window.crypto = {};
       }
-    
+
       if (typeof window.crypto.subtle === 'undefined') {
         window.crypto.subtle = {
           digest: function() {
@@ -31,11 +31,11 @@ export default class BasePageObject {
           }
         };
       }
-    
+
       if (typeof Uint8Array === 'undefined') {
         window['Uint8Array'] = window.Number;
       }
-    
+
       String.fromCharCode = function() {
         return 'mocked';
       };
@@ -97,7 +97,7 @@ export default class BasePageObject {
   }
 
   getIonMessages() {
-    return this.form.getElement(ionMessagesSelector).innerText;
+    return this.form.getElement(ION_MESSAGES_SELECTOR).innerText;
   }
 
   async signoutLinkExists() {

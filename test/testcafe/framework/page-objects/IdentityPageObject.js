@@ -15,6 +15,9 @@ const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
 const FOOTER_INFO_SELECTOR = '.footer-info';
 const CUSTOM_IDP_BUTTON = '.social-auth-general-idp-button';
+const OKTA_VERIFY_BUTTON_SELECTOR = '.sign-in-with-device-option .okta-verify-container .link-button';
+const PAGE_TITLE_SELECTOR = '.okta-form-title';
+const SEPARATION_LINE_SELECTOR = '.sign-in-with-device-option .separation-line';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor(t) {
@@ -22,11 +25,11 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
+    return this.form.getElement(PAGE_TITLE_SELECTOR).textContent;
   }
 
   getOktaVerifyButtonText() {
-    return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
+    return this.form.getElement(OKTA_VERIFY_BUTTON_SELECTOR).textContent;
   }
 
   getRememberMeText() {
@@ -63,11 +66,11 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async clickOktaVerifyButton() {
-    await this.t.click(Selector('.sign-in-with-device-option .okta-verify-container .link-button'));
+    await this.t.click(Selector(OKTA_VERIFY_BUTTON_SELECTOR));
   }
 
   getSeparationLineText() {
-    return this.form.getElement('.sign-in-with-device-option .separation-line').textContent;
+    return this.form.getElement(SEPARATION_LINE_SELECTOR).textContent;
   }
 
   fillIdentifierField(value) {
@@ -83,7 +86,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async hasShowTogglePasswordIcon() {
-    return await Selector('[data-se="password-toggle"]').count > 0;
+    return await Selector('.password-toggle').count;
   }
 
   getSaveButtonLabel() {
