@@ -1,5 +1,5 @@
 import { Selector, ClientFunction } from 'testcafe';
-import BasePageObject from './BasePageObject';
+import BasePageObject from '../page-objects/BasePageObject';
 
 const BACK_TO_SIGN_IN_SELECTOR = '[data-se="signout-link"]';
 
