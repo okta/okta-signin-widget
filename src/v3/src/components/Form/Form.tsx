@@ -18,7 +18,7 @@ import { useCallback, useRef } from 'preact/hooks';
 import { FormContext, useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import { ActionOptions, SubmitEvent, UISchemaLayout } from '../../types';
-import { resetMessagesToInputs } from '../../util';
+import { loc, resetMessagesToInputs } from '../../util';
 import Layout from './Layout';
 
 const Form: FunctionComponent<{
@@ -29,12 +29,14 @@ const Form: FunctionComponent<{
     data,
     idxTransaction: currTransaction,
     setIdxTransaction,
+    setMessage,
     dataSchemaRef,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
 
   const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();
+    setMessage(undefined);
 
     const { actionParams: params, step } = submissionOptionsRef.current!;
 
@@ -60,6 +62,11 @@ const Form: FunctionComponent<{
       if (Object.entries(messages).length) {
         const newTransaction = clone(currTransaction);
         resetMessagesToInputs(newTransaction!.nextStep!.inputs!, messages);
+        setMessage({
+          message: loc('oform.errorbanner.title', 'login'),
+          class: 'ERROR',
+          i18n: { key: 'oform.errorbanner.title' },
+        } as IdxMessage);
         setIdxTransaction(newTransaction);
         return;
       }
@@ -77,6 +84,7 @@ const Form: FunctionComponent<{
     dataSchemaRef,
     setIdxTransaction,
     onSubmitHandler,
+    setMessage,
   ]);
 
   return (

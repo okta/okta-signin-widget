@@ -104,7 +104,9 @@ describe('identify-with-password', () => {
       const {
         authClient,
         user,
+        container,
         findByTestId,
+        findByText,
       } = await setup({ mockResponse });
       let identifierError; let
         passwordError;
@@ -115,8 +117,11 @@ describe('identify-with-password', () => {
 
       // empty username & empty password
       await user.click(submitButton);
+      await findByText(/We found some errors./);
       identifierError = await findByTestId('identifier-error');
       expect(identifierError.textContent).toEqual('This field cannot be left blank');
+      expect(container).toMatchSnapshot();
+
       passwordError = await findByTestId('credentials.passcode-error');
       expect(passwordError.textContent).toEqual('This field cannot be left blank');
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
