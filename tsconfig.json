@@ -18,7 +18,7 @@
     "paths": {
       "okta-i18n-bundles": ["./src/util/Bundles.ts"],
       "nls/*": ["./packages/@okta/i18n/src/json/*"],
-      "okta": ["./packages/@okta/courage-dist"],
+      "okta": ["./packages/@okta/courage-dist/types"],
       "handlebars-inline-precompile": ["./scripts/buildtools/tsc/handlebars-inline-precompile"],
       "duo": ["./packages/vendor/duo_web_sdk/index.js"],
       "qtip": ["./packages/@okta/qtip2/dist/jquery.qtip.js"],

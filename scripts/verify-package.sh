@@ -15,14 +15,14 @@ if ! yarn build:release; then
 fi
 
 pushd test/package/cjs
-if ! yarn && yarn test; then
+if ! (yarn && yarn test); then
   echo "CommonJS bundle verification failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
 popd
 
 pushd test/package/esm
-if ! yarn && yarn test; then
+if ! (yarn && yarn test); then
   echo "ESM bundle verification failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
@@ -46,7 +46,7 @@ fi
 mv node_modules node_modules2
 
 pushd test/package/tsc
-if ! yarn && yarn test; then
+if ! (yarn && yarn test); then
   echo "TSC package verification failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
