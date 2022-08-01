@@ -8,6 +8,6 @@ module.exports = {
   * test/testcafe/spec/Smoke_spec.js
   */
   filter: (testName, fixtureName, fixturePath, testMeta, fixtureMeta) => {
-    return fixtureMeta.v3 === true;
+    return fixtureMeta.v3 === true && testMeta.v3 !== false;
   },
 };
