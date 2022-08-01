@@ -95,7 +95,6 @@ const Form: FunctionComponent<{
       <form
         noValidate
         onSubmit={handleSubmit}
-        className="o-form" // FIXME update page objects using .o-form selectors
         data-se="form"
       >
         <Layout uischema={uischema} />

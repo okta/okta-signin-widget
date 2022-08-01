@@ -24,11 +24,13 @@ const InfoSection: FunctionComponent<Props> = ({ message }) => (message ? (
   <Box
     marginBottom={4}
     width={1}
+    data-se="o-form-error-container"
   >
     <Alert
       key={message.i18n?.key || message.message}
       severity={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
       variant="infobox"
+      className="infobox-error"
     >
       {message.message}
     </Alert>

@@ -12,6 +12,7 @@
 
 import { Alert, Box } from '@mui/material';
 import { h } from 'preact';
+import { useMemo } from 'preact/hooks';
 
 import {
   InfoboxElement,
@@ -25,15 +26,22 @@ const InfoBox: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const { options: { message, title, class: messageClass } } = uischema;
 
+  const messageVariant = useMemo(() => (
+    MessageTypeVariant[messageClass as MessageType]
+  ), [messageClass]);
+
   return (
     <Box
       marginBottom={4}
       width={1}
+      data-se="message-container"
     >
       <Alert
-        severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
+        severity={messageVariant ?? MessageTypeVariant.INFO}
         variant="infobox"
         title={title}
+        data-se="message"
+        data-type={messageVariant}
       >
         {message}
       </Alert>

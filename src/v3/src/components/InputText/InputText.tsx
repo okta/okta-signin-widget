@@ -16,7 +16,9 @@ import {
   InputLabel,
   OutlinedInput,
 } from '@mui/material';
+import useId from '@mui/material/utils/useId';
 import { h } from 'preact';
+import { useMemo } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useOnChange, useValue } from '../../hooks';
@@ -46,6 +48,8 @@ const InputText: UISchemaElementComponent<{
     onChangeHandler(e.currentTarget.value);
   };
 
+  const errorId = useMemo(() => !!error ? useId() : undefined, [error]);
+
   return (
     <Box>
       <InputLabel htmlFor={name}>{getLabelName(label!)}</InputLabel>
@@ -57,6 +61,7 @@ const InputText: UISchemaElementComponent<{
         error={error !== undefined}
         onChange={handleChange}
         fullWidth
+        aria-describedby={errorId}
         inputProps={{
           'data-se': name,
           ...attributes,
@@ -64,6 +69,7 @@ const InputText: UISchemaElementComponent<{
       />
       {error && (
         <FormHelperText
+          id={errorId}
           data-se={`${name}-error`}
           error
         >

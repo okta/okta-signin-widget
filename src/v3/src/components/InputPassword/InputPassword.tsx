@@ -11,8 +11,10 @@
  */
 
 import { Box, FormHelperText } from '@mui/material';
+import useId from '@mui/material/utils/useId';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
+import { useMemo } from 'preact/hooks';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
@@ -34,6 +36,7 @@ const InputPassword: UISchemaElementComponent<{
     },
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
+  const errorId = useMemo<string | undefined>(() => error ? useId() : undefined, [error]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);
@@ -47,6 +50,7 @@ const InputPassword: UISchemaElementComponent<{
         name={name}
         id={name}
         error={error !== undefined}
+        aria-describedby={errorId}
         onChange={handleChange}
         fullWidth
         inputProps={{
@@ -56,6 +60,7 @@ const InputPassword: UISchemaElementComponent<{
       />
       {error && (
         <FormHelperText
+          id={errorId}
           data-se={`${name}-error`}
           error
         >
