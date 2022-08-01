@@ -77,7 +77,7 @@
     "build:types": "yarn clean:types && yarn generate:types && yarn copy:types",
     "start:mock-server": "MOCK_SERVER_PORT=3030 nodemon --delay 500ms -e js,json --watch playground --exec 'node playground/mocks/server.js'",
     "test:parity-setup": "mkdir -p test-reports/testcafe && yarn generate-config && yarn workspace v3 build && yarn workspace v3 serve",
-    "test:parity-run": "yarn test -t testcafe --config-file .testcaferc-parity.js -c 2 chrome:headless --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
+    "test:parity-run": "OKTA_SIW_V3=true yarn test -t testcafe --config-file .testcaferc-parity.js -c 2 chrome:headless --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
     "test:parity-ci": "yarn codegen && run-p -r test:parity-setup test:parity-run"
   },
   "devDependencies": {
