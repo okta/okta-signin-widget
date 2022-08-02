@@ -11,12 +11,18 @@
  */
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
-import { IDX_STEP } from 'src/constants';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import {
-  FieldElement, FormBag, PasswordRequirementsElement, TitleElement, UISchemaLayoutType, WidgetProps,
-} from 'src/types';
 
+import { IDX_STEP } from '../../constants';
+import { getStubTransactionWithNextStep } from '../../mocks/utils/utils';
+import {
+  FieldElement,
+  FormBag,
+  PasswordRequirementsElement,
+  PasswordWithConfirmationElement,
+  TitleElement,
+  UISchemaLayoutType,
+  WidgetProps,
+} from '../../types';
 import { transformEnrollPasswordAuthenticator } from '.';
 
 describe('Enroll Password Authenticator Transformer Tests', () => {
@@ -53,13 +59,13 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
     widgetProps = {};
   });
 
-  it('should add title, password requirements and confirm password elements to UI Schema for enroll PW step', () => {
+  it('should add title, password requirements and password enrollment elements to UI Schema for enroll PW step', () => {
     transaction.nextStep = {
       name: IDX_STEP.ENROLL_AUTHENTICATOR,
       relatesTo: {
         value: {
           settings: {
-            complexity: {},
+            complexity: { minLength: 1 },
           },
         } as unknown as IdxAuthenticator,
       },
@@ -69,7 +75,7 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
     });
 
     // Verify added elements
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.password.enroll.title');
@@ -79,26 +85,44 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.header)
       .toBe('password.complexity.requirements.header');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
-      .toEqual({ complexity: {} });
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
-      .toBe('credentials.passcode');
+      .toEqual({ complexity: { minLength: 1 } });
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(50);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
       .toBe('password-authenticator--list');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
-      .toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.secret)
-      .toBe(true);
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.attributes?.autocomplete)
-      .toBe('new-password');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.secret)
-      .toBe(true);
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.attributes?.autocomplete)
-      .toBe('new-password');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).label)
-      .toBe('oie.password.confirmPasswordLabel');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.targetKey)
-      .toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
+      .toBe('PasswordWithConfirmation');
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
+      .options.input.name).toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
+      .options.input.options.inputMeta.secret).toBe(true);
+    expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
+      .options.input.options.attributes?.autocomplete).toBe('new-password');
+  });
+
+  it('should add title, and password enrollment elements to UI Schema for enroll PW step with missing password policy settings', () => {
+    transaction.nextStep = {
+      name: IDX_STEP.ENROLL_AUTHENTICATOR,
+      relatesTo: {
+        value: {} as unknown as IdxAuthenticator,
+      },
+    };
+    const updatedFormBag = transformEnrollPasswordAuthenticator({
+      transaction, formBag, widgetProps,
+    });
+
+    // Verify added elements
+    expect(updatedFormBag.uischema.elements.length).toBe(2);
+    expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.password.enroll.title');
+    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement).type)
+      .toBe('PasswordWithConfirmation');
+    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
+      .options.input.name).toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
+      .options.input.options.inputMeta.secret).toBe(true);
+    expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
+      .options.input.options.attributes?.autocomplete).toBe('new-password');
   });
 });

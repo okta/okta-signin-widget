@@ -45,15 +45,15 @@ const Form: FunctionComponent<{
     if (!step || step === nextStep!.name) {
       // aggregate field level messages based on validation rules in each field
       const messages = Object.entries(dataSchemaRef.current!)
-        .reduce((acc: Record<string, Partial<IdxMessage>>, curr) => {
+        .reduce((acc: Record<string, Partial<IdxMessage>[]>, curr) => {
           const [name, elementSchema] = curr;
           if (typeof elementSchema.validate === 'function') {
-            const message = elementSchema.validate({
+            const validationMessages = elementSchema.validate({
               ...data,
               ...params,
             });
-            if (message) {
-              acc[name] = message;
+            if (validationMessages?.length) {
+              acc[name] = validationMessages;
             }
           }
           return acc;
