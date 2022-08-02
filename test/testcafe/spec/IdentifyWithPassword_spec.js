@@ -44,14 +44,14 @@ async function setup(t) {
 test.meta('v3', true).requestHooks(identifyWithPasswordMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
 
-  // await identityPage.clickNextButton();
-  // await identityPage.waitForErrorBox();
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
 
-  // await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
+  await t.expect(await identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
-  // await identityPage.waitForErrorBox();
+  await identityPage.waitForErrorBox();
 
   await t.expect(await identityPage.getPasswordErrorMessage()).eql('This field cannot be left blank');
 });
@@ -70,15 +70,16 @@ test.meta('v3', false).requestHooks(identifyWithPasswordMock)('should show custo
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
+  await t.expect(await identityPage.getIdentifierErrorMessage()).eql('Username is required!');
 
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.getPasswordErrorMessage()).eql('Password is required!');
+  await t.expect(await identityPage.getPasswordErrorMessage()).eql('Password is required!');
 });
+
 test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field, password toggle, and forgot password link', async t => {
   const identityPage = await setup(t);
 

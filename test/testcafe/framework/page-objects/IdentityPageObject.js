@@ -86,7 +86,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async hasShowTogglePasswordIcon() {
-    return await Selector('.password-toggle').count;
+    return await Selector('.password-toggle').count > 0;
   }
 
   getSaveButtonLabel() {

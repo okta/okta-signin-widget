@@ -1,13 +1,14 @@
 import BaseFormObject from './BaseFormObject';
 import { Selector } from 'testcafe';
 
+const FORM_SELECTOR = '[data-se="form"]';
 const SUBMIT_BUTTON_SELECTOR = '[data-type="save"]';
-const FORM_INFOBOX_ERROR = '[data-se="message-container"] [data-type="error"]';
+const FORM_INFOBOX_ERROR_SELECTOR = '[data-se="message-container"] [data-type="error"]';
 
 export default class BaseFormObjectV3 extends BaseFormObject {
   constructor(t, index = 0) {
     super(t);
-    this.el = Selector('[data-se="form"]').nth(index);
+    this.el = Selector(FORM_SELECTOR).nth(index);
   }
 
   async setTextBoxValue(name, text) {
@@ -38,7 +39,7 @@ export default class BaseFormObjectV3 extends BaseFormObject {
 
   // Error banner
   async waitForErrorBox() {
-    await this.el.find(FORM_INFOBOX_ERROR).exists;
+    await this.el.find(FORM_INFOBOX_ERROR_SELECTOR).exists;
   }
   async getTextBoxErrorMessage(fieldName) {
     const input = this.findFormFieldInput(fieldName);

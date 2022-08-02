@@ -11,11 +11,11 @@ const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
 const FACTOR_PAGE_HELP_LINK = '[data-se="factorPageHelpLink"]';
 
 export default class BasePageObject {
-  constructor(t, { beacon, url, form } = {}) {
+  constructor(t) {
     this.t = t;
-    this.url = url || '';
-    this.beacon = beacon || Selector('.beacon-container');
-    this.form = form || new BaseFormObject(t);
+    this.url = '';
+    this.beacon = Selector('.beacon-container');
+    this.form = new BaseFormObject(t);
   }
 
   async mockCrypto() {
