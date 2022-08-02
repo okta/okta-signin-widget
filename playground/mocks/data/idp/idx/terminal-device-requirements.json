@@ -1,0 +1,15 @@
+{
+  "stateHandle": "02itnqG312DoS3cU0z0LWs11l76yQ8ll4d95Oye61u",
+  "version": "1.0.0",
+  "expiresAt": "2020-07-01T00:07:15.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "For more information, follow the instructions on the help page, or contact your administrator for help. iuAGHWFGBiuoHASGUOIRSHGOUISRHGIOSJRIOGSRIOGJrsOIGJSEIORGJSORIGHJSRIOGJSOIRP{JGIOSRJG)ISRHJGIOPSRHGOUSRHGOIURHGOUISRHG{)(IGOISRGHJOP{RJGIORSGHOIUSRHJGIORSJGIOSRJGOIRSHJGIOPjresoIGHRSGIOJRSIO",
+        "class": "ERROR"
+      }
+    ]
+  }
+}
