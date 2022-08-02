@@ -42,29 +42,6 @@
       "type": "node",
       "protocol": "inspector",
       "request": "launch",
-      "name": "Debug v3 with TestCafe",
-      "program": "${workspaceRoot}/node_modules/testcafe/bin/testcafe.js",
-      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v14.19.1/bin/node",
-      "env": {
-        "OKTA_SIW_V3": "true"
-      },
-      "args": [
-          "chrome",
-          "${relativeFile}",
-          "--browser-init-timeout",
-          "1000000",
-          "--page-load-timeout",
-          "1000000",
-          "--config-file",
-          ".testcaferc-parity.js"
-      ],
-      "console": "integratedTerminal",
-      "cwd": "${workspaceRoot}"
-    },
-    {
-      "type": "node",
-      "protocol": "inspector",
-      "request": "launch",
       "name": "Debug v3 Parity with TestCafe",
       "program": "${workspaceRoot}/node_modules/testcafe/bin/testcafe.js",
       "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v12.13.0/bin/node",
@@ -77,9 +54,7 @@
           "--browser-init-timeout",
           "1000000",
           "--page-load-timeout",
-          "1000000",
-          "--config-file",
-          ".testcaferc-parity.js"
+          "1000000"
       ],
       "console": "integratedTerminal",
       "cwd": "${workspaceRoot}"
