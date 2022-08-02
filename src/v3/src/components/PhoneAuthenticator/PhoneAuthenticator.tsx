@@ -14,7 +14,6 @@ import {
   Box, FormHelperText, InputAdornment, InputLabel, OutlinedInput,
 } from '@mui/material';
 import { NativeSelect } from '@okta/odyssey-react';
-import get from 'lodash/get';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
@@ -51,7 +50,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   // Sets US as default code
   const [phoneCode, setPhoneCode] = useState(`+${CountryUtil.getCallingCodeForCountry('US')}`);
   const [extension, setExtension] = useState<string>('');
-  const methodType = get(data, 'authenticator.methodType');
+  const methodType = data['authenticator.methodType'];
   const showExtension = methodType === 'voice';
   const onValidateHandler = useFieldValidation(uischema);
   const onChangeHandler = useOnChange(uischema);
@@ -86,12 +85,12 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   const renderExtension = () => (
     showExtension && (
       <Box width={0.25}>
-        <InputLabel htmlFor="extension">{getTranslation(translations, 'extension')}</InputLabel>
+        <InputLabel htmlFor="phoneExtension">{getTranslation(translations, 'extension')}</InputLabel>
         <OutlinedInput
           value={extension}
           type="text"
           name="extension"
-          id="extension"
+          id="phoneExtension"
           onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setExtension(e.currentTarget.value);
           }}

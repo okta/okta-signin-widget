@@ -30,7 +30,6 @@ export const useFieldValidation = (uischema: FieldElement) => {
       const messages = validator.validate({ ...updatedData });
       if (messages?.[0]?.i18n?.key) {
         // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
-        // eslint-disable-next-line no-param-reassign
         setFieldError(getMessage(messages?.[0]));
         return;
       }

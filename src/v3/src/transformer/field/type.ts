@@ -43,12 +43,6 @@ const map = new Map<string, JsonSchemaType>([
   ['url', 'string'],
 ]);
 
-export const fieldPatternMap = new Map<string, string>([
-  ['verificationCode', '[0-9]{6}'],
-  ['totp', '[0-9]{6}'],
-  ['phoneNumber', '^\\+([0-9]{5,17})(?:x(?<ext>[0-9]+))?$'],
-]);
-
 export type Result = {
   [name: string]: Record<string, unknown>;
 };

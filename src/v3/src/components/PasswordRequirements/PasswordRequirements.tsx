@@ -15,7 +15,6 @@ import {
   List, Text,
 } from '@okta/odyssey-react';
 import debounce from 'lodash/debounce';
-import get from 'lodash/get';
 import { h } from 'preact';
 import {
   useCallback,
@@ -45,10 +44,9 @@ const PasswordRequirements: UISchemaElementComponent<{
     userInfo,
     validationDelayMs,
   } = uischema.options as PasswordRequirementsElement['options'];
-  const password = get(
-    data,
-    'credentials.passcode' in data ? 'credentials.passcode' : 'credentials.newPassword',
-  );
+  const password = 'credentials.passcode' in data
+    ? data['credentials.passcode']
+    : data['credentials.newPassword'];
 
   const [passwordValidations, setPasswordValidations] = useState<PasswordValidation>({});
 
