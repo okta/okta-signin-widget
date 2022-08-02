@@ -88,11 +88,14 @@ const Body = BaseForm.extend({
       publicKey: options,
       signal: this.webauthnAbortController.signal
     }).then((assertion) => {
+      const userHandle = CryptoUtil.binToStr(assertion.response.userHandle);
+      console.log("userHandle: " + userHandle);
       this.model.set({
         credentials : {
           clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
           authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
           signatureData: CryptoUtil.binToStr(assertion.response.signature),
+	  userHandle,
         }
       });
       this.saveForm(this.model);

@@ -11,6 +11,7 @@ import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
 import CustomAccessDeniedErrorMessage from './shared/CustomAccessDeniedErrorMessage';
+import signInWithWebAuthn from './signin/SignInWithWebAuthn';
 
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 
@@ -79,6 +80,10 @@ const Body = BaseForm.extend({
     // Launch Device Authenticator
     if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_AUTHENTICATOR)) {
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true, { isRequired: false });
+    }
+
+    if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_WEBAUTHN_AUTHENTICATOR)) {
+      this.add(signInWithWebAuthn, '.o-form-fieldset-container', false, true, { isRequired: false });
     }
 
     // add forgot password link and external idps buttons if needed

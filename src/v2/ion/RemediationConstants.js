@@ -60,6 +60,7 @@ const FORMS = {
   DEVICE_APPLE_SSO_EXTENSION: 'device-apple-sso-extension',
   CANCEL_TRANSACTION: 'cancel-transaction',
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
+LAUNCH_WEBAUTHN_AUTHENTICATOR: 'launch-webauthn-authenticator',
   DEVICE_ENROLLMENT_TERMINAL: 'device-enrollment-terminal',
 
   USER_CODE: 'user-code',
