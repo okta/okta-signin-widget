@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxMessage } from '@okta/okta-auth-js';
 import {
   FieldElement,
   IdxStepTransformer,
@@ -59,11 +60,46 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     uischema.elements,
   );
 
-  const passwordWithConfirmationElement: PasswordWithConfirmationElement = {
-    type: 'PasswordWithConfirmation',
+  const confirmPasswordElement: FieldElement = {
+    type: 'Control',
+    name: 'confirmPassword',
     label: loc('oie.password.confirmPasswordLabel', 'login'),
     options: {
-      inputMeta: passwordElement,
+      // @ts-ignore expose type from auth-js
+      inputMeta: { name: 'confirmPassword', messages: { value: undefined } },
+      attributes: { autocomplete: 'new-password' },
+    },
+  };
+
+  // @ts-ignore expose type from auth-js
+  if (passwordElement.options.inputMeta.messages?.value?.length) {
+    // @ts-ignore expose type from auth-js
+    const errorMessages = passwordElement.options.inputMeta.messages.value;
+    // @ts-ignore expose type from auth-js
+    const newPasswordErrors = errorMessages.filter(
+      (message: IdxMessage & { name?: string }) => message.name === passwordElement.name
+        || message.name === undefined,
+    );
+    if (newPasswordErrors?.length) {
+      // @ts-ignore expose type from auth-js
+      passwordElement.options.inputMeta.messages.value = newPasswordErrors;
+    }
+
+    // @ts-ignore expose type from auth-js
+    const confirmPasswordError = errorMessages.find(
+      (message: IdxMessage & { name?: string }) => message.name === confirmPasswordElement.name,
+    );
+    if (confirmPasswordError) {
+      // @ts-ignore expose type from auth-js
+      confirmPasswordElement.options.inputMeta.messages.value = [confirmPasswordError];
+    }
+  }
+
+  const passwordWithConfirmationElement: PasswordWithConfirmationElement = {
+    type: 'PasswordWithConfirmation',
+    options: {
+      newPasswordElement: passwordElement,
+      confirmPasswordElement,
     },
   };
 

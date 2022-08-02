@@ -55,13 +55,14 @@ const Form: FunctionComponent<{
               ...params,
             });
             if (validationMessages?.length) {
-              acc[name] = validationMessages;
+              acc[name] = [...validationMessages];
             }
           }
           return acc;
         }, {});
       // update transaction with client validation messages to trigger rerender
       if (Object.entries(messages).length) {
+        console.log('error messages from Form.tsx:', messages);
         const newTransaction = clone(currTransaction);
         resetMessagesToInputs(newTransaction!.nextStep!.inputs!, messages);
         setMessage({
