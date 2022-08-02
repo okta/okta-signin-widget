@@ -349,6 +349,6 @@ export interface TranslationInfo {
 export interface PasswordWithConfirmationElement extends UISchemaElement {
   type: 'PasswordWithConfirmation';
   options: {
-    input: FieldElement,
+    inputMeta: FieldElement,
   };
 }

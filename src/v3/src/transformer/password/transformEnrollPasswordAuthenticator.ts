@@ -63,7 +63,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     type: 'PasswordWithConfirmation',
     label: loc('oie.password.confirmPasswordLabel', 'login'),
     options: {
-      input: passwordElement,
+      inputMeta: passwordElement,
     },
   };
 
