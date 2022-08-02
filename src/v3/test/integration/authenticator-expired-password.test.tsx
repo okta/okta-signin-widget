@@ -76,8 +76,10 @@ describe('authenticator-expired-password', () => {
     await user.type(newPasswordEle, 'superSecretP@ssword12');
 
     await user.click(submitButton);
-    await findByText(/This field cannot be left blank/);
 
+    const confirmPasswordError = await findByTestId('credentials.confirmPassword-error');
+
+    expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
@@ -98,8 +100,10 @@ describe('authenticator-expired-password', () => {
 
     await user.type(confirmPasswordEle, 'abc123');
     await user.click(submitButton);
-    await findByText(/This field cannot be left blank/);
 
+    const newPasswordError = await findByTestId('credentials.passcode-error');
+
+    expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
@@ -124,8 +128,10 @@ describe('authenticator-expired-password', () => {
 
     await user.type(confirmPasswordEle, 'abc123');
     await user.click(submitButton);
-    await findByText(/New passwords must match/);
 
+    const confirmPasswordError = await findByTestId('credentials.confirmPassword-error');
+
+    expect(confirmPasswordError.innerHTML).toBe('New passwords must match');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',

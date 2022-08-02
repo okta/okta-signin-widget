@@ -92,11 +92,11 @@ describe('Expired Password Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.input.name).toBe('credentials.passcode');
+      .options.inputMeta.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.input.options.inputMeta.secret).toBe(true);
+      .options.inputMeta.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.input.options.attributes?.autocomplete).toBe('new-password');
+      .options.inputMeta.options.attributes?.autocomplete).toBe('new-password');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement)
       .label).toBe('password.expired.submit');
   });
@@ -120,11 +120,11 @@ describe('Expired Password Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
-      .options.input.name).toBe('credentials.passcode');
+      .options.inputMeta.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
-      .options.input.options.inputMeta.secret).toBe(true);
+      .options.inputMeta.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[1] as PasswordWithConfirmationElement)
-      .options.input.options.attributes?.autocomplete).toBe('new-password');
+      .options.inputMeta.options.attributes?.autocomplete).toBe('new-password');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement)
       .label).toBe('password.expired.submit');
   });
@@ -163,11 +163,11 @@ describe('Expired Password Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement).type)
       .toBe('PasswordWithConfirmation');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.input.name).toBe('credentials.passcode');
+      .options.inputMeta.name).toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.input.options.inputMeta.secret).toBe(true);
+      .options.inputMeta.options.inputMeta.secret).toBe(true);
     expect((updatedFormBag.uischema.elements[2] as PasswordWithConfirmationElement)
-      .options.input.options.attributes?.autocomplete).toBe('new-password');
+      .options.inputMeta.options.attributes?.autocomplete).toBe('new-password');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement)
       .label).toBe('password.expired.submit');
   });

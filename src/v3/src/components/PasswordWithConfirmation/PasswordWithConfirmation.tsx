@@ -27,15 +27,10 @@ import {
 } from '../../types';
 import { getLabelName } from '../helpers';
 
-enum PasswordType {
-  NEW,
-  CONFIRM,
-}
-
 const PasswordWithConfirmation: UISchemaElementComponent<{
   uischema: PasswordWithConfirmationElement
 }> = ({ uischema }) => {
-  const { input } = uischema.options;
+  const { inputMeta } = uischema.options;
   const {
     name: newPwName,
     label: newPwLabel,
@@ -46,11 +41,11 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
       },
       attributes,
     },
-  } = input;
+  } = inputMeta;
 
   const { dataSchemaRef } = useWidgetContext();
-  const value = useValue(input);
-  const onChangeHandler = useOnChange(input);
+  const value = useValue(inputMeta);
+  const onChangeHandler = useOnChange(inputMeta);
   // Must use this flag to determine which field contains error
   const [hasNewPwError, setHasNewPwError] = useState<boolean>(false);
   const [isNewPwTouched, setIsNewPwTouched] = useState<boolean>(false);
@@ -64,7 +59,7 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
 
   // Overrides default validate function for password field
   const validate = useCallback((data: FormBag['data']) => {
-    const newPw = data[input.name];
+    const newPw = data[inputMeta.name];
     const errorMessages: Partial<IdxMessage>[] = [];
     if (!newPw) {
       setIsNewPwTouched(false);
@@ -83,32 +78,24 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
     }
 
     return errorMessages.length ? errorMessages : undefined;
-  }, [confirmPassword, input.name, setHasNewPwError, setIsTouched, setIsNewPwTouched]);
+  }, [confirmPassword, inputMeta.name, setHasNewPwError, setIsTouched, setIsNewPwTouched]);
 
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>, type: PasswordType) => {
-    if (type === PasswordType.NEW) {
-      setIsNewPwTouched(true);
-      onChangeHandler(e.currentTarget.value);
-    } else {
-      setIsTouched(true);
-      setConfirmPassword(e.currentTarget.value);
-    }
+  const handleNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsNewPwTouched(true);
+    onChangeHandler(e.currentTarget.value);
   };
 
-  const handlePasswordBlur = (type: PasswordType) => {
-    if (type === PasswordType.NEW) {
-      setIsNewPwTouched(true);
-    } else {
-      setIsTouched(true);
-    }
+  const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsTouched(true);
+    setConfirmPassword(e.currentTarget.value);
   };
 
   useEffect(() => {
     // update validate function to prevent submission w/o confirm pw data
     // when server messages are set, we must reset the validate function
-    dataSchemaRef.current![input.name].validate = validate;
+    dataSchemaRef.current![inputMeta.name].validate = validate;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [validate, newPasswordError, confirmPasswordError, input.name]);
+  }, [validate, newPasswordError, confirmPasswordError, inputMeta.name]);
 
   return (
     <Box>
@@ -119,8 +106,8 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
           name={newPwName}
           id={newPwName}
           error={!isNewPwTouched && !!newPasswordError}
-          onBlur={() => handlePasswordBlur(PasswordType.NEW)}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handlePasswordChange(e, PasswordType.NEW)}
+          onBlur={() => setIsNewPwTouched(true)}
+          onChange={handleNewPasswordChange}
           fullWidth
           inputProps={{
             'data-se': newPwName,
@@ -143,10 +130,8 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
           value={confirmPassword}
           id="credentials.confirmPassword"
           error={!!(!isTouched && confirmPasswordError)}
-          onBlur={() => handlePasswordBlur(PasswordType.CONFIRM)}
-          onChange={
-            (e: ChangeEvent<HTMLInputElement>) => handlePasswordChange(e, PasswordType.CONFIRM)
-          }
+          onBlur={() => setIsTouched(true)}
+          onChange={handleConfirmPasswordChange}
           fullWidth
           inputProps={{
             'data-se': 'credentials.confirmPassword',
