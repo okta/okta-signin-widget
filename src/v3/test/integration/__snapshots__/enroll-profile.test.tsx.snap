@@ -129,6 +129,7 @@ exports[`enroll-profile should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-6"
                 >
+<<<<<<< HEAD
                   <div
                     class="MuiBox-root emotion-10"
                   >
@@ -185,6 +186,7 @@ exports[`enroll-profile should render form 1`] = `
                   <div
                     class="MuiBox-root emotion-33"
                   >
+<<<<<<< HEAD
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
                       data-se="back"
@@ -193,6 +195,28 @@ exports[`enroll-profile should render form 1`] = `
                       Already have an account?
                     </a>
                   </div>
+=======
+                    Already have an account?
+                  </button>
+=======
+                  Sign Up
+                </button>
+              </div>
+              <div
+                class="MuiBox-root emotion-5"
+              >
+                <div
+                  class="MuiBox-root emotion-9"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
+                    data-se="back"
+                    href="javascript:void(0)"
+                  >
+                    Already have an account?
+                  </a>
+>>>>>>> 4f7938868 (update snapshots)
+>>>>>>> e94a7e4d1 (update snapshots)
                 </div>
               </div>
             </form>

@@ -84,6 +84,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                 <div
                   class="MuiBox-root emotion-11"
                 >
+<<<<<<< HEAD
                   <div
                     class="MuiBox-root emotion-12"
                   >
@@ -168,6 +169,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                   <div
                     class="MuiBox-root emotion-26"
                   >
+<<<<<<< HEAD
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                       data-se="cancel"
@@ -176,6 +178,43 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                       Back to sign in
                     </a>
                   </div>
+=======
+                    Back to sign in
+                  </button>
+=======
+                  Verify
+                </button>
+              </div>
+              <div
+                class="MuiBox-root emotion-10"
+              >
+                <div
+                  class="MuiBox-root emotion-3"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
+                  >
+                    Verify with something else
+                  </a>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-10"
+              >
+                <div
+                  class="MuiBox-root emotion-3"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+>>>>>>> 4f7938868 (update snapshots)
+>>>>>>> e94a7e4d1 (update snapshots)
                 </div>
               </div>
             </form>
