@@ -16,7 +16,7 @@ import {
   UISchemaLayoutType, WidgetProps,
 } from 'src/types';
 
-import { OV_OVERRIDE_MESSAGE_KEY, transformMessages } from './transformMessages';
+import { OV_OVERRIDE_MESSAGE_KEY, transformMessages } from './transform';
 
 describe('Enroll Authenticator Selector Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();

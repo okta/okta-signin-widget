@@ -15,11 +15,11 @@ import { IdxMessage } from '@okta/okta-auth-js';
 import { IDX_STEP, OV_UV_ENABLE_BIOMETRIC_SERVER_KEY } from '../../constants';
 import {
   FormBag,
-  IdxStepTransformer,
   InfoboxElement,
+  TransformStepFnWithOptions,
 } from '../../types';
 import { containsMessageKey, containsOneOfMessageKeys, loc } from '../../util';
-import { transactionMessageTransformer } from '../i18nTransformer';
+import { transactionMessageTransformer } from '../i18n/transform';
 
 export const OV_OVERRIDE_MESSAGE_KEY: Record<string, string> = {
   OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS: 'oie.authenticator.app.non_fips_compliant_enrollment_device_incompatible',
@@ -73,7 +73,7 @@ const transformCustomMessages = (formBag: FormBag, messages: IdxMessage[]): Form
   return formBag;
 };
 
-export const transformMessages: IdxStepTransformer = ({ transaction, formBag }) => {
+export const transformMessages: TransformStepFnWithOptions = ({ transaction }) => (formBag) => {
   const { messages = [] } = transaction;
   const { uischema } = formBag;
 

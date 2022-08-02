@@ -10,13 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction, Input, NextStep } from '@okta/okta-auth-js';
+import { Input, NextStep } from '@okta/okta-auth-js';
 
 import {
-  FormBag, StepTransformer, UISchemaElement,
+  FormBag, TransformStepFnWithOptions, UISchemaElement,
 } from '../../types';
 import { flattenInputs } from '../../util';
-import { createForm } from '../utils';
 import { transformer as attributesTransformer } from './attributes';
 import { transformer as typeTransformer } from './type';
 
@@ -37,8 +36,10 @@ const mapUiElement = (input: Input): UISchemaElement => {
   } as UISchemaElement;
 };
 
-export const transformStepInputs: StepTransformer = (step?: NextStep): FormBag => {
-  const formbag = createForm();
+export const transformStepInputs = (
+  formbag: FormBag,
+  step?: NextStep,
+): FormBag => {
   if (!step) {
     return formbag;
   }
@@ -77,13 +78,12 @@ export const transformStepInputs: StepTransformer = (step?: NextStep): FormBag =
     }, formbag);
 };
 
-export const transformInputs = (
-  transaction: IdxTransaction,
-  stepName: string,
-): FormBag => {
+export const transformFields: TransformStepFnWithOptions = ({
+  transaction, step: stepName,
+}) => (formbag) => {
   const { availableSteps = [], nextStep = {} as NextStep } = transaction;
   const step = nextStep.name === stepName
     ? nextStep
     : availableSteps.find((s) => s.name === stepName);
-  return transformStepInputs(step);
+  return transformStepInputs(formbag, step);
 };

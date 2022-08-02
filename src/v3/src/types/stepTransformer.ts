@@ -15,11 +15,22 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 import { FormBag } from './schema';
 import { WidgetProps } from './widget';
 
-type Options = {
+type IdxStepTransformerOptions = {
   transaction: IdxTransaction;
   prevTransaction?: IdxTransaction;
   formBag: FormBag;
   widgetProps: WidgetProps;
 };
 
-export type IdxStepTransformer = (options: Options) => FormBag;
+// TODO: remove
+export type IdxStepTransformer = (options: IdxStepTransformerOptions) => FormBag;
+
+export type TransformationOptions = {
+  widgetProps: WidgetProps;
+  transaction: IdxTransaction;
+  prevTransaction?: IdxTransaction;
+  step: string;
+};
+
+export type TransformStepFn = (formbag: FormBag) => FormBag;
+export type TransformStepFnWithOptions = (options: TransformationOptions) => TransformStepFn;

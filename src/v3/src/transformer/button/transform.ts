@@ -10,53 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxFeature, IdxTransaction } from '@okta/okta-auth-js';
-import { FormBag, WidgetProps } from 'src/types';
+import { IdxFeature } from '@okta/okta-auth-js';
 
-import { AUTHENTICATOR_KEY, IDX_STEP } from '../constants';
-import { getAuthenticatorKey, hasMinAuthenticatorOptions } from '../util';
-import { transformInputs } from './field';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
+import { TransformStepFnWithOptions } from '../../types';
+import { getAuthenticatorKey, hasMinAuthenticatorOptions } from '../../util';
+import TransformerMap from '../layout/idxTransformerMapping';
 import { getButtonControls } from './getButtonControls';
-import { transformAdditionalPhoneUITranslations, uischemaLabelTransformer } from './i18nTransformer';
-import TransformerMap from './idxTransformerMapping';
-import { transformMessages } from './messages/transformMessages';
 
-type Options = {
-  transaction: IdxTransaction;
-  prevTransaction: IdxTransaction | undefined;
-  step?: string;
-  widgetProps: WidgetProps;
-};
-
-export default ({
-  transaction, prevTransaction, step, widgetProps,
-} : Options): FormBag => {
-  const { nextStep, availableSteps } = transaction;
-
-  const enabledFeatures = transaction?.enabledFeatures;
-  const stepName = (step || nextStep?.name) as string;
-
-  const formBag = transformInputs(transaction, stepName!);
-  uischemaLabelTransformer(transaction, formBag);
-  transformAdditionalPhoneUITranslations({ transaction, formBag, widgetProps });
-
-  const authenticatorKey = getAuthenticatorKey(transaction) ?? AUTHENTICATOR_KEY.DEFAULT;
-  const customTransformer = TransformerMap[stepName]?.[authenticatorKey];
-  const updatedFormBag = customTransformer?.transform?.({
-    transaction,
-    prevTransaction,
-    formBag,
-    widgetProps,
-  }) ?? formBag;
+export const transformButtons: TransformStepFnWithOptions = (options) => (formbag) => {
+  const { transaction, step, widgetProps } = options;
+  const { availableSteps, enabledFeatures } = transaction;
 
   const hasIdentityStep = availableSteps?.some((s) => s.name === IDX_STEP.IDENTIFY);
-  // TODO: Remove buttons from here and add to custom transformers - OKTA-479077
   const stepWithRegister = enabledFeatures?.includes(IdxFeature.REGISTRATION) && hasIdentityStep;
-  // TODO: OKTA-451535 Unlock this when we implement fastpass
-  // const stepWithSignInWithFastPass = remediationContainsStep(
-  //   transaction.neededToProceed,
-  //   IDX_STEP.LAUNCH_AUTHENTICATOR,
-  // );
   const stepWithUnlockAccount = enabledFeatures?.includes(IdxFeature.ACCOUNT_UNLOCK)
     && hasIdentityStep;
   const verifyWithOther = hasMinAuthenticatorOptions(
@@ -69,6 +36,9 @@ export default ({
     IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
     0, // Min # of auth options for link to display
   );
+
+  const authenticatorKey = getAuthenticatorKey(transaction) ?? AUTHENTICATOR_KEY.DEFAULT;
+  const customTransformer = TransformerMap[step]?.[authenticatorKey];
 
   const { elements } = getButtonControls(
     transaction,
@@ -85,9 +55,7 @@ export default ({
     },
   );
 
-  updatedFormBag.uischema.elements.push(...elements);
+  formbag.uischema.elements.push(...elements);
 
-  transformMessages({ transaction, formBag: updatedFormBag, widgetProps });
-
-  return updatedFormBag;
+  return formbag;
 };
