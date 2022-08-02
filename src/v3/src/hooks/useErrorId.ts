@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './useErrorId';
-export * from './useOnChange';
-export * from './useOnSubmit';
-export * from './usePolling';
-export * from './useValue';
+import { uid } from 'uid';
+
+export const useErrorId = (error?: string): string | undefined => (
+  error ? `error-${uid()}` : undefined
+);

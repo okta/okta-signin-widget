@@ -11,14 +11,16 @@
  */
 
 import { Box, FormHelperText } from '@mui/material';
-import useId from '@mui/material/utils/useId';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { useMemo } from 'preact/hooks';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
-import { useOnChange, useValue } from '../../hooks';
+import {
+  useErrorId,
+  useOnChange,
+  useValue,
+} from '../../hooks';
 import { getLabelName } from '../helpers';
 
 const InputPassword: UISchemaElementComponent<{
@@ -36,7 +38,8 @@ const InputPassword: UISchemaElementComponent<{
     },
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
-  const errorId = useMemo<string | undefined>(() => error ? useId() : undefined, [error]);
+
+  const errorId = useErrorId(error);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);
@@ -49,14 +52,11 @@ const InputPassword: UISchemaElementComponent<{
         value={value}
         name={name}
         id={name}
-        error={error !== undefined}
+        error={!!error}
         aria-describedby={errorId}
         onChange={handleChange}
         fullWidth
-        inputProps={{
-          'data-se': name,
-          ...attributes,
-        }}
+        inputProps={{ 'data-se': name, ...attributes }}
       />
       {error && (
         <FormHelperText

@@ -16,14 +16,18 @@ import {
   InputLabel,
   OutlinedInput,
 } from '@mui/material';
-import useId from '@mui/material/utils/useId';
 import { h } from 'preact';
-import { useMemo } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
-import { useOnChange, useValue } from '../../hooks';
 import {
-  ChangeEvent, InputTextElement, UISchemaElementComponent,
+  useErrorId,
+  useOnChange,
+  useValue,
+} from '../../hooks';
+import {
+  ChangeEvent,
+  InputTextElement,
+  UISchemaElementComponent,
 } from '../../types';
 import { getLabelName } from '../helpers';
 
@@ -48,24 +52,23 @@ const InputText: UISchemaElementComponent<{
     onChangeHandler(e.currentTarget.value);
   };
 
-  const errorId = useMemo(() => !!error ? useId() : undefined, [error]);
+  const errorId = useErrorId(error);
 
   return (
     <Box>
-      <InputLabel htmlFor={name}>{getLabelName(label!)}</InputLabel>
+      <InputLabel htmlFor={name}>
+        { getLabelName(label!) }
+      </InputLabel>
       <OutlinedInput
         value={value}
         type={type || 'text'}
         name={name}
         id={name}
-        error={error !== undefined}
+        error={!!error}
         onChange={handleChange}
         fullWidth
         aria-describedby={errorId}
-        inputProps={{
-          'data-se': name,
-          ...attributes,
-        }}
+        inputProps={{ 'data-se': name, ...attributes }}
       />
       {error && (
         <FormHelperText
