@@ -154,8 +154,91 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                   </button>
                 </div>
               </div>
+<<<<<<< HEAD
             </form>
           </div>
+=======
+              <div
+                class="MuiBox-root emotion-10"
+              >
+                <label
+                  class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-14"
+                >
+                  <span
+                    class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-15"
+                  >
+                    <input
+                      class="PrivateSwitchBase-input emotion-16"
+                      data-se="authenticator.autoChallenge"
+                      data-se-for-name="authenticator.autoChallenge"
+                      id="authenticator.autoChallenge"
+                      name="authenticator.autoChallenge"
+                      type="checkbox"
+                    />
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-17"
+                      data-testid="CheckBoxOutlineBlankIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-18"
+                  >
+                    Send push automatically
+                  </span>
+                </label>
+              </div>
+              <div
+                class="MuiBox-root emotion-10"
+              >
+                <button
+                  class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
+                  data-se="#/properties/submit"
+                  tabindex="0"
+                  type="submit"
+                >
+                  Send push
+                </button>
+              </div>
+              <div
+                class="MuiBox-root emotion-10"
+              >
+                <div
+                  class="MuiBox-root emotion-3"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
+                  >
+                    Verify with something else
+                  </a>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-10"
+              >
+                <div
+                  class="MuiBox-root emotion-3"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
+            </div>
+          </form>
+>>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>

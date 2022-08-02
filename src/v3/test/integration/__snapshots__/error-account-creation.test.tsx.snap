@@ -67,8 +67,15 @@ exports[`error-account-creation should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-6"
                 >
+<<<<<<< HEAD
                   <div
                     class="MuiBox-root emotion-13"
+=======
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-13"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+>>>>>>> 4f7938868 (update snapshots)
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-14"

@@ -634,6 +634,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     </div>
                   </div>
                 </div>
+<<<<<<< HEAD
                 <div
                   class="MuiBox-root emotion-10"
                 >
@@ -645,6 +646,22 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                   >
                     Back to sign in
                   </button>
+=======
+              </div>
+              <div
+                class="MuiBox-root emotion-9"
+              >
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-122"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+>>>>>>> 4f7938868 (update snapshots)
                 </div>
               </div>
             </form>
