@@ -25,12 +25,15 @@ export function resetMessagesToInputs(
       }
 
       const messages = messagesByField[name];
+      console.log(`resetMessagesToInputs for ${name} before creating object:`, messages);
       // @ts-ignore update Input type in okta-auth-js
       // eslint-disable-next-line no-param-reassign
       input.messages = messages?.length ? {
         type: 'object',
-        value: messages,
+        value: [...messages],
       } : undefined;
+      // @ts-ignore update Input type in okta-auth-js
+      console.log(`resetMessagesToInputs for ${name} after creating object`, input.messages);
     });
   };
 

@@ -18,22 +18,30 @@ import { useCallback, useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
-import { useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent,
   FormBag,
   PasswordWithConfirmationElement,
   UISchemaElementComponent,
 } from '../../types';
-import { getLabelName } from '../helpers';
+import InputPassword from '../InputPassword';
 
 const PasswordWithConfirmation: UISchemaElementComponent<{
   uischema: PasswordWithConfirmationElement
 }> = ({ uischema }) => {
-  const { inputMeta } = uischema.options;
+  const { newPasswordElement, confirmPasswordElement } = uischema.options;
   const {
-    name: newPwName,
-    label: newPwLabel,
+    options: {
+      inputMeta: {
+        // @ts-ignore expose type from auth-js
+        messages: newPasswordMessages = {},
+      },
+    },
+  } = newPasswordElement;
+
+  const {
+    name: confirmPwName,
+    label: confirmPwLabel,
     options: {
       inputMeta: {
         // @ts-ignore expose type from auth-js
@@ -41,107 +49,63 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
       },
       attributes,
     },
-  } = inputMeta;
+  } = confirmPasswordElement;
 
-  const { dataSchemaRef } = useWidgetContext();
-  const value = useValue(inputMeta);
-  const onChangeHandler = useOnChange(inputMeta);
-  // Must use this flag to determine which field contains error
-  const [hasNewPwError, setHasNewPwError] = useState<boolean>(false);
-  const [isNewPwTouched, setIsNewPwTouched] = useState<boolean>(false);
-  const [isTouched, setIsTouched] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>();
-  const newPasswordError = hasNewPwError && messages?.value?.[0]
-    && getMessage(messages.value[0]);
-  const confirmPasswordError = !hasNewPwError
-    ? (messages?.value?.[0] && getMessage(messages.value[0]))
-    : (messages?.value?.[1] && getMessage(messages.value[1]));
+  const { dataSchemaRef } = useWidgetContext();
+  const confirmPasswordError = messages?.value?.[0] && getMessage(messages.value[0]);
 
   // Overrides default validate function for password field
   const validate = useCallback((data: FormBag['data']) => {
-    const newPw = data[inputMeta.name];
-    const errorMessages: Partial<IdxMessage>[] = [];
+    const newPw = data[newPasswordElement.name];
+    const errorMessages: Partial<IdxMessage & { name?: string }>[] = [];
     if (!newPw) {
-      setIsNewPwTouched(false);
-      setHasNewPwError(true);
-      errorMessages.push({ i18n: { key: 'model.validation.field.blank' } });
-    } else {
-      setHasNewPwError(false);
+      errorMessages.push({ name: newPasswordElement.name, i18n: { key: 'model.validation.field.blank' } });
     }
 
     if (!confirmPassword) {
-      setIsTouched(false);
-      errorMessages.push({ i18n: { key: 'model.validation.field.blank' } });
+      errorMessages.push({ name: confirmPwName, i18n: { key: 'model.validation.field.blank' } });
     } else if (confirmPassword !== newPw) {
-      setIsTouched(false);
-      errorMessages.push({ i18n: { key: 'password.error.match' } });
+      errorMessages.push({ name: confirmPwName, i18n: { key: 'password.error.match' } });
     }
+    console.log('errorMessages from validation:', errorMessages);
 
     return errorMessages.length ? errorMessages : undefined;
-  }, [confirmPassword, inputMeta.name, setHasNewPwError, setIsTouched, setIsNewPwTouched]);
-
-  const handleNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsNewPwTouched(true);
-    onChangeHandler(e.currentTarget.value);
-  };
+  }, [confirmPassword, newPasswordElement.name, confirmPwName]);
 
   const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsTouched(true);
     setConfirmPassword(e.currentTarget.value);
   };
 
   useEffect(() => {
     // update validate function to prevent submission w/o confirm pw data
     // when server messages are set, we must reset the validate function
-    dataSchemaRef.current![inputMeta.name].validate = validate;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [validate, newPasswordError, confirmPasswordError, inputMeta.name]);
+    dataSchemaRef.current![newPasswordElement.name].validate = validate;
+  }, [validate, confirmPasswordError, newPasswordElement.name, dataSchemaRef, newPasswordMessages]);
 
   return (
     <Box>
       <Box marginBottom={4}>
-        <PasswordInput
-          label={getLabelName(newPwLabel!)}
-          value={value}
-          name={newPwName}
-          id={newPwName}
-          error={!isNewPwTouched && !!newPasswordError}
-          onBlur={() => setIsNewPwTouched(true)}
-          onChange={handleNewPasswordChange}
-          fullWidth
-          inputProps={{
-            'data-se': newPwName,
-            ...attributes,
-          }}
-        />
-        {(!isNewPwTouched && !!newPasswordError) && (
-          <FormHelperText
-            ariaDescribedBy={newPwName}
-            data-se={`${newPwName}-error`}
-            error
-          >
-            {newPasswordError}
-          </FormHelperText>
-        )}
+        <InputPassword uischema={newPasswordElement} />
       </Box>
       <Box marginBottom={4}>
         <PasswordInput
-          label={uischema.label}
+          label={confirmPwLabel}
+          name={confirmPwName}
           value={confirmPassword}
-          id="credentials.confirmPassword"
-          error={!!(!isTouched && confirmPasswordError)}
-          onBlur={() => setIsTouched(true)}
+          id={confirmPwName}
+          error={!!confirmPasswordError}
           onChange={handleConfirmPasswordChange}
           fullWidth
           inputProps={{
-            'data-se': 'credentials.confirmPassword',
-            autocomplete: 'new-password',
+            'data-se': confirmPwName,
+            ...attributes,
           }}
         />
-        {!!(!isTouched && !!confirmPasswordError) && (
+        {!!confirmPasswordError && (
           <FormHelperText
-            ariaDescribedBy="credentials.confirmPassword"
-            data-se="credentials.confirmPassword-error"
+            ariaDescribedBy={confirmPwName}
+            data-se={`${confirmPwName}-error`}
             error
           >
             {confirmPasswordError}
