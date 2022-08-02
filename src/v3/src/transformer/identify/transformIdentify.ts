@@ -21,7 +21,7 @@ import {
   WidgetProps,
 } from '../../types';
 import { getUsernameCookie, loc } from '../../util';
-import { isCustomizedI18nKey } from '../i18nTransformer';
+import { isCustomizedI18nKey } from '../i18n';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 const addCustomizedErrorKeys = (
@@ -51,7 +51,7 @@ const addCustomizedErrorKeys = (
   });
 };
 
-const addHint = (
+const addSubLabel = (
   elements: UISchemaElement[],
   widgetProps: WidgetProps,
 ) => {
@@ -64,7 +64,7 @@ const addHint = (
       elements as UISchemaElement[],
     ) as FieldElement;
     if (ele && isCustomizedI18nKey(obj.key, widgetProps)) {
-      ele.options.hint = loc(obj.key, 'login');
+      ele.options.subLabel = loc(obj.key, 'login');
     }
   });
 };
@@ -73,7 +73,7 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
   const { features, username } = widgetProps;
   const { uischema, dataSchema, data } = formBag;
 
-  addHint(uischema.elements, widgetProps);
+  addSubLabel(uischema.elements, widgetProps);
   addCustomizedErrorKeys(dataSchema, uischema.elements, widgetProps);
 
   const identifierElement = getUIElementWithName(

@@ -140,7 +140,6 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
         <PasswordInput
           label={uischema.label}
           value={confirmPassword}
-          name="credentials.confirmPassword"
           id="credentials.confirmPassword"
           error={!!(!isTouched && confirmPasswordError)}
           onBlur={() => handlePasswordBlur(PasswordType.CONFIRM)}
@@ -155,6 +154,7 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
         />
         {!!(!isTouched && !!confirmPasswordError) && (
           <FormHelperText
+            ariaDescribedBy="credentials.confirmPassword"
             data-se="credentials.confirmPassword-error"
             error
           >

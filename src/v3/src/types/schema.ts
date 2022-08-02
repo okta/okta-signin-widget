@@ -132,7 +132,7 @@ export interface FieldElement extends UISchemaElement {
     type?: string;
     customOptions?: IdxOption[],
     translations?: TranslationInfo[];
-    hint?: string;
+    subLabel?: string;
   };
 }
 

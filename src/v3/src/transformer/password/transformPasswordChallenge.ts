@@ -18,7 +18,7 @@ import {
   TitleElement,
 } from '../../types';
 import { loc } from '../../util';
-import { isCustomizedI18nKey } from '../i18nTransformer';
+import { isCustomizedI18nKey } from '../i18n';
 import { getUIElementWithName } from '../utils';
 
 export const transformPasswordChallenge: IdxStepTransformer = ({
@@ -33,7 +33,7 @@ export const transformPasswordChallenge: IdxStepTransformer = ({
     uischema.elements,
   ) as FieldElement;
   if (passcodeEle && isCustomizedI18nKey('primaryauth.password.tooltip', widgetProps)) {
-    passcodeEle.options.hint = loc('primaryauth.password.tooltip', 'login');
+    passcodeEle.options.subLabel = loc('primaryauth.password.tooltip', 'login');
   }
 
   const titleElement: TitleElement = {
