@@ -19,6 +19,7 @@ import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
+  LinkElement,
   UISchemaElement,
 } from '../../types';
 import { loc } from '../../util';
@@ -65,15 +66,12 @@ export const getButtonControls = (
     ?? getButtonStep('currentAuthenticatorEnrollment-recover');
   if (config.stepWithForgotPassword && forgotPasswordStep) {
     const { name: step } = forgotPasswordStep;
-    const forgotPassword: ButtonElement = {
-      type: 'Button',
-      label: loc('forgotpassword', 'login'),
+    const forgotPassword: LinkElement = {
+      type: 'Link',
       options: {
-        type: ButtonType.BUTTON,
-        variant: 'floating',
-        wide: false,
+        label: loc('forgotpassword', 'login'),
         isActionStep: true,
-        step,
+        step
       },
     };
 
@@ -107,13 +105,10 @@ export const getButtonControls = (
   );
   if (config.stepWithUnlockAccount && unlockStep) {
     const { name: step } = unlockStep;
-    const unlock: ButtonElement = {
-      type: 'Button',
-      label: loc('unlockaccount', 'login'),
+    const unlock: LinkElement = {
+      type: 'Link',
       options: {
-        type: ButtonType.BUTTON,
-        variant: 'floating',
-        wide: false,
+        label: loc('unlockaccount', 'login'),
         step,
       },
     };
@@ -125,42 +120,33 @@ export const getButtonControls = (
   if (config.verifyWithOther && selectVerifyStep) {
     const { name: step } = selectVerifyStep;
     elements.push({
-      type: 'Button',
-      label: loc('oie.verification.switch.authenticator', 'login'),
+      type: 'Link',
       options: {
-        type: ButtonType.BUTTON,
-        variant: 'floating',
-        wide: false,
+        label: loc('oie.verification.switch.authenticator', 'login'),
         step,
       },
-    } as ButtonElement);
+    } as LinkElement);
   }
 
   const selectEnrollStep = getButtonStep(IDX_STEP.SELECT_AUTHENTICATOR_ENROLL);
   if (config.backToAuthList && selectEnrollStep) {
     const { name: step } = selectEnrollStep;
     elements.push({
-      type: 'Button',
-      label: loc('oie.enroll.switch.authenticator', 'login'),
+      type: 'Link',
       options: {
-        type: ButtonType.BUTTON,
-        variant: 'floating',
-        wide: false,
+        label: loc('oie.enroll.switch.authenticator', 'login'),
         step,
       },
-    } as ButtonElement);
+    } as LinkElement);
   }
 
   const registerStep = getButtonStep(IDX_STEP.SELECT_ENROLL_PROFILE);
   if (config.stepWithRegister && registerStep) {
     const { name: step } = registerStep;
-    const register: ButtonElement = {
-      type: 'Button',
-      label: loc('registration.form.submit', 'login'),
+    const register: LinkElement = {
+      type: 'Link',
       options: {
-        type: ButtonType.BUTTON,
-        variant: 'floating',
-        wide: false,
+        label: loc('registration.form.submit', 'login'),
         step,
       },
     };
@@ -171,13 +157,10 @@ export const getButtonControls = (
   const cancelStep = getButtonStep('cancel');
   if (config.stepWithCancel && cancelStep) {
     const { name: step } = cancelStep;
-    const cancel: ButtonElement = {
-      type: 'Button',
-      label: loc('goback', 'login'),
+    const cancel: LinkElement = {
+      type: 'Link',
       options: {
-        type: ButtonType.BUTTON,
-        variant: 'floating',
-        wide: false,
+        label: loc('goback', 'login'),
         isActionStep: true,
         step,
       },

@@ -16,6 +16,7 @@ import {
   ButtonType,
   FieldElement,
   IdxStepTransformer,
+  LinkElement,
   PasswordRequirementsData,
   PasswordRequirementsElement,
   TitleElement,
@@ -79,15 +80,12 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
   if (selectIdentifyStep) {
     const { name: step } = selectIdentifyStep;
     uischema.elements.push({
-      type: 'Button',
-      label: loc('haveaccount', 'login'),
+      type: 'Link',
       options: {
-        type: ButtonType.BUTTON,
-        variant: 'floating',
-        wide: false,
+        label: loc('haveaccount', 'login'),
         step,
       },
-    } as ButtonElement);
+    } as LinkElement);
   }
 
   return formBag;
