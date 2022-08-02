@@ -15,12 +15,13 @@ import {
   IdxStepTransformer,
   PasswordRequirementsElement,
   PasswordSettings,
+  PasswordWithConfirmationElement,
   TitleElement,
 } from 'src/types';
 
 import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import { getUserInfo, loc } from '../../util';
-import { getUIElementWithName } from '../utils';
+import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
 export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
@@ -32,16 +33,15 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
   const { uischema } = formBag;
 
-  // TODO: remove passwordMatchingKey - still used in fieldKey
-  let passwordMatchingKey = 'credentials.passcode';
+  let passwordFieldName = 'credentials.passcode';
   let passwordElement = getUIElementWithName(
-    passwordMatchingKey,
+    passwordFieldName,
     uischema.elements as FieldElement[],
   ) as FieldElement;
   if (!passwordElement) {
-    passwordMatchingKey = 'credentials.newPassword';
+    passwordFieldName = 'credentials.newPassword';
     passwordElement = getUIElementWithName(
-      passwordMatchingKey,
+      passwordFieldName,
       uischema.elements as FieldElement[],
     ) as FieldElement;
   }
@@ -54,6 +54,18 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       },
     };
   }
+  uischema.elements = removeUIElementWithName(
+    passwordFieldName,
+    uischema.elements,
+  );
+
+  const passwordWithConfirmationElement: PasswordWithConfirmationElement = {
+    type: 'PasswordWithConfirmation',
+    label: loc('oie.password.confirmPasswordLabel', 'login'),
+    options: {
+      input: passwordElement,
+    },
+  };
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -67,25 +79,17 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       header: loc('password.complexity.requirements.header', 'login'),
       userInfo: getUserInfo(transaction),
       settings: passwordSettings,
+      fieldKey: passwordFieldName,
       requirements: buildPasswordRequirementListItems(passwordSettings),
-      fieldKey: passwordMatchingKey,
       validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
     },
   };
 
-  const confirmPasswordElement: FieldElement = {
-    type: 'Field',
-    label: loc('oie.password.confirmPasswordLabel', 'login'),
-    options: {
-      inputMeta: { name: 'credentials.confirmPassword', secret: true },
-      attributes: { autocomplete: 'new-password' },
-      targetKey: passwordMatchingKey,
-    },
-  };
-
-  uischema.elements.unshift(passwordRequirementsElement);
+  uischema.elements.unshift(passwordWithConfirmationElement);
+  if (Object.keys(passwordSettings)?.length) {
+    uischema.elements.unshift(passwordRequirementsElement);
+  }
   uischema.elements.unshift(titleElement);
-  uischema.elements.push(confirmPasswordElement);
 
   return formBag;
 };
