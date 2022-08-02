@@ -36,17 +36,17 @@ const Button: UISchemaElementComponent<{
       dataSe,
       actionParams,
       includeData,
+      isActionStep,
       step,
       stepToRender,
-      action,
     },
   } = uischema;
 
   const onClick: ClickHandler = async () => {
     onSubmitHandler({
-      actionFn: action,
       params: actionParams,
       includeData: Boolean(includeData),
+      isActionStep,
       step,
       stepToRender,
     });

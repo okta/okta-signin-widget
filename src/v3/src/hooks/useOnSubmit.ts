@@ -19,9 +19,9 @@ import { getImmutableData, toNestedObject } from '../util';
 
 type OnSubmitHandlerOptions = {
   includeData?: boolean;
-  actionFn?: NextStep['action'];
   params?: Record<string, unknown>;
   step: string;
+  isActionStep?: boolean;
   stepToRender?: string;
 };
 
@@ -40,12 +40,16 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
     const {
-      actionFn, params, includeData, step, stepToRender,
+      params, 
+      includeData, 
+      step, 
+      isActionStep,
+      stepToRender,
     } = options;
 
     const immutableData = getImmutableData(currTransaction!, step);
 
-    const fn = actionFn || authClient.idx.proceed;
+    const fn = authClient.idx.proceed;
 
     let payload: IdxActionParams = {};
     if (includeData) {
@@ -54,7 +58,14 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     if (params) {
       payload = merge(payload, params);
     }
-    payload = { ...payload, step };
+    if (isActionStep) {
+      payload = {
+        ...payload,
+        actions: [{ name: step, params }],
+      };
+    } else {
+      payload = { ...payload, step };
+    }
     payload = merge(payload, immutableData);
     payload = toNestedObject(payload);
     if (currTransaction!.context.stateHandle) {

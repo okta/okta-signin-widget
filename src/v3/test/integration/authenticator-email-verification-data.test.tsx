@@ -30,7 +30,7 @@ describe('authenticator-email-verification-data', () => {
     await findByText(/Verify with your email/);
     await findByText(/Verify with an email link or enter a code sent to your email./);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByTestId('submit');
 
     await user.click(submitButton);
 

@@ -30,7 +30,7 @@ describe('authenticator-enroll-phone-voice', () => {
     await findByText(/Calling your phone. Enter the code below to verify./);
     await findByText(/Carrier messaging charges may apply/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByTestId('submit');
     const otpEle = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     const otp = '123456';

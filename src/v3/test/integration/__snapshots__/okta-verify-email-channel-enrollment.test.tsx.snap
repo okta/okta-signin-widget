@@ -137,7 +137,8 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
               >
                 <button
                   class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
-                  data-se="#/properties/setupLink"
+                  data-se="submit"
+                  data-type="save"
                   tabindex="0"
                   type="submit"
                 >

@@ -34,7 +34,7 @@ describe('identify-with-password', () => {
 
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
-      const submitButton = await findByTestId('#/properties/submit');
+      const submitButton = await findByTestId('submit');
 
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
@@ -69,7 +69,7 @@ describe('identify-with-password', () => {
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const rememberMeEl = await findByTestId('rememberMe');
-      const submitButton = await findByTestId('#/properties/submit');
+      const submitButton = await findByTestId('submit');
 
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
@@ -113,7 +113,7 @@ describe('identify-with-password', () => {
 
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
-      const submitButton = await findByTestId('#/properties/submit');
+      const submitButton = await findByTestId('submit');
 
       // empty username & empty password
       await user.click(submitButton);

@@ -59,7 +59,7 @@ describe('authenticator-enroll-select-authenticator', () => {
         findByTestId,
       } = await setup({ mockResponse });
 
-      const skipBtn = await findByTestId('#/properties/submit');
+      const skipBtn = await findByTestId('submit');
       await user.click(skipBtn);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         'POST',

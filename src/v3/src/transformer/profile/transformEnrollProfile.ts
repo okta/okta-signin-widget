@@ -87,7 +87,6 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
         type: ButtonType.BUTTON,
         variant: 'floating',
         wide: false,
-        dataSe: 'back',
         step,
       },
     } as ButtonElement);

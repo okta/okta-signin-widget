@@ -23,6 +23,7 @@ import { transformFields } from './field';
 import { transformI18n } from './i18n';
 import { transformLayout } from './layout';
 import { transformMessages } from './messages';
+import { transformTestAttribute } from './testAttribute';
 
 // use this function after each transformation step to log the formbag output
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,6 +40,7 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
     transformLayout(options),
     transformButtons(options),
     transformMessages(options),
+    transformTestAttribute(options),
   ];
 
   return flow(transformationStepFns)({

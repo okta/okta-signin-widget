@@ -29,7 +29,7 @@ describe('authenticator-enroll-data-phone', () => {
     await findByText(/Set up phone authentication/);
     await findByText(/Enter your phone number to receive a verification code via SMS./);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByTestId('submit');
     const phoneNumberEle = await findByTestId('authenticator.phoneNumber') as HTMLInputElement;
 
     const phoneNumber = '2165551234';
@@ -74,7 +74,7 @@ describe('authenticator-enroll-data-phone', () => {
 
     findByText(/Enter your phone number to receive a verification code via voice call./);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByTestId('submit');
     const phoneNumberEle = await findByTestId('authenticator.phoneNumber') as HTMLInputElement;
     const extensionEle = await findByTestId('extension') as HTMLInputElement;
 

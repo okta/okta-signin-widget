@@ -32,7 +32,7 @@ describe('authenticator-verification-security-question', () => {
     await findByText(/What is the food you least liked as a child\?/);
 
     const answerEl = await findByTestId('credentials.answer') as HTMLInputElement;
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByTestId('submit');
 
     await user.type(answerEl, 'fake-answer');
     expect(answerEl.value).toEqual('fake-answer');

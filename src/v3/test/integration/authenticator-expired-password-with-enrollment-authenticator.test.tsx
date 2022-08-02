@@ -31,7 +31,7 @@ describe('authenticator-expired-password-with-enrollment-authenticator', () => {
     await findByText(/Password requirements/);
     await findByText(/Return to authenticator list/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByTestId('submit');
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
     const confirmPasswordEle = await findByTestId('credentials.confirmPassword') as HTMLInputElement;
 

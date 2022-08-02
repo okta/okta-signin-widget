@@ -25,7 +25,7 @@ const mapUiElement = (input: Input): UISchemaElement => {
   const attributes = attributesTransformer(input);
 
   return {
-    type: 'Control',
+    type: 'Field',
     label,
     name,
     options: {

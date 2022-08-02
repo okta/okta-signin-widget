@@ -29,7 +29,7 @@ describe('authenticator-verification-data-phone-sms-only', () => {
     await findByText(/Send a code via SMS to/);
     await findByText(/Carrier messaging charges may apply/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByTestId('submit');
     expect(submitButton.innerHTML).toContain('Receive a code via SMS');
 
     await user.click(submitButton);

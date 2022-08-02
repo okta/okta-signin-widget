@@ -11,7 +11,6 @@
  */
 
 import {
-  IdxActionParams,
   IdxTransaction,
   NextStep,
   OktaAuth,
@@ -38,7 +37,6 @@ interface GetButtonControlsArgs {
   stepWithUnlockAccount?: boolean;
   verifyWithOther?: boolean;
   backToAuthList?: boolean;
-  proceed?: OktaAuth['idx']['proceed'];
 }
 
 export const getButtonControls = (
@@ -54,7 +52,6 @@ export const getButtonControls = (
     const submit: ButtonElement = {
       type: 'Button',
       label: loc('oform.next', 'login'),
-      scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
         dataType: 'save',
@@ -69,7 +66,7 @@ export const getButtonControls = (
   const forgotPasswordStep = getButtonStep('currentAuthenticator-recover')
     ?? getButtonStep('currentAuthenticatorEnrollment-recover');
   if (config.stepWithForgotPassword && forgotPasswordStep) {
-    const { name } = forgotPasswordStep;
+    const { name: step } = forgotPasswordStep;
     const forgotPassword: ButtonElement = {
       type: 'Button',
       label: loc('forgotpassword', 'login'),
@@ -77,16 +74,8 @@ export const getButtonControls = (
         type: ButtonType.BUTTON,
         variant: 'floating',
         wide: false,
-        dataSe: 'forgot-password',
-        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: (params?: IdxActionParams) => {
-          const { stateHandle, ...rest } = params ?? {};
-          return config?.proceed && config.proceed({
-            // @ts-ignore stateHandle can be undefined
-            stateHandle,
-            actions: [{ name, params: rest }],
-          });
-        },
+        isActionStep: true,
+        step,
       },
     };
 
@@ -127,7 +116,6 @@ export const getButtonControls = (
         type: ButtonType.BUTTON,
         variant: 'floating',
         wide: false,
-        dataSe: 'unlock',
         step,
       },
     };
@@ -145,7 +133,6 @@ export const getButtonControls = (
         type: ButtonType.BUTTON,
         variant: 'floating',
         wide: false,
-        dataSe: 'switchAuthenticator',
         step,
       },
     } as ButtonElement);
@@ -161,7 +148,6 @@ export const getButtonControls = (
         type: ButtonType.BUTTON,
         variant: 'floating',
         wide: false,
-        dataSe: 'switchAuthenticator',
         step,
       },
     } as ButtonElement);
@@ -177,7 +163,6 @@ export const getButtonControls = (
         type: ButtonType.BUTTON,
         variant: 'floating',
         wide: false,
-        dataSe: 'enroll',
         step,
       },
     };
@@ -187,7 +172,7 @@ export const getButtonControls = (
 
   const cancelStep = getButtonStep('cancel');
   if (config.stepWithCancel && cancelStep) {
-    const { name } = cancelStep;
+    const { name: step } = cancelStep;
     const cancel: ButtonElement = {
       type: 'Button',
       label: loc('goback', 'login'),
@@ -195,16 +180,8 @@ export const getButtonControls = (
         type: ButtonType.BUTTON,
         variant: 'floating',
         wide: false,
-        dataSe: 'cancel',
-        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: (params?: IdxActionParams) => {
-          const { stateHandle, ...rest } = params ?? {};
-          return config?.proceed && config.proceed({
-            // @ts-ignore stateHandle can be undefined
-            stateHandle,
-            actions: [{ name, params: rest }],
-          });
-        },
+        isActionStep: true,
+        step,
       },
     };
 
