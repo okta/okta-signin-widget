@@ -16,7 +16,7 @@ const Body = SelectAuthenticatorVerifyViewBody.extend({
 
     const methodOptions = methodsSchema.options.map((option) => {
       return Object.assign({}, option, getAuthenticatorDataForVerification({authenticatorKey:
-            this.isOV()?AUTHENTICATOR_KEY.OV:AUTHENTICATOR_KEY.CUSTOM_APP}));
+            this.isOV() ? AUTHENTICATOR_KEY.OV : AUTHENTICATOR_KEY.CUSTOM_APP}));
     });
     return [{
       View: AuthenticatorVerifyOptions,
