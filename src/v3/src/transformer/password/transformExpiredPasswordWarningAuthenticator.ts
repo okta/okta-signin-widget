@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams } from '@okta/okta-auth-js';
-
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
   ButtonElement,
@@ -41,7 +39,7 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
   formBag,
   widgetProps,
 }) => {
-  const { brandName, authClient } = widgetProps;
+  const { brandName } = widgetProps;
   const { nextStep: { relatesTo } = {}, availableSteps, messages } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
   const { daysToExpiry } = passwordSettings;
@@ -86,7 +84,7 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
 
   const skipStep = availableSteps?.find(({ name }) => name === 'skip' );
   if (skipStep) {
-    const { name } = skipStep;
+    const { name: step } = skipStep;
     const skipBtnElement: ButtonElement = {
       type: 'Button',
       label: loc('password.expiring.later', 'login'),
@@ -94,15 +92,7 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
         type: ButtonType.BUTTON,
         variant: 'floating',
         wide: false,
-        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: (params?: IdxActionParams) => {
-          const { stateHandle, ...rest } = params ?? {};
-          return authClient?.idx.proceed({
-            // @ts-ignore stateHandle can be undefined
-            stateHandle,
-            actions: [{ name, params: rest }],
-          });
-        },
+        step,
       },
     };
     uischema.elements.push(skipBtnElement);

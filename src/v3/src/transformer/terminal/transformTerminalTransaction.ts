@@ -11,7 +11,6 @@
  */
 
 import {
-  IdxActionParams,
   IdxMessage,
   IdxStatus,
   IdxTransaction,
@@ -96,16 +95,7 @@ const appendViewLinks = (
       label: loc('oie.enroll.skip.setup', 'login'),
       options: {
         type: ButtonType.SUBMIT,
-        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: skipStep?.action && ((params?: IdxActionParams) => {
-          const { stateHandle, ...rest } = params ?? {};
-          return widgetProps.authClient?.idx.proceed({
-            // @ts-ignore stateHandle can be undefined
-            stateHandle,
-            actions: [{ name: skipStep?.name, params: rest }],
-          });
-        }),
-        step: transaction.nextStep!.name,
+        step: skipStep!.name,
       },
     };
     uischema.elements.push(skipElement);
