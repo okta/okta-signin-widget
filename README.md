@@ -416,8 +416,10 @@ By default, the Okta Sign-In Widget will either proceed with a current flow or s
 - resetPassword
 - unlockAccount
 
-> **Note:** A particular flow can only work if the admin has configured the org to allow the required operations
-(example: if Profile Enrollment (User sign-up) in the admin console is not enabled, bootstrapping the widget with `flow: 'signup'` will result in an error)
+> **Note:** A particular flow can only work if the admin has configured the org policies to allow the required operations. 
+Example: if Profile Enrollment (User sign-up) in the admin console is not enabled, bootstrapping the widget with `flow: 'signup'` will result in an error.
+
+Flow can also only work when `useInteractionCodeFlow` config option is set to `true`.
 
 ```javascript
 // login.html
