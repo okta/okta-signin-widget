@@ -51,9 +51,8 @@ export type ActionParams = {
 
 export interface ActionOptions {
   actionParams?: ActionParams;
+  isActionStep?: boolean;
   step: string;
-  // deprecate this field once auth-js can support `step` for all scenarios
-  action?: NextStep['action'];
 }
 
 /**
@@ -88,14 +87,13 @@ export type WebAuthNAuthenticationHandler = (transaction: IdxTransaction) =>
 Promise<WebAuthNVerificationPayload>;
 
 export interface UISchemaElement {
-  scope?: string; // TODO: remove
   type: string;
   label?: string;
 }
 
 export interface UISchemaLayout {
   type: UISchemaLayoutType;
-  elements: (UISchemaElement | UISchemaLayout)[];
+  elements: (UISchemaElement | UISchemaLayout | StepperLayout)[];
   options?: {
     onClick?: ClickHandler;
   }
@@ -121,8 +119,7 @@ export function isUISchemaLayoutType(type: string) {
 }
 
 export interface FieldElement extends UISchemaElement {
-  name: string;
-  // TODO: refactor - dump inputMeta at top level of options
+  type: 'Field';
   // TODO: only use limited field as i18n field
   options: {
     inputMeta: Input;
@@ -133,6 +130,7 @@ export interface FieldElement extends UISchemaElement {
     customOptions?: IdxOption[],
     targetKey?: string;
     translations?: TranslationInfo[];
+    dataSe?: string;
   };
 }
 

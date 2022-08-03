@@ -44,7 +44,6 @@ export const transformExpiredPasswordAuthenticator: IdxStepTransformer = ({
   const submitBtnElement: ButtonElement = {
     type: 'Button',
     label: loc('password.expired.submit', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,

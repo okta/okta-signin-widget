@@ -49,9 +49,8 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
 
   const predefinedAnswerInput = (predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
   const predefinedAnswerElement: FieldElement = {
-    type: 'Control',
+    type: 'Field',
     label: predefinedAnswerInput?.label ?? predefinedAnswerInput?.name,
-    name: ANSWER_INPUT_NAME,
     options: {
       inputMeta: {
         ...predefinedAnswerInput,
@@ -63,9 +62,8 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
 
   const customAnswerInput = (predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
   const customAnswerElement: FieldElement = {
-    type: 'Control',
+    type: 'Field',
     label: customAnswerInput?.label ?? customAnswerInput?.name,
-    name: ANSWER_INPUT_NAME,
     options: {
       inputMeta: {
         ...customAnswerInput,
@@ -80,8 +78,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     label: question.question,
   } as IdxOption));
   const predefinedQuestionsElement: FieldElement = {
-    type: 'Control',
-    name: QUESTION_KEY_INPUT_NAME,
+    type: 'Field',
     label: loc('oie.security.question.questionKey.label', 'login'),
     options: {
       format: 'dropdown',
@@ -97,8 +94,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   data[QUESTION_KEY_INPUT_NAME] = predefinedQuestions?.[0].value as string;
 
   const customQuestionElement: FieldElement = {
-    type: 'Control',
-    name: CUSTOM_QUESTION_INPUT_NAME,
+    type: 'Field',
     label: loc('oie.security.question.createQuestion.label', 'login'),
     options: {
       type: 'string',
@@ -147,11 +143,9 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
           {
             type: 'Button',
             label: loc('mfa.challenge.verify', 'login'),
-            scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
               step: transaction.nextStep!.name,
-              dataType: 'save',
             },
           } as ButtonElement,
         ],
@@ -167,12 +161,10 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
           {
             type: 'Button',
             label: loc('mfa.challenge.verify', 'login'),
-            scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
               step: transaction.nextStep!.name,
               actionParams: { [QUESTION_KEY_INPUT_NAME]: 'custom' },
-              dataType: 'save',
             },
           } as ButtonElement,
         ],

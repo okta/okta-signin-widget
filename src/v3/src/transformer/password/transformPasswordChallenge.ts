@@ -29,7 +29,6 @@ export const transformPasswordChallenge: IdxStepTransformer = ({ formBag, transa
   const submitBtnElement: ButtonElement = {
     type: 'Button',
     label: loc('mfa.challenge.verify', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,

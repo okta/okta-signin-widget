@@ -28,7 +28,7 @@ describe('authenticator-verification-okta-verify-totp', () => {
 
     await findByText(/Enter a code/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Verify', { selector: 'button' });
     const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;
 
     const totp = '123456';

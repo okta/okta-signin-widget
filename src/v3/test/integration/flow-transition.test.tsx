@@ -37,7 +37,7 @@ describe('Flow transitions', () => {
     // form: identify-with-password
     const usernameEl = await findByTestId('identifier') as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Sign in', { selector: 'button' });
 
     await user.type(usernameEl, 'testuser@okta.com');
     expect(usernameEl.value).toEqual('testuser@okta.com');

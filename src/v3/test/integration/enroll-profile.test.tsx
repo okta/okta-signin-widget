@@ -28,7 +28,7 @@ describe('enroll-profile', () => {
 
     await findByText(/Sign up/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Sign Up', { selector: 'button' });
     const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
     const lastNameEle = await findByTestId('userProfile.lastName') as HTMLInputElement;
     const emailEle = await findByTestId('userProfile.email') as HTMLInputElement;
@@ -69,10 +69,10 @@ describe('enroll-profile', () => {
 
   it('fails client side validation with empty fields', async () => {
     const {
-      authClient, user, findByTestId,
+      authClient, user, findByText, findByTestId,
     } = await setup({ mockResponse });
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Sign Up', { selector: 'button' });
 
     await user.click(submitButton);
     const firstNameError = await findByTestId('userProfile.firstName-error');

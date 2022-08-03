@@ -34,7 +34,7 @@ describe('authenticator-verification-phone-sms', () => {
     await findByText(/Carrier messaging charges may apply/);
 
     const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';
     await user.type(codeEle, verificationCode);

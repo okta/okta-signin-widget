@@ -56,7 +56,7 @@ describe('authenticator-enroll-google-authenticator', () => {
     await user.type(codeEl, '123456');
     expect(codeEl.value).toEqual('123456');
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Verify', { selector: 'button' });
     await user.click(submitButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(

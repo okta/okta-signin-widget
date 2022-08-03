@@ -33,9 +33,8 @@ const getComponentProps = (
   options: Record<string, unknown>,
 ): UISchemaElementComponentProps & { uischema: FieldElement; } => ({
   uischema: {
-    type: 'Control',
+    type: 'Field',
     label: 'Phone Number',
-    name: 'phoneNumber',
     options: {
       inputMeta: { name: 'phoneNumber' },
       translations: [

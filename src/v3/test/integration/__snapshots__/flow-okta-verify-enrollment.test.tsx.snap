@@ -358,7 +358,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               >
                 <button
                   class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-32"
-                  data-se="#/properties/submit"
+                  data-type="save"
                   tabindex="0"
                   type="submit"
                 >
@@ -546,7 +546,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               >
                 <button
                   class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
-                  data-se="#/properties/setupLink"
+                  data-type="save"
                   tabindex="0"
                   type="submit"
                 >
@@ -931,7 +931,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               >
                 <button
                   class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-32"
-                  data-se="#/properties/submit"
+                  data-type="save"
                   tabindex="0"
                   type="submit"
                 >
@@ -1495,7 +1495,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               >
                 <button
                   class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-32"
-                  data-se="#/properties/submit"
+                  data-type="save"
                   tabindex="0"
                   type="submit"
                 >
@@ -2936,7 +2936,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               >
                 <button
                   class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
-                  data-se="#/properties/setupLink"
+                  data-type="save"
                   tabindex="0"
                   type="submit"
                 >
@@ -3321,7 +3321,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               >
                 <button
                   class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-32"
-                  data-se="#/properties/submit"
+                  data-type="save"
                   tabindex="0"
                   type="submit"
                 >

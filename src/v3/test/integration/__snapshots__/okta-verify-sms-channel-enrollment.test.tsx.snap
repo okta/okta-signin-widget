@@ -1390,7 +1390,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
               >
                 <button
                   class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
-                  data-se="#/properties/setupLink"
+                  data-type="save"
                   tabindex="0"
                   type="submit"
                 >

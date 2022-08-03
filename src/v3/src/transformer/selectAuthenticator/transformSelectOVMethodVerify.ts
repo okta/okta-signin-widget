@@ -56,7 +56,6 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
     const sendPushButton: ButtonElement = {
       type: 'Button',
       label: loc('oie.okta_verify.sendPushButton', 'login'),
-      scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
         step: transaction.nextStep!.name,

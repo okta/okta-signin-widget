@@ -303,7 +303,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 >
                   <button
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-24"
-                    data-se="#/properties/submit"
+                    data-type="save"
                     tabindex="0"
                     type="submit"
                   >
@@ -636,7 +636,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 >
                   <button
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-24"
-                    data-se="#/properties/submit"
+                    data-type="save"
                     tabindex="0"
                     type="submit"
                   >

@@ -22,7 +22,6 @@ import {
 import { isAndroidOrIOS, loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
-export const CHANNEL_SCOPE = '#/properties/authenticator/properties/channel';
 const CHANNEL_TO_LABEL_KEY_MAP: { [channel: string]: string } = {
   qrcode: 'oie.enroll.okta_verify.select.channel.qrcode.label',
   email: 'oie.enroll.okta_verify.select.channel.email.label',
@@ -70,7 +69,6 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   const submitButton: ButtonElement = {
     type: 'Button',
     label: loc('oform.next', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
       step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,

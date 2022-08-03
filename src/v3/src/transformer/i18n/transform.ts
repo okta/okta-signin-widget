@@ -33,7 +33,7 @@ const updateLabel = (transaction: IdxTransaction, element: FieldElement): void =
   const { nextStep } = transaction;
   const { relatesTo, name: stepName = '' } = nextStep || {};
   const authenticatorKey = relatesTo?.value?.key || '';
-  const i18nPath = geti18nPath(element.name, stepName, authenticatorKey);
+  const i18nPath = geti18nPath(element.options.inputMeta.name, stepName, authenticatorKey);
 
   if (element.label) {
     const params = getI18NParams(nextStep, authenticatorKey);
@@ -95,7 +95,7 @@ export const transformAdditionalPhoneUITranslations = (formBag: FormBag) => {
   const { uischema } = formBag;
 
   const phoneElement = uischema.elements.find((element) => (element as FieldElement)
-    .name?.endsWith('phoneNumber')) as FieldElement;
+    .options.inputMeta.name?.endsWith('phoneNumber')) as FieldElement;
 
   if (phoneElement) {
     phoneElement.options = {

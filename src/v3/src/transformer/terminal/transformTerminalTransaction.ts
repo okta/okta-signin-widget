@@ -11,7 +11,6 @@
  */
 
 import {
-  IdxActionParams,
   IdxMessage,
   IdxStatus,
   IdxTransaction,
@@ -85,18 +84,7 @@ const appendViewLinks = (
     options: {
       label: loc('goback', 'login'),
       step: 'cancel',
-      // eslint-disable-next-line no-script-url
-      href: cancelStep?.action ? 'javascript:void(0)' : (baseUrl || '/'),
-      dataSe: 'cancel',
-      // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-      action: cancelStep?.action && ((params?: IdxActionParams) => {
-        const { stateHandle, ...rest } = params ?? {};
-        return widgetProps.authClient?.idx.proceed({
-          // @ts-ignore stateHandle can be undefined
-          stateHandle,
-          actions: [{ name: 'cancel', params: rest }],
-        });
-      }),
+      href: cancelStep ? undefined : (baseUrl || '/'),
     },
   };
 
@@ -105,19 +93,9 @@ const appendViewLinks = (
     const skipElement: ButtonElement = {
       type: 'Button',
       label: loc('oie.enroll.skip.setup', 'login'),
-      scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
-        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: skipStep?.action && ((params?: IdxActionParams) => {
-          const { stateHandle, ...rest } = params ?? {};
-          return widgetProps.authClient?.idx.proceed({
-            // @ts-ignore stateHandle can be undefined
-            stateHandle,
-            actions: [{ name: skipStep?.name, params: rest }],
-          });
-        }),
-        step: transaction.nextStep!.name,
+        step: skipStep!.name,
       },
     };
     uischema.elements.push(skipElement);

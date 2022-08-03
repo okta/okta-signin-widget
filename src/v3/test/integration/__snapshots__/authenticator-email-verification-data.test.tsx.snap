@@ -96,7 +96,7 @@ exports[`authenticator-email-verification-data should render form 1`] = `
               >
                 <button
                   class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-16"
-                  data-se="#/properties/submit"
+                  data-type="save"
                   tabindex="0"
                   type="submit"
                 >

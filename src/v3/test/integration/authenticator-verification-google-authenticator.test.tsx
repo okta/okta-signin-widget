@@ -32,7 +32,7 @@ describe('authenticator-verification-google-authenticator', () => {
     await findByText(/Enter the temporary code generated in your Google Authenticator app/);
 
     const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';
     await user.type(codeEle, verificationCode);

@@ -28,7 +28,7 @@ describe('authenticator-expired-password-no-complexity', () => {
 
     await findByText(/Your password has expired/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
     const confirmPasswordEle = await findByTestId('credentials.confirmPassword') as HTMLInputElement;
 

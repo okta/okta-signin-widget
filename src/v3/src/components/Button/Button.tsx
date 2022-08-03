@@ -36,17 +36,17 @@ const Button: UISchemaElementComponent<{
       dataSe,
       actionParams,
       includeData,
+      isActionStep,
       step,
       stepToRender,
-      action,
     },
   } = uischema;
 
   const onClick: ClickHandler = async () => {
     onSubmitHandler({
-      actionFn: action,
       params: actionParams,
       includeData: Boolean(includeData),
+      isActionStep,
       step,
       stepToRender,
     });
@@ -54,7 +54,6 @@ const Button: UISchemaElementComponent<{
 
   return (
     <ButtonMui
-      data-se={uischema.scope}
       type={type}
       variant={variant ?? 'primary'}
       fullWidth={wide ?? true}

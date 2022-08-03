@@ -30,7 +30,7 @@ describe('authenticator-enroll-security-question', () => {
 
     await findByText(/Set up security question/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Verify', { selector: 'button' });
     const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
 
     const answer = 'pizza';
@@ -71,7 +71,7 @@ describe('authenticator-enroll-security-question', () => {
 
     const customQuestionEle = await findByTestId('credentials.question') as HTMLInputElement;
     const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Verify', { selector: 'button' });
 
     const question = 'What is the meaning of life?';
     const answer = '42';

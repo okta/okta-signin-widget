@@ -40,7 +40,7 @@ describe('authenticator-reset-password', () => {
     await findByText(/Reset your password/);
     await findByText(/Password requirements/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Reset Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
     const confirmPasswordEle = await findByTestId('credentials.confirmPassword') as HTMLInputElement;
 

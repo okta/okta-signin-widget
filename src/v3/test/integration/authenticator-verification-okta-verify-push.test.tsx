@@ -23,13 +23,13 @@ describe('authenticator-verification-okta-verify-push', () => {
 
   it('should send correct payload with autoChallenge = true', async () => {
     const {
-      authClient, user, findByTestId, findByText, findByLabelText,
+      authClient, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
 
     await findByText(/Get a push notification/);
     await findByText(/Send push automatically/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Send push', { selector: 'button' });
     const autoChallengeCheckbox = await findByLabelText(/Send push automatically/);
     await user.click(autoChallengeCheckbox);
     await user.click(submitButton);
@@ -58,12 +58,12 @@ describe('authenticator-verification-okta-verify-push', () => {
 
   it('should send correct payload with autoChallenge = false', async () => {
     const {
-      authClient, user, findByTestId, findByText, findByLabelText,
+      authClient, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
 
     await findByText(/Get a push notification/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Send push', { selector: 'button' });
 
     const autoChallengeCheckbox = await findByLabelText(/Send push automatically/);
     // click checkbox twice to end up with a false value

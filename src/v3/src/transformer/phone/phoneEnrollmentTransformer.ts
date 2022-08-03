@@ -74,7 +74,6 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
           {
             type: 'Button',
             label: loc('oie.phone.sms.primaryButton', 'login'),
-            scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
               step: transaction.nextStep!.name,
@@ -91,7 +90,6 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
           {
             type: 'Button',
             label: loc('oie.phone.call.primaryButton', 'login'),
-            scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
               type: ButtonType.SUBMIT,
               step: transaction.nextStep!.name,

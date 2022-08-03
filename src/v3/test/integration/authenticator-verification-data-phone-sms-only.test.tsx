@@ -22,14 +22,14 @@ describe('authenticator-verification-data-phone-sms-only', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByText, findByTestId,
+      authClient, user, findByText,
     } = await setup({ mockResponse });
 
     await findByText(/Verify with your phone/);
     await findByText(/Send a code via SMS to/);
     await findByText(/Carrier messaging charges may apply/);
 
-    const submitButton = await findByTestId('#/properties/submit');
+    const submitButton = await findByText('Receive a code via SMS', { selector: 'button' });
     expect(submitButton.innerHTML).toContain('Receive a code via SMS');
 
     await user.click(submitButton);

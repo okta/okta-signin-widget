@@ -24,8 +24,8 @@ const Link: UISchemaElementComponent<{
     options: {
       label,
       href,
-      action: actionFn,
       actionParams,
+      isActionStep,
       step,
     },
   } = uischema;
@@ -36,7 +36,7 @@ const Link: UISchemaElementComponent<{
 
     onSubmitHandler({
       params: actionParams,
-      actionFn,
+      isActionStep,
       step,
     });
   };
@@ -44,7 +44,7 @@ const Link: UISchemaElementComponent<{
   return (
     <Box marginTop={4}>
       {
-        actionFn !== undefined ? (
+        typeof href === 'undefined' ? (
           <LinkMui
             // eslint-disable-next-line no-script-url
             href="javascript:void(0)"

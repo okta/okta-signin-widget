@@ -39,6 +39,7 @@ const InputText: UISchemaElementComponent<{
       messages = {},
       name,
     },
+    dataSe,
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
@@ -52,19 +53,19 @@ const InputText: UISchemaElementComponent<{
       <OutlinedInput
         value={value}
         type={type || 'text'}
-        name={name}
         id={name}
+        name={name}
         error={error !== undefined}
         onChange={handleChange}
         fullWidth
         inputProps={{
-          'data-se': name,
+          'data-se': dataSe,
           ...attributes,
         }}
       />
       {error && (
         <FormHelperText
-          data-se={`${name}-error`}
+          data-se={`${dataSe}-error`}
           error
         >
           {error}
