@@ -77,7 +77,6 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
   elements.push({
     type: 'Button',
     label: loc('oie.enroll.okta_verify.setupLink', 'login'),
-    scope: '#/properties/setupLink',
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,

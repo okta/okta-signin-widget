@@ -85,12 +85,10 @@ describe('Identify Transformer Tests', () => {
       {
         type: 'Control',
         name: 'identifier',
-        scope: '#/properties/identifier',
       } as UISchemaElement,
       {
         type: 'Control',
         name: 'rememberMe',
-        scope: '#/properties/rememberMe',
       } as UISchemaElement,
     ];
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });

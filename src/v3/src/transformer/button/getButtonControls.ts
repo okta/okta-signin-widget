@@ -54,7 +54,6 @@ export const getButtonControls = (
       label: loc('oform.next', 'login'),
       options: {
         type: ButtonType.SUBMIT,
-        dataType: 'save',
         step: transaction.nextStep!.name,
       },
     };

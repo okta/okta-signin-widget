@@ -20,7 +20,7 @@ fixture('Theming')
 // OKTA-519086
 test.skip('Theme configuration applies correctly', async (t) => {
   const submitButton = Selector('button')
-    .withAttribute('data-se', 'submit');
+    .withAttribute('data-type', 'save');
 
   await t
     .expect(submitButton.getStyleProperty('background-color'))

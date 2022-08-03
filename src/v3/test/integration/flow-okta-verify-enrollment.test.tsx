@@ -113,7 +113,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Email me a setup link/);
     await findByText(/Text me a setup link/);
     expect(container).toMatchSnapshot();
-    await user.click(await findByTestId('submit'));
+    await user.click(await findByText('Next', { selector: 'button' }));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
@@ -254,7 +254,7 @@ describe('flow-okta-verify-enrollment', () => {
     const smsOption = await findByText(/Text me a setup link/);
     expect(container).toMatchSnapshot();
     await user.click(smsOption);
-    await user.click(await findByTestId('submit'));
+    await user.click(await findByText('Next', { selector: 'button' }));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',

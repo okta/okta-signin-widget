@@ -32,7 +32,7 @@ describe('authenticator-expiry-warning-password', () => {
     await findByText(/Password requirements/);
     await findByText(/Remind me later/);
 
-    const submitButton = await findByTestId('submit');
+    const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
     const confirmPasswordEle = await findByTestId('credentials.confirmPassword') as HTMLInputElement;
 

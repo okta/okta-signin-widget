@@ -39,7 +39,6 @@ const updateSubmitButton: TransformStepFn = formbag => {
     layout: uischema,
     updateFn: (element) => {
       const { options } = element as ButtonElement;
-      options.dataSe = 'submit';
       options.dataType = 'save';
     },
     predicateFn: (element) => {

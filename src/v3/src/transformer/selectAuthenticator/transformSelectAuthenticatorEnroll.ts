@@ -81,7 +81,6 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     const skipButtonElement: ButtonElement = {
       type: 'Button',
       label: loc('oie.optional.authenticator.button.title', 'login'),
-      scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
         step,

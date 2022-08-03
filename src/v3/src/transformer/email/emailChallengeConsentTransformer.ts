@@ -79,7 +79,6 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
   const deny: ButtonElement = {
     type: 'Button',
     label: loc('oie.consent.enduser.deny.label', 'login'),
-    scope: '#/properties/deny',
     options: {
       type: ButtonType.BUTTON,
       variant: 'secondary',
@@ -92,7 +91,6 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
   const allow: ButtonElement = {
     type: 'Button',
     label: loc('oie.consent.enduser.accept.label', 'login'),
-    scope: '#/properties/allow',
     options: {
       type: ButtonType.BUTTON,
       variant: 'secondary',

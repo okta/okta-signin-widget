@@ -62,7 +62,6 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
   const submitButtonControl: ButtonElement = {
     type: 'Button',
     label: loc('oie.email.verify.primaryButton', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,

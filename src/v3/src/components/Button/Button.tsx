@@ -54,7 +54,6 @@ const Button: UISchemaElementComponent<{
 
   return (
     <ButtonMui
-      data-se={uischema.scope}
       type={type}
       variant={variant ?? 'primary'}
       fullWidth={wide ?? true}

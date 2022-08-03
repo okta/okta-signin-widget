@@ -87,7 +87,6 @@ export type WebAuthNAuthenticationHandler = (transaction: IdxTransaction) =>
 Promise<WebAuthNVerificationPayload>;
 
 export interface UISchemaElement {
-  scope?: string; // TODO: remove
   type: string;
   label?: string;
 }

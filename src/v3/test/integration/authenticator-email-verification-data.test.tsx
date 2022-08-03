@@ -24,13 +24,13 @@ describe('authenticator-email-verification-data', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByText,
     } = await setup({ mockResponse });
 
     await findByText(/Verify with your email/);
     await findByText(/Verify with an email link or enter a code sent to your email./);
 
-    const submitButton = await findByTestId('submit');
+    const submitButton = await findByText('Send me an email', { selector: 'button' });
 
     await user.click(submitButton);
 

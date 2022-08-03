@@ -28,10 +28,8 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
   const submitBtnElement: ButtonElement = {
     type: 'Button',
     label: loc('oform.next', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
-      dataType: 'save',
       step: transaction.nextStep!.name,
     },
   };

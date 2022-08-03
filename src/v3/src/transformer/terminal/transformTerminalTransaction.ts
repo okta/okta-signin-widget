@@ -105,7 +105,6 @@ const appendViewLinks = (
     const skipElement: ButtonElement = {
       type: 'Button',
       label: loc('oie.enroll.skip.setup', 'login'),
-      scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix

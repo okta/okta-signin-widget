@@ -94,7 +94,6 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
     label: primaryMethod === 'sms'
       ? loc('oie.phone.sms.primaryButton', 'login')
       : loc('oie.phone.call.primaryButton', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
       actionParams: {
@@ -109,7 +108,6 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
     label: primaryMethod === 'sms'
       ? loc('oie.phone.call.secondaryButton', 'login')
       : loc('oie.phone.sms.secondaryButton', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
       variant: 'secondary',

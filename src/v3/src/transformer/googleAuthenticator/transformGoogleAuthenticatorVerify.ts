@@ -40,7 +40,6 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
   const submitButtonElement: ButtonElement = {
     type: 'Button',
     label: loc('mfa.challenge.verify', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,

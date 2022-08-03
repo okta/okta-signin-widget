@@ -273,7 +273,6 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 >
                   <button
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
-                    data-se="submit"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -453,7 +452,6 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 >
                   <button
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
-                    data-se="submit"
                     data-type="save"
                     tabindex="0"
                     type="submit"

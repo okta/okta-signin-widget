@@ -46,7 +46,6 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
   const primaryButton: ButtonElement = {
     type: 'Button',
     label: loc('oform.verify', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,

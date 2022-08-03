@@ -108,7 +108,7 @@ describe('authenticator-verification-email', () => {
 
       // render invalid otp message
       const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-      const submitButton = await findByTestId('submit');
+      const submitButton = await findByText('Verify', { selector: 'button' });
       const verificationCode = '123456';
       await user.type(codeEle, verificationCode);
       await user.click(submitButton);
@@ -155,7 +155,7 @@ describe('authenticator-verification-email', () => {
     await findByText(/Enter code/);
 
     const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const submitButton = await findByTestId('submit');
+    const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';
     await user.type(codeEle, verificationCode);

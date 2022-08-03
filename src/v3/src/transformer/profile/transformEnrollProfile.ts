@@ -66,11 +66,9 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
   const submitBtnElement: ButtonElement = {
     type: 'Button',
     label: loc('oie.registration.form.submit', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,
-      dataType: 'save',
     },
   };
 

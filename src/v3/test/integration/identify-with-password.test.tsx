@@ -30,11 +30,11 @@ describe('identify-with-password', () => {
 
   describe('sends correct payload', () => {
     it('with all required fields', async () => {
-      const { authClient, user, findByTestId } = await setup({ mockResponse });
+      const { authClient, user, findByTestId, findByText } = await setup({ mockResponse });
 
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
-      const submitButton = await findByTestId('submit');
+      const submitButton = await findByText('Sign in', { selector: 'button' });
 
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
@@ -64,12 +64,12 @@ describe('identify-with-password', () => {
     });
 
     it('with required fields + optional fields', async () => {
-      const { authClient, user, findByTestId } = await setup({ mockResponse });
+      const { authClient, user, findByTestId, findByText } = await setup({ mockResponse });
 
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const rememberMeEl = await findByTestId('rememberMe');
-      const submitButton = await findByTestId('submit');
+      const submitButton = await findByText('Sign in', { selector: 'button' });
 
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
@@ -108,12 +108,12 @@ describe('identify-with-password', () => {
         findByTestId,
         findByText,
       } = await setup({ mockResponse });
-      let identifierError; let
-        passwordError;
+      let identifierError; 
+      let passwordError;
 
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
-      const submitButton = await findByTestId('submit');
+      const submitButton = await findByText('Sign in', { selector: 'button' });
 
       // empty username & empty password
       await user.click(submitButton);

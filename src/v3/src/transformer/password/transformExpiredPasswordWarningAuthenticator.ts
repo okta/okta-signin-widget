@@ -77,7 +77,6 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
   const submitBtnElement: ButtonElement = {
     type: 'Button',
     label: loc('password.expired.submit', 'login'),
-    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,
@@ -91,7 +90,6 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
     const skipBtnElement: ButtonElement = {
       type: 'Button',
       label: loc('password.expiring.later', 'login'),
-      scope: '#/properties/skip',
       options: {
         type: ButtonType.BUTTON,
         variant: 'floating',
