@@ -96,7 +96,14 @@ export default [
     renderer: WebAuthNSubmitButton,
   },
   {
-    tester: ({ name }: FieldElement) => name?.endsWith('phoneNumber'),
+    tester: (uischema: FieldElement) => {
+      const {
+        options: {
+          inputMeta: { name } = {},
+        } = {},
+      } = uischema;
+      return name?.endsWith('phoneNumber');
+    },
     renderer: PhoneAuthenticator,
   },
   {
