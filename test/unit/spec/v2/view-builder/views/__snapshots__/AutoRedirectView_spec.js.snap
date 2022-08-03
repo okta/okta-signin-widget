@@ -1,5 +1,103 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`v2/view-builder/views/AutoRedirectView renders custom error message 1`] = `"<div class=\\"siw-main-header\\"><div></div></div><div class=\\"siw-main-body\\"><form method=\\"POST\\" action=\\"/\\" data-se=\\"o-form\\" slot=\\"content\\" id=\\"form69\\" class=\\"ion-form o-form o-form-edit-mode\\"><div data-se=\\"o-form-content\\" class=\\"o-form-content o-form-theme clearfix\\"><h2 data-se=\\"o-form-head\\" class=\\"okta-form-title o-form-head\\">Signing in</h2><div class=\\"o-form-info-container\\"></div><div class=\\"o-form-error-container\\" data-se=\\"o-form-error-container\\"></div><div class=\\"o-form-fieldset-container\\" data-se=\\"o-form-fieldset-container\\"><div data-se=\\"callout\\" class=\\"infobox clearfix infobox-error\\"><span data-se=\\"icon\\" class=\\"icon error-16\\"></span><div class=\\"custom-access-denied-error-message\\"><p>You do not have permission to perform the requested action.</p><ul class=\\"custom-links\\"><li><a href=\\"https://www.okta.com/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">Help link 1</a></li><li><a href=\\"https://www.okta.com/help?page=1\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">Help link 2</a></li></ul></div></div><div class=\\"okta-waiting-spinner\\"></div></div></div></form></div><div class=\\"siw-main-footer\\"><div class=\\"auth-footer\\"></div></div>"`;
+
+exports[`v2/view-builder/views/AutoRedirectView renders custom error message: should show identifier in title 1`] = `
+<div
+  class="siw-main-view "
+>
+  <div
+    class="siw-main-header"
+  >
+    <div />
+  </div>
+  <div
+    class="siw-main-body"
+  >
+    <form
+      action="/"
+      class="ion-form o-form o-form-edit-mode"
+      data-se="o-form"
+      id="form69"
+      method="POST"
+      slot="content"
+    >
+      <div
+        class="o-form-content o-form-theme clearfix"
+        data-se="o-form-content"
+      >
+        <h2
+          class="okta-form-title o-form-head"
+          data-se="o-form-head"
+        >
+          Signing in
+        </h2>
+        <div
+          class="o-form-info-container"
+        />
+        <div
+          class="o-form-error-container"
+          data-se="o-form-error-container"
+        />
+        <div
+          class="o-form-fieldset-container"
+          data-se="o-form-fieldset-container"
+        >
+          <div
+            class="infobox clearfix infobox-error"
+            data-se="callout"
+          >
+            <span
+              class="icon error-16"
+              data-se="icon"
+            />
+            <div
+              class="custom-access-denied-error-message"
+            >
+              <p>
+                You do not have permission to perform the requested action.
+              </p>
+              <ul
+                class="custom-links"
+              >
+                <li>
+                  <a
+                    href="https://www.okta.com/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Help link 1
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.okta.com/help?page=1"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Help link 2
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="okta-waiting-spinner"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div
+    class="siw-main-footer"
+  >
+    <div
+      class="auth-footer"
+    />
+  </div>
+</div>
+`;
+
 exports[`v2/view-builder/views/AutoRedirectView renders user identifier in title when features.showIdentifier is false: should show identifier in title 1`] = `
 <div
   class="siw-main-view "
