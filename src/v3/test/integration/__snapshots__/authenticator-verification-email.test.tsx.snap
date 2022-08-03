@@ -133,7 +133,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                 class="MuiBox-root emotion-11"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-20"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
@@ -329,7 +329,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 class="MuiBox-root emotion-11"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-27"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
@@ -544,7 +544,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 class="MuiBox-root emotion-11"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-28"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
@@ -559,7 +559,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 class="MuiBox-root emotion-11"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-28"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"

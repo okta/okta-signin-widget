@@ -127,7 +127,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-16"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
@@ -142,7 +142,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-16"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
@@ -328,7 +328,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-18"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
@@ -343,7 +343,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-18"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"

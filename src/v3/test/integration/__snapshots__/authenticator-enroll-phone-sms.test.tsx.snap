@@ -195,7 +195,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-28"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
@@ -210,7 +210,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-28"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"

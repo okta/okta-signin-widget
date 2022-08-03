@@ -1476,7 +1476,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-25"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
@@ -1491,7 +1491,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-25"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"

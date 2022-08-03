@@ -71,12 +71,16 @@ exports[`terminal-return-email-error should render form 1`] = `
                 </div>
                 <div
 <<<<<<< HEAD
+<<<<<<< HEAD
                   class="MuiBox-root emotion-7"
                 >
                   <div
                     class="MuiBox-root emotion-14"
 =======
                   class="MuiBox-root emotion-3"
+=======
+                  class="MuiBox-root emotion-13"
+>>>>>>> 84e3da984 (update snapshots)
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-14"
