@@ -19,7 +19,7 @@ import TransformerMap from '../layout/idxTransformerMapping';
 import { getButtonControls } from './getButtonControls';
 
 export const transformButtons: TransformStepFnWithOptions = (options) => (formbag) => {
-  const { transaction, step, widgetProps } = options;
+  const { transaction, step } = options;
   const { availableSteps, enabledFeatures } = transaction;
 
   const hasIdentityStep = availableSteps?.some((s) => s.name === IDX_STEP.IDENTIFY);
@@ -50,8 +50,6 @@ export const transformButtons: TransformStepFnWithOptions = (options) => (formba
       stepWithUnlockAccount,
       backToAuthList,
       verifyWithOther,
-      // TODO: This was added as a workaround for OKTA-512706
-      proceed: widgetProps.authClient?.idx.proceed,
     },
   );
 
