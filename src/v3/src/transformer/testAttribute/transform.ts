@@ -11,7 +11,7 @@
  */
 
 import { flow } from 'lodash';
-import { TransformStepFnWithOptions, ButtonElement, ButtonType, TransformStepFn, FieldElement } from '../../types';
+import { TransformStepFnWithOptions, ButtonElement, ButtonType, TransformStepFn, FieldElement, LinkElement } from '../../types';
 import { updateElementsInLayout } from '../util';
 
 const updateFields: TransformStepFn = formbag => {
@@ -71,8 +71,9 @@ const updateRegularButtons: TransformStepFn = formbag => {
       options.dataSe = map[options.step];
     },
     predicateFn: (element) => {
-      const { type, options } = element as ButtonElement;
-      return type === 'Button' && options.type === ButtonType.BUTTON;
+      const { type, options } = element as ButtonElement | LinkElement;
+      return (type === 'Button' && (options as ButtonElement['options']).type === ButtonType.BUTTON) 
+        || type === 'Link';
     },
   });
   

@@ -85,18 +85,7 @@ const appendViewLinks = (
     options: {
       label: loc('goback', 'login'),
       step: 'cancel',
-      // eslint-disable-next-line no-script-url
-      href: cancelStep?.action ? 'javascript:void(0)' : (baseUrl || '/'),
-      dataSe: 'cancel',
-      // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-      action: cancelStep?.action && ((params?: IdxActionParams) => {
-        const { stateHandle, ...rest } = params ?? {};
-        return widgetProps.authClient?.idx.proceed({
-          // @ts-ignore stateHandle can be undefined
-          stateHandle,
-          actions: [{ name: 'cancel', params: rest }],
-        });
-      }),
+      href: cancelStep ? undefined : (baseUrl || '/'),
     },
   };
 
