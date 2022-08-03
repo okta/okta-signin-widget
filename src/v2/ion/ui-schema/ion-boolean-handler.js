@@ -32,12 +32,13 @@ const getRadioUiSchema = ({ label, required, options }) => ({
   sublabel: required? null : loc('oie.form.field.optional', 'login'),
 });
 
-const getCheckboxUiSchemaWithDefaultValue = ({ label, type, required }) => ({
+const getCheckboxUiSchemaWithDefaultValue = ({ label, type }) => ({
   placeholder: label,
   label: false,
   modelType: type,
   type: 'checkbox',
-  required: required,
+  // set required true so default value can be passed to optional attributes as well
+  required: true,
   value: false,
 });
 
