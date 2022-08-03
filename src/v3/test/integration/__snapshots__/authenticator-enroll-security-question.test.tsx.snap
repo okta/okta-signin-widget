@@ -803,7 +803,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                 class="MuiBox-root emotion-11"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-47"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
@@ -818,7 +818,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                 class="MuiBox-root emotion-11"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-47"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"

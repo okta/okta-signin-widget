@@ -206,7 +206,7 @@ exports[`enroll-profile should render form 1`] = `
                 class="MuiBox-root emotion-5"
               >
                 <div
-                  class="MuiBox-root emotion-9"
+                  class="MuiBox-root emotion-32"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"

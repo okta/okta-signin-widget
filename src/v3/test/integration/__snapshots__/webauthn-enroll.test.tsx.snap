@@ -151,7 +151,7 @@ exports[`webauthn-enroll should render form 1`] = `
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-18"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
@@ -166,7 +166,7 @@ exports[`webauthn-enroll should render form 1`] = `
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-18"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
@@ -320,7 +320,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-16"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
@@ -335,7 +335,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-16"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"

@@ -187,7 +187,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                 class="MuiBox-root emotion-10"
               >
                 <div
-                  class="MuiBox-root emotion-3"
+                  class="MuiBox-root emotion-27"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
