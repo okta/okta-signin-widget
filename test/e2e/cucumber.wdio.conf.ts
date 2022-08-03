@@ -82,9 +82,7 @@ export const config: WebdriverIO.Config = {
     path.resolve(__dirname, 'features/**/*.feature')
   ],
   // Patterns to exclude.
-  exclude: [
-      path.resolve(__dirname, 'features/**/webauthn-login.feature')
-  ],
+  exclude: [],
   baseUrl: 'http://localhost:8080',
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,

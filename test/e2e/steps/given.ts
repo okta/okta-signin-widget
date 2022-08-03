@@ -71,12 +71,29 @@ Given(
 );
 
 Given(
-  /^user opens the login page using renderEl$/,
-  async function() {
-    await TestAppPage.startWithRenderEl.click();
+  /^user opens the login page using "(\w+)"$/,
+  async function(buttonName: string) {
+    switch(buttonName) {
+      case 'renderEl':
+        await TestAppPage.startWithRenderEl.click();
+        break;
+
+      case 'showSignIn':
+        await TestAppPage.showSignInButton.click();
+        break;
+
+      case 'showSignInAndRedirect':
+        await TestAppPage.showSignInAndRedirect.click();
+        break;
+
+      case 'showSignInToGetTokens':
+        await TestAppPage.showSignInToGetTokens.click();
+        break;
+    }
     return await waitForLoad(TestAppPage.widget);
   }
 );
+
 
 Given(
   /^state parameter is set in the widget config$/,
