@@ -11,46 +11,55 @@
  */
 
 import { flow } from 'lodash';
-import { TransformStepFnWithOptions, ButtonElement, ButtonType, TransformStepFn, FieldElement, LinkElement } from '../../types';
+
+import {
+  ButtonElement,
+  ButtonType,
+  FieldElement,
+  LinkElement,
+  TransformStepFn,
+} from '../../types';
 import { updateElementsInLayout } from '../util';
 
-const updateFields: TransformStepFn = formbag => {
+const updateFields: TransformStepFn = (formbag) => {
   const { uischema } = formbag;
 
   updateElementsInLayout({
     layout: uischema,
-    updateFn: (element) => {
+    mapFn: (element) => {
       const { options } = element as FieldElement;
       options.dataSe = options.inputMeta.name;
+      return element;
     },
     predicateFn: (element) => {
       const { type } = element as FieldElement;
       return type === 'Field';
     },
   });
-  
-  return formbag; 
+
+  return formbag;
 };
 
-const updateSubmitButton: TransformStepFn = formbag => {
+const updateSubmitButton: TransformStepFn = (formbag) => {
   const { uischema } = formbag;
 
   updateElementsInLayout({
     layout: uischema,
-    updateFn: (element) => {
+    mapFn: (element) => {
       const { options } = element as ButtonElement;
       options.dataType = 'save';
+      return element;
     },
     predicateFn: (element) => {
       const { type, options } = element as ButtonElement;
       return type === 'Button' && options.type === ButtonType.SUBMIT;
     },
   });
-  
-  return formbag; 
+
+  return formbag;
 };
 
-const updateRegularButtons: TransformStepFn = formbag => {
+const updateRegularButtons: TransformStepFn = (formbag) => {
   const { uischema } = formbag;
 
   const map: Record<string, string> = {
@@ -58,7 +67,7 @@ const updateRegularButtons: TransformStepFn = formbag => {
     'currentAuthenticator-recover': 'forgot-password',
     'currentAuthenticatorEnrollment-recover': 'forgot-password',
     'unlock-account': 'unlock',
-    'cancel': 'cancel',
+    cancel: 'cancel',
     'select-identify': 'back',
     'select-authenticator-authenticate': 'switchAuthenticator',
     'select-authenticator-enroll': 'switchAuthenticator',
@@ -66,24 +75,23 @@ const updateRegularButtons: TransformStepFn = formbag => {
 
   updateElementsInLayout({
     layout: uischema,
-    updateFn: (element) => {
+    mapFn: (element) => {
       const { options } = element as ButtonElement;
       options.dataSe = map[options.step];
+      return element;
     },
     predicateFn: (element) => {
       const { type, options } = element as ButtonElement | LinkElement;
-      return (type === 'Button' && (options as ButtonElement['options']).type === ButtonType.BUTTON) 
+      return (type === 'Button' && (options as ButtonElement['options']).type === ButtonType.BUTTON)
         || type === 'Link';
     },
   });
-  
-  return formbag; 
+
+  return formbag;
 };
 
-export const transformTestAttribute: TransformStepFnWithOptions = (options) => (formbag) => {
-  return flow(
-    updateFields,
-    updateSubmitButton,
-    updateRegularButtons,
-  )(formbag);
-};
+export const transformTestAttribute: TransformStepFn = (formbag) => flow(
+  updateFields,
+  updateSubmitButton,
+  updateRegularButtons,
+)(formbag);

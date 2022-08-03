@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
+import { IdxActionParams } from '@okta/okta-auth-js';
 import { merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
 
@@ -40,9 +40,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
     const {
-      params, 
-      includeData, 
-      step, 
+      params,
+      includeData,
+      step,
       isActionStep,
       stepToRender,
     } = options;

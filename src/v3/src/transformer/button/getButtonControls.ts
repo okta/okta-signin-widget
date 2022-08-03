@@ -13,7 +13,6 @@
 import {
   IdxTransaction,
   NextStep,
-  OktaAuth,
 } from '@okta/okta-auth-js';
 
 import { IDX_STEP } from '../../constants';

@@ -18,40 +18,43 @@ import {
 } from '../../types';
 
 type PredicateFn = (uischema: UISchemaElement) => boolean;
-type UpdateFn = (uischema: UISchemaElement) => void;
+type MapFn = (uischema: UISchemaElement) => UISchemaElement;
 type Options = {
   layout: UISchemaLayout;
-  updateFn: UpdateFn;
-  predicateFn?: PredicateFn;
+  mapFn: MapFn;
+  predicateFn?: PredicateFn; // update all elements when predicateFn is not assigned
 };
 
 export const updateElementsInLayout = (options: Options) => {
-  const res: UISchemaElement[] = [];
-  const fn = (layout: UISchemaLayout, updateFn: UpdateFn, predicateFn?: PredicateFn) => {
-    const { elements } = layout;
-    elements.forEach((element) => {
+  const fn = (
+    layout: UISchemaLayout,
+    mapFn: MapFn,
+    predicateFn: PredicateFn = () => true,
+  ): UISchemaLayout => {
+    // eslint-disable-next-line no-param-reassign
+    layout.elements = layout.elements.map((element) => {
       const { type } = element;
       if (type === UISchemaLayoutType.STEPPER) {
-        (element as StepperLayout).elements.forEach((el) => fn(el, updateFn, predicateFn));
-        return;
+        // eslint-disable-next-line no-param-reassign
+        (element as StepperLayout).elements = (element as StepperLayout).elements
+          .map((el) => fn(el, mapFn, predicateFn));
+        return element;
       }
 
       if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
         .includes(type as UISchemaLayoutType)) {
-        fn(element as UISchemaLayout, updateFn, predicateFn);
-        return;
+        return fn(element as UISchemaLayout, mapFn, predicateFn);
       }
 
-      if (!predicateFn) {
-        // no predicateFn, update for all elements
-        updateFn(element);
-      } else if (predicateFn(element)) {
-        // update based on predicateFn
-        updateFn(element);
+      if (predicateFn(element)) {
+        return mapFn(element);
       }
+
+      return element;
     });
+
+    return layout;
   };
 
-  fn(options.layout, options.updateFn, options.predicateFn);
-  return res;
+  return fn(options.layout, options.mapFn, options.predicateFn);
 };

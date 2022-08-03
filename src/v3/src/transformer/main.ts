@@ -40,7 +40,7 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
     transformLayout(options),
     transformButtons(options),
     transformMessages(options),
-    transformTestAttribute(options),
+    transformTestAttribute,
   ];
 
   return flow(transformationStepFns)({

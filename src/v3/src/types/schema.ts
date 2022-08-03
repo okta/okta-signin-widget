@@ -93,7 +93,7 @@ export interface UISchemaElement {
 
 export interface UISchemaLayout {
   type: UISchemaLayoutType;
-  elements: (UISchemaElement | UISchemaLayout)[];
+  elements: (UISchemaElement | UISchemaLayout | StepperLayout)[];
   options?: {
     onClick?: ClickHandler;
   }
