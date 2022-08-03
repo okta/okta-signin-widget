@@ -23,7 +23,9 @@ const ignoredMocks = [
   'enroll-profile-update-params.json', // No english leaks as custom attribute label comes from server
   'enroll-profile-new-additional-fields.json', // No english leaks on UI. Country and timezone dropdown values are not localized OKTA-454630
   'enroll-profile-submit.json', // flaky on bacon
-  'enroll-profile-all-base-attributes.json' // No english leaks on UI. Country and timezone dropdown values are not localized OKTA-454630
+  'enroll-profile-all-base-attributes.json', // No english leaks on UI. Country and timezone dropdown values are not localized OKTA-454630
+  'error-custom-access-denied-success-redirect.json', // custom message
+  'error-identify-access-denied-custom-message.json', // custom message
 ];
 
 const optionsForInteractionCodeFlow = {
