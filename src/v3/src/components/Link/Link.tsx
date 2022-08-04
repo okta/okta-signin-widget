@@ -24,6 +24,7 @@ const Link: UISchemaElementComponent<{
     options: {
       label,
       href,
+      dataSe,
       actionParams,
       isActionStep,
       step,
@@ -49,6 +50,8 @@ const Link: UISchemaElementComponent<{
             // eslint-disable-next-line no-script-url
             href="javascript:void(0)"
             onClick={onClick}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...(dataSe && { 'data-se': dataSe } )}
           >
             {getLabelName(label)}
           </LinkMui>
