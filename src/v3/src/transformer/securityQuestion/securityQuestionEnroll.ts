@@ -42,7 +42,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   }
 
   const { contextualData } = relatesTo.value;
-  const { uischema, data } = formBag;
+  const { uischema, data, dataSchema } = formBag;
 
   const customQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => (value as Input[])?.some(({ name }) => name === 'question'));
   const predefinedQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => !(value as Input[])?.some(({ name }) => name === 'question'));
@@ -90,8 +90,14 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     },
   };
 
-  // set default value predefinedQuestionsElement
-  data[QUESTION_KEY_INPUT_NAME] = predefinedQuestions?.[0].value as string;
+  const predefinedSubmitButton: ButtonElement = {
+    type: 'Button',
+    label: loc('mfa.challenge.verify', 'login'),
+    options: {
+      type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
+    },
+  };
 
   const customQuestionElement: FieldElement = {
     type: 'Field',
@@ -142,14 +148,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
           questionTypeRadioEl,
           predefinedQuestionsElement,
           predefinedAnswerElement,
-          {
-            type: 'Button',
-            label: loc('mfa.challenge.verify', 'login'),
-            options: {
-              type: ButtonType.SUBMIT,
-              step: transaction.nextStep!.name,
-            },
-          } as ButtonElement,
+          predefinedSubmitButton,
         ],
       } as UISchemaLayout,
       // Custom question
@@ -175,6 +174,12 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   };
 
   uischema.elements = [securityQuestionStepper];
+
+  // update default data
+  data[QUESTION_KEY_INPUT_NAME] = predefinedQuestions?.[0].value as string;
+
+  // update default dataSchema
+  dataSchema.submit = predefinedSubmitButton.options;
 
   return formBag;
 };

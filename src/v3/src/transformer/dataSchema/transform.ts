@@ -16,9 +16,9 @@ import {
   TransformStepFn,
   FieldElement,
   ButtonElement,
-  ButtonType, 
+  ButtonType,
 } from '../../types';
-import { updateElementsInLayout } from '../util';
+import { updateElementsInLayout, traveseLayout } from '../util';
 import { getAuthenticatorKey } from '../../util';
 import { AUTHENTICATOR_KEY } from '../../constants';
 
@@ -69,18 +69,34 @@ const addSubmission: TransformStepFn = (formbag) => {
 
   const { uischema, dataSchema } = formbag;
 
-  updateElementsInLayout({
+  let submitButtonsCount = 0;
+  // update hasStepper flag while travesing the layout
+  traveseLayout({
     layout: uischema,
-    mapFn: (element) => {
-      const { options } = element as ButtonElement;
-      dataSchema.submit = options;
-      return element;
+    predicate: (element) => {
+      return element.type === 'Button' && (element as ButtonElement).options?.type === ButtonType.SUBMIT;
     },
-    predicateFn: (element) => {
-      const { type, options } = element as ButtonElement;
-      return type === 'Button' && options.type === ButtonType.SUBMIT;
+    callback: () => {
+      submitButtonsCount++;
     },
-  })
+  });
+
+  // track stepper submission option in custom layout step
+  if (submitButtonsCount === 1) {
+    traveseLayout({
+      layout: uischema,
+      predicate: (element) => {
+        return element.type === 'Button' && (element as ButtonElement).options?.type === ButtonType.SUBMIT;
+      },
+      callback: (element) => {
+        dataSchema.submit = (element as ButtonElement).options;
+      },
+    });
+  }
+
+  if (submitButtonsCount > 1 && !dataSchema.submit) {
+    throw new Error('dataSchema submit options should be set in custom layout');
+  }
 
   return formbag;
 }

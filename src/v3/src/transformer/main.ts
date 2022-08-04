@@ -43,7 +43,7 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
     transformMessages(options),
     transformDataSchema(options),
     transformTestAttribute,
-    // logger,
+    logger,
   ];
 
   return flow(transformationStepFns)({
@@ -58,6 +58,5 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
     },
     data: {},
     dataSchema: {},
-    fieldsToValidate: [],
   });
 };
