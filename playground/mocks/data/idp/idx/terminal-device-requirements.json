@@ -1,13 +1,16 @@
 {
-  "stateHandle": "02itnqG312DoS3cU0z0LWs11l76yQ8ll4d95Oye61u",
   "version": "1.0.0",
-  "expiresAt": "2020-07-01T00:07:15.000Z",
+  "stateHandle": "02.id.9-0f2kfMR8bLGa0TR8S4imcVISsL4C1lxD_U9D1S",
+  "expiresAt": "2022-08-02T22:21:33.000Z",
   "intent": "LOGIN",
   "messages": {
     "type": "array",
     "value": [
       {
-        "message": "For more information, follow the instructions on the help page, or contact your administrator for help. iuAGHWFGBiuoHASGUOIRSHGOUISRHGIOSJRIOGSRIOGJrsOIGJSEIORGJSORIGHJSRIOGJSOIRP{JGIOSRJG)ISRHJGIOPSRHGOUSRHGOIURHGOUISRHG{)(IGOISRGHJOP{RJGIORSGHOIUSRHJGIORSJGIOSRJGOIRSHJGIOPjresoIGHRSGIOJRSIO",
+        "message": "<strong>Device requirements not met</strong><br>For more information, follow the instructions on the <a href=\"https://help.okta.com/okta_help.htm?type=eu&id=csh-ov-device-remediation\">help page</a>, or contact your administrator for help. uihdrtgiujhdiurghiuzrhdgiuhrdgiuhdriughzdiurghkjzdhgiujrdhzgjkdfgzdrhgiulhdrizughrdziughuidrgiurdhguiiurdghrudihgudrtiughdriugdriughuidrhgiudrhgiuhdriuhdriughiudhgiudrhgiudrhgiuhdriughrdiugh",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.default"
+        },
         "class": "ERROR"
       }
     ]
