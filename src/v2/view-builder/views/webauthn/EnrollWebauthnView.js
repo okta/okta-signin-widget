@@ -60,8 +60,8 @@ const Body = BaseForm.extend({
     const relatesToObject = this.options.currentViewState.relatesTo;
     const activationData = relatesToObject?.value.contextualData.activationData;
     if (webauthn.isNewApiAvailable()) {
-      let excludeCredentials = getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value)
-      if(activationData.authenticatorSelection?.requireResidentKey === true){
+      let excludeCredentials = getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value);
+      if (activationData.authenticatorSelection?.requireResidentKey === true) {
         excludeCredentials = [];
       }
       var options = _.extend({}, activationData, {

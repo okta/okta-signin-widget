@@ -7,7 +7,7 @@ import XHRIdentifyWithPassword
 import XHRIdentifyWithThirdPartyIdps
   from '../../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
 import XHRIdentifyWithWebAuthn
-  from '../../../../../../playground/mocks/data/idp/idx/identify-with-webauthn-launch-authenticator.json'
+  from '../../../../../../playground/mocks/data/idp/idx/identify-with-webauthn-launch-authenticator.json';
 import CookieUtil from 'util/CookieUtil';
 import Bundles from 'util/Bundles';
 import { FORMS } from 'v2/ion/RemediationConstants';

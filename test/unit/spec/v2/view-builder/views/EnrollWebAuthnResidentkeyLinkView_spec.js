@@ -12,7 +12,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebAuthnResidentkeyLinkView', fun
   beforeEach(function() { 
     testContext = {};
     testContext.init = () => {
-      const appState = new AppState();
+      const appState = new AppState({}, {});
       spyOn(appState, 'trigger');
 
       testContext.view = new EnrollWebAuthnResidentkeyLinkView({

@@ -348,7 +348,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       expect(testContext.view.form.webauthnAbortController).toBe(null);
       done();
     })
-    .catch(done.fail);
+      .catch(done.fail);
   });
 
   it('shows not have setup webauthn residentKey text when enroll-webauthn-residentkey remediation does not exist', function() {
@@ -392,10 +392,10 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       {},
       {canEnrollResidentKey:true});
     Expect.waitForCss('.infobox-error')
-    .then(() => {
-      expect(testContext.view.$('.setup-webauthn-residentkey-text').css('display')).toBe('block');
-      done();
-    })
-    .catch(done.fail);
+      .then(() => {
+        expect(testContext.view.$('.setup-webauthn-residentkey-text').css('display')).toBe('block');
+        done();
+      })
+      .catch(done.fail);
   });
 });

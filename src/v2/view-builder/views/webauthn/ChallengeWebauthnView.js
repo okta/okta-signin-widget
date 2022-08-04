@@ -98,7 +98,7 @@ const Body = BaseForm.extend({
         authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
         signatureData: CryptoUtil.binToStr(assertion.response.signature)
       };
-      const hasUserHandleSchema = this.options.appState.getSchemaByName("credentials.userHandle");
+      const hasUserHandleSchema = this.options.appState.getSchemaByName('credentials.userHandle');
       if (hasUserHandleSchema) {
         _.extend(credentials, {
           userHandle: CryptoUtil.binToStr(assertion.response.userHandle ?? '')
