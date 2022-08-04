@@ -91,6 +91,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [state](#state)
     - [otp](#otp)
     - [scopes](#scopes)
+    - [idpDisplay](#idpdisplay)
   - [Brand](#brand)
     - [logo](#logo)
     - [logoText](#logotext)
@@ -107,7 +108,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [assets.languages](#assetslanguages)
     - [assets.rewrite](#assetsrewrite)
   - [Links](#links)
-    - [Sign out link](#sign-out-link)
+    - [Back to sign in link](#back-to-sign-in-link)
     - [Sign up link](#sign-up-link)
     - [registration.click](#registrationclick)
     - [Help Links](#help-links)
@@ -239,9 +240,9 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/6.6.0/js/okta-sign-in.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/6.6.1/js/okta-sign-in.min.js" type="text/javascript"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/6.6.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/6.6.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
 The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases).
@@ -250,7 +251,7 @@ The standard JS asset served from our CDN includes polyfills via [`core-js`](htt
 
 ```html
 <!-- Latest CDN production Javascript without polyfills -->
-<script src="https://global.oktacdn.com/okta-signin-widget/6.6.0/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/6.6.1/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
 ```
 
 #### Using the npm module
