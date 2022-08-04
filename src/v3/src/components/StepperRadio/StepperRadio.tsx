@@ -23,6 +23,8 @@ import { useState } from 'preact/hooks';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
 import {
+  ButtonElement,
+  ButtonType,
   ChangeEvent,
   StepperRadioElement,
   UISchemaElementComponent,
@@ -32,7 +34,7 @@ const StepperRadio: UISchemaElementComponent<{
   uischema: StepperRadioElement
 }> = ({ uischema }) => {
   const { setStepIndex } = useStepperContext();
-  const { setData } = useWidgetContext();
+  const { setData, dataSchemaRef } = useWidgetContext();
   const {
     label = '',
     options: {
@@ -53,6 +55,11 @@ const StepperRadio: UISchemaElementComponent<{
     if (option.key) {
       setData({ [option.key]: option.value });
     }
+
+    // update submit options in dataSchemaRef
+    const currentLayout = option.layout();
+    const submitButtomElement = currentLayout.elements.find((element) => element.type === 'Button' && (element as ButtonElement).options?.type === ButtonType.SUBMIT) as ButtonElement;
+    dataSchemaRef.current!.submit = submitButtomElement.options;
   };
 
   return (

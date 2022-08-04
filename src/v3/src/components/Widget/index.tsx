@@ -39,6 +39,7 @@ import {
   FormBag,
   MessageType,
   UISchemaLayout,
+  UISchemaLayoutType,
   WidgetProps,
 } from '../../types';
 import {
@@ -74,7 +75,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     events,
   } = widgetProps;
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState<FormBag['data']>({});
+  const [uischema, setUischema] = useState<FormBag['uischema']>({
+    type: UISchemaLayoutType.VERTICAL,
+    elements: [],
+  });
   const [message, setMessage] = useState<IdxMessage | undefined>();
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
@@ -118,17 +123,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         && isAndroidOrIOS()) {
       step = 'select-enrollment-channel';
     }
-    const bag = transformIdxTransaction({
+    return transformIdxTransaction({
       transaction: idxTransaction,
       prevTransaction: prevIdxTransactionRef.current,
       step,
       widgetProps,
     });
-
-    // Get data state ready before updating formBag
-    setData(bag.data);
-
-    return bag;
   }, [
     idxTransaction,
     authApiError,
@@ -144,6 +144,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // update dataSchemaRef in context
   useEffect(() => {
     dataSchemaRef.current = formBag.dataSchema;
+    setData(formBag.data);
+    setUischema(formBag.uischema);
   }, [formBag]);
 
   const handleError = (error: unknown) => {
@@ -271,8 +273,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 <IdentifierContainer />
                 <InfoSection message={message} />
                 {
-                  formBag.uischema.elements.length > 0
-                    ? <Form uischema={formBag.uischema as UISchemaLayout} />
+                  uischema.elements.length > 0
+                    ? <Form uischema={uischema as UISchemaLayout} />
                     : <Spinner />
                 }
               </AuthContent>

@@ -15,7 +15,6 @@ import { createContext } from 'preact';
 import { MutableRef, StateUpdater, useContext } from 'preact/hooks';
 
 import {
-  ActionOptions,
   FormBag,
   WidgetProps,
 } from './types';
@@ -57,15 +56,6 @@ const createWidgetContext = <T extends unknown>() => {
 const [useWidgetContext, WidgetContextProvider] = createWidgetContext<IWidgetContext>();
 
 export { useWidgetContext, WidgetContextProvider };
-
-// Form context
-type IFormContext = {
-  submissionOptionsRef: MutableRef<ActionOptions | undefined>;
-};
-
-export const FormContext = createContext<IFormContext>({} as IFormContext);
-
-export const useFormContext = () => useContext(FormContext);
 
 // Stepper context
 type IStepperContext = {

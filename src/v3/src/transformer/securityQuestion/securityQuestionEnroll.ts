@@ -121,10 +121,12 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
       customOptions: [{
         value: 'predefined',
         label: loc('oie.security.question.questionKey.label', 'login'),
+        layout: () => securityQuestionStepper.elements[0],
       }, {
         key: 'credentials.questionKey',
         value: 'custom',
         label: loc('oie.security.question.createQuestion.label', 'login'),
+        layout: () => securityQuestionStepper.elements[1],
       }],
     },
   };
@@ -173,10 +175,6 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   };
 
   uischema.elements = [securityQuestionStepper];
-
-  // TODO: support stepper dataSchema to pick validators based on selection
-  // eslint-disable-next-line no-param-reassign
-  formBag.dataSchema = {};
 
   return formBag;
 };
