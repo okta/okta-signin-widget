@@ -43,7 +43,6 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
     transformMessages(options),
     transformDataSchema,
     transformTestAttribute,
-    logger,
   ];
 
   return flow(transformationStepFns)({
