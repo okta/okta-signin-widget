@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { ScopedCssBaseline } from '@mui/material';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { ThemeProvider } from '@okta/odyssey-react-theme';
 import {
   AuthApiError,
