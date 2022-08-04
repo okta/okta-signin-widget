@@ -141,7 +141,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+<<<<<<< HEAD
                       data-se="switchAuthenticator"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -156,7 +159,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+<<<<<<< HEAD
                       data-se="cancel"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -164,43 +170,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-23"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-23"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>
@@ -367,7 +338,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+<<<<<<< HEAD
                       data-se="switchAuthenticator"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -382,7 +356,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+<<<<<<< HEAD
                       data-se="cancel"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -390,43 +367,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-26"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-26"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>
@@ -564,7 +506,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+<<<<<<< HEAD
                       data-se="switchAuthenticator"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -579,7 +524,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+<<<<<<< HEAD
                       data-se="cancel"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -587,43 +535,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-21"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-21"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>
@@ -790,7 +703,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+<<<<<<< HEAD
                       data-se="switchAuthenticator"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -805,7 +721,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+<<<<<<< HEAD
                       data-se="cancel"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -813,43 +732,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-26"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-26"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>

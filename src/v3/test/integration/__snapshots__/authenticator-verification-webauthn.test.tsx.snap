@@ -102,7 +102,10 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
+<<<<<<< HEAD
                       data-se="switchAuthenticator"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Verify with something else
@@ -117,7 +120,10 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
+<<<<<<< HEAD
                       data-se="cancel"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -125,43 +131,8 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-16"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Verify with something else
-                  </a>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-16"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>
@@ -289,7 +260,10 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
+<<<<<<< HEAD
                       data-se="switchAuthenticator"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Verify with something else
@@ -304,7 +278,10 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
+<<<<<<< HEAD
                       data-se="cancel"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -312,43 +289,8 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-18"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Verify with something else
-                  </a>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-18"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>

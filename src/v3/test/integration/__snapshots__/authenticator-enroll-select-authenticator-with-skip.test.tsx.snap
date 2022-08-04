@@ -213,7 +213,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                 <div
                   class="MuiBox-root emotion-10"
                 >
-<<<<<<< HEAD
                   <button
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-39"
                     data-type="save"
@@ -230,14 +229,20 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-41"
                   >
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                       data-se="cancel"
+=======
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
                     </a>
                   </div>
+<<<<<<< HEAD
 =======
                     Back to sign in
                   </button>
@@ -260,6 +265,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   </a>
 >>>>>>> 4f7938868 (update snapshots)
 >>>>>>> e94a7e4d1 (update snapshots)
+=======
+>>>>>>> e79316d05 (update snapshots)
                 </div>
               </div>
             </form>

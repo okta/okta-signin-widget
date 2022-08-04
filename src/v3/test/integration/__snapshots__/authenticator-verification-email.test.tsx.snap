@@ -120,7 +120,10 @@ exports[`authenticator-verification-email renders correct form renders the initi
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+<<<<<<< HEAD
                       data-se="cancel"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -128,28 +131,8 @@ exports[`authenticator-verification-email renders correct form renders the initi
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-11"
-              >
-                <div
-                  class="MuiBox-root emotion-20"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>
@@ -319,7 +302,10 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+<<<<<<< HEAD
                       data-se="cancel"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -327,28 +313,8 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-11"
-              >
-                <div
-                  class="MuiBox-root emotion-27"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>
@@ -525,7 +491,10 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+<<<<<<< HEAD
                       data-se="switchAuthenticator"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Verify with something else
@@ -540,7 +509,10 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+<<<<<<< HEAD
                       data-se="cancel"
+=======
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -548,43 +520,8 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-11"
-              >
-                <div
-                  class="MuiBox-root emotion-28"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Verify with something else
-                  </a>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-11"
-              >
-                <div
-                  class="MuiBox-root emotion-28"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>

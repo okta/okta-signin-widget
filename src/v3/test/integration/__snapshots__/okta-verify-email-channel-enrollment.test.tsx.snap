@@ -170,12 +170,28 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 <div
                   class="MuiBox-root emotion-11"
                 >
+<<<<<<< HEAD
                   <div
                     class="MuiBox-root emotion-29"
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                       data-se="switchAuthenticator"
+=======
+<<<<<<< HEAD
+                  <button
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
+                    data-se="switchAuthenticator"
+                    tabindex="0"
+                    type="button"
+=======
+                  <div
+                    class="MuiBox-root emotion-28"
+>>>>>>> 13c109de4 (update snapshots)
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -185,12 +201,28 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 <div
                   class="MuiBox-root emotion-11"
                 >
+<<<<<<< HEAD
                   <div
                     class="MuiBox-root emotion-29"
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                       data-se="cancel"
+=======
+<<<<<<< HEAD
+                  <button
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
+                    data-se="cancel"
+                    tabindex="0"
+                    type="button"
+=======
+                  <div
+                    class="MuiBox-root emotion-28"
+>>>>>>> 13c109de4 (update snapshots)
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+>>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -198,66 +230,8 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <button
-                  class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
-                  data-se="#/properties/setupLink"
-                  tabindex="0"
-                  type="submit"
-                >
-                  Send me the setup link
-                </button>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <button
-                  class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
-                  tabindex="0"
-                  type="button"
-                >
-                  Or &lt;a href="#" class="switch-channel-link"&gt;try a different way&lt;/a&gt; to set up Okta Verify.
-                </button>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-27"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-27"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>

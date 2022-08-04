@@ -90,23 +90,10 @@ exports[`unlock-account-success renders form 1`] = `
                   </div>
                 </div>
                 <div
-<<<<<<< HEAD
-<<<<<<< HEAD
                   class="MuiBox-root emotion-10"
                 >
                   <div
                     class="MuiBox-root emotion-16"
-=======
-                  class="MuiBox-root emotion-6"
-=======
-                  class="MuiBox-root emotion-15"
->>>>>>> 84e3da984 (update snapshots)
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-16"
-                    data-se="cancel"
-                    href="javascript:void(0)"
->>>>>>> 4f7938868 (update snapshots)
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
