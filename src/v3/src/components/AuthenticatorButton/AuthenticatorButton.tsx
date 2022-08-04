@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { withTheme } from '@okta/odyssey-react-theme';
+import classNames from 'classnames';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -30,12 +31,14 @@ import style from './styles.module.css';
 const AuthenticatorButton: UISchemaElementComponent<{
   uischema: AuthenticatorButtonElement
 }> = ({ uischema }) => {
+  const ctaButtonClasses = classNames('cta-button', style.actionName);
   const {
     label,
     options: {
       key: authenticationKey,
       actionParams,
       description,
+      usageDescription,
       ctaLabel,
       dataSe,
     },
@@ -63,25 +66,50 @@ const AuthenticatorButton: UISchemaElementComponent<{
       boxShadow={Tokens.ShadowScale0}
       className={style.authButton}
       role="button"
+      data-se="authenticator-button"
       tabIndex={0}
       onClick={onClick}
       onKeyPress={onClick}
     >
-      { authenticationKey && <AuthCoin authenticatorKey={authenticationKey} /> }
+      { authenticationKey && (
+        <Box data-se="authenticator-icon">
+          <AuthCoin authenticatorKey={authenticationKey} />
+        </Box>
+      )}
       <Box className={style.infoSection}>
-        <Box className={style.title}>
+        <Box
+          className={style.title}
+          data-se="authenticator-button-label"
+        >
           {label}
         </Box>
         {description && (
-          <Box className={style.description}>
+          <Box
+            className={style.description}
+            data-se="authenticator-button-description"
+          >
             {description}
           </Box>
         )}
+        {usageDescription && (
+          <Typography
+            className={style.description}
+            variant="caption"
+            data-se="authenticator-button-usage-text"
+          >
+            {usageDescription}
+          </Typography>
+        )}
         <Box
-          className={style.actionName}
+          className={ctaButtonClasses}
           data-se={dataSe}
         >
-          {ctaLabel}
+          <Box
+            component="span"
+            data-se="cta-button-label"
+          >
+            {ctaLabel}
+          </Box>
           <ArrowRight />
         </Box>
       </Box>

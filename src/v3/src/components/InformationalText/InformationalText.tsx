@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { Text } from '@okta/odyssey-react';
+import { Box, Typography } from '@mui/material';
 import { h } from 'preact';
 
 import { DescriptionElement, UISchemaElementComponent } from '../../types';
@@ -28,7 +27,12 @@ const InformationalText: UISchemaElementComponent<{
       display="flex"
       justifyContent="flex-start"
     >
-      <Text as="p">{content}</Text>
+      <Typography
+        paragraph
+        data-se="o-form-explain"
+      >
+        {content}
+      </Typography>
     </Box>
   );
 };

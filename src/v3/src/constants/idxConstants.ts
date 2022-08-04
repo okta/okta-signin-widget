@@ -73,6 +73,12 @@ export const IDX_STEP: Record<string, string> = {
   USER_CODE: 'user-code',
 };
 
+export const AUTHENTICATOR_ALLOWED_FOR_OPTIONS: Record<string, string> = {
+  ANY: 'any',
+  SSO: 'sso',
+  RECOVERY: 'recovery',
+};
+
 export const TERMINAL_KEY: Record<string, string> = {
   DEVICE_ACTIVATED: 'idx.device.activated',
   DEVICE_NOT_ACTIVATED_CONSENT_DENIED: 'idx.device.not.activated.consent.denied',

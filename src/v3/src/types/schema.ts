@@ -175,6 +175,7 @@ export interface AuthenticatorButtonElement {
     key: string;
     ctaLabel: string;
     description?: string;
+    usageDescription?: string;
   };
 }
 
@@ -300,6 +301,7 @@ export interface InfoboxElement extends UISchemaElement {
     class: string;
     contentType: string;
     title?: string;
+    dataSe?: string;
   }
 }
 

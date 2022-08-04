@@ -13,7 +13,11 @@
 import { Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 
-import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY } from '../../constants';
+import {
+  AUTHENTICATOR_ALLOWED_FOR_OPTIONS,
+  AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP,
+  AUTHENTICATOR_KEY,
+} from '../../constants';
 import { ActionParams, AuthenticatorButtonElement } from '../../types';
 import { loc } from '../../util';
 
@@ -73,7 +77,7 @@ const buildOktaVerifyOptions = (
   });
 };
 
-const getOnPremDescriptionParams = (
+const getAuthenticatorDescriptionParams = (
   options: IdxOption[],
   authenticatorKey: string,
   isEnroll?: boolean,
@@ -130,7 +134,7 @@ const getAuthenticatorDescription = (
   if (!authenticatorKey) {
     return undefined;
   }
-  const descrParams = getOnPremDescriptionParams(
+  const descrParams = getAuthenticatorDescriptionParams(
     options,
     authenticatorKey,
     isEnroll,
@@ -159,6 +163,24 @@ const getAuthenticatorDescription = (
   return undefined;
 };
 
+const getUsageDescription = (option: IdxOption): string | undefined => {
+  // @ts-ignore IdxAuthenticator missing allowedFor property
+  const { allowedFor } = option.relatesTo;
+  if (!allowedFor) {
+    return undefined;
+  }
+  switch (allowedFor) {
+    case AUTHENTICATOR_ALLOWED_FOR_OPTIONS.ANY:
+      return loc('oie.enroll.authenticator.usage.text.access.recovery', 'login');
+    case AUTHENTICATOR_ALLOWED_FOR_OPTIONS.RECOVERY:
+      return loc('oie.enroll.authenticator.usage.text.recovery', 'login');
+    case AUTHENTICATOR_ALLOWED_FOR_OPTIONS.SSO:
+      return loc('oie.enroll.authenticator.usage.text.access', 'login');
+    default:
+      return undefined;
+  }
+};
+
 const formatAuthenticatorOptions = (
   options: IdxOption[],
   isEnroll?: boolean,
@@ -168,6 +190,10 @@ const formatAuthenticatorOptions = (
     const id = getOptionValue(option.value as Input[], 'id')?.value;
     const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
     const enrollmentId = getOptionValue(option.value as Input[], 'enrollmentId')?.value;
+    const DATASE_WITH_METHOD_TYPE = [
+      AUTHENTICATOR_KEY.ON_PREM,
+      AUTHENTICATOR_KEY.RSA,
+    ];
 
     return {
       type: 'AuthenticatorButton',
@@ -182,6 +208,7 @@ const formatAuthenticatorOptions = (
           authenticatorKey,
           isEnroll,
         ),
+        usageDescription: getUsageDescription(option),
         actionParams: {
           'authenticator.id': id,
           'authenticator.methodType': methodType,
@@ -189,7 +216,9 @@ const formatAuthenticatorOptions = (
         },
         dataSe: getAuthenticatorDataSeVal(
           authenticatorKey,
-          typeof methodType === 'string' ? methodType : undefined,
+          DATASE_WITH_METHOD_TYPE.includes(authenticatorKey) && typeof methodType === 'string'
+            ? methodType
+            : undefined,
         ),
       },
     } as AuthenticatorButtonElement;

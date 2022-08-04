@@ -33,82 +33,98 @@ const AuthenticatorConfiguration: {
     icon: any;
     customizable: boolean;
     description: string;
+    iconClassName: string;
   }
 } = {
   [AUTHENTICATOR_KEY.CUSTOM_OTP]: {
     icon: CustomOTPIcon,
     customizable: true,
     description: 'Custom OTP',
+    iconClassName: 'mfa-hotp',
   },
   [AUTHENTICATOR_KEY.CUSTOM_APP]: {
     icon: null, // TODO: figure out what icon to use here
     customizable: false,
     description: 'Custom Push App',
+    iconClassName: 'mfa-custom-app-logo',
   },
   [AUTHENTICATOR_KEY.DUO]: {
     icon: DUOIcon,
     customizable: false,
     description: 'DUO',
+    iconClassName: 'mfa-duo',
   },
   [AUTHENTICATOR_KEY.IDP]: {
     icon: IDPIcon,
     customizable: true,
     description: 'IDP',
+    iconClassName: 'mfa-custom-factor',
   },
   [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
     icon: GoogleOTPIcon,
     customizable: false,
     description: 'Google Authenticator',
+    iconClassName: 'mfa-google-auth',
   },
   [AUTHENTICATOR_KEY.EMAIL]: {
     icon: EmailIcon,
     customizable: true,
     description: 'Email',
+    iconClassName: 'mfa-okta-email',
   },
   [AUTHENTICATOR_KEY.PASSWORD]: {
     icon: PasswordIcon,
     customizable: true,
     description: 'Password',
+    iconClassName: 'mfa-okta-password',
   },
   [AUTHENTICATOR_KEY.OV]: {
     icon: OktaVerifyIcon,
     customizable: false,
     description: 'Okta Verify',
+    iconClassName: 'mfa-okta-verify',
   },
   [AUTHENTICATOR_KEY.ON_PREM]: {
     icon: OnPremMFAIcon,
     customizable: true,
     description: 'On Prem MFA',
+    iconClassName: 'mfa-onprem',
   },
   [AUTHENTICATOR_KEY.PHONE]: {
     icon: PhoneCallIcon,
     customizable: true,
     description: 'Phone Call',
+    iconClassName: 'mfa-okta-phone',
   },
   [AUTHENTICATOR_KEY.RSA]: {
     icon: RSAIcon,
     customizable: false,
     description: 'RSA',
+    iconClassName: 'mfa-rsa',
   },
   [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
     icon: SecurityQuestionIcon,
     customizable: true,
     description: 'Security Question',
+    iconClassName: 'mfa-okta-security-question',
   },
   [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
     icon: SymantecVipIcon,
     customizable: false,
     description: 'Symantec VIP',
+    iconClassName: 'mfa-symantec',
   },
   [AUTHENTICATOR_KEY.WEBAUTHN]: {
     icon: WebAuthNIcon,
     customizable: true,
     description: 'WebAuthN',
+    iconClassName: 'mfa-webauthn',
   },
   [AUTHENTICATOR_KEY.YUBIKEY]: {
     icon: YubikeyIcon,
     customizable: false,
     description: 'YubiKey Token',
+    iconClassName: 'mfa-yubikey',
   },
 };
 

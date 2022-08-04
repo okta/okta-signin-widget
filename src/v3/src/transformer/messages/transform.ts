@@ -96,6 +96,7 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
       contentType: 'string',
       class: message.class ?? 'INFO',
       message: message.message,
+      dataSe: `infobox-${(message.class ?? 'INFO').toLowerCase()}`,
     },
   } as InfoboxElement));
 

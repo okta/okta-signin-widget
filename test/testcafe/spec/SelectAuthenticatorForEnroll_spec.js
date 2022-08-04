@@ -1,7 +1,9 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
+import SelectFactorPageObjectV3 from '../framework/page-objects/SelectAuthenticatorPageObjectV3';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
+import FactorEnrollPasswordPageObjectV3 from '../framework/page-objects/FactorEnrollPasswordPageObjectV3';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator';
@@ -48,10 +50,13 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Select Authenticator for enrollment Form');
+fixture('Select Authenticator for enrollment Form')
+  .meta('v3', true);
 
 async function setup(t) {
-  const selectFactorPageObject = new SelectFactorPageObject(t);
+  const selectFactorPageObject = process.env.OKTA_SIW_V3
+    ? new SelectFactorPageObjectV3(t)
+    : new SelectFactorPageObject(t);
   await selectFactorPageObject.navigateToPage();
   return selectFactorPageObject;
 }
@@ -217,7 +222,9 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 
   selectFactorPage.selectFactorByIndex(0);
-  const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
+  const enrollPasswordPage = process.env.OKTA_SIW_V3
+    ? new FactorEnrollPasswordPageObjectV3(t)
+    : new FactorEnrollPasswordPageObject(t);
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
   await enrollPasswordPage.clickSwitchAuthenticatorButton();
