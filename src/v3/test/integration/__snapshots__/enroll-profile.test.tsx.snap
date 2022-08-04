@@ -182,14 +182,17 @@ exports[`enroll-profile should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-6"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-33"
-                    data-se="back"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-33"
                   >
-                    Already have an account?
-                  </button>
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
+                      data-se="back"
+                      href="javascript:void(0)"
+                    >
+                      Already have an account?
+                    </a>
+                  </div>
                 </div>
               </div>
             </form>

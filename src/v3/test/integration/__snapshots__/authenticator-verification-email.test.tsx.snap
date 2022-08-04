@@ -115,14 +115,17 @@ exports[`authenticator-verification-email renders correct form renders the initi
                 <div
                   class="MuiBox-root emotion-12"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-21"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-21"
                   >
-                    Back to sign in
-                  </button>
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
+                  </div>
                 </div>
               </div>
             </form>
@@ -291,14 +294,17 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 <div
                   class="MuiBox-root emotion-12"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-28"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-28"
                   >
-                    Back to sign in
-                  </button>
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
+                  </div>
                 </div>
               </div>
             </form>
@@ -474,26 +480,32 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 <div
                   class="MuiBox-root emotion-12"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-29"
                   >
-                    Verify with something else
-                  </button>
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                      data-se="switchAuthenticator"
+                      href="javascript:void(0)"
+                    >
+                      Verify with something else
+                    </a>
+                  </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-12"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-29"
                   >
-                    Back to sign in
-                  </button>
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
+                  </div>
                 </div>
               </div>
             </form>

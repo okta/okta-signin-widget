@@ -174,26 +174,32 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-28"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-28"
                   >
-                    Return to authenticator list
-                  </button>
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      data-se="switchAuthenticator"
+                      href="javascript:void(0)"
+                    >
+                      Return to authenticator list
+                    </a>
+                  </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-28"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-28"
                   >
-                    Back to sign in
-                  </button>
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
+                  </div>
                 </div>
               </div>
             </form>
