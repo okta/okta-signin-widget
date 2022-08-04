@@ -11,73 +11,24 @@
  */
 
 import { flow } from 'lodash';
-import { 
-  TransformStepFnWithOptions,
-  TransformStepFn,
-  FieldElement,
+
+import {
   ButtonElement,
   ButtonType,
+  TransformStepFn,
 } from '../../types';
-import { updateElementsInLayout, traveseLayout } from '../util';
-import { getAuthenticatorKey } from '../../util';
-import { AUTHENTICATOR_KEY } from '../../constants';
-
-const addValidation: TransformStepFnWithOptions = ({ transaction }) => formbag => {
-  const currentAuthenticator = getAuthenticatorKey(transaction);
-  if (transaction.nextStep?.name === 'enroll-authenticator' && currentAuthenticator === AUTHENTICATOR_KEY.SECURITY_QUESTION) {
-    return formbag;
-  }
-  
-
-  const { uischema, dataSchema } = formbag;
-
-  updateElementsInLayout({
-    layout: uischema,
-    mapFn: (element) => {
-      const { options: { inputMeta: { name } }} = element as FieldElement;
-      dataSchema[name] = {
-        validate(data) {
-          const isValid = !!data[name];
-          return isValid ? undefined : {
-            i18n: {
-              key: 'model.validation.field.blank',
-            },
-          };
-        }
-      };
-      return element;
-    },
-    predicateFn: (element) => {
-      const { 
-        type, 
-        options: {
-          inputMeta: {
-            required, mutable,
-          } = {},
-        } = {},
-      } = element as FieldElement;
-      
-      // do not validate immutable fields, they will always be added to payload programatically
-      return type === 'Field' && !!required && mutable !== false;
-    },
-  });
-
-  return formbag;
-};
+import { traveseLayout } from '../util';
 
 const addSubmission: TransformStepFn = (formbag) => {
-
   const { uischema, dataSchema } = formbag;
 
   let submitButtonsCount = 0;
   // update hasStepper flag while travesing the layout
   traveseLayout({
     layout: uischema,
-    predicate: (element) => {
-      return element.type === 'Button' && (element as ButtonElement).options?.type === ButtonType.SUBMIT;
-    },
+    predicate: (element) => element.type === 'Button' && (element as ButtonElement).options?.type === ButtonType.SUBMIT,
     callback: () => {
-      submitButtonsCount++;
+      submitButtonsCount += 1;
     },
   });
 
@@ -85,9 +36,7 @@ const addSubmission: TransformStepFn = (formbag) => {
   if (submitButtonsCount === 1) {
     traveseLayout({
       layout: uischema,
-      predicate: (element) => {
-        return element.type === 'Button' && (element as ButtonElement).options?.type === ButtonType.SUBMIT;
-      },
+      predicate: (element) => element.type === 'Button' && (element as ButtonElement).options?.type === ButtonType.SUBMIT,
       callback: (element) => {
         dataSchema.submit = (element as ButtonElement).options;
       },
@@ -99,11 +48,8 @@ const addSubmission: TransformStepFn = (formbag) => {
   }
 
   return formbag;
-}
-
-export const transformDataSchema: TransformStepFnWithOptions = (options) => formbag => {
-  return flow(
-    // addValidation(options),
-    addSubmission,
-  )(formbag);
 };
+
+export const transformDataSchema: TransformStepFn = (formbag) => flow(
+  addSubmission,
+)(formbag);

@@ -331,8 +331,8 @@ export interface StepperButtonElement {
 export interface StepperRadioElement {
   type: 'StepperRadio',
   options: {
-    customOptions: Array<IdxOption & { 
-      key?: string; 
+    customOptions: Array<IdxOption & {
+      key?: string;
       layout: () => UISchemaLayout;
     }>,
     name: string;

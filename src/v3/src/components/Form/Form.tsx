@@ -17,7 +17,9 @@ import { useCallback } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
-import { ActionOptions, SubmitEvent, UISchemaLayout, DataSchema } from '../../types';
+import {
+  ActionOptions, DataSchema, SubmitEvent, UISchemaLayout,
+} from '../../types';
 import { loc, resetMessagesToInputs } from '../../util';
 import Layout from './Layout';
 
@@ -36,7 +38,7 @@ const Form: FunctionComponent<{
   const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();
     setMessage(undefined);
-    
+
     const { actionParams: params, step } = dataSchemaRef.current!.submit as ActionOptions;
 
     // client side validation - only validate for fields in nextStep
@@ -46,7 +48,7 @@ const Form: FunctionComponent<{
       const messages = Object.entries(dataSchemaRef.current!)
         .reduce((acc: Record<string, Partial<IdxMessage>>, curr) => {
           const name = curr[0];
-          const elementSchema =  curr[1] as DataSchema;
+          const elementSchema = curr[1] as DataSchema;
           if (typeof elementSchema.validate === 'function') {
             const message = elementSchema.validate({
               ...data,

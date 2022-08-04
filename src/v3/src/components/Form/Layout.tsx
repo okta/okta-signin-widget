@@ -12,6 +12,7 @@
 
 import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
+
 import {
   StepperLayout,
   UISchemaElement,
@@ -30,7 +31,6 @@ type LayoutProps = {
 
 const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
   const { type, elements } = uischema;
-
 
   const flexDirection = type === UISchemaLayoutType.HORIZONTAL ? 'row' : 'column';
   return (

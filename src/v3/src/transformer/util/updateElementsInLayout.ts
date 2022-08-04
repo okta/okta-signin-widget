@@ -89,10 +89,9 @@ export const traveseLayout = (options: Options) => {
       if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
         .includes(type as UISchemaLayoutType)) {
         fn(element as UISchemaLayout, predicateFn, callback);
-        return;
       }
     });
   };
 
   fn(options.layout, options.predicate, options.callback);
-}
+};

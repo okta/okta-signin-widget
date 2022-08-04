@@ -127,11 +127,13 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
       customOptions: [{
         value: 'predefined',
         label: loc('oie.security.question.questionKey.label', 'login'),
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         layout: () => securityQuestionStepper.elements[0],
       }, {
         key: 'credentials.questionKey',
         value: 'custom',
         label: loc('oie.security.question.createQuestion.label', 'login'),
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         layout: () => securityQuestionStepper.elements[1],
       }],
     },

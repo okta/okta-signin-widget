@@ -53,7 +53,9 @@ export const transformStepInputs = (
     }, [])
     .filter((input) => input.visible !== false && input.mutable !== false)
     .reduce((acc: FormBag, input: Input) => {
-      const { name, required, mutable, type } = input;
+      const {
+        name, required, mutable, type,
+      } = input;
 
       // add uischema
       const uischema = mapUiElement(input);
