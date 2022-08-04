@@ -183,6 +183,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -205,6 +206,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in

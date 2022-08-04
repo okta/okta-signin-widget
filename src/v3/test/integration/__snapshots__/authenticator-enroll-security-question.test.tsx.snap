@@ -424,6 +424,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-49"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -438,6 +439,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-49"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in

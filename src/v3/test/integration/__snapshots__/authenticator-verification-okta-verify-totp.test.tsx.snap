@@ -142,6 +142,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Verify with something else
@@ -156,6 +157,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in

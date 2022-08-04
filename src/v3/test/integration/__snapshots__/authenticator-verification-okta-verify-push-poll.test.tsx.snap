@@ -170,6 +170,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Verify with something else

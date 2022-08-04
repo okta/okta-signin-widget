@@ -120,6 +120,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -298,6 +299,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -483,6 +485,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Verify with something else
@@ -497,6 +500,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in

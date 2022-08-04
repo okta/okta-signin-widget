@@ -168,6 +168,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in

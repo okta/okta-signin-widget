@@ -187,6 +187,7 @@ exports[`enroll-profile should render form 1`] = `
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
+                      data-se="back"
                       href="javascript:void(0)"
                     >
                       Already have an account?

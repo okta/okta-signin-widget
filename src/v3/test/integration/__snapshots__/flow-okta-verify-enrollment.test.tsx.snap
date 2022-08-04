@@ -145,6 +145,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -159,6 +160,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -413,6 +415,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -435,6 +438,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -634,6 +638,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -656,6 +661,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -809,6 +815,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -831,6 +838,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -1057,6 +1065,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-36"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -1071,6 +1080,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-36"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -1232,6 +1242,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -1246,6 +1257,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -1407,6 +1419,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -1421,6 +1434,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -1675,6 +1689,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -1697,6 +1712,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -3149,6 +3165,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -3171,6 +3188,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -3324,6 +3342,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -3346,6 +3365,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
@@ -3572,6 +3592,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-36"
+                      data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -3586,6 +3607,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-36"
+                      data-se="cancel"
                       href="javascript:void(0)"
                     >
                       Back to sign in
