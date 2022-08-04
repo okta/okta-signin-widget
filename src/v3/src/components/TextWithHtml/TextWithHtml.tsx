@@ -35,7 +35,6 @@ const TextWithHtml: UISchemaElementComponent<{
     const handleClick = async (event: Event) => {
       event.preventDefault();
       onSubmitHandler({
-        includeData: Boolean(false),
         step,
         stepToRender,
       });
