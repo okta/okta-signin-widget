@@ -171,6 +171,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                   class="MuiBox-root emotion-11"
                 >
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <div
                     class="MuiBox-root emotion-29"
                   >
@@ -185,13 +186,19 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                     tabindex="0"
                     type="button"
 =======
+=======
+>>>>>>> 5ad8a409f (update snapshots)
                   <div
-                    class="MuiBox-root emotion-28"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-29"
                   >
                     <a
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
 >>>>>>> e79316d05 (update snapshots)
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                      data-se="switchAuthenticator"
+>>>>>>> 5ad8a409f (update snapshots)
                       href="javascript:void(0)"
                     >
                       Return to authenticator list
@@ -201,6 +208,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 <div
                   class="MuiBox-root emotion-11"
                 >
+<<<<<<< HEAD
 <<<<<<< HEAD
                   <div
                     class="MuiBox-root emotion-29"
@@ -216,13 +224,19 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                     tabindex="0"
                     type="button"
 =======
+=======
+>>>>>>> 5ad8a409f (update snapshots)
                   <div
-                    class="MuiBox-root emotion-28"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-29"
                   >
                     <a
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
 >>>>>>> e79316d05 (update snapshots)
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                      data-se="cancel"
+>>>>>>> 5ad8a409f (update snapshots)
                       href="javascript:void(0)"
                     >
                       Back to sign in
