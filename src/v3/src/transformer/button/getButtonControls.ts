@@ -71,7 +71,7 @@ export const getButtonControls = (
       options: {
         label: loc('forgotpassword', 'login'),
         isActionStep: true,
-        step
+        step,
       },
     };
 
