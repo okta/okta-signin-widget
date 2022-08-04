@@ -30,6 +30,7 @@ const Button: UISchemaElementComponent<{
     label,
     options: {
       type,
+      ariaLabel,
       variant,
       wide,
       dataType,
@@ -63,6 +64,8 @@ const Button: UISchemaElementComponent<{
       {...(dataSe && { 'data-se': dataSe } )}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(type !== 'submit' && { onClick })}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...(ariaLabel && { 'aria-label': ariaLabel } )}
     >
       {label}
     </ButtonMui>

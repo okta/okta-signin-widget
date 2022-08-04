@@ -10,11 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
+  TextWithHtmlElement,
   TitleElement,
   UISchemaElement,
 } from '../../types';
@@ -84,16 +86,14 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
   } as ButtonElement);
 
   elements.push({
-    type: 'Button',
-    // TODO: revisit i18n key to use oie string (SwitchEnrollChannelLinkView.js)
-    label: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
+    type: 'TextWithHtml',
     options: {
-      type: ButtonType.BUTTON,
-      variant: 'secondary',
-      step: 'select-enrollment-channel',
-      stepToRender: 'select-enrollment-channel',
+      content: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
+      htmlClass: 'switch-channel-link',
+      step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+      stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
     },
-  } as ButtonElement);
+  } as TextWithHtmlElement);
 
   uischema.elements = elements;
 

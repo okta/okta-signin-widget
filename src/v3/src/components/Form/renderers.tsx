@@ -35,6 +35,7 @@ import Spinner from '../Spinner';
 import StepperButton from '../StepperButton';
 import StepperRadio from '../StepperRadio';
 import SuccessCallback from '../SuccessCallback';
+import TextWithHtml from '../TextWithHtml/TextWithHtml';
 import Title from '../Title';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
 
@@ -105,6 +106,10 @@ export default [
       return name?.endsWith('phoneNumber');
     },
     renderer: PhoneAuthenticator,
+  },
+  {
+    tester: ({ type }) => type === 'TextWithLink',
+    renderer: TextWithHtml,
   },
   {
     tester: ({ type }) => type === 'Title',

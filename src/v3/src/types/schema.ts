@@ -158,6 +158,7 @@ export interface ButtonElement extends UISchemaElement {
     dataType?: 'cancel' | 'save';
     dataSe?: string;
     stepToRender?: string;
+    ariaLabel?: string;
   };
 }
 
@@ -203,6 +204,15 @@ export interface DescriptionElement extends UISchemaElement {
   type: 'Description';
   options: {
     content: string;
+  };
+}
+
+export interface TextWithHtmlElement extends UISchemaElement {
+  type: 'TextWithHtml';
+  options: DescriptionElement['options'] & {
+    htmlClass?: string;
+    step: string;
+    stepToRender?: string;
   };
 }
 

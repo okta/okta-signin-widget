@@ -572,8 +572,19 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     tabindex="0"
                     type="button"
                   >
-                    Or &lt;a href="#" class="switch-channel-link"&gt;try a different way&lt;/a&gt; to set up Okta Verify.
-                  </button>
+                    <div
+                      class="MuiBox-root emotion-3"
+                    >
+                      Or 
+                      <a
+                        class="switch-channel-link"
+                        href="#"
+                      >
+                        try a different way
+                      </a>
+                       to set up Okta Verify.
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
@@ -2986,8 +2997,19 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     tabindex="0"
                     type="button"
                   >
-                    Or &lt;a href="#" class="switch-channel-link"&gt;try a different way&lt;/a&gt; to set up Okta Verify.
-                  </button>
+                    <div
+                      class="MuiBox-root emotion-3"
+                    >
+                      Or 
+                      <a
+                        class="switch-channel-link"
+                        href="#"
+                      >
+                        try a different way
+                      </a>
+                       to set up Okta Verify.
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
