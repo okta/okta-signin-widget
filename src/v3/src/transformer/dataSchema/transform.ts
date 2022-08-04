@@ -17,14 +17,14 @@ import {
   ButtonType,
   TransformStepFn,
 } from '../../types';
-import { traveseLayout } from '../util';
+import { traverseLayout } from '../util';
 
 const addSubmission: TransformStepFn = (formbag) => {
   const { uischema, dataSchema } = formbag;
 
   let submitButtonsCount = 0;
   // update hasStepper flag while travesing the layout
-  traveseLayout({
+  traverseLayout({
     layout: uischema,
     predicate: (element) => element.type === 'Button' && (element as ButtonElement).options?.type === ButtonType.SUBMIT,
     callback: () => {
@@ -34,7 +34,7 @@ const addSubmission: TransformStepFn = (formbag) => {
 
   // track stepper submission option in custom layout step
   if (submitButtonsCount === 1) {
-    traveseLayout({
+    traverseLayout({
       layout: uischema,
       predicate: (element) => element.type === 'Button' && (element as ButtonElement).options?.type === ButtonType.SUBMIT,
       callback: (element) => {

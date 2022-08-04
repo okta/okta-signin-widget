@@ -18,7 +18,6 @@ import {
 } from '../../types';
 
 type PredicateFn = (uischema: UISchemaElement) => boolean;
-type MapFn = (uischema: UISchemaElement) => UISchemaElement;
 type CallbackFn = (uischema: UISchemaElement) => void;
 
 type Options = {
@@ -27,47 +26,7 @@ type Options = {
   callback: CallbackFn;
 };
 
-type OptionsOld = {
-  layout: UISchemaLayout;
-  mapFn: MapFn;
-  predicateFn: PredicateFn;
-};
-
-export const updateElementsInLayout = (options: OptionsOld) => {
-  const fn = (
-    layout: UISchemaLayout,
-    mapFn: MapFn,
-    predicateFn: PredicateFn = () => true,
-  ): UISchemaLayout => {
-    // eslint-disable-next-line no-param-reassign
-    layout.elements = layout.elements.map((element) => {
-      const { type } = element;
-      if (type === UISchemaLayoutType.STEPPER) {
-        // eslint-disable-next-line no-param-reassign
-        (element as StepperLayout).elements = (element as StepperLayout).elements
-          .map((el) => fn(el, mapFn, predicateFn));
-        return element;
-      }
-
-      if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
-        .includes(type as UISchemaLayoutType)) {
-        return fn(element as UISchemaLayout, mapFn, predicateFn);
-      }
-
-      if (predicateFn(element)) {
-        return mapFn(element);
-      }
-
-      return element;
-    });
-
-    return layout;
-  };
-
-  return fn(options.layout, options.mapFn, options.predicateFn);
-};
-
-export const traveseLayout = (options: Options) => {
+export const traverseLayout = (options: Options) => {
   const fn = (
     layout: UISchemaLayout,
     predicateFn: PredicateFn,
