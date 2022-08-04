@@ -24,13 +24,14 @@ jest.mock('../../src/transformer', () => {
 });
 
 const mocked = {
+  // eslint-disable-next-line global-require
   transformer: require('../../src/transformer'),
 };
 
 describe('Flow transitions', () => {
   it('calls transformIdxTransaction only once when transaction updates', async () => {
     jest.spyOn(mocked.transformer, 'transformIdxTransaction');
-    
+
     const { findByLabelText } = await setup({ mockResponse: identifyWithPassword });
     await findByLabelText(/Username/);
     expect(mocked.transformer.transformIdxTransaction).toHaveBeenCalledTimes(1);
