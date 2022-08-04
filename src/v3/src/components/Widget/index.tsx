@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { ScopedCssBaseline } from '@mui/material';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { ThemeProvider } from '@okta/odyssey-react-theme';
 import {
@@ -257,25 +258,27 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     >
       {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}
       <MuiThemeProvider theme={mapMuiThemeFromBrand(brandColors)}>
-        <ThemeProvider theme={mapThemeFromBrand(brandColors)}>
-          <AuthContainer>
-            <AuthHeader
-              logo={logo}
-              logoText={logoText}
-              brandName={brandName}
-              authCoinProps={buildAuthCoinProps(idxTransaction)}
-            />
-            <AuthContent>
-              <IdentifierContainer />
-              <InfoSection message={message} />
-              {
-                formBag.uischema.elements.length > 0
-                  ? <Form uischema={formBag.uischema as UISchemaLayout} />
-                  : <Spinner />
-              }
-            </AuthContent>
-          </AuthContainer>
-        </ThemeProvider>
+        <ScopedCssBaseline>
+          <ThemeProvider theme={mapThemeFromBrand(brandColors)}>
+            <AuthContainer>
+              <AuthHeader
+                logo={logo}
+                logoText={logoText}
+                brandName={brandName}
+                authCoinProps={buildAuthCoinProps(idxTransaction)}
+              />
+              <AuthContent>
+                <IdentifierContainer />
+                <InfoSection message={message} />
+                {
+                  formBag.uischema.elements.length > 0
+                    ? <Form uischema={formBag.uischema as UISchemaLayout} />
+                    : <Spinner />
+                }
+              </AuthContent>
+            </AuthContainer>
+          </ThemeProvider>
+        </ScopedCssBaseline>
       </MuiThemeProvider>
     </WidgetContextProvider>
   );
