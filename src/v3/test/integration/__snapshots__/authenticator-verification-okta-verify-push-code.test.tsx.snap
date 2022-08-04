@@ -188,38 +188,20 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-33"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-33"
                   >
-                    Verify with something else
-                  </button>
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
+                      href="javascript:void(0)"
+                    >
+                      Verify with something else
+                    </a>
+                  </div>
                 </div>
               </div>
-<<<<<<< HEAD
             </form>
           </div>
-=======
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-32"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Verify with something else
-                  </a>
-                </div>
-              </div>
-            </div>
-          </form>
->>>>>>> 4f7938868 (update snapshots)
         </div>
       </main>
     </span>

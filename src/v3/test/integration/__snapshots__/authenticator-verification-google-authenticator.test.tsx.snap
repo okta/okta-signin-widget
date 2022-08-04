@@ -84,7 +84,6 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
                   <div
                     class="MuiBox-root emotion-12"
                   >
@@ -151,59 +150,30 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-26"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-26"
                   >
-                    Verify with something else
-                  </button>
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                      href="javascript:void(0)"
+                    >
+                      Verify with something else
+                    </a>
+                  </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-26"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-26"
                   >
-                    Back to sign in
-                  </button>
-=======
-                  Verify
-                </button>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-25"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Verify with something else
-                  </a>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-25"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
->>>>>>> 4f7938868 (update snapshots)
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
+                  </div>
                 </div>
               </div>
             </form>
