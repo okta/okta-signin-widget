@@ -2,31 +2,31 @@
 
 exports[`error-400-unauthorized-client should render form 1`] = `
 <div>
-  <span>
-    <main
-      class="auth-container main-container mainViewContainer MuiBox-root emotion-0"
-      id="okta-sign-in"
-    >
-      <div
-        class="siwContainer MuiBox-root emotion-1"
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <span>
+      <main
+        class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        id="okta-sign-in"
       >
         <div
-          class="okta-sign-in-header auth-header siwHeader"
+          class="siwContainer MuiBox-root emotion-2"
         >
-          <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-2"
-          />
-        </div>
-        <div
-          class="MuiBox-root emotion-3"
-        >
-          <form
-            class="o-form"
-            data-se="form"
-            novalidate=""
+          <div
+            class="okta-sign-in-header auth-header siwHeader"
           >
-            <div
-              class="MuiBox-root emotion-4"
+            <h1
+              class="MuiTypography-root MuiTypography-h1 emotion-3"
+            />
+          </div>
+          <div
+            class="MuiBox-root emotion-4"
+          >
+            <form
+              class="o-form"
+              data-se="form"
+              novalidate=""
             >
               <div
                 class="MuiBox-root emotion-5"
@@ -35,37 +35,41 @@ exports[`error-400-unauthorized-client should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-7"
-                    role="alert"
+                    class="MuiBox-root emotion-7"
                   >
                     <div
-                      class="MuiAlert-icon emotion-8"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-8"
+                      role="alert"
                     >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-9"
-                        data-testid="ErrorOutlineIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
+                      <div
+                        class="MuiAlert-icon emotion-9"
                       >
-                        <path
-                          d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                        />
-                      </svg>
-                    </div>
-                    <div
-                      class="MuiAlert-message emotion-10"
-                    >
-                      Something went wrong. Potential misconfiguration detected. Please contact support.
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
+                          data-testid="ErrorOutlineIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        class="MuiAlert-message emotion-11"
+                      >
+                        Something went wrong. Potential misconfiguration detected. Please contact support.
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
-    </main>
-  </span>
+      </main>
+    </span>
+  </div>
 </div>
 `;
