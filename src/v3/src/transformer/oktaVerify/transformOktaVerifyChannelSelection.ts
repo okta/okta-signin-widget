@@ -16,6 +16,7 @@ import {
   ButtonType,
   FieldElement,
   IdxStepTransformer,
+  TextWithHtmlElement,
   TitleElement,
   UISchemaElement,
 } from '../../types';
@@ -32,11 +33,12 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   prevTransaction,
   formBag,
 }) => {
+  const { context } = prevTransaction || {};
   const { data, uischema } = formBag;
 
   const isAndroidOrIOSView = isAndroidOrIOS();
-  // eslint-disable-next-line max-len
-  const lastSelectedChannel = prevTransaction?.context.currentAuthenticator.value.contextualData?.selectedChannel as string;
+  const lastSelectedChannel = context?.currentAuthenticator.value
+    .contextualData?.selectedChannel as string;
   const elements: UISchemaElement[] = [];
 
   const titleElement: TitleElement = {
@@ -77,16 +79,15 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   elements.push(submitButton);
 
   if (!['email', 'sms'].includes(lastSelectedChannel)) {
-    const switchChannelButton = {
-      type: 'Button',
-      label: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
+    const switchChannelTextLink = {
+      type: 'TextWithHtml',
       options: {
-        type: ButtonType.BUTTON,
-        step: 'select-enrollment-channel',
-        variant: 'secondary',
+        content: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
+        htmlClass: 'switch-channel-link',
+        step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
       },
-    };
-    elements.push(switchChannelButton);
+    } as TextWithHtmlElement;
+    elements.push(switchChannelTextLink);
   }
 
   uischema.elements = elements;

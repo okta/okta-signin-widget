@@ -12,6 +12,7 @@
 
 import { IdxActionParams } from '@okta/okta-auth-js';
 
+import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
@@ -21,6 +22,7 @@ import {
   QRCodeElement,
   ReminderElement,
   StepperLayout,
+  TextWithHtmlElement,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
@@ -34,7 +36,7 @@ const STEPS = {
 
 const REMINDER_CHANNELS = ['sms', 'email'];
 const CHANNEL_TO_CTA_KEY: { [channel: string]: string } = {
-  // TODO: OKTA-518743 These i18n keys contain anchor tags in them, how to proceed?
+  // TODO: OKTA-520236 These i18n keys contain anchor tags in them, how to proceed?
   // See OVResendView.js
   email: 'oie.enroll.okta_verify.email.notReceived',
   sms: 'oie.enroll.okta_verify.sms.notReceived',
@@ -51,14 +53,15 @@ export const getTitleKey = (selectedChannel?: string): string => {
   }
 };
 
-export const switchChannelButton = (label: string): ButtonElement => ({
-  type: 'Button',
-  label: loc(label, 'login'),
+export const switchChannelButton = (
+  label: string,
+): TextWithHtmlElement => ({
+  type: 'TextWithHtml',
   options: {
-    type: ButtonType.BUTTON,
-    variant: 'secondary',
-    step: 'select-enrollment-channel',
-    stepToRender: 'select-enrollment-channel',
+    content: loc(label, 'login'),
+    htmlClass: 'switch-channel-link',
+    step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+    stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
   },
 });
 
@@ -84,6 +87,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     reminder = {
       type: 'Reminder',
       options: {
+        // TODO: OKTA-520236 - i18n key has anchor tag
         ctaText: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
         linkLabel: loc('email.button.resend', 'login'),
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
@@ -132,7 +136,17 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
               data: authenticator.contextualData?.qrcode?.href,
             },
           } as QRCodeElement,
-          switchChannelButton('enroll.totp.cannotScan'),
+          {
+            type: 'Button',
+            label: loc('enroll.totp.cannotScan', 'login'),
+            options: {
+              type: ButtonType.BUTTON,
+              variant: 'secondary',
+              ariaLabel: loc('enroll.totp.aria.cannotScan', 'login'),
+              step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+              stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+            },
+          } as ButtonElement,
         ],
       } as UISchemaLayout,
       {
@@ -143,7 +157,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
           {
             type: 'Description',
             options: {
-              // @ts-ignore OKTA-496373 - missing props from interface
               content: loc('oie.enroll.okta_verify.email.info', 'login', [email]),
             },
           } as DescriptionElement,
@@ -158,7 +171,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
           {
             type: 'Description',
             options: {
-              // @ts-ignore OKTA-496373 - missing props from interface
               content: loc('oie.enroll.okta_verify.sms.info', 'login', [phoneNumber]),
             },
           } as DescriptionElement,
