@@ -1423,19 +1423,11 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-26"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-27"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                       data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
@@ -1446,19 +1438,11 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-26"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-27"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                       data-se="cancel"
                       href="javascript:void(0)"
                     >

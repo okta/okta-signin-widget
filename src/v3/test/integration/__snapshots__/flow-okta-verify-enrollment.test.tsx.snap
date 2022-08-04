@@ -402,19 +402,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-38"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-37"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-38"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
                       data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
@@ -425,19 +417,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-38"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-37"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-38"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
                       data-se="cancel"
                       href="javascript:void(0)"
                     >
@@ -625,19 +609,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-28"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-29"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                       data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
@@ -648,19 +624,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-28"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-29"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                       data-se="cancel"
                       href="javascript:void(0)"
                     >
@@ -802,19 +770,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-12"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-22"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-21"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-22"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                       data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
@@ -825,19 +785,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-12"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-22"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-21"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-22"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                       data-se="cancel"
                       href="javascript:void(0)"
                     >
@@ -1676,19 +1628,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-38"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-37"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-38"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
                       data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
@@ -1699,19 +1643,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-38"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-37"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-38"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
                       data-se="cancel"
                       href="javascript:void(0)"
                     >
@@ -3152,19 +3088,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-26"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-27"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                       data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
@@ -3175,19 +3103,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-26"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-27"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                       data-se="cancel"
                       href="javascript:void(0)"
                     >
@@ -3329,19 +3249,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-12"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-22"
-                    data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-21"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-22"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                       data-se="switchAuthenticator"
                       href="javascript:void(0)"
                     >
@@ -3352,19 +3264,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-12"
                 >
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-22"
-                    data-se="cancel"
-                    tabindex="0"
-                    type="button"
-=======
                   <div
-                    class="MuiBox-root emotion-21"
->>>>>>> 13c109de4 (update snapshots)
+                    class="MuiBox-root emotion-22"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                       data-se="cancel"
                       href="javascript:void(0)"
                     >
