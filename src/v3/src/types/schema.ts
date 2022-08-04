@@ -30,7 +30,6 @@ export type FormBag = {
   data: Record<string, unknown>;
   // temp schema bag to handle client validation and form submission
   dataSchema: Record<string, DataSchema | ActionOptions>;
-  fieldsToValidate: string[];
 };
 
 export type AutoCompleteValue = 'username'
