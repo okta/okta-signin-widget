@@ -108,7 +108,7 @@ export default [
     renderer: PhoneAuthenticator,
   },
   {
-    tester: ({ type }) => type === 'TextWithLink',
+    tester: ({ type }) => type === 'TextWithHtml',
     renderer: TextWithHtml,
   },
   {

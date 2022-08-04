@@ -128,6 +128,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <button
+                      aria-label="Setup without scanning a QR code."
                       class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
                       tabindex="0"
                       type="button"
@@ -375,19 +376,28 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-35"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-4"
                   >
-                    Or &lt;a href="#" class="switch-channel-link"&gt;try a different way&lt;/a&gt; to set up Okta Verify.
-                  </button>
+                    <div
+                      class="MuiBox-root emotion-4"
+                    >
+                      Or 
+                      <a
+                        class="switch-channel-link"
+                        href="#"
+                      >
+                        try a different way
+                      </a>
+                       to set up Okta Verify.
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-37"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-38"
                     data-se="switchAuthenticator"
                     tabindex="0"
                     type="button"
@@ -399,7 +409,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-37"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-38"
                     data-se="cancel"
                     tabindex="0"
                     type="button"
@@ -567,13 +577,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-4"
                   >
                     <div
-                      class="MuiBox-root emotion-3"
+                      class="MuiBox-root emotion-4"
                     >
                       Or 
                       <a
@@ -590,7 +598,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-28"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
                     data-se="switchAuthenticator"
                     tabindex="0"
                     type="button"
@@ -602,7 +610,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-28"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
                     data-se="cancel"
                     tabindex="0"
                     type="button"
@@ -723,20 +731,29 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   <div
                     class="MuiBox-root emotion-12"
                   >
-                    <button
-                      class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-19"
-                      tabindex="0"
-                      type="button"
+                    <div
+                      class="MuiBox-root emotion-4"
                     >
-                      Or &lt;a href="#" class="switch-channel-link"&gt;try a different way&lt;/a&gt; to set up Okta Verify.
-                    </button>
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        Or 
+                        <a
+                          class="switch-channel-link"
+                          href="#"
+                        >
+                          try a different way
+                        </a>
+                         to set up Okta Verify.
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-12"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-21"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-22"
                     data-se="switchAuthenticator"
                     tabindex="0"
                     type="button"
@@ -748,7 +765,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-12"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-21"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-22"
                     data-se="cancel"
                     tabindex="0"
                     type="button"
@@ -1130,6 +1147,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <button
+                      aria-label="Setup without scanning a QR code."
                       class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
                       tabindex="0"
                       type="button"
@@ -1300,6 +1318,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <button
+                      aria-label="Setup without scanning a QR code."
                       class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
                       tabindex="0"
                       type="button"
@@ -1547,19 +1566,28 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-35"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-4"
                   >
-                    Or &lt;a href="#" class="switch-channel-link"&gt;try a different way&lt;/a&gt; to set up Okta Verify.
-                  </button>
+                    <div
+                      class="MuiBox-root emotion-4"
+                    >
+                      Or 
+                      <a
+                        class="switch-channel-link"
+                        href="#"
+                      >
+                        try a different way
+                      </a>
+                       to set up Okta Verify.
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-37"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-38"
                     data-se="switchAuthenticator"
                     tabindex="0"
                     type="button"
@@ -1571,7 +1599,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-37"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-38"
                     data-se="cancel"
                     tabindex="0"
                     type="button"
@@ -2992,13 +3020,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-24"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-4"
                   >
                     <div
-                      class="MuiBox-root emotion-3"
+                      class="MuiBox-root emotion-4"
                     >
                       Or 
                       <a
@@ -3015,7 +3041,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-26"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
                     data-se="switchAuthenticator"
                     tabindex="0"
                     type="button"
@@ -3027,7 +3053,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-26"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
                     data-se="cancel"
                     tabindex="0"
                     type="button"
@@ -3148,20 +3174,29 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   <div
                     class="MuiBox-root emotion-12"
                   >
-                    <button
-                      class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-19"
-                      tabindex="0"
-                      type="button"
+                    <div
+                      class="MuiBox-root emotion-4"
                     >
-                      Or &lt;a href="#" class="switch-channel-link"&gt;try a different way&lt;/a&gt; to set up Okta Verify.
-                    </button>
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        Or 
+                        <a
+                          class="switch-channel-link"
+                          href="#"
+                        >
+                          try a different way
+                        </a>
+                         to set up Okta Verify.
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-12"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-21"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-22"
                     data-se="switchAuthenticator"
                     tabindex="0"
                     type="button"
@@ -3173,7 +3208,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-12"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-21"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-22"
                     data-se="cancel"
                     tabindex="0"
                     type="button"

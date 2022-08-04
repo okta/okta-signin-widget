@@ -150,19 +150,28 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <button
-                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-4"
                   >
-                    Or &lt;a href="#" class="switch-channel-link"&gt;try a different way&lt;/a&gt; to set up Okta Verify.
-                  </button>
+                    <div
+                      class="MuiBox-root emotion-4"
+                    >
+                      Or 
+                      <a
+                        class="switch-channel-link"
+                        href="#"
+                      >
+                        try a different way
+                      </a>
+                       to set up Okta Verify.
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-28"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
                     data-se="switchAuthenticator"
                     tabindex="0"
                     type="button"
@@ -174,7 +183,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-28"
+                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-29"
                     data-se="cancel"
                     tabindex="0"
                     type="button"
