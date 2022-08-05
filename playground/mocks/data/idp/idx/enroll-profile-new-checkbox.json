@@ -20,13 +20,13 @@
             "form": {
               "value": [
                 {
-                  "name": "firstName",
-                  "label": "First name",
+                  "name": "lastName",
+                  "label": "Last name",
                   "required": true
                 },
                 {
-                  "name": "lastName",
-                  "label": "Last name",
+                  "name": "firstName",
+                  "label": "First name",
                   "required": true
                 },
                 {
@@ -35,54 +35,10 @@
                   "required": true
                 },
                 {
-                  "name": "pet",
+                  "name":"rememberMe",
+                  "label":"Keep me signed in",
                   "type": "boolean",
-                  "label": "Do you have a pet?",
-                  "required": false,
-                  "options": [
-                    {
-                      "label": "display",
-                      "value": {
-                        "type": "object",
-                        "value": {
-                          "inputType": "radio",
-                          "options": [
-                            {
-                              "label": "Yes",
-                              "value": "true"
-                            },
-                            {
-                              "label": "No",
-                              "value": "false"
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  "name": "required",
-                  "type": "boolean",
-                  "label": "Required",
                   "required": true,
-                  "options":[
-                    {
-                      "label":"display",
-                      "value":{
-                        "type":"object",
-                        "value":{
-                          "inputType":"checkbox"
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  "name": "optional",
-                  "type": "boolean",
-                  "label": "Optional",
-                  "required": false,
                   "options":[
                     {
                       "label":"display",

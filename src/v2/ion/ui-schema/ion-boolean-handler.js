@@ -32,6 +32,16 @@ const getRadioUiSchema = ({ label, required, options }) => ({
   sublabel: required? null : loc('oie.form.field.optional', 'login'),
 });
 
+const getCheckboxUiSchemaWithDefaultValue = ({ label, type }) => ({
+  placeholder: label,
+  label: false,
+  modelType: type,
+  type: 'checkbox',
+  // set required true so default value can be passed to optional attributes as well
+  required: true,
+  value: false,
+});
+
 const createUiSchemaForBoolean = (ionFormField, remediationForm) => {
   if ([FORMS.CONSENT_ENDUSER, FORMS.CONSENT_ADMIN].includes(remediationForm.name)) {
     const scopes = remediationForm.scopes.map(({name, label, desc}) => {
@@ -44,6 +54,8 @@ const createUiSchemaForBoolean = (ionFormField, remediationForm) => {
     return {type, scopes, options: ionFormField.options};
   } else if (Array.isArray(ionFormField.options) && ionFormField.options[0]?.value?.value?.inputType === 'radio') {
     return getRadioUiSchema(ionFormField);
+  } else if (Array.isArray(ionFormField.options) && ionFormField.options[0]?.value?.value?.inputType === 'checkbox') {
+    return getCheckboxUiSchemaWithDefaultValue(ionFormField);
   } else {
     return getCheckboxUiSchema(ionFormField);
   }

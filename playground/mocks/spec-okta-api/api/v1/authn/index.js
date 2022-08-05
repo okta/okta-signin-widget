@@ -13,6 +13,8 @@ const authn = [
   '/api/v1/authn/factors/:factorid/verify',
   '/api/v1/authn/factors/:factorid/verify/resend',
   '/api/v1/authn/factors',
+  '/api/v1/authn/recovery/token',
+  '/api/v1/authn/cancel',
 ].map(path => {
   return templateHelper({path});
 });
