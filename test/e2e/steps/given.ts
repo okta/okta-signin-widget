@@ -23,8 +23,10 @@ import createUser from '../support/management-api/createUser'
 const {
   WIDGET_TEST_SERVER,
   WIDGET_SPA_CLIENT_ID,
+  WIDGET_WEB_CLIENT_ID
 } = process.env;
-const config = {
+
+const interactionCodeFlowconfig = {
   baseUrl: WIDGET_TEST_SERVER,
   redirectUri: 'http://localhost:3000/done',
   el: '#okta-login-container',
@@ -33,14 +35,34 @@ const config = {
   scopes: ['openid', 'email', 'profile']
 };
 
+const basicConfig = {
+  baseUrl: WIDGET_TEST_SERVER,
+  redirectUri: 'http://localhost:3000/done',
+  el: '#okta-login-container',
+  authParams: { pkce:false },
+  clientId: WIDGET_WEB_CLIENT_ID,
+  scopes: ['openid', 'email', 'profile']
+};
+
 Given(
   /^an App configured to use interaction code flow$/,
   // eslint-disable-next-line no-unused-vars
   async function(this: ActionContext) {
     // eslint-disable-next-line max-len
-    console.log(JSON.stringify(config)); // for manual testing in browser
+    console.log(JSON.stringify(interactionCodeFlowconfig)); // for manual testing in browser
     await TestAppPage.open();
-    return await TestAppPage.setConfig(config);
+    return await TestAppPage.setConfig(interactionCodeFlowconfig);
+  }
+);
+
+Given(
+  /^an App configured to use v1 authn flow$/,
+  // eslint-disable-next-line no-unused-vars
+  async function(this: ActionContext) {
+    // eslint-disable-next-line max-len
+    console.log(JSON.stringify(basicConfig)); // for manual testing in browser
+    await TestAppPage.open();
+    return await TestAppPage.setConfig(basicConfig);
   }
 );
 
@@ -119,4 +141,29 @@ Given(
     return await TestAppPage.startButton.click();
   }
 );
+
+Given(
+  /^widget config is updated with colors and i18n$/,
+  async function() {
+    const config = {
+      ...interactionCodeFlowconfig,
+      colors: {
+        brand: '#008000'
+      }, 
+      i18n: {
+        en: {
+          'primaryauth.title': 'Sign In to Acme'
+        }
+      }
+    };
+
+    await TestAppPage.setConfig(config);
+    await TestAppPage.startButton.click();
+    await waitForLoad(TestAppPage.widget);
+  }
+);
+
+
+
+
 
