@@ -78,6 +78,9 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
 
   const selectIdentifyStep = availableSteps?.find(({ name }) => name === IDX_STEP.SELECT_IDENTIFY);
   if (selectIdentifyStep) {
+    uischema.elements.push({
+      type: 'Divider',
+    } );
     const { name: step } = selectIdentifyStep;
     uischema.elements.push({
       type: 'Link',

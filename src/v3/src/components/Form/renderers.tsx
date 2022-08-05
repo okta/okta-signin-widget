@@ -16,6 +16,7 @@ import { FieldElement, InputTextElement, Renderer } from '../../types';
 import AuthenticatorButton from '../AuthenticatorButton';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
+import Divider from '../Divider/Divider';
 import Heading from '../Heading';
 import ImageWithText from '../ImageWithText';
 import InfoBox from '../InfoBox';
@@ -127,6 +128,10 @@ export default [
   {
     tester: ({ type }) => type === 'InfoBox',
     renderer: InfoBox,
+  },
+  {
+    tester: ({ type }) => type === 'Divider',
+    renderer: Divider,
   },
   {
     tester: ({
