@@ -79,14 +79,14 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   elements.push(submitButton);
 
   if (!['email', 'sms'].includes(lastSelectedChannel)) {
-    const switchChannelTextLink = {
+    const switchChannelTextLink: TextWithHtmlElement = {
       type: 'TextWithHtml',
       options: {
         content: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
-        htmlClass: 'switch-channel-link',
+        className: 'switch-channel-link',
         step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
       },
-    } as TextWithHtmlElement;
+    };
     elements.push(switchChannelTextLink);
   }
 

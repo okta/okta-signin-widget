@@ -24,7 +24,7 @@ import { loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transaction }) => {
-  const { uischema, data } = formBag;
+  const { uischema, data, dataSchema } = formBag;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -62,6 +62,24 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
     },
   };
 
+  const smsStepSubmitButton: ButtonElement = {
+    type: 'Button',
+    label: loc('oie.phone.sms.primaryButton', 'login'),
+    options: {
+      type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
+    },
+  };
+
+  const voiceStepSubmitButton: ButtonElement = {
+    type: 'Button',
+    label: loc('oie.phone.call.primaryButton', 'login'),
+    options: {
+      type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
+    },
+  };
+
   const stepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
     elements: [
@@ -71,14 +89,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
           smsInfoTextElement,
           methodTypeElement,
           phoneNumberElement,
-          {
-            type: 'Button',
-            label: loc('oie.phone.sms.primaryButton', 'login'),
-            options: {
-              type: ButtonType.SUBMIT,
-              step: transaction.nextStep!.name,
-            },
-          } as ButtonElement,
+          smsStepSubmitButton,
         ],
       },
       {
@@ -87,14 +98,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
           voiceInfoTextElement,
           methodTypeElement,
           phoneNumberElement,
-          {
-            type: 'Button',
-            label: loc('oie.phone.call.primaryButton', 'login'),
-            options: {
-              type: ButtonType.SUBMIT,
-              step: transaction.nextStep!.name,
-            },
-          } as ButtonElement,
+          voiceStepSubmitButton,
         ],
       },
     ],
@@ -104,6 +108,9 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
     titleElement,
     stepper,
   ];
+
+  // set default dataSchema
+  dataSchema.submit = smsStepSubmitButton.options;
 
   return formBag;
 };

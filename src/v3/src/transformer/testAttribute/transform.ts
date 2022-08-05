@@ -19,21 +19,20 @@ import {
   LinkElement,
   TransformStepFn,
 } from '../../types';
-import { updateElementsInLayout } from '../util';
+import { traverseLayout } from '../util';
 
 const updateFields: TransformStepFn = (formbag) => {
   const { uischema } = formbag;
 
-  updateElementsInLayout({
+  traverseLayout({
     layout: uischema,
-    mapFn: (element) => {
-      const { options } = element as FieldElement;
-      options.dataSe = options.inputMeta.name;
-      return element;
-    },
-    predicateFn: (element) => {
+    predicate: (element) => {
       const { type } = element as FieldElement;
       return type === 'Field';
+    },
+    callback: (element) => {
+      const { options } = element as FieldElement;
+      options.dataSe = options.inputMeta.name;
     },
   });
 
@@ -43,16 +42,15 @@ const updateFields: TransformStepFn = (formbag) => {
 const updateSubmitButton: TransformStepFn = (formbag) => {
   const { uischema } = formbag;
 
-  updateElementsInLayout({
+  traverseLayout({
     layout: uischema,
-    mapFn: (element) => {
+    predicate: (element) => {
+      const { type, options } = element as ButtonElement;
+      return type === 'Button' && options?.type === ButtonType.SUBMIT;
+    },
+    callback: (element) => {
       const { options } = element as ButtonElement;
       options.dataType = 'save';
-      return element;
-    },
-    predicateFn: (element) => {
-      const { type, options } = element as ButtonElement;
-      return type === 'Button' && options.type === ButtonType.SUBMIT;
     },
   });
 
@@ -73,17 +71,16 @@ const updateRegularButtons: TransformStepFn = (formbag) => {
     'select-authenticator-enroll': 'switchAuthenticator',
   };
 
-  updateElementsInLayout({
+  traverseLayout({
     layout: uischema,
-    mapFn: (element) => {
-      const { options } = element as ButtonElement;
-      options.dataSe = map[options.step];
-      return element;
-    },
-    predicateFn: (element) => {
+    predicate: (element) => {
       const { type, options } = element as ButtonElement | LinkElement;
-      return (type === 'Button' && (options as ButtonElement['options']).type === ButtonType.BUTTON)
+      return (type === 'Button' && (options as ButtonElement['options'])?.type === ButtonType.BUTTON)
         || type === 'Link';
+    },
+    callback: (element) => {
+      const { options } = element as ButtonElement | LinkElement;
+      options.dataSe = map[options.step];
     },
   });
 

@@ -19,6 +19,7 @@ import {
   UISchemaLayoutType,
 } from '../types';
 import { transformButtons } from './button';
+import { transformDataSchema } from './dataSchema';
 import { transformFields } from './field';
 import { transformI18n } from './i18n';
 import { transformLayout } from './layout';
@@ -40,6 +41,7 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
     transformLayout(options),
     transformButtons(options),
     transformMessages(options),
+    transformDataSchema,
     transformTestAttribute,
   ];
 

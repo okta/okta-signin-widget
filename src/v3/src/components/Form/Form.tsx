@@ -13,18 +13,19 @@
 import { IdxMessage } from '@okta/okta-auth-js';
 import { clone } from 'lodash';
 import { FunctionComponent, h } from 'preact';
-import { useCallback, useRef } from 'preact/hooks';
+import { useCallback } from 'preact/hooks';
 
-import { FormContext, useWidgetContext } from '../../contexts';
+import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
-import { ActionOptions, SubmitEvent, UISchemaLayout } from '../../types';
+import {
+  ActionOptions, DataSchema, SubmitEvent, UISchemaLayout,
+} from '../../types';
 import { loc, resetMessagesToInputs } from '../../util';
 import Layout from './Layout';
 
 const Form: FunctionComponent<{
   uischema: UISchemaLayout;
 }> = ({ uischema }) => {
-  const submissionOptionsRef = useRef<ActionOptions>();
   const {
     data,
     idxTransaction: currTransaction,
@@ -38,7 +39,7 @@ const Form: FunctionComponent<{
     e.preventDefault();
     setMessage(undefined);
 
-    const { actionParams: params, step } = submissionOptionsRef.current!;
+    const { actionParams: params, step } = dataSchemaRef.current!.submit as ActionOptions;
 
     // client side validation - only validate for fields in nextStep
     const { nextStep } = currTransaction!;
@@ -46,7 +47,8 @@ const Form: FunctionComponent<{
       // aggregate field level messages based on validation rules in each field
       const messages = Object.entries(dataSchemaRef.current!)
         .reduce((acc: Record<string, Partial<IdxMessage>>, curr) => {
-          const [name, elementSchema] = curr;
+          const name = curr[0];
+          const elementSchema = curr[1] as DataSchema;
           if (typeof elementSchema.validate === 'function') {
             const message = elementSchema.validate({
               ...data,
@@ -88,21 +90,14 @@ const Form: FunctionComponent<{
   ]);
 
   return (
-    <FormContext.Provider value={{
-      submissionOptionsRef,
-    }}
+    <form
+      noValidate
+      onSubmit={handleSubmit}
+      className="o-form" // FIXME update page objects using .o-form selectors
+      data-se="form"
     >
-      <form
-        noValidate
-        onSubmit={handleSubmit}
-        className="o-form" // FIXME update page objects using .o-form selectors
-        data-se="form"
-      >
-        <Layout uischema={uischema} />
-      </form>
-
-    </FormContext.Provider>
-
+      <Layout uischema={uischema} />
+    </form>
   );
 };
 

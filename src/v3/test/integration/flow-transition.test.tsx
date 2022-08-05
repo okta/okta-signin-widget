@@ -15,7 +15,28 @@ import { setup } from './util';
 import identifyWithPassword from '../../src/mocks/response/idp/idx/introspect/default.json';
 import authenticationVerificationGoogleAuthenticator from '../../src/mocks/response/idp/idx/identify/google-auth-verify.json';
 
+jest.mock('../../src/transformer', () => {
+  const actual = jest.requireActual('../../src/transformer');
+  return {
+    __esModule: true,
+    ...actual,
+  };
+});
+
+const mocked = {
+  // eslint-disable-next-line global-require
+  transformer: require('../../src/transformer'),
+};
+
 describe('Flow transitions', () => {
+  it('calls transformIdxTransaction only once when transaction updates', async () => {
+    jest.spyOn(mocked.transformer, 'transformIdxTransaction');
+
+    const { findByLabelText } = await setup({ mockResponse: identifyWithPassword });
+    await findByLabelText(/Username/);
+    expect(mocked.transformer.transformIdxTransaction).toHaveBeenCalledTimes(1);
+  });
+
   it('clears field data when transition from identify-with-password to authentication-verification-ga', async () => {
     const {
       user,

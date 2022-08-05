@@ -85,15 +85,16 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
     },
   } as ButtonElement);
 
-  elements.push({
+  const switchChannelLink: TextWithHtmlElement = {
     type: 'TextWithHtml',
     options: {
       content: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
-      htmlClass: 'switch-channel-link',
+      className: 'switch-channel-link',
       step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
       stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
     },
-  } as TextWithHtmlElement);
+  };
+  elements.push(switchChannelLink);
 
   uischema.elements = elements;
 

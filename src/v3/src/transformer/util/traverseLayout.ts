@@ -18,43 +18,39 @@ import {
 } from '../../types';
 
 type PredicateFn = (uischema: UISchemaElement) => boolean;
-type MapFn = (uischema: UISchemaElement) => UISchemaElement;
+type CallbackFn = (uischema: UISchemaElement) => void;
+
 type Options = {
   layout: UISchemaLayout;
-  mapFn: MapFn;
-  predicateFn?: PredicateFn; // update all elements when predicateFn is not assigned
+  predicate: PredicateFn;
+  callback: CallbackFn;
 };
 
-export const updateElementsInLayout = (options: Options) => {
+export const traverseLayout = (options: Options) => {
   const fn = (
     layout: UISchemaLayout,
-    mapFn: MapFn,
-    predicateFn: PredicateFn = () => true,
-  ): UISchemaLayout => {
-    // eslint-disable-next-line no-param-reassign
-    layout.elements = layout.elements.map((element) => {
+    predicateFn: PredicateFn,
+    callback: CallbackFn,
+  ) => {
+    layout.elements.forEach((element) => {
+      if (predicateFn(element)) {
+        callback(element);
+      }
+
       const { type } = element;
+
       if (type === UISchemaLayoutType.STEPPER) {
-        // eslint-disable-next-line no-param-reassign
-        (element as StepperLayout).elements = (element as StepperLayout).elements
-          .map((el) => fn(el, mapFn, predicateFn));
-        return element;
+        (element as StepperLayout).elements
+          .forEach((el) => fn(el, predicateFn, callback));
+        return;
       }
 
       if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
         .includes(type as UISchemaLayoutType)) {
-        return fn(element as UISchemaLayout, mapFn, predicateFn);
+        fn(element as UISchemaLayout, predicateFn, callback);
       }
-
-      if (predicateFn(element)) {
-        return mapFn(element);
-      }
-
-      return element;
     });
-
-    return layout;
   };
 
-  return fn(options.layout, options.mapFn, options.predicateFn);
+  fn(options.layout, options.predicate, options.callback);
 };

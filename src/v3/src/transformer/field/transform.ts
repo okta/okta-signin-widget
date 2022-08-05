@@ -53,7 +53,9 @@ export const transformStepInputs = (
     }, [])
     .filter((input) => input.visible !== false && input.mutable !== false)
     .reduce((acc: FormBag, input: Input) => {
-      const { name, required, mutable } = input;
+      const {
+        name, required, mutable, type,
+      } = input;
 
       // add uischema
       const uischema = mapUiElement(input);
@@ -61,7 +63,7 @@ export const transformStepInputs = (
 
       // add client validation for "required" field
       // do not validate immutable fields, they will always be added to payload programatically
-      if (required && mutable !== false) {
+      if (required && mutable !== false && type !== 'object') {
         acc.dataSchema[name] = {
           validate(data) {
             const isValid = !!data[name];

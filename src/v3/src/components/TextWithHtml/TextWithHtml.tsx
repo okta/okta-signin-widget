@@ -12,7 +12,6 @@
 
 import { Box } from '@mui/material';
 import { h } from 'preact';
-import { useEffect } from 'preact/hooks';
 
 import { useOnSubmit } from '../../hooks';
 import {
@@ -27,38 +26,28 @@ const TextWithHtml: UISchemaElementComponent<{
     content,
     step,
     stepToRender,
-    htmlClass,
+    className,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
 
-  useEffect(() => {
-    const handleClick = async (event: Event) => {
-      event.preventDefault();
+  const handleClick = async (e: Event) => {
+    e.preventDefault();
+
+    // only submit when className matches
+    if ((e.target as HTMLElement).className.includes(className)) {
       onSubmitHandler({
         step,
         stepToRender,
       });
-    };
-
-    if (!htmlClass) {
-      return () => {};
     }
-    const elements = Array.from(document.getElementsByClassName(htmlClass));
-    if (elements?.length > 1) {
-      console.warn(`More than one element found with class: ${htmlClass}`);
-    }
-    const [element] = elements;
-    element.addEventListener('click', handleClick);
-
-    return () => {
-      element.removeEventListener?.('click', handleClick);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   return (
     <Box>
-      <Box dangerouslySetInnerHTML={{ __html: content }} />
+      <Box
+        onClick={handleClick}
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     </Box>
   );
 };

@@ -29,8 +29,7 @@ export type FormBag = {
   uischema: UISchemaLayout;
   data: Record<string, unknown>;
   // temp schema bag to handle client validation and form submission
-  dataSchema: Record<string, DataSchema>;
-
+  dataSchema: Record<string, DataSchema | ActionOptions>;
 };
 
 export type AutoCompleteValue = 'username'
@@ -210,7 +209,7 @@ export interface DescriptionElement extends UISchemaElement {
 export interface TextWithHtmlElement extends UISchemaElement {
   type: 'TextWithHtml';
   options: DescriptionElement['options'] & {
-    htmlClass?: string;
+    className: string;
     step: string;
     stepToRender?: string;
   };
@@ -331,7 +330,10 @@ export interface StepperButtonElement {
 export interface StepperRadioElement {
   type: 'StepperRadio',
   options: {
-    customOptions: Array<IdxOption & { key?: string; }>,
+    customOptions: Array<IdxOption & {
+      key?: string;
+      layout: () => UISchemaLayout;
+    }>,
     name: string;
     defaultOption: string | number | boolean;
   }

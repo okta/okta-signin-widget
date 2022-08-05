@@ -12,12 +12,8 @@
 
 import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
-import { useEffect } from 'preact/hooks';
 
-import { useFormContext } from '../../contexts';
 import {
-  ButtonElement,
-  ButtonType,
   StepperLayout,
   UISchemaElement,
   UISchemaElementComponent,
@@ -34,18 +30,7 @@ type LayoutProps = {
 };
 
 const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
-  const { submissionOptionsRef } = useFormContext();
   const { type, elements } = uischema;
-
-  // track submission options in form, which will be used when form onSubmit event is triggered
-  // one form should not have more than one submit button
-  useEffect(() => {
-    // eslint-disable-next-line max-len
-    const submitButton = elements.find((element) => (element as ButtonElement).options?.type === ButtonType.SUBMIT) as ButtonElement;
-    if (submitButton) {
-      submissionOptionsRef.current = submitButton.options;
-    }
-  }, [elements, submissionOptionsRef]);
 
   const flexDirection = type === UISchemaLayoutType.HORIZONTAL ? 'row' : 'column';
   return (
