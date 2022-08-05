@@ -12,16 +12,12 @@
 
 import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
-import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
-import { useCallback, useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import {
   ChangeEvent,
-  DataSchema,
-  FormBag,
   PasswordWithConfirmationElement,
   UISchemaElementComponent,
 } from '../../types';
@@ -30,87 +26,54 @@ import InputPassword from '../InputPassword';
 const PasswordWithConfirmation: UISchemaElementComponent<{
   uischema: PasswordWithConfirmationElement
 }> = ({ uischema }) => {
-  const { newPasswordElement, confirmPasswordElement } = uischema.options;
   const {
-    options: {
-      inputMeta: {
-        name: newPwName,
-        // @ts-ignore expose type from auth-js
-        messages: newPasswordMessages = {},
+    newPasswordElement,
+    confirmPasswordElement: {
+      label,
+      options: {
+        inputMeta: {
+          name,
+          // @ts-ignore expose type from auth-js
+          messages = {},
+        },
+        attributes,
       },
     },
-  } = newPasswordElement;
+  } = uischema.options;
 
-  const {
-    label: confirmPwLabel,
-    options: {
-      inputMeta: {
-        name: confirmPwName,
-        // @ts-ignore expose type from auth-js
-        messages = {},
-      },
-      attributes,
-    },
-  } = confirmPasswordElement;
-
-  // Updating dataSchema validate fn requires a slight delay, need to wait for completion to show component
-  const [isReady, setIsReady] = useState<boolean>(false);
-  const [confirmPassword, setConfirmPassword] = useState<string>();
-  const { dataSchemaRef } = useWidgetContext();
+  const { additionalData, setAdditionalData } = useWidgetContext();
   const confirmPasswordError = messages?.value?.[0] && getMessage(messages.value[0]);
 
-  // Overrides default validate function for password field
-  const validate = useCallback((data: FormBag['data']) => {
-    const newPw = data[newPwName];
-    const errorMessages: Partial<IdxMessage & { name?: string }>[] = [];
-    if (!newPw) {
-      errorMessages.push({ name: newPwName, i18n: { key: 'model.validation.field.blank' } });
-    }
-
-    if (!confirmPassword) {
-      errorMessages.push({ name: confirmPwName, i18n: { key: 'model.validation.field.blank' } });
-    } else if (confirmPassword !== newPw) {
-      errorMessages.push({ name: confirmPwName, i18n: { key: 'password.error.match' } });
-    }
-
-    return errorMessages.length ? errorMessages : undefined;
-  }, [confirmPassword, newPwName, confirmPwName]);
-
   const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.currentTarget.value);
+    setAdditionalData((data) => ({
+      ...data,
+      [name]: e.currentTarget.value,
+    }));
   };
 
-  useEffect(() => {
-    setIsReady(false);
-    // update validate function to prevent submission w/o confirm pw data
-    // when server messages are set, we must reset the validate function
-    (dataSchemaRef.current![newPwName] as DataSchema).validate = validate;
-    setIsReady(true);
-  }, [validate, newPwName, dataSchemaRef, confirmPasswordError, newPasswordMessages]);
-
-  return isReady ? (
+  return (
     <Box>
       <Box marginBottom={4}>
         <InputPassword uischema={newPasswordElement} />
       </Box>
       <Box>
         <PasswordInput
-          label={confirmPwLabel}
-          name={confirmPwName}
-          value={confirmPassword}
-          id={confirmPwName}
+          label={label}
+          name={name}
+          value={additionalData[name]}
+          id={name}
           error={!!confirmPasswordError}
           onChange={handleConfirmPasswordChange}
           fullWidth
           inputProps={{
-            'data-se': confirmPwName,
+            'data-se': name,
             ...attributes,
           }}
         />
         {!!confirmPasswordError && (
         <FormHelperText
-          ariaDescribedBy={confirmPwName}
-          data-se={`${confirmPwName}-error`}
+          ariaDescribedBy={name}
+          data-se={`${name}-error`}
           error
         >
           {confirmPasswordError}
@@ -118,7 +81,7 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
         )}
       </Box>
     </Box>
-  ) : null;
+  );
 };
 
 export default PasswordWithConfirmation;

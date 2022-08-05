@@ -34,16 +34,9 @@ jest.mock('../../hooks', () => ({
   useOnChange: () => jest.fn().mockImplementation(() => {}),
 }));
 
-const mockDataSchemaRef = {
-  current: {
-    'credentials.passcode': {
-      validate: jest.fn(),
-    },
-  },
-};
 jest.mock('../../contexts', () => ({
   useWidgetContext: jest.fn().mockImplementation(
-    () => ({ dataSchemaRef: mockDataSchemaRef }),
+    () => ({ additionalData: { confirmPassword: undefined }, setAdditionalData: jest.fn() }),
   ),
 }));
 
@@ -86,113 +79,57 @@ describe('PasswordWithConfirmation tests', () => {
     };
   });
 
-  describe('dataSchema validate function tests', () => {
-    it('should return password match error message key for confirmPassword field when new password contains data', async () => {
-      const { findByLabelText, user } = setup(<PasswordWithConfirmation {...props} />);
+  it('should display field level errors when new password and confirmPassword fields contain different values', async () => {
+    mockMessage.mockReturnValue('New passwords must match');
+    confirmPasswordElement.options.inputMeta = {
+      ...confirmPasswordElement.options.inputMeta,
+      // @ts-ignore messages missing from Input type
+      messages: {
+        value: [{ name: 'confirmPassword', i18n: { key: 'password.error.match' } }],
+      },
+    };
+    const { findByLabelText, findByTestId, user } = setup(<PasswordWithConfirmation {...props} />);
 
-      const confirmPasswordInput = await findByLabelText(/Re-enter password/);
+    const newPasswordInput = await findByLabelText(/New password/);
+    const confirmPasswordInput = await findByLabelText(/Re-enter password/);
+    const newPasswordAutocomplete = newPasswordInput?.getAttribute('autocomplete');
+    const confirmAutocomplete = confirmPasswordInput?.getAttribute('autocomplete');
+    const confirmPasswordError = await findByTestId('confirmPassword-error');
 
-      await user.type(confirmPasswordInput, '123456');
-  
-      const errors = mockDataSchemaRef.current['credentials.passcode']
-        .validate({ 'credentials.passcode': 'abc123!' });
-  
-      expect(errors.length).toBe(1);
-      expect(errors[0].i18n.key).toBe('password.error.match');
-    });
-
-    it('should return empty field error message key for new password field when new password does not contain data and password match error for confirmPassword field', async () => {
-      const { findByLabelText, user } = setup(<PasswordWithConfirmation {...props} />);
-  
-      const confirmPasswordInput = await findByLabelText(/Re-enter password/);
-
-      await user.type(confirmPasswordInput, '123456');
-  
-      const errors = mockDataSchemaRef.current['credentials.passcode']
-        .validate({ 'credentials.passcode': undefined });
-  
-      expect(errors.length).toBe(2);
-      expect(errors[0].i18n.key).toBe('model.validation.field.blank');
-      expect(errors[1].i18n.key).toBe('password.error.match');
-    });
-
-    it('should return empty field error message key for new password and confirmPassword fields when both are empty', async () => {
-      const { findByLabelText, user } = setup(<PasswordWithConfirmation {...props} />);
-      await findByLabelText(/Re-enter password/);
-  
-      const errors = mockDataSchemaRef.current['credentials.passcode']
-        .validate({ 'credentials.passcode': undefined });
-  
-      expect(errors.length).toBe(2);
-      expect(errors[0].i18n.key).toBe('model.validation.field.blank');
-      expect(errors[1].i18n.key).toBe('model.validation.field.blank');
-    });
-
-    it('should return empty field error message key for confirmPassword field when new password contains data but confirmPassword does not', async () => {
-      const { findByLabelText, user } = setup(<PasswordWithConfirmation {...props} />);
-      await findByLabelText(/Re-enter password/);
-  
-      const errors = mockDataSchemaRef.current['credentials.passcode']
-        .validate({ 'credentials.passcode': 'abc1234!' });
-  
-      expect(errors.length).toBe(1);
-      expect(errors[0].i18n.key).toBe('model.validation.field.blank');
-    });
+    expect(newPasswordAutocomplete).toBe('new-password');
+    expect(confirmAutocomplete).toBe('new-password');
+    expect(confirmPasswordError.innerHTML).toBe('New passwords must match');
   });
 
-  describe('UI error message tests', () => {
-    it('should display field level errors when new password and confirmPassword fields contain different values', async () => {
-      mockMessage.mockReturnValue('New passwords must match');
-      confirmPasswordElement.options.inputMeta = {
-        ...confirmPasswordElement.options.inputMeta,
-        // @ts-ignore messages missing from Input type
-        messages: {
-          value: [{ name: 'confirmPassword', i18n: { key: 'password.error.match' } }],
-        },
-      };
-      const { findByLabelText, findByTestId, user } = setup(<PasswordWithConfirmation {...props} />);
-  
-      const newPasswordInput = await findByLabelText(/New password/);
-      const confirmPasswordInput = await findByLabelText(/Re-enter password/);
-      const newPasswordAutocomplete = newPasswordInput?.getAttribute('autocomplete');
-      const confirmAutocomplete = confirmPasswordInput?.getAttribute('autocomplete');
-      const confirmPasswordError = await findByTestId('confirmPassword-error');
-  
-      expect(newPasswordAutocomplete).toBe('new-password');
-      expect(confirmAutocomplete).toBe('new-password');
-      expect(confirmPasswordError.innerHTML).toBe('New passwords must match');
-    });
+  it('should display field level errors when new password and confirmPassword fields are both empty', async () => {
+    mockMessage.mockReturnValue('This field cannot be left blank');
+    newPasswordElement.options.inputMeta = {
+      ...newPasswordElement.options.inputMeta,
+      // @ts-ignore messages missing from Input type
+      messages: {
+        value: [{ name: 'credentials.passcode', i18n: { key: 'model.validation.field.blank' } }],
+      },
+    };
+    confirmPasswordElement.options.inputMeta = {
+      ...confirmPasswordElement.options.inputMeta,
+      // @ts-ignore messages missing from Input type
+      messages: {
+        value: [{ name: 'confirmPassword', i18n: { key: 'model.validation.field.blank' } }],
+      },
+    };
+    const { findByLabelText, findByTestId, user } = setup(<PasswordWithConfirmation {...props} />);
 
-    it('should display field level errors when new password and confirmPassword fields are both empty', async () => {
-      mockMessage.mockReturnValue('This field cannot be left blank');
-      newPasswordElement.options.inputMeta = {
-        ...newPasswordElement.options.inputMeta,
-        // @ts-ignore messages missing from Input type
-        messages: {
-          value: [{ name: 'credentials.passcode', i18n: { key: 'model.validation.field.blank' } }],
-        },
-      };
-      confirmPasswordElement.options.inputMeta = {
-        ...confirmPasswordElement.options.inputMeta,
-        // @ts-ignore messages missing from Input type
-        messages: {
-          value: [{ name: 'confirmPassword', i18n: { key: 'model.validation.field.blank' } }],
-        },
-      };
-      const { findByLabelText, findByTestId, user } = setup(<PasswordWithConfirmation {...props} />);
-  
-      const newPasswordInput = await findByLabelText(/New password/);
-      const confirmPasswordInput = await findByLabelText(/Re-enter password/);
-      const newPasswordAutocomplete = newPasswordInput?.getAttribute('autocomplete');
-      const confirmAutocomplete = confirmPasswordInput?.getAttribute('autocomplete');
-      
-      const newPasswordError = await findByTestId('credentials.passcode-error');
-      const confirmPasswordError = await findByTestId('confirmPassword-error');
-  
-      expect(newPasswordAutocomplete).toBe('new-password');
-      expect(confirmAutocomplete).toBe('new-password');
-      expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
-      expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
-    });
+    const newPasswordInput = await findByLabelText(/New password/);
+    const confirmPasswordInput = await findByLabelText(/Re-enter password/);
+    const newPasswordAutocomplete = newPasswordInput?.getAttribute('autocomplete');
+    const confirmAutocomplete = confirmPasswordInput?.getAttribute('autocomplete');
+    
+    const newPasswordError = await findByTestId('credentials.passcode-error');
+    const confirmPasswordError = await findByTestId('confirmPassword-error');
+
+    expect(newPasswordAutocomplete).toBe('new-password');
+    expect(confirmAutocomplete).toBe('new-password');
+    expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
+    expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
   });
 });

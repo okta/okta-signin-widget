@@ -32,6 +32,7 @@ const Form: FunctionComponent<{
     setIdxTransaction,
     setMessage,
     dataSchemaRef,
+    additionalData,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
 
@@ -51,6 +52,7 @@ const Form: FunctionComponent<{
           const elementSchema = curr[1] as DataSchema;
           if (typeof elementSchema.validate === 'function') {
             const validationMessages = elementSchema.validate({
+              ...additionalData,
               ...data,
               ...params,
             });
@@ -82,6 +84,7 @@ const Form: FunctionComponent<{
     });
   }, [
     data,
+    additionalData,
     currTransaction,
     dataSchemaRef,
     setIdxTransaction,

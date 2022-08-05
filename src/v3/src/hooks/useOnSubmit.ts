@@ -32,6 +32,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     idxTransaction: currTransaction,
     setIdxTransaction,
     setStepToRender,
+    setAdditionalData,
   } = useWidgetContext();
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
@@ -70,11 +71,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     const newTransaction = await fn(payload);
     setIdxTransaction(newTransaction);
     setStepToRender(stepToRender);
+    setAdditionalData({});
   }, [
     data,
     authClient,
     currTransaction,
     setIdxTransaction,
     setStepToRender,
+    setAdditionalData,
   ]);
 };

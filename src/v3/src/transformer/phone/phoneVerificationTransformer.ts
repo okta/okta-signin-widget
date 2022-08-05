@@ -109,7 +109,7 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
       ? loc('oie.phone.call.secondaryButton', 'login')
       : loc('oie.phone.sms.secondaryButton', 'login'),
     options: {
-      type: ButtonType.SUBMIT,
+      type: ButtonType.BUTTON,
       variant: 'secondary',
       actionParams: {
         'authenticator.methodType': methodTypeElement?.options.inputMeta?.options?.[1]?.value as string,

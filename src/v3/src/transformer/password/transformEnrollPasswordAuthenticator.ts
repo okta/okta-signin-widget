@@ -11,16 +11,17 @@
  */
 
 import { IdxMessage } from '@okta/okta-auth-js';
+
+import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import {
   FieldElement,
+  FormBag,
   IdxStepTransformer,
   PasswordRequirementsElement,
   PasswordSettings,
   PasswordWithConfirmationElement,
   TitleElement,
-} from 'src/types';
-
-import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
+} from '../../types';
 import { getUserInfo, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
@@ -32,7 +33,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   const { nextStep: { relatesTo } = {} } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
 
-  const { uischema } = formBag;
+  const { uischema, dataSchema } = formBag;
 
   let passwordFieldName = 'credentials.passcode';
   let passwordElement = getUIElementWithName(
@@ -130,6 +131,37 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     uischema.elements.unshift(passwordRequirementsElement);
   }
   uischema.elements.unshift(titleElement);
+
+  dataSchema[passwordFieldName] = {
+    validate: (data: FormBag['data']) => {
+      const newPw = data[passwordFieldName];
+      const confirmPw = data.confirmPassword;
+      const errorMessages: Partial<IdxMessage & { name?: string }>[] = [];
+      if (!newPw) {
+        errorMessages.push({
+          name: passwordFieldName,
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        });
+      }
+
+      if (!confirmPw) {
+        errorMessages.push({
+          name: 'confirmPassword',
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        });
+      } else if (confirmPw !== newPw) {
+        errorMessages.push({
+          name: 'confirmPassword',
+          message: loc('password.error.match', 'login'),
+          i18n: { key: 'password.error.match' },
+        });
+      }
+
+      return errorMessages.length ? errorMessages : undefined;
+    },
+  };
 
   return formBag;
 };
