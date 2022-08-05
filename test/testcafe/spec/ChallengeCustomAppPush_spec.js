@@ -8,7 +8,7 @@ import pushPollReject from '../../../playground/mocks/data/idp/idx/authenticator
 import success from '../../../playground/mocks/data/idp/idx/success';
 import pushPollAutoChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push-autochallenge';
 import pushEnableBiometricsCustomApp from '../../../playground/mocks/data/idp/idx/custom-app-uv-verify-enable-biometrics';
-import xhrSelectAuthenticatorCustomPushWithMethodSendPush from '@okta/okta-signin-widget-playground/mocks/data/idp/idx/authenticator-verification-data-custom-push-autoChallenge-off.json';
+import xhrSelectAuthenticatorCustomPushWithMethodSendPush from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-custom-push-autoChallenge-off.json';
 const logger = RequestLogger(/challenge|challenge\/poll|authenticators\/poll/,
   {
     logRequestBody: true,
