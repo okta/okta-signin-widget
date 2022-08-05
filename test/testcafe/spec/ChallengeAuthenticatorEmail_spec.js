@@ -219,7 +219,7 @@ test
 
     const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`Send a verification email to ${emailAddress} by clicking on “Send me an email”.`);
+      .eql(`Send a verification email to ${emailAddress} by clicking on "Send me an email".`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -250,7 +250,7 @@ test
     await t.expect(saveBtnText).eql('Send me an email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql('Send a verification email by clicking on “Send me an email”.');
+      .eql('Send a verification email by clicking on "Send me an email".');
   });
 
 test
@@ -263,7 +263,7 @@ test
     await t.expect(saveBtnText).eql('Send me an email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql('Send a verification email by clicking on “Send me an email”.');
+      .eql('Send a verification email by clicking on "Send me an email".');
   });
 
 test
