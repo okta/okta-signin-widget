@@ -72,8 +72,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   };
 
   // @ts-ignore expose type from auth-js
-  console.log('password element messages:', passwordElement.options.inputMeta.messages?.value);
-  // @ts-ignore expose type from auth-js
   if (passwordElement.options.inputMeta.messages?.value?.length) {
     // @ts-ignore expose type from auth-js
     const errorMessages = passwordElement.options.inputMeta.messages.value;
@@ -100,9 +98,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       confirmPasswordElement.options.inputMeta.messages.value = [confirmPasswordError];
     }
   }
-
-  // @ts-ignore
-  console.log('confirmPasswordElement:', confirmPasswordElement?.options?.inputMeta?.messages);
 
   const passwordWithConfirmationElement: PasswordWithConfirmationElement = {
     type: 'PasswordWithConfirmation',
