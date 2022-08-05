@@ -34,7 +34,7 @@ const SubtitleView = View.extend({
 const Body = BaseAuthenticatorEmailForm.extend(
   {
     title() {
-      return loc('oie.email.mfa.title', 'login');
+      return loc('oie.email.challenge.mfa.title', 'login');
     },
 
     save() {
