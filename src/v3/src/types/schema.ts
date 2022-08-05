@@ -209,7 +209,7 @@ export interface DescriptionElement extends UISchemaElement {
 export interface TextWithHtmlElement extends UISchemaElement {
   type: 'TextWithHtml';
   options: DescriptionElement['options'] & {
-    htmlClass?: string;
+    className: string;
     step: string;
     stepToRender?: string;
   };

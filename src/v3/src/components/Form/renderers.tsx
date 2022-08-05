@@ -35,7 +35,7 @@ import Spinner from '../Spinner';
 import StepperButton from '../StepperButton';
 import StepperRadio from '../StepperRadio';
 import SuccessCallback from '../SuccessCallback';
-import TextWithHtml from '../TextWithHtml/TextWithHtml';
+import TextWithHtml from '../TextWithHtml';
 import Title from '../Title';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
 
