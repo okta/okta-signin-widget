@@ -214,12 +214,12 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).eql('Verify with your email');
+    await t.expect(pageTitle).eql('Get a verification email');
     await t.expect(saveBtnText).eql('Send me an email');
 
     const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`Verify with an email link or enter a code sent to ${emailAddress}.`);
+      .eql(`Send a verification email to ${emailAddress} by clicking on “Send me an email”.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -233,7 +233,7 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).eql('Verify with your email');
+    await t.expect(pageTitle).eql('Get a verification email');
     await t.expect(saveBtnText).eql('Send me an email');
 
     await t.wait(31000);
@@ -246,11 +246,11 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).contains('Verify with your email');
+    await t.expect(pageTitle).contains('Get a verification email');
     await t.expect(saveBtnText).eql('Send me an email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql('Verify with an email link or enter a code sent to your email.');
+      .eql('Send a verification email by clicking on “Send me an email”.');
   });
 
 test
@@ -259,11 +259,11 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).contains('Verify with your email');
+    await t.expect(pageTitle).contains('Get a verification email');
     await t.expect(saveBtnText).eql('Send me an email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql('Verify with an email link or enter a code sent to your email.');
+      .eql('Send a verification email by clicking on “Send me an email”.');
   });
 
 test
