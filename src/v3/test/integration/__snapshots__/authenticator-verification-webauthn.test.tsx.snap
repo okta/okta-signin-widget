@@ -20,7 +20,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -76,6 +76,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       Set up security key or biometric authenticator
                     </h2>
@@ -88,7 +89,8 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
                     >
                       Security key or biometric authenticator is not supported on this browser. Select another factor or contact your admin for assistance.
                     </p>
@@ -146,7 +148,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -202,6 +204,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       Set up security key or biometric authenticator
                     </h2>
@@ -214,7 +217,8 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
                     >
                       You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.
                     </p>

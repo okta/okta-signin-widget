@@ -360,7 +360,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -419,6 +419,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        data-se="o-form-head"
                       >
                         Set up security question
                       </h2>

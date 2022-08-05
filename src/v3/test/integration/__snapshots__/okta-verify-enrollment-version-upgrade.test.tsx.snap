@@ -20,7 +20,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -113,6 +113,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-20"
+                        data-se="o-form-head"
                       >
                         Set up Okta Verify
                       </h2>

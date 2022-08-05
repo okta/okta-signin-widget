@@ -39,6 +39,7 @@ exports[`enroll-profile-new should render form 1`] = `
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      data-se="o-form-head"
                     >
                       Sign up
                     </h2>

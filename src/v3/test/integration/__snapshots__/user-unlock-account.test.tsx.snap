@@ -39,6 +39,7 @@ exports[`user-unlock-account renders form 1`] = `
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      data-se="o-form-head"
                     >
                       Unlock account?
                     </h2>
@@ -90,27 +91,39 @@ exports[`user-unlock-account renders form 1`] = `
                 >
                   <div
                     class="authButton MuiBox-root emotion-17"
+                    data-se="authenticator-button"
                     role="button"
                     tabindex="0"
                   >
                     <div
-                      class="iconContainer MuiBox-root emotion-10"
+                      class="MuiBox-root emotion-10"
+                      data-se="authenticator-icon"
                     >
-                      <mocksvgicon />
+                      <div
+                        class="iconContainer mfa-okta-email MuiBox-root emotion-10"
+                      >
+                        <mocksvgicon />
+                      </div>
                     </div>
                     <div
                       class="infoSection MuiBox-root emotion-10"
                     >
                       <div
                         class="title MuiBox-root emotion-10"
+                        data-se="authenticator-button-label"
                       >
                         Email
                       </div>
                       <div
-                        class="actionName MuiBox-root emotion-10"
-                        data-se="okta_email-email"
+                        class="cta-button actionName MuiBox-root emotion-10"
+                        data-se="okta_email"
                       >
-                        Select
+                        <span
+                          class="MuiBox-root emotion-10"
+                          data-se="cta-button-label"
+                        >
+                          Select
+                        </span>
                         <mocksvgicon />
                       </div>
                     </div>
@@ -121,27 +134,39 @@ exports[`user-unlock-account renders form 1`] = `
                 >
                   <div
                     class="authButton MuiBox-root emotion-17"
+                    data-se="authenticator-button"
                     role="button"
                     tabindex="0"
                   >
                     <div
-                      class="iconContainer MuiBox-root emotion-10"
+                      class="MuiBox-root emotion-10"
+                      data-se="authenticator-icon"
                     >
-                      <mocksvgicon />
+                      <div
+                        class="iconContainer mfa-okta-phone MuiBox-root emotion-10"
+                      >
+                        <mocksvgicon />
+                      </div>
                     </div>
                     <div
                       class="infoSection MuiBox-root emotion-10"
                     >
                       <div
                         class="title MuiBox-root emotion-10"
+                        data-se="authenticator-button-label"
                       >
                         Phone
                       </div>
                       <div
-                        class="actionName MuiBox-root emotion-10"
+                        class="cta-button actionName MuiBox-root emotion-10"
                         data-se="phone_number"
                       >
-                        Select
+                        <span
+                          class="MuiBox-root emotion-10"
+                          data-se="cta-button-label"
+                        >
+                          Select
+                        </span>
                         <mocksvgicon />
                       </div>
                     </div>

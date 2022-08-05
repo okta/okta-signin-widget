@@ -20,7 +20,7 @@ exports[`authenticator-email-verification-data should render form 1`] = `
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -76,6 +76,7 @@ exports[`authenticator-email-verification-data should render form 1`] = `
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       Verify with your email
                     </h2>
@@ -88,7 +89,8 @@ exports[`authenticator-email-verification-data should render form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
                     >
                       Verify with an email link or enter a code sent to your email.
                     </p>
@@ -98,7 +100,7 @@ exports[`authenticator-email-verification-data should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-17"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-18"
                     data-type="save"
                     tabindex="0"
                     type="submit"

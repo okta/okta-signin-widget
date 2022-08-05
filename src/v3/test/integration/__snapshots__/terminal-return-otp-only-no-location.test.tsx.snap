@@ -20,7 +20,7 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -76,6 +76,7 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       Your verification code
                     </h2>
@@ -88,7 +89,8 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
                     >
                       Enter this code on the sign-in page.
                     </p>
@@ -98,7 +100,7 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-17"
+                    class="MuiBox-root emotion-18"
                   >
                     <h3
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
@@ -114,7 +116,8 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
                     >
                       Request from:
                     </p>
@@ -124,11 +127,11 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-22"
+                    class="MuiBox-root emotion-24"
                     id="browser"
                   >
                     <div
-                      class="MuiBox-root emotion-23"
+                      class="MuiBox-root emotion-25"
                     >
                       <mocksvgicon />
                     </div>
@@ -147,11 +150,11 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-22"
+                    class="MuiBox-root emotion-24"
                     id="app"
                   >
                     <div
-                      class="MuiBox-root emotion-23"
+                      class="MuiBox-root emotion-25"
                     >
                       <mocksvgicon />
                     </div>
@@ -173,7 +176,8 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
                     >
                       If you didn’t request this code, you can ignore this message. Your account is safe and can only be accessed with this code.
                     </p>

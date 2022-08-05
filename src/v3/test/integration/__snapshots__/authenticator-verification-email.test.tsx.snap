@@ -20,7 +20,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -82,6 +82,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        data-se="o-form-head"
                       >
                         Verify with your email
                       </h2>
@@ -94,7 +95,8 @@ exports[`authenticator-verification-email renders correct form renders the initi
                       class="MuiBox-root emotion-14"
                     >
                       <p
-                        class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                        data-se="o-form-explain"
                       >
                         We sent an email to f****************e@example.com. Click the verification link in your email to continue or enter the code below.
                       </p>
@@ -104,7 +106,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-19"
+                      class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
                       tabindex="0"
                       type="button"
                     >
@@ -153,7 +155,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -215,6 +217,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        data-se="o-form-head"
                       >
                         Verify with your email
                       </h2>
@@ -227,7 +230,8 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                       class="MuiBox-root emotion-14"
                     >
                       <p
-                        class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                        data-se="o-form-explain"
                       >
                         We sent an email to f****************e@example.com. Click the verification link in your email to continue or enter the code below.
                       </p>
@@ -246,12 +250,12 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         Enter code
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
                       >
                         <input
                           aria-invalid="false"
                           autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                          class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
@@ -259,10 +263,10 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         />
                         <fieldset
                           aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-23"
+                          class="MuiOutlinedInput-notchedOutline emotion-24"
                         >
                           <legend
-                            class="emotion-24"
+                            class="emotion-25"
                           >
                             <span
                               class="notranslate"
@@ -278,7 +282,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-27"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -328,7 +332,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -390,6 +394,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        data-se="o-form-head"
                       >
                         Verify with your email
                       </h2>
@@ -402,7 +407,8 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                       class="MuiBox-root emotion-14"
                     >
                       <p
-                        class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                        data-se="o-form-explain"
                       >
                         We sent an email to t***t@idx.com. Click the verification link in your email to continue or enter the code below.
                       </p>
@@ -421,12 +427,12 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         Enter code
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-21"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-22"
                       >
                         <input
                           aria-invalid="true"
                           autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                          class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
@@ -435,10 +441,10 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         />
                         <fieldset
                           aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-23"
+                          class="MuiOutlinedInput-notchedOutline emotion-24"
                         >
                           <legend
-                            class="emotion-24"
+                            class="emotion-25"
                           >
                             <span
                               class="notranslate"
@@ -449,7 +455,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         </fieldset>
                       </div>
                       <p
-                        class="MuiFormHelperText-root Mui-error emotion-25"
+                        class="MuiFormHelperText-root Mui-error emotion-26"
                         data-se="credentials.passcode-error"
                       >
                         Invalid code. Try again.
@@ -460,7 +466,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-27"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-28"
                       data-type="save"
                       tabindex="0"
                       type="submit"
