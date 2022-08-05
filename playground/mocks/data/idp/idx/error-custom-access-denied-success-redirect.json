@@ -1,0 +1,42 @@
+{
+    "stateHandle": "022FJBvS6bHS7OjQSOhtfghhJvO2a2TELaMZ94s69K",
+    "version": "1.0.0",
+    "expiresAt": "2019-08-27T16:57:50.000Z",
+    "intent": "LOGIN",
+    "success": {
+        "name": "success-redirect",
+        "href": "http://localhost:3000/app/UserHome?stateToken=mockedStateToken123"
+    },
+    "messages": {
+      "type": "array",
+      "value": [
+        {
+          "message": "You do not have permission to perform the requested action.",
+          "links": [
+            {"label": "Help link 1", "url": "https://www.okta.com/"},
+            {"label": "Help link 2", "url": "https://www.okta.com/help?page=1"}
+          ],
+          "i18n": {
+            "key": "security.access_denied_custom_message"
+          },
+          "class": "ERROR"
+        }
+      ]
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+            {
+                "name": "stateHandle",
+                "value": "022FJBvS6bHS7OjQSOhtfghhJvO2a2TELaMZ94s69K",
+                "visible": false
+            }
+        ]
+    }
+}
