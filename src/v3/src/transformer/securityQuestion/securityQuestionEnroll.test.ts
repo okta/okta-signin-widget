@@ -32,7 +32,7 @@ describe('SecurityQuestionEnroll Tests', () => {
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{
-          type: 'Control',
+          type: 'Field',
           name: 'credentials',
         } as FieldElement],
       },

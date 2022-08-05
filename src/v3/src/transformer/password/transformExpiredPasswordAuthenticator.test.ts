@@ -37,7 +37,7 @@ describe('Expired Password Authenticator Transformer Tests', () => {
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{
-          type: 'Control',
+          type: 'Field',
           name: 'credentials.passcode',
           label: 'Password',
           options: {

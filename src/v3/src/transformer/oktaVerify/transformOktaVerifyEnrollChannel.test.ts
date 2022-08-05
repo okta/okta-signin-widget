@@ -74,7 +74,7 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
         },
       },
     } as unknown as IdxContext;
-    formBag.uischema.elements.push({ type: 'Control', name: 'email' } as FieldElement);
+    formBag.uischema.elements.push({ type: 'Field', name: 'email' } as FieldElement);
 
     const updatedFormBag = transformOktaVerifyEnrollChannel({ transaction, formBag, widgetProps });
 
@@ -90,7 +90,7 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
         },
       },
     } as unknown as IdxContext;
-    formBag.uischema.elements.push({ type: 'Control', name: 'phoneNumber' } as FieldElement);
+    formBag.uischema.elements.push({ type: 'Field', name: 'phoneNumber' } as FieldElement);
 
     const updatedFormBag = transformOktaVerifyEnrollChannel({ transaction, formBag, widgetProps });
 

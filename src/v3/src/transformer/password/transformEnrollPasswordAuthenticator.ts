@@ -61,7 +61,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   );
 
   const confirmPasswordElement: FieldElement = {
-    type: 'Control',
+    type: 'Field',
     name: 'confirmPassword',
     label: loc('oie.password.confirmPasswordLabel', 'login'),
     options: {

@@ -33,7 +33,7 @@ describe('Phone verification Transformer Tests', () => {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
-            type: 'Control',
+            type: 'Field',
             name: 'authenticator.methodType',
             options: {
               inputMeta: {
@@ -74,7 +74,7 @@ describe('Phone verification Transformer Tests', () => {
   it('should add correct UI elements to schema when multiple methodType choices exists'
     + ' and voice is the first methodType choice', () => {
     formBag.uischema.elements = [{
-      type: 'Control',
+      type: 'Field',
       name: 'authenticator.methodType',
       options: {
         inputMeta: {
@@ -107,7 +107,7 @@ describe('Phone verification Transformer Tests', () => {
 
   it('should add correct UI elements to schema when only voice methodType choice exists', () => {
     formBag.uischema.elements = [{
-      type: 'Control',
+      type: 'Field',
       name: 'authenticator.methodType',
       options: {
         inputMeta: {
@@ -135,7 +135,7 @@ describe('Phone verification Transformer Tests', () => {
 
   it('should add correct UI elements to schema when only sms methodType choice exists', () => {
     formBag.uischema.elements = [{
-      type: 'Control',
+      type: 'Field',
       name: 'authenticator.methodType',
       options: {
         inputMeta: {
@@ -165,7 +165,7 @@ describe('Phone verification Transformer Tests', () => {
     + ' and redacted phoneNumber exists in Idx response ', () => {
     const mockPhoneNumber = '+121xxxxx34';
     formBag.uischema.elements = [{
-      type: 'Control',
+      type: 'Field',
       name: 'authenticator.methodType',
       options: {
         inputMeta: {
@@ -206,7 +206,7 @@ describe('Phone verification Transformer Tests', () => {
     + ' and redacted phoneNumber exists in Idx response ', () => {
     const mockPhoneNumber = '+121xxxxx34';
     formBag.uischema.elements = [{
-      type: 'Control',
+      type: 'Field',
       name: 'authenticator.methodType',
       options: {
         inputMeta: {

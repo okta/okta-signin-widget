@@ -77,11 +77,11 @@ describe('Transform Select OV Method Verify Tests', () => {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
-            type: 'Control',
+            type: 'Field',
             name: 'authenticator.methodType',
           } as FieldElement,
           {
-            type: 'Control',
+            type: 'Field',
             name: 'authenticator.autoChallenge',
             options: { inputMeta: { name: 'authenticator.autoChallenge', value: 'true' } },
           } as FieldElement,
@@ -132,7 +132,7 @@ describe('Transform Select OV Method Verify Tests', () => {
 
   it('should transform elements when transaction contains push and totp method types', () => {
     formBag.uischema.elements = [{
-      type: 'Control',
+      type: 'Field',
       name: 'authenticator.methodType',
       options: {
         inputMeta: {

@@ -53,7 +53,7 @@ describe('PasswordWithConfirmation tests', () => {
         label: 'Re-enter password',
         options: {
           input: {
-            type: 'Control',
+            type: 'Field',
             name: 'credentials.passcode',
             label: 'New password',
             options: {

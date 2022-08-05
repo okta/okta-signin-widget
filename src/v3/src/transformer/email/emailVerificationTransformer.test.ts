@@ -31,7 +31,7 @@ describe('Email Verification Transformer Tests', () => {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
-            type: 'Control',
+            type: 'Field',
             name: 'authenticator.methodType',
             options: {
               inputMeta: {

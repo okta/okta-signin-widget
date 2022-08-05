@@ -28,7 +28,7 @@ describe('i18nTransformer Tests', () => {
 
   describe('uischemaLabelTransformer Tests', () => {
     it('should not perform updates on elements when formbag doesnt contain elements with an applicable label field or options', () => {
-      const element: UISchemaElement = { type: 'Control' };
+      const element: UISchemaElement = { type: 'Field' };
       formBag.uischema.elements = [element];
 
       uischemaLabelTransformer(transaction, formBag);
@@ -42,10 +42,10 @@ describe('i18nTransformer Tests', () => {
       };
       formBag.uischema.elements = [
         {
-          type: 'Control', label: 'SomeFakeLabel1', name: 'identifier', options: { inputMeta: { name: 'identifier' } },
+          type: 'Field', label: 'SomeFakeLabel1', name: 'identifier', options: { inputMeta: { name: 'identifier' } },
         } as FieldElement,
         {
-          type: 'Control', label: 'SomeFakeLabel2', name: 'credentials.passcode', options: { inputMeta: { name: 'credentials.passcode' } },
+          type: 'Field', label: 'SomeFakeLabel2', name: 'credentials.passcode', options: { inputMeta: { name: 'credentials.passcode' } },
         } as FieldElement,
       ];
 
@@ -69,7 +69,7 @@ describe('i18nTransformer Tests', () => {
       };
       formBag.uischema.elements = [
         {
-          type: 'Control',
+          type: 'Field',
           name: 'authenticator',
           options: {
             inputMeta: {

@@ -37,7 +37,7 @@ describe('Transform Okta Verify Totp Challenge Tests', () => {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
-            type: 'Control',
+            type: 'Field',
             name: 'credentials.totp',
             label: 'Enter Code',
           } as FieldElement,

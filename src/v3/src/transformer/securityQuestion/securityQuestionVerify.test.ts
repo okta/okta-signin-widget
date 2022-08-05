@@ -34,7 +34,7 @@ describe('SecurityQuestionVerify Tests', () => {
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{
-          type: 'Control',
+          type: 'Field',
           name: 'credentials.answer',
           options: { inputMeta: { name: 'credentials.answer', secret: true } },
         } as FieldElement],

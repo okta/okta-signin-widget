@@ -32,7 +32,7 @@ describe('PhoneEnrollmentTransformer Tests', () => {
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{
-          type: 'Control',
+          type: 'Field',
           label: 'methodType',
           name: 'authenticator.methodType',
           options: {
@@ -48,7 +48,7 @@ describe('PhoneEnrollmentTransformer Tests', () => {
             },
           },
         } as FieldElement, {
-          type: 'Control',
+          type: 'Field',
           label: 'Phone number',
           name: 'authenticator.phoneNumber',
         } as FieldElement],

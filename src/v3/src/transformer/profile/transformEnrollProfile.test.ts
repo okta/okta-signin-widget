@@ -62,7 +62,7 @@ describe('Enroll Profile Transformer Tests', () => {
   it('should add password requirements along with title, and submit button when passcode exists in schema', () => {
     formBag.uischema.elements = [
       {
-        type: 'Control',
+        type: 'Field',
         label: 'Password',
         name: 'credentials.passcode',
       } as FieldElement,
