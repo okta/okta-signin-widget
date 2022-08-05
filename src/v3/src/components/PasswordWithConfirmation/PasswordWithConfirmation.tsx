@@ -53,6 +53,8 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
     },
   } = confirmPasswordElement;
 
+  // Updating dataSchema validate fn requires a slight delay, need to wait for completion to show component
+  const [isReady, setIsReady] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const { dataSchemaRef } = useWidgetContext();
   const confirmPasswordError = messages?.value?.[0] && getMessage(messages.value[0]);
@@ -79,12 +81,14 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
   };
 
   useEffect(() => {
+    setIsReady(false);
     // update validate function to prevent submission w/o confirm pw data
     // when server messages are set, we must reset the validate function
     (dataSchemaRef.current![newPwName] as DataSchema).validate = validate;
+    setIsReady(true);
   }, [validate, newPwName, dataSchemaRef, confirmPasswordError, newPasswordMessages]);
 
-  return (
+  return isReady ? (
     <Box>
       <Box marginBottom={4}>
         <InputPassword uischema={newPasswordElement} />
@@ -104,17 +108,17 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
           }}
         />
         {!!confirmPasswordError && (
-          <FormHelperText
-            ariaDescribedBy={confirmPwName}
-            data-se={`${confirmPwName}-error`}
-            error
-          >
-            {confirmPasswordError}
-          </FormHelperText>
+        <FormHelperText
+          ariaDescribedBy={confirmPwName}
+          data-se={`${confirmPwName}-error`}
+          error
+        >
+          {confirmPasswordError}
+        </FormHelperText>
         )}
       </Box>
     </Box>
-  );
+  ) : null;
 };
 
 export default PasswordWithConfirmation;

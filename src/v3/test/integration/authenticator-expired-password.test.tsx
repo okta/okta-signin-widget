@@ -139,8 +139,7 @@ describe('authenticator-expired-password', () => {
     );
   });
 
-  // TODO: validate function is not being overwritten here, but works in real org, why?
-  it.skip('should not make network request without completing any password fields', async () => {
+  it('should not make network request without completing any password fields', async () => {
     const {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
