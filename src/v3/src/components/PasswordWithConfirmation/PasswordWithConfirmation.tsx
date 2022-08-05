@@ -20,6 +20,7 @@ import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import {
   ChangeEvent,
+  DataSchema,
   FormBag,
   PasswordWithConfirmationElement,
   UISchemaElementComponent,
@@ -33,6 +34,7 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
   const {
     options: {
       inputMeta: {
+        name: newPwName,
         // @ts-ignore expose type from auth-js
         messages: newPasswordMessages = {},
       },
@@ -40,10 +42,10 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
   } = newPasswordElement;
 
   const {
-    name: confirmPwName,
     label: confirmPwLabel,
     options: {
       inputMeta: {
+        name: confirmPwName,
         // @ts-ignore expose type from auth-js
         messages = {},
       },
@@ -57,10 +59,10 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
 
   // Overrides default validate function for password field
   const validate = useCallback((data: FormBag['data']) => {
-    const newPw = data[newPasswordElement.name];
+    const newPw = data[newPwName];
     const errorMessages: Partial<IdxMessage & { name?: string }>[] = [];
     if (!newPw) {
-      errorMessages.push({ name: newPasswordElement.name, i18n: { key: 'model.validation.field.blank' } });
+      errorMessages.push({ name: newPwName, i18n: { key: 'model.validation.field.blank' } });
     }
 
     if (!confirmPassword) {
@@ -68,10 +70,9 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
     } else if (confirmPassword !== newPw) {
       errorMessages.push({ name: confirmPwName, i18n: { key: 'password.error.match' } });
     }
-    console.log('errorMessages from validation:', errorMessages);
 
     return errorMessages.length ? errorMessages : undefined;
-  }, [confirmPassword, newPasswordElement.name, confirmPwName]);
+  }, [confirmPassword, newPwName, confirmPwName]);
 
   const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.currentTarget.value);
@@ -80,15 +81,15 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
   useEffect(() => {
     // update validate function to prevent submission w/o confirm pw data
     // when server messages are set, we must reset the validate function
-    dataSchemaRef.current![newPasswordElement.name].validate = validate;
-  }, [validate, confirmPasswordError, newPasswordElement.name, dataSchemaRef, newPasswordMessages]);
+    (dataSchemaRef.current![newPwName] as DataSchema).validate = validate;
+  }, [validate, newPwName, dataSchemaRef, confirmPasswordError, newPasswordMessages]);
 
   return (
     <Box>
       <Box marginBottom={4}>
         <InputPassword uischema={newPasswordElement} />
       </Box>
-      <Box marginBottom={4}>
+      <Box>
         <PasswordInput
           label={confirmPwLabel}
           name={confirmPwName}

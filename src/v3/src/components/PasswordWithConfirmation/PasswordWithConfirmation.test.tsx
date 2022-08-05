@@ -18,7 +18,7 @@ import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup';
 import { h, JSX } from 'preact';
 
-import { PasswordWithConfirmationElement, UISchemaElementComponentProps } from '../../types';
+import { FieldElement, PasswordWithConfirmationElement, UISchemaElementComponentProps } from '../../types';
 import PasswordWithConfirmation from './PasswordWithConfirmation';
 
 function setup(jsx: JSX.Element): RenderResult & { user: UserEvent } {
@@ -28,96 +28,171 @@ function setup(jsx: JSX.Element): RenderResult & { user: UserEvent } {
   };
 }
 
-const validationHook = jest.fn().mockImplementation(() => ({}));
 const useValueHook = jest.fn().mockReturnValue('');
 jest.mock('../../hooks', () => ({
   useValue: () => useValueHook(),
   useOnChange: () => jest.fn().mockImplementation(() => {}),
-  useOnValidate: () => validationHook,
 }));
 
-const mockDataSchemaRef = { current: { } };
+const mockDataSchemaRef = {
+  current: {
+    'credentials.passcode': {
+      validate: jest.fn(),
+    },
+  },
+};
 jest.mock('../../contexts', () => ({
   useWidgetContext: jest.fn().mockImplementation(
     () => ({ dataSchemaRef: mockDataSchemaRef }),
   ),
 }));
 
+const mockMessage = jest.fn().mockReturnValue('');
+jest.mock('../../../../v2/ion/i18nTransformer', () => ({
+  getMessage: () => mockMessage(),
+}));
+
 describe('PasswordWithConfirmation tests', () => {
   let props: UISchemaElementComponentProps & { uischema: PasswordWithConfirmationElement; };
+  let newPasswordElement: FieldElement;
+  let confirmPasswordElement: FieldElement;
 
   beforeEach(() => {
+    newPasswordElement = {
+      type: 'Field',
+      label: 'New password',
+      options: {
+        inputMeta: { name: 'credentials.passcode', secret: true },
+        attributes: { autocomplete: 'new-password' },
+      },
+    };
+    confirmPasswordElement = {
+      type: 'Field',
+      label: 'Re-enter password',
+      options: {
+        inputMeta: { name: 'confirmPassword', secret: true },
+        attributes: { autocomplete: 'new-password' },
+      },
+    };
     props = {
       uischema: {
         type: 'PasswordWithConfirmation',
         label: 'Re-enter password',
         options: {
-          input: {
-            type: 'Field',
-            name: 'credentials.passcode',
-            label: 'New password',
-            options: {
-              inputMeta: { name: 'credentials.passcode', secret: true },
-              attributes: { autocomplete: 'new-password' },
-            },
-          },
+          newPasswordElement,
+          confirmPasswordElement,
         },
       },
     };
   });
 
-  it('should display field level errors when field values do not match', async () => {
-    const { findByLabelText, findByText, user } = setup(<PasswordWithConfirmation {...props} />);
+  describe('dataSchema validate function tests', () => {
+    it('should return password match error message key for confirmPassword field when new password contains data', async () => {
+      const { findByLabelText, user } = setup(<PasswordWithConfirmation {...props} />);
 
-    const newPasswordInput = await findByLabelText(/New password/);
-    const confirmPasswordInput = await findByLabelText(/Re-enter password/);
-    const autocomplete = newPasswordInput?.getAttribute('autocomplete');
+      const confirmPasswordInput = await findByLabelText(/Re-enter password/);
 
-    expect(autocomplete).toBe('new-password');
+      await user.type(confirmPasswordInput, '123456');
+  
+      const errors = mockDataSchemaRef.current['credentials.passcode']
+        .validate({ 'credentials.passcode': 'abc123!' });
+  
+      expect(errors.length).toBe(1);
+      expect(errors[0].i18n.key).toBe('password.error.match');
+    });
 
-    await user.type(newPasswordInput, 'abc123!');
-    await user.type(confirmPasswordInput, '123456');
+    it('should return empty field error message key for new password field when new password does not contain data and password match error for confirmPassword field', async () => {
+      const { findByLabelText, user } = setup(<PasswordWithConfirmation {...props} />);
+  
+      const confirmPasswordInput = await findByLabelText(/Re-enter password/);
 
-    await findByText(/New passwords must match/);
+      await user.type(confirmPasswordInput, '123456');
+  
+      const errors = mockDataSchemaRef.current['credentials.passcode']
+        .validate({ 'credentials.passcode': undefined });
+  
+      expect(errors.length).toBe(2);
+      expect(errors[0].i18n.key).toBe('model.validation.field.blank');
+      expect(errors[1].i18n.key).toBe('password.error.match');
+    });
+
+    it('should return empty field error message key for new password and confirmPassword fields when both are empty', async () => {
+      const { findByLabelText, user } = setup(<PasswordWithConfirmation {...props} />);
+      await findByLabelText(/Re-enter password/);
+  
+      const errors = mockDataSchemaRef.current['credentials.passcode']
+        .validate({ 'credentials.passcode': undefined });
+  
+      expect(errors.length).toBe(2);
+      expect(errors[0].i18n.key).toBe('model.validation.field.blank');
+      expect(errors[1].i18n.key).toBe('model.validation.field.blank');
+    });
+
+    it('should return empty field error message key for confirmPassword field when new password contains data but confirmPassword does not', async () => {
+      const { findByLabelText, user } = setup(<PasswordWithConfirmation {...props} />);
+      await findByLabelText(/Re-enter password/);
+  
+      const errors = mockDataSchemaRef.current['credentials.passcode']
+        .validate({ 'credentials.passcode': 'abc1234!' });
+  
+      expect(errors.length).toBe(1);
+      expect(errors[0].i18n.key).toBe('model.validation.field.blank');
+    });
   });
 
-  it('should display field level errors and not submit form when field values do not match', async () => {
-    const {
-      findByLabelText, findByText, findByTestId, user,
-    } = setup(<PasswordWithConfirmation {...props} />);
+  describe('UI error message tests', () => {
+    it('should display field level errors when new password and confirmPassword fields contain different values', async () => {
+      mockMessage.mockReturnValue('New passwords must match');
+      confirmPasswordElement.options.inputMeta = {
+        ...confirmPasswordElement.options.inputMeta,
+        // @ts-ignore messages missing from Input type
+        messages: {
+          value: [{ name: 'confirmPassword', i18n: { key: 'password.error.match' } }],
+        },
+      };
+      const { findByLabelText, findByTestId, user } = setup(<PasswordWithConfirmation {...props} />);
+  
+      const newPasswordInput = await findByLabelText(/New password/);
+      const confirmPasswordInput = await findByLabelText(/Re-enter password/);
+      const newPasswordAutocomplete = newPasswordInput?.getAttribute('autocomplete');
+      const confirmAutocomplete = confirmPasswordInput?.getAttribute('autocomplete');
+      const confirmPasswordError = await findByTestId('confirmPassword-error');
+  
+      expect(newPasswordAutocomplete).toBe('new-password');
+      expect(confirmAutocomplete).toBe('new-password');
+      expect(confirmPasswordError.innerHTML).toBe('New passwords must match');
+    });
 
-    const newPasswordInput = await findByLabelText(/New password/);
-    const confirmPasswordInput = await findByLabelText(/Re-enter password/);
-    const submitBtn = await findByTestId('#/properties/submit');
-    const autocomplete = newPasswordInput?.getAttribute('autocomplete');
-
-    expect(autocomplete).toBe('new-password');
-
-    await user.type(newPasswordInput, 'abc123!');
-    await user.type(confirmPasswordInput, '123456');
-
-    await user.click(submitBtn);
-
-    await findByText(/New passwords must match/);
-  });
-
-  it('should submit form when field values match', async () => {
-    const password = 'abc123!';
-    useValueHook.mockReturnValue(password);
-    const {
-      findByLabelText, findByTestId, user,
-    } = setup(<PasswordWithConfirmation {...props} />);
-
-    const newPasswordInput = await findByLabelText(/New password/);
-    const confirmPasswordInput = await findByLabelText(/Re-enter password/);
-    const submitBtn = await findByTestId('#/properties/submit');
-    const autocomplete = newPasswordInput?.getAttribute('autocomplete');
-
-    expect(autocomplete).toBe('new-password');
-
-    await user.type(newPasswordInput, password);
-    await user.type(confirmPasswordInput, password);
-
-    await user.click(submitBtn);
+    it('should display field level errors when new password and confirmPassword fields are both empty', async () => {
+      mockMessage.mockReturnValue('This field cannot be left blank');
+      newPasswordElement.options.inputMeta = {
+        ...newPasswordElement.options.inputMeta,
+        // @ts-ignore messages missing from Input type
+        messages: {
+          value: [{ name: 'credentials.passcode', i18n: { key: 'model.validation.field.blank' } }],
+        },
+      };
+      confirmPasswordElement.options.inputMeta = {
+        ...confirmPasswordElement.options.inputMeta,
+        // @ts-ignore messages missing from Input type
+        messages: {
+          value: [{ name: 'confirmPassword', i18n: { key: 'model.validation.field.blank' } }],
+        },
+      };
+      const { findByLabelText, findByTestId, user } = setup(<PasswordWithConfirmation {...props} />);
+  
+      const newPasswordInput = await findByLabelText(/New password/);
+      const confirmPasswordInput = await findByLabelText(/Re-enter password/);
+      const newPasswordAutocomplete = newPasswordInput?.getAttribute('autocomplete');
+      const confirmAutocomplete = confirmPasswordInput?.getAttribute('autocomplete');
+      
+      const newPasswordError = await findByTestId('credentials.passcode-error');
+      const confirmPasswordError = await findByTestId('confirmPassword-error');
+  
+      expect(newPasswordAutocomplete).toBe('new-password');
+      expect(confirmAutocomplete).toBe('new-password');
+      expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
+      expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
+    });
   });
 });

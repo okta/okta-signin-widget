@@ -46,7 +46,7 @@ const Form: FunctionComponent<{
     if (!step || step === nextStep!.name) {
       // aggregate field level messages based on validation rules in each field
       const messages = Object.entries(dataSchemaRef.current!)
-        .reduce((acc: Record<string, Partial<IdxMessage>[]>, curr) => {
+        .reduce((acc: Record<string, Partial<IdxMessage & { name?: string }>[]>, curr) => {
           const name = curr[0];
           const elementSchema = curr[1] as DataSchema;
           if (typeof elementSchema.validate === 'function') {
@@ -62,7 +62,6 @@ const Form: FunctionComponent<{
         }, {});
       // update transaction with client validation messages to trigger rerender
       if (Object.entries(messages).length) {
-        console.log('error messages from Form.tsx:', messages);
         const newTransaction = clone(currTransaction);
         resetMessagesToInputs(newTransaction!.nextStep!.inputs!, messages);
         setMessage({

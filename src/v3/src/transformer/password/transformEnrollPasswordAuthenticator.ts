@@ -72,28 +72,37 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   };
 
   // @ts-ignore expose type from auth-js
+  console.log('password element messages:', passwordElement.options.inputMeta.messages?.value);
+  // @ts-ignore expose type from auth-js
   if (passwordElement.options.inputMeta.messages?.value?.length) {
     // @ts-ignore expose type from auth-js
     const errorMessages = passwordElement.options.inputMeta.messages.value;
     // @ts-ignore expose type from auth-js
-    const newPasswordErrors = errorMessages.filter(
-      (message: IdxMessage & { name?: string }) => message.name === passwordElement.name
-        || message.name === undefined,
-    );
+    const newPasswordErrors = errorMessages.filter((message: IdxMessage & { name?: string }) => {
+      const { name: newPwName } = passwordElement.options.inputMeta;
+      return message.name === newPwName || message.name === undefined;
+    });
     if (newPasswordErrors?.length) {
       // @ts-ignore expose type from auth-js
       passwordElement.options.inputMeta.messages.value = newPasswordErrors;
+    } else {
+      // @ts-ignore expose type from auth-js
+      passwordElement.options.inputMeta.messages.value = undefined;
     }
 
     // @ts-ignore expose type from auth-js
-    const confirmPasswordError = errorMessages.find(
-      (message: IdxMessage & { name?: string }) => message.name === confirmPasswordElement.name,
-    );
+    const confirmPasswordError = errorMessages.find((message: IdxMessage & { name?: string }) => {
+      const { name: confirmPwName } = confirmPasswordElement.options.inputMeta;
+      return message.name === confirmPwName;
+    });
     if (confirmPasswordError) {
       // @ts-ignore expose type from auth-js
       confirmPasswordElement.options.inputMeta.messages.value = [confirmPasswordError];
     }
   }
+
+  // @ts-ignore
+  console.log('confirmPasswordElement:', confirmPasswordElement?.options?.inputMeta?.messages);
 
   const passwordWithConfirmationElement: PasswordWithConfirmationElement = {
     type: 'PasswordWithConfirmation',
