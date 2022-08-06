@@ -32,6 +32,7 @@ const Form: FunctionComponent<{
     setIdxTransaction,
     setMessage,
     dataSchemaRef,
+    additionalData,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
 
@@ -46,16 +47,17 @@ const Form: FunctionComponent<{
     if (!step || step === nextStep!.name) {
       // aggregate field level messages based on validation rules in each field
       const messages = Object.entries(dataSchemaRef.current!)
-        .reduce((acc: Record<string, Partial<IdxMessage>>, curr) => {
+        .reduce((acc: Record<string, Partial<IdxMessage & { name?: string }>[]>, curr) => {
           const name = curr[0];
           const elementSchema = curr[1] as DataSchema;
           if (typeof elementSchema.validate === 'function') {
-            const message = elementSchema.validate({
+            const validationMessages = elementSchema.validate({
+              ...additionalData,
               ...data,
               ...params,
             });
-            if (message) {
-              acc[name] = message;
+            if (validationMessages?.length) {
+              acc[name] = [...validationMessages];
             }
           }
           return acc;
@@ -82,6 +84,7 @@ const Form: FunctionComponent<{
     });
   }, [
     data,
+    additionalData,
     currTransaction,
     dataSchemaRef,
     setIdxTransaction,

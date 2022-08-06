@@ -344,7 +344,7 @@ export interface RedirectElement extends UISchemaElement {
   options: { url: string; },
 }
 
-type ValidateFunction = (data: FormBag['data']) => Partial<IdxMessage> | undefined;
+type ValidateFunction = (data: FormBag['data']) => Partial<IdxMessage & { name?: string }>[] | undefined;
 
 export interface DataSchema {
   validate?: ValidateFunction;
@@ -354,4 +354,12 @@ export interface TranslationInfo {
   name: string;
   i18nKey: string;
   value: string;
+}
+
+export interface PasswordWithConfirmationElement extends UISchemaElement {
+  type: 'PasswordWithConfirmation';
+  options: {
+    newPasswordElement: FieldElement,
+    confirmPasswordElement: FieldElement,
+  };
 }

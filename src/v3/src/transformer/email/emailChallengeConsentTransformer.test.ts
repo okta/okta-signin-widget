@@ -33,7 +33,7 @@ describe('EmailChallengeConsentTransformer Tests', () => {
       schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
-        elements: [{ type: 'Control', name: 'consent' } as FieldElement],
+        elements: [{ type: 'Field', name: 'consent' } as FieldElement],
       },
       data: {},
     };

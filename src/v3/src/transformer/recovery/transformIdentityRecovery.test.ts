@@ -31,7 +31,7 @@ describe('Identity Recovery Transformer Tests', () => {
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{
-          type: 'Control',
+          type: 'Field',
           name: 'identifier',
           label: 'Username',
         } as FieldElement],

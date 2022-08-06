@@ -41,16 +41,16 @@ describe('Identify Transformer Tests', () => {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
-            type: 'Control',
+            type: 'Field',
             name: 'identifier',
           } as UISchemaElement,
           {
-            type: 'Control',
+            type: 'Field',
             name: 'credentials.passcode',
             options: { secret: true },
           } as UISchemaElement,
           {
-            type: 'Control',
+            type: 'Field',
             name: 'rememberMe',
           } as UISchemaElement,
         ],
@@ -83,11 +83,11 @@ describe('Identify Transformer Tests', () => {
     formBag.schema = {};
     formBag.uischema.elements = [
       {
-        type: 'Control',
+        type: 'Field',
         name: 'identifier',
       } as UISchemaElement,
       {
-        type: 'Control',
+        type: 'Field',
         name: 'rememberMe',
       } as UISchemaElement,
     ];

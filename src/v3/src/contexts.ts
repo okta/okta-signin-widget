@@ -32,8 +32,10 @@ type IWidgetContext = {
   setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
   stepToRender: string | undefined;
   setStepToRender: StateUpdater<string | undefined>;
-  data: Record<string, unknown>;
-  setData: StateUpdater<Record<string, unknown>>;
+  data: FormBag['data'];
+  setData: StateUpdater<FormBag['data']>;
+  additionalData: FormBag['data'];
+  setAdditionalData: StateUpdater<FormBag['data']>;
   dataSchemaRef: MutableRef<FormBag['dataSchema'] | undefined>;
 };
 

@@ -76,6 +76,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   } = widgetProps;
 
   const [data, setData] = useState<FormBag['data']>({});
+  // This data is not included when submitting to auth-js
+  const [additionalData, setAdditionalData] = useState<FormBag['data']>({});
   const [uischema, setUischema] = useState<FormBag['uischema']>({
     type: UISchemaLayoutType.VERTICAL,
     elements: [],
@@ -255,6 +257,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setMessage,
       data,
       setData,
+      additionalData,
+      setAdditionalData,
       dataSchemaRef,
     }}
     >

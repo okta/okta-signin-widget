@@ -41,7 +41,7 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
-            type: 'Control',
+            type: 'Field',
             name: 'authenticator.channel',
             options: {
               inputMeta: {

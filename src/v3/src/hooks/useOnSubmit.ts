@@ -11,7 +11,7 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
-import { merge, omit } from 'lodash';
+import merge from 'lodash/merge';
 import { useCallback } from 'preact/hooks';
 
 import { useWidgetContext } from '../contexts';
@@ -25,10 +25,6 @@ type OnSubmitHandlerOptions = {
   stepToRender?: string;
 };
 
-// excluded field from data bag
-// TODO: figure out a better approach to guide data submission
-const OMITTED_PROPERTIES = ['credentials.confirmPassword'];
-
 export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void> => {
   const {
     authClient,
@@ -36,6 +32,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     idxTransaction: currTransaction,
     setIdxTransaction,
     setStepToRender,
+    setAdditionalData,
   } = useWidgetContext();
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
@@ -53,7 +50,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
     let payload: IdxActionParams = {};
     if (includeData) {
-      payload = merge(payload, omit(data, OMITTED_PROPERTIES));
+      payload = merge(payload, data);
     }
     if (params) {
       payload = merge(payload, params);
@@ -74,11 +71,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     const newTransaction = await fn(payload);
     setIdxTransaction(newTransaction);
     setStepToRender(stepToRender);
+    setAdditionalData({});
   }, [
     data,
     authClient,
     currTransaction,
     setIdxTransaction,
     setStepToRender,
+    setAdditionalData,
   ]);
 };

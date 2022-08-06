@@ -10,17 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxMessage } from '@okta/okta-auth-js';
+
+import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import {
   FieldElement,
+  FormBag,
   IdxStepTransformer,
   PasswordRequirementsElement,
   PasswordSettings,
+  PasswordWithConfirmationElement,
   TitleElement,
-} from 'src/types';
-
-import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
+} from '../../types';
 import { getUserInfo, loc } from '../../util';
-import { getUIElementWithName } from '../utils';
+import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
 export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
@@ -30,18 +33,17 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   const { nextStep: { relatesTo } = {} } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
 
-  const { uischema } = formBag;
+  const { uischema, dataSchema } = formBag;
 
-  // TODO: remove passwordMatchingKey - still used in fieldKey
-  let passwordMatchingKey = 'credentials.passcode';
+  let passwordFieldName = 'credentials.passcode';
   let passwordElement = getUIElementWithName(
-    passwordMatchingKey,
+    passwordFieldName,
     uischema.elements as FieldElement[],
   ) as FieldElement;
   if (!passwordElement) {
-    passwordMatchingKey = 'credentials.newPassword';
+    passwordFieldName = 'credentials.newPassword';
     passwordElement = getUIElementWithName(
-      passwordMatchingKey,
+      passwordFieldName,
       uischema.elements as FieldElement[],
     ) as FieldElement;
   }
@@ -54,6 +56,57 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       },
     };
   }
+  uischema.elements = removeUIElementWithName(
+    passwordFieldName,
+    uischema.elements,
+  );
+
+  const confirmPasswordElement: FieldElement = {
+    type: 'Field',
+    name: 'confirmPassword',
+    label: loc('oie.password.confirmPasswordLabel', 'login'),
+    options: {
+      // @ts-ignore expose type from auth-js
+      inputMeta: { name: 'confirmPassword', messages: { value: undefined } },
+      attributes: { autocomplete: 'new-password' },
+    },
+  };
+
+  // @ts-ignore expose type from auth-js
+  if (passwordElement.options.inputMeta.messages?.value?.length) {
+    // @ts-ignore expose type from auth-js
+    const errorMessages = passwordElement.options.inputMeta.messages.value;
+    // @ts-ignore expose type from auth-js
+    const newPasswordErrors = errorMessages.filter((message: IdxMessage & { name?: string }) => {
+      const { name: newPwName } = passwordElement.options.inputMeta;
+      return message.name === newPwName || message.name === undefined;
+    });
+    if (newPasswordErrors?.length) {
+      // @ts-ignore expose type from auth-js
+      passwordElement.options.inputMeta.messages.value = newPasswordErrors;
+    } else {
+      // @ts-ignore expose type from auth-js
+      passwordElement.options.inputMeta.messages.value = undefined;
+    }
+
+    // @ts-ignore expose type from auth-js
+    const confirmPasswordError = errorMessages.find((message: IdxMessage & { name?: string }) => {
+      const { name: confirmPwName } = confirmPasswordElement.options.inputMeta;
+      return message.name === confirmPwName;
+    });
+    if (confirmPasswordError) {
+      // @ts-ignore expose type from auth-js
+      confirmPasswordElement.options.inputMeta.messages.value = [confirmPasswordError];
+    }
+  }
+
+  const passwordWithConfirmationElement: PasswordWithConfirmationElement = {
+    type: 'PasswordWithConfirmation',
+    options: {
+      newPasswordElement: passwordElement,
+      confirmPasswordElement,
+    },
+  };
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -67,25 +120,48 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       header: loc('password.complexity.requirements.header', 'login'),
       userInfo: getUserInfo(transaction),
       settings: passwordSettings,
+      fieldKey: passwordFieldName,
       requirements: buildPasswordRequirementListItems(passwordSettings),
-      fieldKey: passwordMatchingKey,
       validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
     },
   };
 
-  const confirmPasswordElement: FieldElement = {
-    type: 'Field',
-    label: loc('oie.password.confirmPasswordLabel', 'login'),
-    options: {
-      inputMeta: { name: 'credentials.confirmPassword', secret: true },
-      attributes: { autocomplete: 'new-password' },
-      targetKey: passwordMatchingKey,
+  uischema.elements.unshift(passwordWithConfirmationElement);
+  if (Object.keys(passwordSettings)?.length) {
+    uischema.elements.unshift(passwordRequirementsElement);
+  }
+  uischema.elements.unshift(titleElement);
+
+  dataSchema[passwordFieldName] = {
+    validate: (data: FormBag['data']) => {
+      const newPw = data[passwordFieldName];
+      const confirmPw = data.confirmPassword;
+      const errorMessages: Partial<IdxMessage & { name?: string }>[] = [];
+      if (!newPw) {
+        errorMessages.push({
+          name: passwordFieldName,
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        });
+      }
+
+      if (!confirmPw) {
+        errorMessages.push({
+          name: 'confirmPassword',
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        });
+      } else if (confirmPw !== newPw) {
+        errorMessages.push({
+          name: 'confirmPassword',
+          message: loc('password.error.match', 'login'),
+          i18n: { key: 'password.error.match' },
+        });
+      }
+
+      return errorMessages.length ? errorMessages : undefined;
     },
   };
-
-  uischema.elements.unshift(passwordRequirementsElement);
-  uischema.elements.unshift(titleElement);
-  uischema.elements.push(confirmPasswordElement);
 
   return formBag;
 };

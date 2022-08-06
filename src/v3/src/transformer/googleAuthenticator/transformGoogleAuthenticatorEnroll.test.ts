@@ -33,7 +33,7 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{
-          type: 'Control',
+          type: 'Field',
           name: 'credentials.passcode',
         } as UISchemaElement],
       },

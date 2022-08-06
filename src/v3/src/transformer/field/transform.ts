@@ -67,11 +67,11 @@ export const transformStepInputs = (
         acc.dataSchema[name] = {
           validate(data) {
             const isValid = !!data[name];
-            return isValid ? undefined : {
+            return isValid ? undefined : [{
               i18n: {
                 key: 'model.validation.field.blank',
               },
-            };
+            }];
           },
         };
       }
