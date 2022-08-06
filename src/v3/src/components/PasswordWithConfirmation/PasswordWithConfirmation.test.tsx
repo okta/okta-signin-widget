@@ -88,7 +88,7 @@ describe('PasswordWithConfirmation tests', () => {
         value: [{ name: 'confirmPassword', i18n: { key: 'password.error.match' } }],
       },
     };
-    const { findByLabelText, findByTestId, user } = setup(<PasswordWithConfirmation {...props} />);
+    const { findByLabelText, findByTestId } = setup(<PasswordWithConfirmation {...props} />);
 
     const newPasswordInput = await findByLabelText(/New password/);
     const confirmPasswordInput = await findByLabelText(/Re-enter password/);
@@ -117,13 +117,13 @@ describe('PasswordWithConfirmation tests', () => {
         value: [{ name: 'confirmPassword', i18n: { key: 'model.validation.field.blank' } }],
       },
     };
-    const { findByLabelText, findByTestId, user } = setup(<PasswordWithConfirmation {...props} />);
+    const { findByLabelText, findByTestId } = setup(<PasswordWithConfirmation {...props} />);
 
     const newPasswordInput = await findByLabelText(/New password/);
     const confirmPasswordInput = await findByLabelText(/Re-enter password/);
     const newPasswordAutocomplete = newPasswordInput?.getAttribute('autocomplete');
     const confirmAutocomplete = confirmPasswordInput?.getAttribute('autocomplete');
-    
+
     const newPasswordError = await findByTestId('credentials.passcode-error');
     const confirmPasswordError = await findByTestId('confirmPassword-error');
 
