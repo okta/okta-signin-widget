@@ -11,12 +11,15 @@
  */
 
 import {
+  ActionOptions,
   ButtonElement,
   ButtonType,
+  DataSchema,
   FieldElement,
   IdxStepTransformer,
   TitleElement,
   UISchemaElement,
+  WidgetProps,
 } from '../../types';
 import { getUsernameCookie, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
