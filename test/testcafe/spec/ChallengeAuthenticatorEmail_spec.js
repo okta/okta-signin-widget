@@ -194,6 +194,9 @@ const getResendTimestamp = ClientFunction(() => {
   return window.sessionStorage.getItem('osw-oie-resend-timestamp');
 });
 
+const getVerificationEmailTitle = 'Get a verification email';
+const saveBtnLabelText = 'Send me an email';
+
 fixture('Challenge Email Authenticator Form');
 
 async function setup(t) {
@@ -214,8 +217,8 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).eql('Get a verification email');
-    await t.expect(saveBtnText).eql('Send me an email');
+    await t.expect(pageTitle).eql(getVerificationEmailTitle);
+    await t.expect(saveBtnText).eql(saveBtnLabelText);
 
     const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
@@ -233,8 +236,8 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).eql('Get a verification email');
-    await t.expect(saveBtnText).eql('Send me an email');
+    await t.expect(pageTitle).eql(getVerificationEmailTitle);
+    await t.expect(saveBtnText).eql(saveBtnLabelText);
 
     await t.wait(31000);
     await t.expect(challengeEmailPageObject.resendEmailViewExists()).notOk();
@@ -246,8 +249,8 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).contains('Get a verification email');
-    await t.expect(saveBtnText).eql('Send me an email');
+    await t.expect(pageTitle).contains(getVerificationEmailTitle);
+    await t.expect(saveBtnText).eql(saveBtnLabelText);
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql('Send a verification email by clicking on "Send me an email".');
@@ -259,8 +262,8 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).contains('Get a verification email');
-    await t.expect(saveBtnText).eql('Send me an email');
+    await t.expect(pageTitle).contains(getVerificationEmailTitle);
+    await t.expect(saveBtnText).eql(saveBtnLabelText);
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql('Send a verification email by clicking on "Send me an email".');
