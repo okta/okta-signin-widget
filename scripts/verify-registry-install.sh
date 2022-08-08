@@ -38,7 +38,7 @@ if ! npm install; then
 fi
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
-published_tarball=${REGISTRY}/@okta/okta-signin-widget/-/@okta/okta-signin-widget-${artifact_version}.tgz
+published_tarball=${REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
 if ! npm i ${published_tarball}; then
   echo "install ${published_tarball} failed! Exiting..."
   exit ${FAILED_SETUP}
