@@ -32,11 +32,14 @@ type LayoutProps = {
 const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
   const { type, elements } = uischema;
 
-  const flexDirection = type === UISchemaLayoutType.HORIZONTAL ? 'row' : 'column';
+  const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
+  const flexDirection = isHorizontalLayout ? 'row' : 'column';
   return (
     <Box
       display="flex"
       flexDirection={flexDirection}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...(isHorizontalLayout && { gap: 1 })}
     >
       {
         elements.map((element, index) => {

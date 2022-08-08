@@ -21,6 +21,7 @@ import {
   ButtonType,
   LinkElement,
   UISchemaElement,
+  UISchemaLayoutType,
 } from '../../types';
 import { loc } from '../../util';
 
@@ -142,16 +143,31 @@ export const getButtonControls = (
 
   const registerStep = getButtonStep(IDX_STEP.SELECT_ENROLL_PROFILE);
   if (config.stepWithRegister && registerStep) {
+    elements.push({
+      type: 'Divider',
+    });
     const { name: step } = registerStep;
     const register: LinkElement = {
       type: 'Link',
       options: {
-        label: loc('registration.form.submit', 'login'),
+        label: loc('signup', 'login'),
         step,
       },
     };
+    const registerEntryLayout = {
+      type: UISchemaLayoutType.HORIZONTAL,
+      elements: [
+        {
+          type: 'Description',
+          options: {
+            content: loc('registration.signup.label', 'login'),
+          },
+        },
+        register,
+      ],
+    };
 
-    elements.push(register);
+    elements.push(registerEntryLayout);
   }
 
   const cancelStep = getButtonStep('cancel');

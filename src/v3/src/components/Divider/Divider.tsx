@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Divider as MuiDivider } from '@mui/material';
+import { Divider as MuiDivider } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
-const Divider: FunctionComponent = () => ( 
+const Divider: FunctionComponent = () => (
   <MuiDivider />
-)
+);
 
 export default Divider;

@@ -21,6 +21,7 @@ import {
   PasswordRequirementsElement,
   TitleElement,
   UISchemaElement,
+  UISchemaLayoutType,
 } from '../../types';
 import { getUserInfo, loc } from '../../util';
 import { buildPasswordRequirementListItems } from '../password';
@@ -80,15 +81,29 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
   if (selectIdentifyStep) {
     uischema.elements.push({
       type: 'Divider',
-    } );
+    });
     const { name: step } = selectIdentifyStep;
-    uischema.elements.push({
+    const login: LinkElement = {
       type: 'Link',
       options: {
-        label: loc('haveaccount', 'login'),
+        label: loc('signin', 'login'),
         step,
       },
-    } as LinkElement);
+    };
+    const loginEntryLayout = {
+      type: UISchemaLayoutType.HORIZONTAL,
+      elements: [
+        {
+          type: 'Description',
+          options: {
+            content: loc('haveaccount', 'login'),
+          },
+        },
+        login,
+      ],
+    };
+
+    uischema.elements.push(loginEntryLayout);
   }
 
   return formBag;
