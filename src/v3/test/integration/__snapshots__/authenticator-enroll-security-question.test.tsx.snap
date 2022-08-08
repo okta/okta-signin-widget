@@ -346,7 +346,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                         class="MuiBox-root emotion-4"
                       >
                         <label
-                          class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-37"
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-37"
                           for="credentials.answer"
                         >
                           Answer
@@ -363,7 +363,7 @@ exports[`authenticator-enroll-security-question should render form 1`] = `
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-40"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-40"
                           >
                             <button
                               aria-label="toggle password visibility"

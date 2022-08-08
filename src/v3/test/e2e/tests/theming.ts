@@ -32,10 +32,11 @@ test('Theme configuration applies correctly', async (t) => {
   const buttonForPhoneAuth = Selector('div')
     .withAttribute('role', 'button')
     .withText('Okta Phone');
-  const phoneAuthCoin = buttonForPhoneAuth
-    .find('svg');
 
   // TODO: Assertion is skipped until we update auth coin component with theming
+  // const phoneAuthCoin = buttonForPhoneAuth
+  //   .find('svg');
+
   // await t
   //   .expect(phoneAuthCoin.find('.siwFillPrimary').getStyleProperty('fill'))
   //   .eql('rgb(202, 0, 228)');
