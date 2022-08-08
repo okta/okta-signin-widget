@@ -30,6 +30,7 @@ const Form: FunctionComponent<{
     data,
     idxTransaction: currTransaction,
     setIdxTransaction,
+    setIsClientTransaction,
     setMessage,
     dataSchemaRef,
     additionalData,
@@ -71,6 +72,7 @@ const Form: FunctionComponent<{
           class: 'ERROR',
           i18n: { key: 'oform.errorbanner.title' },
         } as IdxMessage);
+        setIsClientTransaction(true);
         setIdxTransaction(newTransaction);
         return;
       }
@@ -88,6 +90,7 @@ const Form: FunctionComponent<{
     currTransaction,
     dataSchemaRef,
     setIdxTransaction,
+    setIsClientTransaction,
     onSubmitHandler,
     setMessage,
   ]);

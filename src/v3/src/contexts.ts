@@ -30,6 +30,7 @@ type IWidgetContext = {
   onErrorCallback?: (data: Record<string, unknown>) => void;
   idxTransaction: IdxTransaction | undefined;
   setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
+  setIsClientTransaction: StateUpdater<boolean>;
   stepToRender: string | undefined;
   setStepToRender: StateUpdater<string | undefined>;
   data: FormBag['data'];
