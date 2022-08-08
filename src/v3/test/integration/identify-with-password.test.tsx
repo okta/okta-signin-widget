@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
-import { waitFor } from '@testing-library/preact';
 
 describe('identify-with-password', () => {
   it('renders the loading state first', async () => {
@@ -150,7 +150,7 @@ describe('identify-with-password', () => {
           expect.anything(),
         );
       });
-      
+
       // add password - clears error and send payload
       await user.type(passwordEl, 'fake-password');
       await user.click(submitButton);
@@ -176,7 +176,7 @@ describe('identify-with-password', () => {
         );
         identifierError = queryByTestId('identifier-error');
         expect(identifierError).toBeNull();
-        passwordError = queryByTestId('credentials.passcode-error')
+        passwordError = queryByTestId('credentials.passcode-error');
         expect(passwordError).toBeNull();
       });
     });
