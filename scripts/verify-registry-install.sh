@@ -61,4 +61,4 @@ if ! npm run build; then
 fi
 
 popd
-exit ${PUBLISH_TYPE_AND_RESULT_DIR}
+exit $SUCCESS
