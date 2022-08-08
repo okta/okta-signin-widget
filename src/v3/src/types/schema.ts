@@ -148,6 +148,7 @@ export interface FieldElement extends UISchemaElement {
      */
     translations?: TranslationInfo[];
     dataSe?: string;
+    subLabel?: string;
   };
 }
 
