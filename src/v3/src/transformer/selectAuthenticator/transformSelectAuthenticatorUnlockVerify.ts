@@ -13,12 +13,12 @@
 import { NextStep } from '@okta/okta-auth-js';
 
 import {
+  FieldElement,
   IdxStepTransformer,
   TitleElement,
-  UISchemaElement,
 } from '../../types';
 import { loc } from '../../util';
-import { removeUIElementWithName } from '../utils';
+import { getUIElementWithName } from '../utils';
 import { getAuthenticatorVerifyButtonElements } from './utils';
 
 export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
@@ -26,27 +26,25 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   formBag,
 }) => {
   const { nextStep: { inputs } = {} as NextStep } = transaction;
-  const authenticator = inputs?.find(({ name }) => name === 'authenticator');
-  if (!authenticator?.options) {
-    return formBag;
-  }
-
   const { uischema } = formBag;
 
-  const authenticatorButtonElements = getAuthenticatorVerifyButtonElements(authenticator.options);
-  uischema.elements = removeUIElementWithName(
-    'authenticator',
-    uischema.elements as UISchemaElement[],
-  );
-  uischema.elements = uischema.elements.concat(authenticatorButtonElements);
+  const authenticator = inputs?.find(({ name }) => name === 'authenticator');
+  const authenticatorButtons = getAuthenticatorVerifyButtonElements(authenticator!.options!);
 
-  const titleElement: TitleElement = {
+  const title: TitleElement = {
     type: 'Title',
     options: {
       content: loc('unlockaccount', 'login'),
     },
   };
-  uischema.elements.unshift(titleElement);
+
+  const identifier = getUIElementWithName('identifier', uischema.elements) as FieldElement;
+
+  uischema.elements = [
+    title,
+    identifier,
+    ...authenticatorButtons,
+  ];
 
   return formBag;
 };

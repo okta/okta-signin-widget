@@ -23,8 +23,6 @@ import { useState } from 'preact/hooks';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
 import {
-  ButtonElement,
-  ButtonType,
   ChangeEvent,
   StepperRadioElement,
   UISchemaElementComponent,
@@ -34,7 +32,8 @@ const StepperRadio: UISchemaElementComponent<{
   uischema: StepperRadioElement
 }> = ({ uischema }) => {
   const { setStepIndex } = useStepperContext();
-  const { setData, dataSchemaRef } = useWidgetContext();
+  const widgetContext = useWidgetContext();
+  const { setData, setMessage } = widgetContext;
   const {
     label = '',
     options: {
@@ -48,7 +47,8 @@ const StepperRadio: UISchemaElementComponent<{
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const stepIdx = customOptions.findIndex((opt) => opt.value === e.currentTarget.value);
     const option = customOptions[stepIdx];
-    setStepIndex!(stepIdx);
+    option.callback(widgetContext, stepIdx);
+    setStepIndex(stepIdx);
     setValue(e.currentTarget.value);
 
     // update data state
@@ -56,10 +56,8 @@ const StepperRadio: UISchemaElementComponent<{
       setData({ [option.key]: option.value });
     }
 
-    // update submit options in dataSchemaRef
-    const currentLayout = option.layout();
-    const submitButtomElement = currentLayout.elements.find((element) => element.type === 'Button' && (element as ButtonElement).options?.type === ButtonType.SUBMIT) as ButtonElement;
-    dataSchemaRef.current!.submit = submitButtomElement.options;
+    // reset form level alert message
+    setMessage(undefined);
   };
 
   return (

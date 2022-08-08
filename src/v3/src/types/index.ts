@@ -13,6 +13,7 @@
 export * from './appInfo';
 export * from './authcoin';
 export * from './component';
+export * from './context';
 export * from './error';
 export * from './handlers';
 export * from './ion';

@@ -19,6 +19,7 @@ import { getImmutableData, toNestedObject } from '../util';
 
 type OnSubmitHandlerOptions = {
   includeData?: boolean;
+  includeImmutableData?: boolean;
   params?: Record<string, unknown>;
   step: string;
   isActionStep?: boolean;
@@ -40,6 +41,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     const {
       params,
       includeData,
+      includeImmutableData = true,
       step,
       isActionStep,
       stepToRender,
@@ -64,7 +66,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     } else {
       payload = { ...payload, step };
     }
-    payload = merge(payload, immutableData);
+    if (includeImmutableData) {
+      payload = merge(payload, immutableData);
+    }
     payload = toNestedObject(payload);
     if (currTransaction!.context.stateHandle) {
       payload.stateHandle = currTransaction!.context.stateHandle;

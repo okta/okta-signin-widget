@@ -20,16 +20,22 @@ import {
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { FunctionComponent } from 'preact';
 
+import { IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
 import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
+
+type GeneralDataSchemaBag = Record<string, DataSchema>;
 
 export type FormBag = {
   schema: Record<string, unknown>;
   uischema: UISchemaLayout;
   data: Record<string, unknown>;
   // temp schema bag to handle client validation and form submission
-  dataSchema: Record<string, DataSchema | ActionOptions>;
+  dataSchema: GeneralDataSchemaBag & {
+    submit: ActionOptions;
+    fieldsToValidate: string[];
+  }
 };
 
 export type AutoCompleteValue = 'username'
@@ -52,6 +58,8 @@ export interface ActionOptions {
   actionParams?: ActionParams;
   isActionStep?: boolean;
   step: string;
+  includeData?: boolean;
+  includeImmutableData?: boolean;
 }
 
 /**
@@ -113,7 +121,7 @@ export enum UISchemaLayoutType {
   STEPPER = 'Stepper',
 }
 
-export function isUISchemaLayoutType(type: string) {
+export function isUISchemaLayoutType(type: string): boolean {
   return Object.values(UISchemaLayoutType).includes(type as UISchemaLayoutType);
 }
 
@@ -153,7 +161,6 @@ export interface ButtonElement extends UISchemaElement {
     variant?: 'primary' | 'floating' | 'secondary';
     wide?: boolean;
     deviceChallengeUrl?: string;
-    includeData?: boolean;
     dataType?: 'cancel' | 'save';
     dataSe?: string;
     stepToRender?: string;
@@ -332,7 +339,7 @@ export interface StepperRadioElement {
   options: {
     customOptions: Array<IdxOption & {
       key?: string;
-      layout: () => UISchemaLayout;
+      callback: (widgetContext: IWidgetContext, stepIndex: number) => void;
     }>,
     name: string;
     defaultOption: string | number | boolean;

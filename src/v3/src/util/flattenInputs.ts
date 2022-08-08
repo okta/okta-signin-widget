@@ -16,7 +16,7 @@ export const flattenInputs = (input: Input): Input[] => {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const fn = (input: Input, nameTracker = '', requiredTracker: Input['required']): Input[] => {
     const res: Input[] = [];
-    const { value } = input;
+    const { value, options, type } = input;
 
     // Calculate "required" attribute for the flatten input
     // 1. when upper value is falsy - take "required" value from the current level
@@ -31,7 +31,20 @@ export const flattenInputs = (input: Input): Input[] => {
     } else {
       required = input.required;
     }
-    const name = nameTracker ? `${nameTracker}.${input.name}` : input.name;
+    let name: Input['name'];
+    if (nameTracker) {
+      name = typeof input.name === 'undefined' ? nameTracker : `${nameTracker}.${input.name}`;
+    } else {
+      name = input.name;
+    }
+
+    // flatten stepper related fields
+    if (type === 'object' && name !== 'authenticator' && Array.isArray(options)) {
+      return options.reduce((acc, curr) => [
+        ...acc,
+        ...fn(curr as Input, name, required),
+      ], res);
+    }
 
     if (Array.isArray(value)) {
       return value.reduce((acc, curr) => [

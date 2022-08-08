@@ -10,35 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage, IdxTransaction, OktaAuth } from '@okta/okta-auth-js';
 import { createContext } from 'preact';
-import { MutableRef, StateUpdater, useContext } from 'preact/hooks';
+import { StateUpdater, useContext } from 'preact/hooks';
 
-import {
-  FormBag,
-  WidgetProps,
-} from './types';
-
-// Widget context
-type IWidgetContext = {
-  authClient: OktaAuth;
-  widgetProps: WidgetProps;
-  setMessage: StateUpdater<IdxMessage | undefined>;
-  // // TODO: OKTA-502849 - Update param type
-  // (RenderSuccessCallback / RenderErrorCallback) once merged into okta-signin-widget
-  onSuccessCallback?: (data: Record<string, unknown>) => void;
-  onErrorCallback?: (data: Record<string, unknown>) => void;
-  idxTransaction: IdxTransaction | undefined;
-  setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
-  setIsClientTransaction: StateUpdater<boolean>;
-  stepToRender: string | undefined;
-  setStepToRender: StateUpdater<string | undefined>;
-  data: FormBag['data'];
-  setData: StateUpdater<FormBag['data']>;
-  additionalData: FormBag['data'];
-  setAdditionalData: StateUpdater<FormBag['data']>;
-  dataSchemaRef: MutableRef<FormBag['dataSchema'] | undefined>;
-};
+import { IWidgetContext } from './types';
 
 const createWidgetContext = <T extends unknown>() => {
   // Create a context with a generic parameter or undefined

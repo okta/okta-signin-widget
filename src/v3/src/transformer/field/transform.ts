@@ -74,6 +74,7 @@ export const transformStepInputs = (
             }];
           },
         };
+        acc.dataSchema.fieldsToValidate.push(name);
       }
 
       return acc;
