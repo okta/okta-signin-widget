@@ -40,6 +40,7 @@ const InputText: UISchemaElementComponent<{
       name,
     },
     dataSe,
+    subLabel,
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
@@ -50,6 +51,7 @@ const InputText: UISchemaElementComponent<{
   return (
     <Box>
       <InputLabel htmlFor={name}>{label}</InputLabel>
+      { subLabel && <FormHelperText data-se={`${name}-subLabel`}>{subLabel}</FormHelperText> }
       <OutlinedInput
         value={value}
         type={type || 'text'}

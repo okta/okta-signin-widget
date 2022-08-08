@@ -256,7 +256,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect((formBag.uischema.elements[1] as ButtonElement).label).toBe('oie.enroll.skip.setup');
     expect((
       formBag.uischema.elements[1] as ButtonElement
-    ).options?.action).toBeDefined();
+    ).options?.step).toBe('skip');
   });
 
   it('should add title and try again link for'

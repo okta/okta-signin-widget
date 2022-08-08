@@ -90,15 +90,17 @@ const appendViewLinks = (
 
   if (containsMessageKeyPrefix(TERMINAL_KEY.SAFE_MODE_KEY_PREFIX, transaction.messages)) {
     const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
-    const skipElement: ButtonElement = {
-      type: 'Button',
-      label: loc('oie.enroll.skip.setup', 'login'),
-      options: {
-        type: ButtonType.SUBMIT,
-        step: skipStep!.name,
-      },
-    };
-    uischema.elements.push(skipElement);
+    if (skipStep) {
+      const skipElement: ButtonElement = {
+        type: 'Button',
+        label: loc('oie.enroll.skip.setup', 'login'),
+        options: {
+          type: ButtonType.SUBMIT,
+          step: skipStep.name,
+        },
+      };
+      uischema.elements.push(skipElement);
+    }
   } else if (containsOneOfMessageKeys(DEVICE_CODE_ERROR_KEYS, transaction.messages)) {
     cancelLink.options.label = loc('oie.try.again', 'login');
     uischema.elements.push(cancelLink);

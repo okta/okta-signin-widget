@@ -30,7 +30,7 @@ function setup(jsx: JSX.Element): RenderResult & { user: UserEvent } {
 }
 
 const getComponentProps = (
-  options: Record<string, unknown>,
+  options?: Record<string, unknown>,
 ): UISchemaElementComponentProps & { uischema: FieldElement; } => ({
   uischema: {
     type: 'Field',
@@ -72,8 +72,8 @@ describe('PhoneAuthenticator tests', () => {
   });
 
   it('should format phoneNumber correctly when field is changed for SMS methodType', async () => {
-    mockData = { methodType: 'sms' };
-    props = getComponentProps({ targetKey: 'methodType' });
+    mockData = { 'authenticator.methodType': 'sms' };
+    props = getComponentProps();
     const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
 
     await findByLabelText(/Country/);
@@ -91,8 +91,8 @@ describe('PhoneAuthenticator tests', () => {
   });
 
   it('should format phoneNumber correctly when field is changed for voice methodType', async () => {
-    mockData = { methodType: 'voice' };
-    props = getComponentProps({ targetKey: 'methodType' });
+    mockData = { 'authenticator.methodType': 'voice' };
+    props = getComponentProps();
     const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
 
     await findByLabelText(/Country/);
@@ -112,7 +112,7 @@ describe('PhoneAuthenticator tests', () => {
   });
 
   it('should render input control with custom attributes when provided in uischema', async () => {
-    mockData = { methodType: 'sms' };
+    mockData = { 'authenticator.methodType': 'sms' };
     props = getComponentProps({ attributes: { autocomplete: 'one-time-code' } });
     const { findByLabelText } = render(<PhoneAuthenticatorControl {...props} />);
 

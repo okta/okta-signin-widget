@@ -64,7 +64,9 @@ describe('Enroll Profile Transformer Tests', () => {
       {
         type: 'Field',
         label: 'Password',
-        name: 'credentials.passcode',
+        options: {
+          inputMeta: { name: 'credentials.passcode', secret: true },
+        },
       } as FieldElement,
     ];
     transaction.nextStep = {
@@ -104,13 +106,11 @@ describe('Enroll Profile Transformer Tests', () => {
       .toEqual(mockUserInfo);
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
       .toEqual({});
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.fieldKey)
-      .toEqual('credentials.passcode');
     expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS);
     expect((updatedFormBag.uischema.elements[2] as FieldElement).label)
       .toBe('Password');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
       .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.attributes?.autocomplete)
       .toBe('new-password');

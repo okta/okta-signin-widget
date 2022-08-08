@@ -1348,8 +1348,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                       <div
                         class="MuiBox-root emotion-18"
                       >
+                        <label
+                          class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
+                          for="phoneNumber"
+                        >
+                          Phone Number
+                        </label>
                         <div
-                          class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-4zKnH2"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-20"
                         >
                           <label
                             class="ods-4o5zYQ ods-76eppy ods-5VQ9Rl ods-7KS5Kt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-g8inGu"
@@ -1362,17 +1368,37 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                             </span>
                           </label>
                           <div
-                            class="ods-10aW0m"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart emotion-21"
                           >
-                            <input
-                              autocomplete="tel-national"
-                              class="ods-7qBw9I"
-                              data-se="phoneNumber"
-                              id="phoneNumber"
-                              name="phoneNumber"
-                              type="tel"
-                            />
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 emotion-22"
+                            >
+                              +1
+                            </p>
                           </div>
+                          <input
+                            aria-invalid="false"
+                            autocomplete="tel-national"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-23"
+                            data-se="phoneNumber"
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            type="tel"
+                          />
+                          <fieldset
+                            aria-hidden="true"
+                            class="MuiOutlinedInput-notchedOutline emotion-24"
+                          >
+                            <legend
+                              class="emotion-25"
+                            >
+                              <span
+                                class="notranslate"
+                              >
+                                ​
+                              </span>
+                            </legend>
+                          </fieldset>
                         </div>
                       </div>
                     </div>

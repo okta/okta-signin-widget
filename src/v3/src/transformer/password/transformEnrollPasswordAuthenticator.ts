@@ -113,7 +113,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       header: loc('password.complexity.requirements.header', 'login'),
       userInfo: getUserInfo(transaction),
       settings: passwordSettings,
-      fieldKey: passwordFieldName,
       requirements: buildPasswordRequirementListItems(passwordSettings),
       validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
     },

@@ -143,12 +143,12 @@ export interface FieldElement extends UISchemaElement {
     defaultOption?: string | number | boolean;
     type?: string;
     customOptions?: IdxOption[],
-    targetKey?: string;
     /**
      * @deprecated
      */
     translations?: TranslationInfo[];
     dataSe?: string;
+    subLabel?: string;
   };
 }
 
@@ -270,7 +270,6 @@ export interface PasswordRequirementsElement extends UISchemaElement {
     userInfo: UserInfo;
     settings: PasswordSettings;
     requirements: ListItem[];
-    fieldKey: string;
     validationDelayMs: number;
   }
 }

@@ -10,6 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './isCustomizedKey';
-export * from './transactionMessageTransformer';
-export * from './transform';
+import { WidgetProps } from '../../types';
+import { getLanguageCode } from '../../util';
+
+export const isCustomizedI18nKey = (i18nKey: string, widgetProps: WidgetProps): boolean => {
+  const { i18n } = widgetProps;
+  const language = getLanguageCode(widgetProps);
+  return !!i18n?.[language]?.[i18nKey];
+};
