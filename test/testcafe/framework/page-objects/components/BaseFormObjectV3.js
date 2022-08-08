@@ -3,7 +3,7 @@ import { Selector } from 'testcafe';
 
 const FORM_SELECTOR = '[data-se="form"]';
 const SUBMIT_BUTTON_SELECTOR = '[data-type="save"]';
-const FORM_INFOBOX_ERROR_SELECTOR = '[data-se="message-container"] [data-type="error"]';
+const FORM_INFOBOX_ERROR_SELECTOR = '[data-se="message"][data-type="error"]';
 
 export default class BaseFormObjectV3 extends BaseFormObject {
   constructor(t, index = 0) {
@@ -31,6 +31,10 @@ export default class BaseFormObjectV3 extends BaseFormObject {
 
   async clickSaveButton() {
     await this.t.click(this.el.find(SUBMIT_BUTTON_SELECTOR));
+  }
+
+  getSaveButtonLabel() {
+    return this.el.find(SUBMIT_BUTTON_SELECTOR).textContent;
   }
 
   // =====================================

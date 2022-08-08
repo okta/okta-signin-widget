@@ -41,7 +41,7 @@ async function setup(t) {
   return identityPage;
 }
 
-test.meta('v3', true).requestHooks(identifyWithPasswordMock)('should show errors if required fields are empty', async t => {
+test.requestHooks(identifyWithPasswordMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
 
   await identityPage.clickNextButton();
@@ -80,7 +80,7 @@ test.meta('v3', false).requestHooks(identifyWithPasswordMock)('should show custo
   await t.expect(await identityPage.getPasswordErrorMessage()).eql('Password is required!');
 });
 
-test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field, password toggle, and forgot password link', async t => {
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field, password toggle, and forgot password link', async t => {
   const identityPage = await setup(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
@@ -106,7 +106,15 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordM
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
-test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password toggle if features.showPasswordToggleOnSignInPage is true', async t => {
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password toggle by default', async t => {
+  const identityPage = await setup(t);
+  await renderWidget({
+    // features: { showPasswordToggleOnSignInPage: true },
+  });
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+});
+
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password toggle if features.showPasswordToggleOnSignInPage is true', async t => {
   const identityPage = await setup(t);
   await renderWidget({
     features: { showPasswordToggleOnSignInPage: true },
