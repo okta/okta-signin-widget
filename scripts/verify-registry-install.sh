@@ -51,6 +51,9 @@ if ! npm i @okta/okta-auth-js@${auth_js_version}; then
   exit ${FAILED_SETUP}
 fi
 
+ISSUER=https://oie-signin-widget.okta.com
+CLIENT_ID=0oa8lrg7ojTsbJgRQ696
+
 # Run build to verify siw installation
 if ! npm run build; then
   echo "build failed! Exiting..."
