@@ -29,11 +29,10 @@ test('Theme configuration applies correctly', async (t) => {
     .typeText("input[data-se='credentials.passcode']", 'password')
     .click(submitButton);
 
-  const buttonForPhoneAuth = Selector('div')
-    .withAttribute('role', 'button')
-    .withText('Okta Phone');
-
   // TODO: Assertion is skipped until we update auth coin component with theming
+  // const buttonForPhoneAuth = Selector('div')
+  //   .withAttribute('role', 'button')
+  //   .withText('Okta Phone');
   // const phoneAuthCoin = buttonForPhoneAuth
   //   .find('svg');
 
