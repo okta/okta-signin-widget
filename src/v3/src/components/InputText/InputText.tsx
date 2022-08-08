@@ -21,13 +21,15 @@ import { h } from 'preact';
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useOnChange, useValue } from '../../hooks';
 import {
-  ChangeEvent, InputTextElement, UISchemaElementComponent,
+  ChangeEvent,
+  FieldElement,
+  UISchemaElementComponent,
 } from '../../types';
 import { getTranslation } from '../../util';
 
 const InputText: UISchemaElementComponent<{
   type: string;
-  uischema: InputTextElement;
+  uischema: FieldElement;
 }> = ({ uischema, type }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
