@@ -132,38 +132,24 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-23"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-<<<<<<< HEAD
-                      data-se="switchAuthenticator"
-=======
->>>>>>> e79316d05 (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Verify with something else
-                    </a>
-                  </div>
+                    Verify with something else
+                  </a>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-23"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    data-se="cancel"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-<<<<<<< HEAD
-                      data-se="cancel"
-=======
->>>>>>> e79316d05 (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>

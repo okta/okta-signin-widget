@@ -166,55 +166,6 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-29"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
-<<<<<<< HEAD
-                      data-se="switchAuthenticator"
-=======
->>>>>>> e79316d05 (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-29"
-                  >
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
-                      data-se="cancel"
-=======
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
->>>>>>> e79316d05 (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
-<<<<<<< HEAD
-=======
-                    Back to sign in
-                  </button>
-=======
-                  Verify
-                </button>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-28"
-                >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                     data-se="switchAuthenticator"
@@ -223,12 +174,8 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     Return to authenticator list
                   </a>
                 </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-10"
-              >
                 <div
-                  class="MuiBox-root emotion-28"
+                  class="MuiBox-root emotion-11"
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
@@ -237,10 +184,6 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                   >
                     Back to sign in
                   </a>
->>>>>>> 4f7938868 (update snapshots)
->>>>>>> e94a7e4d1 (update snapshots)
-=======
->>>>>>> e79316d05 (update snapshots)
                 </div>
               </div>
             </form>

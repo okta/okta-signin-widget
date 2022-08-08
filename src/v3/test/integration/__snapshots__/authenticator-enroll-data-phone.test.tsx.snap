@@ -1511,38 +1511,24 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-42"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
-<<<<<<< HEAD
-                      data-se="switchAuthenticator"
-=======
->>>>>>> e79316d05 (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
+                    Return to authenticator list
+                  </a>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-42"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                    data-se="cancel"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
-<<<<<<< HEAD
-                      data-se="cancel"
-=======
->>>>>>> e79316d05 (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>

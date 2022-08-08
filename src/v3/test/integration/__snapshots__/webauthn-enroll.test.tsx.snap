@@ -115,38 +115,24 @@ exports[`webauthn-enroll should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-19"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
-<<<<<<< HEAD
-                      data-se="switchAuthenticator"
-=======
->>>>>>> e79316d05 (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
+                    Return to authenticator list
+                  </a>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-19"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
+                    data-se="cancel"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
-<<<<<<< HEAD
-                      data-se="cancel"
-=======
->>>>>>> e79316d05 (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>
@@ -255,38 +241,24 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-17"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
-<<<<<<< HEAD
-                      data-se="switchAuthenticator"
-=======
->>>>>>> e79316d05 (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
+                    Return to authenticator list
+                  </a>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-17"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+                    data-se="cancel"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
-<<<<<<< HEAD
-                      data-se="cancel"
-=======
->>>>>>> e79316d05 (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>

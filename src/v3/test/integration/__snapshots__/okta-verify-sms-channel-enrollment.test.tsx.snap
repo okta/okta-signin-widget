@@ -1423,78 +1423,24 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  <div
-                    class="MuiBox-root emotion-27"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                      data-se="switchAuthenticator"
-=======
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                     data-se="switchAuthenticator"
-                    tabindex="0"
-                    type="button"
-=======
-=======
->>>>>>> 5ad8a409f (update snapshots)
-                  <div
-                    class="MuiBox-root emotion-27"
+                    href="javascript:void(0)"
                   >
-                    <a
-<<<<<<< HEAD
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
->>>>>>> e79316d05 (update snapshots)
-=======
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                      data-se="switchAuthenticator"
->>>>>>> 5ad8a409f (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
+                    Return to authenticator list
+                  </a>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  <div
-                    class="MuiBox-root emotion-27"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                      data-se="cancel"
-=======
-<<<<<<< HEAD
-                  <button
-                    class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-27"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                     data-se="cancel"
-                    tabindex="0"
-                    type="button"
-=======
-=======
->>>>>>> 5ad8a409f (update snapshots)
-                  <div
-                    class="MuiBox-root emotion-27"
+                    href="javascript:void(0)"
                   >
-                    <a
-<<<<<<< HEAD
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
->>>>>>> e79316d05 (update snapshots)
-=======
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                      data-se="cancel"
->>>>>>> 5ad8a409f (update snapshots)
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>

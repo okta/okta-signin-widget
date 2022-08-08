@@ -182,48 +182,37 @@ exports[`enroll-profile should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-6"
                 >
+                  <hr
+                    class="MuiDivider-root MuiDivider-fullWidth emotion-33"
+                  />
+                </div>
+                <div
+                  class="MuiBox-root emotion-34"
+                >
                   <div
-                    class="MuiBox-root emotion-33"
+                    class="MuiBox-root emotion-6"
                   >
-<<<<<<< HEAD
-<<<<<<< HEAD
+                    <div
+                      class="MuiBox-root emotion-7"
+                    >
+                      <p
+                        class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      >
+                        Already have an account?
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
                       data-se="back"
-=======
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
->>>>>>> e79316d05 (update snapshots)
                       href="javascript:void(0)"
                     >
-                      Already have an account?
+                      Sign In
                     </a>
                   </div>
-<<<<<<< HEAD
-=======
-                    Already have an account?
-                  </button>
-=======
-                  Sign Up
-                </button>
-              </div>
-              <div
-                class="MuiBox-root emotion-5"
-              >
-                <div
-                  class="MuiBox-root emotion-32"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
-                    data-se="back"
-                    href="javascript:void(0)"
-                  >
-                    Already have an account?
-                  </a>
->>>>>>> 4f7938868 (update snapshots)
->>>>>>> e94a7e4d1 (update snapshots)
-=======
->>>>>>> e79316d05 (update snapshots)
                 </div>
               </div>
             </form>
