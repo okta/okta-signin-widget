@@ -44,6 +44,8 @@ const PasswordRequirements: UISchemaElementComponent<{
     userInfo,
     validationDelayMs,
   } = uischema.options as PasswordRequirementsElement['options'];
+  // TODO: OKTA-521321 - Depending on the outcome of this ticket, we may be able to remove this
+  // If it is kept, need to add integration test for validation
   const password = 'credentials.newPassword' in data
     ? data['credentials.newPassword']
     : data['credentials.passcode'];
