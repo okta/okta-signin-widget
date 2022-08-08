@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
@@ -111,6 +112,7 @@ describe('identify-with-password', () => {
         container,
         findByTestId,
         findByText,
+        queryByTestId,
       } = await setup({ mockResponse });
       let identifierError;
       let passwordError;
@@ -134,27 +136,49 @@ describe('identify-with-password', () => {
         expect.anything(),
       );
 
-      // only username - resubmit can clear errors
+      // add username - updates field level error
       await user.type(usernameEl, 'testuser@okta.com');
       await user.click(submitButton);
-      passwordError = await findByTestId('credentials.passcode-error');
-      expect(passwordError.textContent).toEqual('This field cannot be left blank');
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-        'POST',
-        'https://oie-8425965.oktapreview.com/idp/idx/identify',
-        expect.anything(),
-      );
+      await waitFor(async () => {
+        passwordError = await findByTestId('credentials.passcode-error');
+        expect(passwordError.textContent).toEqual('This field cannot be left blank');
+        identifierError = queryByTestId('identifier-error');
+        expect(identifierError).toBeNull();
+        expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
+          'POST',
+          'https://oie-8425965.oktapreview.com/idp/idx/identify',
+          expect.anything(),
+        );
+      });
 
-      // only password - reset clears error
+      // add password - clears error and send payload
       await user.type(passwordEl, 'fake-password');
       await user.click(submitButton);
-      identifierError = await findByTestId('identifier-error');
-      expect(identifierError.textContent).toEqual('This field cannot be left blank');
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-        'POST',
-        'https://oie-8425965.oktapreview.com/idp/idx/identify',
-        expect.anything(),
-      );
+      await waitFor(async () => {
+        expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+          'POST',
+          'https://oie-8425965.oktapreview.com/idp/idx/identify',
+          {
+            data: JSON.stringify({
+              identifier: 'testuser@okta.com',
+              credentials: {
+                passcode: 'fake-password',
+              },
+              stateHandle: 'fake-stateHandle',
+            }),
+            headers: {
+              Accept: 'application/json; okta-version=1.0.0',
+              'Content-Type': 'application/json',
+              'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+            },
+            withCredentials: true,
+          },
+        );
+        identifierError = queryByTestId('identifier-error');
+        expect(identifierError).toBeNull();
+        passwordError = queryByTestId('credentials.passcode-error');
+        expect(passwordError).toBeNull();
+      });
     });
   });
 });

@@ -84,6 +84,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   });
   const [message, setMessage] = useState<IdxMessage | undefined>();
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
+  const [isClientTransaction, setIsClientTransaction] = useState<boolean>(false);
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
   const [authApiError, setAuthApiError] = useState<AuthApiError>();
@@ -146,9 +147,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // update dataSchemaRef in context
   useEffect(() => {
     dataSchemaRef.current = formBag.dataSchema;
-    setData(formBag.data);
+    if (isClientTransaction) {
+      setData((prev) => ({
+        ...prev,
+        ...formBag.data,
+      }));
+    } else {
+      setData(formBag.data);
+    }
+
     setUischema(formBag.uischema);
-  }, [formBag]);
+  }, [formBag, isClientTransaction]);
 
   const handleError = (error: unknown) => {
     // TODO: handle error based on types
@@ -252,6 +261,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       onSuccessCallback: onSuccess,
       idxTransaction,
       setIdxTransaction,
+      setIsClientTransaction,
       stepToRender,
       setStepToRender,
       setMessage,

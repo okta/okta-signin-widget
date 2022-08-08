@@ -31,6 +31,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     data,
     idxTransaction: currTransaction,
     setIdxTransaction,
+    setIsClientTransaction,
     setStepToRender,
     setAdditionalData,
   } = useWidgetContext();
@@ -70,6 +71,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     }
     const newTransaction = await fn(payload);
     setIdxTransaction(newTransaction);
+    setIsClientTransaction(false);
     setStepToRender(stepToRender);
     setAdditionalData({});
   }, [
@@ -77,6 +79,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     authClient,
     currTransaction,
     setIdxTransaction,
+    setIsClientTransaction,
     setStepToRender,
     setAdditionalData,
   ]);
