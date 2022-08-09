@@ -240,7 +240,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                        class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                         for="credentials.passcode"
                       >
                         Enter code
@@ -415,7 +415,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                        class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                         for="credentials.passcode"
                       >
                         Enter code
