@@ -13,10 +13,6 @@
 import { IdxStepTransformer } from 'src/types';
 
 import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
-import {
-  transformGoogleAuthenticatorEnroll,
-  transformGoogleAuthenticatorVerify,
-} from '../googleAuthenticator';
 import { transformIdentify } from '../identify';
 import {
   transformOktaVerifyChallengePoll,
@@ -52,6 +48,10 @@ import {
   transformEmailChallengeConsent,
   transformEmailVerification,
 } from './email';
+import {
+  transformGoogleAuthenticatorEnroll,
+  transformGoogleAuthenticatorVerify,
+} from './googleAuthenticator';
 import {
   transformSecurityQuestionEnroll,
   transformSecurityQuestionVerify,

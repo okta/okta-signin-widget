@@ -16,8 +16,8 @@ import {
   DescriptionElement,
   IdxStepTransformer,
   TitleElement,
-} from '../../types';
-import { loc } from '../../util';
+} from '../../../types';
+import { loc } from '../../../util';
 
 export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
   formBag,
@@ -46,10 +46,11 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
     },
   };
 
-  // Title -> Descr -> Submit
-  uischema.elements.unshift(informationalText);
-  uischema.elements.unshift(titleElement);
-  uischema.elements.push(submitButtonElement);
+  uischema.elements = [
+    titleElement,
+    informationalText,
+    submitButtonElement,
+  ];
 
   return formBag;
 };
