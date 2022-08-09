@@ -11,4 +11,4 @@ export PREACT_APP_BASE_URL='https://oie-123456.oktapreview.com'
 export PREACT_APP_STORAGE='localStorage'
 
 # start the application
-yarn workspace v3 dev
+yarn dev
