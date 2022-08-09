@@ -5,12 +5,11 @@ import Settings from 'models/Settings';
 import { FORMS } from 'v2/ion/RemediationConstants';
 
 describe('v2/view-builder/views/webauthn/EnrollWebAuthnResidentkeyLinkView', function() {
-  let testContext;
-  let settings = new Settings({ 
+  const testContext = {};
+  const settings = new Settings({ 
     baseUrl: 'http://localhost:3000'
   });  
   beforeEach(function() { 
-    testContext = {};
     testContext.init = () => {
       const appState = new AppState({}, {});
       spyOn(appState, 'trigger');
