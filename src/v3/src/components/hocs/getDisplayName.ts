@@ -10,13 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useWidgetContext } from '../contexts';
-import { FieldElement } from '../types';
+import { FieldElement, RendererComponent } from '../../types';
 
-export const useValue = (uischema: FieldElement): unknown => {
-  const { name } = uischema.options.inputMeta;
-
-  const { data, additionalData } = useWidgetContext();
-
-  return { ...additionalData, ...data }[name];
-};
+export const getDisplayName = (
+  WrappedComponent: RendererComponent<{ uischema: FieldElement }>,
+): string => (
+  WrappedComponent.displayName || WrappedComponent.name || 'Component'
+);

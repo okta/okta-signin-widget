@@ -13,31 +13,37 @@
 import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
-
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
-import { useOnChange, useValue } from '../../hooks';
 import { getTranslation } from '../../util';
 
-const InputPassword: UISchemaElementComponent<{
-  uischema: FieldElement,
-}> = ({ uischema }) => {
+import { useOnChange, useValue } from '../../hooks';
+import {
+  ChangeEvent,
+  UISchemaElementComponent,
+  UISchemaElementComponentWithValidationProps,
+} from '../../types';
+import { withFormValidationState } from '../hocs';
+
+const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
+  uischema,
+  setTouched,
+  error,
+  setError,
+  onValidateHandler,
+}) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const label = getTranslation(uischema.translations!);
   const { translations = [] } = uischema;
   const {
     attributes,
-    inputMeta: {
-      // @ts-ignore expose type from auth-js
-      messages = {},
-      name,
-    },
+    inputMeta: { name },
   } = uischema.options;
-  const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChangeHandler(e.currentTarget.value);
+    const changedVal = e.currentTarget.value;
+    setTouched?.(true);
+    onChangeHandler(changedVal);
+    onValidateHandler?.(setError, changedVal);
   };
 
   return (
@@ -51,6 +57,10 @@ const InputPassword: UISchemaElementComponent<{
         name={name}
         id={name}
         error={error !== undefined}
+        onBlur={() => {
+          setTouched?.(true);
+          onValidateHandler?.(setError);
+        }}
         onChange={handleChange}
         fullWidth
         inputProps={{
@@ -71,4 +81,4 @@ const InputPassword: UISchemaElementComponent<{
   );
 };
 
-export default InputPassword;
+export default withFormValidationState(InputPassword);

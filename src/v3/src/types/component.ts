@@ -11,6 +11,7 @@
  */
 
 import { FunctionComponent } from 'preact';
+import { StateUpdater } from 'preact/hooks';
 
 import {
   ButtonElement,
@@ -21,6 +22,18 @@ import {
 export type TesterFunction = (
   uiElement: UISchemaElement | FieldElement | ButtonElement
 ) => boolean;
+
+export type UISchemaElementComponentWithValidationProps = {
+  uischema: FieldElement;
+  type?: string;
+  setTouched?: StateUpdater<boolean>,
+  error?: string,
+  setError?: StateUpdater<string | undefined>,
+  onValidateHandler?: (
+    setError?: StateUpdater<string | undefined>,
+    value?: string | boolean | number,
+  ) => void,
+};
 
 export type UISchemaElementComponentProps = {
   uischema: UISchemaElement;

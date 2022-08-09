@@ -62,6 +62,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
   const confirmPasswordElement: FieldElement = {
     type: 'Field',
+    label: loc('oie.password.confirmPasswordLabel', 'login'),
     options: {
       inputMeta: {
         name: 'credentials.confirmPassword',
@@ -127,6 +128,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
   // update default dataSchema
   dataSchema.fieldsToExclude = ['credentials.confirmPassword'];
+  // Controls form submission validation
   dataSchema[passwordFieldName] = {
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];
@@ -158,6 +160,28 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       }
 
       return errorMessages.length ? errorMessages : undefined;
+    },
+  };
+  // Controls live field change validation
+  dataSchema.confirmPassword = {
+    validate: (data: FormBag['data']) => {
+      const newPw = data[passwordFieldName];
+      const confirmPw = data.confirmPassword;
+      if (!confirmPw) {
+        return [{
+          name: 'confirmPassword',
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        }];
+      }
+      if (confirmPw !== newPw) {
+        return [{
+          name: 'confirmPassword',
+          message: loc('password.error.match', 'login'),
+          i18n: { key: 'password.error.match' },
+        }];
+      }
+      return undefined;
     },
   };
 
