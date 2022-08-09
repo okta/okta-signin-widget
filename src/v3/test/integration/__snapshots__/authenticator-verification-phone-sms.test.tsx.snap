@@ -120,7 +120,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                     class="MuiBox-root emotion-4"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-21"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
                       for="credentials.passcode"
                     >
                       Enter Code

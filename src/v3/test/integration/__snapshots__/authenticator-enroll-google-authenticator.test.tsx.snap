@@ -281,7 +281,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                         for="credentials.passcode"
                       >
                         Enter code
@@ -968,7 +968,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                         for="credentials.passcode"
                       >
                         Enter code

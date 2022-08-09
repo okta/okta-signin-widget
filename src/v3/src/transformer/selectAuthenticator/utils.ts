@@ -190,7 +190,7 @@ const formatAuthenticatorOptions = (
     const id = getOptionValue(option.value as Input[], 'id')?.value;
     const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
     const enrollmentId = getOptionValue(option.value as Input[], 'enrollmentId')?.value;
-    const DATASE_WITH_METHOD_TYPE = [
+    const AUTHENTICATORS_WITH_METHOD_TYPE = [
       AUTHENTICATOR_KEY.ON_PREM,
       AUTHENTICATOR_KEY.RSA,
     ];
@@ -211,12 +211,14 @@ const formatAuthenticatorOptions = (
         usageDescription: getUsageDescription(option),
         actionParams: {
           'authenticator.id': id,
-          'authenticator.methodType': methodType,
+          'authenticator.methodType': AUTHENTICATORS_WITH_METHOD_TYPE.includes(authenticatorKey)
+            ? methodType
+            : undefined,
           'authenticator.enrollmentId': enrollmentId,
         },
         dataSe: getAuthenticatorDataSeVal(
           authenticatorKey,
-          DATASE_WITH_METHOD_TYPE.includes(authenticatorKey) && typeof methodType === 'string'
+          AUTHENTICATORS_WITH_METHOD_TYPE.includes(authenticatorKey) && typeof methodType === 'string'
             ? methodType
             : undefined,
         ),

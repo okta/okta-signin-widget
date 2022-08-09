@@ -39,7 +39,6 @@ describe('user-unlock-account', () => {
             identifier: 'testuser@okta.com',
             authenticator: {
               id: 'aut2h3fft0FbVvFYV1d7',
-              methodType: 'email',
             },
             stateHandle: 'fake-stateHandle',
           }),
