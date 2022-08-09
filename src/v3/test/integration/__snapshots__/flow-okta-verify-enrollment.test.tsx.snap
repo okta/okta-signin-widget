@@ -527,7 +527,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-4"
                   >
                     <label
-                      class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
                       for="email"
                     >
                       Email
