@@ -1,4 +1,4 @@
-// Common view for OV push and custom push.
+// Common view for OV push and custom app.
 import { BaseForm } from '../../internals';
 import {AUTHENTICATOR_KEY} from 'v2/ion/RemediationConstants';
 import { loc } from 'okta';

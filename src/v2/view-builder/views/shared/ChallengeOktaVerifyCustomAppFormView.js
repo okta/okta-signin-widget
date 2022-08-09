@@ -1,4 +1,4 @@
-// Common view for OV push and custom push.
+// Common view for OV push and custom app.
 import { Collection } from 'okta';
 import { BaseForm } from '../../internals';
 import AuthenticatorVerifyOptions from '../../components/AuthenticatorVerifyOptions';
