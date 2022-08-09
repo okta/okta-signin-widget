@@ -19,6 +19,7 @@ import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
+  DescriptionElement,
   LinkElement,
   UISchemaElement,
   UISchemaLayoutType,
@@ -147,24 +148,22 @@ export const getButtonControls = (
       type: 'Divider',
     });
     const { name: step } = registerStep;
-    const register: LinkElement = {
+    const registerLink: LinkElement = {
       type: 'Link',
       options: {
         label: loc('signup', 'login'),
         step,
       },
     };
+    const registrationLabel: DescriptionElement = {
+      type: 'Description',
+      options: {
+        content: loc('registration.signup.label', 'login'),
+      },
+    };
     const registerEntryLayout = {
       type: UISchemaLayoutType.HORIZONTAL,
-      elements: [
-        {
-          type: 'Description',
-          options: {
-            content: loc('registration.signup.label', 'login'),
-          },
-        },
-        register,
-      ],
+      elements: [registrationLabel,registerLink],
     };
 
     elements.push(registerEntryLayout);
