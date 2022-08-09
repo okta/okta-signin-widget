@@ -301,10 +301,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
   it('should show signin with biometric button when launch-webauthn-authenticator remediation exist', function() {
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
-      if(remediation === FORMS.LAUNCH_WEBAUTHN_AUTHENTICATOR) {
-        return true;
-      }
-      return false;
+      return remediation === FORMS.LAUNCH_WEBAUTHN_AUTHENTICATOR;
     });
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);

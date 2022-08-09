@@ -48,6 +48,8 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       });
       testContext.view.render();
     };
+    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
+    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
   });
 
   afterEach(function() {
@@ -55,8 +57,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows verify instructions and spinner when webauthn is supported and browser is not safari', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
-    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
       'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
@@ -67,7 +67,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows verify instructions and button when browser supports webauthn on safari', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(true);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
@@ -79,7 +78,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('updated button text to "Retry" on click on safari', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(true);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
@@ -93,7 +91,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows verify instructions if there are existing enrollments', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(true);
     testContext.init(
       ChallengeWebauthnResponse.currentAuthenticator.value,
@@ -120,7 +117,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows UV required callout when userVerification is "required"', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     const currentAuthenticator = JSON.parse(
       JSON.stringify(ChallengeWebauthnResponse.currentAuthenticator.value)
     );
@@ -133,7 +129,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('does not show UV required callout when userVerification is "discouraged"', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     const currentAuthenticator = JSON.parse(
       JSON.stringify(ChallengeWebauthnResponse.currentAuthenticator.value)
     );
@@ -143,7 +138,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('saveForm is called with model when credentials.get succeeds', function(done) {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     const assertion = {
       response: {
         clientDataJSON: 123,
@@ -200,7 +194,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('error with a name that not supported on login bundle is displayed when credentials.create fails', function(done) {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.reject({ message: 'error from browser' }));
 
     testContext.init();
@@ -215,7 +208,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('error with a name that supported on login bundle is displayed when credentials.create fails', function(done) {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.reject({
       message: 'error from browser',
       name: 'NotAllowedError',
@@ -233,8 +225,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows correct text when Can\'t verify? is clicked', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
-    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toMatchInlineSnapshot(
       '"You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification."'
@@ -265,8 +255,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows additional text when Can\'t verify? is clicked from Okta_Authenticator', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
-    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
     const app = { name: 'Okta_Authenticator' };
     testContext.init(
       ChallengeWebauthnResponse.currentAuthenticator.value,
@@ -302,7 +290,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('saveForm is called with model having userHandle when credentials.get succeeds', function(done) {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     const assertion = {
       response: {
         clientDataJSON: 123,
@@ -319,7 +306,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       ChallengeWebauthnResponse.currentAuthenticator.value,
       [],
       {},
-      {hasUserHandleSchema:true}
+      { hasUserHandleSchema : true }
     );
 
     Expect.wait(() => {
@@ -352,15 +339,11 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows not have setup webauthn residentKey text when enroll-webauthn-residentkey remediation does not exist', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
-    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
     testContext.init();
     expect(testContext.view.$('.setup-webauthn-residentkey-text').length).toBe(0);
   });
 
   it('shows hide setup webauthn residentKey text when enroll-webauthn-residentkey remediation exist', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
-    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
     const assertion = {
       response: {
         clientDataJSON: 123,
@@ -374,14 +357,12 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       ChallengeWebauthnResponse.currentAuthenticator.value,
       [],
       {},
-      {canEnrollResidentKey:true});
+      { canEnrollResidentKey : true });
     expect(testContext.view.$('.setup-webauthn-residentkey-text').length).toBe(1);
     expect(testContext.view.$('.setup-webauthn-residentkey-text').css('display')).toBe('none');
   });
 
   it('shows show setup webauthn residentKey text when enroll-webauthn-residentkey remediation exist and webauthn errors', function(done) {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
-    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
     jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.reject({
       message: 'error from browser',
       name: 'NotAllowedError',
@@ -390,7 +371,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       ChallengeWebauthnResponse.currentAuthenticator.value,
       [],
       {},
-      {canEnrollResidentKey:true});
+      { canEnrollResidentKey : true });
     Expect.waitForCss('.infobox-error')
       .then(() => {
         expect(testContext.view.$('.setup-webauthn-residentkey-text').css('display')).toBe('block');

@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
-export default class SignInWebAuthnViewPageObject extends BasePageObject {
+export default class SignInWebAuthnPageObject extends BasePageObject {
   constructor(t) {
     super(t);
     this.t = t;
