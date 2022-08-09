@@ -10,18 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import AppSvg from '../../img/16pxApp.svg';
-import BrowserSvg from '../../img/16pxDevice.svg';
+import AppSvg from '../../../img/16pxApp.svg';
+import BrowserSvg from '../../../img/16pxDevice.svg';
 import {
   ButtonElement,
   ButtonType,
   IdxStepTransformer,
   ImageWithTextElement,
   TitleElement,
-  UISchemaElement,
-} from '../../types';
-import { loc } from '../../util';
-import { removeUIElementWithName } from '../utils';
+} from '../../../types';
+import { loc } from '../../../util';
 
 export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction, formBag }) => {
   const { uischema } = formBag;
@@ -33,40 +31,26 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
     } = {},
   } = transaction;
 
-  // removing consent field as it is controlled by buttons
-  uischema.elements = removeUIElementWithName(
-    'consent',
-    uischema.elements as UISchemaElement[],
-  );
-
   // @ts-ignore OKTA-489560 (missing requestInfo prop)
   const appName = requestInfo?.find((info) => info?.name === 'appName');
+  const appImageElement: ImageWithTextElement = {
+    type: 'ImageWithText',
+    options: {
+      id: appName.name,
+      SVGIcon: AppSvg,
+      textContent: appName.value,
+    },
+  };
   // @ts-ignore OKTA-489560 (missing requestInfo prop)
   const browser = requestInfo?.find((info) => info?.name === 'browser');
-
-  if (appName?.value) {
-    const appImageElement: ImageWithTextElement = {
-      type: 'ImageWithText',
-      options: {
-        id: appName.name,
-        SVGIcon: AppSvg,
-        textContent: appName.value,
-      },
-    };
-    uischema.elements.unshift(appImageElement);
-  }
-
-  if (browser?.value) {
-    const browserImageElement: ImageWithTextElement = {
-      type: 'ImageWithText',
-      options: {
-        id: browser.name,
-        SVGIcon: BrowserSvg,
-        textContent: browser.value,
-      },
-    };
-    uischema.elements.unshift(browserImageElement);
-  }
+  const browserImageElement: ImageWithTextElement = {
+    type: 'ImageWithText',
+    options: {
+      id: browser.name,
+      SVGIcon: BrowserSvg,
+      textContent: browser.value,
+    },
+  };
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -74,7 +58,6 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
       content: loc('oie.consent.enduser.title', 'login'),
     },
   };
-  uischema.elements.unshift(titleElement);
 
   const deny: ButtonElement = {
     type: 'Button',
@@ -100,8 +83,13 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
     },
   };
 
-  uischema.elements.push(deny);
-  uischema.elements.push(allow);
+  uischema.elements = [
+    titleElement,
+    ...(browser?.value && [browserImageElement]),
+    ...(appName?.value && [appImageElement]),
+    deny,
+    allow,
+  ];
 
   return formBag;
 };

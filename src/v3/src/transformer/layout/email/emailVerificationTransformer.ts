@@ -17,10 +17,9 @@ import {
   FieldElement,
   IdxStepTransformer,
   TitleElement,
-  UISchemaElement,
-} from '../../types';
-import { loc } from '../../util';
-import { getUIElementWithName, removeUIElementWithName } from '../utils';
+} from '../../../types';
+import { loc } from '../../../util';
+import { getUIElementWithName } from '../../utils';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
 
@@ -33,14 +32,6 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
     TARGET_FIELD_NAME,
     uischema.elements,
   ) as FieldElement;
-
-  // in this view, this option is not displayed and auto selected
-  if (methodTypeElement) {
-    uischema.elements = removeUIElementWithName(
-      TARGET_FIELD_NAME,
-      uischema.elements as UISchemaElement[],
-    );
-  }
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -71,10 +62,11 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
     },
   };
 
-  // Title -> Descr -> Button
-  uischema.elements.unshift(informationalText);
-  uischema.elements.unshift(titleElement);
-  uischema.elements.push(submitButtonControl);
+  uischema.elements = [
+    titleElement,
+    informationalText,
+    submitButtonControl,
+  ];
 
   return formBag;
 };

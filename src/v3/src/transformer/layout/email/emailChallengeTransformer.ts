@@ -24,9 +24,9 @@ import {
   UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
-} from '../../types';
-import { loc } from '../../util';
-import { getUIElementWithName } from '../utils';
+} from '../../../types';
+import { loc } from '../../../util';
+import { getUIElementWithName } from '../../utils';
 
 export const transformEmailChallenge: IdxStepTransformer = ({
   transaction,
