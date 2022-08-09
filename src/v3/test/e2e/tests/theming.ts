@@ -13,12 +13,9 @@
 import { Selector } from 'testcafe';
 
 fixture('Theming')
-  .page('http://localhost:8080/?siw-use-mocks=true&siw-mock-scenario=authenticator-verification-phone-sms');
+  .page('http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/introspect/default');
 
-// TODO: Test is skipped until odyssey-mui fully supports theming
-// We can migrate this test to jest at the same time
-// OKTA-519086
-test.skip('Theme configuration applies correctly', async (t) => {
+test('Theme configuration applies correctly', async (t) => {
   const submitButton = Selector('button')
     .withAttribute('data-type', 'save');
 
@@ -32,18 +29,19 @@ test.skip('Theme configuration applies correctly', async (t) => {
     .typeText("input[data-se='credentials.passcode']", 'password')
     .click(submitButton);
 
-  const buttonForPhoneAuth = Selector('div')
-    .withAttribute('role', 'button')
-    .withText('Okta Phone');
-  const phoneAuthCoin = buttonForPhoneAuth
-    .find('svg');
+  // TODO: Assertion is skipped until we update auth coin component with theming
+  // const buttonForPhoneAuth = Selector('div')
+  //   .withAttribute('role', 'button')
+  //   .withText('Okta Phone');
+  // const phoneAuthCoin = buttonForPhoneAuth
+  //   .find('svg');
 
-  await t
-    .expect(phoneAuthCoin.find('.siwFillPrimary').getStyleProperty('fill'))
-    .eql('rgb(202, 0, 228)');
-  await t
-    .expect(phoneAuthCoin.find('.siwFillSecondary').getStyleProperty('fill'))
-    .eql('rgb(241, 131, 255)');
+  // await t
+  //   .expect(phoneAuthCoin.find('.siwFillPrimary').getStyleProperty('fill'))
+  //   .eql('rgb(202, 0, 228)');
+  // await t
+  //   .expect(phoneAuthCoin.find('.siwFillSecondary').getStyleProperty('fill'))
+  //   .eql('rgb(241, 131, 255)');
 }).clientScripts({
   content: `
     window.additionalOptions = {
