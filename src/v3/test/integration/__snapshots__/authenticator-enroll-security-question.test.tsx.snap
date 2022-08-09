@@ -688,7 +688,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                         class="MuiBox-root emotion-4"
                       >
                         <label
-                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-37"
+                          class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-37"
                           for="credentials.answer"
                         >
                           Answer
@@ -705,7 +705,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-40"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-40"
                           >
                             <button
                               aria-label="toggle password visibility"

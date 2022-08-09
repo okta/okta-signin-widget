@@ -26,6 +26,7 @@ const InputPassword: UISchemaElementComponent<{
   const onChangeHandler = useOnChange(uischema);
   const label = getTranslation(uischema.translations!);
   const {
+    translations = [],
     attributes,
     inputMeta: {
       // @ts-ignore expose type from auth-js
@@ -45,6 +46,9 @@ const InputPassword: UISchemaElementComponent<{
       <PasswordInput
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...(!hideLabel && { label })}
+        tooltipLabel={
+          (isHidden: boolean) => (isHidden ? getTranslation(translations, 'show') : getTranslation(translations, 'hide'))
+        }
         value={value}
         name={name}
         id={name}
