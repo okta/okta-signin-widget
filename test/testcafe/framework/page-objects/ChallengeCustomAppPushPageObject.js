@@ -7,6 +7,7 @@ const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="c
 const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name$="autoChallenge"]';
 const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name$="autoChallenge"]';
 const FACTOR_BEACON = '.auth-beacon.auth-beacon-factor';
+const FORM_SELECTOR = '.custom-app-send-push-form';
 
 export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
@@ -16,6 +17,11 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
 
   getPushButton() {
     return this.form.getElement('.send-push');
+  }
+
+  async  isCustomAppSendPushForm() {
+    const formCount = await Selector(FORM_SELECTOR).count;
+    return formCount === 1;
   }
 
   getA11ySpan() {

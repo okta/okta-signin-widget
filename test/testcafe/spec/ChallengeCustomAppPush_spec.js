@@ -8,6 +8,7 @@ import pushPollReject from '../../../playground/mocks/data/idp/idx/authenticator
 import success from '../../../playground/mocks/data/idp/idx/success';
 import pushPollAutoChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push-autochallenge';
 import pushEnableBiometricsCustomApp from '../../../playground/mocks/data/idp/idx/custom-app-uv-verify-enable-biometrics';
+import xhrSelectAuthenticatorCustomPushWithMethodSendPush from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-custom-push-autoChallenge-off';
 const logger = RequestLogger(/challenge|challenge\/poll|authenticators\/poll/,
   {
     logRequestBody: true,
@@ -55,6 +56,10 @@ const pushEnableBiometricsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
   .respond(pushEnableBiometricsCustomApp);
 
+const mockCustomAppSendPush = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorCustomPushWithMethodSendPush);
+
 fixture('Challenge Custom App Push');
 
 async function setup(t) {
@@ -62,6 +67,31 @@ async function setup(t) {
   await challengeCustomAppPushPageObject.navigateToPage();
   return challengeCustomAppPushPageObject;
 }
+
+test.requestHooks(mockCustomAppSendPush)(
+  'should load custom app view with a button and a checkbox when push is the only method type and has auto challenge schema',
+  async t => {
+    const challengeCustomAppPushPageObject = await setup(t);
+    await t.expect(await challengeCustomAppPushPageObject.isCustomAppSendPushForm()).ok();
+    await t.expect(challengeCustomAppPushPageObject.getFormTitle()).eql('Get a push notification');
+    await t.expect(challengeCustomAppPushPageObject.subtitleExists()).notOk();
+
+    const pushButtonLabel = challengeCustomAppPushPageObject.getSaveButtonLabel();
+    await t.expect(pushButtonLabel).eql('Send push');
+
+    await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).ok();
+    const checkboxLabel = challengeCustomAppPushPageObject.getAutoChallengeCheckboxLabel();
+    await t.expect(checkboxLabel.hasClass('checked')).notOk();
+    await t.expect(checkboxLabel.textContent).eql('Send push automatically');
+
+    // select checkbox on click
+    await challengeCustomAppPushPageObject.clickAutoChallengeCheckbox();
+    await t.expect(checkboxLabel.hasClass('checked')).ok();
+
+    // signout link at enroll page
+    await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeCustomAppPushPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
 
 test
   .requestHooks(pushSuccessMock)('challenge custom app push screen has right labels', async t => {
@@ -123,7 +153,6 @@ test
     await t.expect(challengeCustomAppPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
     await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSignoutLinkText()).eql('Back to sign in');
-    
   });
 
 test
@@ -151,6 +180,35 @@ test
 
     // assert checkbox not visible
     await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputIsVisible()).notOk();
+  });
+
+test
+  .requestHooks(pushSuccessMock)('challenge custom push screen has right labels and logo', async t => {
+    const challengeCustomAppPushPageObject = await setup(t);
+    await checkConsoleMessages({
+      controller: 'mfa-verify',
+      formName: 'challenge-poll',
+      authenticatorKey: 'custom_app',
+      methodType: 'push',
+    });
+
+    const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
+    const pushBtn = challengeCustomAppPushPageObject.getPushButton();
+    const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
+    const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
+    await t.expect(pushBtn.textContent).contains('Push notification sent');
+    await t.expect(a11ySpan.textContent).contains('Push notification sent');
+    await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
+    await t.expect(logoClass).contains('custom-app-logo');
+    await t.expect(logoClass).notContains('mfa-custom-app');
+    await t.expect(pageTitle).contains('Verify with Custom Push');
+    await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).notOk();
+
+    // Verify links
+    await t.expect(await challengeCustomAppPushPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(challengeCustomAppPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
+    await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeCustomAppPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
 test
