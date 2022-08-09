@@ -36,6 +36,7 @@ exports[`error-feature-not-enabled should render form 1`] = `
                 >
                   <div
                     class="MuiBox-root emotion-7"
+                    data-se="message"
                   >
                     <div
                       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-8"
