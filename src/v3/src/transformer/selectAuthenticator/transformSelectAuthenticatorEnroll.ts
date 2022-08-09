@@ -18,10 +18,8 @@ import {
   DescriptionElement,
   IdxStepTransformer,
   TitleElement,
-  UISchemaElement,
 } from '../../types';
 import { loc } from '../../util';
-import { removeUIElementWithName } from '../utils';
 import { getAuthenticatorEnrollButtonElements } from './utils';
 
 const getContentDescrAndParams = (brandName?: string): TitleElement['options'] => {
@@ -38,56 +36,46 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   formBag,
   widgetProps,
 }) => {
-  const { brandName } = widgetProps;
-  const { nextStep: { inputs, canSkip } = {} as NextStep, availableSteps } = transaction;
-  const authenticator = inputs?.find(({ name }) => name === 'authenticator');
-  if (!authenticator?.options) {
-    return formBag;
-  }
-
   const { uischema } = formBag;
+  const { brandName } = widgetProps;
+  const { nextStep: { inputs } = {} as NextStep, availableSteps } = transaction;
 
-  const authenticatorButtonElements = getAuthenticatorEnrollButtonElements(authenticator.options);
-  uischema.elements = removeUIElementWithName(
-    'authenticator',
-    uischema.elements as UISchemaElement[],
-  );
-  uischema.elements.push({
-    type: 'Description',
-    // TODO: re-visit, canSkip should not exist when use GenericRemediator
-    options: {
-      content: canSkip ? loc('oie.setup.optional', 'login') : loc('oie.setup.required', 'login'),
-    },
-  } as DescriptionElement);
-  uischema.elements = uischema.elements.concat(authenticatorButtonElements);
+  const authenticator = inputs?.find(({ name }) => name === 'authenticator');
+  const authenticatorButtons = getAuthenticatorEnrollButtonElements(authenticator!.options!);
+  const skipStep = availableSteps?.find(({ name }) => name === 'skip');
 
-  const titleElement: TitleElement = {
+  const title: TitleElement = {
     type: 'Title',
     options: {
       content: loc('oie.select.authenticators.enroll.title', 'login'),
     },
   };
-  const informationalTextElement: DescriptionElement = {
+  const informationalText: DescriptionElement = {
     type: 'Description',
     options: getContentDescrAndParams(brandName),
   };
+  const description: DescriptionElement = {
+    type: 'Description',
+    options: {
+      content: skipStep ? loc('oie.setup.optional', 'login') : loc('oie.setup.required', 'login'),
+    },
+  };
+  const skipButton: ButtonElement = {
+    type: 'Button',
+    label: loc('oie.optional.authenticator.button.title', 'login'),
+    options: {
+      type: ButtonType.SUBMIT,
+      step: 'skip',
+    },
+  };
 
-  uischema.elements.unshift(informationalTextElement);
-  uischema.elements.unshift(titleElement);
-
-  const skipStep = availableSteps?.find(({ name }) => name === 'skip');
-  if (canSkip && skipStep) {
-    const { name: step } = skipStep;
-    const skipButtonElement: ButtonElement = {
-      type: 'Button',
-      label: loc('oie.optional.authenticator.button.title', 'login'),
-      options: {
-        type: ButtonType.SUBMIT,
-        step,
-      },
-    };
-    uischema.elements.push(skipButtonElement);
-  }
+  uischema.elements = [
+    title,
+    informationalText,
+    description,
+    ...authenticatorButtons,
+    ...(skipStep ? [skipButton] : []),
+  ];
 
   return formBag;
 };

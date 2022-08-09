@@ -18,7 +18,7 @@ import { useCallback } from 'preact/hooks';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import {
-  ActionOptions, DataSchema, SubmitEvent, UISchemaLayout,
+  DataSchema, SubmitEvent, UISchemaLayout,
 } from '../../types';
 import { loc, resetMessagesToInputs } from '../../util';
 import Layout from './Layout';
@@ -41,7 +41,14 @@ const Form: FunctionComponent<{
     e.preventDefault();
     setMessage(undefined);
 
-    const { actionParams: params, step } = dataSchemaRef.current!.submit as ActionOptions;
+    const {
+      submit: {
+        actionParams: params,
+        step,
+        includeImmutableData,
+      },
+      fieldsToValidate,
+    } = dataSchemaRef.current!;
 
     // client side validation - only validate for fields in nextStep
     const { nextStep } = currTransaction!;
@@ -51,7 +58,7 @@ const Form: FunctionComponent<{
         .reduce((acc: Record<string, Partial<IdxMessage & { name?: string }>[]>, curr) => {
           const name = curr[0];
           const elementSchema = curr[1] as DataSchema;
-          if (typeof elementSchema.validate === 'function') {
+          if (fieldsToValidate.includes(name) && typeof elementSchema.validate === 'function') {
             const validationMessages = elementSchema.validate({
               ...additionalData,
               ...data,
@@ -81,6 +88,7 @@ const Form: FunctionComponent<{
     // submit request
     onSubmitHandler({
       includeData: true,
+      includeImmutableData,
       params,
       step,
     });

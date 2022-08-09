@@ -56,6 +56,8 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
       elements: [],
     },
     data: {},
-    dataSchema: {},
+    dataSchema: {
+      fieldsToValidate: [],
+    },
   });
 };

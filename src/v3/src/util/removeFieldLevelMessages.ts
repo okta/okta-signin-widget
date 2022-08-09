@@ -10,21 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './browserUtils';
-export * from './cookieUtils';
-export * from './environmentUtils';
-export * from './flattenInputs';
-export * from './formUtils';
-export * from './getAuthenticatorKey';
-export * from './getImmutableData';
-export * from './getTranslation';
-export * from './idxUtils';
-export * from './isPasswordRecovery';
-export * from './languageUtils';
-export * from './locUtil';
-export * from './passwordUtils';
-export * from './removeFieldLevelMessages';
-export * from './resetMessagesToInputs';
-export * from './settingsUtils';
-export * from './toNestedObject';
-export * from './webauthnUtils';
+import { FieldElement, UISchemaLayout } from '../types';
+
+export const removeFieldLevelMessages = (
+  elements: UISchemaLayout['elements'],
+): UISchemaLayout['elements'] => elements.map((el) => {
+  if (el.type === 'Field') {
+    // @ts-ignore - add type in authjs Input
+    // eslint-disable-next-line no-param-reassign
+    delete (el as FieldElement).options.inputMeta.messages;
+  }
+  return el;
+});

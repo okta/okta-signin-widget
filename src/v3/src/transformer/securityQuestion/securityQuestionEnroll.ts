@@ -24,7 +24,8 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { loc } from '../../util';
+import { loc, removeFieldLevelMessages } from '../../util';
+import { getUIElementWithName } from '../utils';
 
 type Question = {
   questionKey: string;
@@ -44,21 +45,13 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   const { contextualData } = relatesTo.value;
   const { uischema, data, dataSchema } = formBag;
 
-  const customQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => (value as Input[])?.some(({ name }) => name === 'question'));
   const predefinedQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => !(value as Input[])?.some(({ name }) => name === 'question'));
 
-  const predefinedAnswerInput = (predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
-  const predefinedAnswerElement: FieldElement = {
-    type: 'Field',
-    label: predefinedAnswerInput?.label ?? predefinedAnswerInput?.name,
-    options: {
-      inputMeta: {
-        ...predefinedAnswerInput,
-        name: ANSWER_INPUT_NAME,
-        secret: true,
-      },
-    },
-  };
+  const predefinedAnswerElement = getUIElementWithName(
+    ANSWER_INPUT_NAME,
+    uischema.elements,
+  ) as FieldElement;
+  predefinedAnswerElement.options.inputMeta.secret = true;
 
   const customAnswerInput = (predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
   const customAnswerElement: FieldElement = {
@@ -90,26 +83,33 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     },
   };
 
+  const preSelectedQuestion = predefinedQuestions?.[0].value as string;
+
   const predefinedSubmitButton: ButtonElement = {
     type: 'Button',
     label: loc('mfa.challenge.verify', 'login'),
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,
+      includeImmutableData: false,
     },
   };
 
-  const customQuestionElement: FieldElement = {
-    type: 'Field',
-    label: loc('oie.security.question.createQuestion.label', 'login'),
+  const customQuestionSubmitButton: ButtonElement = {
+    type: 'Button',
+    label: loc('mfa.challenge.verify', 'login'),
     options: {
-      type: 'string',
-      inputMeta: {
-        ...(customQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'question'),
-        name: CUSTOM_QUESTION_INPUT_NAME,
-      },
+      type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
+      actionParams: { [QUESTION_KEY_INPUT_NAME]: 'custom' },
     },
   };
+
+  const customQuestionElement: FieldElement = getUIElementWithName(
+    CUSTOM_QUESTION_INPUT_NAME,
+    uischema.elements,
+  ) as FieldElement;
+  customQuestionElement.label = loc('oie.security.question.createQuestion.label', 'login');
 
   // Add the title to the top
   const titleElement: TitleElement = {
@@ -127,14 +127,34 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
       customOptions: [{
         value: 'predefined',
         label: loc('oie.security.question.questionKey.label', 'login'),
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        layout: () => securityQuestionStepper.elements[0],
+        callback: (widgetContext, stepIndex) => {
+          const { dataSchemaRef, setData } = widgetContext;
+          dataSchemaRef.current!.submit = predefinedSubmitButton.options;
+          dataSchemaRef.current!.fieldsToValidate = ['credentials.answer'];
+
+          // reset default selected question
+          setData((prev) => ({
+            ...prev,
+            [QUESTION_KEY_INPUT_NAME]: preSelectedQuestion,
+          }));
+
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          const stepLayout = securityQuestionStepper.elements[stepIndex];
+          stepLayout.elements = removeFieldLevelMessages(stepLayout.elements);
+        },
       }, {
         key: 'credentials.questionKey',
         value: 'custom',
         label: loc('oie.security.question.createQuestion.label', 'login'),
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        layout: () => securityQuestionStepper.elements[1],
+        callback: (widgetContext, stepIndex) => {
+          const { dataSchemaRef } = widgetContext;
+          dataSchemaRef.current!.submit = customQuestionSubmitButton.options;
+          dataSchemaRef.current!.fieldsToValidate = ['credentials.question', 'credentials.answer'];
+
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          const stepLayout = securityQuestionStepper.elements[stepIndex];
+          stepLayout.elements = removeFieldLevelMessages(stepLayout.elements);
+        },
       }],
     },
   };
@@ -161,15 +181,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
           questionTypeRadioEl,
           customQuestionElement,
           customAnswerElement,
-          {
-            type: 'Button',
-            label: loc('mfa.challenge.verify', 'login'),
-            options: {
-              type: ButtonType.SUBMIT,
-              step: transaction.nextStep!.name,
-              actionParams: { [QUESTION_KEY_INPUT_NAME]: 'custom' },
-            },
-          } as ButtonElement,
+          customQuestionSubmitButton,
         ],
       } as UISchemaLayout,
     ],
@@ -178,10 +190,11 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   uischema.elements = [securityQuestionStepper];
 
   // update default data
-  data[QUESTION_KEY_INPUT_NAME] = predefinedQuestions?.[0].value as string;
+  data[QUESTION_KEY_INPUT_NAME] = preSelectedQuestion;
 
   // update default dataSchema
   dataSchema.submit = predefinedSubmitButton.options;
+  dataSchema.fieldsToValidate = ['credentials.answer'];
 
   return formBag;
 };

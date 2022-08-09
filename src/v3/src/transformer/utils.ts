@@ -25,7 +25,9 @@ export const createForm = (): FormBag => ({
     elements: [],
   },
   data: {},
-  dataSchema: {},
+  dataSchema: {
+    fieldsToValidate: [] as string[],
+  } as FormBag['dataSchema'],
 });
 
 export const removeUIElementWithName = (

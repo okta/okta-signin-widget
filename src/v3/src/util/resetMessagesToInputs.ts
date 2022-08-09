@@ -18,7 +18,21 @@ export function resetMessagesToInputs(
 ): void {
   const fn = (items: Input[], namePrefix: string) => {
     items.forEach((input) => {
-      const name = namePrefix ? `${namePrefix}.${input.name}` : input.name;
+      let name: Input['name'];
+      if (namePrefix) {
+        name = typeof input.name === 'undefined' ? namePrefix : `${namePrefix}.${input.name}`;
+      } else {
+        name = input.name;
+      }
+
+      // add message to stepper related fields
+      if (input.type === 'object' && name !== 'authenticator' && Array.isArray(input.options)) {
+        input.options.forEach((option) => {
+          fn(option.value as Input[], name);
+        });
+        return;
+      }
+
       if (Array.isArray(input.value)) {
         fn(input.value, name);
         return;
