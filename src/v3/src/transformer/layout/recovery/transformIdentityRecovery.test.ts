@@ -15,7 +15,7 @@ import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   FieldElement, FormBag, TitleElement,
   UISchemaLayoutType, WidgetProps,
-} from '../../types';
+} from '../../../types';
 import { transformIdentityRecovery } from './transformIdentityRecovery';
 
 describe('Identity Recovery Transformer Tests', () => {

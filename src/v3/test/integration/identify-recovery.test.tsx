@@ -34,7 +34,6 @@ describe('identify-recovery', () => {
     expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
     const identifierError = await findByTestId('identifier-error');
     expect(identifierError.textContent).toEqual('This field cannot be left blank');
-    
   });
 
   it('sends correct payload', async () => {
