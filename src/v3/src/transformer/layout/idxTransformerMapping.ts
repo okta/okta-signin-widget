@@ -47,11 +47,11 @@ import {
   transformEmailChallengeConsent,
   transformEmailVerification,
 } from './email';
-import { transformIdentityRecovery } from './recovery';
 import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
 } from './googleAuthenticator';
+import { transformIdentityRecovery } from './recovery';
 import {
   transformSecurityQuestionEnroll,
   transformSecurityQuestionVerify,
