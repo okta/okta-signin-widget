@@ -166,9 +166,6 @@ const getAuthenticatorDescription = (
 const getUsageDescription = (option: IdxOption): string | undefined => {
   // @ts-ignore IdxAuthenticator missing allowedFor property
   const { allowedFor } = option.relatesTo;
-  if (!allowedFor) {
-    return undefined;
-  }
   switch (allowedFor) {
     case AUTHENTICATOR_ALLOWED_FOR_OPTIONS.ANY:
       return loc('oie.enroll.authenticator.usage.text.access.recovery', 'login');
