@@ -36,6 +36,7 @@ const InfoBox: UISchemaElementComponent<{
     <Box
       marginBottom={4}
       width={1}
+      data-se="message"
     >
       <Alert
         severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}

@@ -47,6 +47,7 @@ const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[])
           message: message.message,
           class: message.class ?? 'WARNING',
           contentType: 'string',
+          dataSe: `infobox-${(message.class ?? 'WARNING').toLowerCase()}`,
         },
       };
       uischema.elements.push(infoBoxElement);

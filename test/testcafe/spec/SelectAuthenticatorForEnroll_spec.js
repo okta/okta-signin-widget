@@ -20,7 +20,15 @@ const mockEnrollAuthenticatorPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticators)
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
-  .respond(xhrAuthenticatorEnrollPassword);
+  .respond((req, res) => {
+    const reqString = req.body.toString();
+    const requestJSON = JSON.parse(reqString);
+    if (process.env.OKTA_SIW_V3 && !requestJSON.authenticator?.id) {
+      res.setBody(xhrSelectAuthenticators);
+    } else {
+      res.setBody(xhrAuthenticatorEnrollPassword);
+    }
+  });
 
 const mockEnrollAuthenticatorWithUsageInfo = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -234,19 +242,40 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 
-  await t.expect(requestLogger.count(() => true)).eql(3);
-  const req1 = requestLogger.requests[0].request;
-  await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
+  if (process.env.OKTA_SIW_V3) {
+    await t.expect(requestLogger.count(() => true)).eql(4);
+    const req1 = requestLogger.requests[0].request;
+    await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
 
-  const req2 = requestLogger.requests[1].request;
-  await t.expect(req2.url).eql('http://localhost:3000/idp/idx/credential/enroll');
-  await t.expect(req2.method).eql('post');
-  await t.expect(req2.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+    const req2 = requestLogger.requests[1].request;
+    await t.expect(req2.url).eql('http://localhost:3000/idp/idx/credential/enroll');
+    await t.expect(req2.method).eql('post');
+    await t.expect(req2.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3","methodType":"password"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
 
-  const req3 = requestLogger.requests[2].request;
-  await t.expect(req3.url).eql('http://localhost:3000/idp/idx/credential/enroll');
-  await t.expect(req3.method).eql('post');
-  await t.expect(req3.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+    const req3 = requestLogger.requests[2].request;
+    await t.expect(req3.url).eql('http://localhost:3000/idp/idx/credential/enroll');
+    await t.expect(req3.method).eql('post');
+    await t.expect(req3.body).eql('{"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+
+    const req4 = requestLogger.requests[3].request;
+    await t.expect(req4.url).eql('http://localhost:3000/idp/idx/credential/enroll');
+    await t.expect(req4.method).eql('post');
+    await t.expect(req4.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3","methodType":"password"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+  } else {
+    await t.expect(requestLogger.count(() => true)).eql(3);
+    const req1 = requestLogger.requests[0].request;
+    await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
+  
+    const req2 = requestLogger.requests[1].request;
+    await t.expect(req2.url).eql('http://localhost:3000/idp/idx/credential/enroll');
+    await t.expect(req2.method).eql('post');
+    await t.expect(req2.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+  
+    const req3 = requestLogger.requests[2].request;
+    await t.expect(req3.url).eql('http://localhost:3000/idp/idx/credential/enroll');
+    await t.expect(req3.method).eql('post');
+    await t.expect(req3.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+  }
 });
 
 test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enrollment and go to success', async t => {

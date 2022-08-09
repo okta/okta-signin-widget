@@ -1,4 +1,5 @@
 import { Selector } from 'testcafe';
+import BaseFormObjectV3 from './components/BaseFormObjectV3';
 import SelectFactorPageObject from './SelectFactorPageObject';
 
 const SIGNOUT_LINK = '[data-se="cancel"]';
@@ -9,13 +10,14 @@ const AUTHENTICATOR_BUTTON_USAGE_TEXT_SELECTOR = '[data-se="authenticator-button
 const AUTHENTICATOR_BUTTON_ICON_SELECTOR = '[data-se="authenticator-icon"] div';
 const AUTHENTICATOR_BUTTON_CTA_BUTTON_SELECTOR = `${AUTHENTICATOR_BUTTON_SELECTOR} .cta-button`;
 const AUTHENTICATOR_BUTTON_CTA_BUTTON_LABEL_SELECTOR = `${AUTHENTICATOR_BUTTON_SELECTOR} [data-se="cta-button-label"]`;
-const CUSTOM_OTP_BUTTON_SELECTOR = '[data-se="custom_otp"]';
-const SKIP_OPTIONAL_ENROLLMENT_SELECTOR = '[data-se="button"]';
-const FORM_INFOBOX_ERROR = '[data-se="infobox-error"]';
+const CUSTOM_OTP_BUTTON_SELECTOR = `${AUTHENTICATOR_BUTTON_SELECTOR} [data-se="custom_otp"]`;
+const SKIP_OPTIONAL_ENROLLMENT_SELECTOR = '[data-type="save"]';
 
 export default class SelectFactorPageObjectV3 extends SelectFactorPageObject {
   constructor(t) {
     super(t);
+    // override super.form
+    this.form = new BaseFormObjectV3(t);
   }
 
   getFactorsCount() {
@@ -47,7 +49,7 @@ export default class SelectFactorPageObjectV3 extends SelectFactorPageObject {
   }
 
   async getErrorFromErrorBox() {
-    return this.el.find(FORM_INFOBOX_ERROR).innerText;
+    return this.form.getErrorBoxText();
   }
 
   async clickCustomOTP() {
