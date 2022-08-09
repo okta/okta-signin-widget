@@ -23,9 +23,9 @@ import {
   TitleElement,
   UISchemaLayout,
   UISchemaLayoutType,
-} from '../../types';
-import { loc, removeFieldLevelMessages } from '../../util';
-import { getUIElementWithName } from '../utils';
+} from '../../../types';
+import { loc, removeFieldLevelMessages } from '../../../util';
+import { getUIElementWithName } from '../../utils';
 
 type Question = {
   questionKey: string;

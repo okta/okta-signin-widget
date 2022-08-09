@@ -18,32 +18,28 @@ import {
   IdxStepTransformer,
   TitleElement,
   UISchemaElement,
-} from '../../types';
-import { loc } from '../../util';
-import { getUIElementWithName } from '../utils';
+} from '../../../types';
+import { loc } from '../../../util';
+import { getUIElementWithName } from '../../utils';
 
 export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep: { relatesTo } = {} as NextStep } = transaction;
   const { uischema } = formBag;
 
-  const answerElement = getUIElementWithName(
-    'credentials.answer',
-    uischema.elements as UISchemaElement[],
-  );
-  if (answerElement) {
-    answerElement.label = relatesTo?.value?.profile?.question as string;
-  }
-
-  // Add the title to the top
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
       content: loc('oie.security.question.challenge.title', 'login'),
     },
   };
-  uischema.elements.unshift(titleElement);
 
-  const primaryButton: ButtonElement = {
+  const answerElement = getUIElementWithName(
+    'credentials.answer',
+    uischema.elements as UISchemaElement[],
+  ) as UISchemaElement;
+  answerElement.label = relatesTo?.value?.profile?.question as string;
+
+  const submitButton: ButtonElement = {
     type: 'Button',
     label: loc('oform.verify', 'login'),
     options: {
@@ -51,7 +47,12 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
       step: transaction.nextStep!.name,
     },
   };
-  uischema.elements.push(primaryButton);
+
+  uischema.elements = [
+    titleElement,
+    answerElement,
+    submitButton,
+  ];
 
   return formBag;
 };

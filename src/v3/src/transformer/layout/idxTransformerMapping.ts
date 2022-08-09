@@ -41,10 +41,6 @@ import {
 import { transformEnrollProfile } from '../profile';
 import { transformIdentityRecovery } from '../recovery';
 import {
-  transformSecurityQuestionEnroll,
-  transformSecurityQuestionVerify,
-} from '../securityQuestion';
-import {
   transformSelectAuthenticatorEnroll,
   transformSelectAuthenticatorUnlockVerify,
   transformSelectAuthenticatorVerify,
@@ -56,6 +52,10 @@ import {
   transformEmailChallengeConsent,
   transformEmailVerification,
 } from './email';
+import {
+  transformSecurityQuestionEnroll,
+  transformSecurityQuestionVerify,
+} from './securityQuestion';
 
 /**
  * TransformerMap
