@@ -95,7 +95,11 @@ export const transformStepInputs = (
       if (required && mutable !== false && type !== 'object') {
         acc.dataSchema[name] = {
           validate(data) {
-            const isValid = !!data[name];
+            // Phone number fields contain +[countryCode] characters by default
+            // Must assert more than 2 characters for client side validation
+            const isValid = name.endsWith('phoneNumber')
+              ? !!data[name] && (data[name] as string).length > 2
+              : !!data[name];
             return isValid ? undefined : getValidationMessages(name, widgetProps, step);
           },
         };
