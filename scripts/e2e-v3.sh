@@ -9,7 +9,7 @@ source ${OKTA_HOME}/${REPO}/scripts/setup.sh
 
 cd ${OKTA_HOME}/${REPO}
 
-setup_service google-chrome-stable 103.0.5060.53-1
+setup_service google-chrome-stable 91.0.4472.77-1
 
 function run_e2e() {
   echo "Starting e2e test suite"
