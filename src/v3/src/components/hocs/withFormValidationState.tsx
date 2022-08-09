@@ -15,7 +15,7 @@ import { useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useFormFieldValidation } from '../../hooks';
-import { FieldElement, UISchemaElementComponent } from '../../types';
+import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
 import { getDisplayName } from './getDisplayName';
 
 export type RendererComponent<T> = {

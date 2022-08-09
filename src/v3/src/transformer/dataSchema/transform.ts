@@ -15,8 +15,10 @@ import { flow } from 'lodash';
 import {
   ButtonElement,
   ButtonType,
+  FieldElement,
   TransformStepFn,
 } from '../../types';
+import { loc } from '../../util';
 import { traverseLayout } from '../util';
 
 const addSubmission: TransformStepFn = (formbag) => {
@@ -50,6 +52,29 @@ const addSubmission: TransformStepFn = (formbag) => {
   return formbag;
 };
 
+const addPhoneValidationError: TransformStepFn = (formBag) => {
+  const { dataSchema, uischema: { elements } } = formBag;
+  const phoneElement = elements.find((element) => (element as FieldElement)
+    .options.inputMeta.name?.endsWith('phoneNumber')) as FieldElement;
+
+  if (phoneElement) {
+    const fieldName = phoneElement.options.inputMeta.name;
+    dataSchema[fieldName] = {
+      validate(data) {
+        // Phone number fields contain +[countryCode] characters by default
+        // Must assert more than 2 characters for client side validation
+        const isValid = !!data[fieldName] && (data[fieldName] as string).length > 2;
+        return isValid ? undefined : [{
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        }];
+      },
+    };
+  }
+  return formBag;
+};
+
 export const transformDataSchema: TransformStepFn = (formbag) => flow(
   addSubmission,
+  addPhoneValidationError,
 )(formbag);
