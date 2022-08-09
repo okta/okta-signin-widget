@@ -163,7 +163,7 @@ export const getButtonControls = (
     };
     const registerEntryLayout = {
       type: UISchemaLayoutType.HORIZONTAL,
-      elements: [registrationLabel,registerLink],
+      elements: [registrationLabel, registerLink],
     };
 
     elements.push(registerEntryLayout);
