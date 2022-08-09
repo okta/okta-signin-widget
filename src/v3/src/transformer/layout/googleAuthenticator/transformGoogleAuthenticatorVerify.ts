@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getUIElementWithName } from 'src/transformer/utils';
-
 import {
   ButtonElement,
   ButtonType,
@@ -21,6 +19,7 @@ import {
   TitleElement,
 } from '../../../types';
 import { loc } from '../../../util';
+import { getUIElementWithName } from '../../utils';
 
 export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
   formBag,
