@@ -66,7 +66,7 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
       data.identifier = username;
     } else if (features?.rememberMe && features?.rememberMyUsernameOnOIE) {
       const usernameCookie = getUsernameCookie();
-      data.identifier = usernameCookie ?? undefined;
+      data.identifier = usernameCookie;
     }
   }
 
