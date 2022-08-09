@@ -10,10 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { getUIElementWithName } from 'src/transformer/utils';
+
 import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  FieldElement,
   IdxStepTransformer,
   TitleElement,
 } from '../../../types';
@@ -37,6 +40,10 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
       content: loc('oie.verify.google_authenticator.otp.description', 'login'),
     },
   };
+  const passcodeElement: FieldElement = getUIElementWithName(
+    'credentials.passcode',
+    uischema.elements,
+  ) as FieldElement;
   const submitButtonElement: ButtonElement = {
     type: 'Button',
     label: loc('mfa.challenge.verify', 'login'),
@@ -49,6 +56,7 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
   uischema.elements = [
     titleElement,
     informationalText,
+    passcodeElement,
     submitButtonElement,
   ];
 
