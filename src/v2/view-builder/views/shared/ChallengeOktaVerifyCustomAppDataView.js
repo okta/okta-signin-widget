@@ -2,17 +2,17 @@
 import { BaseFooter } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import
-ChallengeAuthenticatorDataPushOnlyFormView
-  from './ChallengeAuthenticatorDataPushOnlyFormView';
-import ChallengeAuthenticatorDataFormView from './ChallengeAuthenticatorDataFormView';
+  ChallengeOktaVerifyCustomPushPushOnlyFormView
+  from './ChallengeOktaVerifyCustomPushPushOnlyFormView';
+import ChallengeOktaVerifyCustomAppFormView from './ChallengeOktaVerifyCustomAppFormView';
 
 export default BaseAuthenticatorView.extend({
   initialize() {
     BaseAuthenticatorView.prototype.initialize.apply(this, arguments);
     if (this.isPushOnlyWithAutoChallengeFlow()) {
-      this.Body = ChallengeAuthenticatorDataPushOnlyFormView;
+      this.Body = ChallengeOktaVerifyCustomPushPushOnlyFormView;
     } else {
-      this.Body = ChallengeAuthenticatorDataFormView;
+      this.Body = ChallengeOktaVerifyCustomAppFormView;
       this.Footer = BaseFooter;
     }
   },
