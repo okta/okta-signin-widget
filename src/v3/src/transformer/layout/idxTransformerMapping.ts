@@ -14,11 +14,6 @@ import { IdxStepTransformer } from 'src/types';
 
 import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import {
-  transformEmailChallenge,
-  transformEmailChallengeConsent,
-  transformEmailVerification,
-} from '../email';
-import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
 } from '../googleAuthenticator';
@@ -56,6 +51,11 @@ import {
   transformSelectOVMethodVerify,
 } from '../selectAuthenticator';
 import { transformWebAuthNAuthenticator } from '../webauthn';
+import {
+  transformEmailChallenge,
+  transformEmailChallengeConsent,
+  transformEmailVerification,
+} from './email';
 
 /**
  * TransformerMap
