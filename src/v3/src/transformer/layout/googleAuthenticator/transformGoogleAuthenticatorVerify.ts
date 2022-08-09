@@ -14,10 +14,12 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  FieldElement,
   IdxStepTransformer,
   TitleElement,
-} from '../../types';
-import { loc } from '../../util';
+} from '../../../types';
+import { loc } from '../../../util';
+import { getUIElementWithName } from '../../utils';
 
 export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
   formBag,
@@ -37,6 +39,10 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
       content: loc('oie.verify.google_authenticator.otp.description', 'login'),
     },
   };
+  const passcodeElement: FieldElement = getUIElementWithName(
+    'credentials.passcode',
+    uischema.elements,
+  ) as FieldElement;
   const submitButtonElement: ButtonElement = {
     type: 'Button',
     label: loc('mfa.challenge.verify', 'login'),
@@ -46,10 +52,12 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
     },
   };
 
-  // Title -> Descr -> Submit
-  uischema.elements.unshift(informationalText);
-  uischema.elements.unshift(titleElement);
-  uischema.elements.push(submitButtonElement);
+  uischema.elements = [
+    titleElement,
+    informationalText,
+    passcodeElement,
+    submitButtonElement,
+  ];
 
   return formBag;
 };

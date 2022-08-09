@@ -22,9 +22,9 @@ import {
   TitleElement,
   UISchemaElement,
   UISchemaLayoutType,
-} from '../../types';
-import { loc } from '../../util';
-import { getUIElementWithName } from '../utils';
+} from '../../../types';
+import { loc } from '../../../util';
+import { getUIElementWithName } from '../../utils';
 
 export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
   transaction,
