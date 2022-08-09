@@ -1,9 +1,7 @@
 // Common view for OV push and custom push.
 import { BaseFooter } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import
-  ChallengeOktaVerifyCustomPushPushOnlyFormView
-  from './ChallengeOktaVerifyCustomPushPushOnlyFormView';
+import ChallengeOktaVerifyCustomPushPushOnlyFormView from './ChallengeOktaVerifyCustomPushPushOnlyFormView';
 import ChallengeOktaVerifyCustomAppFormView from './ChallengeOktaVerifyCustomAppFormView';
 
 export default BaseAuthenticatorView.extend({
