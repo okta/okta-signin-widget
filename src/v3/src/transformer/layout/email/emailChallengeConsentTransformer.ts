@@ -36,9 +36,9 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
   const appImageElement: ImageWithTextElement = {
     type: 'ImageWithText',
     options: {
-      id: appName.name,
+      id: appName?.name,
       SVGIcon: AppSvg,
-      textContent: appName.value,
+      textContent: appName?.value,
     },
   };
   // @ts-ignore OKTA-489560 (missing requestInfo prop)
@@ -46,9 +46,9 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
   const browserImageElement: ImageWithTextElement = {
     type: 'ImageWithText',
     options: {
-      id: browser.name,
+      id: browser?.name,
       SVGIcon: BrowserSvg,
-      textContent: browser.value,
+      textContent: browser?.value,
     },
   };
 
@@ -85,8 +85,8 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
 
   uischema.elements = [
     titleElement,
-    ...(browser?.value && [browserImageElement]),
-    ...(appName?.value && [appImageElement]),
+    ...(browser && [browserImageElement]),
+    ...(appName && [appImageElement]),
     deny,
     allow,
   ];
