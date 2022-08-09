@@ -338,12 +338,12 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       .catch(done.fail);
   });
 
-  it('shows not have setup webauthn residentKey text when enroll-webauthn-residentkey remediation does not exist', function() {
+  it('should not have "setup webauthn residentKey text" when enroll-webauthn-residentkey remediation does not exist', function() {
     testContext.init();
     expect(testContext.view.$('.setup-webauthn-residentkey-text').length).toBe(0);
   });
 
-  it('shows hide setup webauthn residentKey text when enroll-webauthn-residentkey remediation exist', function() {
+  it('should hide "setup webauthn residentKey text" when enroll-webauthn-residentkey remediation exist', function() {
     const assertion = {
       response: {
         clientDataJSON: 123,
@@ -362,7 +362,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
     expect(testContext.view.$('.setup-webauthn-residentkey-text').css('display')).toBe('none');
   });
 
-  it('shows show setup webauthn residentKey text when enroll-webauthn-residentkey remediation exist and webauthn errors', function(done) {
+  it('should show "setup webauthn residentKey text" when enroll-webauthn-residentkey remediation exist and webauthn errors', function(done) {
     jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.reject({
       message: 'error from browser',
       name: 'NotAllowedError',

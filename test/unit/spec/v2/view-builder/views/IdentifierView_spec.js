@@ -299,7 +299,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect($psswordError.text()).toEqual('Password is required!');
   });
 
-  it('should show signin with biometric button when launch-webauthn-authenticator remediation exist', function() {
+  it('should show "signin with biometric" button when launch-webauthn-authenticator remediation exist', function() {
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
       return remediation === FORMS.LAUNCH_WEBAUTHN_AUTHENTICATOR;
     });
