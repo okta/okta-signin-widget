@@ -15,7 +15,7 @@ import { useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useFormFieldValidation } from '../../hooks';
-import { FieldElement, UISchemaElementComponent } from '../../types';
+import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
 import { getDisplayName } from './getDisplayName';
 
 export type RendererComponent<T> = {
@@ -28,10 +28,12 @@ export type WrappedFunctionComponent<T> = (
   Component: UISchemaElementComponent<T>
 ) => RendererComponent<T>;
 
-// eslint-disable-next-line max-len
-export const withFormValidationState: WrappedFunctionComponent<{ uischema: FieldElement }> = (Component) => {
-  // eslint-disable-next-line max-len
-  const ParentComponent: RendererComponent<{ uischema: FieldElement }> = (props: { uischema: FieldElement }) => {
+export const withFormValidationState: WrappedFunctionComponent<
+{ uischema: FieldElement } & {
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+}> = (Component) => {
+  const ParentComponent: RendererComponent<
+  { uischema: FieldElement }> = (props: { uischema: FieldElement }) => {
     const { uischema } = props;
     const {
       options: {
@@ -41,7 +43,7 @@ export const withFormValidationState: WrappedFunctionComponent<{ uischema: Field
         },
       },
     } = uischema;
-    const submissionError = messages?.value?.[0] && getMessage(messages.value[0]);
+    const errorFromSchema = messages?.value?.[0] && getMessage(messages.value[0]);
     const [touched, setTouched] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>();
     const onValidateHandler = useFormFieldValidation(uischema);
@@ -49,13 +51,13 @@ export const withFormValidationState: WrappedFunctionComponent<{ uischema: Field
     // For server side errors, need to reset the touched value
     useEffect(() => {
       setTouched(false);
-    }, [submissionError]);
+    }, [errorFromSchema]);
 
     const combinedProps = {
       ...props,
       touched,
       setTouched,
-      error: touched ? error : submissionError,
+      error: touched ? error : errorFromSchema,
       setError,
       onValidateHandler,
     };
