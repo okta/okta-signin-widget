@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`enroll-profile should render form 1`] = `
+exports[`enroll-profile-new should render form 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"

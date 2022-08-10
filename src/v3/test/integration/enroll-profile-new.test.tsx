@@ -13,7 +13,7 @@
 import mockResponse from '@okta/mocks/data/idp/idx/enroll-profile-new.json';
 import { setup } from './util';
 
-describe('enroll-profile', () => {
+describe('enroll-profile-new', () => {
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Sign up/);
