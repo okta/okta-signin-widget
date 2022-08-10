@@ -31,12 +31,6 @@ artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
 git clone https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
 
-# sample is setup to use npm
-if ! npm install; then
-  echo "install failed! Exiting..."
-  exit ${FAILED_SETUP}
-fi
-
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
 published_tarball=${REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
 if ! npm i ${published_tarball}; then
@@ -48,6 +42,12 @@ fi
 auth_js_version=$(cat node_modules/@okta/okta-signin-widget/package.json | jq -r '.dependencies."@okta/okta-auth-js"')
 if ! npm i @okta/okta-auth-js@${auth_js_version}; then
   echo "install auth-js@${auth_js_version} failed! Exiting..."
+  exit ${FAILED_SETUP}
+fi
+
+# sample is setup to use npm. install remaining dependencies, after the widget and auth-js are installed
+if ! npm install; then
+  echo "install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
