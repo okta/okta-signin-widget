@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Link as LinkMui } from '@mui/material';
+import { Link as LinkMui } from '@mui/material';
 import { h } from 'preact';
 
 import { useOnSubmit } from '../../hooks';
@@ -43,21 +43,28 @@ const Link: UISchemaElementComponent<{
   };
 
   return (
-    <Box marginTop={4}>
-      {
-        typeof href === 'undefined' ? (
-          <LinkMui
-            // eslint-disable-next-line no-script-url
-            href="javascript:void(0)"
-            onClick={onClick}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...(dataSe && { 'data-se': dataSe } )}
-          >
-            {getLabelName(label)}
-          </LinkMui>
-        ) : <LinkMui href={href}>{getLabelName(label)}</LinkMui>
-      }
-    </Box>
+    typeof href === 'undefined' ? (
+      <LinkMui
+        // eslint-disable-next-line no-script-url
+        href="javascript:void(0)"
+        onClick={onClick}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...(dataSe && { 'data-se': dataSe } )}
+        sx={{
+          verticalAlign: 'middle',
+        }}
+      >
+        {getLabelName(label)}
+      </LinkMui>
+    )
+      : (
+        <LinkMui
+          href={href}
+          sx={{ verticalAlign: 'middle' }}
+        >
+          {getLabelName(label)}
+        </LinkMui>
+      )
   );
 };
 

@@ -67,16 +67,12 @@ exports[`error-session-expired should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-6"
                 >
-                  <div
-                    class="MuiBox-root emotion-13"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-13"
+                    href="/"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-14"
-                      href="/"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>

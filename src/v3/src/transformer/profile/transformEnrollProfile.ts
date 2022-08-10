@@ -14,6 +14,7 @@ import { IDX_STEP, PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../consta
 import {
   ButtonElement,
   ButtonType,
+  DescriptionElement,
   FieldElement,
   IdxStepTransformer,
   LinkElement,
@@ -21,6 +22,7 @@ import {
   PasswordRequirementsElement,
   TitleElement,
   UISchemaElement,
+  UISchemaLayoutType,
 } from '../../types';
 import { getUserInfo, loc } from '../../util';
 import { buildPasswordRequirementListItems } from '../password';
@@ -78,14 +80,29 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
 
   const selectIdentifyStep = availableSteps?.find(({ name }) => name === IDX_STEP.SELECT_IDENTIFY);
   if (selectIdentifyStep) {
-    const { name: step } = selectIdentifyStep;
     uischema.elements.push({
+      type: 'Divider',
+    });
+    const { name: step } = selectIdentifyStep;
+    const signinLink: LinkElement = {
       type: 'Link',
       options: {
-        label: loc('haveaccount', 'login'),
+        label: loc('signin', 'login'),
         step,
       },
-    } as LinkElement);
+    };
+    const signinLabel: DescriptionElement = {
+      type: 'Description',
+      options: {
+        content: loc('haveaccount', 'login'),
+      },
+    };
+    const loginEntryLayout = {
+      type: UISchemaLayoutType.HORIZONTAL,
+      elements: [signinLabel, signinLink],
+    };
+
+    uischema.elements.push(loginEntryLayout);
   }
 
   return formBag;
