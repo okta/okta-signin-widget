@@ -230,6 +230,7 @@
       "test/e2e",
       "test/types",
       "playground",
+      "playground/mocks",
       "packages/@okta/courage-dist",
       "src/v3"
     ],

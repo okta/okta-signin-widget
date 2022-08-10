@@ -52,20 +52,20 @@ exports[`enroll-profile should render form 1`] = `
                   >
                     <label
                       class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
-                      for="userProfile.firstName"
+                      for="userProfile.lastName"
                     >
-                      First name
+                      Last name
                     </label>
                     <div
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
                         aria-invalid="false"
-                        autocomplete="given-name"
+                        autocomplete="family-name"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
-                        data-se="userProfile.firstName"
-                        id="userProfile.firstName"
-                        name="userProfile.firstName"
+                        data-se="userProfile.lastName"
+                        id="userProfile.lastName"
+                        name="userProfile.lastName"
                         type="text"
                       />
                       <fieldset
@@ -93,20 +93,20 @@ exports[`enroll-profile should render form 1`] = `
                   >
                     <label
                       class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
-                      for="userProfile.lastName"
+                      for="userProfile.firstName"
                     >
-                      Last name
+                      First name
                     </label>
                     <div
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
                         aria-invalid="false"
-                        autocomplete="family-name"
+                        autocomplete="given-name"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
-                        data-se="userProfile.lastName"
-                        id="userProfile.lastName"
-                        name="userProfile.lastName"
+                        data-se="userProfile.firstName"
+                        id="userProfile.firstName"
+                        name="userProfile.firstName"
                         type="text"
                       />
                       <fieldset
