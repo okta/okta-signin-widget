@@ -31,8 +31,14 @@ artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
 git clone https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
 
-# sample is setup to use npm, broadcast-channel needs to be installed first to guarantee microtime@3.0.0 is used
-if ! npm i broadcast-channel@4.13.0 & npm i; then
+# sample is setup to use npm
+# broadcast-channel needs to be installed first to guarantee microtime@3.0.0 is used
+if ! npm i broadcast-channel@4.13.0; then
+  echo "install failed broadcast-channel@4.13.0! Exiting..."
+  exit ${FAILED_SETUP}
+fi
+
+if ! npm i; then
   echo "install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
