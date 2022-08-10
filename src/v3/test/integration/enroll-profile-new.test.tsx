@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import mockResponse from '@okta/mocks/data/idp/idx/enroll-profile-new.json';
 import { setup } from './util';
 
-import mockResponse from '../../src/mocks/response/idp/idx/enroll/default.json';
-
-describe('enroll-profile', () => {
+describe('enroll-profile-new', () => {
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Sign up/);
@@ -47,18 +46,18 @@ describe('enroll-profile', () => {
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       'POST',
-      'https://oie-8425965.oktapreview.com/idp/idx/enroll/new',
+      'http://localhost:3000/idp/idx/enroll/new',
       {
         data: JSON.stringify({
+          stateHandle: 'fake-stateHandle',
           userProfile: {
             firstName,
             lastName,
             email,
           },
-          stateHandle: 'fake-stateHandle',
         }),
         headers: {
-          Accept: 'application/json; okta-version=1.0.0',
+          Accept: 'application/vnd.okta.v1+json',
           'Content-Type': 'application/json',
           'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
         },
@@ -84,7 +83,7 @@ describe('enroll-profile', () => {
 
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
-      'https://oie-8425965.oktapreview.com/idp/idx/enroll/new',
+      'http://localhost:3000/idp/idx/enroll/new',
       expect.anything(),
     );
   });

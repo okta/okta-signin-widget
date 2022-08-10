@@ -81,7 +81,7 @@ describe('flows', () => {
 
   it('covers enroll-profile flow', () => {
     [
-      'enroll-profile',
+      'enroll-profile-new',
       'authenticator-enroll-select-authenticator',
     ].forEach((test) => {
       expect(tests.includes(test)).toBeTruthy();
