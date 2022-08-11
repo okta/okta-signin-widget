@@ -10,6 +10,5 @@ Feature: Email Login
       When user logs in with username and password
       Then user is challenged for email code
       And user clicks send email
-      # And user inputs the correct code from email
       And user clicks the email magic link
       Then user sees the tokens on the page

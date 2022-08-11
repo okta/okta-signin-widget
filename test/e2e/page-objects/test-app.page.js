@@ -80,6 +80,42 @@ class TestAppPage {
       expect(txt.length).toBeGreaterThan(0);
     });
   }
+
+  async assertWidget(displayed) {
+    if (displayed) {
+      await waitForLoad(this.widget);
+    }
+    await this.widget.then(el => el.isDisplayed()).then(isDisplayed => {
+      expect(isDisplayed).toBe(displayed);
+    });
+  }
+
+  async assertWidgetRemoved() {
+    await this.widget.then(el => el.isExisting()).then(isExisting => {
+      expect(isExisting).toBeFalsy();
+    });
+  }
+
+  async assertWidgetCustomTitle() {
+    await this.widgetTitle.then(el => el.getText()).then(txt => {
+      expect(txt).toBe('Sign In to Acme');
+    });
+  }
+
+  async assertWidgetBackgroundColor() {
+    await this.submit.scrollIntoView();
+    await this.submit.then(el => el.getCSSProperty('background-color')).then(background => {
+      expect(background.value).toContain('rgba(0,128,0,1)');
+    });
+  }
+
+  async assertCSPError(expectedError) {
+    await waitForLoad(this.cspErrors);
+    await this.cspErrors.then(el => el.getText()).then(txt => {
+      expect(txt).toEqual(expectedError);
+    });
+  }
+
 }
 
 export default new TestAppPage();

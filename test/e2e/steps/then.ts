@@ -42,6 +42,30 @@ Then(
 );
 
 Then(
+  /^user sees the id_token on the page$/,
+  async function() {
+    const {
+      WIDGET_BASIC_NAME,
+    } = process.env;
+    return await TestAppPage.assertIDToken(WIDGET_BASIC_NAME);
+  }
+);
+
+Then(
+  /^user sees the access_token on the page$/,
+  async function() {
+    await TestAppPage.assertAccessToken();
+  }
+);
+
+Then(
+  /^user sees the authorization_code on the page$/,
+  async function() {
+    await TestAppPage.assertCode();
+  }
+);
+
+Then(
   /^user sees primary signin form and not forgot password form$/,
   async function() {
     return await PrimaryAuthPage.waitForPrimaryAuthForm();
@@ -90,3 +114,46 @@ Then(
     await SetupAuthenticatorPage.setupLater();
   }
 );
+
+Then(
+  /^widget is hidden on the page$/,
+  async function() {
+    await TestAppPage.assertWidget(false);
+  }
+);
+
+Then(
+  /^widget is shown on the page$/,
+  async function() {
+    await TestAppPage.assertWidget(true);
+  }
+);
+
+Then(
+  /^widget is removed from the page$/,
+  async function() {
+    await TestAppPage.assertWidgetRemoved();
+  }
+);
+
+Then(
+  /^widget displays customized title$/,
+  async function() {
+    await TestAppPage.assertWidgetCustomTitle();
+  }
+);
+
+Then(
+  /^widget background shows the updated color$/,
+  async function() {
+    await TestAppPage.assertWidgetBackgroundColor();
+  }
+);
+
+Then(
+  /^user sees the CSP error on the page$/,
+  async function() {
+    await TestAppPage.assertCSPError('eval blocked due to CSP rule script-src from script-src http://localhost:3000');
+  }
+);
+

@@ -29,6 +29,19 @@ When(
 );
 
 When(
+  /^existing user logs in with username and password$/,
+  // eslint-disable-next-line no-unused-vars
+  async function(this: ActionContext) {
+    const {
+      WIDGET_BASIC_USER,
+      WIDGET_BASIC_PASSWORD,
+    } = process.env;
+    await waitForLoad(TestAppPage.widget);
+    return await PrimaryAuthPage.login(WIDGET_BASIC_USER, WIDGET_BASIC_PASSWORD);
+  }
+);
+
+When(
   /^user logs in using 3rd party IdP$/,
   // eslint-disable-next-line no-unused-vars
   async function(this: ActionContext) {
@@ -94,3 +107,30 @@ When(
   }
 );
 
+When(
+  /^user clicks the hide button$/,
+  async function() {
+    TestAppPage.hideButton.click();
+  }
+);
+
+When(
+  /^user clicks the show button$/,
+  async function() {
+    TestAppPage.showButton.click();
+  }
+);
+
+When(
+  /^user clicks the remove button$/,
+  async function() {
+    TestAppPage.removeButton.click();
+  }
+);
+
+When(
+  /^user triggers CSP failure in the test app$/,
+  async function() {
+    TestAppPage.triggerCspFail.click();
+  }
+);
