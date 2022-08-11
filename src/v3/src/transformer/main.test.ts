@@ -60,7 +60,11 @@ describe('main transformer', () => {
     // FIXME: custom layout should pick elements from translated buttons
     // expect(mocked.button.transformButtons).toHaveBeenCalledBefore(mocked.layout.transformLayout);
     expect(mocked.layout.transformLayout).toHaveBeenCalledBefore(mocked.i18n.transformI18n);
-    expect(mocked.layout.transformLayout).toHaveBeenCalledBefore(mocked.dataSchema.transformDataSchema);
-    expect(mocked.layout.transformLayout).toHaveBeenCalledBefore(mocked.testAttribute.transformTestAttribute);
+    expect(mocked.layout.transformLayout).toHaveBeenCalledBefore(
+      mocked.dataSchema.transformDataSchema,
+    );
+    expect(mocked.layout.transformLayout).toHaveBeenCalledBefore(
+      mocked.testAttribute.transformTestAttribute,
+    );
   });
 });
