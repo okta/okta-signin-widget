@@ -94,7 +94,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
                         for="credentials.answer"
                       >
                         What is the food you least liked as a child?
@@ -111,7 +111,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                           type="password"
                         />
                         <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-20"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-20"
                         >
                           <button
                             aria-label="toggle password visibility"
