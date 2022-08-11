@@ -50,9 +50,6 @@ const Link: UISchemaElementComponent<{
         onClick={onClick}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...(dataSe && { 'data-se': dataSe } )}
-        sx={{
-          verticalAlign: 'middle',
-        }}
       >
         {getLabelName(label)}
       </LinkMui>
@@ -60,7 +57,6 @@ const Link: UISchemaElementComponent<{
       : (
         <LinkMui
           href={href}
-          sx={{ verticalAlign: 'middle' }}
         >
           {getLabelName(label)}
         </LinkMui>
