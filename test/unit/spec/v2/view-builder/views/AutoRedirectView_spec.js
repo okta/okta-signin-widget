@@ -64,4 +64,36 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
     testContext.init();
     expect(testContext.view.el).toMatchSnapshot('should show identifier in title');
   });
+
+  it('renders custom error message', function() {
+    settings = new Settings({
+      baseUrl: 'http://localhost:3000',
+      'interstitialBeforeLoginRedirect': INTERSTITIAL_REDIRECT_VIEW.DEFAULT,
+    });
+    const appState = new AppState({}, {});
+    appState.set('messages', {
+      'value': [
+        {
+          'message': 'You do not have permission to perform the requested action.',
+          'links': [
+            {'label': 'Help link 1', 'url': 'https://www.okta.com/'},
+            {'label': 'Help link 2', 'url': 'https://www.okta.com/help?page=1'}
+          ],
+          'i18n': {
+            'key': 'security.access_denied_custom_message'
+          },
+          'class': 'ERROR'
+        }
+      ]
+    });
+    testContext.view = new AutoRedirectView({
+      appState,
+      settings,
+      currentViewState: {},
+      model: new Model(),
+    });
+    testContext.view.render();
+
+    expect(testContext.view.$el.html()).toMatchSnapshot();
+  });
 });

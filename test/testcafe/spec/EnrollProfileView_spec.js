@@ -135,8 +135,10 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithBooleanFieldsMock)('shou
 
   await t.expect(await enrollProfilePage.clickRadioButton('userProfile.pet', 0)).eql('Yes');
 
-  await t.expect(await enrollProfilePage.getCheckboxValue('userProfile.subscribe')).eql(false);
-  await enrollProfilePage.setCheckbox('userProfile.subscribe');
+  await t.expect(await enrollProfilePage.getCheckboxValue('userProfile.required')).eql(false);
+  await t.expect(await enrollProfilePage.getCheckboxValue('userProfile.optional')).eql(false);
+  await enrollProfilePage.setCheckbox('userProfile.required');
+  await enrollProfilePage.setCheckbox('userProfile.optional');
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All Base Attributes are rendered based on their i18n translation, not the label in the json file', async t => {
