@@ -11,64 +11,15 @@
  */
 
 import {
-  ActionOptions,
   ButtonElement,
   ButtonType,
-  DataSchema,
   FieldElement,
   IdxStepTransformer,
   TitleElement,
   UISchemaElement,
-  WidgetProps,
 } from '../../types';
 import { getUsernameCookie, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
-
-const addCustomizedErrorKeys = (
-  dataSchema: Record<string, DataSchema | ActionOptions>,
-  elements: UISchemaElement[],
-  widgetProps: WidgetProps,
-): void => {
-  [
-    { field: 'identifier', key: 'error.username.required' },
-    { field: 'credentials.passcode', key: 'error.password.required' },
-  ].forEach((obj) => {
-    const ele = getUIElementWithName(
-      obj.field,
-      elements as UISchemaElement[],
-    ) as FieldElement;
-    if (ele && isCustomizedI18nKey(obj.key, widgetProps)) {
-      // eslint-disable-next-line no-param-reassign
-      dataSchema[obj.field] = {
-        validate(data) {
-          const isValid = !!data[obj.field];
-          return isValid ? undefined : [{
-            message: loc(obj.key, 'login'),
-            i18n: { key: obj.key },
-          }];
-        },
-      };
-    }
-  });
-};
-
-const addSubLabel = (
-  elements: UISchemaElement[],
-  widgetProps: WidgetProps,
-) => {
-  [
-    { field: 'identifier', key: 'primaryauth.username.tooltip' },
-    { field: 'credentials.passcode', key: 'primaryauth.password.tooltip' },
-  ].forEach((obj) => {
-    const ele = getUIElementWithName(
-      obj.field,
-      elements as UISchemaElement[],
-    ) as FieldElement;
-    if (ele && isCustomizedI18nKey(obj.key, widgetProps)) {
-      ele.options.subLabel = loc(obj.key, 'login');
-    }
-  });
-};
 
 export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
   const { features, username } = widgetProps;
@@ -78,6 +29,16 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
     'identifier',
     uischema.elements as UISchemaElement[],
   ) as FieldElement;
+  if (identifierElement) {
+    // add username/identifier from config if provided
+    if (username) {
+      data.identifier = username;
+    } else if (features?.rememberMe !== false && features?.rememberMyUsernameOnOIE) {
+      const usernameCookie = getUsernameCookie();
+      data.identifier = usernameCookie;
+    }
+  }
+
   const passwordElement = getUIElementWithName(
     'credentials.passcode',
     uischema.elements as UISchemaElement[],
@@ -107,17 +68,6 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
     type: 'Title',
     options: { content: loc('primaryauth.title', 'login') },
   };
-
-  // add username/identifier from config if provided
-  if (identifierElement) {
-    // add username/identifier from config if provided
-    if (username) {
-      data.identifier = username;
-    } else if (features?.rememberMe && features?.rememberMyUsernameOnOIE) {
-      const usernameCookie = getUsernameCookie();
-      data.identifier = usernameCookie ?? undefined;
-    }
-  }
 
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitBtnElement);

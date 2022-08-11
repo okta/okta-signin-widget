@@ -15,6 +15,9 @@ import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
 
+const mockUsername = 'testuser@okta1.com';
+jest.mock('js-cookie', () => ({ get: () => mockUsername }));
+
 describe('identify-with-password', () => {
   it('renders the loading state first', async () => {
     const { container, findByLabelText } = await setup({ mockResponse });
@@ -27,6 +30,32 @@ describe('identify-with-password', () => {
     const { container, findByLabelText } = await setup({ mockResponse });
     await findByLabelText(/Username/);
     expect(container).toMatchSnapshot();
+  });
+
+  it('should pre-populate username into identifier field when set in widget config props', async () => {
+    const {
+      findByTestId,
+    } = await setup({
+      mockResponse,
+      widgetOptions: { username: mockUsername },
+    });
+
+    const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+
+    expect(usernameEl.value).toBe(mockUsername);
+  });
+
+  it('should pre-populate username into identifier field when set in cookie', async () => {
+    const {
+      findByTestId,
+    } = await setup({
+      mockResponse,
+      widgetOptions: { features: { rememberMyUsernameOnOIE: true } },
+    });
+
+    const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+
+    expect(usernameEl.value).toBe(mockUsername);
   });
 
   describe('sends correct payload', () => {
