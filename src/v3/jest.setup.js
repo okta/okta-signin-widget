@@ -12,6 +12,9 @@
 
 /* eslint-disable import/extensions */
 import 'jest-canvas-mock';
+import { toHaveBeenCalledBefore } from 'jest-extended';
+
+expect.extend({ toHaveBeenCalledBefore });
 
 require('@testing-library/jest-dom');
 require('whatwg-fetch');
