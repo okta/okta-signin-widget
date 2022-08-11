@@ -1470,19 +1470,19 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                           class="MuiBox-root emotion-39"
                         >
                           <label
-                            class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-39"
+                            class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-40"
                             for="authenticator.phoneNumber"
                           >
                             Phone number
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-40"
+                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-41"
                           >
                             <div
-                              class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-41"
+                              class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-42"
                             >
                               <p
-                                class="MuiTypography-root MuiTypography-body1 emotion-42"
+                                class="MuiTypography-root MuiTypography-body1 emotion-43"
                               >
                                 +1
                               </p>
@@ -1490,7 +1490,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             <input
                               aria-invalid="false"
                               autocomplete="tel-national"
-                              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-43"
+                              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-44"
                               data-se="authenticator.phoneNumber"
                               id="authenticator.phoneNumber"
                               name="authenticator.phoneNumber"
@@ -1498,10 +1498,10 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             />
                             <fieldset
                               aria-hidden="true"
-                              class="MuiOutlinedInput-notchedOutline emotion-44"
+                              class="MuiOutlinedInput-notchedOutline emotion-45"
                             >
                               <legend
-                                class="emotion-45"
+                                class="emotion-46"
                               >
                                 <span
                                   class="notranslate"
@@ -1519,7 +1519,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-41"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-48"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -1532,7 +1532,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1543,7 +1543,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
