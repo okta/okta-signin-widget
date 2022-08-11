@@ -118,7 +118,7 @@ exports[`webauthn-enroll should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -129,7 +129,7 @@ exports[`webauthn-enroll should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -246,7 +246,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -257,7 +257,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

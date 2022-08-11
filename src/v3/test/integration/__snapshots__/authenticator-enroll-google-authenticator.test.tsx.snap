@@ -138,32 +138,24 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-25"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
-                      data-se="switchAuthenticator"
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
+                    Return to authenticator list
+                  </a>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-25"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                    data-se="cancel"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>
@@ -331,32 +323,24 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-28"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
-                      data-se="switchAuthenticator"
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
+                    Return to authenticator list
+                  </a>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <div
-                    class="MuiBox-root emotion-28"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                    data-se="cancel"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>
@@ -509,343 +493,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </main>
-    </span>
-  </div>
-</div>
-`;
-
-exports[`authenticator-enroll-google-authenticator renders form renders challenge view 1`] = `
-<div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
-  >
-    <span>
-      <main
-        class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
-        id="okta-sign-in"
-      >
-        <div
-          class="siwContainer MuiBox-root emotion-2"
-        >
-          <div
-            class="okta-sign-in-header auth-header siwHeader authCoinSpacing"
-          >
-            <h1
-              class="MuiTypography-root MuiTypography-h1 emotion-3"
-            />
-            <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
-            >
-              <mocksvgicon />
-            </div>
-          </div>
-          <div
-            class="MuiBox-root emotion-5"
-          >
-            <div
-              class="identifier-container MuiBox-root emotion-6"
-            >
-              <div
-                class="identifierContainer MuiBox-root emotion-7"
-              >
-                <span
-                  class="userIconContainer MuiBox-root emotion-4"
-                >
-                  <svg
-                    class="ods-2icygl"
-                    fill="none"
-                    role="presentation"
-                    viewBox="0 0 16 16"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      clip-rule="evenodd"
-                      d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
-                      fill="currentColor"
-                      fill-rule="evenodd"
-                    />
-                  </svg>
-                </span>
-                <span
-                  class="identifier identifierSpan MuiBox-root emotion-4"
-                  data-se="identifier"
-                >
-                  tester19@test.com
-                </span>
-              </div>
-            </div>
-            <form
-              class="o-form"
-              data-se="form"
-              novalidate=""
-            >
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                    >
-                      Set up Google Authenticator
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-10"
-                >
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <p
-                        class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
-                      >
-                        Enter code displayed from application
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-4"
-                    >
-                      <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
-                        for="credentials.passcode"
-                      >
-                        Enter code
-                      </label>
-                      <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
-                      >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-21"
-                          data-se="credentials.passcode"
-                          id="credentials.passcode"
-                          name="credentials.passcode"
-                          type="text"
-                        />
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-22"
-                        >
-                          <legend
-                            class="emotion-23"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
-                      data-type="save"
-                      tabindex="0"
-                      type="submit"
-                    >
-                      Verify
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </main>
-    </span>
-  </div>
-</div>
-`;
-
-exports[`authenticator-enroll-google-authenticator renders form renders secret key view 1`] = `
-<div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
-  >
-    <span>
-      <main
-        class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
-        id="okta-sign-in"
-      >
-        <div
-          class="siwContainer MuiBox-root emotion-2"
-        >
-          <div
-            class="okta-sign-in-header auth-header siwHeader authCoinSpacing"
-          >
-            <h1
-              class="MuiTypography-root MuiTypography-h1 emotion-3"
-            />
-            <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
-            >
-              <mocksvgicon />
-            </div>
-          </div>
-          <div
-            class="MuiBox-root emotion-5"
-          >
-            <div
-              class="identifier-container MuiBox-root emotion-6"
-            >
-              <div
-                class="identifierContainer MuiBox-root emotion-7"
-              >
-                <span
-                  class="userIconContainer MuiBox-root emotion-4"
-                >
-                  <svg
-                    class="ods-2icygl"
-                    fill="none"
-                    role="presentation"
-                    viewBox="0 0 16 16"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      clip-rule="evenodd"
-                      d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
-                      fill="currentColor"
-                      fill-rule="evenodd"
-                    />
-                  </svg>
-                </span>
-                <span
-                  class="identifier identifierSpan MuiBox-root emotion-4"
-                  data-se="identifier"
-                >
-                  tester19@test.com
-                </span>
-              </div>
-            </div>
-            <form
-              class="o-form"
-              data-se="form"
-              novalidate=""
-            >
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                    >
-                      Set up Google Authenticator
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-10"
-                >
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <p
-                        class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
-                      >
-                        To set up manually enter your Okta Account username and then input the following in the Secret Key Field
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <p
-                        class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
-                      >
-                        K A G W B I X A K O L P E F M Y
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
-                      tabindex="0"
-                      type="button"
-                    >
-                      Next
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -1019,7 +666,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1030,7 +677,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

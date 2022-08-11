@@ -21,6 +21,8 @@ const mockEnrollAuthenticatorPassword = RequestMock()
   .respond(xhrSelectAuthenticators)
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond((req, res) => {
+    // V3 Makes a request when navigating back to authenticator list,
+    // So we must mock v2 and v3 differently to handle that extra request
     const reqString = req.body.toString();
     const requestJSON = JSON.parse(reqString);
     if (process.env.OKTA_SIW_V3 && !requestJSON.authenticator?.id) {
@@ -242,6 +244,9 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 
+  // v3 makes an additional request when navigating back to authenticator list
+  // whereas v2 has that view cached so no request is made.
+  // So we only check the request count on v2 since it will fail w/ 4 on v3
   if (!process.env.OKTA_SIW_V3) {
     await t.expect(requestLogger.count(() => true)).eql(3);
   }
@@ -253,6 +258,8 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
   await t.expect(req2.method).eql('post');
   await t.expect(req2.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
 
+  // Since v3 makes a network request when clicking the back to authenticator list link
+  // we only assert req3 on v2 since this will fail on v3
   if (!process.env.OKTA_SIW_V3) {
     const req3 = requestLogger.requests[2].request;
     await t.expect(req3.url).eql('http://localhost:3000/idp/idx/credential/enroll');

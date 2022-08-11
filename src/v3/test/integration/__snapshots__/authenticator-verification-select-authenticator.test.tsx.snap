@@ -848,7 +848,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-122"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-157"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

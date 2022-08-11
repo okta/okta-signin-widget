@@ -176,7 +176,7 @@ exports[`user-unlock-account renders form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

@@ -191,7 +191,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
