@@ -64,7 +64,6 @@ export const transformEmailChallenge: IdxStepTransformer = ({
     'credentials.passcode',
     uischema.elements as UISchemaElement[],
   );
-  passcodeElement!.label = loc('email.enroll.enterCode', 'login');
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
   const maginLinkText = redactedEmailAddress

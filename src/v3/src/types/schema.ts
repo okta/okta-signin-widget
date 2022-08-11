@@ -11,6 +11,7 @@
  */
 
 import {
+  IdxAuthenticator,
   IdxMessage,
   IdxTransaction,
   Input,
@@ -96,6 +97,7 @@ Promise<WebAuthNVerificationPayload>;
 export interface UISchemaElement {
   type: string;
   label?: string;
+  noMargin?: boolean;
 }
 
 export interface UISchemaLayout {
@@ -173,6 +175,7 @@ export interface AuthenticatorButtonElement {
   label: string;
   options: Omit<ButtonElement['options'], 'type' | 'step'> & {
     key: string;
+    authenticator?: IdxAuthenticator;
     ctaLabel: string;
     description?: string;
     usageDescription?: string;
@@ -211,6 +214,9 @@ export interface DescriptionElement extends UISchemaElement {
   type: 'Description';
   options: {
     content: string;
+    // this field uses a subset of mui Typography variant
+    // https://mui.com/material-ui/api/typography/
+    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'; //
   };
 }
 

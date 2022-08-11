@@ -191,12 +191,14 @@ const formatAuthenticatorOptions = (
       AUTHENTICATOR_KEY.ON_PREM,
       AUTHENTICATOR_KEY.RSA,
     ];
+    const authenticator = option.relatesTo;
 
     return {
       type: 'AuthenticatorButton',
       label: option.label,
       options: {
         key: authenticatorKey,
+        authenticator,
         ctaLabel: isEnroll
           ? loc('oie.enroll.authenticator.button.text', 'login')
           : loc('oie.verify.authenticator.button.text', 'login'),
