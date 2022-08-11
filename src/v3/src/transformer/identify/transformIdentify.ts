@@ -18,17 +18,13 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getUsernameCookie, loc } from '../../util';
+import { loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
-  const { features, username } = widgetProps;
-  const { uischema, data } = formBag;
+  const { features } = widgetProps;
+  const { uischema } = formBag;
 
-  const identifierElement = getUIElementWithName(
-    'identifier',
-    uischema.elements as UISchemaElement[],
-  ) as FieldElement;
   const passwordElement = getUIElementWithName(
     'credentials.passcode',
     uischema.elements as UISchemaElement[],
@@ -58,17 +54,6 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
     type: 'Title',
     options: { content: loc('primaryauth.title', 'login') },
   };
-
-  // add username/identifier from config if provided
-  if (identifierElement) {
-    // add username/identifier from config if provided
-    if (username) {
-      data.identifier = username;
-    } else if (features?.rememberMe && features?.rememberMyUsernameOnOIE) {
-      const usernameCookie = getUsernameCookie();
-      data.identifier = usernameCookie;
-    }
-  }
 
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitBtnElement);
