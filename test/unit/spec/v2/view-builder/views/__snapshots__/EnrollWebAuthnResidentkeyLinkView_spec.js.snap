@@ -5,7 +5,7 @@ exports[`v2/view-builder/views/webauthn/EnrollWebAuthnResidentkeyLinkView should
   class="setup-webauthn-residentkey-text"
 >
   <div>
-    If you don't have Security key or Biometric set up,
+    If you don't have Security key or Biometric set up, 
     <a
       class="setup-webauthn-residentkey-link"
       href="#"
