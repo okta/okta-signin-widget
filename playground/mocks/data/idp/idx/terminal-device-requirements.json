@@ -7,7 +7,7 @@
     "type": "array",
     "value": [
       {
-        "message": "<strong>Device requirements not met</strong><br>For more information, follow the instructions on the <a href=\"https://help.okta.com/okta_help.htm?type=eu&id=csh-ov-device-remediation\">help page</a>, or contact your administrator for help. uihdrtgiujhdiurghiuzrhdgiuhrdgiuhdriughzdiurghkjzdhgiujrdhzgjkdfgzdrhgiulhdrizughrdziughuidrgiurdhguiiurdghrudihgudrtiughdriugdriughuidrhgiudrhgiuhdriuhdriughiudhgiudrhgiudrhgiuhdriughrdiugh",
+        "message": "<strong>Device requirements not met</strong><br>For more information, follow the instructions on the <a href=\"https://help.okta.com/okta_help.htm?type=eu&id=csh-ov-device-remediation\">help page</a>, or contact your administrator for help. uihdrtgiujhdiurghiuzrhdgiuhrdgiuhdriughzdiurghkjz dhgiujrdhzgjkdfgzdrhgiulhdrizughrdziughuidrgiurdhguiiurdghrudih gudrtiughdriugdriughuidrhg iudrhgiuhdriuhdriughiudhgiudrhgiudrhgiuh driughrdiugh hello hello hello hello hello hello hello hello hello",
         "i18n": {
           "key": "idx.error.code.access_denied.device_assurance.default"
         },
