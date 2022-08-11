@@ -216,7 +216,7 @@ export interface DescriptionElement extends UISchemaElement {
     content: string;
     // this field uses a subset of mui Typography variant
     // https://mui.com/material-ui/api/typography/
-    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'; //
+    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   };
 }
 
