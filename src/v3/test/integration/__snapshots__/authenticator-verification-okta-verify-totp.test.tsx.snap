@@ -91,7 +91,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     class="MuiBox-root emotion-4"
                   >
                     <label
-                      class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
                       for="credentials.totp"
                     >
                       Enter code from Okta Verify app

@@ -520,7 +520,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-4"
                   >
                     <label
-                      class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
                       for="email"
                     >
                       Email
@@ -2976,7 +2976,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         class="MuiBox-root emotion-18"
                       >
                         <label
-                          class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
                           for="phoneNumber"
                         >
                           Phone Number
@@ -2995,7 +2995,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                             </span>
                           </label>
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart emotion-21"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-21"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-22"
