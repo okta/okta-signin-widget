@@ -15,7 +15,7 @@ import { useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useFormFieldValidation } from '../../hooks';
-import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
+import { FieldElement, UISchemaElementComponent } from '../../types';
 import { getDisplayName } from './getDisplayName';
 
 export type RendererComponent<T> = {
@@ -30,7 +30,7 @@ export type WrappedFunctionComponent<T> = (
 
 export const withFormValidationState: WrappedFunctionComponent<
 { uischema: FieldElement } & {
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange?: (value: string | number | boolean) => void
 }> = (Component) => {
   const ParentComponent: RendererComponent<
   { uischema: FieldElement }> = (props: { uischema: FieldElement }) => {
