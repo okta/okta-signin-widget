@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams } from '@okta/okta-auth-js';
-
 import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
@@ -65,14 +63,9 @@ export const switchChannelButton = (
   },
 });
 
-export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
-  transaction,
-  formBag,
-  widgetProps,
-}) => {
+export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction, formBag }) => {
   const { context, availableSteps } = transaction;
   const { uischema } = formBag;
-  const { authClient } = widgetProps;
 
   const authenticator = context.currentAuthenticator.value;
   // @ts-ignore OKTA-496373 - missing props from interface
@@ -89,16 +82,10 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       options: {
         // TODO: OKTA-520236 - i18n key has anchor tag
         ctaText: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
-        linkLabel: loc('email.button.resend', 'login'),
-        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: (params?: IdxActionParams) => {
-          const { stateHandle, ...rest } = params ?? {};
-          return authClient?.idx.proceed({
-            // @ts-ignore stateHandle can be undefined
-            stateHandle,
-            actions: [{ name, params: rest }],
-          });
-        },
+        step: name,
+        isActionStep: true,
+        actionParams: { resend: true },
+        className: 'resend-link',
       },
     };
   }

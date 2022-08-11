@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
+import { NextStep } from '@okta/okta-auth-js';
 
 import PhoneSvg from '../../img/phone-icon.svg';
 import {
@@ -23,15 +23,10 @@ import {
 } from '../../types';
 import { loc } from '../../util';
 
-export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
-  transaction,
-  formBag,
-  widgetProps,
-}) => {
+export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { relatesTo } = nextStep;
   const { uischema } = formBag;
-  const { authClient } = widgetProps;
 
   const [selectedMethod] = relatesTo?.value?.methods || [];
   if (!selectedMethod) {
@@ -54,15 +49,9 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
         options: {
           ctaText: loc('oie.numberchallenge.warning', 'login'),
           linkLabel: loc('email.button.resend', 'login'),
-          // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-          action: (params?: IdxActionParams) => {
-            const { stateHandle, ...rest } = params ?? {};
-            return authClient?.idx.proceed({
-              // @ts-ignore stateHandle can be undefined
-              stateHandle,
-              actions: [{ name, params: rest }],
-            });
-          },
+          step: name,
+          isActionStep: true,
+          actionParams: { resend: true },
         },
       } as ReminderElement);
     }

@@ -15,22 +15,31 @@ import {
   Box,
   Link,
 } from '@mui/material';
-import { IdxActionParams } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
-import { useWidgetContext } from '../../contexts';
-import { ReminderElement, UISchemaElementComponent, Undefinable } from '../../types';
+import { useOnSubmit } from '../../hooks';
+import { ReminderElement, UISchemaElementComponent } from '../../types';
+import TextWithHtml from '../TextWithHtml';
 
 export const DEFAULT_TIMEOUT_MS = 30_000;
 
 const ReminderPrompt: UISchemaElementComponent<{
   uischema: ReminderElement
 }> = ({ uischema }) => {
-  const { idxTransaction, widgetProps: { stateToken } } = useWidgetContext();
+  const {
+    ctaText,
+    step,
+    actionParams,
+    isActionStep,
+    linkLabel,
+    timeout: customTimeout,
+    className,
+  } = uischema.options;
+  const onSubmitHandler = useOnSubmit();
 
   const [show, setShow] = useState<boolean>(false);
-  const timerRef = useRef<Undefinable<number>>();
+  const timerRef = useRef<number | undefined>();
 
   const startTimer = () => {
     if (timerRef) {
@@ -39,7 +48,7 @@ const ReminderPrompt: UISchemaElementComponent<{
 
     setShow(false);
 
-    const timeout = typeof uischema.options?.timeout === 'number' ? uischema.options.timeout : DEFAULT_TIMEOUT_MS;
+    const timeout = typeof customTimeout === 'number' ? customTimeout : DEFAULT_TIMEOUT_MS;
 
     timerRef.current = window.setTimeout(() => setShow(true), timeout);
   };
@@ -56,15 +65,11 @@ const ReminderPrompt: UISchemaElementComponent<{
   const resendHandler = async () => {
     startTimer();
 
-    const params: IdxActionParams = { resend: true };
-    if (stateToken && idxTransaction?.context?.stateHandle) {
-      params.stateHandle = idxTransaction.context.stateHandle;
-    }
-    await uischema.options?.action?.(params);
+    await onSubmitHandler({ step, isActionStep, params: actionParams });
   };
 
   const renderActionLink = () => {
-    if (!uischema.options.linkLabel) {
+    if (!linkLabel) {
       return undefined;
     }
 
@@ -75,16 +80,30 @@ const ReminderPrompt: UISchemaElementComponent<{
         href="javascript:void(0);"
         onClick={() => resendHandler()}
       >
-        {uischema.options.linkLabel}
+        {linkLabel}
       </Link>
     );
   };
 
-  const content = (
-    <Box marginBottom={2}>
-      {uischema.options?.ctaText}
-    </Box>
-  );
+  const renderAlertContent = () => {
+    if (className) {
+      return (
+        <TextWithHtml
+          uischema={{
+            type: 'TextWithHtml',
+            options: {
+              className,
+              content: ctaText,
+              step,
+              isActionStep,
+              actionParams,
+            },
+          }}
+        />
+      );
+    }
+    return (<Box marginBottom={2}>{ctaText}</Box>);
+  };
 
   return show ? (
     <Box marginBottom={4}>
@@ -92,7 +111,7 @@ const ReminderPrompt: UISchemaElementComponent<{
         severity="warning"
         variant="infobox"
       >
-        {content}
+        {renderAlertContent()}
         {renderActionLink()}
       </Alert>
     </Box>

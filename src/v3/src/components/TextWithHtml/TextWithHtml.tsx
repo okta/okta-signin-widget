@@ -24,9 +24,11 @@ const TextWithHtml: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const {
     content,
+    actionParams,
     step,
     stepToRender,
     className,
+    isActionStep,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
 
@@ -38,6 +40,8 @@ const TextWithHtml: UISchemaElementComponent<{
       onSubmitHandler({
         step,
         stepToRender,
+        params: actionParams,
+        isActionStep,
       });
     }
   };

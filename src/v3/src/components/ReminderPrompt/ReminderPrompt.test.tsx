@@ -12,43 +12,39 @@
 
 import '@testing-library/jest-dom';
 
-import { IdxTransaction } from '@okta/okta-auth-js';
 import { fireEvent, render, within } from '@testing-library/preact';
 import { h } from 'preact';
 import { act } from 'preact/test-utils';
-import { getStubTransaction } from 'src/mocks/utils/utils';
 
 import {
-  ReminderElement, UISchemaElementComponentProps, WidgetProps,
+  ReminderElement,
+  UISchemaElementComponentProps,
 } from '../../types';
 import ReminderPrompt, { DEFAULT_TIMEOUT_MS } from './ReminderPrompt';
 
 jest.useFakeTimers();
 
-let transaction: IdxTransaction;
-let mockProps: WidgetProps = {};
-jest.mock('../../contexts', () => ({
-  useWidgetContext: jest.fn().mockImplementation(
-    () => ({ widgetProps: mockProps, idxTransaction: transaction }),
-  ),
+const mockSubmitHook = jest.fn().mockImplementation(() => ({}));
+jest.mock('../../hooks', () => ({
+  useOnSubmit: () => mockSubmitHook,
 }));
 
 describe('ReminderPrompt', () => {
   beforeEach(() => {
-    transaction = getStubTransaction();
-    mockProps = {};
+    mockSubmitHook.mockRestore();
   });
 
   it('should show prompt with working link after default timeout passes', async () => {
-    const mockActionFn = jest.fn();
-
+    const step = 'currentAuthenticator-resend';
     const props: UISchemaElementComponentProps & { uischema: ReminderElement; } = {
       uischema: {
         type: 'Reminder',
         options: {
           ctaText: 'Didnt receive the email?',
           linkLabel: 'Send again?',
-          action: mockActionFn,
+          step,
+          actionParams: { resend: true },
+          isActionStep: true,
         },
       },
     };
@@ -66,28 +62,27 @@ describe('ReminderPrompt', () => {
     const box = getByRole('alert');
     const sendAgainLink = await within(box).findByText('Send again?');
 
-    expect(mockActionFn).not.toHaveBeenCalled();
+    expect(mockSubmitHook).not.toHaveBeenCalled();
     fireEvent.click(sendAgainLink);
-    expect(mockActionFn).toHaveBeenCalledTimes(1);
-    expect(mockActionFn).toHaveBeenCalledWith({ resend: true });
+    expect(mockSubmitHook).toHaveBeenCalledTimes(1);
+    expect(mockSubmitHook).toHaveBeenCalledWith({
+      step,
+      isActionStep: true,
+      params: { resend: true },
+    });
   });
 
-  it('should show prompt with working link after default timeout passes and include stateHandle when stateToken is set', async () => {
-    const mockStateHandle = 'abc12356789';
-    mockProps = { stateToken: '123abc' };
-    transaction.context = {
-      ...transaction.context,
-      stateHandle: mockStateHandle,
-    };
-    const mockActionFn = jest.fn();
-
+  it('should show prompt with working link after default timeout passes where ctaText contains HTML', async () => {
+    const step = 'currentAuthenticator-resend';
     const props: UISchemaElementComponentProps & { uischema: ReminderElement; } = {
       uischema: {
         type: 'Reminder',
         options: {
-          ctaText: 'Didnt receive the email?',
-          linkLabel: 'Send again?',
-          action: mockActionFn,
+          ctaText: 'Didnt receive the email? Click <a href="#" class="send-again">send again</a>',
+          step,
+          className: 'send-again',
+          actionParams: { resend: true },
+          isActionStep: true,
         },
       },
     };
@@ -103,16 +98,19 @@ describe('ReminderPrompt', () => {
     expect(container.firstChild).not.toBeNull();
 
     const box = getByRole('alert');
-    const sendAgainLink = await within(box).findByText('Send again?');
+    const sendAgainLink = await within(box).findByText('send again');
 
-    expect(mockActionFn).not.toHaveBeenCalled();
+    expect(mockSubmitHook).not.toHaveBeenCalled();
     fireEvent.click(sendAgainLink);
-    expect(mockActionFn).toHaveBeenCalledTimes(1);
-    expect(mockActionFn).toHaveBeenCalledWith({ resend: true, stateHandle: mockStateHandle });
+    expect(mockSubmitHook).toHaveBeenCalledTimes(1);
+    expect(mockSubmitHook).toHaveBeenCalledWith({
+      step,
+      isActionStep: true,
+      params: { resend: true },
+    });
   });
 
   it('should show prompt after custom timeout passes', async () => {
-    const mockActionFn = jest.fn();
     const CUSTOM_TIMEOUT = 1_000 * 60 * 5;
 
     const props: UISchemaElementComponentProps & { uischema: ReminderElement; } = {
@@ -122,7 +120,9 @@ describe('ReminderPrompt', () => {
           ctaText: 'Didnt receive the email?',
           linkLabel: 'Send again?',
           timeout: CUSTOM_TIMEOUT,
-          action: mockActionFn,
+          step: 'currentAuthenticator-resend',
+          actionParams: { resend: true },
+          isActionStep: true,
         },
       },
     };

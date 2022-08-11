@@ -15,7 +15,6 @@ import {
   IdxMessage,
   IdxTransaction,
   Input,
-  NextStep,
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
@@ -219,16 +218,16 @@ export interface DescriptionElement extends UISchemaElement {
 
 export interface TextWithHtmlElement extends UISchemaElement {
   type: 'TextWithHtml';
-  options: DescriptionElement['options'] & {
+  options: ActionOptions & {
+    content: string;
     className: string;
-    step: string;
     stepToRender?: string;
   };
 }
 
 export interface ReminderElement extends UISchemaElement {
   type: 'Reminder';
-  options: {
+  options: ActionOptions & {
     /**
      * The call to action text in the reminder content area
      */
@@ -238,7 +237,7 @@ export interface ReminderElement extends UISchemaElement {
      */
     timeout?: number;
     linkLabel?: string;
-    action?: NextStep['action'];
+    className?: string;
   };
 }
 
