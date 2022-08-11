@@ -32,6 +32,7 @@ const useValueHook = jest.fn().mockReturnValue('');
 jest.mock('../../hooks', () => ({
   useValue: () => useValueHook(),
   useOnChange: () => jest.fn().mockImplementation(() => {}),
+  useFormFieldValidation: () => jest.fn().mockImplementation(() => {}),
 }));
 
 jest.mock('../../contexts', () => ({
@@ -45,8 +46,7 @@ jest.mock('../../../../v2/ion/i18nTransformer', () => ({
   getMessage: () => mockMessage(),
 }));
 
-// TODO: Re-enable before merging
-describe.skip('PasswordWithConfirmation tests', () => {
+describe('PasswordWithConfirmation tests', () => {
   let props: UISchemaElementComponentProps & { uischema: PasswordWithConfirmationElement; };
   let newPasswordElement: FieldElement;
   let confirmPasswordElement: FieldElement;

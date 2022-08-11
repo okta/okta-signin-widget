@@ -62,10 +62,10 @@ jest.mock('../../contexts', () => ({
 let mockHandleFunction = jest.fn().mockImplementation(() => ({}));
 jest.mock('../../hooks', () => ({
   useOnChange: () => mockHandleFunction,
+  useFormFieldValidation: () => jest.fn().mockImplementation(() => {}),
 }));
 
-// TODO: Re-enable before merging
-describe.skip('PhoneAuthenticator tests', () => {
+describe('PhoneAuthenticator tests', () => {
   let props: UISchemaElementComponentProps & { uischema: FieldElement; };
 
   beforeEach(() => {
