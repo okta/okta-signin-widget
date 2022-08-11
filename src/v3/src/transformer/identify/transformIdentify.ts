@@ -18,17 +18,13 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getUsernameCookie, loc } from '../../util';
+import { loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
-  const { features, username } = widgetProps;
-  const { uischema, data } = formBag;
+  const { features } = widgetProps;
+  const { uischema } = formBag;
 
-  const identifierElement = getUIElementWithName(
-    'identifier',
-    uischema.elements as UISchemaElement[],
-  ) as FieldElement;
   const passwordElement = getUIElementWithName(
     'credentials.passcode',
     uischema.elements as UISchemaElement[],
