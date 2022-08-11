@@ -13,10 +13,8 @@
 import { waitFor } from '@testing-library/preact';
 import { setup } from './util';
 
+import * as cookieUtils from '../../src/util/cookieUtils';
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
-
-const mockUsername = 'testuser@okta1.com';
-jest.mock('js-cookie', () => ({ get: () => mockUsername }));
 
 describe('identify-with-password', () => {
   it('renders the loading state first', async () => {
@@ -33,6 +31,7 @@ describe('identify-with-password', () => {
   });
 
   it('should pre-populate username into identifier field when set in widget config props', async () => {
+    const mockUsername = 'testuser@okta1.com';
     const {
       findByTestId,
     } = await setup({
@@ -46,6 +45,8 @@ describe('identify-with-password', () => {
   });
 
   it('should pre-populate username into identifier field when set in cookie', async () => {
+    const mockUsername = 'testuser@okta1.com';
+    jest.spyOn(cookieUtils, 'getUsernameCookie').mockReturnValue(mockUsername);
     const {
       findByTestId,
     } = await setup({
