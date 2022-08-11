@@ -20,7 +20,7 @@ exports[`webauthn-enroll should render form 1`] = `
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -76,6 +76,7 @@ exports[`webauthn-enroll should render form 1`] = `
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       Set up security key or biometric authenticator
                     </h2>
@@ -88,7 +89,8 @@ exports[`webauthn-enroll should render form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
                     >
                       You will be prompted to register a security key or biometric authenticator (Windows Hello, Touch ID, Face ID, etc.). Follow the instructions to complete set up.
                     </p>
@@ -116,7 +118,7 @@ exports[`webauthn-enroll should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -127,7 +129,7 @@ exports[`webauthn-enroll should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -164,7 +166,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -220,6 +222,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       Set up security key or biometric authenticator
                     </h2>
@@ -232,7 +235,8 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
                     >
                       Security key or biometric authenticator is not supported on this browser. Select another factor or contact your admin for assistance.
                     </p>
@@ -242,7 +246,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -253,7 +257,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

@@ -20,7 +20,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-google-auth authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -76,6 +76,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       Verify with Google Authenticator
                     </h2>
@@ -88,7 +89,8 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
                     >
                       Enter the temporary code generated in your Google Authenticator app
                     </p>
@@ -101,18 +103,18 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                     class="MuiBox-root emotion-4"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
                       for="credentials.passcode"
                     >
                       Enter code
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-19"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="one-time-code"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-20"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-21"
                         data-se="credentials.passcode"
                         id="credentials.passcode"
                         name="credentials.passcode"
@@ -120,10 +122,10 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-21"
+                        class="MuiOutlinedInput-notchedOutline emotion-22"
                       >
                         <legend
-                          class="emotion-22"
+                          class="emotion-23"
                         >
                           <span
                             class="notranslate"
@@ -139,7 +141,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-24"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -151,7 +153,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -162,7 +164,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

@@ -20,7 +20,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-phone authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -79,6 +79,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-14"
+                      data-se="o-form-head"
                     >
                       Verify with your phone
                     </h2>
@@ -91,7 +92,8 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                     class="MuiBox-root emotion-13"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                      data-se="o-form-explain"
                     >
                       A code was sent to +1 XXX-XXX-4601. Enter the code below to verify.
                     </p>
@@ -104,7 +106,8 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                     class="MuiBox-root emotion-13"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                      data-se="o-form-explain"
                     >
                       Carrier messaging charges may apply
                     </p>
@@ -117,18 +120,18 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                     class="MuiBox-root emotion-4"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-21"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
                       for="credentials.passcode"
                     >
                       Enter Code
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-24"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="one-time-code"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-25"
                         data-se="credentials.passcode"
                         id="credentials.passcode"
                         name="credentials.passcode"
@@ -136,10 +139,10 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-24"
+                        class="MuiOutlinedInput-notchedOutline emotion-26"
                       >
                         <legend
-                          class="emotion-25"
+                          class="emotion-27"
                         >
                           <span
                             class="notranslate"
@@ -155,7 +158,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-27"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-29"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -167,7 +170,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -178,7 +181,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

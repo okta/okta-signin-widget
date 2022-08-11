@@ -90,14 +90,18 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
     return formBag;
   }
 
-  messages.forEach((message) => uischema.elements.unshift({
-    type: 'InfoBox',
-    options: {
-      contentType: 'string',
-      class: message.class ?? 'INFO',
-      message: message.message,
-    },
-  } as InfoboxElement));
+  messages.forEach((message) => {
+    const messageClass = message.class ?? 'INFO';
+    uischema.elements.unshift({
+      type: 'InfoBox',
+      options: {
+        contentType: 'string',
+        class: messageClass,
+        message: message.message,
+        dataSe: `infobox-${messageClass.toLowerCase()}`,
+      },
+    } as InfoboxElement);
+  });
 
   return formBag;
 };

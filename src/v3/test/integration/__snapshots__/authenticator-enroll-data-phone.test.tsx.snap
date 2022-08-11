@@ -20,7 +20,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-phone authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -76,6 +76,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       Set up phone authentication
                     </h2>
@@ -91,7 +92,8 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                       class="MuiBox-root emotion-12"
                     >
                       <p
-                        class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                        data-se="o-form-explain"
                       >
                         Enter your phone number to receive a verification code via SMS.
                       </p>
@@ -101,31 +103,31 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root emotion-18"
+                      class="MuiFormControl-root emotion-19"
                     >
                       <div
-                        class="MuiFormGroup-root emotion-19"
+                        class="MuiFormGroup-root emotion-20"
                         id="authenticator.methodType"
                         role="radiogroup"
                       >
                         <label
-                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
+                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                         >
                           <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-21"
+                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-22"
                           >
                             <input
-                              class="PrivateSwitchBase-input emotion-22"
+                              class="PrivateSwitchBase-input emotion-23"
                               name="authenticator.methodType"
                               type="radio"
                               value="sms"
                             />
                             <span
-                              class="emotion-23"
+                              class="emotion-24"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
                                 data-testid="RadioButtonUncheckedIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -136,7 +138,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               </svg>
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-26"
                                 data-testid="RadioButtonCheckedIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -148,29 +150,29 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             </span>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                           >
                             SMS
                           </span>
                         </label>
                         <label
-                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
+                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                         >
                           <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-21"
+                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-22"
                           >
                             <input
-                              class="PrivateSwitchBase-input emotion-22"
+                              class="PrivateSwitchBase-input emotion-23"
                               name="authenticator.methodType"
                               type="radio"
                               value="voice"
                             />
                             <span
-                              class="emotion-23"
+                              class="emotion-24"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
                                 data-testid="RadioButtonUncheckedIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -181,7 +183,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               </svg>
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
                                 data-testid="RadioButtonCheckedIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -193,7 +195,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             </span>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                           >
                             Voice call
                           </span>
@@ -1460,10 +1462,10 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-37"
+                        class="MuiBox-root emotion-38"
                       >
                         <div
-                          class="MuiBox-root emotion-38"
+                          class="MuiBox-root emotion-39"
                         >
                           <div
                             class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-4zKnH2"
@@ -1499,7 +1501,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-40"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-41"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -1512,7 +1514,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1523,7 +1525,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

@@ -20,7 +20,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -79,6 +79,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-14"
+                      data-se="o-form-head"
                     >
                       Push notification sent
                     </h2>
@@ -127,7 +128,8 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-13"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
+                      data-se="o-form-explain"
                     >
                       On your mobile device, open the Okta Verify prompt, then tap 52 in Okta Verify to continue.
                     </p>
@@ -137,11 +139,11 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-24"
+                    class="MuiBox-root emotion-25"
                     id="code"
                   >
                     <div
-                      class="MuiBox-root emotion-25"
+                      class="MuiBox-root emotion-26"
                     >
                       <mocksvgicon />
                     </div>
@@ -160,21 +162,21 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-28"
+                    class="MuiBox-root emotion-29"
                   >
                     <span
                       aria-label="Loading..."
                       aria-valuetext="Loading..."
-                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-29"
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-30"
                       role="progressbar"
                       style="width: 1.14285714rem; height: 1.14285714rem;"
                     >
                       <svg
-                        class="MuiCircularProgress-svg emotion-30"
+                        class="MuiCircularProgress-svg emotion-31"
                         viewBox="22 22 44 44"
                       >
                         <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-31"
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-32"
                           cx="44"
                           cy="44"
                           fill="none"
@@ -189,7 +191,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >

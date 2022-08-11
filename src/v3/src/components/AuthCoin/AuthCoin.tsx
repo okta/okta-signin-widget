@@ -27,9 +27,13 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     customClasses,
   } = props;
 
-  const containerClasses = classNames(style.iconContainer, customClasses);
-
   const authCoinConfig = AuthenticatorConfig[authenticatorKey];
+
+  const containerClasses = classNames(
+    style.iconContainer,
+    authCoinConfig?.iconClassName,
+    customClasses,
+  );
 
   function createAuthCoinImage() {
     // TODO: OKTA-467022 - Add warning when attempted to customize non-customizeable authenticator

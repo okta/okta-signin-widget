@@ -20,7 +20,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -79,6 +79,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        data-se="o-form-head"
                       >
                         Set up Okta Verify
                       </h2>
@@ -189,7 +190,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -245,6 +246,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       More options
                     </h2>
@@ -443,7 +445,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -499,6 +501,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       Set up Okta Verify via email link
                     </h2>
@@ -552,7 +555,8 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
+                      data-se="o-form-explain"
                     >
                       Make sure you can access the email on your mobile device.
                     </p>
@@ -562,7 +566,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-24"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -594,7 +598,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -605,7 +609,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -642,7 +646,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -704,6 +708,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        data-se="o-form-head"
                       >
                         Check your email
                       </h2>
@@ -716,7 +721,8 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-14"
                     >
                       <p
-                        class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                        data-se="o-form-explain"
                       >
                         We sent an email to glen.fannin@okta.com with an Okta Verify setup link. To continue, open the link on your mobile device.
                       </p>
@@ -747,7 +753,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -758,7 +764,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -795,7 +801,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -851,6 +857,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       More options
                     </h2>
@@ -1029,7 +1036,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -1088,6 +1095,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        data-se="o-form-head"
                       >
                         Set up Okta Verify
                       </h2>
@@ -1198,7 +1206,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -1257,6 +1265,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        data-se="o-form-head"
                       >
                         Set up Okta Verify
                       </h2>
@@ -1367,7 +1376,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -1423,6 +1432,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       More options
                     </h2>
@@ -1621,7 +1631,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -1677,6 +1687,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       Set up Okta Verify via SMS
                     </h2>
@@ -2983,7 +2994,8 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-21"
+                      data-se="o-form-explain"
                     >
                       Make sure you can access the text on your mobile device.
                     </p>
@@ -2993,7 +3005,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -3025,7 +3037,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -3036,7 +3048,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -3073,7 +3085,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -3135,6 +3147,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     >
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        data-se="o-form-head"
                       >
                         Check your text messages
                       </h2>
@@ -3147,7 +3160,8 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-14"
                     >
                       <p
-                        class="ods-4o5zYQ ods-nqMobL ods-4amLpn ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                        data-se="o-form-explain"
                       >
                         We sent an SMS to +12165332241 with an Okta Verify setup link. To continue, open the link on your mobile device.
                       </p>
@@ -3178,7 +3192,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -3189,7 +3203,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -3226,7 +3240,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="MuiTypography-root MuiTypography-h1 emotion-3"
             />
             <div
-              class="iconContainer authCoinOverlay MuiBox-root emotion-4"
+              class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <mocksvgicon />
             </div>
@@ -3282,6 +3296,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
                       More options
                     </h2>

@@ -29,7 +29,7 @@ describe('user-unlock-account', () => {
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
-      const emailAuthenticatorButton = await findByTestId('okta_email-email');
+      const emailAuthenticatorButton = await findByTestId('okta_email');
       await user.click(emailAuthenticatorButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         'POST',
@@ -39,7 +39,6 @@ describe('user-unlock-account', () => {
             identifier: 'testuser@okta.com',
             authenticator: {
               id: 'aut2h3fft0FbVvFYV1d7',
-              methodType: 'email',
             },
             stateHandle: 'fake-stateHandle',
           }),

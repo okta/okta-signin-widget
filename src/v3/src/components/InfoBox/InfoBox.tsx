@@ -23,17 +23,27 @@ import {
 const InfoBox: UISchemaElementComponent<{
   uischema: InfoboxElement
 }> = ({ uischema }) => {
-  const { options: { message, title, class: messageClass } } = uischema;
+  const {
+    options: {
+      message,
+      title,
+      class: messageClass,
+      dataSe,
+    },
+  } = uischema;
 
   return (
     <Box
       marginBottom={4}
       width={1}
+      data-se="message"
     >
       <Alert
         severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
         variant="infobox"
         title={title}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...(dataSe && { 'data-se': dataSe })}
       >
         {message}
       </Alert>
