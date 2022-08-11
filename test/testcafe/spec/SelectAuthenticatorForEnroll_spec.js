@@ -60,8 +60,9 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Select Authenticator for enrollment Form')
-  .meta('v3', true);
+fixture('Select Authenticator for enrollment Form');
+// Re-enable once it can run on bacon
+// .meta('v3', true);
 
 async function setup(t) {
   const selectFactorPageObject = process.env.OKTA_SIW_V3

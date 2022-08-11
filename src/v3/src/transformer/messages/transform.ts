@@ -100,7 +100,7 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
         message: message.message,
         dataSe: `infobox-${messageClass.toLowerCase()}`,
       },
-    } as InfoboxElement)
+    } as InfoboxElement);
   });
 
   return formBag;
