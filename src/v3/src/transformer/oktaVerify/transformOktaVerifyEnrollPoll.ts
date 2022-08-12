@@ -132,7 +132,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
           {
             type: 'QRCode',
             options: {
-              label: authenticator.displayName,
               data: authenticator.contextualData?.qrcode?.href,
             },
           } as QRCodeElement,

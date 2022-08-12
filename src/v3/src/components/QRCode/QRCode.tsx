@@ -14,6 +14,7 @@ import { Box } from '@mui/material';
 import { withTheme } from '@okta/odyssey-react-theme';
 import { h } from 'preact';
 import { QRCodeElement, UISchemaElementComponent } from 'src/types';
+import { getTranslation } from 'src/util';
 
 import { theme } from './QRCode.theme';
 import styles from './styles.module.css';
@@ -22,14 +23,17 @@ const QRCode: UISchemaElementComponent<{
   uischema: QRCodeElement
 }> = ({
   uischema,
-}) => (
-  <Box className={styles.qrContainer}>
-    <img
-      class={styles.qrImg}
-      src={uischema.options?.data}
-      alt={uischema.options?.label}
-    />
-  </Box>
-);
+}) => {
+  const label = getTranslation(uischema.translations!, 'label');
+  return (
+    <Box className={styles.qrContainer}>
+      <img
+        class={styles.qrImg}
+        src={uischema.options?.data}
+        alt={label}
+      />
+    </Box>
+  );
+};
 
 export default withTheme(theme, styles)(QRCode);

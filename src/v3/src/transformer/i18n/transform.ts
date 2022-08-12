@@ -17,10 +17,12 @@ import { transformAuthenticatorButton } from './transformAuthenticatorButton';
 import { transformField } from './transformField';
 import { transformPasswordWithConfirmation } from './transformPasswordWithConfirmation';
 import { transformPhoneAuthenticator } from './transformPhoneAuthenticator';
+import { transformQRCode } from './transformQRCode';
 
 export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) => flow(
   transformField(options),
   transformAuthenticatorButton(options),
   transformPasswordWithConfirmation(options),
   transformPhoneAuthenticator,
+  transformQRCode,
 )(formbag);

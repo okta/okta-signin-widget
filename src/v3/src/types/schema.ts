@@ -295,7 +295,6 @@ export interface ImageWithTextElement extends UISchemaElement {
 export interface QRCodeElement extends UISchemaElement {
   type: 'QRCode';
   options: {
-    label: string;
     data: string;
   };
 }
