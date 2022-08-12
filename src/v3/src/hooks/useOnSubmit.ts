@@ -11,6 +11,7 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
+import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import { useCallback } from 'preact/hooks';
 
@@ -31,6 +32,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     authClient,
     data,
     idxTransaction: currTransaction,
+    dataSchemaRef,
     setIdxTransaction,
     setIsClientTransaction,
     setStepToRender,
@@ -45,6 +47,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       isActionStep,
       stepToRender,
     } = options;
+    const { fieldsToExclude } = dataSchemaRef.current!;
 
     const immutableData = getImmutableData(currTransaction!, step);
 
@@ -52,7 +55,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
     let payload: IdxActionParams = {};
     if (includeData) {
-      payload = merge(payload, data);
+      payload = merge(payload, omit(data, fieldsToExclude));
     }
     if (params) {
       payload = merge(payload, params);
@@ -80,6 +83,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     data,
     authClient,
     currTransaction,
+    dataSchemaRef,
     setIdxTransaction,
     setIsClientTransaction,
     setStepToRender,

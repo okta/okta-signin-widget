@@ -26,7 +26,6 @@ import InputText from '../InputText';
 import Link from '../Link';
 import List from '../List';
 import PasswordRequirements from '../PasswordRequirements';
-import PasswordWithConfirmation from '../PasswordWithConfirmation/PasswordWithConfirmation';
 import PhoneAuthenticator from '../PhoneAuthenticator';
 import QRCode from '../QRCode';
 import Radio from '../Radio';
@@ -83,10 +82,6 @@ export default [
   {
     tester: ({ type }) => type === 'StepperRadio',
     renderer: StepperRadio,
-  },
-  {
-    tester: ({ type }) => type === 'PasswordWithConfirmation',
-    renderer: PasswordWithConfirmation,
   },
   {
     // Move non UI component to custom hook

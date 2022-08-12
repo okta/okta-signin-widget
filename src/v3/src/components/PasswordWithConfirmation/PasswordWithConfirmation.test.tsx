@@ -71,7 +71,7 @@ describe('PasswordWithConfirmation tests', () => {
         i18nKey: 'fake-key',
       }],
       options: {
-        inputMeta: { name: 'confirmPassword', secret: true },
+        inputMeta: { name: 'credentials.confirmPassword', secret: true },
         attributes: { autocomplete: 'new-password' },
       },
     };
@@ -102,7 +102,7 @@ describe('PasswordWithConfirmation tests', () => {
     const confirmPasswordInput = await findByLabelText(/Re-enter password/);
     const newPasswordAutocomplete = newPasswordInput?.getAttribute('autocomplete');
     const confirmAutocomplete = confirmPasswordInput?.getAttribute('autocomplete');
-    const confirmPasswordError = await findByTestId('confirmPassword-error');
+    const confirmPasswordError = await findByTestId('credentials.confirmPassword-error');
 
     expect(newPasswordAutocomplete).toBe('new-password');
     expect(confirmAutocomplete).toBe('new-password');
@@ -133,7 +133,7 @@ describe('PasswordWithConfirmation tests', () => {
     const confirmAutocomplete = confirmPasswordInput?.getAttribute('autocomplete');
 
     const newPasswordError = await findByTestId('credentials.passcode-error');
-    const confirmPasswordError = await findByTestId('confirmPassword-error');
+    const confirmPasswordError = await findByTestId('credentials.confirmPassword-error');
 
     expect(newPasswordAutocomplete).toBe('new-password');
     expect(confirmAutocomplete).toBe('new-password');

@@ -32,7 +32,7 @@ describe('authenticator-expired-password', () => {
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
+    const confirmPasswordEle = await findByTestId('credentials.confirmPassword') as HTMLInputElement;
 
     const password = 'superSecretP@ssword12';
     await user.type(newPasswordEle, password);
@@ -77,7 +77,7 @@ describe('authenticator-expired-password', () => {
 
     await user.click(submitButton);
 
-    const confirmPasswordError = await findByTestId('confirmPassword-error');
+    const confirmPasswordError = await findByTestId('credentials.confirmPassword-error');
 
     expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
@@ -96,7 +96,7 @@ describe('authenticator-expired-password', () => {
     await findByText(/Password requirements/);
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
-    const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
+    const confirmPasswordEle = await findByTestId('credentials.confirmPassword') as HTMLInputElement;
 
     await user.type(confirmPasswordEle, 'abc123');
     await user.click(submitButton);
@@ -121,7 +121,7 @@ describe('authenticator-expired-password', () => {
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
+    const confirmPasswordEle = await findByTestId('credentials.confirmPassword') as HTMLInputElement;
 
     const password = 'superSecretP@ssword12';
     await user.type(newPasswordEle, password);
@@ -129,7 +129,7 @@ describe('authenticator-expired-password', () => {
     await user.type(confirmPasswordEle, 'abc123');
     await user.click(submitButton);
 
-    const confirmPasswordError = await findByTestId('confirmPassword-error');
+    const confirmPasswordError = await findByTestId('credentials.confirmPassword-error');
 
     expect(confirmPasswordError.innerHTML).toBe('New passwords must match');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
@@ -149,12 +149,12 @@ describe('authenticator-expired-password', () => {
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
     await findByTestId('credentials.passcode') as HTMLInputElement;
-    await findByTestId('confirmPassword') as HTMLInputElement;
+    await findByTestId('credentials.confirmPassword') as HTMLInputElement;
 
     await user.click(submitButton);
 
     const newPasswordError = await findByTestId('credentials.passcode-error');
-    const confirmPasswordError = await findByTestId('confirmPassword-error');
+    const confirmPasswordError = await findByTestId('credentials.confirmPassword-error');
 
     expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');

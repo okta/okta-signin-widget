@@ -36,6 +36,7 @@ export type FormBag = {
   dataSchema: GeneralDataSchemaBag & {
     submit: ActionOptions;
     fieldsToValidate: string[];
+    fieldsToExclude: string[];
   }
 };
 
@@ -143,6 +144,9 @@ export interface FieldElement extends UISchemaElement {
     type?: string;
     customOptions?: IdxOption[],
     targetKey?: string;
+    /**
+     * @deprecated
+     */
     translations?: TranslationInfo[];
     dataSe?: string;
     hideLabel?: boolean;

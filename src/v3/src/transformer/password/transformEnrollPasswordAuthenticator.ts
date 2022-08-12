@@ -19,7 +19,6 @@ import {
   IdxStepTransformer,
   PasswordRequirementsElement,
   PasswordSettings,
-  PasswordWithConfirmationElement,
   TitleElement,
 } from '../../types';
 import { getUserInfo, loc } from '../../util';
@@ -63,10 +62,13 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
   const confirmPasswordElement: FieldElement = {
     type: 'Field',
-    name: 'confirmPassword',
     options: {
-      // @ts-ignore expose type from auth-js
-      inputMeta: { name: 'confirmPassword', messages: { value: undefined } },
+      inputMeta: {
+        name: 'credentials.confirmPassword',
+        secret: true,
+        // @ts-ignore expose type from auth-js
+        messages: { value: undefined },
+      },
       attributes: { autocomplete: 'new-password' },
     },
   };
@@ -99,14 +101,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     }
   }
 
-  const passwordWithConfirmationElement: PasswordWithConfirmationElement = {
-    type: 'PasswordWithConfirmation',
-    options: {
-      newPasswordElement: passwordElement,
-      confirmPasswordElement,
-    },
-  };
-
   const titleElement: TitleElement = {
     type: 'Title',
     options: { content: loc('oie.password.enroll.title', 'login') },
@@ -125,16 +119,19 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     },
   };
 
-  uischema.elements.unshift(passwordWithConfirmationElement);
-  if (Object.keys(passwordSettings)?.length) {
-    uischema.elements.unshift(passwordRequirementsElement);
-  }
-  uischema.elements.unshift(titleElement);
+  uischema.elements = [
+    titleElement,
+    passwordRequirementsElement,
+    passwordElement,
+    confirmPasswordElement,
+  ];
 
+  // update default dataSchema
+  dataSchema.fieldsToExclude = ['credentials.confirmPassword'];
   dataSchema[passwordFieldName] = {
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];
-      const confirmPw = data.confirmPassword;
+      const confirmPw = data['credentials.confirmPassword'];
       const errorMessages: Partial<IdxMessage & { name?: string }>[] = [];
       if (!newPw) {
         errorMessages.push({
@@ -146,13 +143,13 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
       if (!confirmPw) {
         errorMessages.push({
-          name: 'confirmPassword',
+          name: 'credentials.confirmPassword',
           message: loc('model.validation.field.blank', 'login'),
           i18n: { key: 'model.validation.field.blank' },
         });
       } else if (confirmPw !== newPw) {
         errorMessages.push({
-          name: 'confirmPassword',
+          name: 'credentials.confirmPassword',
           message: loc('password.error.match', 'login'),
           i18n: { key: 'password.error.match' },
         });
