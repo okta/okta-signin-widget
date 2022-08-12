@@ -45,7 +45,7 @@ const EnterCodeLink = View.extend({
       <button 
         class="button-link enter-auth-code-instead-link"
       >
-          {{i18n code="oie.email.verify.alternate.showCodeTextField"}}
+          {{i18n code="oie.email.verify.alternate.show.verificationCode.text"}}
       </button>
     `,
 });
