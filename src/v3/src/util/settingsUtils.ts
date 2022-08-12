@@ -67,12 +67,13 @@ export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
   let supportedPos;
   let supportedLanguage = config.defaultLanguage;
 
-  expanded.forEach((expandedVal) => {
-    supportedPos = supportedLangsLowercase.indexOf(expandedVal);
+  for (let i = 0; i < expanded.length; i += 1) {
+    supportedPos = supportedLangsLowercase.indexOf(expanded[i]);
     if (supportedPos > -1) {
       supportedLanguage = supportedLanguages[supportedPos];
+      break;
     }
-  });
+  }
 
   return supportedLanguage as LanguageCode;
 };
