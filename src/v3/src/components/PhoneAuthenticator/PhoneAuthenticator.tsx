@@ -22,15 +22,13 @@ import { useWidgetContext } from '../../contexts';
 import { useOnChange } from '../../hooks';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
 import { getTranslation } from '../../util';
-import { getLabelName } from '../helpers';
 
 const PhoneAuthenticator: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
   const {
-    label,
+    translations,
     options: {
-      translations = [],
       targetKey = '',
       inputMeta: {
         name: fieldName,
@@ -39,6 +37,9 @@ const PhoneAuthenticator: UISchemaElementComponent<{
       },
     },
   } = uischema;
+  const mainLabel = getTranslation(translations!, 'label');
+  const extensionLabel = getTranslation(translations!, 'extension');
+  const countryLabel = getTranslation(translations!, 'country');
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const { data } = useWidgetContext();
@@ -76,7 +77,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
           type="text"
           data-se="extension"
           name="extension"
-          label={getTranslation(translations, 'extension')}
+          label={extensionLabel}
           value={extension}
           autocomplete="tel-extension"
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +93,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
       <NativeSelect
         id="countryList"
         data-se="countryList"
-        label={getTranslation(translations, 'country')}
+        label={countryLabel}
         autocomplete="tel-country-code"
         onChange={(e: ChangeEvent) => { setPhoneCode(`+${CountryUtil.getCallingCodeForCountry(e.currentTarget.value)}`); }}
       >
@@ -128,7 +129,7 @@ const PhoneAuthenticator: UISchemaElementComponent<{
             data-se={fieldName}
             error={error}
             name={fieldName}
-            label={getLabelName(label as string)}
+            label={mainLabel}
             id={fieldName}
             prefix={phoneCode}
             // eslint-disable-next-line react/jsx-props-no-spreading

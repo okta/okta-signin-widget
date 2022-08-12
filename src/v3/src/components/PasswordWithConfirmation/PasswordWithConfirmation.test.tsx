@@ -53,7 +53,11 @@ describe('PasswordWithConfirmation tests', () => {
   beforeEach(() => {
     newPasswordElement = {
       type: 'Field',
-      label: 'New password',
+      translations: [{
+        name: 'label',
+        value: 'New password',
+        i18nKey: 'fake-key',
+      }],
       options: {
         inputMeta: { name: 'credentials.passcode', secret: true },
         attributes: { autocomplete: 'new-password' },
@@ -61,7 +65,11 @@ describe('PasswordWithConfirmation tests', () => {
     };
     confirmPasswordElement = {
       type: 'Field',
-      label: 'Re-enter password',
+      translations: [{
+        name: 'label',
+        value: 'Re-enter password',
+        i18nKey: 'fake-key',
+      }],
       options: {
         inputMeta: { name: 'confirmPassword', secret: true },
         attributes: { autocomplete: 'new-password' },

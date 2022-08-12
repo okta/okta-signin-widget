@@ -21,7 +21,7 @@ import {
   UISchemaLayout,
 } from '../../types';
 import { containsMessageKey, loc } from '../../util';
-import { transactionMessageTransformer } from '../i18n/transform';
+import { transactionMessageTransformer } from '../i18n';
 import { transformEmailMagicLinkOTPOnly } from './transformEmailMagicLinkOTPOnlyElements';
 
 type ModifiedIdxMessage = Modify<IdxMessage, {

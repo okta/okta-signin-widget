@@ -24,7 +24,6 @@ import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useOnChange, useValue } from '../../hooks';
-import { getLabelName } from '../helpers';
 
 const Radio: UISchemaElementComponent<{
   uischema: FieldElement
@@ -54,7 +53,7 @@ const Radio: UISchemaElementComponent<{
       component="fieldset"
       error={!!error}
     >
-      {label && (<FormLabel>{getLabelName(label!)}</FormLabel>)}
+      {label && (<FormLabel>{label!}</FormLabel>)}
       <RadioGroup
         name={name}
         id={name}

@@ -19,7 +19,7 @@ import {
   TransformStepFnWithOptions,
 } from '../../types';
 import { containsMessageKey, containsOneOfMessageKeys, loc } from '../../util';
-import { transactionMessageTransformer } from '../i18n/transform';
+import { transactionMessageTransformer } from '../i18n';
 
 export const OV_OVERRIDE_MESSAGE_KEY: Record<string, string> = {
   OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS: 'oie.authenticator.app.non_fips_compliant_enrollment_device_incompatible',

@@ -10,14 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, FormHelperText } from '@mui/material';
-import { PasswordInput } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
 import { h } from 'preact';
 
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
-import { useWidgetContext } from '../../contexts';
 import {
-  ChangeEvent,
   PasswordWithConfirmationElement,
   UISchemaElementComponent,
 } from '../../types';
@@ -28,28 +24,8 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const {
     newPasswordElement,
-    confirmPasswordElement: {
-      label,
-      options: {
-        inputMeta: {
-          name,
-          // @ts-ignore expose type from auth-js
-          messages = {},
-        },
-        attributes,
-      },
-    },
+    confirmPasswordElement,
   } = uischema.options;
-
-  const { additionalData, setAdditionalData } = useWidgetContext();
-  const confirmPasswordError = messages?.value?.[0] && getMessage(messages.value[0]);
-
-  const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAdditionalData((data) => ({
-      ...data,
-      [name]: e.currentTarget.value,
-    }));
-  };
 
   return (
     <Box>
@@ -57,28 +33,7 @@ const PasswordWithConfirmation: UISchemaElementComponent<{
         <InputPassword uischema={newPasswordElement} />
       </Box>
       <Box>
-        <PasswordInput
-          label={label}
-          name={name}
-          value={additionalData[name]}
-          id={name}
-          error={!!confirmPasswordError}
-          onChange={handleConfirmPasswordChange}
-          fullWidth
-          inputProps={{
-            'data-se': name,
-            ...attributes,
-          }}
-        />
-        {!!confirmPasswordError && (
-        <FormHelperText
-          ariaDescribedBy={name}
-          data-se={`${name}-error`}
-          error
-        >
-          {confirmPasswordError}
-        </FormHelperText>
-        )}
+        <InputPassword uischema={confirmPasswordElement} />
       </Box>
     </Box>
   );

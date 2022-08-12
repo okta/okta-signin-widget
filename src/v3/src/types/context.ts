@@ -31,7 +31,5 @@ export type IWidgetContext = {
   setStepToRender: StateUpdater<string | undefined>;
   data: FormBag['data'];
   setData: StateUpdater<FormBag['data']>;
-  additionalData: FormBag['data'];
-  setAdditionalData: StateUpdater<FormBag['data']>;
   dataSchemaRef: MutableRef<FormBag['dataSchema'] | undefined>;
 };

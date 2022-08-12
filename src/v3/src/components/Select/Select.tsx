@@ -20,7 +20,6 @@ import {
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useOnChange, useValue } from '../../hooks';
-import { getLabelName } from '../helpers';
 
 const Select: UISchemaElementComponent<{
   uischema: FieldElement
@@ -47,7 +46,7 @@ const Select: UISchemaElementComponent<{
     <Box>
       <NativeSelect
         error={error}
-        label={getLabelName(label!)}
+        label={label!}
         name={name}
         id={name}
         value={value}

@@ -96,6 +96,11 @@ Promise<WebAuthNVerificationPayload>;
 
 export interface UISchemaElement {
   type: string;
+  // TODO: make this field required
+  translations?: TranslationInfo[];
+  /**
+   * @deprecated
+   */
   label?: string;
   noMargin?: boolean;
 }

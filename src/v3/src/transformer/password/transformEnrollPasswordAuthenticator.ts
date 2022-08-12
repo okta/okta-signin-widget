@@ -64,7 +64,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   const confirmPasswordElement: FieldElement = {
     type: 'Field',
     name: 'confirmPassword',
-    label: loc('oie.password.confirmPasswordLabel', 'login'),
     options: {
       // @ts-ignore expose type from auth-js
       inputMeta: { name: 'confirmPassword', messages: { value: undefined } },

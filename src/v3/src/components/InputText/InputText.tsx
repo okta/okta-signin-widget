@@ -23,7 +23,7 @@ import { useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent, InputTextElement, UISchemaElementComponent,
 } from '../../types';
-import { getLabelName } from '../helpers';
+import { getTranslation } from '../../util';
 
 const InputText: UISchemaElementComponent<{
   type: string;
@@ -31,7 +31,7 @@ const InputText: UISchemaElementComponent<{
 }> = ({ uischema, type }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const { label } = uischema;
+  const label = getTranslation(uischema.translations!);
   const {
     attributes,
     inputMeta: {
@@ -49,7 +49,7 @@ const InputText: UISchemaElementComponent<{
 
   return (
     <Box>
-      <InputLabel htmlFor={name}>{getLabelName(label!)}</InputLabel>
+      <InputLabel htmlFor={name}>{label}</InputLabel>
       <OutlinedInput
         value={value}
         type={type || 'text'}

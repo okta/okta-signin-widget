@@ -15,7 +15,6 @@ import { withTheme } from '@okta/odyssey-react-theme';
 import { h } from 'preact';
 import { QRCodeElement, UISchemaElementComponent } from 'src/types';
 
-import { getLabelName } from '../helpers';
 import { theme } from './QRCode.theme';
 import styles from './styles.module.css';
 
@@ -28,7 +27,7 @@ const QRCode: UISchemaElementComponent<{
     <img
       class={styles.qrImg}
       src={uischema.options?.data}
-      alt={getLabelName(uischema.options?.label)}
+      alt={uischema.options?.label}
     />
   </Box>
 );

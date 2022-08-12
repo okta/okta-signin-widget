@@ -24,6 +24,7 @@ jest.mock('./layout', () => ({
 }));
 jest.mock('./i18n', () => ({
   transformI18n: () => () => ({}),
+  transactionMessageTransformer: () => {},
 }));
 jest.mock('./dataSchema', () => ({
   transformDataSchema: () => ({}),

@@ -23,6 +23,7 @@ import {
   ClickHandler,
   UISchemaElementComponent,
 } from '../../types';
+import { getTranslation } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
 import ArrowRight from './arrow-right.svg';
 import { theme } from './AuthenticatorButton.theme';
@@ -33,7 +34,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const ctaButtonClasses = classNames('cta-button', style.actionName);
   const {
-    label,
+    translations,
     options: {
       key: authenticationKey,
       actionParams,
@@ -43,6 +44,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       dataSe,
     },
   } = uischema;
+  const label = getTranslation(translations!, 'label');
   const { idxTransaction } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
 
