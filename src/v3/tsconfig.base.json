@@ -45,5 +45,8 @@
         "node_modules/preact/compat"
       ]
     }
-  }
+  },
+  "files": [
+    "global.d.ts"
+  ]
 }

@@ -84,12 +84,12 @@ describe('authenticator-verification-email', () => {
       // render otp challenge form
       const nextPageBtn = await findByText(/Enter a code from the email instead/);
       await user.click(nextPageBtn);
-      await findByText(/Enter code/);
+      await findByText(/Enter Code/);
       expect(container).toMatchSnapshot();
 
       // allow polling request to be triggered
       jest.advanceTimersByTime(5000 /* refresh: 4000 */);
-      await findByText(/Enter code/);
+      await findByText(/Enter Code/);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         'POST',
         'http://localhost:3000/idp/idx/challenge/poll',
@@ -152,7 +152,7 @@ describe('authenticator-verification-email', () => {
     const nextPageBtn = await findByText(/Enter a code from the email instead/);
 
     await user.click(nextPageBtn);
-    await findByText(/Enter code/);
+    await findByText(/Enter Code/);
 
     const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });

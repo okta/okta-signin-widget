@@ -10,21 +10,5 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint-disable import/extensions */
-import 'jest-canvas-mock';
-import { toHaveBeenCalledBefore } from 'jest-extended';
-
-expect.extend({ toHaveBeenCalledBefore });
-
-require('@testing-library/jest-dom');
-require('whatwg-fetch');
-const { createSerializer } = require('@emotion/jest');
-const { configure } = require('@testing-library/preact');
-
-configure({
-  testIdAttribute: 'data-se',
-});
-
-global.DEBUG = false;
-
-expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'jest-extended';

@@ -20,7 +20,7 @@ const InformationalText: UISchemaElementComponent<{
 }> = ({
   uischema,
 }) => {
-  const { content } = uischema.options;
+  const { content, variant } = uischema.options;
 
   return (
     <Box
@@ -30,6 +30,8 @@ const InformationalText: UISchemaElementComponent<{
       <Typography
         paragraph
         data-se="o-form-explain"
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...(variant && { variant })}
       >
         {content}
       </Typography>

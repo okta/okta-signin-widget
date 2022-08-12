@@ -79,7 +79,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
           return (
             <Box
               key={elementKey}
-              marginBottom={4}
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...(!(element as UISchemaElement).noMargin && { marginBottom: 4 })}
             >
               <Component uischema={element as UISchemaElement} />
             </Box>

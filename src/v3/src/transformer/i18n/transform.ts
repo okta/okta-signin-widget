@@ -10,66 +10,47 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction, Input } from '@okta/okta-auth-js';
+import { IdxTransaction } from '@okta/okta-auth-js';
 
 import { getI18NParams, getI18NValue, getMessage } from '../../../../v2/ion/i18nTransformer';
-import { AUTHENTICATOR_KEY } from '../../constants';
 import {
+  AuthenticatorButtonElement,
   FieldElement,
   FormBag,
   TransformStepFnWithOptions, UISchemaElement,
 } from '../../types';
 import { loc } from '../../util';
-import { getOptionValue } from '../selectAuthenticator/utils';
+import { traverseLayout } from '../util';
 
-const geti18nPath = (fieldName: string, stepName: string, authenticatorKey: string): string => {
-  const authenticatorKeyPath = authenticatorKey
-    ? `.${authenticatorKey}`
-    : '';
-  return `${stepName}${authenticatorKeyPath}.${fieldName}`;
-};
-
-const updateLabel = (transaction: IdxTransaction, element: FieldElement): void => {
+const getI18nOptions = (transaction: IdxTransaction, element: UISchemaElement) => {
   const { nextStep } = transaction;
-  const { relatesTo, name: stepName = '' } = nextStep || {};
+  const { relatesTo, name: stepName = '' } = nextStep!;
   const authenticatorKey = relatesTo?.value?.key || '';
-  const i18nPath = geti18nPath(element.options.inputMeta.name, stepName, authenticatorKey);
+  const fieldName = (element as FieldElement).options?.inputMeta?.name;
 
-  if (element.label) {
-    const params = getI18NParams(nextStep, authenticatorKey);
-    // eslint-disable-next-line no-param-reassign
-    element.label = getI18NValue(i18nPath, element.label, params);
+  let path = '';
+  const params = getI18NParams(nextStep, authenticatorKey);
+  if (element.type === 'Field') {
+    path = authenticatorKey
+      ? `${stepName}.${authenticatorKey}.${fieldName}`
+      : `${stepName}.${fieldName}`;
+  } else if (element.type === 'AuthenticatorButton') {
+    const methodType = (
+      element as AuthenticatorButtonElement
+    ).options.authenticator?.methods?.[0]?.type;
+    path = methodType
+      ? `${stepName}.authenticator.${(element as AuthenticatorButtonElement).options.key}.${methodType}`
+      : `${stepName}.authenticator.${(element as AuthenticatorButtonElement).options.key}`;
   }
 
-  if (Array.isArray(element.options?.inputMeta?.options)) {
-    element.options.inputMeta.options.forEach((option) => {
-      if (!option.label) {
-        return;
-      }
+  return { path, params };
+};
 
-      let i18nOptionPath = '';
-      const optionAuthenticatorKey = option.relatesTo?.key;
-      if (optionAuthenticatorKey) {
-        i18nOptionPath = `${i18nPath}.${optionAuthenticatorKey}`;
-
-        if (optionAuthenticatorKey === AUTHENTICATOR_KEY.OV && typeof option.value === 'object') {
-          const methodType = getOptionValue(option.value as Input[], 'methodType');
-          if (methodType?.value) {
-            i18nOptionPath = `${i18nOptionPath}.${methodType?.value}`;
-          } else if (Array.isArray(methodType?.options)) {
-            methodType?.options.forEach((methodTypeOption) => {
-              const methodTypeOptionPath = `${i18nOptionPath}.${methodTypeOption.value}`;
-              // eslint-disable-next-line no-param-reassign
-              methodTypeOption.label = getI18NValue(methodTypeOptionPath, methodTypeOption.label);
-            });
-          }
-        }
-      } else if (option.value !== undefined && typeof option.value !== 'object') {
-        i18nOptionPath = `${i18nPath}.${option.value}`;
-      }
-      // eslint-disable-next-line no-param-reassign
-      option.label = getI18NValue(i18nOptionPath, option.label);
-    });
+const updateLabel = (transaction: IdxTransaction) => (element: UISchemaElement): void => {
+  const { path, params } = getI18nOptions(transaction, element);
+  if (element.label) {
+    // eslint-disable-next-line no-param-reassign
+    element.label = getI18NValue(path, element.label, params);
   }
 };
 
@@ -77,8 +58,10 @@ export const uischemaLabelTransformer = (
   transaction: IdxTransaction,
   formBag: FormBag,
 ): void => {
-  formBag.uischema.elements.forEach((element: UISchemaElement) => {
-    updateLabel(transaction, element as FieldElement);
+  traverseLayout({
+    layout: formBag.uischema,
+    predicate: () => true,
+    callback: updateLabel(transaction),
   });
 };
 
@@ -94,26 +77,29 @@ export const transactionMessageTransformer = (transaction: IdxTransaction): void
 export const transformAdditionalPhoneUITranslations = (formBag: FormBag) => {
   const { uischema } = formBag;
 
-  const phoneElement = uischema.elements.find((element) => (element as FieldElement)
-    .options.inputMeta.name?.endsWith('phoneNumber')) as FieldElement;
+  traverseLayout({
+    layout: uischema,
+    predicate: (element) => (element as FieldElement).options?.inputMeta?.name.endsWith('phoneNumber'),
+    callback: (element) => {
+      // eslint-disable-next-line no-param-reassign
+      (element as FieldElement).options = {
+        ...(element as FieldElement).options,
+        translations: [
+          {
+            name: 'country',
+            i18nKey: 'country.label',
+            value: loc('country.label', 'login'),
+          },
+          {
+            name: 'extension',
+            i18nKey: 'phone.extention.label',
+            value: loc('phone.extention.label', 'login'),
+          },
+        ],
+      };
+    },
+  });
 
-  if (phoneElement) {
-    phoneElement.options = {
-      ...phoneElement.options,
-      translations: [
-        {
-          name: 'country',
-          i18nKey: 'country.label',
-          value: loc('country.label', 'login'),
-        },
-        {
-          name: 'extension',
-          i18nKey: 'phone.extention.label',
-          value: loc('phone.extention.label', 'login'),
-        },
-      ],
-    };
-  }
   return formBag;
 };
 

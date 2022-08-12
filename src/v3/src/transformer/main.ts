@@ -37,10 +37,10 @@ const logger: TransformStepFn = (formbag) => {
 export const transformIdxTransaction = (options: TransformationOptions): FormBag => {
   const transformationStepFns: TransformStepFn[] = [
     transformFields(options),
-    transformI18n(options),
     transformLayout(options),
     transformButtons(options),
     transformMessages(options),
+    transformI18n(options),
     transformDataSchema,
     transformTestAttribute,
   ];
