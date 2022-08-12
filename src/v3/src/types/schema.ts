@@ -140,10 +140,12 @@ export interface FieldElement extends UISchemaElement {
     targetKey?: string;
     translations?: TranslationInfo[];
     dataSe?: string;
+    hideLabel?: boolean;
   };
 }
 
 export interface InputTextElement extends FieldElement {
+  label: string;
   options: FieldElement['options'] & {
     attributes: InputAttributes;
   };

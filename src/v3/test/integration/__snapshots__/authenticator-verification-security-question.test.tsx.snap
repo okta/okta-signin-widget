@@ -108,14 +108,13 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                       <label
                         class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                         for="credentials.answer"
-                      >
-                        
-                      </label>
+                      />
                       <div
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-21"
                       >
                         <input
                           aria-invalid="false"
+                          aria-label="Answer"
                           class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-22"
                           data-se="credentials.answer"
                           id="credentials.answer"

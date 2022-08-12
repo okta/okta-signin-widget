@@ -17,7 +17,6 @@ import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useOnChange, useValue } from '../../hooks';
-import { getLabelName } from '../helpers';
 
 const InputPassword: UISchemaElementComponent<{
   uischema: FieldElement
@@ -32,6 +31,7 @@ const InputPassword: UISchemaElementComponent<{
       messages = {},
       name,
     },
+    hideLabel,
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
@@ -42,7 +42,8 @@ const InputPassword: UISchemaElementComponent<{
   return (
     <Box>
       <PasswordInput
-        label={getLabelName(label!)}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...(!hideLabel && { label })}
         value={value}
         name={name}
         id={name}
@@ -51,6 +52,7 @@ const InputPassword: UISchemaElementComponent<{
         fullWidth
         inputProps={{
           'data-se': name,
+          ...(hideLabel && { 'aria-label': label }),
           ...attributes,
         }}
       />

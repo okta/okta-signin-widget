@@ -17,6 +17,7 @@ import {
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
+  InputTextElement,
   TitleElement,
   UISchemaElement,
 } from '../../../types';
@@ -43,11 +44,11 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
     },
   };
 
-  const answerElement = getUIElementWithName(
+  const answerElement: InputTextElement = getUIElementWithName(
     'credentials.answer',
     uischema.elements as UISchemaElement[],
-  ) as UISchemaElement;
-  delete answerElement.label;
+  ) as InputTextElement;
+  answerElement.options.hideLabel = true;
 
   const submitButton: ButtonElement = {
     type: 'Button',
