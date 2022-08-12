@@ -30,8 +30,11 @@ export const getWorker = async (): Promise<SetupWorkerApi | null> => {
 
     // pass through mock response from query params
     const mockResponseParam = params.get('siw-mock-response');
-    // eslint-disable-next-line import/no-dynamic-require, global-require
-    const mockResponse = mockResponseParam ? require(`./response${mockResponseParam}.json`) : undefined;
+    let mockResponse;
+    mockResponse = require(`./response${mockResponseParam}.json`);
+    if (!mockResponse) {
+      mockResponse = require(`@okta/mocks/data/idp/idx/${mockResponseParam}.json`);
+    }
 
     const handlers = loadScenario(scenarioName, mockResponse);
 
