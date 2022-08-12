@@ -320,8 +320,10 @@ test
     await t.expect(saveBtnText).eql('Verify');
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+    await t.expect(enterVerificationCodeText).eql('Enter a verification code instead');
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -336,11 +338,13 @@ test
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
+    await t.expect(enterVerificationCodeText).eql('Enter a verification code instead');
   });
 
 test
@@ -363,10 +367,12 @@ test
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
+    await t.expect(enterVerificationCodeText).eql('Enter a verification code instead');
   });
 
 test
