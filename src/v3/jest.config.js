@@ -12,8 +12,8 @@
 
 const path = require('path');
 
-const V2_ROOT = path.resolve(__dirname, '../..');
-const V2_LOCAL_PACKAGES = path.resolve(V2_ROOT, 'packages');
+const PROJECT_ROOT = path.resolve(__dirname, '../..');
+const PACKAGES = path.resolve(PROJECT_ROOT, 'packages');
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
 const esModules = [
   '@okta/odyssey-react',
@@ -53,25 +53,26 @@ module.exports = {
     '^.+\\.svg$': '<rootDir>/svgMockTransformer.js',
     '\\.(css|less|scss)$': 'identity-obj-proxy',
     'preact/hooks': '<rootDir>/node_modules/preact/hooks',
-    '^okta$': `${V2_LOCAL_PACKAGES}/@okta/courage-dist/esm/src/index.js`,
-    '^okta-i18n-bundles$': `${V2_ROOT}/src/util/Bundles`,
-    '^qtip$': `${V2_LOCAL_PACKAGES}/@okta/qtip2/dist/jquery.qtip.js`,
-    'util/Logger': `${V2_ROOT}/src/util/Logger`,
-    'util/Bundles': `${V2_ROOT}/src/util/Bundles`,
-    'util/Enums': `${V2_ROOT}/src/util/Enums`,
-    'util/FactorUtil': `${V2_ROOT}/src/util/FactorUtil`,
-    'util/TimeUtil': `${V2_ROOT}/src/util/TimeUtil`,
-    'util/BrowserFeatures': `${V2_ROOT}/src/util/BrowserFeatures`,
-    '^config/config.json': `${V2_ROOT}/src/config/config.json`,
-    '^nls$': `${V2_LOCAL_PACKAGES}/@okta/i18n/src/json`,
-    '^nls/(.*)': `${V2_LOCAL_PACKAGES}/@okta/i18n/src/json/$1`,
-    '^util/(.*)': `${V2_ROOT}/src/util/$1`,
+    '^okta$': `${PACKAGES}/@okta/courage-dist/esm/src/index.js`,
+    '^okta-i18n-bundles$': `${PROJECT_ROOT}/src/util/Bundles`,
+    '^qtip$': `${PACKAGES}/@okta/qtip2/dist/jquery.qtip.js`,
+    'util/Logger': `${PROJECT_ROOT}/src/util/Logger`,
+    'util/Bundles': `${PROJECT_ROOT}/src/util/Bundles`,
+    'util/Enums': `${PROJECT_ROOT}/src/util/Enums`,
+    'util/FactorUtil': `${PROJECT_ROOT}/src/util/FactorUtil`,
+    'util/TimeUtil': `${PROJECT_ROOT}/src/util/TimeUtil`,
+    'util/BrowserFeatures': `${PROJECT_ROOT}/src/util/BrowserFeatures`,
+    '^config/config.json': `${PROJECT_ROOT}/src/config/config.json`,
+    '^nls$': `${PACKAGES}/@okta/i18n/src/json`,
+    '^nls/(.*)': `${PACKAGES}/@okta/i18n/src/json/$1`,
+    '^util/(.*)': `${PROJECT_ROOT}/src/util/$1`,
     '^react$': '<rootDir>/node_modules/preact/compat',
     '^react-dom$': '<rootDir>/node_modules/preact/compat',
     '^react-dom/server$': '<rootDir>/node_modules/preact/compat',
     '^react/jsx-runtime$': '<rootDir>/node_modules/preact/jsx-runtime',
     '^create-react-class$': '<rootDir>/node_modules/preact/compat/lib/create-react-class',
     '^react-addons-css-transition-group$': 'preact-css-transition-group',
+    '^@okta/mocks/(.*)': `${PROJECT_ROOT}/playground/mocks/$1`,
   },
 
   modulePaths: [

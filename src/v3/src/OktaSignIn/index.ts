@@ -10,13 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* global COMMITHASH */
-
 import { OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 
-import { version } from '../../package.json';
 import { Widget } from '../components/Widget';
 import { JsonObject } from '../types';
 import {
@@ -44,6 +41,16 @@ export default class OktaSignIn {
   readonly version: string;
 
   /**
+   * Package version
+   */
+  static readonly __version: string = VERSION;
+
+  /**
+   * Commit SHA
+   */
+  static readonly __commit: string = COMMITHASH;
+
+  /**
    * Okta Signin Widget options
    */
   readonly options: WidgetProps;
@@ -61,7 +68,7 @@ export default class OktaSignIn {
   } | Record<string, never>;
 
   constructor(options: WidgetProps) {
-    this.version = version;
+    this.version = VERSION;
     this.options = options;
 
     this.events = {};
@@ -146,14 +153,14 @@ export default class OktaSignIn {
           : el;
 
         if (target) {
-          render(h(Widget,
-            {
-              events: this.events,
-              authClient: this.authClient,
-              onSuccess: onSuccessWrapper,
-              onError: onErrorWrapper,
-              ...this.options,
-            }), target);
+          // @ts-ignore OKTA-508744
+          render(h(Widget, {
+            events: this.events,
+            authClient: this.authClient,
+            onSuccess: onSuccessWrapper,
+            onError: onErrorWrapper,
+            ...this.options,
+          }), target);
         } else {
           throw new Error(`could not find element ${el}`);
         }
@@ -211,7 +218,7 @@ export default class OktaSignIn {
   // eslint-disable-next-line class-methods-use-this
   getUser(): void {}
 
-  on(eventName: string, eventHandler: OktaWidgetEventHandler): void {
+  on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {
     this.events[eventName] = eventHandler;
   }
 
@@ -219,20 +226,21 @@ export default class OktaSignIn {
     options: WidgetProps & Record<string, string> = {},
   ): RenderOptions {
     const widgetOptions = this.options;
+    // @ts-ignore OKTA-508744
     const authParams: OktaAuthOptions = {
       ...widgetOptions.authParams,
-      ...pick(options, [
-        'responseType',
-        'scopes',
-        'state',
-        'nonce',
-        'idp',
-        'idpScope',
-        'display',
-        'prompt',
-        'maxAge',
-        'loginHint',
-      ]),
+      ...{
+        responseType: options.responseType,
+        scopes: options.scopes,
+        state: options.state,
+        nonce: options.nonce,
+        idp: options.idp,
+        idpScope: options.idpScope,
+        display: options.display,
+        prompt: options.prompt,
+        maxAge: options.maxAge,
+        loginHint: options.loginHint,
+      },
     };
 
     const { el, clientId, redirectUri } = { ...widgetOptions, ...options };

@@ -12,3 +12,6 @@
 
 /* eslint-disable */
 import JSX = preact.JSX;
+
+declare const COMMITHASH: string;
+declare const VERSION: string;

@@ -151,6 +151,10 @@ module.exports = {
 
         'class-methods-use-this': 'off',
       },
+      globals: {
+        COMMITHASH: false,
+        VERSION: false,
+      },
     },
     // unit test files in src
     {
