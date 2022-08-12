@@ -29,3 +29,4 @@ types/
 # Test dist package
 node_modules2
 /test/package/**/yarn.lock
+/test/package/**/dist/
