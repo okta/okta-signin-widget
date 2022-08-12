@@ -51,6 +51,11 @@ class PrimaryAuthOIEPage {
     await this.submitButton.click();
   }
 
+  async enterUsername(username) {
+    await this.identifierField.setValue(username);
+    await this.submitButton.click();
+  }
+
   async waitForSignupForm() {
     await waitForLoad(this.signupForm);
   }
