@@ -52,19 +52,6 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     uischema.elements,
   ) as FieldElement;
   predefinedAnswerElement.options.inputMeta.secret = true;
-  const answerElementTranslations = [
-    {
-      name: 'show',
-      i18nKey: 'mfa.challenge.answer.showAnswer',
-      value: loc('mfa.challenge.answer.showAnswer', 'login'),
-    },
-    {
-      name: 'hide',
-      i18nKey: 'mfa.challenge.answer.hideAnswer',
-      value: loc('mfa.challenge.answer.hideAnswer', 'login'),
-    },
-  ];
-  predefinedAnswerElement.options.translations = answerElementTranslations;
 
   const customAnswerInput = (predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
   const customAnswerElement: FieldElement = {
@@ -76,7 +63,6 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
         name: ANSWER_INPUT_NAME,
         secret: true,
       },
-      translations: answerElementTranslations,
     },
   };
 
