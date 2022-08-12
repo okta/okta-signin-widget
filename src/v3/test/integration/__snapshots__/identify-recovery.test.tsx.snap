@@ -39,6 +39,7 @@ exports[`identify-recovery renders form 1`] = `
                   >
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      data-se="o-form-head"
                     >
                       Reset your password
                     </h2>
@@ -100,17 +101,13 @@ exports[`identify-recovery renders form 1`] = `
                 <div
                   class="MuiBox-root emotion-6"
                 >
-                  <div
-                    class="MuiBox-root emotion-19"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
+                    data-se="cancel"
+                    href="javascript:void(0)"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>
