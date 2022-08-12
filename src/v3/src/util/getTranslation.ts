@@ -14,5 +14,10 @@ import { TranslationInfo } from '../types';
 
 export const getTranslation = (
   translations: TranslationInfo[],
-  name: string,
-): string | undefined => translations.find(({ name: fieldName }) => fieldName === name)?.value;
+  name?: string,
+): string | undefined => {
+  if (!name) {
+    return translations?.[0]?.value;
+  }
+  return translations.find(({ name: fieldName }) => fieldName === name)?.value;
+};

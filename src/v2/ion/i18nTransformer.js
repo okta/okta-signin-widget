@@ -89,7 +89,6 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.webauthn': 'oie.webauthn.label',
   'select-authenticator-authenticate.authenticator.yubikey_token': 'oie.yubikey.label',
   'select-authenticator-authenticate.authenticator.custom_app': 'oie.custom.app.authenticator.title',
-  'select-authenticator-authenticate.authenticator.custom_app.push': 'oie.custom.app.authenticator.title',
 
   'select-authenticator-unlock-account.authenticator.okta_email': 'oie.email.label',
   'select-authenticator-unlock-account.authenticator.phone_number': 'oie.phone.label',
@@ -123,6 +122,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.yubikey_token.credentials.passcode': 'oie.yubikey.passcode.label',
 
   'enrollment-channel-data.email': 'oie.enroll.okta_verify.channel.email.label',
+  'enrollment-channel-data.phoneNumber': 'mfa.phoneNumber.placeholder',
 
   'select-enrollment-channel.authenticator.channel.qrcode': 'oie.enroll.okta_verify.select.channel.qrcode.label',
   'select-enrollment-channel.authenticator.channel.email': 'oie.enroll.okta_verify.select.channel.email.label',
@@ -142,8 +142,11 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.credentials.passcode': 'oie.password.label',
 
   'reset-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reset-authenticator.okta_password.credentials.confirmPassword': 'oie.password.confirmPasswordLabel',
   'reenroll-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reenroll-authenticator.okta_password.credentials.confirmPassword': 'oie.password.confirmPasswordLabel',
   'reenroll-authenticator-warning.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reenroll-authenticator-warning.okta_password.credentials.confirmPassword': 'oie.password.confirmPasswordLabel',
   'incorrectPassword': 'oie.password.incorrect.message',
 
   'profile-update.userProfile.secondEmail': 'oie.user.profile.secondary.email',
@@ -495,6 +498,7 @@ export {
   getMessage,
   getMessageKey,
   getI18NParams,
+  getI18nKey,
   getI18NValue,
   doesI18NKeyExist,
   isCustomizedI18nKey,

@@ -10,5 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './transactionMessageTransformer';
-export * from './transform';
+import { IdxTransaction } from '@okta/okta-auth-js';
+
+import { getMessage } from '../../../../v2/ion/i18nTransformer';
+
+export const transactionMessageTransformer = (transaction: IdxTransaction): void => {
+  const { messages = [] } = transaction;
+  messages.forEach((message) => {
+    // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
+    // eslint-disable-next-line no-param-reassign
+    message.message = getMessage(message);
+  });
+};

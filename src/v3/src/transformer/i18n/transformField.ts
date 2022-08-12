@@ -10,5 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './transactionMessageTransformer';
-export * from './transform';
+import {
+  FieldElement,
+  TransformStepFnWithOptions,
+} from '../../types';
+import { traverseLayout } from '../util';
+import { addLabelTranslationToFieldElement } from './util';
+
+export const transformField: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
+  traverseLayout({
+    layout: formbag.uischema,
+    predicate: (element) => element.type === 'Field',
+    callback: (element) => {
+      addLabelTranslationToFieldElement(transaction, element as FieldElement);
+    },
+  });
+  return formbag;
+};

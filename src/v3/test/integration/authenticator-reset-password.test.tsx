@@ -42,7 +42,7 @@ describe('authenticator-reset-password', () => {
 
     const submitButton = await findByText('Reset Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
+    const confirmPasswordEle = await findByTestId('credentials.confirmPassword') as HTMLInputElement;
 
     const password = 'superSecretP@ssword12';
     await user.type(newPasswordEle, password);

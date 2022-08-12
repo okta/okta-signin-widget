@@ -36,6 +36,7 @@ export type FormBag = {
   dataSchema: GeneralDataSchemaBag & {
     submit: ActionOptions;
     fieldsToValidate: string[];
+    fieldsToExclude: string[];
   }
 };
 
@@ -96,6 +97,11 @@ Promise<WebAuthNVerificationPayload>;
 
 export interface UISchemaElement {
   type: string;
+  // TODO: make this field required
+  translations?: TranslationInfo[];
+  /**
+   * @deprecated
+   */
   label?: string;
   noMargin?: boolean;
 }
@@ -138,6 +144,9 @@ export interface FieldElement extends UISchemaElement {
     type?: string;
     customOptions?: IdxOption[],
     targetKey?: string;
+    /**
+     * @deprecated
+     */
     translations?: TranslationInfo[];
     dataSe?: string;
     hideLabel?: boolean;
@@ -290,7 +299,6 @@ export interface ImageWithTextElement extends UISchemaElement {
 export interface QRCodeElement extends UISchemaElement {
   type: 'QRCode';
   options: {
-    label: string;
     data: string;
   };
 }

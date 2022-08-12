@@ -15,7 +15,6 @@ import { h } from 'preact';
 
 import { useOnSubmit } from '../../hooks';
 import { ClickHandler, LinkElement, UISchemaElementComponent } from '../../types';
-import { getLabelName } from '../helpers';
 
 const Link: UISchemaElementComponent<{
   uischema: LinkElement
@@ -51,14 +50,14 @@ const Link: UISchemaElementComponent<{
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...(dataSe && { 'data-se': dataSe } )}
       >
-        {getLabelName(label)}
+        {label}
       </LinkMui>
     )
       : (
         <LinkMui
           href={href}
         >
-          {getLabelName(label)}
+          {label}
         </LinkMui>
       )
   );

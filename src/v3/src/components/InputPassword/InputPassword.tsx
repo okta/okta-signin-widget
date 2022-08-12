@@ -17,13 +17,14 @@ import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useOnChange, useValue } from '../../hooks';
+import { getTranslation } from '../../util';
 
 const InputPassword: UISchemaElementComponent<{
-  uischema: FieldElement
+  uischema: FieldElement,
 }> = ({ uischema }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const { label } = uischema;
+  const label = getTranslation(uischema.translations!);
   const {
     attributes,
     inputMeta: {

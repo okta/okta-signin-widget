@@ -34,13 +34,13 @@ const getComponentProps = (
 ): UISchemaElementComponentProps & { uischema: FieldElement; } => ({
   uischema: {
     type: 'Field',
-    label: 'Phone Number',
+    translations: [
+      { name: 'label', i18nKey: 'label', value: 'Phone number' },
+      { name: 'country', i18nKey: 'country.label', value: 'Country' },
+      { name: 'extension', i18nKey: 'extension.label', value: 'Extension' },
+    ],
     options: {
       inputMeta: { name: 'phoneNumber' },
-      translations: [
-        { name: 'country', i18nKey: 'country.label', value: 'Country' },
-        { name: 'extension', i18nKey: 'extension.label', value: 'Extension' },
-      ],
       ...options,
     },
   },
@@ -77,7 +77,7 @@ describe('PhoneAuthenticator tests', () => {
     const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
 
     await findByLabelText(/Country/);
-    const phoneInput = await findByLabelText(/Phone Number/);
+    const phoneInput = await findByLabelText(/Phone number/);
     const autocomplete = phoneInput?.getAttribute('autocomplete');
 
     expect(phoneInput.tagName).toMatch(/^input$/i);
@@ -96,7 +96,7 @@ describe('PhoneAuthenticator tests', () => {
     const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
 
     await findByLabelText(/Country/);
-    const phoneInput = await findByLabelText(/Phone Number/);
+    const phoneInput = await findByLabelText(/Phone number/);
     const extInput = await findByLabelText(/Extension/);
     const autocomplete = phoneInput?.getAttribute('autocomplete');
 
@@ -116,7 +116,7 @@ describe('PhoneAuthenticator tests', () => {
     props = getComponentProps({ attributes: { autocomplete: 'one-time-code' } });
     const { findByLabelText } = render(<PhoneAuthenticatorControl {...props} />);
 
-    const phoneInput = await findByLabelText(/Phone Number/);
+    const phoneInput = await findByLabelText(/Phone number/);
 
     const autocomplete = phoneInput?.getAttribute('autocomplete');
 

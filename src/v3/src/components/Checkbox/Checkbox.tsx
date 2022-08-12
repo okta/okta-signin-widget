@@ -15,7 +15,7 @@ import { h } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { useOnChange, useValue } from '../../hooks';
-import { getLabelName } from '../helpers';
+import { getTranslation } from '../../util';
 
 const Checkbox: UISchemaElementComponent<{
   uischema: FieldElement
@@ -23,7 +23,8 @@ const Checkbox: UISchemaElementComponent<{
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
 
-  const { label, options: { inputMeta: { name } } } = uischema;
+  const { options: { inputMeta: { name } } } = uischema;
+  const label = getTranslation(uischema.translations!);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.checked);
@@ -44,7 +45,7 @@ const Checkbox: UISchemaElementComponent<{
           }}
         />
       )}
-      label={getLabelName(label as string)}
+      label={label as string}
     />
   );
 };

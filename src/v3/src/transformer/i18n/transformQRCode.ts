@@ -10,4 +10,23 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export const getLabelName = (label: string ): string => ( label ?? '' );
+import { TransformStepFn } from '../../types';
+import { traverseLayout } from '../util';
+import { addTranslation } from './util';
+
+export const transformQRCode: TransformStepFn = (
+  formbag,
+) => {
+  traverseLayout({
+    layout: formbag.uischema,
+    predicate: (element) => element.type === 'QRCode',
+    callback: (element) => {
+      addTranslation({
+        element,
+        name: 'label',
+        i18nKey: 'mfa.altQrCode',
+      });
+    },
+  });
+  return formbag;
+};

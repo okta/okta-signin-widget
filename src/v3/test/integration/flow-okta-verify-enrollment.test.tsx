@@ -86,7 +86,7 @@ describe('flow-okta-verify-enrollment', () => {
     // qr polling
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
-    await findByAltText('Okta Verify');
+    await findByAltText('QR code');
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/Can't scan\?/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -209,7 +209,7 @@ describe('flow-okta-verify-enrollment', () => {
     // qr polling
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
-    await findByAltText('Okta Verify');
+    await findByAltText('QR code');
     expect(container).toMatchSnapshot();
   });
 
@@ -226,7 +226,7 @@ describe('flow-okta-verify-enrollment', () => {
     // qr polling
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
-    await findByAltText('Okta Verify');
+    await findByAltText('QR code');
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/Can't scan\?/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -350,7 +350,7 @@ describe('flow-okta-verify-enrollment', () => {
     // qr polling
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
-    await findByAltText('Okta Verify');
+    await findByAltText('QR code');
   });
 
   it('qr polling -> channel selection -> qr polling', async () => {
@@ -359,7 +359,7 @@ describe('flow-okta-verify-enrollment', () => {
     // qr polling
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
-    await findByAltText('Okta Verify');
+    await findByAltText('QR code');
     await user.click(await findByText(/Can't scan\?/));
 
     // channel selection
@@ -371,7 +371,7 @@ describe('flow-okta-verify-enrollment', () => {
     // qr polling
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
-    await findByAltText('Okta Verify');
+    await findByAltText('QR code');
   });
 
   it('qr polling -> channel selection -> data enrollment -> channel selection', async () => {
@@ -380,7 +380,7 @@ describe('flow-okta-verify-enrollment', () => {
     // qr polling
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
-    await findByAltText('Okta Verify');
+    await findByAltText('QR code');
     await user.click(await findByText(/Can't scan\?/));
 
     // channel selection
@@ -402,6 +402,6 @@ describe('flow-okta-verify-enrollment', () => {
     // qr polling
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
-    await findByAltText('Okta Verify');
+    await findByAltText('QR code');
   });
 });
