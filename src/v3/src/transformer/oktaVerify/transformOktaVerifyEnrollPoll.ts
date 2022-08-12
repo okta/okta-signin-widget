@@ -34,8 +34,6 @@ const STEPS = {
 
 const REMINDER_CHANNELS = ['sms', 'email'];
 const CHANNEL_TO_CTA_KEY: { [channel: string]: string } = {
-  // TODO: OKTA-520236 These i18n keys contain anchor tags in them, how to proceed?
-  // See OVResendView.js
   email: 'oie.enroll.okta_verify.email.notReceived',
   sms: 'oie.enroll.okta_verify.sms.notReceived',
 };
@@ -80,7 +78,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
     reminder = {
       type: 'Reminder',
       options: {
-        // TODO: OKTA-520236 - i18n key has anchor tag
         ctaText: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
         step: name,
         isActionStep: true,
