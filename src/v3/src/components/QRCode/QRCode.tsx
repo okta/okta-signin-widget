@@ -14,8 +14,8 @@ import { Box } from '@mui/material';
 import { withTheme } from '@okta/odyssey-react-theme';
 import { h } from 'preact';
 import { QRCodeElement, UISchemaElementComponent } from 'src/types';
-import { getTranslation } from '../../util';
 
+import { getTranslation } from '../../util';
 import { theme } from './QRCode.theme';
 import styles from './styles.module.css';
 
