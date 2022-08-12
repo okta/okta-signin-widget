@@ -38,8 +38,6 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
   }
 
   const { href } = relatesTo.value.contextualData.qrcode;
-  const { displayName } = relatesTo.value;
-
   const { uischema } = formBag;
 
   const passcodeElement = getUIElementWithName(
