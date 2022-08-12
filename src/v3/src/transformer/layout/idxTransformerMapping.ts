@@ -35,7 +35,6 @@ import {
   transformPhoneVerification,
 } from '../phone';
 import { transformEnrollProfile } from '../profile';
-import { transformIdentityRecovery } from '../recovery';
 import {
   transformSelectAuthenticatorEnroll,
   transformSelectAuthenticatorUnlockVerify,
@@ -52,6 +51,7 @@ import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
 } from './googleAuthenticator';
+import { transformIdentityRecovery } from './recovery';
 import {
   transformSecurityQuestionEnroll,
   transformSecurityQuestionVerify,

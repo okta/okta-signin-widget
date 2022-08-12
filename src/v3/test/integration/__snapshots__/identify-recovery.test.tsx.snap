@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`identify-recovery renders form 1`] = `
+<div>
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <span>
+      <main
+        class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        id="okta-sign-in"
+      >
+        <div
+          class="siwContainer MuiBox-root emotion-2"
+        >
+          <div
+            class="okta-sign-in-header auth-header siwHeader"
+          >
+            <h1
+              class="MuiTypography-root MuiTypography-h1 emotion-3"
+            />
+          </div>
+          <div
+            class="MuiBox-root emotion-4"
+          >
+            <form
+              class="o-form"
+              data-se="form"
+              novalidate=""
+            >
+              <div
+                class="MuiBox-root emotion-5"
+              >
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-7"
+                  >
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-8"
+                    >
+                      Reset your password
+                    </h2>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
+                      for="identifier"
+                    >
+                      Email or Username
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                    >
+                      <input
+                        aria-invalid="false"
+                        autocomplete="username"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
+                        data-se="identifier"
+                        id="identifier"
+                        name="identifier"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-14"
+                      >
+                        <legend
+                          class="emotion-15"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-17"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    Next
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-19"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </span>
+  </div>
+</div>
+`;

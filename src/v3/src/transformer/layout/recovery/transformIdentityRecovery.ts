@@ -11,10 +11,12 @@
  */
 
 import {
+  FieldElement,
   IdxStepTransformer,
   TitleElement,
-} from '../../types';
-import { loc } from '../../util';
+} from '../../../types';
+import { loc } from '../../../util';
+import { getUIElementWithName } from '../../utils';
 
 const getContentTitleAndParams = (brandName?: string): TitleElement['options'] => {
   if (brandName) {
@@ -31,8 +33,15 @@ export const transformIdentityRecovery: IdxStepTransformer = ({ formBag, widgetP
     type: 'Title',
     options: getContentTitleAndParams(brandName),
   };
+  const identifierElement: FieldElement = getUIElementWithName(
+    'identifier',
+    uischema.elements,
+  ) as FieldElement;
 
-  uischema.elements.unshift(titleElement);
+  uischema.elements = [
+    titleElement,
+    identifierElement,
+  ];
 
   return formBag;
 };
