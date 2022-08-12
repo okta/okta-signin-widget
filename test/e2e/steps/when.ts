@@ -19,6 +19,7 @@ import { waitForLoad } from '../util/waitUtil';
 import VerifyEmailAuthenticatorPage from '../page-objects/verify-email-authenticator.page';
 import SetupAuthenticatorPage from '../page-objects/setup-authenticator.page';
 import BiometricAuthenticatorPage from '../page-objects/biometric-authenticator.page';
+import ResetPasswordPage from '../page-objects/reset-password.page';
 
 When(
   /^user logs in with username and password$/,
@@ -98,7 +99,6 @@ When(
   }
 );
 
-
 When(
   /^user clicks the email magic link$/,
   async function() {
@@ -132,5 +132,34 @@ When(
   /^user triggers CSP failure in the test app$/,
   async function() {
     TestAppPage.triggerCspFail.click();
+  }
+);
+
+When(
+  /^user submits their email$/,
+  async function() {
+    return await PrimaryAuthPage.enterUsername(this.credentials.emailAddress);
+  }
+);
+
+When(
+  /^user clicks the password reset magic link$/,
+  async function() {
+    const passwordResetMagicLink = await this.a18nClient.getPasswordResetMagicLink(this.credentials.profileId);
+    await browser.url(passwordResetMagicLink);
+  }
+);
+
+When(
+  /^user fills in new password$/,
+  async function() {
+    await ResetPasswordPage.entersNewPassword();
+  }
+);
+
+When(
+  /^user submits the form$/,
+  async function() {
+    await ResetPasswordPage.submit();
   }
 );

@@ -18,6 +18,7 @@ import ActionContext from '../support/context';
 import PrimaryAuthPage from '../page-objects/primary-auth-oie.page';
 import ChallengeEmailAuthenticatorPage from '../page-objects/challenge-email-authenticator.page';
 import SetupAuthenticatorPage from '../page-objects/setup-authenticator.page';
+import ResetPasswordPage from '../page-objects/reset-password.page';
 
 Then(
   /^user sees the tokens on the page$/,
@@ -156,4 +157,12 @@ Then(
     await TestAppPage.assertCSPError('eval blocked due to CSP rule script-src from script-src http://localhost:3000');
   }
 );
+
+Then(
+  /^user sees the password reset page$/,
+  async function() {
+    await ResetPasswordPage.waitForPageLoad();
+  }
+);
+
 
