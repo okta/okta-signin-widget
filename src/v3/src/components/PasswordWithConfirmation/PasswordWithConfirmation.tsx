@@ -17,7 +17,6 @@ import {
   PasswordWithConfirmationElement,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation } from '../../util';
 import InputPassword from '../InputPassword';
 
 const PasswordWithConfirmation: UISchemaElementComponent<{

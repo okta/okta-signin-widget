@@ -25,8 +25,8 @@ const InputPassword: UISchemaElementComponent<{
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const label = getTranslation(uischema.translations!);
+  const { translations = [] } = uischema;
   const {
-    translations = [],
     attributes,
     inputMeta: {
       // @ts-ignore expose type from auth-js
