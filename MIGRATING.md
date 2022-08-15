@@ -18,6 +18,10 @@ The widget will run against the [Identity Engine][] by default, using the [inter
 
 Documentation for configuring the Okta Sign-in Widget using the [interaction code][] flow is in the main [README](https://github.com/okta/okta-signin-widget/blob/master/README.md).
 
+### Internal font rename
+
+Custom `montserrat` font is renamed to `monteserrat-okta`. Styles referencing it should be updated.
+
 
 ## Migrating from 5.x to 6.x
 
