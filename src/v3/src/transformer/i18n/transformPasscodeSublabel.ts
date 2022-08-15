@@ -10,16 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-
 import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import {
   FieldElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { traverseLayout } from '../util';
-import { addTranslation } from './util';
 import { getAuthenticatorKey } from '../../util';
+import { traverseLayout } from '../util';
 import { isCustomizedI18nKey } from './isCustomizedI18nKey';
+import { addTranslation } from './util';
 
 export const transformPasscodeSublabel: TransformStepFnWithOptions = ({
   transaction,

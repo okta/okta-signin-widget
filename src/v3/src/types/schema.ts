@@ -143,10 +143,6 @@ export interface FieldElement extends UISchemaElement {
     defaultOption?: string | number | boolean;
     type?: string;
     customOptions?: IdxOption[],
-    /**
-     * @deprecated
-     */
-    translations?: TranslationInfo[];
     dataSe?: string;
   };
 }
