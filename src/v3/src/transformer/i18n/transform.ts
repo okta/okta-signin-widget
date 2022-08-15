@@ -15,14 +15,14 @@ import { flow } from 'lodash';
 import { TransformStepFnWithOptions } from '../../types';
 import { transformAuthenticatorButton } from './transformAuthenticatorButton';
 import { transformField } from './transformField';
-import { transformPasswordWithConfirmation } from './transformPasswordWithConfirmation';
+import { transformInputPassword } from './transformInputPassword';
 import { transformPhoneAuthenticator } from './transformPhoneAuthenticator';
 import { transformQRCode } from './transformQRCode';
 
 export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) => flow(
   transformField(options),
   transformAuthenticatorButton(options),
-  transformPasswordWithConfirmation,
+  transformInputPassword,
   transformPhoneAuthenticator,
   transformQRCode,
 )(formbag);

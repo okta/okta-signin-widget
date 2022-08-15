@@ -18,7 +18,7 @@ import {
 import { traverseLayout } from '../util';
 import { addTranslation } from './util';
 
-export const transformPasswordWithConfirmation: TransformStepFn = (formBag: FormBag) => {
+export const transformInputPassword: TransformStepFn = (formBag: FormBag) => {
   const { uischema } = formBag;
 
   traverseLayout({
