@@ -78,11 +78,12 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
 
           const uischemaElement = (element as UISchemaElement);
           const fieldElement = (uischemaElement as FieldElement);
-          const key = fieldElement.options?.inputMeta?.name && fieldElement.label ? `${fieldElement.options?.inputMeta?.name}_${fieldElement.label}` : elementKey;
+          const key = fieldElement.options?.inputMeta?.name && fieldElement.label
+            ? `${fieldElement.options?.inputMeta?.name}_${fieldElement.label}`
+            : elementKey;
           const Component = renderer.renderer as UISchemaElementComponent;
           return (
             <Box
-              // key={elementKey}
               key={key}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(!(uischemaElement).noMargin && { marginBottom: 4 })}
