@@ -43,7 +43,7 @@ const InputText: UISchemaElementComponent<{
     },
     dataSe,
   } = uischema.options;
-  
+
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
