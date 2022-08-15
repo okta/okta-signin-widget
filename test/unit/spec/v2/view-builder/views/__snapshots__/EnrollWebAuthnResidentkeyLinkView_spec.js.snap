@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v2/view-builder/views/webauthn/EnrollWebAuthnResidentkeyLinkView should render the enroll webauthn text 1`] = `
+<div
+  class="setup-webauthn-residentkey-text"
+>
+  <div>
+    If you don't have Security key or Biometric set up,
+    <a
+      class="setup-webauthn-residentkey-link"
+      href="#"
+    >
+      finish setting up by signing in.
+    </a>
+  </div>
+</div>
+`;

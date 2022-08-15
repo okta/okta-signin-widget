@@ -27,6 +27,7 @@ const idx = [
   '/idp/idx/poll',
   '/idp/idx/unlock-account',
   '/idp/idx/request-activation',
+  '/idp/idx/authenticators/webauthn/launch',
 ].map(path => {
   return templateHelper({path});
 });
