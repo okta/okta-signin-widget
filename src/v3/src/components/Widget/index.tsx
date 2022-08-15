@@ -258,7 +258,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       widgetProps,
       onSuccessCallback: onSuccess,
       idxTransaction,
-      authApiError,
       setAuthApiError,
       setIdxTransaction,
       setIsClientTransaction,

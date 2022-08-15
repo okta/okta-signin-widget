@@ -30,7 +30,6 @@ export type IWidgetContext = {
   onSuccessCallback?: (data: Record<string, unknown>) => void;
   onErrorCallback?: (data: Record<string, unknown>) => void;
   idxTransaction: IdxTransaction | undefined;
-  authApiError: AuthApiError | undefined;
   setAuthApiError: StateUpdater<AuthApiError | undefined>;
   setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
   setIsClientTransaction: StateUpdater<boolean>;
