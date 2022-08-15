@@ -14,7 +14,8 @@ import { Input, NextStep } from '@okta/okta-auth-js';
 
 import {
   FieldElement,
-  FormBag, TransformStepFnWithOptions,
+  FormBag,
+  TransformStepFnWithOptions,
 } from '../../types';
 import { flattenInputs } from '../../util';
 import { transformer as attributesTransformer } from './attributes';

@@ -12,7 +12,7 @@
 
 import { scenario } from '../registry';
 
-scenario('remove-sq-challenge', (rest) => ([
+scenario('remove-security-question-challenge-flow', (rest) => ([
   // bootstrap
   rest.get('*/oauth2/default/.well-known/openid-configuration', async (req, res, ctx) => {
     const { default: body } = await import('../response/oauth2/default/well-known/openid-configuration/default.json');

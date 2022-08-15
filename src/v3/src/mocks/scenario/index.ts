@@ -35,7 +35,7 @@ import './error-401-invalid-otp-passcode';
 import './google-auth-scan-enroll';
 import './authenticator-verification-google-authenticator';
 import './identify-with-username';
-import './remove-sq-challenge';
+import './remove-security-question-challenge-flow';
 import './register-with-email-mfa';
 import './resetpassword-email-securityquestion';
 import './resetpassword-email-google-auth-verify';

@@ -28,9 +28,10 @@ import Stepper from './Stepper';
 
 type LayoutProps = {
   uischema: UISchemaLayout;
+  stepName?: string;
 };
 
-const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
+const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
   const { type, elements } = uischema;
 
   const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
@@ -44,7 +45,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
     >
       {
         elements.map((element, index) => {
-          const elementKey = `${element.type}_${index}`;
+          const stepNameKeyPart = stepName ? `_${stepName}_` : '';
+          const elementKey = `${element.type}${stepNameKeyPart}${index}`;
 
           if (element.type === UISchemaLayoutType.STEPPER) {
             return (
@@ -61,6 +63,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
               <Layout
                 key={elementKey}
                 uischema={element as UISchemaLayout}
+                stepName={stepName}
               />
             );
           }
@@ -78,8 +81,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
 
           const uischemaElement = (element as UISchemaElement);
           const fieldElement = (uischemaElement as FieldElement);
-          const key = fieldElement.options?.inputMeta?.name && fieldElement.label
-            ? `${fieldElement.options?.inputMeta?.name}_${fieldElement.label}`
+          const key = fieldElement.options?.inputMeta?.name && stepNameKeyPart
+            ? `${fieldElement.options?.inputMeta?.name}${stepNameKeyPart}`
             : elementKey;
           const Component = renderer.renderer as UISchemaElementComponent;
           return (
