@@ -25,6 +25,8 @@ configure({
   testIdAttribute: 'data-se',
 });
 
+global.VERSION = '0.0.0';
+global.COMMITHASH = 'b9bbc0140703c3fbf0e2e58920362e70'; // "echo jest | md5"
 global.DEBUG = false;
 
 expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));

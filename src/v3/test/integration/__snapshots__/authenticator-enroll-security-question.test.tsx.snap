@@ -8,6 +8,8 @@ exports[`authenticator-enroll-security-question custom question renders correct 
     <span>
       <main
         class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
         id="okta-sign-in"
       >
         <div
@@ -349,6 +351,8 @@ exports[`authenticator-enroll-security-question predefined question renders corr
     <span>
       <main
         class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
         id="okta-sign-in"
       >
         <div

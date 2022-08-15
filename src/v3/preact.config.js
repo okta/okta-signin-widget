@@ -54,13 +54,14 @@ export default {
 
     config.plugins.push(
       new DefinePlugin({
+        // for OktaSignIn.__version, AuthContainer[data-version]
+        VERSION: JSON.stringify(gitRevisionPlugin.version()),
+        // for OktaSignIn.__commit, AuthContainer[data-commit]
         COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
+        // for v2/util/Logger file
+        DEBUG: env !== 'production',
       }),
     );
-
-    // This is required for v2/util/Logger file, it contains a DEBUG variable that will be unresolved if this is not done.
-    // DefinePlugin just replaces variables in the code, see https://webpack.js.org/plugins/define-plugin/
-    config.plugins.push(new DefinePlugin({ DEBUG: env !== 'production' }));
 
     // use odyssey babel configs
     config.module.rules.push({

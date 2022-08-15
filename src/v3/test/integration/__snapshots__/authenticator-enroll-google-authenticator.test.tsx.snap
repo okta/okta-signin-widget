@@ -8,6 +8,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
     <span>
       <main
         class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
         id="okta-sign-in"
       >
         <div
@@ -175,6 +177,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
     <span>
       <main
         class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
         id="okta-sign-in"
       >
         <div
@@ -360,6 +364,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
     <span>
       <main
         class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
         id="okta-sign-in"
       >
         <div
@@ -517,6 +523,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
     <span>
       <main
         class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
         id="okta-sign-in"
       >
         <div

@@ -43,6 +43,9 @@
       ],
       "react-dom": [
         "node_modules/preact/compat"
+      ],
+      "@okta/mocks/*": [
+        "../../playground/mocks/*"
       ]
     }
   },

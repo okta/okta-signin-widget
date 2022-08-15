@@ -27,6 +27,8 @@ const AuthContainer: FunctionComponent = ({ children }) => {
       justifyContent="center"
       alignItems="center"
       className={classes}
+      data-version={VERSION}
+      data-commit={COMMITHASH}
     >
       <Box
         flex="auto"
