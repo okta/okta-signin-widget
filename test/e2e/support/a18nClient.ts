@@ -70,6 +70,9 @@ export default class A18nClient {
 
     const match = response?.content?.match(/Your verification code is (?<code>\d+)/);
     const code = match?.groups?.code;
+    if (!code) {
+      throw new Error('Unable to retrieve code from SMS.');
+    }
     return code;
   }
 
@@ -98,7 +101,7 @@ export default class A18nClient {
       --retryAttemptsRemaining;
     }
 
-    const match = response?.content?.match(/<a id="email-authentication-button" href="(?<url>\S+)"/);
+    const match = response?.content?.match(/<a id="email-authentication-button" href="(?<url>\S+)"/) || response?.content?.match(/<a id="email-activation-button" href="(?<url>\S+)"/);
     const url = match?.groups?.url;
     if (!url) {
       throw new Error('Unable to retrieve magic link from email.');

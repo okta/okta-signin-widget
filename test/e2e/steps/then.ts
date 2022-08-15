@@ -19,6 +19,9 @@ import PrimaryAuthPage from '../page-objects/primary-auth-oie.page';
 import ChallengeEmailAuthenticatorPage from '../page-objects/challenge-email-authenticator.page';
 import SetupAuthenticatorPage from '../page-objects/setup-authenticator.page';
 import ResetPasswordPage from '../page-objects/reset-password.page';
+import EnrollPasswordPage from '../page-objects/enroll-password-authenticator.page';
+import EnrollPhonePage from '../page-objects/enroll-phone-authenticator.page';
+import VerifyPhoneAuthenticatorPage from '../page-objects/verify-phone-authenticator.page';
 
 Then(
   /^user sees the tokens on the page$/,
@@ -165,4 +168,24 @@ Then(
   }
 );
 
+Then(
+  /^user sees the password enroll page$/,
+  async function() {
+    await EnrollPasswordPage.waitForPageLoad();
+  }
+);
+
+Then(
+  /^user sees the phone enroll page$/,
+  async function() {
+    await EnrollPhonePage.waitForPageLoad();
+  }
+);
+
+Then(
+  /^user is challenged for sms code$/,
+  async function() {
+    return await VerifyPhoneAuthenticatorPage.waitForPageLoad();
+  }
+);
 

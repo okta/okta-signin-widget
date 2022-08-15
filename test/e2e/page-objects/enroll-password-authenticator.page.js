@@ -1,5 +1,5 @@
-class ResetPasswordPage {
-  get mainContent() { return $('.siw-main-view.reset-authenticator--okta_password.forgot-password'); }
+class EnrollPasswordPage {
+  get mainContent() { return $('.siw-main-view.enroll-authenticator--okta_password.enroll-password'); }
   get passwordField() { return $('input[name="credentials.passcode"]'); }
   get confirmPasswordField() { return $('input[name="confirmPassword"]'); }
   get submitButton() { return $('input[data-type="save"]'); }
@@ -27,4 +27,4 @@ class ResetPasswordPage {
   }
 }
   
-export default new ResetPasswordPage();
+export default new EnrollPasswordPage();
