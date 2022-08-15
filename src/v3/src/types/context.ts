@@ -10,7 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage, IdxTransaction, OktaAuth } from '@okta/okta-auth-js';
+import {
+  AuthApiError,
+  IdxMessage,
+  IdxTransaction,
+  OktaAuth,
+} from '@okta/okta-auth-js';
 import { MutableRef, StateUpdater } from 'preact/hooks';
 
 import { FormBag } from './schema';
@@ -25,6 +30,8 @@ export type IWidgetContext = {
   onSuccessCallback?: (data: Record<string, unknown>) => void;
   onErrorCallback?: (data: Record<string, unknown>) => void;
   idxTransaction: IdxTransaction | undefined;
+  authApiError: AuthApiError | undefined;
+  setAuthApiError: StateUpdater<AuthApiError | undefined>;
   setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
   setIsClientTransaction: StateUpdater<boolean>;
   stepToRender: string | undefined;
