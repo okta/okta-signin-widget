@@ -196,6 +196,7 @@ const getResendTimestamp = ClientFunction(() => {
 
 const getVerificationEmailTitle = 'Get a verification email';
 const saveBtnLabelText = 'Send me an email';
+const enterVerificationCode = 'Enter a verification code instead';
 
 fixture('Challenge Email Authenticator Form');
 
@@ -323,7 +324,7 @@ test
     const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
-    await t.expect(enterVerificationCodeText).eql('Enter a verification code instead');
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -344,7 +345,7 @@ test
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
-    await t.expect(enterVerificationCodeText).eql('Enter a verification code instead');
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
   });
 
 test
@@ -372,7 +373,7 @@ test
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
-    await t.expect(enterVerificationCodeText).eql('Enter a verification code instead');
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
   });
 
 test
