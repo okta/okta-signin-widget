@@ -149,7 +149,6 @@ export interface FieldElement extends UISchemaElement {
      */
     translations?: TranslationInfo[];
     dataSe?: string;
-    hideLabel?: boolean;
   };
 }
 
@@ -215,6 +214,7 @@ export interface TitleElement extends UISchemaElement {
 export interface HeadingElement extends UISchemaElement {
   type: 'Heading';
   options: {
+    // https://mui.com/material-ui/api/typography/
     level: 1 | 2 | 3 | 4 | 5 | 6;
     visualLevel: 1 | 2 | 3 | 4 | 5 | 6;
     content: string;
@@ -225,9 +225,6 @@ export interface DescriptionElement extends UISchemaElement {
   type: 'Description';
   options: {
     content: string;
-    // this field uses a subset of mui Typography variant
-    // https://mui.com/material-ui/api/typography/
-    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   };
 }
 

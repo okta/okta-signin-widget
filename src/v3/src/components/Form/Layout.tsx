@@ -14,6 +14,7 @@ import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 import {
+  FieldElement,
   StepperLayout,
   UISchemaElement,
   UISchemaElementComponent,
@@ -75,14 +76,18 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
             return null;
           }
 
+          const uischemaElement = (element as UISchemaElement);
+          const fieldElement = (uischemaElement as FieldElement);
+          const key = fieldElement.options?.inputMeta?.name && fieldElement.label ? `${fieldElement.options?.inputMeta?.name}_${fieldElement.label}` : elementKey;
           const Component = renderer.renderer as UISchemaElementComponent;
           return (
             <Box
-              key={elementKey}
+              // key={elementKey}
+              key={key}
               // eslint-disable-next-line react/jsx-props-no-spreading
-              {...(!(element as UISchemaElement).noMargin && { marginBottom: 4 })}
+              {...(!(uischemaElement).noMargin && { marginBottom: 4 })}
             >
-              <Component uischema={element as UISchemaElement} />
+              <Component uischema={uischemaElement} />
             </Box>
           );
         })
