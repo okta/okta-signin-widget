@@ -187,7 +187,7 @@ describe('v2/models/AppState', function() {
       expect(this.appState.shouldReRenderView(transformedResponse)).toBe(false);
     });
 
-    it('rerender view should be true if idx message contains idx.unknown.user', () => {
+    it('should re-render the view if the idx message contains idx.unknown.user', () => {
 
       const idxObj = {
         'idx': {
