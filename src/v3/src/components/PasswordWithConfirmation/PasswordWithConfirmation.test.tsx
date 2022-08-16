@@ -35,12 +35,6 @@ jest.mock('../../hooks', () => ({
   useFormFieldValidation: () => jest.fn().mockImplementation(() => {}),
 }));
 
-jest.mock('../../contexts', () => ({
-  useWidgetContext: jest.fn().mockImplementation(
-    () => ({ additionalData: { confirmPassword: undefined }, setAdditionalData: jest.fn() }),
-  ),
-}));
-
 const mockMessage = jest.fn().mockReturnValue('');
 jest.mock('../../../../v2/ion/i18nTransformer', () => ({
   getMessage: () => mockMessage(),

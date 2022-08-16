@@ -13,7 +13,6 @@
 import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { getTranslation } from '../../util';
 
 import { useOnChange, useValue } from '../../hooks';
 import {
@@ -21,6 +20,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
+import { getTranslation } from '../../util';
 import { withFormValidationState } from '../hocs';
 
 const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({

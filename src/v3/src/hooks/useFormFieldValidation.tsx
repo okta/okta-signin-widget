@@ -22,7 +22,7 @@ export const useFormFieldValidation = (
   setError?: StateUpdater<string | undefined>, value?: string | boolean | number
   ) => void => {
   const { name } = uischema.options.inputMeta;
-  const { dataSchemaRef, data, additionalData } = useWidgetContext();
+  const { dataSchemaRef, data } = useWidgetContext();
 
   return useCallback((
     setError?: StateUpdater<string | undefined>,
@@ -30,7 +30,7 @@ export const useFormFieldValidation = (
   ) => {
     const validator = dataSchemaRef.current?.[name] as DataSchema;
     if (typeof validator?.validate === 'function') {
-      const updatedData = { ...data, ...additionalData, ...(value && { [name]: value }) };
+      const updatedData = { ...data, ...(value && { [name]: value }) };
       const messages = validator.validate({ ...updatedData });
       const matchingMessage = messages?.find(
         (message) => message.name === undefined || message.name === name,
@@ -42,5 +42,5 @@ export const useFormFieldValidation = (
       }
     }
     setError?.(undefined);
-  }, [data, additionalData, dataSchemaRef, name]);
+  }, [data, dataSchemaRef, name]);
 };
