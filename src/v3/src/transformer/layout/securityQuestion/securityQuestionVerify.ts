@@ -15,9 +15,8 @@ import { NextStep } from '@okta/okta-auth-js';
 import {
   ButtonElement,
   ButtonType,
-  DescriptionElement,
+  FieldElement,
   IdxStepTransformer,
-  InputTextElement,
   TitleElement,
   UISchemaElement,
 } from '../../../types';
@@ -35,20 +34,15 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
     },
   };
 
-  const questionElement: DescriptionElement = {
-    type: 'Description',
-    noMargin: true,
-    options: {
-      content: relatesTo?.value?.profile?.question as string,
-      variant: 'h6',
-    },
-  };
-
-  const answerElement: InputTextElement = getUIElementWithName(
+  const answerElement: FieldElement = getUIElementWithName(
     'credentials.answer',
     uischema.elements as UISchemaElement[],
-  ) as InputTextElement;
-  answerElement.options.hideLabel = true;
+  ) as FieldElement;
+  answerElement.translations = [{
+    name: 'label',
+    i18nKey: '',
+    value: relatesTo?.value?.profile?.question as string,
+  }];
 
   const submitButton: ButtonElement = {
     type: 'Button',
@@ -61,7 +55,6 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
 
   uischema.elements = [
     titleElement,
-    questionElement,
     answerElement,
     submitButton,
   ];

@@ -13,27 +13,28 @@
 import { Input, NextStep } from '@okta/okta-auth-js';
 
 import {
-  FormBag, TransformStepFnWithOptions, UISchemaElement,
+  FieldElement,
+  FormBag,
+  TransformStepFnWithOptions,
 } from '../../types';
 import { flattenInputs } from '../../util';
 import { transformer as attributesTransformer } from './attributes';
 import { transformer as typeTransformer } from './type';
 
-const mapUiElement = (input: Input): UISchemaElement => {
-  const { name, label } = input;
+const mapUiElement = (input: Input): FieldElement => {
+  const { label } = input;
   const fieldType = typeTransformer(input);
   const attributes = attributesTransformer(input);
 
   return {
     type: 'Field',
     label,
-    name,
     options: {
       inputMeta: { ...input },
       ...fieldType?.[input.name],
       ...attributes,
     },
-  } as UISchemaElement;
+  };
 };
 
 export const transformStepInputs = (

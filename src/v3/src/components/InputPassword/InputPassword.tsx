@@ -33,7 +33,6 @@ const InputPassword: UISchemaElementComponent<{
       messages = {},
       name,
     },
-    hideLabel,
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
@@ -44,8 +43,7 @@ const InputPassword: UISchemaElementComponent<{
   return (
     <Box>
       <PasswordInput
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...(!hideLabel && { label })}
+        label={label}
         tooltipLabel={
           (isHidden: boolean) => (isHidden ? getTranslation(translations, 'show') : getTranslation(translations, 'hide'))
         }
@@ -57,7 +55,6 @@ const InputPassword: UISchemaElementComponent<{
         fullWidth
         inputProps={{
           'data-se': name,
-          ...(hideLabel && { 'aria-label': label }),
           ...attributes,
         }}
       />

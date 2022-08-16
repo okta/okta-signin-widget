@@ -46,6 +46,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   const { uischema, data, dataSchema } = formBag;
 
   const predefinedQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => !(value as Input[])?.some(({ name }) => name === 'question'));
+  const customQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => (value as Input[])?.some(({ name }) => name === 'question'));
 
   const predefinedAnswerElement = getUIElementWithName(
     ANSWER_INPUT_NAME,
@@ -53,7 +54,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   ) as FieldElement;
   predefinedAnswerElement.options.inputMeta.secret = true;
 
-  const customAnswerInput = (predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
+  const customAnswerInput = (customQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
   const customAnswerElement: FieldElement = {
     type: 'Field',
     label: customAnswerInput?.label ?? customAnswerInput?.name,

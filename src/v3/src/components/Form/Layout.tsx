@@ -14,6 +14,7 @@ import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 import {
+  FieldElement,
   StepperLayout,
   UISchemaElement,
   UISchemaElementComponent,
@@ -27,9 +28,10 @@ import Stepper from './Stepper';
 
 type LayoutProps = {
   uischema: UISchemaLayout;
+  stepName?: string;
 };
 
-const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
+const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
   const { type, elements } = uischema;
 
   const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
@@ -43,7 +45,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
     >
       {
         elements.map((element, index) => {
-          const elementKey = `${element.type}_${index}`;
+          const elementKey = [element.type, stepName, index].join('_');
 
           if (element.type === UISchemaLayoutType.STEPPER) {
             return (
@@ -60,6 +62,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
               <Layout
                 key={elementKey}
                 uischema={element as UISchemaLayout}
+                stepName={stepName}
               />
             );
           }
@@ -75,14 +78,19 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
             return null;
           }
 
+          const uischemaElement = (element as UISchemaElement);
+          const fieldElement = (uischemaElement as FieldElement);
+          const key = fieldElement.options?.inputMeta?.name && stepName
+            ? `${fieldElement.options?.inputMeta?.name}_${stepName}`
+            : elementKey;
           const Component = renderer.renderer as UISchemaElementComponent;
           return (
             <Box
-              key={elementKey}
+              key={key}
               // eslint-disable-next-line react/jsx-props-no-spreading
-              {...(!(element as UISchemaElement).noMargin && { marginBottom: 4 })}
+              {...(!(uischemaElement).noMargin && { marginBottom: 4 })}
             >
-              <Component uischema={element as UISchemaElement} />
+              <Component uischema={uischemaElement} />
             </Box>
           );
         })
