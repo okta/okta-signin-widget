@@ -15,7 +15,6 @@ import { NextStep } from '@okta/okta-auth-js';
 import {
   ButtonElement,
   ButtonType,
-  FieldElement,
   IdxStepTransformer,
   TitleElement,
   UISchemaElement,
@@ -43,7 +42,6 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
     i18nKey: '',
     value: relatesTo?.value?.profile?.question as string,
   }];
-  
 
   const submitButton: ButtonElement = {
     type: 'Button',
