@@ -1,0 +1,149 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.tVuyg8t_BiybH3EiRJEyn0SMOlEmEhae5HvEpTIN",
+  "expiresAt": "2022-08-16T19:59:06.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "identify",
+        "href": "http://oie.okta1.com:1802/idp/idx/identify",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          { "name": "identifier", "label": "Username", "required": true },
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                { "name": "passcode", "label": "Password", "secret": true }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "rememberMe",
+            "type": "boolean",
+            "label": "Remember this device"
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.tVuyg8t_BiybH3EiRJEyn0SMOlEmEhae5HvEpTIN",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": ["create-form"],
+        "name": "launch-authenticator",
+        "relatesTo": ["authenticatorChallenge"],
+        "href": "http://oie.okta1.com:1802/idp/idx/authenticators/okta-verify/launch",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.tVuyg8t_BiybH3EiRJEyn0SMOlEmEhae5HvEpTIN",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": ["create-form"],
+        "name": "select-enroll-profile",
+        "href": "http://oie.okta1.com:1802/idp/idx/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.tVuyg8t_BiybH3EiRJEyn0SMOlEmEhae5HvEpTIN",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "There is no account with the Username admin@okta.com.",
+        "i18n": { "key": "idx.unknown.user", "params": [] },
+        "class": "WARNING"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "recover": {
+        "rel": ["create-form"],
+        "name": "recover",
+        "href": "http://oie.okta1.com:1802/idp/idx/recover",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.tVuyg8t_BiybH3EiRJEyn0SMOlEmEhae5HvEpTIN",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "type": "password",
+      "key": "okta_password",
+      "id": "autwtrcuHrRWcdfLo0g3",
+      "displayName": "Password",
+      "methods": [{ "type": "password" }]
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://oie.okta1.com:1802/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.tVuyg8t_BiybH3EiRJEyn0SMOlEmEhae5HvEpTIN",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "DEFAULT_APP"
+    }
+  },
+  "authenticatorChallenge": {
+    "type": "object",
+    "value": {
+      "challengeMethod": "CUSTOM_URI",
+      "href": "com-okta-authenticator:/deviceChallenge?challengeRequest=eyJraWQiOiJ4ZHpmRTN2UnhLb2JLR1NzUFdaUjh4M1Vpd0U1WTRiRGZTdXh1dG1hcWY0IiwidHlwIjoib2t0YS1kZXZpY2ViaW5kK2p3dCIsImFsZyI6IlJTMjU2In0.",
+      "downloadHref": "https://apps.apple.com/us/app/okta-verify/id490179405"
+    }
+  }
+}

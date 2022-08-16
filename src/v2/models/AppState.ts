@@ -24,6 +24,7 @@ import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
 import Settings from 'models/Settings';
 import Hooks from 'models/Hooks';
 
+const UNKNOWN_USER_I8N_KEY = "idx.unknown.user";
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
  */
@@ -331,6 +332,15 @@ export default class AppState extends Model {
        * returns true: We want to force reRender if you go back to selection screen from challenge or enroll screen
        * and re-select the same authenticator for challenge. In this case also new response will be identical
        * to the old response.
+       */
+      reRender = true;
+    }
+
+    if (identicalResponse && this.containsMessageWithI18nKey(UNKNOWN_USER_I8N_KEY)) {
+      /**
+       * Need to re-render or else form will be stuck in saving mode.
+       * This message is a form warning that can result in identical responses if the user enters the same
+       * username as the one in the last message warning.
        */
       reRender = true;
     }
