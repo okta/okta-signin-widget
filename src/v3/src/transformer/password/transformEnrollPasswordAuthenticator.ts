@@ -63,9 +63,14 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   const confirmPasswordElement: FieldElement = {
     type: 'Field',
     label: loc('oie.password.confirmPasswordLabel', 'login'),
+    translations: [{
+      name: 'label',
+      i18nKey: 'oie.password.confirmPasswordLabel',
+      value: loc('oie.password.confirmPasswordLabel', 'login'),
+    }],
     options: {
       inputMeta: {
-        name: 'credentials.confirmPassword',
+        name: 'confirmPassword',
         secret: true,
         // @ts-ignore expose type from auth-js
         messages: { value: undefined },
@@ -127,12 +132,12 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   ];
 
   // update default dataSchema
-  dataSchema.fieldsToExclude = ['credentials.confirmPassword'];
+  dataSchema.fieldsToExclude = ['confirmPassword'];
   // Controls form submission validation
   dataSchema[passwordFieldName] = {
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];
-      const confirmPw = data['credentials.confirmPassword'];
+      const confirmPw = data['confirmPassword'];
       const errorMessages: (IdxMessage & { name?: string })[] = [];
       if (!newPw) {
         errorMessages.push({
@@ -145,14 +150,14 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
       if (!confirmPw) {
         errorMessages.push({
-          name: 'credentials.confirmPassword',
+          name: 'confirmPassword',
           class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
           i18n: { key: 'model.validation.field.blank' },
         });
       } else if (confirmPw !== newPw) {
         errorMessages.push({
-          name: 'credentials.confirmPassword',
+          name: 'confirmPassword',
           class: 'ERROR',
           message: loc('password.error.match', 'login'),
           i18n: { key: 'password.error.match' },
