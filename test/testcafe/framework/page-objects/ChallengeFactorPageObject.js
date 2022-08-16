@@ -70,4 +70,8 @@ export default class ChallengeFactorPageObject extends BasePageObject {
   getSaveButtonLabel() {
     return this.form.getElement('.button-primary').value;
   }
+
+  getEnterVerificationCodeText() {
+    return this.form.getElement('.enter-auth-code-instead-link').textContent;
+  }
 }
