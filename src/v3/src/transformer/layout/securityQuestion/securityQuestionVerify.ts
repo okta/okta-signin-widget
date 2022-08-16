@@ -15,7 +15,6 @@ import { NextStep } from '@okta/okta-auth-js';
 import {
   ButtonElement,
   ButtonType,
-  FieldElement,
   IdxStepTransformer,
   TitleElement,
   UISchemaElement,
