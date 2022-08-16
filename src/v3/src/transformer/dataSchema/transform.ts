@@ -18,6 +18,7 @@ import {
   TransformStepFn,
 } from '../../types';
 import { traverseLayout } from '../util';
+import { addPhoneValidation } from './addPhoneValidation';
 
 const addSubmission: TransformStepFn = (formbag) => {
   const { uischema, dataSchema } = formbag;
@@ -52,4 +53,5 @@ const addSubmission: TransformStepFn = (formbag) => {
 
 export const transformDataSchema: TransformStepFn = (formbag) => flow(
   addSubmission,
+  addPhoneValidation,
 )(formbag);

@@ -23,7 +23,7 @@ export const transformPhoneAuthenticator: TransformStepFn = (formBag: FormBag) =
 
   traverseLayout({
     layout: uischema,
-    predicate: (element) => (element as FieldElement).options?.inputMeta?.name.endsWith('phoneNumber'),
+    predicate: (element) => (element as FieldElement).options?.inputMeta?.name?.endsWith('phoneNumber'),
     callback: (element) => {
       addTranslation({
         element,
