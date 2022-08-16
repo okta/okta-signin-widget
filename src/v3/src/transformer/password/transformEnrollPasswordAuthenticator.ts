@@ -63,11 +63,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   const confirmPasswordElement: FieldElement = {
     type: 'Field',
     label: loc('oie.password.confirmPasswordLabel', 'login'),
-    translations: [{
-      name: 'label',
-      i18nKey: 'oie.password.confirmPasswordLabel',
-      value: loc('oie.password.confirmPasswordLabel', 'login'),
-    }],
     options: {
       inputMeta: {
         name: 'confirmPassword',
@@ -126,7 +121,10 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
   uischema.elements = [
     titleElement,
-    passwordRequirementsElement,
+    ...(Object.keys(passwordSettings)?.length > 0 
+      ? [passwordRequirementsElement]
+      : []
+    ),
     passwordElement,
     confirmPasswordElement,
   ];
