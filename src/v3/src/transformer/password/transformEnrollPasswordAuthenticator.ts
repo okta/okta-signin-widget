@@ -121,7 +121,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
   uischema.elements = [
     titleElement,
-    ...(Object.keys(passwordSettings)?.length > 0 
+    ...(Object.keys(passwordSettings)?.length > 0
       ? [passwordRequirementsElement]
       : []
     ),
@@ -135,7 +135,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   dataSchema[passwordFieldName] = {
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];
-      const confirmPw = data['confirmPassword'];
+      const confirmPw = data.confirmPassword;
       const errorMessages: (IdxMessage & { name?: string })[] = [];
       if (!newPw) {
         errorMessages.push({
