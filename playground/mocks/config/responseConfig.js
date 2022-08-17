@@ -18,7 +18,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    // 'identify',
+    'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -56,7 +56,7 @@ const idx = {
     // 'authenticator-verification-data-phone-voice-then-sms',
     // 'authenticator-verification-email',
     // 'authenticator-verification-password',
-    'authenticator-verification-phone-sms',
+    // 'authenticator-verification-phone-sms',
     // 'authenticator-verification-phone-voice',
     // 'authenticator-verification-security-question',
     // 'authenticator-verification-select-authenticator',
@@ -135,8 +135,7 @@ const idx = {
     // 'error-unsupported-idx-response'
   ],
   '/idp/idx/challenge/answer': [
-    'error-401-session-expired',
-    // 'error-401-invalid-otp-passcode',
+    'error-401-invalid-otp-passcode',
     // 'error-401-invalid-otp-passcode',
     // 'error-429-too-many-request-operation-ratelimit',
     // 'error-429-too-many-request',
@@ -146,9 +145,9 @@ const idx = {
     // 'error-authenticator-enroll-security-question',
     // 'error-authenticator-webauthn-failure',
     // 'error-authenticator-enroll-password-common',
-    // 'error-authenticator-reset-password-requirement',
-    // 'error-authenticator-enroll-security-question-html-tags',
-    // 'error-authenticator-enroll-password-common',
+    'error-authenticator-reset-password-requirement',
+    'error-authenticator-enroll-security-question-html-tags',
+    'error-authenticator-enroll-password-common',
     // 'error-authenticator-reset-password-requirement',
     // 'error-authenticator-enroll-security-question-html-tags',
   ],
