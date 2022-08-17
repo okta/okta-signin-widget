@@ -64,15 +64,12 @@ export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
 
   // Perform a case insensitive search - this is necessary in the case
   // of browsers like Safari
-  let supportedPos;
-  let supportedLanguage = config.defaultLanguage;
+  const foundLang = expanded.find(
+    (preferredLang) => supportedLangsLowercase.includes(preferredLang),
+  );
+  const supportedPos = supportedLangsLowercase.findIndex(
+    (supportedLang) => supportedLang === foundLang,
+  );
 
-  expanded.forEach((expandedVal) => {
-    supportedPos = supportedLangsLowercase.indexOf(expandedVal);
-    if (supportedPos > -1) {
-      supportedLanguage = supportedLanguages[supportedPos];
-    }
-  });
-
-  return supportedLanguage as LanguageCode;
+  return (supportedLanguages[supportedPos] ?? config.defaultLanguage) as LanguageCode;
 };
