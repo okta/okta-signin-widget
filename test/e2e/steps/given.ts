@@ -76,6 +76,14 @@ Given(
 );
 
 Given(
+  /^an a18n profile exists$/,
+  async function() {
+    this.a18nClient = new A18nClient();
+    this.credentials = await createCredentials(this.a18nClient, "test");
+  }
+);
+
+Given(
   /^a User named "([^/w]+)" exists in the org and added to "([^/w]+)" group$/,
   async function(this: ActionContext, firstName: string, groupName: string) {
     this.a18nClient = new A18nClient();

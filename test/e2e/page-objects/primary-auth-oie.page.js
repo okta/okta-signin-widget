@@ -7,6 +7,7 @@ class PrimaryAuthOIEPage {
   get forgotPasswordButton() { return $('[data-se="forgot-password"]'); }
   get nextButton() { return $('[value="Next"]'); }
   get signupForm() { return $('.siw-main-view.enroll-profile.registration'); }
+  get signupLink() { return $('a[data-se="enroll"]'); }
   get unlockAccountForm() { return $('.siw-main-view.select-authenticator-unlock-account'); }
 
   get primaryAuthForm() { return $('.siw-main-view.primary-auth'); }
@@ -36,6 +37,10 @@ class PrimaryAuthOIEPage {
 
   async clickForgotPasswordButton() {
     await this.forgotPasswordButton.click();
+  }
+
+  async clickSignUpLink() {
+    await this.signupLink.click();
   }
 
   async login(username, password) {

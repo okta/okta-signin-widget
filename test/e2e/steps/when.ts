@@ -20,6 +20,9 @@ import VerifyEmailAuthenticatorPage from '../page-objects/verify-email-authentic
 import SetupAuthenticatorPage from '../page-objects/setup-authenticator.page';
 import BiometricAuthenticatorPage from '../page-objects/biometric-authenticator.page';
 import ResetPasswordPage from '../page-objects/reset-password.page';
+import RegistrationPage from '../page-objects/registration.page';
+import EnrollPhonePage from '../page-objects/enroll-phone-authenticator.page';
+import VerifyPhoneAuthenticatorPage from '../page-objects/verify-phone-authenticator.page';
 
 When(
   /^user logs in with username and password$/,
@@ -61,6 +64,14 @@ When(
     return await PrimaryAuthPage.waitForForgotPassword();
   }
 );
+
+When(
+  /^user clicks the signup link$/,
+  async function() {
+    await PrimaryAuthPage.clickSignUpLink();
+  }
+);
+
 
 When(
   /^user opens another instance in a new tab$/,
@@ -153,7 +164,7 @@ When(
 When(
   /^user fills in new password$/,
   async function() {
-    await ResetPasswordPage.entersNewPassword();
+    await ResetPasswordPage.enterNewPassword();
   }
 );
 
@@ -161,5 +172,54 @@ When(
   /^user submits the form$/,
   async function() {
     await ResetPasswordPage.submit();
+  }
+);
+
+When(
+/^user fills out their profile details$/,
+  // eslint-disable-next-line no-unused-vars
+  async function(this: ActionContext) {
+    await RegistrationPage.enterProfileDetails(this.credentials.emailAddress, this.credentials.lastName, this.credentials.firstName);
+  }
+);
+
+When(
+  /^user selects email authenticator$/,
+  async function() {
+    await SetupAuthenticatorPage.waitForPageLoad();
+    await SetupAuthenticatorPage.selectEmailAuthenticator();
+  }
+);
+
+When(
+  /^user selects password authenticator$/,
+  async function() {
+    await SetupAuthenticatorPage.waitForPageLoad();
+    await SetupAuthenticatorPage.selectPasswordAuthenticator();
+  }
+);
+
+When(
+  /^user selects phone authenticator$/,
+  async function() {
+    await SetupAuthenticatorPage.waitForPageLoad();
+    await SetupAuthenticatorPage.selectPhoneAuthenticator();
+  }
+);
+
+When(
+  /^user enters their phone number$/,
+  async function() {
+    // Remove the 1st characters '+1'
+    await EnrollPhonePage.enterPhoneNumber(this.credentials.phoneNumber.slice(2));
+  }
+);
+
+When(
+  /^user enters the SMS code$/,
+  async function() {
+    let code = '';
+    code = await this.a18nClient.getSMSCode(this.credentials.profileId);
+    await VerifyPhoneAuthenticatorPage.enterCode(code);
   }
 );
