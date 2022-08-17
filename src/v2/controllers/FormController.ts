@@ -271,10 +271,6 @@ export default Controller.extend({
         ...values
       });
 
-      if (resp.status === IdxStatus.TERMINAL) {
-        
-      }
-
       if (resp.status === IdxStatus.FAILURE) {
         throw resp.error; // caught and handled in this function
       }
