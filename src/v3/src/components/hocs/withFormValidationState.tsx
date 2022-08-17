@@ -29,9 +29,7 @@ export type WrappedFunctionComponent<T> = (
 ) => RendererComponent<T>;
 
 export const withFormValidationState: WrappedFunctionComponent<
-{ uischema: FieldElement } & {
-  onChange?: (value: string | number | boolean) => void
-}> = (Component) => {
+{ uischema: FieldElement }> = (Component) => {
   const ParentComponent: RendererComponent<
   { uischema: FieldElement }> = (props: { uischema: FieldElement }) => {
     const { uischema } = props;

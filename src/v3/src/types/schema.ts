@@ -144,7 +144,6 @@ export interface FieldElement extends UISchemaElement {
     type?: string;
     customOptions?: IdxOption[],
     dataSe?: string;
-    subLabel?: string;
   };
 }
 
