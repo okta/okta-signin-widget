@@ -40,8 +40,8 @@ describe('ReminderPrompt', () => {
       uischema: {
         type: 'Reminder',
         options: {
-          ctaText: 'Didnt receive the email?',
-          linkLabel: 'Send again?',
+          content: 'Didnt receive the email?',
+          buttonText: 'Send again?',
           step,
           actionParams: { resend: true },
           isActionStep: true,
@@ -62,6 +62,8 @@ describe('ReminderPrompt', () => {
     const box = getByRole('alert');
     const sendAgainLink = await within(box).findByText('Send again?');
 
+    expect(container).toMatchSnapshot();
+
     expect(mockSubmitHook).not.toHaveBeenCalled();
     fireEvent.click(sendAgainLink);
     expect(mockSubmitHook).toHaveBeenCalledTimes(1);
@@ -78,9 +80,10 @@ describe('ReminderPrompt', () => {
       uischema: {
         type: 'Reminder',
         options: {
-          ctaText: 'Didnt receive the email? Click <a href="#" class="send-again">send again</a>',
+          content: "Didn't receive the email? Click <a href='#' class='send-again'>send again</a>",
+          contentHasHtml: true,
           step,
-          className: 'send-again',
+          contentClassname: 'send-again',
           actionParams: { resend: true },
           isActionStep: true,
         },
@@ -100,6 +103,8 @@ describe('ReminderPrompt', () => {
     const box = getByRole('alert');
     const sendAgainLink = await within(box).findByText('send again');
 
+    expect(container).toMatchSnapshot();
+
     expect(mockSubmitHook).not.toHaveBeenCalled();
     fireEvent.click(sendAgainLink);
     expect(mockSubmitHook).toHaveBeenCalledTimes(1);
@@ -117,8 +122,8 @@ describe('ReminderPrompt', () => {
       uischema: {
         type: 'Reminder',
         options: {
-          ctaText: 'Didnt receive the email?',
-          linkLabel: 'Send again?',
+          content: 'Didnt receive the email?',
+          buttonText: 'Send again?',
           timeout: CUSTOM_TIMEOUT,
           step: 'currentAuthenticator-resend',
           actionParams: { resend: true },
@@ -128,6 +133,8 @@ describe('ReminderPrompt', () => {
     };
 
     const { container } = render(<ReminderPrompt {...props} />);
+
+    expect(container).toMatchSnapshot();
 
     act(() => {
       jest.advanceTimersByTime(CUSTOM_TIMEOUT);

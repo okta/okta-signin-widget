@@ -28,13 +28,14 @@ const ReminderPrompt: UISchemaElementComponent<{
   uischema: ReminderElement
 }> = ({ uischema }) => {
   const {
-    ctaText,
+    content: ctaText,
     step,
     actionParams,
     isActionStep,
-    linkLabel,
+    buttonText: linkLabel,
     timeout: customTimeout,
-    className,
+    contentClassname: className,
+    contentHasHtml,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
 
@@ -86,7 +87,7 @@ const ReminderPrompt: UISchemaElementComponent<{
   };
 
   const renderAlertContent = () => {
-    if (className) {
+    if (contentHasHtml && className) {
       return (
         <TextWithHtml
           uischema={{

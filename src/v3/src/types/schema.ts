@@ -231,13 +231,14 @@ export interface ReminderElement extends UISchemaElement {
     /**
      * The call to action text in the reminder content area
      */
-    ctaText: string;
+    content: string;
     /**
      * Override the default timeout before reminder appears
      */
+    contentHasHtml?: boolean;
     timeout?: number;
-    linkLabel?: string;
-    className?: string;
+    buttonText?: string;
+    contentClassname?: string;
   };
 }
 

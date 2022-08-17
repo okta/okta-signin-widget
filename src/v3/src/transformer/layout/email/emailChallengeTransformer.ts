@@ -40,8 +40,8 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
     reminderElement = {
       type: 'Reminder',
       options: {
-        ctaText: loc('email.code.not.received', 'login'),
-        linkLabel: loc('email.button.resend', 'login'),
+        content: loc('email.code.not.received', 'login'),
+        buttonText: loc('email.button.resend', 'login'),
         step: name,
         isActionStep: true,
         actionParams: { resend: true },

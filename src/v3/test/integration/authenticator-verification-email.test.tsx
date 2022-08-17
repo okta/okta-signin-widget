@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { act } from 'preact/test-utils';
 import { setup } from './util';
 
 import authenticatorVerificationEmail from '../../src/mocks/response/idp/idx/challenge/default.json';
@@ -56,7 +57,22 @@ describe('authenticator-verification-email', () => {
       );
     });
 
-    it('renders the otp challenage form', async () => {
+    it('renders the initial form with resend alert box', async () => {
+      const {
+        container, findByText,
+      } = await setup({
+        mockResponse: authenticatorVerificationEmail,
+      });
+
+      // renders the form
+      await findByText(/Verify with your email/);
+      act(() => {
+        jest.advanceTimersByTime(31_000);
+      });
+      expect(container).toMatchSnapshot();
+    });
+
+    it('renders the otp challenge form', async () => {
       const {
         authClient,
         container,

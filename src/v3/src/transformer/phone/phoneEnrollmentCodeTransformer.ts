@@ -34,8 +34,8 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
     reminderElement = {
       type: 'Reminder',
       options: {
-        ctaText: loc('oie.phone.verify.sms.resendText', 'login'),
-        linkLabel: loc('email.button.resend', 'login'),
+        content: loc('oie.phone.verify.sms.resendText', 'login'),
+        buttonText: loc('email.button.resend', 'login'),
         step: name,
         isActionStep: true,
         actionParams: { resend: true },

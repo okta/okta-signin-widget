@@ -78,11 +78,12 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
     reminder = {
       type: 'Reminder',
       options: {
-        ctaText: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
+        content: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
+        contentHasHtml: true,
         step: name,
         isActionStep: true,
         actionParams: { resend: true },
-        className: 'resend-link',
+        contentClassname: 'resend-link',
       },
     };
   }

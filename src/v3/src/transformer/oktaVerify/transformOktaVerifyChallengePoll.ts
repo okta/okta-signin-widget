@@ -47,8 +47,8 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({ transacti
       uischema.elements.unshift({
         type: 'Reminder',
         options: {
-          ctaText: loc('oie.numberchallenge.warning', 'login'),
-          linkLabel: loc('email.button.resend', 'login'),
+          content: loc('oie.numberchallenge.warning', 'login'),
+          buttonText: loc('email.button.resend', 'login'),
           step: name,
           isActionStep: true,
           actionParams: { resend: true },
@@ -86,7 +86,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({ transacti
     uischema.elements.unshift({
       type: 'Reminder',
       options: {
-        ctaText: loc('oktaverify.warning', 'login'),
+        content: loc('oktaverify.warning', 'login'),
       },
     } as ReminderElement);
     uischema.elements.unshift({
