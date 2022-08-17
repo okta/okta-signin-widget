@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import {
   FieldElement,
   TransformStepFnWithOptions,
 } from '../../types';
+import { getAuthenticatorKey } from '../../util';
 import { traverseLayout } from '../util';
 import { isCustomizedI18nKey } from './isCustomizedI18nKey';
 import { addTranslation } from './util';
@@ -32,7 +33,10 @@ export const transformPasscodeHint: TransformStepFnWithOptions = ({
     predicate: (element) => (element as FieldElement).options?.inputMeta?.name.endsWith('passcode'),
     callback: (element) => {
       const { nextStep: { name } = {} } = transaction;
-      if (name !== IDX_STEP.IDENTIFY) {
+      const authenticatorKey = getAuthenticatorKey(transaction);
+      if (!(name === IDX_STEP.IDENTIFY
+        || (name !== IDX_STEP.CHALLENGE_AUTHENTICATOR
+          && authenticatorKey !== AUTHENTICATOR_KEY.PASSWORD))) {
         return;
       }
 
