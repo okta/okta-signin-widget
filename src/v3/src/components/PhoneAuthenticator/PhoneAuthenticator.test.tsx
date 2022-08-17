@@ -53,9 +53,10 @@ jest.mock('../../../../v2/ion/i18nTransformer', () => ({
 }));
 
 let mockData: Record<string, unknown>;
+const mockDataSchemaRef = { current: { phoneNumber: { validate: jest.fn() } } };
 jest.mock('../../contexts', () => ({
   useWidgetContext: jest.fn().mockImplementation(
-    () => ({ data: mockData }),
+    () => ({ data: mockData, dataSchemaRef: mockDataSchemaRef }),
   ),
 }));
 
@@ -122,5 +123,63 @@ describe('PhoneAuthenticator tests', () => {
     const autocomplete = phoneInput?.getAttribute('autocomplete');
 
     expect(autocomplete).toBe('one-time-code');
+  });
+
+  describe('Overwritten validation function tests', () => {
+    beforeEach(() => {
+      mockDataSchemaRef.current.phoneNumber = { validate: jest.fn() };
+    });
+
+    it('should return undefined when phone number field has been set', async () => {
+      mockData = { 'authenticator.methodType': 'sms' };
+      props = getComponentProps();
+      const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
+
+      const phoneInput = await findByLabelText(/Phone number/);
+
+      await user.type(phoneInput, '2165552211');
+      await waitFor(() => {
+        expect(mockHandleFunction).lastCalledWith('+12165552211');
+        expect(mockDataSchemaRef.current.phoneNumber.validate({ phoneNumber: '+12165552211' })).toBeUndefined();
+      });
+    });
+
+    it('should return an error message when phone number field is empty and only country code is set', async () => {
+      mockData = { 'authenticator.methodType': 'sms' };
+      props = getComponentProps();
+      const { findByLabelText } = setup(<PhoneAuthenticatorControl {...props} />);
+
+      const countryEle = await findByLabelText(/Country/) as HTMLSelectElement;
+
+      expect(countryEle.value).toBe('US');
+      await waitFor(() => {
+        expect(mockDataSchemaRef.current.phoneNumber.validate({ phoneNumber: '+1' })).toEqual([{
+          class: 'ERROR',
+          message: '',
+          i18n: { key: 'model.validation.field.blank' },
+        }]);
+      });
+    });
+
+    it('should return an error message when phone number field is empty but extension is set', async () => {
+      mockData = { 'authenticator.methodType': 'voice' };
+      props = getComponentProps();
+      const {
+        findByLabelText, findByTestId, user,
+      } = setup(<PhoneAuthenticatorControl {...props} />);
+
+      const countryEle = await findByLabelText(/Country/) as HTMLSelectElement;
+      const extensionEle = await findByTestId('extension') as HTMLInputElement;
+
+      expect(countryEle.value).toBe('US');
+      await user.type(extensionEle, '3445');
+      await waitFor(() => {
+        expect(mockDataSchemaRef.current.phoneNumber.validate({ phoneNumber: '+1x3445' })).toEqual([{
+          class: 'ERROR',
+          message: '',
+          i18n: { key: 'model.validation.field.blank' },
+        }]);
+      });
+    });
   });
 });

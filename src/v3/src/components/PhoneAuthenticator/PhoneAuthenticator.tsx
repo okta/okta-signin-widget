@@ -18,14 +18,16 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { NativeSelect } from '@okta/odyssey-react';
+import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useCallback, useEffect, useState } from 'preact/hooks';
 
 import CountryUtil from '../../../../util/CountryUtil';
 import { useWidgetContext } from '../../contexts';
 import { useOnChange } from '../../hooks';
 import {
   ChangeEvent,
+  FormBag,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -39,10 +41,15 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   setError,
   onValidateHandler,
 }) => {
+  const { dataSchemaRef } = useWidgetContext();
   const {
     translations = [],
     options: {
-      inputMeta: { name: fieldName },
+      inputMeta: {
+        name: fieldName,
+        // @ts-ignore expose type from auth-js
+        messages = {},
+      },
       attributes,
     },
   } = uischema;
@@ -70,6 +77,21 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     }
     return `${code}${phone}`;
   };
+
+  const validate = useCallback((dataBag: FormBag['data']) => {
+    const fullPhoneNumber = dataBag[fieldName];
+    const errorMessage: IdxMessage = {
+      class: 'ERROR',
+      message: '',
+      i18n: { key: 'model.validation.field.blank' },
+    };
+    const isValid = !!fullPhoneNumber && !!phone;
+    return isValid ? undefined : [errorMessage];
+  }, [phone, fieldName]);
+
+  useEffect(() => {
+    dataSchemaRef.current![fieldName].validate = validate;
+  }, [dataSchemaRef, fieldName, messages.value, validate]);
 
   useEffect(() => {
     const formattedPhone = formatPhone(phone, phoneCode, extension);
