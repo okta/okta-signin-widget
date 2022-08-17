@@ -147,12 +147,6 @@ export interface FieldElement extends UISchemaElement {
   };
 }
 
-export interface InputTextElement extends FieldElement {
-  label: string;
-  options: FieldElement['options'] & {
-    attributes: InputAttributes;
-  };
-}
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type
 export enum ButtonType {
   SUBMIT = 'submit',
