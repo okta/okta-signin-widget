@@ -14,20 +14,6 @@ if ! yarn build:release; then
   exit ${TEST_FAILURE}
 fi
 
-pushd test/package/cjs
-if ! (yarn && yarn test); then
-  echo "CommonJS bundle verification failed! Exiting..."
-  exit ${TEST_FAILURE}
-fi
-popd
-
-pushd test/package/esm
-if ! (yarn && yarn test); then
-  echo "ESM bundle verification failed! Exiting..."
-  exit ${TEST_FAILURE}
-fi
-popd
-
 mkdir -p test-reports/verify-package
 
 pushd dist
@@ -42,12 +28,35 @@ then
   exit ${TEST_FAILURE}
 fi
 
-# Move node_modules out of the way to validate the dist package dependencies
+# Validate the dist package dependencies
+
+# Move node_modules out of the way so that we devDependencies don't cause false positives
 mv node_modules node_modules2
+
+# Verify minimum supported version of node
+setup_service node v12.22.0
+
+# Verify minimum supported version of yarn
+# Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
+setup_service yarn 1.7.0 /etc/pki/tls/certs/ca-bundle.crt
 
 pushd test/package/tsc
 if ! (yarn && yarn test); then
   echo "TSC package verification failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+popd
+
+pushd test/package/cjs
+if ! (yarn && yarn test); then
+  echo "CommonJS bundle verification failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+popd
+
+pushd test/package/esm
+if ! (yarn && yarn test); then
+  echo "ESM bundle verification failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
 popd
