@@ -271,6 +271,16 @@ export default Controller.extend({
         ...values
       });
 
+      if (resp.status === IdxStatus.TERMINAL) {
+        // 'idx.session.expired' requires special handling, otherwise the widget can lock up into an unrecoverable state
+        if (IonResponseHelper.isIdxSessionExpiredError(resp)) {
+          const authClient = this.settings.getAuthClient();
+          authClient.transactionManager.clear();
+        }
+        await this.handleIdxResponse(resp);
+        return;
+      }
+
       if (resp.status === IdxStatus.FAILURE) {
         throw resp.error; // caught and handled in this function
       }
@@ -362,12 +372,6 @@ export default Controller.extend({
     // For eg 429 rate-limit errors, we have to skip updating idx state, because error response is not an idx response.
     if (Array.isArray(idxStateError?.neededToProceed) && idxStateError?.neededToProceed.length) {
       await this.handleIdxResponse(idxStateError);
-    }
-
-    // 'idx.session.expired' requires special handling, otherwise the widget can lock up into an unrecoverable state
-    if (IonResponseHelper.isIdxSessionExpiredError(idxStateError)) {
-      const authClient = this.settings.getAuthClient();
-      authClient.transactionManager.clear();
     }
   },
 
