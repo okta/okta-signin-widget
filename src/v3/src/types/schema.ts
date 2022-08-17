@@ -365,11 +365,3 @@ export interface TranslationInfo {
   i18nKey: string;
   value: string;
 }
-
-export interface PasswordWithConfirmationElement extends UISchemaElement {
-  type: 'PasswordWithConfirmation';
-  options: {
-    newPasswordElement: FieldElement,
-    confirmPasswordElement: FieldElement,
-  };
-}

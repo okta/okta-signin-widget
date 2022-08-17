@@ -142,11 +142,11 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.credentials.passcode': 'oie.password.label',
 
   'reset-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
-  'reset-authenticator.okta_password.credentials.confirmPassword': 'oie.password.confirmPasswordLabel',
+  'reset-authenticator.okta_password.confirmPassword': 'oie.password.confirmPasswordLabel',
   'reenroll-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
-  'reenroll-authenticator.okta_password.credentials.confirmPassword': 'oie.password.confirmPasswordLabel',
+  'reenroll-authenticator.okta_password.confirmPassword': 'oie.password.confirmPasswordLabel',
   'reenroll-authenticator-warning.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
-  'reenroll-authenticator-warning.okta_password.credentials.confirmPassword': 'oie.password.confirmPasswordLabel',
+  'reenroll-authenticator-warning.okta_password.confirmPassword': 'oie.password.confirmPasswordLabel',
   'incorrectPassword': 'oie.password.incorrect.message',
 
   'profile-update.userProfile.secondEmail': 'oie.user.profile.secondary.email',

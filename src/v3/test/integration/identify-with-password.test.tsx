@@ -59,80 +59,120 @@ describe('identify-with-password', () => {
     expect(usernameEl.value).toBe(mockUsername);
   });
 
-  describe('sends correct payload', () => {
-    it('with all required fields', async () => {
+  describe('Client-side field change validation tests', () => {
+    it('should attempt to submit page with all required fields empty', async () => {
       const {
-        authClient, user, findByTestId, findByText,
+        authClient,
+        user,
+        container,
+        findByTestId,
+        findByText,
       } = await setup({ mockResponse });
 
-      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
-      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      await findByTestId('identifier') as HTMLInputElement;
+      await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
 
-      await user.type(usernameEl, 'testuser@okta.com');
-      expect(usernameEl.value).toEqual('testuser@okta.com');
-      await user.type(passwordEl, 'fake-password');
-      expect(passwordEl.value).toEqual('fake-password');
       await user.click(submitButton);
+      await findByText(/We found some errors./);
+      const identifierError = await findByTestId('identifier-error');
+      const passwordError = await findByTestId('credentials.passcode-error');
 
-      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      expect(identifierError.textContent).toEqual('This field cannot be left blank');
+      expect(container).toMatchSnapshot();
+      expect(passwordError.textContent).toEqual('This field cannot be left blank');
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
         'POST',
         'https://oie-8425965.oktapreview.com/idp/idx/identify',
-        {
-          data: JSON.stringify({
-            identifier: 'testuser@okta.com',
-            credentials: {
-              passcode: 'fake-password',
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-          },
-          withCredentials: true,
-        },
+        expect.anything(),
       );
     });
 
-    it('with required fields + optional fields', async () => {
+    it('should attempt to submit page with all required fields empty and type in one of the required fields to remove error', async () => {
       const {
-        authClient, user, findByTestId, findByText,
+        authClient,
+        user,
+        container,
+        findByTestId,
+        queryByTestId,
+        findByText,
       } = await setup({ mockResponse });
 
-      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
-      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
-      const rememberMeEl = await findByTestId('rememberMe');
+      await findByTestId('identifier') as HTMLInputElement;
+      await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
 
-      await user.type(usernameEl, 'testuser@okta.com');
-      expect(usernameEl.value).toEqual('testuser@okta.com');
-      await user.type(passwordEl, 'fake-password');
-      expect(passwordEl.value).toEqual('fake-password');
-      await user.click(rememberMeEl);
       await user.click(submitButton);
+      await findByText(/We found some errors./);
+      const identifierError = await findByTestId('identifier-error');
+      const passwordError = await findByTestId('credentials.passcode-error');
 
-      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      expect(identifierError.textContent).toEqual('This field cannot be left blank');
+      expect(container).toMatchSnapshot();
+      expect(passwordError.textContent).toEqual('This field cannot be left blank');
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
         'POST',
         'https://oie-8425965.oktapreview.com/idp/idx/identify',
-        {
-          data: JSON.stringify({
-            identifier: 'testuser@okta.com',
-            credentials: {
-              passcode: 'fake-password',
-            },
-            rememberMe: true,
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-          },
-          withCredentials: true,
-        },
+        expect.anything(),
       );
+
+      const identifierField = await findByTestId('identifier') as HTMLInputElement;
+      await user.type(identifierField, 'someuser@okta1.com');
+
+      expect(queryByTestId('identifier-error')).toBeNull();
+      expect((await findByTestId('credentials.passcode-error')).textContent).toBe('This field cannot be left blank');
+    });
+
+    it('should blur required fields to view field level errors', async () => {
+      const {
+        user,
+        findByTestId,
+        queryByTestId,
+        findByText,
+      } = await setup({ mockResponse });
+
+      const identifierEle = await findByTestId('identifier') as HTMLInputElement;
+      const passcodeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+      await findByText('Sign in', { selector: 'button' });
+
+      expect(queryByTestId('identifier-error')).toBeNull();
+      expect(queryByTestId('credentials.passcode-error')).toBeNull();
+
+      expect(document.body).toHaveFocus();
+      await user.tab();
+      expect(identifierEle).toHaveFocus();
+      await user.tab();
+      expect(passcodeEle).toHaveFocus();
+      await user.tab();
+
+      const identifierError = await findByTestId('identifier-error');
+      const passwordError = await findByTestId('credentials.passcode-error');
+      expect(identifierError.textContent).toEqual('This field cannot be left blank');
+      expect(passwordError.textContent).toEqual('This field cannot be left blank');
+    });
+
+    it('should type in field, then clear field to view field level error', async () => {
+      const {
+        user,
+        findByTestId,
+        queryByTestId,
+        findByText,
+      } = await setup({ mockResponse });
+
+      const identifierEle = await findByTestId('identifier') as HTMLInputElement;
+      await findByTestId('credentials.passcode') as HTMLInputElement;
+      await findByText('Sign in', { selector: 'button' });
+
+      expect(queryByTestId('identifier-error')).toBeNull();
+      expect(queryByTestId('credentials.passcode-error')).toBeNull();
+
+      await user.type(identifierEle, 'aaa');
+      await user.clear(identifierEle);
+      await user.tab();
+
+      const identifierError = await findByTestId('identifier-error');
+      expect(identifierError.textContent).toEqual('This field cannot be left blank');
+      expect(queryByTestId('credentials.passcode-error')).toBeNull();
     });
 
     it('fails client side validation with no inputs', async () => {
@@ -209,6 +249,83 @@ describe('identify-with-password', () => {
         passwordError = queryByTestId('credentials.passcode-error');
         expect(passwordError).toBeNull();
       });
+    });
+  });
+
+  describe('sends correct payload', () => {
+    it('with all required fields', async () => {
+      const {
+        authClient, user, findByTestId, findByText,
+      } = await setup({ mockResponse });
+
+      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const submitButton = await findByText('Sign in', { selector: 'button' });
+
+      await user.type(usernameEl, 'testuser@okta.com');
+      expect(usernameEl.value).toEqual('testuser@okta.com');
+      await user.type(passwordEl, 'fake-password');
+      expect(passwordEl.value).toEqual('fake-password');
+      await user.click(submitButton);
+
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'https://oie-8425965.oktapreview.com/idp/idx/identify',
+        {
+          data: JSON.stringify({
+            identifier: 'testuser@okta.com',
+            credentials: {
+              passcode: 'fake-password',
+            },
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
+    });
+
+    it('with required fields + optional fields', async () => {
+      const {
+        authClient, user, findByTestId, findByText,
+      } = await setup({ mockResponse });
+
+      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const rememberMeEl = await findByTestId('rememberMe');
+      const submitButton = await findByText('Sign in', { selector: 'button' });
+
+      await user.type(usernameEl, 'testuser@okta.com');
+      expect(usernameEl.value).toEqual('testuser@okta.com');
+      await user.type(passwordEl, 'fake-password');
+      expect(passwordEl.value).toEqual('fake-password');
+      await user.click(rememberMeEl);
+      await user.click(submitButton);
+
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'https://oie-8425965.oktapreview.com/idp/idx/identify',
+        {
+          data: JSON.stringify({
+            identifier: 'testuser@okta.com',
+            credentials: {
+              passcode: 'fake-password',
+            },
+            rememberMe: true,
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
     });
   });
 });

@@ -18,19 +18,21 @@ import {
 } from '@mui/material';
 import { h } from 'preact';
 
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useOnChange, useValue } from '../../hooks';
 import {
-  ChangeEvent,
-  FieldElement,
-  UISchemaElementComponent,
+  ChangeEvent, UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
+import { withFormValidationState } from '../hocs';
 
-const InputText: UISchemaElementComponent<{
-  type: string;
-  uischema: FieldElement;
-}> = ({ uischema, type }) => {
+const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
+  type,
+  uischema,
+  setTouched,
+  error,
+  setError,
+  onValidateHandler,
+}) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const { translations = [] } = uischema;
@@ -38,17 +40,14 @@ const InputText: UISchemaElementComponent<{
   const hint = getTranslation(translations, 'hint');
   const {
     attributes,
-    inputMeta: {
-      // @ts-ignore expose type from auth-js
-      messages = {},
-      name,
-    },
+    inputMeta: { name },
     dataSe,
   } = uischema.options;
-  const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setTouched?.(true);
     onChangeHandler(e.currentTarget.value);
+    onValidateHandler?.(setError, e.currentTarget.value);
   };
 
   return (
@@ -61,6 +60,10 @@ const InputText: UISchemaElementComponent<{
         id={name}
         name={name}
         error={error !== undefined}
+        onBlur={() => {
+          setTouched?.(true);
+          onValidateHandler?.(setError);
+        }}
         onChange={handleChange}
         fullWidth
         inputProps={{
@@ -80,4 +83,4 @@ const InputText: UISchemaElementComponent<{
   );
 };
 
-export default InputText;
+export default withFormValidationState(InputText);

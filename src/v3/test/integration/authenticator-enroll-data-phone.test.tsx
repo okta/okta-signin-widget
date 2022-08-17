@@ -21,6 +21,26 @@ describe('authenticator-enroll-data-phone', () => {
     expect(container).toMatchSnapshot();
   });
 
+  // Re-enabling this test with changes in this PR - OKTA-523413
+  it.skip('should display field level error when phone number is not entered', async () => {
+    const {
+      authClient, user, findByTestId, findByText,
+    } = await setup({ mockResponse });
+
+    await findByText(/Set up phone authentication/);
+    await findByText(/Enter your phone number to receive a verification code via SMS./);
+    const submitButton = await findByText('Receive a code via SMS', { selector: 'button' });
+
+    await user.click(submitButton);
+    const phonenumberError = await findByTestId('authenticator.phoneNumber-error');
+    expect(phonenumberError.textContent).toEqual('This field cannot be left blank');
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
+      'POST',
+      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
+      expect.anything(),
+    );
+  });
+
   it('should send correct payload when selecting sms', async () => {
     const {
       authClient, user, findByTestId, findByText,

@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './useFormFieldValidation';
-export * from './useOnChange';
-export * from './useOnSubmit';
-export * from './usePolling';
-export * from './useValue';
+import { FieldElement, RendererComponent } from '../../types';
+
+export const getDisplayName = (
+  WrappedComponent: RendererComponent<{ uischema: FieldElement }>,
+): string => (
+  WrappedComponent.displayName || WrappedComponent.name || 'Component'
+);

@@ -22,30 +22,33 @@ import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import CountryUtil from '../../../../util/CountryUtil';
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import { useOnChange } from '../../hooks';
-import { ChangeEvent, FieldElement, UISchemaElementComponent } from '../../types';
+import {
+  ChangeEvent,
+  UISchemaElementComponent,
+  UISchemaElementComponentWithValidationProps,
+} from '../../types';
 import { getTranslation } from '../../util';
+import { withFormValidationState } from '../hocs';
 
-const PhoneAuthenticator: UISchemaElementComponent<{
-  uischema: FieldElement
-}> = ({ uischema }) => {
+const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
+  uischema,
+  setTouched,
+  error,
+  setError,
+  onValidateHandler,
+}) => {
   const {
     translations = [],
     options: {
-      inputMeta: {
-        name: fieldName,
-        // @ts-ignore expose type from auth-js
-        messages = {},
-      },
+      inputMeta: { name: fieldName },
       attributes,
     },
   } = uischema;
   const mainLabel = getTranslation(translations!, 'label');
   const extensionLabel = getTranslation(translations!, 'extension');
   const countryLabel = getTranslation(translations!, 'country');
-  const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const { data } = useWidgetContext();
   const countries = CountryUtil.getCountries() as Record<string, string>;
@@ -69,7 +72,9 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   };
 
   useEffect(() => {
-    onChangeHandler(formatPhone(phone, phoneCode, extension));
+    const formattedPhone = formatPhone(phone, phoneCode, extension);
+    onChangeHandler(formattedPhone);
+    onValidateHandler?.(setError, formattedPhone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phoneCode, phone, extension, showExtension]);
 
@@ -135,8 +140,13 @@ const PhoneAuthenticator: UISchemaElementComponent<{
             type="tel"
             name={fieldName}
             id={fieldName}
-            error={!!error}
+            error={error !== undefined}
+            onBlur={() => {
+              setTouched?.(true);
+              onValidateHandler?.(setError);
+            }}
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+              setTouched?.(true);
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
             }}
@@ -169,4 +179,4 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   );
 };
 
-export default PhoneAuthenticator;
+export default withFormValidationState(PhoneAuthenticator);
