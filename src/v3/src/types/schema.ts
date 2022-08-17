@@ -364,7 +364,7 @@ export interface RedirectElement extends UISchemaElement {
   options: { url: string; },
 }
 
-type ValidateFunction = (data: FormBag['data']) => Partial<IdxMessage & { name?: string }>[] | undefined;
+type ValidateFunction = (data: FormBag['data']) => (IdxMessage & { name?: string })[] | undefined;
 
 export interface DataSchema {
   validate?: ValidateFunction;

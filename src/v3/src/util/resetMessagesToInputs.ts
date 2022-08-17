@@ -14,7 +14,7 @@ import { IdxMessage, Input } from '@okta/okta-auth-js';
 
 export function resetMessagesToInputs(
   inputs: Input[],
-  messagesByField: Record<string, Partial<IdxMessage & { name?: string }>[]>,
+  messagesByField: Record<string, (IdxMessage & { name?: string })[]>,
 ): void {
   const fn = (items: Input[], namePrefix: string) => {
     items.forEach((input) => {

@@ -44,9 +44,10 @@ const getValidationMessages = (
   fieldName: string,
   widgetProps: WidgetProps,
   step?: NextStep,
-): Partial<IdxMessage>[] => {
+): IdxMessage[] => {
   const { name } = step || {};
-  const errorMessage: Partial<IdxMessage> = {
+  const errorMessage: IdxMessage = {
+    class: 'ERROR',
     message: loc('model.validation.field.blank', 'login'),
     i18n: { key: 'model.validation.field.blank' },
   };
@@ -58,7 +59,7 @@ const getValidationMessages = (
     && name === IDX_STEP.IDENTIFY
     && isCustomizedI18nKey(customizedErrorConfig.key, widgetProps)) {
     errorMessage.message = loc(customizedErrorConfig.key, 'login');
-    errorMessage.i18n!.key = customizedErrorConfig.key;
+    errorMessage.i18n.key = customizedErrorConfig.key;
   }
   return [errorMessage];
 };

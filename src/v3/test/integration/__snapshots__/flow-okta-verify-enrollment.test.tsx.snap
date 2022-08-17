@@ -2984,7 +2984,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         <div
                           class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-20"
                         >
-                          <div
+                          <span
                             class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-21"
                           >
                             <p
@@ -2992,7 +2992,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                             >
                               +1
                             </p>
-                          </div>
+                          </span>
                           <input
                             aria-invalid="false"
                             autocomplete="tel-national"

@@ -33,7 +33,7 @@ const InputText: UISchemaElementComponent<{
   const onChangeHandler = useOnChange(uischema);
   const { translations = [] } = uischema;
   const label = getTranslation(translations);
-  const subLabel = getTranslation(translations, 'subLabel');
+  const hint = getTranslation(translations, 'hint');
   const {
     attributes,
     inputMeta: {
@@ -53,7 +53,7 @@ const InputText: UISchemaElementComponent<{
   return (
     <Box>
       <InputLabel htmlFor={name}>{label}</InputLabel>
-      { subLabel && <FormHelperText data-se={`${name}-subLabel`}>{subLabel}</FormHelperText> }
+      { hint && <FormHelperText data-se={`${name}-hint`}>{hint}</FormHelperText> }
       <OutlinedInput
         value={value}
         type={type || 'text'}

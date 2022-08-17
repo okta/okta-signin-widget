@@ -140,7 +140,14 @@ const PhoneAuthenticator: UISchemaElementComponent<{
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
             }}
-            startAdornment={<InputAdornment position="start">{phoneCode}</InputAdornment>}
+            startAdornment={(
+              <InputAdornment
+                component="span"
+                position="start"
+              >
+                {phoneCode}
+              </InputAdornment>
+            )}
             fullWidth
             inputProps={{
               'data-se': fieldName,
