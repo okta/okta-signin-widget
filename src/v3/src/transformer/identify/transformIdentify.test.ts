@@ -43,16 +43,18 @@ describe('Identify Transformer Tests', () => {
           {
             type: 'Field',
             name: 'identifier',
-          } as UISchemaElement,
+            options: { inputMeta: { name: 'identifier' } },
+          } as FieldElement,
           {
             type: 'Field',
             name: 'credentials.passcode',
-            options: { secret: true },
-          } as UISchemaElement,
+            options: { inputMeta: { name: 'credentials.passcode', secret: true } },
+          } as FieldElement,
           {
             type: 'Field',
             name: 'rememberMe',
-          } as UISchemaElement,
+            options: { inputMeta: { name: 'rememberMe' } },
+          } as FieldElement,
         ],
       },
       data: {},
@@ -68,11 +70,11 @@ describe('Identify Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('primaryauth.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('identifier');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
       .toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.name)
       .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[4] as UISchemaElement).label)
       .toBe('oie.primaryauth.submit');
@@ -97,9 +99,9 @@ describe('Identify Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('primaryauth.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('identifier');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
       .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).label)
       .toBe('oform.next');
@@ -115,9 +117,9 @@ describe('Identify Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('primaryauth.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('identifier');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
       .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).label)
       .toBe('oie.primaryauth.submit');
@@ -128,17 +130,16 @@ describe('Identify Transformer Tests', () => {
     widgetProps = { username: 'testUser' };
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag.data.identifier).toBe('testUser');
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('primaryauth.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('identifier');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.defaultOption)
-      .toBe('testUser');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
       .toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.name)
       .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).label)
       .toBe('oie.primaryauth.submit');
@@ -150,17 +151,16 @@ describe('Identify Transformer Tests', () => {
     widgetProps = { features: { rememberMe: true, rememberMyUsernameOnOIE: true } };
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag.data.identifier).toBe('testUserFromCookie');
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('primaryauth.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('identifier');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.defaultOption)
-      .toBe('testUserFromCookie');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
       .toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.name)
       .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).label)
       .toBe('oie.primaryauth.submit');

@@ -31,7 +31,9 @@ const InputText: UISchemaElementComponent<{
 }> = ({ uischema, type }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const label = getTranslation(uischema.translations!);
+  const { translations = [] } = uischema;
+  const label = getTranslation(translations);
+  const hint = getTranslation(translations, 'hint');
   const {
     attributes,
     inputMeta: {
@@ -41,6 +43,7 @@ const InputText: UISchemaElementComponent<{
     },
     dataSe,
   } = uischema.options;
+
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -50,6 +53,7 @@ const InputText: UISchemaElementComponent<{
   return (
     <Box>
       <InputLabel htmlFor={name}>{label}</InputLabel>
+      { hint && <FormHelperText data-se={`${name}-hint`}>{hint}</FormHelperText> }
       <OutlinedInput
         value={value}
         type={type || 'text'}

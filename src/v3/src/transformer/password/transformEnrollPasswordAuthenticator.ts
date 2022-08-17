@@ -113,7 +113,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       header: loc('password.complexity.requirements.header', 'login'),
       userInfo: getUserInfo(transaction),
       settings: passwordSettings,
-      fieldKey: passwordFieldName,
       requirements: buildPasswordRequirementListItems(passwordSettings),
       validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
     },
@@ -132,10 +131,11 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];
       const confirmPw = data['credentials.confirmPassword'];
-      const errorMessages: Partial<IdxMessage & { name?: string }>[] = [];
+      const errorMessages: (IdxMessage & { name?: string })[] = [];
       if (!newPw) {
         errorMessages.push({
           name: passwordFieldName,
+          class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
           i18n: { key: 'model.validation.field.blank' },
         });
@@ -144,12 +144,14 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       if (!confirmPw) {
         errorMessages.push({
           name: 'credentials.confirmPassword',
+          class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
           i18n: { key: 'model.validation.field.blank' },
         });
       } else if (confirmPw !== newPw) {
         errorMessages.push({
           name: 'credentials.confirmPassword',
+          class: 'ERROR',
           message: loc('password.error.match', 'login'),
           i18n: { key: 'password.error.match' },
         });

@@ -2975,31 +2975,47 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       <div
                         class="MuiBox-root emotion-18"
                       >
-                        <div
-                          class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-4zKnH2"
+                        <label
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
+                          for="phoneNumber"
                         >
-                          <label
-                            class="ods-4o5zYQ ods-76eppy ods-5VQ9Rl ods-7KS5Kt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-g8inGu"
-                            for="phoneNumber"
+                          Phone number
+                        </label>
+                        <div
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-20"
+                        >
+                          <span
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-21"
                           >
-                            <span
-                              class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6rDd3P ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                            <p
+                              class="MuiTypography-root MuiTypography-body1 emotion-22"
                             >
-                              Phone number
-                            </span>
-                          </label>
-                          <div
-                            class="ods-10aW0m"
+                              +1
+                            </p>
+                          </span>
+                          <input
+                            aria-invalid="false"
+                            autocomplete="tel-national"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-23"
+                            data-se="phoneNumber"
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            type="tel"
+                          />
+                          <fieldset
+                            aria-hidden="true"
+                            class="MuiOutlinedInput-notchedOutline emotion-24"
                           >
-                            <input
-                              autocomplete="tel-national"
-                              class="ods-7qBw9I"
-                              data-se="phoneNumber"
-                              id="phoneNumber"
-                              name="phoneNumber"
-                              type="tel"
-                            />
-                          </div>
+                            <legend
+                              class="emotion-25"
+                            >
+                              <span
+                                class="notranslate"
+                              >
+                                ​
+                              </span>
+                            </legend>
+                          </fieldset>
                         </div>
                       </div>
                     </div>
@@ -3012,7 +3028,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-21"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-28"
                       data-se="o-form-explain"
                     >
                       Make sure you can access the text on your mobile device.
@@ -3023,7 +3039,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-30"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -3055,7 +3071,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -3066,7 +3082,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

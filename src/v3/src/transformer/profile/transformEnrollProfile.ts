@@ -54,7 +54,6 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
         userInfo: getUserInfo(transaction),
         settings: passwordSettings,
         requirements: buildPasswordRequirementListItems(passwordSettings),
-        fieldKey: 'credentials.passcode',
         validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
       },
     };

@@ -30,7 +30,7 @@ export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   );
 };
 
-export const getLanguageCode = (widgetProps: WidgetProps): string => {
+export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
   const { language } = widgetProps;
   const supportedLanguages = getSupportedLanguages(widgetProps);
   const userLanguages = BrowserFeatures.getUserLanguages().map((lang: string) => {
@@ -74,5 +74,5 @@ export const getLanguageCode = (widgetProps: WidgetProps): string => {
     }
   });
 
-  return supportedLanguage;
+  return supportedLanguage as LanguageCode;
 };

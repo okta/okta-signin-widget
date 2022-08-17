@@ -18,12 +18,17 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getUsernameCookie, loc } from '../../util';
+import { loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
-  const { features, username } = widgetProps;
+  const { features } = widgetProps;
   const { uischema } = formBag;
+
+  const passwordElement = getUIElementWithName(
+    'credentials.passcode',
+    uischema.elements as UISchemaElement[],
+  ) as FieldElement;
 
   const submitBtnElement: ButtonElement = {
     type: 'Button',
@@ -34,10 +39,7 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
     },
   };
 
-  if (getUIElementWithName(
-    'credentials.passcode',
-    uischema.elements as UISchemaElement[],
-  )) {
+  if (passwordElement) {
     submitBtnElement.label = loc('oie.primaryauth.submit', 'login');
   }
 
@@ -52,27 +54,6 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
     type: 'Title',
     options: { content: loc('primaryauth.title', 'login') },
   };
-
-  const identifierElement = getUIElementWithName(
-    'identifier',
-    uischema.elements as UISchemaElement[],
-  ) as FieldElement;
-
-  // add username/identifier from config if provided
-  if (identifierElement) {
-    if (username) {
-      identifierElement.options = {
-        ...identifierElement.options,
-        defaultOption: username,
-      };
-    } else if (features?.rememberMe && features?.rememberMyUsernameOnOIE) {
-      const usernameCookie = getUsernameCookie();
-      identifierElement.options = {
-        ...identifierElement.options,
-        defaultOption: usernameCookie ?? undefined,
-      };
-    }
-  }
 
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitBtnElement);

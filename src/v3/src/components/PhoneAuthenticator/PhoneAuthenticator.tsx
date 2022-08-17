@@ -10,9 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { NativeSelect, TextInput } from '@okta/odyssey-react';
-import get from 'lodash/get';
+import {
+  Box,
+  FormHelperText,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from '@mui/material';
+import { NativeSelect } from '@okta/odyssey-react';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
@@ -27,14 +32,14 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
   const {
-    translations,
+    translations = [],
     options: {
-      targetKey = '',
       inputMeta: {
         name: fieldName,
         // @ts-ignore expose type from auth-js
         messages = {},
       },
+      attributes,
     },
   } = uischema;
   const mainLabel = getTranslation(translations!, 'label');
@@ -48,8 +53,8 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   // Sets US as default code
   const [phoneCode, setPhoneCode] = useState(`+${CountryUtil.getCallingCodeForCountry('US')}`);
   const [extension, setExtension] = useState<string>('');
-  const targetValue = get(data, targetKey);
-  const showExtension = targetValue === 'voice';
+  const methodType = data['authenticator.methodType'];
+  const showExtension = methodType === 'voice';
   const onChangeHandler = useOnChange(uischema);
 
   const formatPhone = (
@@ -70,18 +75,19 @@ const PhoneAuthenticator: UISchemaElementComponent<{
 
   const renderExtension = () => (
     showExtension && (
-      <Box
-        width={0.25}
-      >
-        <TextInput
-          type="text"
-          data-se="extension"
-          name="extension"
-          label={extensionLabel}
+      <Box width={0.25}>
+        <InputLabel htmlFor="phoneExtension">{extensionLabel}</InputLabel>
+        <OutlinedInput
           value={extension}
-          autocomplete="tel-extension"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          type="text"
+          name="extension"
+          id="phoneExtension"
+          onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setExtension(e.currentTarget.value);
+          }}
+          inputProps={{
+            'data-se': 'extension',
+            autocomplete: 'tel-extension',
           }}
         />
       </Box>
@@ -124,21 +130,38 @@ const PhoneAuthenticator: UISchemaElementComponent<{
           width={showExtension ? 0.7 : 1}
           marginRight={showExtension ? 2 : 0}
         >
-          <TextInput
+          <InputLabel htmlFor={fieldName}>{mainLabel}</InputLabel>
+          <OutlinedInput
             type="tel"
-            data-se={fieldName}
-            error={error}
             name={fieldName}
-            label={mainLabel}
             id={fieldName}
-            prefix={phoneCode}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...(uischema.options?.attributes && uischema.options.attributes)}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            error={!!error}
+            onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
             }}
+            startAdornment={(
+              <InputAdornment
+                component="span"
+                position="start"
+              >
+                {phoneCode}
+              </InputAdornment>
+            )}
+            fullWidth
+            inputProps={{
+              'data-se': fieldName,
+              ...attributes,
+            }}
           />
+          {!!error && (
+            <FormHelperText
+              data-se={`${fieldName}-error`}
+              error
+            >
+              {error}
+            </FormHelperText>
+          )}
         </Box>
         { renderExtension() }
       </Box>

@@ -143,7 +143,6 @@ export interface FieldElement extends UISchemaElement {
     defaultOption?: string | number | boolean;
     type?: string;
     customOptions?: IdxOption[],
-    targetKey?: string;
     /**
      * @deprecated
      */
@@ -270,7 +269,6 @@ export interface PasswordRequirementsElement extends UISchemaElement {
     userInfo: UserInfo;
     settings: PasswordSettings;
     requirements: ListItem[];
-    fieldKey: string;
     validationDelayMs: number;
   }
 }
@@ -366,7 +364,7 @@ export interface RedirectElement extends UISchemaElement {
   options: { url: string; },
 }
 
-type ValidateFunction = (data: FormBag['data']) => Partial<IdxMessage & { name?: string }>[] | undefined;
+type ValidateFunction = (data: FormBag['data']) => (IdxMessage & { name?: string })[] | undefined;
 
 export interface DataSchema {
   validate?: ValidateFunction;

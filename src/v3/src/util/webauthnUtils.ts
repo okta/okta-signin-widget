@@ -36,7 +36,7 @@ export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (trans
     throw new Error('transaction missing nextStep');
   }
 
-  const { relatesTo } = nextStep!;
+  const { relatesTo } = nextStep;
   const activationData = relatesTo?.value?.contextualData?.activationData;
 
   // Generates a CredentialCreationOptions Object for the Web Auth API to
@@ -76,7 +76,7 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
     throw new Error('transaction missing nextStep');
   }
 
-  const { relatesTo } = nextStep!;
+  const { relatesTo } = nextStep;
   const challengeData = relatesTo?.value?.contextualData?.challengeData;
 
   // Generates a CredentialRequestOptions Object for the Web Auth API to

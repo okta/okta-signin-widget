@@ -15,7 +15,6 @@ import {
   List, Text,
 } from '@okta/odyssey-react';
 import debounce from 'lodash/debounce';
-import get from 'lodash/get';
 import { h } from 'preact';
 import {
   useCallback,
@@ -29,7 +28,6 @@ import {
   PasswordRequirementStatus,
   PasswordValidation,
   UISchemaElementComponent,
-  Undefinable,
 } from '../../types';
 import { validatePassword } from '../../util';
 import PasswordRequirementItem from './PasswordRequirementItem';
@@ -39,7 +37,6 @@ const PasswordRequirements: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const { data } = useWidgetContext();
   const {
-    fieldKey,
     header,
     id,
     requirements,
@@ -47,14 +44,18 @@ const PasswordRequirements: UISchemaElementComponent<{
     userInfo,
     validationDelayMs,
   } = uischema.options as PasswordRequirementsElement['options'];
-  const password = get(data, fieldKey);
+  // TODO: OKTA-521321 - Depending on the outcome of this ticket, we may be able to remove this
+  // If it is kept, need to add integration test for validation
+  const password = 'credentials.newPassword' in data
+    ? data['credentials.newPassword']
+    : data['credentials.passcode'];
 
   const [passwordValidations, setPasswordValidations] = useState<PasswordValidation>({});
 
   const getPasswordStatus = (
     ruleKey: string,
     passwordValidation: PasswordValidation,
-  ): Undefinable<PasswordRequirementStatus> => {
+  ): PasswordRequirementStatus | undefined => {
     if (!passwordValidation) {
       return undefined;
     }

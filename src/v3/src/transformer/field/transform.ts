@@ -10,14 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Input, NextStep } from '@okta/okta-auth-js';
+import { IdxMessage, Input, NextStep } from '@okta/okta-auth-js';
 
+import { IDX_STEP } from '../../constants';
 import {
   FieldElement,
   FormBag,
   TransformStepFnWithOptions,
+  WidgetProps,
 } from '../../types';
-import { flattenInputs } from '../../util';
+import { flattenInputs, loc } from '../../util';
+import { isCustomizedI18nKey } from '../i18n';
 import { transformer as attributesTransformer } from './attributes';
 import { transformer as typeTransformer } from './type';
 
@@ -37,8 +40,33 @@ const mapUiElement = (input: Input): FieldElement => {
   };
 };
 
+const getValidationMessages = (
+  fieldName: string,
+  widgetProps: WidgetProps,
+  step?: NextStep,
+): IdxMessage[] => {
+  const { name } = step || {};
+  const errorMessage: IdxMessage = {
+    class: 'ERROR',
+    message: loc('model.validation.field.blank', 'login'),
+    i18n: { key: 'model.validation.field.blank' },
+  };
+  const customizedErrorConfig = [
+    { field: 'identifier', key: 'error.username.required' },
+    { field: 'credentials.passcode', key: 'error.password.required' },
+  ].find((obj) => obj.field === fieldName);
+  if (customizedErrorConfig
+    && name === IDX_STEP.IDENTIFY
+    && isCustomizedI18nKey(customizedErrorConfig.key, widgetProps)) {
+    errorMessage.message = loc(customizedErrorConfig.key, 'login');
+    errorMessage.i18n.key = customizedErrorConfig.key;
+  }
+  return [errorMessage];
+};
+
 export const transformStepInputs = (
   formbag: FormBag,
+  widgetProps: WidgetProps,
   step?: NextStep,
 ): FormBag => {
   if (!step) {
@@ -68,11 +96,7 @@ export const transformStepInputs = (
         acc.dataSchema[name] = {
           validate(data) {
             const isValid = !!data[name];
-            return isValid ? undefined : [{
-              i18n: {
-                key: 'model.validation.field.blank',
-              },
-            }];
+            return isValid ? undefined : getValidationMessages(name, widgetProps, step);
           },
         };
         acc.dataSchema.fieldsToValidate.push(name);
@@ -83,11 +107,11 @@ export const transformStepInputs = (
 };
 
 export const transformFields: TransformStepFnWithOptions = ({
-  transaction, step: stepName,
+  transaction, step: stepName, widgetProps,
 }) => (formbag) => {
   const { availableSteps = [], nextStep = {} as NextStep } = transaction;
   const step = nextStep.name === stepName
     ? nextStep
     : availableSteps.find((s) => s.name === stepName);
-  return transformStepInputs(formbag, step);
+  return transformStepInputs(formbag, widgetProps, step);
 };

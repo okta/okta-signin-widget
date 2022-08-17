@@ -15,7 +15,9 @@ import { flow } from 'lodash';
 import { TransformStepFnWithOptions } from '../../types';
 import { transformAuthenticatorButton } from './transformAuthenticatorButton';
 import { transformField } from './transformField';
+import { transformIdentifierHint } from './transformIdentifierHint';
 import { transformInputPassword } from './transformInputPassword';
+import { transformPasscodeHint } from './transformPasscodeHint';
 import { transformPhoneAuthenticator } from './transformPhoneAuthenticator';
 import { transformQRCode } from './transformQRCode';
 
@@ -25,4 +27,6 @@ export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) 
   transformInputPassword,
   transformPhoneAuthenticator,
   transformQRCode,
+  transformIdentifierHint(options),
+  transformPasscodeHint(options),
 )(formbag);

@@ -63,7 +63,7 @@ describe('authenticator-enroll-data-phone', () => {
 
   it('should send correct payload when selecting voice', async () => {
     const {
-      authClient, user, findByTestId, findByText, findByLabelText,
+      authClient, user, findByTestId, findByText, findByLabelText, container,
     } = await setup({ mockResponse });
 
     await findByText(/Set up phone authentication/);
@@ -72,11 +72,11 @@ describe('authenticator-enroll-data-phone', () => {
     const methodType = await findByLabelText(/Voice call/);
     await user.click(methodType);
 
-    findByText(/Enter your phone number to receive a verification code via voice call./);
-
     const submitButton = await findByText('Receive a code via SMS');
     const phoneNumberEle = await findByTestId('authenticator.phoneNumber') as HTMLInputElement;
     const extensionEle = await findByTestId('extension') as HTMLInputElement;
+
+    expect(container).toMatchSnapshot();
 
     const phoneNumber = '2165551234';
     const extension = '9990';
