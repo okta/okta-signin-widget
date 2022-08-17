@@ -34,7 +34,7 @@ const Body = BaseForm.extend({
         View: ChallengeWebauthnInfoView,
       }, {
         View: retryButton,
-      },);
+      });
       if (this._canSetupWebAuthnResidentKey()) {
         schema.push({View: EnrollWebAuthnResidentKeyLinkView});
       }
