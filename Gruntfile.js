@@ -145,6 +145,23 @@ module.exports = function(grunt) {
         ]
       },
 
+      'a11y-assets-to-dist': {
+        files: [
+          {
+            expand: true,
+            cwd: 'assets/js',
+            src: ['*.js'],
+            dest: DIST + '/js',
+          },
+          {
+            expand: true,
+            cwd: 'assets/css',
+            src: ['*.css'],
+            dest: DIST + '/css',
+          }
+        ]
+      },
+
       'e2e': {
         options: {
           process: function(content) {
@@ -442,6 +459,7 @@ module.exports = function(grunt) {
     if (prodBuild) {
       buildTasks.push('exec:build-release');
       postBuildTasks.push('copy:target-to-dist');
+      postBuildTasks.push('copy:a11y-assets-to-dist');
       postBuildTasks.push('exec:prepack');
     } else {
       const devTask = mode === 'watch' ? 'exec:build-dev-watch' : 'exec:build-dev';
