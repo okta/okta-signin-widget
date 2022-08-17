@@ -13,6 +13,7 @@
 import { waitFor } from '@testing-library/preact';
 import { setup } from './util';
 
+import * as cookieUtils from '../../src/util/cookieUtils';
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
 
 describe('identify-with-password', () => {
@@ -27,6 +28,35 @@ describe('identify-with-password', () => {
     const { container, findByLabelText } = await setup({ mockResponse });
     await findByLabelText(/Username/);
     expect(container).toMatchSnapshot();
+  });
+
+  it('should pre-populate username into identifier field when set in widget config props', async () => {
+    const mockUsername = 'testuser@okta1.com';
+    const {
+      findByTestId,
+    } = await setup({
+      mockResponse,
+      widgetOptions: { username: mockUsername },
+    });
+
+    const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+
+    expect(usernameEl.value).toBe(mockUsername);
+  });
+
+  it('should pre-populate username into identifier field when set in cookie', async () => {
+    const mockUsername = 'testuser@okta1.com';
+    jest.spyOn(cookieUtils, 'getUsernameCookie').mockReturnValue(mockUsername);
+    const {
+      findByTestId,
+    } = await setup({
+      mockResponse,
+      widgetOptions: { features: { rememberMyUsernameOnOIE: true } },
+    });
+
+    const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+
+    expect(usernameEl.value).toBe(mockUsername);
   });
 
   describe('sends correct payload', () => {

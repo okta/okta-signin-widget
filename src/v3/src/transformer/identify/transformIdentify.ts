@@ -18,12 +18,28 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { loc } from '../../util';
+import { getUsernameCookie, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
-  const { features } = widgetProps;
-  const { uischema } = formBag;
+  const { features, username } = widgetProps;
+  const { uischema, data } = formBag;
+
+  const identifierElement = getUIElementWithName(
+    'identifier',
+    uischema.elements as UISchemaElement[],
+  ) as FieldElement;
+  if (identifierElement) {
+    // add username/identifier from config if provided
+    if (username) {
+      data.identifier = username;
+    // TODO: OKTA-508744 - to use rememberMe in features once Default values are added widgetProps.
+    // (i.e. rememberMe is default = true in v2)
+    } else if (features?.rememberMe !== false && features?.rememberMyUsernameOnOIE) {
+      const usernameCookie = getUsernameCookie();
+      data.identifier = usernameCookie;
+    }
+  }
 
   const passwordElement = getUIElementWithName(
     'credentials.passcode',

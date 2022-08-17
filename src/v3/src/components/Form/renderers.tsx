@@ -12,7 +12,7 @@
 
 import { Input } from '@okta/okta-auth-js';
 
-import { FieldElement, InputTextElement, Renderer } from '../../types';
+import { FieldElement, Renderer } from '../../types';
 import AuthenticatorButton from '../AuthenticatorButton';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
@@ -136,7 +136,7 @@ export default [
           type, options, name, secret,
         } = {} as Input,
       },
-    }: InputTextElement) => ((type === 'string' || defaultType === 'string') && !options && !secret)
+    }: FieldElement) => ((type === 'string' || defaultType === 'string') && !options && !secret)
       || (name === 'credentials.passcode' && !secret),
     renderer: InputText,
   },
