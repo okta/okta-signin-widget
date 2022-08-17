@@ -1,6 +1,7 @@
 import { RequestMock } from 'testcafe';
 import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import xhrWellKnownResponse from '../../../playground/mocks/data/oauth2/well-known-openid-configuration.json';
 import xhrInteractResponse from '../../../playground/mocks/data/oauth2/interact.json';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
@@ -72,9 +73,11 @@ test.requestHooks(sessionExpiresDuringPasswordChallenge)('reloads into fresh sta
   await identityPage.fillPasswordField('credentials.passcode', 'test');
   await identityPage.clickNextButton();
 
-  await t.expect(identityPage.getGlobalErrors()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
-  await t.expect(identityPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
-  await t.expect(identityPage.getIdentifier()).eql('testUser@okta.com');
+  const terminalPageObject = new TerminalPageObject(t);
+  const errors = terminalPageObject.getErrorMessages();
+  await t.expect(errors.isError()).ok();
+  await t.expect(errors.getTextContent()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(identityPage.getGoBackLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 
   await identityPage.refresh();
 
@@ -92,11 +95,13 @@ test.requestHooks(sessionExpiresBackToSignIn)('back to sign loads identify after
   await identityPage.fillPasswordField('credentials.passcode', 'test');
   await identityPage.clickNextButton();
 
-  await t.expect(identityPage.getGlobalErrors()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
-  await t.expect(identityPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
-  await t.expect(identityPage.getIdentifier()).eql('testUser@okta.com');
+  const terminalPageObject = new TerminalPageObject(t);
+  const errors = terminalPageObject.getErrorMessages();
+  await t.expect(errors.isError()).ok();
+  await t.expect(errors.getTextContent()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(terminalPageObject.getGoBackLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 
-  await identityPage.clickSignOutLink();
+  await terminalPageObject.clickGoBackLink();
 
   // ensure SIW does not load with the SessionExpired error
   await t.expect(identityPage.getPageTitle()).eql('Sign In');
@@ -112,10 +117,12 @@ test.requestHooks(interactionCodeFlowBaseMock)('Int. Code Flow: reloads into fre
   await identityPage.fillPasswordField('credentials.passcode', 'test');
   await identityPage.clickNextButton();
 
-  await t.expect(identityPage.getGlobalErrors()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
-  await t.expect(identityPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
-  await t.expect(identityPage.getIdentifier()).eql('testUser@okta.com');
-
+  const terminalPageObject = new TerminalPageObject(t);
+  const errors = terminalPageObject.getErrorMessages();
+  await t.expect(errors.isError()).ok();
+  await t.expect(errors.getTextContent()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(terminalPageObject.getGoBackLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
+  
   await identityPage.refresh();
   identityPage = await setupInteractionCodeFlow(t);
 
@@ -133,11 +140,13 @@ test.requestHooks(interactionCodeFlowBaseMock)('Int. Code Flow: back to sign loa
   await identityPage.fillPasswordField('credentials.passcode', 'test');
   await identityPage.clickNextButton();
 
-  await t.expect(identityPage.getGlobalErrors()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
-  await t.expect(identityPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
-  await t.expect(identityPage.getIdentifier()).eql('testUser@okta.com');
+  const terminalPageObject = new TerminalPageObject(t);
+  const errors = terminalPageObject.getErrorMessages();
+  await t.expect(errors.isError()).ok();
+  await t.expect(errors.getTextContent()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(terminalPageObject.getGoBackLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 
-  await identityPage.clickSignOutLink();
+  await terminalPageObject.clickGoBackLink();
 
   // ensure SIW does not load with the SessionExpired error
   await t.expect(identityPage.getPageTitle()).eql('Sign In');
