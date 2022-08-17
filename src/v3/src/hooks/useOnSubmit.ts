@@ -51,6 +51,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       stepToRender,
     } = options;
 
+    // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
     const handleError = (error: unknown) => {
       // TODO: handle error based on types
       // AuthApiError is one of the potential error that can be thrown here
