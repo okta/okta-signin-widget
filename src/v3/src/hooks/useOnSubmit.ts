@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams } from '@okta/okta-auth-js';
+import { AuthApiError, IdxActionParams } from '@okta/okta-auth-js';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import { useCallback } from 'preact/hooks';
@@ -33,9 +33,12 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     data,
     idxTransaction: currTransaction,
     dataSchemaRef,
+    setAuthApiError,
     setIdxTransaction,
     setIsClientTransaction,
+    setMessage,
     setStepToRender,
+    widgetProps: { events },
   } = useWidgetContext();
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
@@ -47,6 +50,21 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       isActionStep,
       stepToRender,
     } = options;
+
+    // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
+    const handleError = (error: unknown) => {
+      // TODO: handle error based on types
+      // AuthApiError is one of the potential error that can be thrown here
+      // We will want to expose development stage errors from auth-js and file jiras against it
+      setAuthApiError(error as AuthApiError);
+      console.error(error);
+      // error event
+      events?.afterError?.({
+        stepName: currTransaction?.nextStep?.name,
+      }, error);
+      return null;
+    };
+
     const { fieldsToExclude } = dataSchemaRef.current!;
 
     const immutableData = getImmutableData(currTransaction!, step);
@@ -75,17 +93,25 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     if (currTransaction!.context.stateHandle) {
       payload.stateHandle = currTransaction!.context.stateHandle;
     }
-    const newTransaction = await fn(payload);
-    setIdxTransaction(newTransaction);
-    setIsClientTransaction(false);
-    setStepToRender(stepToRender);
+    setMessage(undefined);
+    try {
+      const newTransaction = await fn(payload);
+      setIdxTransaction(newTransaction);
+      setIsClientTransaction(false);
+      setStepToRender(stepToRender);
+    } catch (error) {
+      handleError(error);
+    }
   }, [
     data,
     authClient,
     currTransaction,
     dataSchemaRef,
+    events,
+    setAuthApiError,
     setIdxTransaction,
     setIsClientTransaction,
+    setMessage,
     setStepToRender,
   ]);
 };
