@@ -48,7 +48,10 @@ export type AutoCompleteValue = 'username'
 | 'family-name'
 | 'email';
 
-export type InputAttributes = { autocomplete?: AutoCompleteValue; };
+export type InputAttributes = { 
+  autocomplete?: AutoCompleteValue;
+  autoFocus?: boolean;
+};
 
 // flat params
 export type ActionParams = {
