@@ -173,6 +173,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       if (!confirmPw) {
         return [{
           name: 'confirmPassword',
+          class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
           i18n: { key: 'model.validation.field.blank' },
         }];
@@ -180,6 +181,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       if (confirmPw !== newPw) {
         return [{
           name: 'confirmPassword',
+          class: 'ERROR',
           message: loc('password.error.match', 'login'),
           i18n: { key: 'password.error.match' },
         }];
