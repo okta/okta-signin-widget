@@ -121,7 +121,8 @@ $od-secondary-button-action-text-color: #124a94;
 }
 
 .button {
-  .okta-verify-authenticator {
+  .okta-verify-authenticator,
+  .okta-webauthn-authenticator {
     height: 20px;
     width: 20px;
     background-repeat: no-repeat;

@@ -7,6 +7,8 @@ import BrowserFeatures from '../../../../util/BrowserFeatures';
 import ChallengeWebauthnInfoView from './ChallengeWebauthnInfoView';
 import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
 import ChallengeWebauthnFooter from '../../components/ChallengeWebauthnFooter';
+import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
+import EnrollWebAuthnResidentKeyLinkView from './EnrollWebAuthnResidentkeyLinkView';
 
 const Body = BaseForm.extend({
 
@@ -33,6 +35,9 @@ const Body = BaseForm.extend({
       }, {
         View: retryButton,
       });
+      if (this._canSetupWebAuthnResidentKey()) {
+        schema.push({View: EnrollWebAuthnResidentKeyLinkView});
+      }
     } else {
       schema.push({
         View: createCallout({
@@ -68,7 +73,7 @@ const Body = BaseForm.extend({
     const relatesToObject = this.options.currentViewState.relatesTo;
     const authenticatorData = relatesToObject?.value || {};
     const allowCredentials = [];
-    const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments').value || [];
+    const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments')?.value || [];
     authenticatorEnrollments.forEach((enrollement) => {
       if (enrollement.key === 'webauthn') {
         allowCredentials.push({
@@ -88,12 +93,20 @@ const Body = BaseForm.extend({
       publicKey: options,
       signal: this.webauthnAbortController.signal
     }).then((assertion) => {
+      const credentials = {
+        clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
+        authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
+        signatureData: CryptoUtil.binToStr(assertion.response.signature)
+      };
+      const hasUserHandleSchema = this.options.appState.getSchemaByName('credentials.userHandle');
+      if (hasUserHandleSchema) {
+        _.extend(credentials, {
+          userHandle: CryptoUtil.binToStr(assertion.response.userHandle ?? '')
+        });
+      }
+      
       this.model.set({
-        credentials : {
-          clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
-          authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
-          signatureData: CryptoUtil.binToStr(assertion.response.signature),
-        }
+        credentials
       });
       this.saveForm(this.model);
     }, (error) => {
@@ -111,12 +124,18 @@ const Body = BaseForm.extend({
   _startVerification: function() {
     this.$('.okta-waiting-spinner').show();
     this.$('.retry-webauthn').hide();
+    this.$('.setup-webauthn-residentkey-text').hide();
     this.$('.retry-webauthn')[0].textContent = loc('retry', 'login');
   },
 
   _stopVerification: function() {
     this.$('.okta-waiting-spinner').hide();
     this.$('.retry-webauthn').show();
+    this.$('.setup-webauthn-residentkey-text').show();
+  },
+
+  _canSetupWebAuthnResidentKey: function() {
+    return this.options.appState.hasRemediationObject(RemediationForms.ENROLL_WEBAUTHN_RESIDENTKEY);
   }
 });
 
