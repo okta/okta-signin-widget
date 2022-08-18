@@ -13,6 +13,7 @@
 import { _, loc } from 'okta';
 import Enums from './Enums';
 import { OAuthError } from './Errors';
+import { getTypedOAuthError, NonRecoverableError } from './OAuthErrors';
 import Util from './Util';
 const util = {};
 
@@ -31,14 +32,6 @@ const AUTH_PARAMS = [
 ];
 util.AUTH_PARAMS = AUTH_PARAMS;
 
-const JIT_ERRORS = [
-  'jit_failure_missing_fields',
-  'jit_failure_invalid_login_format',
-  'jit_failure_values_not_match_pattern',
-  'jit_failure_values_too_long',
-  'jit_failure_invalid_locale',
-];
-
 /**
  * Get the tokens in the OIDC/OAUTH flows
  *
@@ -52,32 +45,19 @@ util.getTokens = function(settings, params, controller) {
   }
 
   function error(error) {
-    let showError = false;
-    let responseJSON = error;
-
-    // User is not assigned to OIDC client
-    if (error.errorCode === 'access_denied') {
-      showError = true;
-    }
-
-    if (JIT_ERRORS.includes(error.errorCode)) {
-      showError = true;
-      responseJSON = { errorSummary: loc('error.jit_failure', 'login') };
-    }
-
-    // MFA is required but prompt=none (authn V1)
-    const mfaRequiredMsg = 'The client specified not to prompt, but the client app requires re-authentication or MFA.';
-    if (error.errorCode === 'login_required' && error.errorSummary === mfaRequiredMsg) {
-      showError = true;
-      responseJSON = { errorSummary: loc('error.mfa.required', 'login') };
-    }
-
-    if (showError) {
-      controller.model.trigger('error', controller.model, { responseJSON });
+    const typedError = getTypedOAuthError(error);
+    if (typedError.is('terminal')) {
+      controller.hideFormAndShowBackToSignIn();
+    } else if (typedError.is('visible')) {
+      controller.model.trigger('error', controller.model, { responseJSON: typedError.errorDetails });
       controller.model.appState.trigger('removeLoading');
     }
 
-    Util.triggerAfterError(controller, new OAuthError(error.message), settings);
+    Util.triggerAfterError(controller, typedError.message, settings);
+
+    if (typedError instanceof NonRecoverableError) {
+      Util.callGlobalError(typedError);
+    }
   }
 
   const authClient = settings.getAuthClient();
