@@ -33,29 +33,31 @@ pushd test/package/angular-sample/custom-login
 
 # sample is setup to use npm
 # broadcast-channel needs to be installed first to guarantee microtime@3.0.0 is used
-if ! npm i broadcast-channel@4.13.0 --no-save; then
+if ! npm i broadcast-channel@4.13.0; then
   echo "install failed broadcast-channel@4.13.0! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
-if ! npm i --no-save; then
+if ! npm i; then
   echo "install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
 published_tarball=${REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
-if ! npm i ${published_tarball} --no-save; then
+if ! npm i ${published_tarball}; then
   echo "install ${published_tarball} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
 # use the same version of auth-js as the widget, otherwise you'll get type errors
 auth_js_version=$(cat node_modules/@okta/okta-signin-widget/package.json | jq -r '.dependencies."@okta/okta-auth-js"')
-if ! npm i @okta/okta-auth-js@${auth_js_version} --no-save; then
+if ! npm i @okta/okta-auth-js@${auth_js_version}; then
   echo "install auth-js@${auth_js_version} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
+
+cat package.json
 
 export ISSUER=https://oie-signin-widget.okta.com
 export CLIENT_ID=0oa8lrg7ojTsbJgRQ696
