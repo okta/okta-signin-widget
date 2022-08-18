@@ -26,7 +26,7 @@
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
     "clean:esm": "rimraf target/esm",
-    "codegen": "grunt codegen",
+    "codegen": "./scripts/codegen.sh",
     "generate-phone-codes": "node scripts/buildtools generate-phone-codes",
     "generate-config": "node scripts/buildtools generate-language-config",
     "update-readme": "node scripts/buildtools update-readme",
