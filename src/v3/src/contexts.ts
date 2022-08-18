@@ -37,10 +37,12 @@ export { useWidgetContext, WidgetContextProvider };
 
 // Stepper context
 type IStepperContext = {
+  stepIndex: number;
   setStepIndex: StateUpdater<number | undefined>;
 };
 
 export const StepperContext = createContext<IStepperContext>({
+  stepIndex: 0,
   setStepIndex: () => {},
 });
 

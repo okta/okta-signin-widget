@@ -31,6 +31,13 @@ type LayoutProps = {
   stepName?: string;
 };
 
+const getElementKey = (element: UISchemaElement, index: number, stepName?: string): string => {
+  const defaultKey = [element.type, stepName, index].join('_');
+  return element.type === 'Field' && (element as FieldElement).key && stepName
+    ? [stepName, (element as FieldElement).key].join('_')
+    : defaultKey;
+};
+
 const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
   const { type, elements } = uischema;
 
@@ -45,13 +52,14 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
     >
       {
         elements.map((element, index) => {
-          const elementKey = [element.type, stepName, index].join('_');
+          const elementKey = getElementKey(element, index, stepName);
 
           if (element.type === UISchemaLayoutType.STEPPER) {
             return (
               <Stepper
                 key={elementKey}
                 uischema={element as StepperLayout}
+                stepName={stepName}
               />
             );
           }
@@ -79,14 +87,10 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
           }
 
           const uischemaElement = (element as UISchemaElement);
-          const fieldElement = (uischemaElement as FieldElement);
-          const key = fieldElement.options?.inputMeta?.name && stepName
-            ? `${fieldElement.options?.inputMeta?.name}_${stepName}`
-            : elementKey;
           const Component = renderer.renderer as UISchemaElementComponent;
           return (
             <Box
-              key={key}
+              key={elementKey}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(!(uischemaElement).noMargin && { marginBottom: 4 })}
             >

@@ -35,7 +35,7 @@ export type FormBag = {
   dataSchema: GeneralDataSchemaBag & {
     submit: ActionOptions;
     fieldsToValidate: string[];
-    fieldsToExclude: string[];
+    fieldsToExclude: (data: FormBag['data']) => string[];
   }
 };
 
@@ -134,12 +134,11 @@ export function isUISchemaLayoutType(type: string): boolean {
 
 export interface FieldElement extends UISchemaElement {
   type: 'Field';
-  // TODO: only use limited field as i18n field
+  key: string;
   options: {
     inputMeta: Input;
     format?: string;
     attributes?: InputAttributes;
-    defaultOption?: string | number | boolean;
     type?: string;
     customOptions?: IdxOption[],
     dataSe?: string;
@@ -345,7 +344,7 @@ export interface StepperRadioElement {
       callback: (widgetContext: IWidgetContext, stepIndex: number) => void;
     }>,
     name: string;
-    defaultOption: string | number | boolean;
+    defaultValue: (widgetContext: IWidgetContext, stepIndex: number) => string | number | boolean;
   }
 }
 

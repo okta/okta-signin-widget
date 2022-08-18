@@ -31,7 +31,7 @@ import {
 const StepperRadio: UISchemaElementComponent<{
   uischema: StepperRadioElement
 }> = ({ uischema }) => {
-  const { setStepIndex } = useStepperContext();
+  const { setStepIndex, stepIndex } = useStepperContext();
   const widgetContext = useWidgetContext();
   const { setData, setMessage } = widgetContext;
   const {
@@ -39,10 +39,15 @@ const StepperRadio: UISchemaElementComponent<{
     options: {
       name,
       customOptions,
-      defaultOption,
+      defaultValue,
     },
   } = uischema;
-  const [value, setValue] = useState<string | boolean | number>(defaultOption ?? '');
+  const [value, setValue] = useState<string | boolean | number>(() => {
+    if (!defaultValue) {
+      return 0;
+    }
+    return defaultValue(widgetContext, stepIndex);
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const stepIdx = customOptions.findIndex((opt) => opt.value === e.currentTarget.value);

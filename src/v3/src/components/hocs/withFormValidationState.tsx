@@ -49,7 +49,7 @@ export const withFormValidationState: WrappedFunctionComponent<
     // For server side errors, need to reset the touched value
     useEffect(() => {
       setTouched(false);
-    }, [errorFromSchema]);
+    }, [messages?.value]);
 
     const combinedProps = {
       ...props,

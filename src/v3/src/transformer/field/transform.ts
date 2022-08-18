@@ -32,6 +32,7 @@ const mapUiElement = (input: Input): FieldElement => {
   return {
     type: 'Field',
     label,
+    key: input.name,
     options: {
       inputMeta: { ...input },
       ...fieldType?.[input.name],
