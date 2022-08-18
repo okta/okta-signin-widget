@@ -145,6 +145,17 @@ module.exports = function(grunt) {
         ]
       },
 
+      'mocks': {
+        files: [
+          {
+            expand: true,
+            cwd: 'playground/mocks/',
+            src: ['**/*'],
+            dest: 'dist/mocks'
+          },
+        ]
+      },
+
       'e2e': {
         options: {
           process: function(content) {
@@ -442,6 +453,7 @@ module.exports = function(grunt) {
     if (prodBuild) {
       buildTasks.push('exec:build-release');
       postBuildTasks.push('copy:target-to-dist');
+      postBuildTasks.push('copy:mocks');
       postBuildTasks.push('exec:prepack');
     } else {
       const devTask = mode === 'watch' ? 'exec:build-dev-watch' : 'exec:build-dev';
