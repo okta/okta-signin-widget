@@ -204,7 +204,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                         Create my own security question
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-35"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-35"
                       >
                         <input
                           aria-invalid="false"
@@ -247,10 +247,10 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           Answer
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-43"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-43"
                         >
                           <input
-                            aria-invalid="false"
+                            aria-invalid="true"
                             class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-44"
                             data-se="credentials.answer"
                             id="credentials.answer"
@@ -296,13 +296,19 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           </fieldset>
                         </div>
                       </div>
+                      <p
+                        class="MuiFormHelperText-root Mui-error emotion-50"
+                        data-se="credentials.answer-error"
+                      >
+                        This field cannot be left blank
+                      </p>
                     </div>
                   </div>
                   <div
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-51"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-52"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -315,7 +321,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -326,7 +332,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

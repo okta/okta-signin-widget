@@ -3036,7 +3036,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                             Phone number
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-41"
+                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused MuiInputBase-adornedStart emotion-41"
                           >
                             <span
                               class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-42"
