@@ -20,7 +20,7 @@ import {
 import { NativeSelect } from '@okta/odyssey-react';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
-import { useCallback, useEffect, useState } from 'preact/hooks';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 
 import CountryUtil from '../../../../util/CountryUtil';
 import { useWidgetContext } from '../../contexts';
@@ -51,6 +51,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         messages = {},
       },
       attributes,
+      focus,
     },
   } = uischema;
   const mainLabel = getTranslation(translations!, 'label');
@@ -66,6 +67,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const methodType = data['authenticator.methodType'];
   const showExtension = methodType === 'voice';
   const onChangeHandler = useOnChange(uischema);
+  const firstInputRef = useRef<HTMLInputElement>(null);
 
   const formatPhone = (
     phoneNumber: string,
@@ -88,6 +90,12 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     const isValid = !!fullPhoneNumber && !!phone;
     return isValid ? undefined : [errorMessage];
   }, [phone, fieldName]);
+
+  useEffect(() => {
+    if (focus && firstInputRef.current) {
+      firstInputRef.current.focus();
+    }
+  }, [focus, showExtension]);
 
   useEffect(() => {
     dataSchemaRef.current![fieldName].validate = validate;
@@ -167,6 +175,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               setTouched?.(true);
               onValidateHandler?.(setError);
             }}
+            inputRef={firstInputRef}
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               setTouched?.(true);
               // Set new phone value without phone code

@@ -18,17 +18,11 @@ import { traverseLayout } from '../util';
 import { addLabelTranslationToFieldElement } from './util';
 
 export const transformField: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
-  let firstFieldFound = false;
   traverseLayout({
     layout: formbag.uischema,
     predicate: (element) => element.type === 'Field',
     callback: (element) => {
       addLabelTranslationToFieldElement(transaction, element as FieldElement);
-      if(!firstFieldFound && (element as FieldElement).options.attributes) {
-        (element as FieldElement).options.attributes.autoFocus = true;
-        console.log("first field: ", element);
-        firstFieldFound = true;
-      }
     },
   });
   return formbag;

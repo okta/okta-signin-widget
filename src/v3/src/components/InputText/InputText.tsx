@@ -17,6 +17,7 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { h } from 'preact';
+import { useEffect, useRef } from 'preact/hooks';
 
 import { useOnChange, useValue } from '../../hooks';
 import {
@@ -42,13 +43,21 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
     attributes,
     inputMeta: { name },
     dataSe,
+    focus,
   } = uischema.options;
+  const firstInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched?.(true);
     onChangeHandler(e.currentTarget.value);
     onValidateHandler?.(setError, e.currentTarget.value);
   };
+
+  useEffect(() => {
+    if (focus && firstInputRef.current) {
+      firstInputRef.current.focus();
+    }
+  }, [focus]);
 
   return (
     <Box>
@@ -70,6 +79,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           'data-se': dataSe,
           ...attributes,
         }}
+        inputRef={firstInputRef}
       />
       {error && (
         <FormHelperText

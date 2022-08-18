@@ -36,6 +36,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
 
   const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
   const flexDirection = isHorizontalLayout ? 'row' : 'column';
+  let firstFieldFound = false;
   return (
     <Box
       display="flex"
@@ -80,6 +81,13 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
 
           const uischemaElement = (element as UISchemaElement);
           const fieldElement = (uischemaElement as FieldElement);
+          const isInputField = !Array.isArray(fieldElement.options?.inputMeta?.options) && !Array.isArray(fieldElement.options?.customOptions) && fieldElement.options?.inputMeta?.type !== 'boolean';
+
+          if (element.type === 'Field' && isInputField && !firstFieldFound) {
+            fieldElement.options = { ...fieldElement.options, focus: true };
+            firstFieldFound = true;
+          }
+
           const key = fieldElement.options?.inputMeta?.name && stepName
             ? `${fieldElement.options?.inputMeta?.name}_${stepName}`
             : elementKey;
@@ -90,7 +98,10 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(!(uischemaElement).noMargin && { marginBottom: 4 })}
             >
-              <Component uischema={uischemaElement} />
+              <Component
+                uischema={uischemaElement}
+                tabIndex={index}
+              />
             </Box>
           );
         })
