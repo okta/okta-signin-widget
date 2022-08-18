@@ -15,7 +15,7 @@ exports[`v2/view-builder/views/signin/SignInWithWebAuthn should render the signi
       <span
         class="icon okta-webauthn-authenticator"
       />
-      Sign in with security key or biometric
+      Sign in with security key or biometrics
     </a>
   </div>
   <div

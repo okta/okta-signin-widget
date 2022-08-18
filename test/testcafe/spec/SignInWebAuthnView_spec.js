@@ -23,7 +23,7 @@ async function setup(t) {
 test('shows sign in with webauthn button', async t => {
   const signInWebAuthnPage = await setup(t);
   await t.expect(signInWebAuthnPage.getWebAuthnButtonIcon()).eql('icon okta-webauthn-authenticator');
-  await t.expect(signInWebAuthnPage.getWebAuthnButtonLabel()).eql('Sign in with security key or biometric');
+  await t.expect(signInWebAuthnPage.getWebAuthnButtonLabel()).eql('Sign in with security key or biometrics');
 });
 
 test('clicking the sign in with webauthn button takes user to the right UI', async t => {
