@@ -7,6 +7,7 @@ import Link from '../components/Link';
 import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
+import signInWithWebAuthn from './signin/SignInWithWebAuthn';
 import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
@@ -79,6 +80,10 @@ const Body = BaseForm.extend({
     // Launch Device Authenticator
     if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_AUTHENTICATOR)) {
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true, { isRequired: false });
+    }
+
+    if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_WEBAUTHN_AUTHENTICATOR)) {
+      this.add(signInWithWebAuthn, '.o-form-fieldset-container', false, true, { isRequired: false });
     }
 
     // add forgot password link and external idps buttons if needed
