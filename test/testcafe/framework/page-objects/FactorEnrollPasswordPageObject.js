@@ -3,7 +3,7 @@ import BasePageObject from './BasePageObject';
 const passwordFieldName = 'credentials\\.passcode';
 const confirmPasswordFieldName = 'confirmPassword';
 const requirementsSelector = '[data-se="password-authenticator--rules"]';
-
+const revokeSessionToggle = 'credentials.revokeSessions';
 /**
  * This page object will be used by 
  * password enrollment
@@ -69,5 +69,13 @@ export default class EnrollPasswordPageObject extends BasePageObject {
 
   getErrorBoxText() {
     return this.form.getErrorBoxText();
+  }
+
+  sessionRevocationToggleExist() {
+    return this.form.elementExist(`input[name="${revokeSessionToggle}"]`);
+  }
+
+  checkSessionRevocationToggle() {
+    return this.form.clickElement(`input[name="${revokeSessionToggle}"]`);
   }
 }
