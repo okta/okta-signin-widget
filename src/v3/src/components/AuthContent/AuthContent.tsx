@@ -19,10 +19,21 @@ const AuthContent: FunctionComponent = ({ children }) => (
     flexDirection="column"
     justifyContent="flex-start"
     flexWrap="wrap"
-    padding={7}
+    paddingX={7}
+    paddingTop={7}
+    paddingBottom={0}
     maxWidth={1}
+    marginBottom={3}
   >
-    {children}
+    { children }
+    {
+      process.env.NODE_ENV !== 'test' && (
+        <code aria-hidden>
+          { VERSION }
+          { COMMITHASH.substring(0, 8) }
+        </code>
+      )
+    }
   </Box>
 );
 

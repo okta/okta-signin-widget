@@ -18,6 +18,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { omit } from 'lodash';
 import GitRevisionPlugin from 'git-revision-webpack-plugin';
 import playgroundConfig from '../../webpack.playground.config';
+import { version } from './package.json';
 
 const gitRevisionPlugin = new GitRevisionPlugin();
 
@@ -52,16 +53,14 @@ export default {
       (plugin) => !(plugin instanceof MiniCssExtractPlugin),
     );
 
-    config.plugins.push(
-      new DefinePlugin({
-        // for OktaSignIn.__version, AuthContainer[data-version]
-        VERSION: JSON.stringify(gitRevisionPlugin.version()),
-        // for OktaSignIn.__commit, AuthContainer[data-commit]
-        COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
-        // for v2/util/Logger file
-        DEBUG: env !== 'production',
-      }),
-    );
+    config.plugins.push(new DefinePlugin({
+      // for OktaSignIn.__version, AuthContainer[data-version]
+      VERSION: JSON.stringify(version),
+      // for OktaSignIn.__commit, AuthContainer[data-commit]
+      COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
+      // for v2/util/Logger file
+      DEBUG: env !== 'production',
+    }));
 
     // use odyssey babel configs
     config.module.rules.push({
