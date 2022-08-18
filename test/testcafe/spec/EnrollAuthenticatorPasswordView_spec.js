@@ -1,10 +1,17 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
 import xhrAuthenticatorEnrollPasswordError from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-password-common';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
+
+const logger = RequestLogger(/challenge\/poll|challenge\/answer|challenge\/resend/,
+  {
+    logRequestBody: true,
+    stringifyRequestBody: true,
+  }
+);
 
 const successMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -41,6 +48,7 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await t.expect(enrollPasswordPage.getSaveButtonLabel()).eql('Next');
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
+  await t.expect(enrollPasswordPage.sessionRevocationToggleExist()).eql(true);
 
   // assert switch authenticator link shows up
   await t.expect(await enrollPasswordPage.switchAuthenticatorLinkExists()).ok();
@@ -64,13 +72,54 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await t.expect(await enrollPasswordPage.signoutLinkExists()).ok();
 });
 
-test.requestHooks(successMock)('should succeed when same values are filled', async t => {
+test.requestHooks(logger, successMock)('should succeed when same values are filled', async t => {
   const enrollPasswordPage = await setup(t);
   const successPage = new SuccessPageObject(t);
 
   await enrollPasswordPage.fillPassword('abcdabcd');
   await enrollPasswordPage.fillConfirmPassword('abcdabcd');
   await enrollPasswordPage.clickNextButton();
+
+  const { request: {
+    body: answerRequestBodyString,
+  }
+  } = logger.requests[0];
+
+  const answerRequestBody = JSON.parse(answerRequestBodyString);
+  await t.expect(answerRequestBody).eql({
+    credentials: {
+      passcode: 'abcdabcd',
+    },
+    stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
+  });
+
+  const pageUrl = await successPage.getPageUrl();
+  await t.expect(pageUrl)
+    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+});
+
+test.requestHooks(logger, successMock)('should succeed when session revocation is checked', async t => {
+  const enrollPasswordPage = await setup(t);
+  const successPage = new SuccessPageObject(t);
+
+  await enrollPasswordPage.fillPassword('abcdabcd');
+  await enrollPasswordPage.fillConfirmPassword('abcdabcd');
+  await enrollPasswordPage.checkSessionRevocationToggle();
+  await enrollPasswordPage.clickNextButton();
+
+  const { request: {
+    body: answerRequestBodyString,
+  }
+  } = logger.requests[0];
+
+  const answerRequestBody = JSON.parse(answerRequestBodyString);
+  await t.expect(answerRequestBody).eql({
+    credentials: {
+      passcode: 'abcdabcd',
+      revokeSessions: true
+    },
+    stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
+  });
 
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
