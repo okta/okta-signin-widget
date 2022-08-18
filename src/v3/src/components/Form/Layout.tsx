@@ -42,6 +42,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
 
   const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
   const flexDirection = isHorizontalLayout ? 'row' : 'column';
+  let firstFieldFound = false;
   return (
     <Box
       display="flex"
@@ -91,7 +92,10 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(!(uischemaElement).noMargin && { marginBottom: 4 })}
             >
-              <Component uischema={uischemaElement} />
+              <Component
+                uischema={uischemaElement}
+                tabIndex={index}
+              />
             </Box>
           );
         })

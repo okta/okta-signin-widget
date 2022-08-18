@@ -48,9 +48,8 @@ export type AutoCompleteValue = 'username'
 | 'family-name'
 | 'email';
 
-export type InputAttributes = { 
+export type InputAttributes = {
   autocomplete?: AutoCompleteValue;
-  autoFocus?: boolean;
 };
 
 // flat params
@@ -146,6 +145,7 @@ export interface FieldElement extends UISchemaElement {
     type?: string;
     customOptions?: IdxOption[],
     dataSe?: string;
+    focus?: boolean;
   };
 }
 
