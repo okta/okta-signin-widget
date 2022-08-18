@@ -431,7 +431,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         Enter Code
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-22"
                       >
                         <input
                           aria-invalid="false"
