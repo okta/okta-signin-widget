@@ -24,6 +24,7 @@ import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
 import Settings from 'models/Settings';
 import Hooks from 'models/Hooks';
 
+const UNKNOWN_USER_I8N_KEY = "idx.unknown.user";
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
  */
@@ -314,26 +315,31 @@ export default class AppState extends Model {
        * expiresAt will be different for each response, hence compare objects without that property
        */
       reRender = false;
+      if (this.get('currentFormName') === 'poll') {
+        /**
+         * returns true: We want to force reRender when currentForm is poll because request has to reinitiate
+         * based on new refresh and UI has to reflect new timer.
+         * We dont technical poll here we just make a request after the specified refresh time each time
+         * we get a new response.
+         */
+        reRender = true;
+      } else if (FORMS_WITH_STATIC_BACK_LINK.includes(this.get('currentFormName'))) {
+        /**
+         * returns true: We want to force reRender if you go back to selection screen from challenge or enroll screen
+         * and re-select the same authenticator for challenge. In this case also new response will be identical
+         * to the old response.
+         */
+        reRender = true;
+      } else if (this.containsMessageWithI18nKey(UNKNOWN_USER_I8N_KEY)) {
+        /**
+         * Need to re-render or else form will be stuck in saving mode.
+         * This message is a form warning that can result in identical responses if the user enters the same
+         * username as the one in the last message warning.
+         */
+        reRender = true;
+      }
     }
 
-    if (identicalResponse && this.get('currentFormName') === 'poll') {
-      /**
-       * returns true: We want to force reRender when currentForm is poll because request has to reinitiate
-       * based on new refresh and UI has to reflect new timer.
-       * We dont technical poll here we just make a request after the specified refresh time each time
-       * we get a new response.
-       */
-      reRender = true;
-    }
-
-    if (identicalResponse && FORMS_WITH_STATIC_BACK_LINK.includes(this.get('currentFormName'))) {
-      /**
-       * returns true: We want to force reRender if you go back to selection screen from challenge or enroll screen
-       * and re-select the same authenticator for challenge. In this case also new response will be identical
-       * to the old response.
-       */
-      reRender = true;
-    }
     return reRender;
   }
 

@@ -187,6 +187,53 @@ describe('v2/models/AppState', function() {
       expect(this.appState.shouldReRenderView(transformedResponse)).toBe(false);
     });
 
+    it('should re-render the view if the idx message contains idx.unknown.user', () => {
+
+      const idxObj = {
+        'idx': {
+          'rawIdxState':{
+            'version':'1.0.0',
+            'stateHandle':'abcdf',
+            'intent':'LOGIN',
+            'remediation':{
+              'type':'array',
+              'value':[]
+            },
+            'messages': {
+              'type': 'array',
+              'value': [
+                {
+                  'message': 'There is no account with the Username admin@okta.com.',
+                  'i18n': { 'key': 'idx.unknown.user', 'params': [] },
+                  'class': 'WARNING'
+                }
+              ]
+            },
+          }},
+        'remediations': [{
+          'name': 'create-form',
+          'refresh': 2000,
+        }],
+        'messages': {
+          'type': 'array',
+          'value': [
+            {
+              'message': 'There is no account with the Username admin@okta.com.',
+              'i18n': { 'key': 'idx.unknown.user', 'params': [] },
+              'class': 'WARNING'
+            }
+          ]
+        },
+      };
+
+      const transformedResponse = JSON.parse(JSON.stringify(idxObj));
+      transformedResponse.idx.rawIdxState.stateHandle = '1234';
+
+      this.initAppState(idxObj, 'create-form');
+      expect(this.appState.shouldReRenderView(transformedResponse)).toBe(true);
+    });
+
+
   });
 
   describe('hasRemediationObject', () => {
