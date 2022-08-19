@@ -92,10 +92,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(!(uischemaElement).noMargin && { marginBottom: 4 })}
             >
-              <Component
-                uischema={uischemaElement}
-                tabIndex={index}
-              />
+              <Component uischema={uischemaElement} />
             </Box>
           );
         })
