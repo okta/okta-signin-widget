@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "clean": "rimraf dist && rimraf node_modules",
+    "clean": "rm -rf dist && rm -rf node_modules && rm -rf target && rm -f yarn*",
     "test": "webpack"
   },
   "dependencies": {
