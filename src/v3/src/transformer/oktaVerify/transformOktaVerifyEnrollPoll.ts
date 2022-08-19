@@ -55,7 +55,7 @@ export const switchChannelButton = (
   type: 'TextWithHtml',
   options: {
     content: loc(label, 'login'),
-    className: 'switch-channel-link',
+    contentClassname: 'switch-channel-link',
     step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
     stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
   },

@@ -220,7 +220,7 @@ export interface TextWithHtmlElement extends UISchemaElement {
   type: 'TextWithHtml';
   options: ActionOptions & {
     content: string;
-    className: string;
+    contentClassname: string;
     stepToRender?: string;
   };
 }

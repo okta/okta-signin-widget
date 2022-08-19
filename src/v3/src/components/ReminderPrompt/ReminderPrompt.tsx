@@ -28,13 +28,13 @@ const ReminderPrompt: UISchemaElementComponent<{
   uischema: ReminderElement
 }> = ({ uischema }) => {
   const {
-    content: ctaText,
+    content,
     step,
     actionParams,
     isActionStep,
-    buttonText: linkLabel,
+    buttonText,
     timeout: customTimeout,
-    contentClassname: className,
+    contentClassname,
     contentHasHtml,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
@@ -70,7 +70,7 @@ const ReminderPrompt: UISchemaElementComponent<{
   };
 
   const renderActionLink = () => {
-    if (!linkLabel) {
+    if (!buttonText) {
       return undefined;
     }
 
@@ -81,20 +81,20 @@ const ReminderPrompt: UISchemaElementComponent<{
         href="javascript:void(0);"
         onClick={() => resendHandler()}
       >
-        {linkLabel}
+        {buttonText}
       </Link>
     );
   };
 
   const renderAlertContent = () => {
-    if (contentHasHtml && className) {
+    if (contentHasHtml && contentClassname) {
       return (
         <TextWithHtml
           uischema={{
             type: 'TextWithHtml',
             options: {
-              className,
-              content: ctaText,
+              contentClassname,
+              content,
               step,
               isActionStep,
               actionParams,
@@ -103,7 +103,7 @@ const ReminderPrompt: UISchemaElementComponent<{
         />
       );
     }
-    return (<Box marginBottom={2}>{ctaText}</Box>);
+    return (<Box marginBottom={2}>{content}</Box>);
   };
 
   return show ? (
