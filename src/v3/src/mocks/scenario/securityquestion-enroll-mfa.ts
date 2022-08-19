@@ -62,16 +62,18 @@ scenario('securityquestion-enroll-mfa', (rest) => ([
     const questionKey = request.credentials?.questionKey;
     const answer = request.credentials?.answer;
     let response = null;
-    let responseStatus = 200;
+    let responseStatus;
     if (answer?.length < 4) {
       if (questionKey === 'custom') {
         response = (await import('../response/idp/idx/challenge/answer/enroll-security-question-custom-with-error.json')).default;
       } else {
         response = (await import('../response/idp/idx/challenge/answer/enroll-security-question-predefined-with-error.json')).default;
       }
-      responseStatus = 401;
+      // responseStatus = 401;
+      responseStatus = 200; // error from auth-js causes breakage when setting 401 status on this flow
     } else {
       response = (await import('../response/oauth2/default/v1/token/default.json')).default;
+      responseStatus = 200;
     }
     return res(
       ctx.status(responseStatus),

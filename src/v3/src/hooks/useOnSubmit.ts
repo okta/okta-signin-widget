@@ -97,8 +97,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     try {
       const newTransaction = await fn(payload);
       setIdxTransaction(newTransaction);
-      const isClientTransaction = newTransaction.requestDidSucceed === false
-        && newTransaction.nextStep?.name === currTransaction?.nextStep?.name;
+      const isClientTransaction = newTransaction.nextStep?.name === currTransaction?.nextStep?.name;
       setIsClientTransaction(isClientTransaction);
       setStepToRender(stepToRender);
     } catch (error) {

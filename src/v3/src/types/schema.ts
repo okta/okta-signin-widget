@@ -96,6 +96,7 @@ Promise<WebAuthNVerificationPayload>;
 
 export interface UISchemaElement {
   type: string;
+  key?: string;
   // TODO: make this field required
   translations?: TranslationInfo[];
   /**
