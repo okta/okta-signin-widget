@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams } from '@okta/okta-auth-js';
-
 import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
@@ -36,8 +34,6 @@ const STEPS = {
 
 const REMINDER_CHANNELS = ['sms', 'email'];
 const CHANNEL_TO_CTA_KEY: { [channel: string]: string } = {
-  // TODO: OKTA-520236 These i18n keys contain anchor tags in them, how to proceed?
-  // See OVResendView.js
   email: 'oie.enroll.okta_verify.email.notReceived',
   sms: 'oie.enroll.okta_verify.sms.notReceived',
 };
@@ -59,20 +55,15 @@ export const switchChannelButton = (
   type: 'TextWithHtml',
   options: {
     content: loc(label, 'login'),
-    className: 'switch-channel-link',
+    contentClassname: 'switch-channel-link',
     step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
     stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
   },
 });
 
-export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
-  transaction,
-  formBag,
-  widgetProps,
-}) => {
+export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction, formBag }) => {
   const { context, availableSteps } = transaction;
   const { uischema } = formBag;
-  const { authClient } = widgetProps;
 
   const authenticator = context.currentAuthenticator.value;
   // @ts-ignore OKTA-496373 - missing props from interface
@@ -87,18 +78,12 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     reminder = {
       type: 'Reminder',
       options: {
-        // TODO: OKTA-520236 - i18n key has anchor tag
-        ctaText: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
-        linkLabel: loc('email.button.resend', 'login'),
-        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: (params?: IdxActionParams) => {
-          const { stateHandle, ...rest } = params ?? {};
-          return authClient?.idx.proceed({
-            // @ts-ignore stateHandle can be undefined
-            stateHandle,
-            actions: [{ name, params: rest }],
-          });
-        },
+        content: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
+        contentHasHtml: true,
+        step: name,
+        isActionStep: true,
+        actionParams: { resend: true },
+        contentClassname: 'resend-link',
       },
     };
   }

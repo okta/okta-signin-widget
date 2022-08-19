@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
+import { NextStep } from '@okta/okta-auth-js';
 
 import {
   ButtonElement,
@@ -28,14 +28,9 @@ import {
 import { loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 
-export const transformEmailChallenge: IdxStepTransformer = ({
-  transaction,
-  formBag,
-  widgetProps,
-}) => {
+export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
-  const { authClient } = widgetProps;
 
   let reminderElement: ReminderElement | undefined;
 
@@ -45,17 +40,11 @@ export const transformEmailChallenge: IdxStepTransformer = ({
     reminderElement = {
       type: 'Reminder',
       options: {
-        ctaText: loc('email.code.not.received', 'login'),
-        linkLabel: loc('email.button.resend', 'login'),
-        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
-        action: (params?: IdxActionParams) => {
-          const { stateHandle, ...rest } = params ?? {};
-          return authClient?.idx.proceed({
-            // @ts-ignore stateHandle can be undefined
-            stateHandle,
-            actions: [{ name, params: rest }],
-          });
-        },
+        content: loc('email.code.not.received', 'login'),
+        buttonText: loc('email.button.resend', 'login'),
+        step: name,
+        isActionStep: true,
+        actionParams: { resend: true },
       },
     };
   }

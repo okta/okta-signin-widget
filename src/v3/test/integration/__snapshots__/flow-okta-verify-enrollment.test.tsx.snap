@@ -707,15 +707,59 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 >
                   <div
                     class="MuiBox-root emotion-12"
-                  />
+                  >
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <div
+                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxWarning MuiAlert-infobox emotion-14"
+                        role="alert"
+                      >
+                        <div
+                          class="MuiAlert-icon emotion-15"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                            data-testid="ReportProblemOutlinedIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="MuiAlert-message emotion-17"
+                        >
+                          <div
+                            class="MuiBox-root emotion-4"
+                          >
+                            <div
+                              class="MuiBox-root emotion-4"
+                            >
+                              Haven’t received an email? Check your spam folder or 
+                              <a
+                                class="resend-link"
+                                href="#"
+                              >
+                                send again
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div
                     class="MuiBox-root emotion-12"
                   >
                     <div
-                      class="MuiBox-root emotion-14"
+                      class="MuiBox-root emotion-21"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        class="MuiTypography-root MuiTypography-h3 emotion-22"
                         data-se="o-form-head"
                       >
                         Check your email
@@ -726,10 +770,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <div
-                      class="MuiBox-root emotion-14"
+                      class="MuiBox-root emotion-21"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="o-form-explain"
                       >
                         We sent an email to glen.fannin@okta.com with an Okta Verify setup link. To continue, open the link on your mobile device.
@@ -761,7 +805,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -772,7 +816,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -3174,15 +3218,59 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 >
                   <div
                     class="MuiBox-root emotion-12"
-                  />
+                  >
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <div
+                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxWarning MuiAlert-infobox emotion-14"
+                        role="alert"
+                      >
+                        <div
+                          class="MuiAlert-icon emotion-15"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                            data-testid="ReportProblemOutlinedIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="MuiAlert-message emotion-17"
+                        >
+                          <div
+                            class="MuiBox-root emotion-4"
+                          >
+                            <div
+                              class="MuiBox-root emotion-4"
+                            >
+                              Haven’t received an SMS? 
+                              <a
+                                class="resend-link"
+                                href="#"
+                              >
+                                Send again
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div
                     class="MuiBox-root emotion-12"
                   >
                     <div
-                      class="MuiBox-root emotion-14"
+                      class="MuiBox-root emotion-21"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        class="MuiTypography-root MuiTypography-h3 emotion-22"
                         data-se="o-form-head"
                       >
                         Check your text messages
@@ -3193,10 +3281,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <div
-                      class="MuiBox-root emotion-14"
+                      class="MuiBox-root emotion-21"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="o-form-explain"
                       >
                         We sent an SMS to +12165332241 with an Okta Verify setup link. To continue, open the link on your mobile device.
@@ -3228,7 +3316,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -3239,7 +3327,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

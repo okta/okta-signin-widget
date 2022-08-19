@@ -11,6 +11,7 @@
  */
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
+import { act } from 'preact/test-utils';
 import { setup, updateStateHandleInMock } from './util';
 import qrPollingResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json';
 import emailPollingResponse from '../../src/mocks/response/idp/idx/challenge/send/enroll-ov-email-mfa.json';
@@ -73,6 +74,14 @@ const createTestContext = async () => {
 };
 
 describe('flow-okta-verify-enrollment', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('qr polling -> channel selection -> data enrollment (email/default) -> email polling -> try different -> channel selection -> qr polling', async () => {
     const {
       authClient,
@@ -159,6 +168,10 @@ describe('flow-okta-verify-enrollment', () => {
 
     // email polling
     await findByText(/Check your email/);
+
+    act(() => {
+      jest.advanceTimersByTime(31_000);
+    });
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -300,6 +313,9 @@ describe('flow-okta-verify-enrollment', () => {
 
     // sms polling
     await findByText(/Check your text messages/);
+    act(() => {
+      jest.advanceTimersByTime(31_000);
+    });
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -353,6 +369,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByAltText('QR code');
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('qr polling -> channel selection -> qr polling', async () => {
     const { user, findByText, findByAltText } = await createTestContext();
 
@@ -374,6 +391,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByAltText('QR code');
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('qr polling -> channel selection -> data enrollment -> channel selection', async () => {
     const { user, findByText, findByAltText } = await createTestContext();
 
