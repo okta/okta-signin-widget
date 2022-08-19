@@ -55,7 +55,7 @@ export default {
 
     config.plugins.push(new DefinePlugin({
       // for OktaSignIn.__version, AuthContainer[data-version]
-      VERSION: JSON.stringify(version),
+      VERSION: JSON.stringify(`okta-signin-widget-${version}`),
       // for OktaSignIn.__commit, AuthContainer[data-commit]
       COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
       // for v2/util/Logger file
