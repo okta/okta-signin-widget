@@ -21,7 +21,10 @@ import { NativeSelect } from '@okta/odyssey-react';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import {
-  useCallback, useEffect, useRef, useState,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
 } from 'preact/hooks';
 
 import CountryUtil from '../../../../util/CountryUtil';
