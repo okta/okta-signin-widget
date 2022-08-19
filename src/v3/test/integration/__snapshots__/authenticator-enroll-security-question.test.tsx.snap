@@ -95,7 +95,6 @@ exports[`authenticator-enroll-security-question custom question fails client sid
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-15"
@@ -283,10 +282,10 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           Answer
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-49"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-49"
                         >
                           <input
-                            aria-invalid="true"
+                            aria-invalid="false"
                             class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-50"
                             data-se="credentials.answer"
                             id="credentials.answer"
@@ -332,19 +331,13 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           </fieldset>
                         </div>
                       </div>
-                      <p
-                        class="MuiFormHelperText-root Mui-error emotion-44"
-                        data-se="credentials.answer-error"
-                      >
-                        This field cannot be left blank
-                      </p>
                     </div>
                   </div>
                   <div
                     class="MuiBox-root emotion-17"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-58"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-57"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -357,7 +350,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -368,7 +361,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

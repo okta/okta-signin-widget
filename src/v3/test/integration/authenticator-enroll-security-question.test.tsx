@@ -164,8 +164,7 @@ describe('authenticator-enroll-security-question', () => {
       );
     });
 
-    // TODO: WIP, debugging why this is not registering value
-    it.skip('fails client side validation when custom question is missing', async () => {
+    it('fails client side validation when custom question is missing', async () => {
       const {
         authClient,
         user,
@@ -180,10 +179,12 @@ describe('authenticator-enroll-security-question', () => {
       // switch to custom question form
       user.click(await findByLabelText(/Create my own security question/));
 
+      const questionEle = await findByTestId('credentials.question') as HTMLInputElement;
       const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
       const answer = '42';
       await user.type(answerEle, answer);
       expect(answerEle.value).toBe(answer);
+      expect(questionEle.value).toBe('');
       await user.click(await findByText('Verify', { selector: 'button' }));
 
       // assert no network request
