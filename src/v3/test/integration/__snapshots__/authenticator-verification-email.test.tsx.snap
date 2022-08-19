@@ -689,3 +689,91 @@ exports[`authenticator-verification-email renders correct form renders the otp c
   </div>
 </div>
 `;
+
+exports[`authenticator-verification-email renders correct form should render session expired terminal view when polling results in expired session 1`] = `
+<div>
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <span>
+      <main
+        class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
+        id="okta-sign-in"
+      >
+        <div
+          class="siwContainer MuiBox-root emotion-2"
+        >
+          <div
+            class="okta-sign-in-header auth-header siwHeader"
+          >
+            <h1
+              class="MuiTypography-root MuiTypography-h1 emotion-3"
+            />
+          </div>
+          <div
+            class="MuiBox-root emotion-4"
+          >
+            <form
+              class="o-form"
+              data-se="form"
+              novalidate=""
+            >
+              <div
+                class="MuiBox-root emotion-5"
+              >
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-7"
+                    data-se="message"
+                  >
+                    <div
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-8"
+                      data-se="infobox-error"
+                      role="alert"
+                    >
+                      <div
+                        class="MuiAlert-icon emotion-9"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
+                          data-testid="ErrorOutlineIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        class="MuiAlert-message emotion-11"
+                      >
+                        You have been logged out due to inactivity. Refresh or return to the sign in screen.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-13"
+                    href="/"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </span>
+  </div>
+</div>
+`;
