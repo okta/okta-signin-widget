@@ -30,7 +30,6 @@ const AuthContent: FunctionComponent = ({ children }) => (
       process.env.NODE_ENV !== 'test' && (
         <code aria-hidden>
           { VERSION }
-          { COMMITHASH.substring(0, 8) }
         </code>
       )
     }
