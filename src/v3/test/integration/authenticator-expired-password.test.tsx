@@ -98,17 +98,21 @@ describe('authenticator-expired-password', () => {
     const submitButton = await findByText('Change Password', { selector: 'button' });
     const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
 
-    await user.type(confirmPasswordEle, 'abc123');
+    // the new password field is auto focused, so it will trigger the error once we nav away
+    await user.tab();
+    const val = 'abc123';
+    await user.type(confirmPasswordEle, val);
+    await expect(confirmPasswordEle.value).toBe(val);
     await user.click(submitButton);
-
-    const newPasswordError = await findByTestId('credentials.passcode-error');
-
-    expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
       expect.anything(),
     );
+
+    const newPasswordError = await findByTestId('credentials.passcode-error');
+    expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
+    expect((await findByTestId('confirmPassword-error')).innerHTML).toBe('New passwords must match');
   });
 
   it('should not make network request when fields are not matching', async () => {
