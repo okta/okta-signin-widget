@@ -17,7 +17,7 @@ import {
 } from '../../types';
 import { traverseLayout } from '../util';
 
-export const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
+const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
   traverseLayout({
     layout: formbag.uischema,
     predicate: (element) => !!element.type,
