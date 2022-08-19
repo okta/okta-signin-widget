@@ -7,12 +7,13 @@ import v1Success from 'helpers/xhr/SUCCESS';
 import 'jasmine-ajax';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
-import Widget from 'widget/OktaSignIn';
+import Widget from 'exports/default';
 import V1Router from 'v1/LoginRouter';
 import V1AppState from 'v1/models/AppState';
 import V2AppState from 'v2/models/AppState';
 import Hooks from 'models/Hooks';
 import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
+import RAW_AUTHN_RESPONSE from 'helpers/xhr/SUCCESS';
 
 const url = 'https://foo.com';
 const itp = Expect.itp;
@@ -272,6 +273,10 @@ describe('OktaSignIn initialization', function() {
           return;
         }
 
+        MockUtil.mockAjax([
+          mockXhr(RAW_AUTHN_RESPONSE)
+        ]);
+        
         signIn = new Widget({
           ...widgetOptions,
           recoveryToken: 'foo',

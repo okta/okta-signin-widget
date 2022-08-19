@@ -11,7 +11,10 @@ var LOCAL_PACKAGES = resolve(__dirname, 'packages/');
 var COURAGE_DIST = `${LOCAL_PACKAGES}/@okta/courage-dist/esm`;
 
 // Return a function so that all consumers get a new copy of the config
-module.exports = function(outputFilename, mode = 'development') {
+module.exports = function({ entry, outputFilename, mode = 'development', classic = false, oie = false }) {
+
+  // normalize entry so it is always an array
+  entry = Array.isArray(entry) ? entry : [entry];
 
   const babelOptions = {
     configFile: false, // do not load from babel.config.js
@@ -44,7 +47,7 @@ module.exports = function(outputFilename, mode = 'development') {
   }
 
   const webpackConfig = {
-    entry: [`${SRC}/index.cjs.js`],
+    entry,
     mode,
     devtool: 'source-map',
     output: {
@@ -54,6 +57,7 @@ module.exports = function(outputFilename, mode = 'development') {
       libraryTarget: 'umd'
     },
     resolve: {
+      conditionNames: ['import', 'browser'],
       extensions: ['.js', '.ts'],
       modules: [SRC, 'packages', 'node_modules'],
       alias: {
@@ -129,5 +133,14 @@ module.exports = function(outputFilename, mode = 'development') {
     };
     webpackConfig.optimization = optimization;
   }
+
+  if (classic) {
+    webpackConfig.resolve.alias['@okta/okta-auth-js'] = '@okta/okta-auth-js/authn';
+  }
+
+  if (oie) {
+    webpackConfig.resolve.alias['@okta/okta-auth-js'] = '@okta/okta-auth-js/idx';
+  }
+
   return webpackConfig;
 };

@@ -1,7 +1,7 @@
 /* eslint max-params:[2, 32], max-statements:[2, 46], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
 import { OAuthError } from '@okta/okta-auth-js';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import PrimaryAuthController from 'v1/controllers/PrimaryAuthController';
 import AuthContainer from 'helpers/dom/AuthContainer';

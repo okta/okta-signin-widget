@@ -1,10 +1,15 @@
-import { OktaAuth } from '@okta/okta-auth-js';
 import Errors from 'util/Errors';
 import Util from 'util/Util';
 import config from 'config/config.json';
-import { WidgetOptions } from 'types';
+import { WidgetOptions, WidgetOktaAuthConstructor, WidgetOktaAuthInterface, WidgetOktaAuthOptions } from 'types';
 
-export default function(options: WidgetOptions = {}): OktaAuth {
+export default function getAuthClientInstance
+<
+  O extends WidgetOktaAuthOptions = WidgetOktaAuthOptions,
+  I extends WidgetOktaAuthInterface<O> = WidgetOktaAuthInterface<O>
+>
+(OktaAuth: WidgetOktaAuthConstructor<O, I>, options: WidgetOptions<I>= {}): I
+{
   // if authClient is set, authParams are disregarded
   let { authClient, authParams } = options;
 

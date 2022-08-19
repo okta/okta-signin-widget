@@ -3,10 +3,10 @@
     "noEmit": true,
     "rootDir": ".",
     "baseUrl": ".",
-    "outDir": "./types",
+    "outDir": "./target/types",
     "target": "es6",
     "sourceMap": true,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -31,16 +31,20 @@
       "types": ["./src/types"],
       "types/*": ["./src/types/*"],
       "views/*": ["./src/views/*"],
-      "config/*": ["./src/config/*"]
+      "config/*": ["./src/config/*"],
+      "exports/*": ["./src/exports/*"]
     }
   },
   "include": [
-    "src/types/*"
+    "src/types/*",
+    "src/exports/*",
+    "src/authClient/*",
+    "src/router/*"
   ],
   "exclude": [
     "types/generated/*"
   ],
   "files": [
-    "src/index.ts"
+    "src/exports/default.ts"
   ]
 }

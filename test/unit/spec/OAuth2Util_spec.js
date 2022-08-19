@@ -2,7 +2,7 @@
 import { loc } from 'okta';
 import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Settings from 'models/Settings';
 import { AuthSdkError } from '@okta/okta-auth-js';
 import Enums from 'util/Enums';

@@ -4,7 +4,7 @@ import BaseLoginRouter from 'v2/BaseLoginRouter';
 import FormController from 'v2/controllers/FormController';
 import Errors from 'util/Errors';
 import $sandbox from 'sandbox';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import XHRInteract from '../../../../playground/mocks/data/oauth2/interact.json';
 import XHRIdentifyWithPassword
   from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';

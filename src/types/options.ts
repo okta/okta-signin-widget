@@ -1,14 +1,19 @@
 // Minimum TypeScript Version: 3.8
 
-import { OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
+import { OktaAuthOptions } from '@okta/okta-auth-js';
 import {
   SimpleCallback,
   RenderResult,
   RenderError,
 } from './results';
 import { RegistrationOptions } from './registration';
+import { WidgetOktaAuthInterface } from './authClient';
 
-export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
+export interface WidgetOptions
+<
+  AI extends WidgetOktaAuthInterface = WidgetOktaAuthInterface
+>
+extends Partial<Pick<OktaAuthOptions,
   'issuer' | 
   'clientId' | 
   'redirectUri' |
@@ -25,7 +30,7 @@ export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
 
   // Auth client
   authParams?: AuthParams;
-  authClient?: OktaAuth;
+  authClient?: AI;
 
   // Basic config options
   baseUrl?: string;

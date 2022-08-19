@@ -3,7 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const signinWidgetOptions = require('../.widgetrc.js'); // commonJS module
 
-// import OktaSignIn from '../src/widget/OktaSignIn';
+// import OktaSignIn from '../src/exports/default';
 import {
   OktaSignInConstructor,
   OktaSignInAPI,

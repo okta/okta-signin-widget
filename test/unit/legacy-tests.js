@@ -25,7 +25,7 @@ module.exports = [
   'EnrollYubikey_spec.js',
   'ForgotPassword_spec.js',
   'IDPDiscovery_spec',
-  '/v1/LoginRouter_spec.js',
+  'LoginRouter_spec.js',
   'MfaVerify_spec.js',
   'MfaVerifyEmail_spec.js',
   'PasswordQuestion_spec.js',

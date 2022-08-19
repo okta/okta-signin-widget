@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { AbstractRouter } from 'types';
 import BaseLoginRouter, { BaseLoginRouterOptions } from './BaseLoginRouter';
 import FormController from './controllers/FormController';
 
@@ -18,7 +19,7 @@ const routes = {
   '*wildcard': 'defaultAuth',
 };
 
-export default class WidgetRouter extends BaseLoginRouter {
+export default class WidgetRouter extends BaseLoginRouter implements AbstractRouter {
   constructor(options: BaseLoginRouterOptions) {
     super({ routes, ...options });
   }
