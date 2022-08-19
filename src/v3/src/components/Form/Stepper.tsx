@@ -20,10 +20,9 @@ import Layout from './Layout';
 
 type StepperProps = {
   uischema: StepperLayout;
-  stepName: string;
 };
 
-const Stepper: any = ({ uischema, stepName }: StepperProps) => {
+const Stepper: any = ({ uischema }: StepperProps) => {
   const { elements, options } = uischema;
   const [stepIndex, setStepIndex] = useState<number | undefined>(() => {
     if (!options?.defaultStepIndex) {
@@ -40,10 +39,7 @@ const Stepper: any = ({ uischema, stepName }: StepperProps) => {
     // Scope setStepIndex by only providing it to its own children components
     // Nested stepper can be supported with this pattern
     <StepperContext.Provider value={{ setStepIndex, stepIndex }}>
-      <Layout
-        uischema={elements[stepIndex]}
-        stepName={stepName}
-      />
+      <Layout uischema={elements[stepIndex]} />
     </StepperContext.Provider>
   );
 };
