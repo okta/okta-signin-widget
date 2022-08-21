@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+export * from './useAutoFocus';
 export * from './useFormFieldValidation';
 export * from './useOnChange';
 export * from './useOnSubmit';
