@@ -23,7 +23,12 @@ exports[`enroll-profile-new should render form 1`] = `
             />
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-4"
+            tabindex="0"
           >
             <form
               class="o-form"
@@ -213,6 +218,7 @@ exports[`enroll-profile-new should render form 1`] = `
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
                       data-se="back"
                       href="javascript:void(0)"
+                      inputref="[object Object]"
                     >
                       Sign In
                     </a>
@@ -221,6 +227,10 @@ exports[`enroll-profile-new should render form 1`] = `
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>

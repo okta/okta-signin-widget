@@ -28,7 +28,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -147,6 +152,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -158,6 +164,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -165,6 +172,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -200,7 +211,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -404,6 +420,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -415,6 +432,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -422,6 +440,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -457,7 +479,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -607,6 +634,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -618,6 +646,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -625,6 +654,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -660,7 +693,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -808,6 +846,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -819,6 +858,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -826,6 +866,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -861,7 +905,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -1045,6 +1094,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -1056,6 +1106,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -1063,6 +1114,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -1098,7 +1153,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -1217,6 +1277,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -1228,6 +1289,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -1235,6 +1297,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -1270,7 +1336,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -1389,6 +1460,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -1400,6 +1472,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -1407,6 +1480,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -1442,7 +1519,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -1646,6 +1728,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -1657,6 +1740,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -1664,6 +1748,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -1699,7 +1787,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -3118,6 +3211,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -3129,6 +3223,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -3136,6 +3231,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -3171,7 +3270,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -3319,6 +3423,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -3330,6 +3435,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -3337,6 +3443,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -3372,7 +3482,12 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -3556,6 +3671,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -3567,6 +3683,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -3574,6 +3691,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>

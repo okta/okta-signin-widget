@@ -28,7 +28,12 @@ exports[`authenticator-enroll-security-question custom question renders correct 
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -204,7 +209,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                         Create my own security question
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-35"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-35"
                       >
                         <input
                           aria-invalid="false"
@@ -247,10 +252,10 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           Answer
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-43"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-43"
                         >
                           <input
-                            aria-invalid="true"
+                            aria-invalid="false"
                             class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-44"
                             data-se="credentials.answer"
                             id="credentials.answer"
@@ -296,19 +301,13 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           </fieldset>
                         </div>
                       </div>
-                      <p
-                        class="MuiFormHelperText-root Mui-error emotion-50"
-                        data-se="credentials.answer-error"
-                      >
-                        This field cannot be left blank
-                      </p>
                     </div>
                   </div>
                   <div
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-52"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-51"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -321,9 +320,10 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -332,9 +332,10 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -342,6 +343,10 @@ exports[`authenticator-enroll-security-question custom question renders correct 
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
@@ -377,7 +382,12 @@ exports[`authenticator-enroll-security-question predefined question renders corr
             </div>
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-5"
+            tabindex="0"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -775,6 +785,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -786,6 +797,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                     data-se="cancel"
                     href="javascript:void(0)"
+                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -793,6 +805,10 @@ exports[`authenticator-enroll-security-question predefined question renders corr
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
