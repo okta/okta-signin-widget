@@ -13,7 +13,7 @@
 import { Link as LinkMui } from '@mui/material';
 import { h } from 'preact';
 
-import { useOnSubmit } from '../../hooks';
+import { useAutoFocus, useOnSubmit } from '../../hooks';
 import { ClickHandler, LinkElement, UISchemaElementComponent } from '../../types';
 
 const Link: UISchemaElementComponent<{
@@ -28,8 +28,10 @@ const Link: UISchemaElementComponent<{
       isActionStep,
       step,
     },
+    focus,
   } = uischema;
   const onSubmitHandler = useOnSubmit();
+  const focusRef = useAutoFocus(focus);
 
   const onClick: ClickHandler = async (e) => {
     e.preventDefault();
@@ -47,6 +49,7 @@ const Link: UISchemaElementComponent<{
         // eslint-disable-next-line no-script-url
         href="javascript:void(0)"
         onClick={onClick}
+        inputRef={focusRef}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...(dataSe && { 'data-se': dataSe } )}
       >

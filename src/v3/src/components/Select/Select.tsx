@@ -19,14 +19,14 @@ import {
 } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
-import { useOnChange, useValue } from '../../hooks';
+import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 
 const Select: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const { label } = uischema;
+  const { label, focus } = uischema;
   const {
     inputMeta: {
       // @ts-ignore expose type from auth-js
@@ -37,6 +37,7 @@ const Select: UISchemaElementComponent<{
     customOptions,
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
+  const focusRef = useAutoFocus(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);
@@ -51,6 +52,7 @@ const Select: UISchemaElementComponent<{
         id={name}
         value={value}
         onChange={handleChange}
+        ref={focusRef}
       >
         {
           [<NativeSelect.Option
