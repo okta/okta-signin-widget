@@ -23,7 +23,12 @@ exports[`error-400-unauthorized-client should render form 1`] = `
             />
           </div>
           <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
             class="MuiBox-root emotion-4"
+            tabindex="0"
           >
             <form
               class="o-form"
@@ -70,6 +75,10 @@ exports[`error-400-unauthorized-client should render form 1`] = `
               </div>
             </form>
           </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
         </div>
       </main>
     </span>
