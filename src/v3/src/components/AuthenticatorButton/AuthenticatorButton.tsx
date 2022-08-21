@@ -17,7 +17,7 @@ import classNames from 'classnames';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useOnSubmit } from '../../hooks';
+import { useAutoFocus, useOnSubmit } from '../../hooks';
 import {
   AuthenticatorButtonElement,
   ClickHandler,
@@ -35,6 +35,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const ctaButtonClasses = classNames('cta-button', style.actionName);
   const {
     translations,
+    focus,
     options: {
       key: authenticationKey,
       actionParams,
@@ -47,6 +48,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const label = getTranslation(translations!, 'label');
   const { idxTransaction } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
+  const focusInput = useAutoFocus(focus);
 
   const onClick: ClickHandler = async () => {
     // TODO: pass step from uischema
@@ -72,6 +74,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       tabIndex={0}
       onClick={onClick}
       onKeyPress={onClick}
+      ref={focusInput}
     >
       { authenticationKey && (
         <Box data-se="authenticator-icon">

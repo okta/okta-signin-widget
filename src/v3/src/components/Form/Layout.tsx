@@ -79,15 +79,15 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
             return null;
           }
 
-          const uischemaElement = (element as UISchemaElement);
-          const fieldElement = (uischemaElement as FieldElement);
-          const isInputField = !Array.isArray(fieldElement.options?.inputMeta?.options) && !Array.isArray(fieldElement.options?.customOptions) && fieldElement.options?.inputMeta?.type !== 'boolean';
-
-          if (element.type === 'Field' && isInputField && !firstFieldFound) {
-            fieldElement.options = { ...fieldElement.options, focus: true };
+          const interactiveTypes = ['Field', 'StepperRadio', 'Button', 'AuthenticatorButton', 'WebAuthNSubmitButton', 'Link', 'StepperButton', 'Select'];
+          if (interactiveTypes.includes(element.type) && !firstFieldFound) {
+            // eslint-disable-next-line no-param-reassign
+            element = { ...element, focus: true };
             firstFieldFound = true;
           }
 
+          const uischemaElement = (element as UISchemaElement);
+          const fieldElement = (uischemaElement as FieldElement);
           const key = fieldElement.options?.inputMeta?.name && stepName
             ? `${fieldElement.options?.inputMeta?.name}_${stepName}`
             : elementKey;

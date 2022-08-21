@@ -17,9 +17,8 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { h } from 'preact';
-import { useEffect, useRef } from 'preact/hooks';
 
-import { useOnChange, useValue } from '../../hooks';
+import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent, UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -36,28 +35,21 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
 }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const { translations = [] } = uischema;
+  const { translations = [], focus } = uischema;
   const label = getTranslation(translations);
   const hint = getTranslation(translations, 'hint');
   const {
     attributes,
     inputMeta: { name },
     dataSe,
-    focus,
   } = uischema.options;
-  const firstInputRef = useRef<HTMLInputElement>(null);
+  const focusRef = useAutoFocus(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched?.(true);
     onChangeHandler(e.currentTarget.value);
     onValidateHandler?.(setError, e.currentTarget.value);
   };
-
-  useEffect(() => {
-    if (focus && firstInputRef.current) {
-      firstInputRef.current.focus();
-    }
-  }, [focus]);
 
   return (
     <Box>
@@ -79,7 +71,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           'data-se': dataSe,
           ...attributes,
         }}
-        inputRef={firstInputRef}
+        inputRef={focusRef}
       />
       {error && (
         <FormHelperText

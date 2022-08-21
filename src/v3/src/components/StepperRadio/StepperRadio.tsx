@@ -22,6 +22,7 @@ import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
+import { useAutoFocus } from '../../hooks';
 import {
   ChangeEvent,
   StepperRadioElement,
@@ -36,6 +37,7 @@ const StepperRadio: UISchemaElementComponent<{
   const { setData, setMessage } = widgetContext;
   const {
     label = '',
+    focus,
     options: {
       name,
       customOptions,
@@ -43,6 +45,7 @@ const StepperRadio: UISchemaElementComponent<{
     },
   } = uischema;
   const [value, setValue] = useState<string | boolean | number>(defaultOption ?? '');
+  const focusRef = useAutoFocus(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const stepIdx = customOptions.findIndex((opt) => opt.value === e.currentTarget.value);
@@ -69,12 +72,14 @@ const StepperRadio: UISchemaElementComponent<{
         onChange={handleChange}
       >
         {
-          customOptions?.map((item: IdxOption) => (
+          customOptions?.map((item: IdxOption, index) => (
             <FormControlLabel
               control={<Radio />}
               key={item.value}
               value={item.value}
               label={item.label}
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...(index === 0 && { inputRef: focusRef } )}
             />
           ))
         }

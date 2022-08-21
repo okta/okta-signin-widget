@@ -13,9 +13,8 @@
 import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { useEffect, useRef } from 'preact/hooks';
 
-import { useOnChange, useValue } from '../../hooks';
+import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent,
   UISchemaElementComponent,
@@ -34,13 +33,12 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const label = getTranslation(uischema.translations!);
-  const { translations = [] } = uischema;
+  const { translations = [], focus } = uischema;
   const {
     attributes,
-    focus,
     inputMeta: { name },
   } = uischema.options;
-  const firstInputRef = useRef<HTMLInputElement>(null);
+  const focusRef = useAutoFocus(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const changedVal = e.currentTarget.value;
@@ -48,12 +46,6 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     onChangeHandler(changedVal);
     onValidateHandler?.(setError, changedVal);
   };
-
-  useEffect(() => {
-    if (focus && firstInputRef.current) {
-      firstInputRef.current.focus();
-    }
-  }, [focus]);
 
   return (
     <Box>
@@ -76,7 +68,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           'data-se': name,
           ...attributes,
         }}
-        ref={firstInputRef}
+        ref={focusRef}
       />
       {error && (
         <FormHelperText
