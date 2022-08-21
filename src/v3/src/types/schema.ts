@@ -105,6 +105,7 @@ export interface UISchemaElement {
    */
   label?: string;
   noMargin?: boolean;
+  focus?: boolean;
 }
 
 export interface UISchemaLayout {
