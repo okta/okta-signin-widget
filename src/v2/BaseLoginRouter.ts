@@ -127,7 +127,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     await updateAppState(this.appState, formattedError.details);
   }
 
-  /* eslint max-statements: [2, 34], complexity: [2, 14] */
+  /* eslint max-statements: [2, 36], complexity: [2, 15] */
   async render(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
@@ -171,8 +171,12 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
           await updateAppState(this.appState, idxResp);
         }
       } catch (exception) {
-        error = exception;
-        await this.handleError(exception);
+        if (exception.is?.('terminal')) {
+          this.appState.setNonIdxError(exception);
+        } else {
+          error = exception;
+          await this.handleError(exception);
+        }
       } finally {
         // These settings should only be used one time, for initial render
         this.settings.unset('stateToken');
