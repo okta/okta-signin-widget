@@ -11,12 +11,12 @@
  */
 
 import { act } from 'preact/test-utils';
+import { within } from '@testing-library/preact';
 import { setup } from './util';
 
 import authenticatorVerificationEmail from '../../src/mocks/response/idp/idx/challenge/default.json';
 import authenticatorVerificationEmailInvalidOtp from '../../src/mocks/response/idp/idx/challenge/error-401-invalid-otp-passcode.json';
 import sessionExpiredResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
-import { within } from '@testing-library/preact';
 
 describe('authenticator-verification-email', () => {
   describe('renders correct form', () => {
