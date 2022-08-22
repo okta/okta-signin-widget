@@ -48,7 +48,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const label = getTranslation(translations!, 'label');
   const { idxTransaction } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
-  const focusInput = useAutoFocus(focus);
+  const focusRef = useAutoFocus(focus);
 
   const onClick: ClickHandler = async () => {
     // TODO: pass step from uischema
@@ -74,7 +74,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       tabIndex={0}
       onClick={onClick}
       onKeyPress={onClick}
-      ref={focusInput}
+      ref={focusRef}
     >
       { authenticationKey && (
         <Box data-se="authenticator-icon">
