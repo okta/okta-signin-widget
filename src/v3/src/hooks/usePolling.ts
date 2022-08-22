@@ -15,16 +15,10 @@ import {
   useEffect, useMemo, useRef, useState,
 } from 'preact/hooks';
 
-import { IDX_STEP } from '../constants';
-import { WidgetOptions } from '../types';
+import { FormBag, WidgetOptions } from '../types';
+import { isPollingStep } from '../util';
 
 const DEFAULT_TIMEOUT = 4000;
-const POLL_STEPS = [
-  IDX_STEP.CHALLENGE_POLL,
-  IDX_STEP.DEVICE_CHALLENGE_POLL,
-  IDX_STEP.ENROLL_POLL,
-  IDX_STEP.POLL,
-];
 
 const getPollingStep = (
   transaction: IdxTransaction | undefined,
@@ -44,6 +38,17 @@ const getPollingStep = (
   }
 
   return pollingStep;
+};
+
+const getAutoChallengeValue = (
+  transaction: IdxTransaction | undefined,
+  data: FormBag['data'],
+): boolean | undefined => {
+  const { nextStep: { inputs = [] } = {} } = transaction || {};
+  const preSelectedAutoChallenge = inputs?.find((input) => input.name === 'autoChallenge')?.value;
+  return preSelectedAutoChallenge !== undefined || data.autoChallenge !== undefined
+    ? (data.autoChallenge ?? preSelectedAutoChallenge) as boolean
+    : undefined;
 };
 
 // returns polling transaction or undefined
@@ -69,9 +74,7 @@ export const usePolling = (
   // start polling timer when internal polling transaction changes
   useEffect(() => {
     if (!pollingStep) {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
+      clearTimeout(timerRef.current);
       setTransaction(undefined);
       return undefined;
     }
@@ -81,17 +84,18 @@ export const usePolling = (
     // one time request
     // the following polling requests will be triggered based on idxTransaction update
     timerRef.current = setTimeout(async () => {
-      // TODO: Revert to use action once this fix is completed OKTA-512706
       let payload: IdxActionParams = {};
-      if (data.autoChallenge !== undefined) {
-        payload.autoChallenge = data.autoChallenge as boolean;
+      const autoChallenge = getAutoChallengeValue(idxTransaction, data);
+      if (autoChallenge !== undefined) {
+        payload.autoChallenge = autoChallenge;
       }
       // POLL_STEPS are not an action, so must treat as such
-      if (POLL_STEPS.includes(name)) {
+      if (isPollingStep(name)) {
         payload.step = name;
       } else {
         payload = { actions: [{ name, params: payload }] };
       }
+      // TODO: Revert to use action once this fix is completed OKTA-512706
       const newTransaction = await authClient?.idx.proceed({
         stateHandle: stateToken && idxTransaction?.context?.stateHandle,
         ...payload,

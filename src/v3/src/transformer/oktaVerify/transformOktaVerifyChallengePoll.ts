@@ -15,6 +15,7 @@ import { NextStep } from '@okta/okta-auth-js';
 import PhoneSvg from '../../img/phone-icon.svg';
 import {
   DescriptionElement,
+  FieldElement,
   IdxStepTransformer,
   ImageWithTextElement,
   ReminderElement,
@@ -22,16 +23,21 @@ import {
   TitleElement,
 } from '../../types';
 import { loc } from '../../util';
+import { getUIElementWithName } from '../utils';
 
 export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { relatesTo } = nextStep;
-  const { uischema } = formBag;
+  const { uischema, data } = formBag;
 
   const [selectedMethod] = relatesTo?.value?.methods || [];
   if (!selectedMethod) {
     return formBag;
   }
+
+  // Need to initialize autoChallenge checkbox if it is set otherwise it will not display in UI
+  const autoChallenge = getUIElementWithName('autoChallenge', uischema.elements) as FieldElement;
+  data.autoChallenge = autoChallenge?.options?.inputMeta?.value;
 
   // @ts-ignore OKTA-496373 correctAnswer is missing from interface
   const correctAnswer = relatesTo?.value?.contextualData?.correctAnswer;

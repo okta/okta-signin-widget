@@ -109,6 +109,109 @@ describe('usePolling', () => {
       expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 5000);
     });
 
+    it('should trigger poll request with autoChallenge=false when transaction contains input value', async () => {
+      // @ts-ignore remove after adding refresh to nextStep in auth-js
+      const idxTransaction = {
+        nextStep: {
+          name: 'challenge-poll',
+          refresh: 4000,
+          inputs: [{ name: 'autoChallenge', value: false }],
+        },
+      } as IdxTransaction;
+      const { result } = renderHook(() => usePolling(idxTransaction, mockProps, mockData));
+
+      // expect to setup timer
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 4000);
+
+      // expect to call action function when timeout
+      jest.advanceTimersByTime(4000);
+      expect(mockProceedFn).toHaveBeenCalledWith({
+        stateHandle: undefined,
+        autoChallenge: false,
+        step: 'challenge-poll',
+      });
+
+      // expect to return new polling transaction
+      await waitFor(() => {
+        expect(result.current).toMatchObject({
+          nextStep: {
+            name: 'challenge-poll',
+            refresh: 4000,
+          },
+        });
+      });
+    });
+
+    it('should trigger poll request with autoChallenge=true when data contains user selected value', async () => {
+      // @ts-ignore remove after adding refresh to nextStep in auth-js
+      const idxTransaction = {
+        nextStep: {
+          name: 'challenge-poll',
+          refresh: 4000,
+        },
+      } as IdxTransaction;
+      mockData.autoChallenge = true;
+      const { result } = renderHook(() => usePolling(idxTransaction, mockProps, mockData));
+
+      // expect to setup timer
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 4000);
+
+      // expect to call action function when timeout
+      jest.advanceTimersByTime(4000);
+      expect(mockProceedFn).toHaveBeenCalledWith({
+        stateHandle: undefined,
+        autoChallenge: true,
+        step: 'challenge-poll',
+      });
+
+      // expect to return new polling transaction
+      await waitFor(() => {
+        expect(result.current).toMatchObject({
+          nextStep: {
+            name: 'challenge-poll',
+            refresh: 4000,
+          },
+        });
+      });
+    });
+
+    it('should trigger poll request with autoChallenge=true when data contains user selected value and transaction contains different value', async () => {
+      // @ts-ignore remove after adding refresh to nextStep in auth-js
+      const idxTransaction = {
+        nextStep: {
+          name: 'challenge-poll',
+          refresh: 4000,
+          inputs: [{ name: 'autoChallenge', value: false }],
+        },
+      } as IdxTransaction;
+      mockData.autoChallenge = true;
+      const { result } = renderHook(() => usePolling(idxTransaction, mockProps, mockData));
+
+      // expect to setup timer
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 4000);
+
+      // expect to call action function when timeout
+      jest.advanceTimersByTime(4000);
+      expect(mockProceedFn).toHaveBeenCalledWith({
+        stateHandle: undefined,
+        autoChallenge: true,
+        step: 'challenge-poll',
+      });
+
+      // expect to return new polling transaction
+      await waitFor(() => {
+        expect(result.current).toMatchObject({
+          nextStep: {
+            name: 'challenge-poll',
+            refresh: 4000,
+          },
+        });
+      });
+    });
+
     it('uses default timeout when no refresh is found from transaction', () => {
       const mockAction = jest.fn().mockResolvedValue({});
       const idxTransaction = {

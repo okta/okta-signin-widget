@@ -20,6 +20,7 @@ export * from './getImmutableData';
 export * from './getTranslation';
 export * from './idxUtils';
 export * from './isPasswordRecovery';
+export * from './isPollingStep';
 export * from './languageUtils';
 export * from './locUtil';
 export * from './passwordUtils';
