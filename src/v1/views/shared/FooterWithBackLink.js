@@ -16,9 +16,11 @@ import Enums from 'util/Enums';
 export default View.extend({
   template: hbs(
     '\
+    {{#if showLink}}\
       <a href="#" class="link help" data-se="back-link">\
         {{i18n code="goback" bundle="login"}}\
       </a>\
+    {{/if}}\
     '
   ),
   className: 'auth-footer',
@@ -32,4 +34,11 @@ export default View.extend({
     this.state.set('navigateDir', Enums.DIRECTION_BACK);
     this.options.appState.trigger('navigate', '');
   },
+  getTemplateData: function() {
+    const error = this.model.appState.get('flashError');
+    const showLink = error.is && error.is('terminal');
+    return {
+      showLink: showLink
+    };
+  }
 });

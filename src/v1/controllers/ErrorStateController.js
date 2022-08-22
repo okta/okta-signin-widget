@@ -11,10 +11,12 @@
  */
 
 import FormController from 'v1/util/FormController';
+import FooterWithBackLink from 'v1/views/shared/FooterWithBackLink';
 export default FormController.extend({
   className: 'error-state',
   Model: {},
   Form: {
     noButtonBar: true,
   },
+  Footer: FooterWithBackLink,
 });

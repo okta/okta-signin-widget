@@ -47,7 +47,8 @@ util.getTokens = function(settings, params, controller) {
   function error(error) {
     const typedError = getTypedOAuthError(error);
     if (typedError.is('terminal')) {
-      controller.hideFormAndShowBackToSignIn();
+      controller.model.appState.set('flashError', typedError);
+      controller.model.appState.trigger('navigate', 'signin/error');
     } else if (typedError.is('visible')) {
       controller.model.trigger('error', controller.model, { responseJSON: typedError.errorDetails });
       controller.model.appState.trigger('removeLoading');

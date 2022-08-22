@@ -62,7 +62,7 @@ class ClockDriftError extends RecoverableError<TerminalErrorType> {
   }
 
   getErrorSummary(): string {
-    return 'Check your system clock';
+    return loc('error.unsynced.clock', 'login');
   }
 }
 
@@ -102,21 +102,17 @@ function getTypedOAuthError(error: AuthSdkError | SdkOAuthError) {
     case 'jit_failure_values_too_long':
     case 'jit_failure_invalid_locale':
       return new JITProfileProvisioningError(error);
-    
-    case 'login_required':
+
+      case 'login_required':
       const mfaRequiredMsg = 'The client specified not to prompt, but the client app requires re-authentication or MFA.';
       if (error.message === mfaRequiredMsg) {
         return new MfaRequiredError(error);
       }
-      break;
-
     case 'INTERNAL':
       const clockDriftMsg = 'The JWT was issued in the future';
       if (error.message === clockDriftMsg) {
         return new ClockDriftError(error);
       }
-      break;
-
     default:
       return new RecoverableError(error, Object);
   }
@@ -129,5 +125,6 @@ export {
   ClockDriftError,
   UserNotAssignedError,
   MfaRequiredError,
+  TypedOAuthError,
   getTypedOAuthError
 }
