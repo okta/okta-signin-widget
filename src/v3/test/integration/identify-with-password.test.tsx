@@ -138,7 +138,6 @@ describe('identify-with-password', () => {
       expect(queryByTestId('identifier-error')).toBeNull();
       expect(queryByTestId('credentials.passcode-error')).toBeNull();
 
-      //expect(document.body).toHaveFocus();
       await user.tab();
       expect(identifierEle).toHaveFocus();
       await user.tab();
