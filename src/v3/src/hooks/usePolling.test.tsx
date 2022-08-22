@@ -11,7 +11,7 @@
  */
 
 import { IdxTransaction, NextStep, OktaAuth } from '@okta/okta-auth-js';
-import { waitFor } from '@testing-library/preact';
+import { cleanup, waitFor } from '@testing-library/preact';
 import { renderHook } from '@testing-library/preact-hooks';
 import { WidgetProps } from 'src/types';
 
@@ -41,6 +41,7 @@ describe('usePolling', () => {
 
   afterEach(() => {
     jest.useRealTimers();
+    cleanup();
   });
 
   describe('idxTransaction does not include polling step - returns undefined and no timer', () => {
@@ -126,7 +127,6 @@ describe('usePolling', () => {
 
       // expect to call action function when timeout
       jest.advanceTimersByTime(4000);
-      // expect(mockProceedFn).toHaveBeenCalled();
       expect(mockProceedFn).toHaveBeenCalledWith({
         stateHandle: undefined,
         autoChallenge: false,
@@ -161,7 +161,6 @@ describe('usePolling', () => {
 
       // expect to call action function when timeout
       jest.advanceTimersByTime(4000);
-      // expect(mockProceedFn).toHaveBeenCalled();
       expect(mockProceedFn).toHaveBeenCalledWith({
         stateHandle: undefined,
         autoChallenge: true,
@@ -197,7 +196,6 @@ describe('usePolling', () => {
 
       // expect to call action function when timeout
       jest.advanceTimersByTime(4000);
-      // expect(mockProceedFn).toHaveBeenCalled();
       expect(mockProceedFn).toHaveBeenCalledWith({
         stateHandle: undefined,
         autoChallenge: true,

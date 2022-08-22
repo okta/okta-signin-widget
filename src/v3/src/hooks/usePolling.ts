@@ -80,9 +80,7 @@ export const usePolling = (
   // start polling timer when internal polling transaction changes
   useEffect(() => {
     if (!pollingStep) {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
+      clearTimeout(timerRef.current);
       setTransaction(undefined);
       return undefined;
     }
