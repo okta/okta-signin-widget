@@ -10,15 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useEffect, useRef } from 'preact/hooks';
-
-export const useAutoFocus = (focus: boolean | undefined) => {
-  const inputRef = useRef<HTMLInputElement>();
+import { MutableRef, useEffect, useRef } from 'preact/hooks';
+type InteractiveElement =
+| HTMLInputElement
+| HTMLButtonElement
+| HTMLTextAreaElement
+| HTMLSelectElement
+| HTMLAnchorElement;
+export const useAutoFocus = (
+  focus?: boolean,
+): MutableRef<InteractiveElement | undefined> => {
+  const inputRef = useRef<InteractiveElement>();
   useEffect(() => {
     if (focus && inputRef.current) {
       inputRef.current.focus();
     }
   }, [focus]);
-
   return inputRef;
 };
