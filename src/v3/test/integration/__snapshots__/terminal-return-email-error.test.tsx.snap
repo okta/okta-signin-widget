@@ -33,7 +33,7 @@ exports[`terminal-return-email-error should render form 1`] = `
           />
           <div
             class="MuiBox-root emotion-5"
-            tabindex="0"
+            tabindex="-1"
           >
             <form
               class="o-form"

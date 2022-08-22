@@ -28,7 +28,7 @@ exports[`error-recovery-token-invalid should render form 1`] = `
           />
           <div
             class="MuiBox-root emotion-4"
-            tabindex="0"
+            tabindex="-1"
           >
             <form
               class="o-form"
