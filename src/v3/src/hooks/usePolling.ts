@@ -15,16 +15,10 @@ import {
   useEffect, useMemo, useRef, useState,
 } from 'preact/hooks';
 
-import { IDX_STEP } from '../constants';
 import { FormBag, WidgetOptions } from '../types';
+import { isPollingStep } from '../util';
 
 const DEFAULT_TIMEOUT = 4000;
-const POLL_STEPS = [
-  IDX_STEP.CHALLENGE_POLL,
-  IDX_STEP.DEVICE_CHALLENGE_POLL,
-  IDX_STEP.ENROLL_POLL,
-  IDX_STEP.POLL,
-];
 
 const getPollingStep = (
   transaction: IdxTransaction | undefined,
@@ -96,7 +90,7 @@ export const usePolling = (
         payload.autoChallenge = autoChallenge;
       }
       // POLL_STEPS are not an action, so must treat as such
-      if (POLL_STEPS.includes(name)) {
+      if (isPollingStep(name)) {
         payload.step = name;
       } else {
         payload = { actions: [{ name, params: payload }] };
