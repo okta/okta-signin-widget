@@ -29,11 +29,27 @@ export const getWorker = async (): Promise<SetupWorkerApi | null> => {
     const scenarioName = params.get('siw-mock-scenario') ?? DEFAULT_SCENARIO_NAME;
 
     // pass through mock response from query params
-    const mockResponseParam = params.get('siw-mock-response');
+    const responseName = params.get('siw-mock-response')
+      ?.replace(/^\//, '')
+      ?.replace(/\/$/, '');
+
     let mockResponse;
-    mockResponse = require(`./response/${mockResponseParam}.json`);
-    if (!mockResponse) {
-      mockResponse = require(`@okta/mocks/data/idp/idx/${mockResponseParam}.json`);
+    try {
+      mockResponse = require(`./response/${responseName}.json`);
+    } catch (error) {
+      try {
+        mockResponse = require(`./response/idp/idx/${responseName}.json`);
+      } catch (error) {
+        try {
+          mockResponse = require(`@okta/mocks/data/idp/idx/${responseName}.json`);
+        } catch (error) {
+          try {
+            mockResponse = require(`@okta/mocks/data/${responseName}.json`);
+          } catch (error) {
+            mockResponse = null;
+          }
+        }
+      }
     }
 
     const handlers = loadScenario(scenarioName, mockResponse);
