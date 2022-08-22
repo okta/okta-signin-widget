@@ -21,7 +21,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { isDevelopmentEnvironment, isTestEnvironment } from '../../util';
+import { isDevelopmentEnvironment, isInteractiveType, isTestEnvironment } from '../../util';
 import renderers from './renderers';
 // eslint-disable-next-line import/no-cycle
 import Stepper from './Stepper';
@@ -85,6 +85,11 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
           }
 
           const uischemaElement = (element as UISchemaElement);
+          if (isInteractiveType(uischemaElement.type) && !firstFieldFound) {
+            uischemaElement.focus = true;
+            firstFieldFound = true;
+          }
+
           const Component = renderer.renderer as UISchemaElementComponent;
           return (
             <Box
