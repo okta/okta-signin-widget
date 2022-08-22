@@ -31,7 +31,7 @@ export const getWorker = async (): Promise<SetupWorkerApi | null> => {
     // pass through mock response from query params
     const mockResponseParam = params.get('siw-mock-response');
     let mockResponse;
-    mockResponse = require(`./response${mockResponseParam}.json`);
+    mockResponse = require(`./response/${mockResponseParam}.json`);
     if (!mockResponse) {
       mockResponse = require(`@okta/mocks/data/idp/idx/${mockResponseParam}.json`);
     }
