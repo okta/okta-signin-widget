@@ -19,6 +19,7 @@ export * from './getAuthenticatorKey';
 export * from './getImmutableData';
 export * from './getTranslation';
 export * from './idxUtils';
+export * from './isInteractiveElement';
 export * from './isPasswordRecovery';
 export * from './languageUtils';
 export * from './locUtil';

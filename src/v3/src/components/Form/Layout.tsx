@@ -21,7 +21,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { isDevelopmentEnvironment, isTestEnvironment } from '../../util';
+import { isDevelopmentEnvironment, isInteractiveType, isTestEnvironment } from '../../util';
 import renderers from './renderers';
 // eslint-disable-next-line import/no-cycle
 import Stepper from './Stepper';
@@ -79,14 +79,12 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
             return null;
           }
 
-          const interactiveTypes = ['Field', 'StepperRadio', 'Button', 'AuthenticatorButton', 'WebAuthNSubmitButton', 'Link', 'StepperButton', 'Select'];
-          if (interactiveTypes.includes(element.type) && !firstFieldFound) {
-            // eslint-disable-next-line no-param-reassign
-            element = { ...element, focus: true };
+          const uischemaElement = (element as UISchemaElement);
+          if (isInteractiveType(uischemaElement.type) && !firstFieldFound) {
+            uischemaElement.focus = true;
             firstFieldFound = true;
           }
 
-          const uischemaElement = (element as UISchemaElement);
           const fieldElement = (uischemaElement as FieldElement);
           const key = fieldElement.options?.inputMeta?.name && stepName
             ? `${fieldElement.options?.inputMeta?.name}_${stepName}`
