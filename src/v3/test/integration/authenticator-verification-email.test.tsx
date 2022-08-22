@@ -11,10 +11,12 @@
  */
 
 import { act } from 'preact/test-utils';
+import { within } from '@testing-library/preact';
 import { setup } from './util';
 
 import authenticatorVerificationEmail from '../../src/mocks/response/idp/idx/challenge/default.json';
 import authenticatorVerificationEmailInvalidOtp from '../../src/mocks/response/idp/idx/challenge/error-401-invalid-otp-passcode.json';
+import sessionExpiredResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
 
 describe('authenticator-verification-email', () => {
   describe('renders correct form', () => {
@@ -149,6 +151,34 @@ describe('authenticator-verification-email', () => {
           withCredentials: true,
         },
       );
+    });
+
+    it('should render session expired terminal view when polling results in expired session', async () => {
+      const {
+        container,
+        findByText,
+        findByTestId,
+      } = await setup({
+        mockResponses: {
+          '/introspect': {
+            data: authenticatorVerificationEmail,
+            status: 200,
+          },
+          '/challenge/poll': {
+            data: sessionExpiredResponse,
+            status: 401,
+          },
+        },
+      });
+      await findByText(/Verify with your email/);
+
+      // allow polling request to be triggered
+      jest.advanceTimersByTime(5000 /* refresh: 4000 */);
+
+      const errorAlert = await findByTestId('infobox-error');
+      await within(errorAlert).findByText(/You have been logged out due to inactivity/);
+
+      expect(container).toMatchSnapshot();
     });
   });
 
