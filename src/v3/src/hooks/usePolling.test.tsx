@@ -11,7 +11,7 @@
  */
 
 import { IdxTransaction, NextStep, OktaAuth } from '@okta/okta-auth-js';
-import { cleanup, waitFor } from '@testing-library/preact';
+import { waitFor } from '@testing-library/preact';
 import { renderHook } from '@testing-library/preact-hooks';
 import { WidgetProps } from 'src/types';
 
@@ -41,7 +41,6 @@ describe('usePolling', () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    cleanup();
   });
 
   describe('idxTransaction does not include polling step - returns undefined and no timer', () => {
