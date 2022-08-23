@@ -274,6 +274,13 @@ export default Controller.extend({
       if (resp.status === IdxStatus.FAILURE) {
         throw resp.error; // caught and handled in this function
       }
+      // follow idx transaction to render terminal view for session expired error
+      if (IonResponseHelper.isIdxSessionExpiredError(resp)) {
+        const authClient = this.settings.getAuthClient();
+        authClient.transactionManager.clear();
+        await this.handleIdxResponse(resp);
+        return;
+      }
       // If the last request did not succeed, show errors on the current form
       // Special case: Okta server responds 401 status code with WWW-Authenticate header and new remediation
       // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
@@ -362,12 +369,6 @@ export default Controller.extend({
     // For eg 429 rate-limit errors, we have to skip updating idx state, because error response is not an idx response.
     if (Array.isArray(idxStateError?.neededToProceed) && idxStateError?.neededToProceed.length) {
       await this.handleIdxResponse(idxStateError);
-    }
-
-    // 'idx.session.expired' requires special handling, otherwise the widget can lock up into an unrecoverable state
-    if (IonResponseHelper.isIdxSessionExpiredError(idxStateError)) {
-      const authClient = this.settings.getAuthClient();
-      authClient.transactionManager.clear();
     }
   },
 
