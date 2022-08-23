@@ -4,9 +4,11 @@ import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
 import getAuthClient from 'widget/getAuthClient';
 import Settings from 'models/Settings';
-import { AuthSdkError } from '@okta/okta-auth-js';
+import { AuthSdkError, OAuthError } from '@okta/okta-auth-js';
 import Enums from 'util/Enums';
 import { OAuthError } from 'util/Errors';
+import { NonRecoverableError } from 'util/OAuthErrors';
+
 
 
 describe('util/OAuth2Util', function() {
@@ -57,6 +59,25 @@ describe('util/OAuth2Util', function() {
         expect(Util.triggerAfterError).toHaveBeenCalledTimes(1);
         const exceptionMessage = Util.triggerAfterError.calls.mostRecent().args[1].message;
         expect(exceptionMessage).toEqual('Auth SDK error');
+        done();
+      }).catch(done.fail);
+    });
+
+    it('calls globalError function when encountering non-recoverable error', function(done) {
+      spyOn(authClient.token, 'getWithPopup').and.callFake(function() {
+        return new Promise(function() {
+          throw new OAuthError(
+            'login_required', 'The client specified not to prompt, but the client app requires re-authentication or MFA.');
+        });
+      });
+
+      return new Promise(function(resolve) {
+        spyOn(settings, 'callGlobalError').and.callFake(resolve);
+        OAuth2Util.getTokens(settings, {}, controller);
+      }).then(function() {
+        expect(settings.callGlobalError).toHaveBeenCalledTimes(1);
+        const exception= settings.callGlobalError.calls.mostRecent().args[0];
+        expect(exception).toBeInstanceOf(NonRecoverableError);
         done();
       }).catch(done.fail);
     });

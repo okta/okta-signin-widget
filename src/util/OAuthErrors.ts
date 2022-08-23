@@ -2,17 +2,17 @@ import { AuthSdkError, FieldError, OAuthError as SdkOAuthError} from '@okta/okta
 import * as Errors from './Errors';
 import { loc } from 'okta';
 
-type ErrorTraits = 'visible' | 'terminal';
+type ErrorTraits = 'inline' | 'terminal';
 
 type ErrorType = {
   [key in ErrorTraits]?: boolean;
 };
 
-class UserFacingErrorType implements ErrorType {
-  visible = true;
+class InlineErrorType implements ErrorType {
+  inline = true;
 }
 
-class TerminalErrorType extends UserFacingErrorType {
+class TerminalErrorType implements ErrorType {
   terminal = true;
 }
 
@@ -66,24 +66,24 @@ class ClockDriftError extends RecoverableError<TerminalErrorType> {
   }
 }
 
-class UserNotAssignedError extends RecoverableError<UserFacingErrorType> {
+class UserNotAssignedError extends RecoverableError<InlineErrorType> {
   constructor(error) {
-    super(error, UserFacingErrorType);
+    super(error, InlineErrorType);
   }
 }
 
-class JITProfileProvisioningError extends RecoverableError<UserFacingErrorType> {
+class JITProfileProvisioningError extends RecoverableError<InlineErrorType> {
   constructor(error) {
-    super(error, UserFacingErrorType);
+    super(error, InlineErrorType);
   }
   getErrorSummary(): string {
     return loc('error.jit_failure', 'login');
   }
 }
 
-class MfaRequiredError extends NonRecoverableError<UserFacingErrorType> {
+class MfaRequiredError extends NonRecoverableError<InlineErrorType> {
   constructor(error) {
-    super(error, UserFacingErrorType);
+    super(error, InlineErrorType);
   }
 
   getErrorSummary(): string {

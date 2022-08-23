@@ -49,7 +49,7 @@ util.getTokens = function(settings, params, controller) {
     if (typedError.is('terminal')) {
       controller.model.appState.set('flashError', typedError);
       controller.model.appState.trigger('navigate', 'signin/error');
-    } else if (typedError.is('visible')) {
+    } else if (typedError.is('inline')) {
       controller.model.trigger('error', controller.model, {
         responseJSON: {
           errorSummary: typedError.errorDetails.errorSummary
