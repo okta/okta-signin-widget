@@ -37,7 +37,7 @@ const Select: UISchemaElementComponent<{
     customOptions,
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
-  const focusRef = useAutoFocus(focus);
+  const focusRef = useAutoFocus<HTMLSelectElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);

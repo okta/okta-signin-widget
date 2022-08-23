@@ -71,7 +71,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const methodType = data['authenticator.methodType'];
   const showExtension = methodType === 'voice';
   const onChangeHandler = useOnChange(uischema);
-  const focusRef = useAutoFocus(focus);
+  const focusRef = useAutoFocus<HTMLSelectElement>(focus);
 
   const formatPhone = (
     phoneNumber: string,

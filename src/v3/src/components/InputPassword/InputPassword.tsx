@@ -38,7 +38,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     attributes,
     inputMeta: { name },
   } = uischema.options;
-  const focusRef = useAutoFocus(focus);
+  const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const changedVal = e.currentTarget.value;

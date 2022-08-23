@@ -44,7 +44,7 @@ const Radio: UISchemaElementComponent<{
     focus,
   } = uischema;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
-  const focusRef = useAutoFocus(focus);
+  const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);
