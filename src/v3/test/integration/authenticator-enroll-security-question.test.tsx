@@ -199,6 +199,7 @@ describe('authenticator-enroll-security-question', () => {
 
       await user.click(submitButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        // TODO: OKTA-526754 - extract this payload into a re-usable util function
         'POST',
         'http://localhost:3000/idp/idx/challenge/answer',
         {
@@ -221,6 +222,7 @@ describe('authenticator-enroll-security-question', () => {
       expect(answerEleError.innerHTML).toEqual('The security question answer must be at least 4 characters in length');
       await user.click(await findByText('Verify', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        // TODO: OKTA-526754 - extract this payload into a re-usable util function
         'POST',
         'http://localhost:3000/idp/idx/challenge/answer',
         {
