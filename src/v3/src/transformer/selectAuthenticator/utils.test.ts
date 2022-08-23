@@ -12,7 +12,7 @@
 
 import { Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY } from 'src/constants';
+import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 
 import {
   getAuthenticatorEnrollButtonElements,
@@ -22,9 +22,10 @@ import {
 } from './utils';
 
 describe('Select Authenticator Utility Tests', () => {
+  const stepName = IDX_STEP.SELECT_AUTHENTICATOR_ENROLL;
   describe('getOVMethodTypeAuthenticatorButtonElements Tests', () => {
     it('should return an empty array when an empty array of options is provided', () => {
-      expect(getOVMethodTypeAuthenticatorButtonElements([])).toEqual([]);
+      expect(getOVMethodTypeAuthenticatorButtonElements([], stepName)).toEqual([]);
     });
 
     it('should return formatted Authenticator Option Values '
@@ -33,7 +34,7 @@ describe('Select Authenticator Utility Tests', () => {
         { label: 'Enter a code', value: 'totp' } as IdxOption,
         { label: 'Get a push notification', value: 'push' } as IdxOption,
       ];
-      expect(getOVMethodTypeAuthenticatorButtonElements(options)).toEqual([
+      expect(getOVMethodTypeAuthenticatorButtonElements(options, stepName)).toEqual([
         {
           type: 'AuthenticatorButton',
           label: options[0].label,
@@ -112,7 +113,7 @@ describe('Select Authenticator Utility Tests', () => {
 
   describe('getAuthenticatorVerifyButtonElements Tests', () => {
     it('should return empty array when no authenticator options are provided', () => {
-      expect(getAuthenticatorVerifyButtonElements([])).toEqual([]);
+      expect(getAuthenticatorVerifyButtonElements([], stepName)).toEqual([]);
     });
 
     it('should return formatted authenticator options when raw options are provided', () => {
@@ -138,7 +139,7 @@ describe('Select Authenticator Utility Tests', () => {
           }
           return option;
         });
-      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options);
+      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
 
       expect(authenticatorOptionValues.length).toBe(14);
       options.forEach((option) => {
@@ -176,7 +177,7 @@ describe('Select Authenticator Utility Tests', () => {
         },
       }];
 
-      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options);
+      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
 
       expect(authenticatorOptionValues.length).toBe(2);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
@@ -192,7 +193,7 @@ describe('Select Authenticator Utility Tests', () => {
 
   describe('getAuthenticatorEnrollButtonElements Tests', () => {
     it('should return empty array when no authenticator options are provided', () => {
-      expect(getAuthenticatorEnrollButtonElements([])).toEqual([]);
+      expect(getAuthenticatorEnrollButtonElements([], stepName)).toEqual([]);
     });
 
     it('should return formatted authenticator options when raw options are provided', () => {
@@ -218,7 +219,7 @@ describe('Select Authenticator Utility Tests', () => {
           }
           return option;
         });
-      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options);
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options, stepName);
 
       expect(authenticatorOptionValues.length).toBe(14);
       options.forEach((option) => {
@@ -246,7 +247,7 @@ describe('Select Authenticator Utility Tests', () => {
           key: AUTHENTICATOR_KEY.ON_PREM,
         },
       }];
-      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options);
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options, stepName);
 
       expect(authenticatorOptionValues.length).toBe(1);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.ON_PREM);
@@ -280,7 +281,7 @@ describe('Select Authenticator Utility Tests', () => {
         },
       }];
 
-      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options);
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options, stepName);
 
       expect(authenticatorOptionValues.length).toBe(2);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Input } from '@okta/okta-auth-js';
+import { Input, NextStep } from '@okta/okta-auth-js';
 
 import {
   ButtonElement,
@@ -26,7 +26,7 @@ import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { getOVMethodTypeAuthenticatorButtonElements, isOnlyPushWithAutoChallenge } from './utils';
 
 export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { nextStep: { inputs } = {} } = transaction;
+  const { nextStep: { inputs, name: stepName } = {} as NextStep } = transaction;
   const authenticator = inputs?.find(({ name }) => name === 'authenticator') as Input;
   if (!authenticator) {
     return formBag;
@@ -58,7 +58,7 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
       label: loc('oie.okta_verify.sendPushButton', 'login'),
       options: {
         type: ButtonType.SUBMIT,
-        step: transaction.nextStep!.name,
+        step: stepName,
       },
     };
     uischema.elements.push(sendPushButton);
@@ -68,7 +68,10 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
       return formBag;
     }
 
-    const buttonElements = getOVMethodTypeAuthenticatorButtonElements(methodType.options);
+    const buttonElements = getOVMethodTypeAuthenticatorButtonElements(
+      methodType.options,
+      stepName,
+    );
     uischema.elements = removeUIElementWithName(
       'authenticator.methodType',
       uischema.elements as UISchemaElement[],

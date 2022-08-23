@@ -25,11 +25,14 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   transaction,
   formBag,
 }) => {
-  const { nextStep: { inputs } = {} as NextStep } = transaction;
+  const { nextStep: { inputs, name: stepName } = {} as NextStep } = transaction;
   const { uischema } = formBag;
 
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
-  const authenticatorButtons = getAuthenticatorVerifyButtonElements(authenticator!.options!);
+  const authenticatorButtons = getAuthenticatorVerifyButtonElements(
+    authenticator!.options!,
+    stepName,
+  );
 
   const title: TitleElement = {
     type: 'Title',

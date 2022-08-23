@@ -38,10 +38,13 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
 }) => {
   const { uischema } = formBag;
   const { brandName } = widgetProps;
-  const { nextStep: { inputs } = {} as NextStep, availableSteps } = transaction;
+  const { nextStep: { inputs, name: stepName } = {} as NextStep, availableSteps } = transaction;
 
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
-  const authenticatorButtons = getAuthenticatorEnrollButtonElements(authenticator!.options!);
+  const authenticatorButtons = getAuthenticatorEnrollButtonElements(
+    authenticator!.options!,
+    stepName,
+  );
   const skipStep = availableSteps?.find(({ name }) => name === 'skip');
 
   const title: TitleElement = {

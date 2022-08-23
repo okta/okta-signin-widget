@@ -14,17 +14,10 @@
 
 .infoSection {
   display: flex;
-  padding: 0 0 0 12px;
   flex-grow: 1;
   flex-direction: column;
-}
-
-.title {
-  font-weight: 500;
-}
-
-.description {
-  margin: 6px 0 6px 0;
+  gap: 6px;
+  padding: 0 0 0 12px;
 }
 
 .actionName {

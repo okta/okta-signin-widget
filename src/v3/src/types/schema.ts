@@ -39,6 +39,8 @@ export type FormBag = {
   }
 };
 
+export type IdxMessageWithName = IdxMessage & { name?: string | undefined; };
+
 export type AutoCompleteValue = 'username'
 | 'current-password'
 | 'one-time-code'
@@ -174,7 +176,7 @@ export interface ButtonElement extends UISchemaElement {
 export interface AuthenticatorButtonElement {
   type: 'AuthenticatorButton';
   label: string;
-  options: Omit<ButtonElement['options'], 'type' | 'step'> & {
+  options: Omit<ButtonElement['options'], 'type'> & {
     key: string;
     authenticator?: IdxAuthenticator;
     ctaLabel: string;

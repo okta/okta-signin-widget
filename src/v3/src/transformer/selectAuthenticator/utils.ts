@@ -45,6 +45,7 @@ const getAuthenticatorDataSeVal = (authenticatorKey: string, methodType?: string
 
 const buildOktaVerifyOptions = (
   options: IdxOption[],
+  step: string,
   isEnroll?: boolean,
 ): AuthenticatorButtonElement[] => {
   const ovRemediation = getAuthenticatorOption(options, AUTHENTICATOR_KEY.OV);
@@ -70,6 +71,9 @@ const buildOktaVerifyOptions = (
           'authenticator.methodType': option.value,
           'authenticator.id': id,
         } as ActionParams,
+        step,
+        includeData: true,
+        includeImmutableData: false,
         dataSe: getAuthenticatorDataSeVal(AUTHENTICATOR_KEY.OV, option.value as string),
         iconName: option.value === 'totp' ? 'oktaVerify' : 'oktaVerifyPush',
         iconDescr: option.value === 'totp'
@@ -184,6 +188,7 @@ const getUsageDescription = (option: IdxOption): string | undefined => {
 
 const formatAuthenticatorOptions = (
   options: IdxOption[],
+  step: string,
   isEnroll?: boolean,
 ): AuthenticatorButtonElement[] => (
   options.map((option: IdxOption, index: number) => {
@@ -221,6 +226,9 @@ const formatAuthenticatorOptions = (
             : undefined,
           'authenticator.enrollmentId': enrollmentId,
         },
+        step,
+        includeData: true,
+        includeImmutableData: false,
         dataSe: getAuthenticatorDataSeVal(
           authenticatorKey,
           AUTHENTICATORS_WITH_METHOD_TYPE.includes(authenticatorKey) && typeof methodType === 'string'
@@ -235,12 +243,13 @@ const formatAuthenticatorOptions = (
 
 const getAuthenticatorButtonElements = (
   options: IdxOption[],
+  step: string,
   isEnroll?: boolean,
 ): AuthenticatorButtonElement[] => {
-  const formattedOptions = formatAuthenticatorOptions(options, isEnroll);
+  const formattedOptions = formatAuthenticatorOptions(options, step, isEnroll);
 
   // appending OV options back to its original spot
-  const ovOptions = buildOktaVerifyOptions(options, isEnroll);
+  const ovOptions = buildOktaVerifyOptions(options, step, isEnroll);
   if (ovOptions.length && options?.length) {
     const ovIndex = options.findIndex(({ relatesTo }) => relatesTo?.key === AUTHENTICATOR_KEY.OV);
     formattedOptions.splice(ovIndex, 1, ...ovOptions);
@@ -251,6 +260,7 @@ const getAuthenticatorButtonElements = (
 
 export const getOVMethodTypeAuthenticatorButtonElements = (
   options: IdxOption[],
+  step: string,
 ): AuthenticatorButtonElement[] => {
   if (!options.length) {
     return [];
@@ -265,6 +275,9 @@ export const getOVMethodTypeAuthenticatorButtonElements = (
       actionParams: {
         'authenticator.methodType': (option.value as string),
       },
+      step,
+      includeData: true,
+      includeImmutableData: false,
     },
   })) as AuthenticatorButtonElement[];
 };
@@ -282,13 +295,17 @@ export const isOnlyPushWithAutoChallenge = (
 
 export const getAuthenticatorVerifyButtonElements = (
   authenticatorOptions: IdxOption[],
+  step: string,
 ):AuthenticatorButtonElement[] => getAuthenticatorButtonElements(
   authenticatorOptions,
+  step,
 );
 
 export const getAuthenticatorEnrollButtonElements = (
   authenticatorOptions: IdxOption[],
+  step: string,
 ): AuthenticatorButtonElement[] => getAuthenticatorButtonElements(
   authenticatorOptions,
+  step,
   true,
 );
