@@ -36,7 +36,7 @@ describe('enroll-profile-new', () => {
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
-    await waitFor(() => expect(firstNameEle).toHaveFocus());
+    await waitFor(() => expect(lastNameEle).toHaveFocus());
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
