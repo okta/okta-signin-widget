@@ -97,11 +97,11 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -147,18 +147,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Password
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="okta_password"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -166,16 +166,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -241,18 +241,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Security Key or Biometric Authenticator
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="webauthn"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -260,16 +260,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -335,18 +335,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Security Key or Biometric Authenticator
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="webauthn"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -354,16 +354,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -409,18 +409,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Email
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="okta_email"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -428,16 +428,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -493,24 +493,24 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Phone
-                      </div>
-                      <div
-                        class="description MuiBox-root emotion-7"
+                      </h3>
+                      <p
+                        class="MuiBox-root emotion-54"
                         data-se="authenticator-button-description"
                       >
                         +1 XXX-XXX-5309
-                      </div>
+                      </p>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="phone_number"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -518,16 +518,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -583,24 +583,24 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Phone
-                      </div>
-                      <div
-                        class="description MuiBox-root emotion-7"
+                      </h3>
+                      <p
+                        class="MuiBox-root emotion-54"
                         data-se="authenticator-button-description"
                       >
                         +1 XXX-XXX-5309
-                      </div>
+                      </p>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="phone_number"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -608,16 +608,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -663,18 +663,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Security Question
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="security_question"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -682,16 +682,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -734,24 +734,24 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Use Okta FastPass
-                      </div>
-                      <div
-                        class="description MuiBox-root emotion-7"
+                      </h3>
+                      <p
+                        class="MuiBox-root emotion-54"
                         data-se="authenticator-button-description"
                       >
                         Okta Verify
-                      </div>
+                      </p>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="okta_verify"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -759,16 +759,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -886,18 +886,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Google Authenticator
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="google_otp"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -905,16 +905,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -960,18 +960,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Atko Custom On-prem
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="onprem_mfa"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -979,16 +979,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -1028,18 +1028,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         RSA SecurID
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="rsa_token"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -1047,16 +1047,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -1098,18 +1098,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Duo Security
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="duo"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -1117,16 +1117,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -1177,18 +1177,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         IDP Authenticator
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="external_idp"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -1196,16 +1196,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -1256,18 +1256,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Atko Custom OTP Authenticator
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="custom_otp"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -1275,16 +1275,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -1332,18 +1332,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Symantec VIP
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="symantec_vip"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -1351,16 +1351,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -1408,18 +1408,18 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         YubiKey Authenticator
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="yubikey_token"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -1427,16 +1427,16 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-7"
@@ -1455,24 +1455,24 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-7"
                     >
-                      <div
-                        class="title MuiBox-root emotion-7"
+                      <h3
+                        class="MuiBox-root emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Get a push notification
-                      </div>
-                      <div
-                        class="description MuiBox-root emotion-7"
+                      </h3>
+                      <p
+                        class="MuiBox-root emotion-54"
                         data-se="authenticator-button-description"
                       >
                         Custom Push App
-                      </div>
+                      </p>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
                         data-se="custom_app"
                       >
                         <span
-                          class="MuiBox-root emotion-7"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -1480,7 +1480,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"

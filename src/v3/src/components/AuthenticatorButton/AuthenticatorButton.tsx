@@ -83,7 +83,6 @@ const AuthenticatorButton: UISchemaElementComponent<{
       borderRadius={Tokens.BorderRadiusBase}
       boxShadow={Tokens.ShadowScale0}
       className={style.authButton}
-      role="button"
       data-se="authenticator-button"
       tabIndex={0}
       onClick={onClick}
