@@ -101,7 +101,8 @@ describe('v2/client/startLoginFlow', () => {
 
     expect(start).toHaveBeenCalledWith({
       exchangeCodeForTokens: false,
-      shouldProceedWithEmailAuthenticator: false
+      shouldProceedWithEmailAuthenticator: false,
+      useGenericRemediator: true
     });
     expect(proceed).not.toHaveBeenCalled();
   });
@@ -119,7 +120,8 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledWith({
       exchangeCodeForTokens: false,
       shouldProceedWithEmailAuthenticator: false,
-      stateHandle: 'a test state token from settings'
+      stateHandle: 'a test state token from settings',
+      useGenericRemediator: true
     });
     expect(settings.get('stateToken')).toBe('a test state token from settings');
   });
@@ -139,7 +141,8 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledWith({
       exchangeCodeForTokens: false,
       shouldProceedWithEmailAuthenticator: false,
-      stateHandle: 'a test state token from settings'
+      stateHandle: 'a test state token from settings',
+      useGenericRemediator: true
     });
     expect(settings.get('stateToken')).toBe('a test state token from settings');
   });
@@ -158,7 +161,8 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledWith({
       exchangeCodeForTokens: false,
       shouldProceedWithEmailAuthenticator: false,
-      stateHandle: 'fake state handle from session storage'
+      stateHandle: 'fake state handle from session storage',
+      useGenericRemediator: true
     });
     expect(settings.get('stateToken'))
       .toBe('fake state handle from session storage');
@@ -188,13 +192,15 @@ describe('v2/client/startLoginFlow', () => {
       .toEqual({
         exchangeCodeForTokens: false,
         shouldProceedWithEmailAuthenticator: false,
-        stateHandle: 'fake state handle from session storage'
+        stateHandle: 'fake state handle from session storage',
+        useGenericRemediator: true
       });
     expect(start.mock.calls[1][0])
       .toEqual({
         exchangeCodeForTokens: false,
         shouldProceedWithEmailAuthenticator: false,
-        stateHandle: 'a test state token from settings'
+        stateHandle: 'a test state token from settings',
+        useGenericRemediator: true
       });
 
     expect(settings.get('stateToken')).toBe('a test state token from settings');
