@@ -30,7 +30,7 @@ const StepperButton: UISchemaElementComponent<{
     },
   } = uischema;
 
-  const focusRef = useAutoFocus(focus);
+  const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
   const handleClick = () => {
     setStepIndex!(nextStepIndex);
