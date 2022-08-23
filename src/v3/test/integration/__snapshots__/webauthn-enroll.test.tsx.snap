@@ -28,12 +28,7 @@ exports[`webauthn-enroll should render form 1`] = `
             </div>
           </div>
           <div
-            data-test="sentinelStart"
-            tabindex="0"
-          />
-          <div
             class="MuiBox-root emotion-5"
-            tabindex="-1"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -128,7 +123,6 @@ exports[`webauthn-enroll should render form 1`] = `
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -140,7 +134,6 @@ exports[`webauthn-enroll should render form 1`] = `
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                     data-se="cancel"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -148,10 +141,6 @@ exports[`webauthn-enroll should render form 1`] = `
               </div>
             </form>
           </div>
-          <div
-            data-test="sentinelEnd"
-            tabindex="0"
-          />
         </div>
       </main>
     </span>
@@ -187,12 +176,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
             </div>
           </div>
           <div
-            data-test="sentinelStart"
-            tabindex="0"
-          />
-          <div
             class="MuiBox-root emotion-5"
-            tabindex="-1"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -269,7 +253,6 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -281,7 +264,6 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
                     data-se="cancel"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -289,10 +271,6 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
               </div>
             </form>
           </div>
-          <div
-            data-test="sentinelEnd"
-            tabindex="0"
-          />
         </div>
       </main>
     </span>

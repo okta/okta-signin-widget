@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-ov-sms-channel.json';
 
@@ -21,11 +22,13 @@ describe('okta-verify-sms-channel-enrollment', () => {
 
     await findByText(/Set up Okta Verify via SMS/);
     await findByText(/Make sure you can access the text on your mobile device./);
-    const phoneEl = await findByTestId(/phoneNumber/) as HTMLInputElement;
+    const phoneEl = await findByTestId('phoneNumber') as HTMLInputElement;
     const submitBtn = await findByText(/Send me the setup link/);
+    const countryEl = await findByTestId('countryList') as HTMLInputElement;
 
     expect(container).toMatchSnapshot();
 
+    await waitFor(() => expect(countryEl).toHaveFocus());
     const mockPhoneNumber = '2165551234';
     await user.type(phoneEl, mockPhoneNumber);
     expect(phoneEl.value).toEqual(mockPhoneNumber);

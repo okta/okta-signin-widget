@@ -28,12 +28,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
             </div>
           </div>
           <div
-            data-test="sentinelStart"
-            tabindex="0"
-          />
-          <div
             class="MuiBox-root emotion-5"
-            tabindex="-1"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -216,10 +211,6 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
               </div>
             </form>
           </div>
-          <div
-            data-test="sentinelEnd"
-            tabindex="0"
-          />
         </div>
       </main>
     </span>

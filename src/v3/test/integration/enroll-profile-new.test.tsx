@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import mockResponse from '../../src/mocks/response/idp/idx/enroll/default.json';
+import mockResponse from '@okta/mocks/data/idp/idx/enroll-profile-new.json';
+import { waitFor } from '@testing-library/preact';
 import { setup } from './util';
 
 describe('enroll-profile-new', () => {
@@ -35,7 +36,7 @@ describe('enroll-profile-new', () => {
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
-
+    await waitFor(() => expect(firstNameEle).toHaveFocus());
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -47,18 +48,18 @@ describe('enroll-profile-new', () => {
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       'POST',
-      'https://oie-8425965.oktapreview.com/idp/idx/enroll/new',
+      'http://localhost:3000/idp/idx/enroll/new',
       {
         data: JSON.stringify({
+          stateHandle: 'fake-stateHandle',
           userProfile: {
             firstName,
             lastName,
             email,
           },
-          stateHandle: 'fake-stateHandle',
         }),
         headers: {
-          Accept: 'application/json; okta-version=1.0.0',
+          Accept: 'application/vnd.okta.v1+json',
           'Content-Type': 'application/json',
           'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
         },
