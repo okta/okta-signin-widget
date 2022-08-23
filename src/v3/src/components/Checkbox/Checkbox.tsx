@@ -11,7 +11,7 @@
  */
 
 import { Checkbox as CheckboxMui, FormControlLabel } from '@mui/material';
-import { h } from 'preact';
+import { h, RefObject } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { useAutoFocus, useOnChange, useValue } from '../../hooks';
@@ -25,7 +25,7 @@ const Checkbox: UISchemaElementComponent<{
 
   const { options: { inputMeta: { name } }, focus } = uischema;
   const label = getTranslation(uischema.translations!);
-  const focusRef = useAutoFocus(focus) as React.Ref<HTMLInputElement>;
+  const focusRef = useAutoFocus(focus) as RefObject<HTMLInputElement>;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.checked);
