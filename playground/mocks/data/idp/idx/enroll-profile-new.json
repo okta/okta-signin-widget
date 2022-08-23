@@ -19,13 +19,13 @@
             "form": {
               "value": [
                 {
-                  "name": "lastName",
-                  "label": "Last name",
+                  "name": "firstName",
+                  "label": "First name",
                   "required": true
                 },
                 {
-                  "name": "firstName",
-                  "label": "First name",
+                  "name": "lastName",
+                  "label": "Last name",
                   "required": true
                 },
                 {

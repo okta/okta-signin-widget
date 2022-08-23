@@ -64,6 +64,7 @@ let mockHandleFunction = jest.fn().mockImplementation(() => ({}));
 jest.mock('../../hooks', () => ({
   useOnChange: () => mockHandleFunction,
   useFormFieldValidation: () => jest.fn().mockImplementation(() => {}),
+  useAutoFocus: () => jest.fn(),
 }));
 
 describe('PhoneAuthenticator tests', () => {

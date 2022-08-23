@@ -28,12 +28,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
             </div>
           </div>
           <div
-            data-test="sentinelStart"
-            tabindex="0"
-          />
-          <div
             class="MuiBox-root emotion-5"
-            tabindex="-1"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -183,7 +178,6 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -195,7 +189,6 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="cancel"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -203,10 +196,6 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
               </div>
             </form>
           </div>
-          <div
-            data-test="sentinelEnd"
-            tabindex="0"
-          />
         </div>
       </main>
     </span>

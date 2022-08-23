@@ -28,12 +28,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
             </div>
           </div>
           <div
-            data-test="sentinelStart"
-            tabindex="0"
-          />
-          <div
             class="MuiBox-root emotion-5"
-            tabindex="-1"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -323,7 +318,6 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -335,7 +329,6 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
                     data-se="cancel"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -343,10 +336,6 @@ exports[`authenticator-enroll-security-question custom question renders correct 
               </div>
             </form>
           </div>
-          <div
-            data-test="sentinelEnd"
-            tabindex="0"
-          />
         </div>
       </main>
     </span>
@@ -382,12 +371,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
             </div>
           </div>
           <div
-            data-test="sentinelStart"
-            tabindex="0"
-          />
-          <div
             class="MuiBox-root emotion-5"
-            tabindex="-1"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -785,7 +769,6 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Return to authenticator list
                   </a>
@@ -797,7 +780,6 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                     data-se="cancel"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -805,10 +787,6 @@ exports[`authenticator-enroll-security-question predefined question renders corr
               </div>
             </form>
           </div>
-          <div
-            data-test="sentinelEnd"
-            tabindex="0"
-          />
         </div>
       </main>
     </span>

@@ -28,12 +28,7 @@ exports[`authenticator-email-verification-data should render form 1`] = `
             </div>
           </div>
           <div
-            data-test="sentinelStart"
-            tabindex="0"
-          />
-          <div
             class="MuiBox-root emotion-5"
-            tabindex="-1"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -122,7 +117,6 @@ exports[`authenticator-email-verification-data should render form 1`] = `
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                     data-se="cancel"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Back to sign in
                   </a>
@@ -130,10 +124,6 @@ exports[`authenticator-email-verification-data should render form 1`] = `
               </div>
             </form>
           </div>
-          <div
-            data-test="sentinelEnd"
-            tabindex="0"
-          />
         </div>
       </main>
     </span>

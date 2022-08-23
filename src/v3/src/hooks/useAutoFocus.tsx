@@ -11,12 +11,14 @@
  */
 
 import { MutableRef, useEffect, useRef } from 'preact/hooks';
+
 type InteractiveElement =
 | HTMLInputElement
 | HTMLButtonElement
 | HTMLTextAreaElement
 | HTMLSelectElement
 | HTMLAnchorElement;
+
 export const useAutoFocus = (
   focus?: boolean,
 ): MutableRef<InteractiveElement | undefined> => {

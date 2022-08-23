@@ -28,12 +28,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
             </div>
           </div>
           <div
-            data-test="sentinelStart"
-            tabindex="0"
-          />
-          <div
             class="MuiBox-root emotion-5"
-            tabindex="-1"
           >
             <div
               class="identifier-container MuiBox-root emotion-6"
@@ -201,7 +196,6 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
-                    inputref="[object Object]"
                   >
                     Verify with something else
                   </a>
@@ -209,10 +203,6 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
               </div>
             </form>
           </div>
-          <div
-            data-test="sentinelEnd"
-            tabindex="0"
-          />
         </div>
       </main>
     </span>
