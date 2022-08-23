@@ -1,5 +1,5 @@
 import { AuthSdkError, FieldError, OAuthError as SdkOAuthError} from '@okta/okta-auth-js';
-import { OAuthError } from './Errors';
+import * as Errors from './Errors';
 import { loc } from 'okta';
 
 type ErrorTraits = 'visible' | 'terminal';
@@ -22,7 +22,7 @@ interface ErrorDetails {
   errorCauses?: Array<FieldError>;
 }
 
-class TypedOAuthError<T extends ErrorType> extends OAuthError {
+class TypedOAuthError<T extends ErrorType> extends Errors.default.OAuthError {
   errorType: T;
   orginalError: AuthSdkError | SdkOAuthError;
   errorDetails: ErrorDetails
