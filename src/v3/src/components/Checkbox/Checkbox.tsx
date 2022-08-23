@@ -11,7 +11,7 @@
  */
 
 import { Checkbox as CheckboxMui, FormControlLabel } from '@mui/material';
-import { h, RefObject } from 'preact';
+import { h } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { useAutoFocus, useOnChange, useValue } from '../../hooks';

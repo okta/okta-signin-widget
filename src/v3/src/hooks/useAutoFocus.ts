@@ -29,4 +29,4 @@ export function useAutoFocus<T extends InteractiveElement>(
     }
   }, [focus]);
   return inputRef;
-};
+}
