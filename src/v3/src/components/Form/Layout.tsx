@@ -12,6 +12,7 @@
 
 import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
+import { useState } from 'preact/hooks';
 
 import {
   FieldElement,
@@ -28,6 +29,7 @@ import Stepper from './Stepper';
 
 type LayoutProps = {
   uischema: UISchemaLayout;
+  focus?: boolean;
 };
 
 const getElementKey = (element: UISchemaElement, index: number): string => {
@@ -37,12 +39,12 @@ const getElementKey = (element: UISchemaElement, index: number): string => {
     : defaultKey;
 };
 
-const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
+const Layout: FunctionComponent<LayoutProps> = ({ uischema, focus: layoutFocus }) => {
   const { type, elements } = uischema;
 
   const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
   const flexDirection = isHorizontalLayout ? 'row' : 'column';
-  let firstFieldFound = false;
+  let focusFound = false;
   return (
     <Box
       display="flex"
@@ -85,9 +87,9 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
           }
 
           const uischemaElement = (element as UISchemaElement);
-          if (isInteractiveType(uischemaElement.type) && !firstFieldFound) {
+          if (layoutFocus && !focusFound && isInteractiveType(uischemaElement.type)) {
             uischemaElement.focus = true;
-            firstFieldFound = true;
+            focusFound = true;
           }
 
           const Component = renderer.renderer as UISchemaElementComponent;

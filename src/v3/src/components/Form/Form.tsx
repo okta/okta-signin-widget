@@ -13,7 +13,7 @@
 import { IdxMessage } from '@okta/okta-auth-js';
 import { clone } from 'lodash';
 import { FunctionComponent, h } from 'preact';
-import { useCallback } from 'preact/hooks';
+import { useCallback, useEffect } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
@@ -100,6 +100,8 @@ const Form: FunctionComponent<{
     setMessage,
   ]);
 
+  useEffect(() => console.log(uischema), [uischema]);
+
   return (
     <form
       noValidate
@@ -107,7 +109,10 @@ const Form: FunctionComponent<{
       className="o-form" // FIXME update page objects using .o-form selectors
       data-se="form"
     >
-      <Layout uischema={uischema} />
+      <Layout
+        uischema={uischema}
+        focus
+      />
     </form>
   );
 };
