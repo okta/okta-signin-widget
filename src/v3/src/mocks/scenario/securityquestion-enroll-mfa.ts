@@ -59,24 +59,15 @@ scenario('securityquestion-enroll-mfa', (rest) => ([
   // send security question data or return invalid answer for custom or predefined question when answer < 4 characters
   rest.post('*/idp/idx/challenge/answer', async (req, res, ctx) => {
     const request = req.body as Record<string, any>;
-    const questionKey = request.credentials?.questionKey;
     const answer = request.credentials?.answer;
     let response = null;
-    let responseStatus;
     if (answer?.length < 4) {
-      if (questionKey === 'custom') {
-        response = (await import('../response/idp/idx/challenge/answer/enroll-security-question-custom-with-error.json')).default;
-      } else {
-        response = (await import('../response/idp/idx/challenge/answer/enroll-security-question-predefined-with-error.json')).default;
-      }
-      // responseStatus = 401;
-      responseStatus = 200; // error from auth-js causes breakage when setting 401 status on this flow
+      response = (await import('../response/idp/idx/challenge/answer/enroll-security-question-with-character-limit-error.json')).default;
     } else {
       response = (await import('../response/oauth2/default/v1/token/default.json')).default;
-      responseStatus = 200;
     }
     return res(
-      ctx.status(responseStatus),
+      ctx.status(200),
       ctx.json(response),
     );
   }),

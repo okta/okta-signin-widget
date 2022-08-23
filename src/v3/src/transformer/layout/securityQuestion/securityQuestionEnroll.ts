@@ -124,6 +124,11 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     },
   };
 
+  const securityQuestionStepper: StepperLayout = {
+    type: UISchemaLayoutType.STEPPER,
+    elements: [],
+  };
+
   const customOptions: StepperRadioElement['options']['customOptions'] = [{
     value: 'predefined',
     label: loc('oie.security.question.questionKey.label', 'login'),
@@ -138,7 +143,6 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
         [QUESTION_KEY_INPUT_NAME]: preSelectedQuestion,
       }));
 
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       const stepLayout = securityQuestionStepper.elements[stepIndex];
       stepLayout.elements = removeFieldLevelMessages(stepLayout.elements);
     },
@@ -151,7 +155,6 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
       dataSchemaRef.current!.submit = customQuestionSubmitButton.options;
       dataSchemaRef.current!.fieldsToValidate = ['credentials.question', 'credentials.answer'];
 
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       const stepLayout = securityQuestionStepper.elements[stepIndex];
       stepLayout.elements = removeFieldLevelMessages(stepLayout.elements);
     },
@@ -182,33 +185,30 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     },
   };
 
-  const securityQuestionStepper: StepperLayout = {
-    type: UISchemaLayoutType.STEPPER,
-    elements: [
-      // Predefined questions
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          titleElement,
-          questionTypeRadioEl,
-          predefinedQuestionsElement,
-          predefinedAnswerElement,
-          predefinedSubmitButton,
-        ],
-      } as UISchemaLayout,
-      // Custom question
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          titleElement,
-          questionTypeRadioEl,
-          customQuestionElement,
-          customAnswerElement,
-          customQuestionSubmitButton,
-        ],
-      } as UISchemaLayout,
-    ],
-  };
+  securityQuestionStepper.elements = [
+    // Predefined questions
+    {
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [
+        titleElement,
+        questionTypeRadioEl,
+        predefinedQuestionsElement,
+        predefinedAnswerElement,
+        predefinedSubmitButton,
+      ],
+    } as UISchemaLayout,
+    // Custom question
+    {
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [
+        titleElement,
+        questionTypeRadioEl,
+        customQuestionElement,
+        customAnswerElement,
+        customQuestionSubmitButton,
+      ],
+    } as UISchemaLayout,
+  ];
 
   uischema.elements = [securityQuestionStepper];
 

@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { flow } from 'lodash';
-
 import {
   TransformStepFnWithOptions,
 } from '../../types';
@@ -30,6 +28,6 @@ const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formba
   return formbag;
 };
 
-export const transformUISchema: TransformStepFnWithOptions = (options) => (formbag) => flow(
-  addKeyToElement(options),
-)(formbag);
+export const transformUISchema: TransformStepFnWithOptions = (
+  options,
+) => (formbag) => addKeyToElement(options)(formbag);
