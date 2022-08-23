@@ -17,6 +17,7 @@ import {
   ButtonElement,
   ButtonType,
   FieldElement,
+  FormBag,
   IdxStepTransformer,
   StepperLayout,
   StepperRadioElement,
@@ -43,7 +44,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   }
 
   const { contextualData } = relatesTo.value;
-  const { uischema, data, dataSchema } = formBag;
+  const { uischema, dataSchema } = formBag;
 
   const predefinedQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => !(value as Input[])?.some(({ name }) => name === 'question'));
   const customQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => (value as Input[])?.some(({ name }) => name === 'question'));
@@ -53,10 +54,12 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     uischema.elements,
   ) as FieldElement;
   predefinedAnswerElement.options.inputMeta.secret = true;
+  predefinedAnswerElement.key = `${ANSWER_INPUT_NAME}_predefined`;
 
   const customAnswerInput = (customQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
   const customAnswerElement: FieldElement = {
     type: 'Field',
+    key: `${ANSWER_INPUT_NAME}_custom`,
     label: customAnswerInput?.label ?? customAnswerInput?.name,
     options: {
       inputMeta: {
@@ -74,6 +77,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   const predefinedQuestionsElement: FieldElement = {
     type: 'Field',
     label: loc('oie.security.question.questionKey.label', 'login'),
+    key: QUESTION_KEY_INPUT_NAME,
     options: {
       format: 'dropdown',
       inputMeta: {
@@ -120,82 +124,103 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     },
   };
 
+  const securityQuestionStepper: StepperLayout = {
+    type: UISchemaLayoutType.STEPPER,
+    elements: [],
+  };
+
+  const customOptions: StepperRadioElement['options']['customOptions'] = [{
+    value: 'predefined',
+    label: loc('oie.security.question.questionKey.label', 'login'),
+    callback: (widgetContext, stepIndex) => {
+      const { dataSchemaRef, setData } = widgetContext;
+      dataSchemaRef.current!.submit = predefinedSubmitButton.options;
+      dataSchemaRef.current!.fieldsToValidate = ['credentials.answer'];
+
+      // reset default selected question
+      setData((prev) => ({
+        ...prev,
+        [QUESTION_KEY_INPUT_NAME]: preSelectedQuestion,
+      }));
+
+      const stepLayout = securityQuestionStepper.elements[stepIndex];
+      stepLayout.elements = removeFieldLevelMessages(stepLayout.elements);
+    },
+  }, {
+    key: 'credentials.questionKey',
+    value: 'custom',
+    label: loc('oie.security.question.createQuestion.label', 'login'),
+    callback: (widgetContext, stepIndex) => {
+      const { dataSchemaRef } = widgetContext;
+      dataSchemaRef.current!.submit = customQuestionSubmitButton.options;
+      dataSchemaRef.current!.fieldsToValidate = ['credentials.question', 'credentials.answer'];
+
+      const stepLayout = securityQuestionStepper.elements[stepIndex];
+      stepLayout.elements = removeFieldLevelMessages(stepLayout.elements);
+    },
+  }];
+
   const questionTypeRadioEl: StepperRadioElement = {
     type: 'StepperRadio',
     options: {
       name: 'questionType',
-      defaultOption: 'predefined',
-      customOptions: [{
-        value: 'predefined',
-        label: loc('oie.security.question.questionKey.label', 'login'),
-        callback: (widgetContext, stepIndex) => {
-          const { dataSchemaRef, setData } = widgetContext;
-          dataSchemaRef.current!.submit = predefinedSubmitButton.options;
-          dataSchemaRef.current!.fieldsToValidate = ['credentials.answer'];
-
-          // reset default selected question
+      customOptions,
+      defaultValue: (widgetContext, stepIndex) => {
+        const { setData } = widgetContext;
+        const selectedOption = customOptions[stepIndex];
+        const selectedValue = selectedOption.value as string;
+        if (selectedOption?.key) {
+          setData((prev) => ({
+            ...prev,
+            [selectedOption.key as string]: selectedValue,
+          }));
+        } else {
           setData((prev) => ({
             ...prev,
             [QUESTION_KEY_INPUT_NAME]: preSelectedQuestion,
           }));
-
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          const stepLayout = securityQuestionStepper.elements[stepIndex];
-          stepLayout.elements = removeFieldLevelMessages(stepLayout.elements);
-        },
-      }, {
-        key: 'credentials.questionKey',
-        value: 'custom',
-        label: loc('oie.security.question.createQuestion.label', 'login'),
-        callback: (widgetContext, stepIndex) => {
-          const { dataSchemaRef } = widgetContext;
-          dataSchemaRef.current!.submit = customQuestionSubmitButton.options;
-          dataSchemaRef.current!.fieldsToValidate = ['credentials.question', 'credentials.answer'];
-
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          const stepLayout = securityQuestionStepper.elements[stepIndex];
-          stepLayout.elements = removeFieldLevelMessages(stepLayout.elements);
-        },
-      }],
+        }
+        return selectedValue;
+      },
     },
   };
 
-  const securityQuestionStepper: StepperLayout = {
-    type: UISchemaLayoutType.STEPPER,
-    elements: [
-      // Predefined questions
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          titleElement,
-          questionTypeRadioEl,
-          predefinedQuestionsElement,
-          predefinedAnswerElement,
-          predefinedSubmitButton,
-        ],
-      } as UISchemaLayout,
-      // Custom question
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          titleElement,
-          questionTypeRadioEl,
-          customQuestionElement,
-          customAnswerElement,
-          customQuestionSubmitButton,
-        ],
-      } as UISchemaLayout,
-    ],
-  };
+  securityQuestionStepper.elements = [
+    // Predefined questions
+    {
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [
+        titleElement,
+        questionTypeRadioEl,
+        predefinedQuestionsElement,
+        predefinedAnswerElement,
+        predefinedSubmitButton,
+      ],
+    } as UISchemaLayout,
+    // Custom question
+    {
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [
+        titleElement,
+        questionTypeRadioEl,
+        customQuestionElement,
+        customAnswerElement,
+        customQuestionSubmitButton,
+      ],
+    } as UISchemaLayout,
+  ];
 
   uischema.elements = [securityQuestionStepper];
-
-  // update default data
-  data[QUESTION_KEY_INPUT_NAME] = preSelectedQuestion;
 
   // update default dataSchema
   dataSchema.submit = predefinedSubmitButton.options;
   dataSchema.fieldsToValidate = ['credentials.answer'];
+  dataSchema.fieldsToExclude = (formData: FormBag['data']) => {
+    if (formData[QUESTION_KEY_INPUT_NAME] === 'custom') {
+      return [];
+    }
+    return ['credentials.question'];
+  };
 
   return formBag;
 };

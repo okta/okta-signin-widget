@@ -56,12 +56,19 @@ scenario('securityquestion-enroll-mfa', (rest) => ([
     );
   }),
 
-  // send security question data
+  // send security question data or return invalid answer for custom or predefined question when answer < 4 characters
   rest.post('*/idp/idx/challenge/answer', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/challenge/answer/securityquestion-enroll-mfa.json');
+    const request = req.body as Record<string, any>;
+    const answer = request.credentials?.answer;
+    let response = null;
+    if (answer?.length < 4) {
+      response = (await import('../response/idp/idx/challenge/answer/enroll-security-question-with-character-limit-error.json')).default;
+    } else {
+      response = (await import('../response/oauth2/default/v1/token/default.json')).default;
+    }
     return res(
       ctx.status(200),
-      ctx.json(body),
+      ctx.json(response),
     );
   }),
 

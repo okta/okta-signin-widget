@@ -63,6 +63,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   const confirmPasswordElement: FieldElement = {
     type: 'Field',
     label: loc('oie.password.confirmPasswordLabel', 'login'),
+    key: 'confirmPassword',
     options: {
       inputMeta: {
         name: 'confirmPassword',
@@ -130,7 +131,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   ];
 
   // update default dataSchema
-  dataSchema.fieldsToExclude = ['confirmPassword'];
+  dataSchema.fieldsToExclude = () => (['confirmPassword']);
   // Controls form submission validation
   dataSchema[passwordFieldName] = {
     validate: (data: FormBag['data']) => {

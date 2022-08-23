@@ -28,10 +28,16 @@ import Stepper from './Stepper';
 
 type LayoutProps = {
   uischema: UISchemaLayout;
-  stepName?: string;
 };
 
-const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
+const getElementKey = (element: UISchemaElement, index: number): string => {
+  const defaultKey = [element.type, element.key, index].join('_');
+  return element.type === 'Field' && (element as FieldElement).key
+    ? [(element as FieldElement).key].join('_')
+    : defaultKey;
+};
+
+const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
   const { type, elements } = uischema;
 
   const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
@@ -45,7 +51,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
     >
       {
         elements.map((element, index) => {
-          const elementKey = [element.type, stepName, index].join('_');
+          const elementKey = getElementKey(element, index);
 
           if (element.type === UISchemaLayoutType.STEPPER) {
             return (
@@ -62,7 +68,6 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
               <Layout
                 key={elementKey}
                 uischema={element as UISchemaLayout}
-                stepName={stepName}
               />
             );
           }
@@ -79,14 +84,10 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema, stepName }) => {
           }
 
           const uischemaElement = (element as UISchemaElement);
-          const fieldElement = (uischemaElement as FieldElement);
-          const key = fieldElement.options?.inputMeta?.name && stepName
-            ? `${fieldElement.options?.inputMeta?.name}_${stepName}`
-            : elementKey;
           const Component = renderer.renderer as UISchemaElementComponent;
           return (
             <Box
-              key={key}
+              key={elementKey}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(!(uischemaElement).noMargin && { marginBottom: 4 })}
             >

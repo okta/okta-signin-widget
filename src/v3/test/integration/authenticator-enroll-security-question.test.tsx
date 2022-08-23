@@ -11,11 +11,52 @@
  */
 
 import { waitFor } from '@testing-library/preact';
-import { setup } from './util';
+import { HttpRequestClient } from '@okta/okta-auth-js';
+import { setup, updateStateHandleInMock } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/securityquestion-enroll-mfa.json';
+import responseWithCharacterLimitError
+  from '../../src/mocks/response/idp/idx/challenge/answer/enroll-security-question-with-character-limit-error.json';
 
 describe('authenticator-enroll-security-question', () => {
+  let mockRequestClientWithError: HttpRequestClient;
+  beforeEach(() => {
+    mockRequestClientWithError = jest.fn().mockImplementation((_, url, options) => {
+      updateStateHandleInMock(mockResponse);
+      updateStateHandleInMock(responseWithCharacterLimitError);
+      if (url.endsWith('/interact')) {
+        return Promise.resolve({
+          responseText: JSON.stringify({
+            interaction_handle: 'fake-interactionhandle',
+          }),
+        });
+      }
+
+      if (url.endsWith('/introspect')) {
+        return Promise.resolve({
+          responseText: JSON.stringify(mockResponse),
+        });
+      }
+
+      if (url.endsWith('/idp/idx/challenge/answer')) {
+        let response;
+        const { data } = options;
+        const answer = JSON.parse(data).credentials?.answer;
+        if (answer?.length < 4) {
+          response = responseWithCharacterLimitError;
+        } else {
+          response = {};
+        }
+        return Promise.resolve({
+          responseText: JSON.stringify(response),
+        });
+      }
+
+      // reject unknown request
+      return Promise.reject(new Error('Unknown request'));
+    });
+  });
+
   describe('predefined question', () => {
     it('renders correct form', async () => {
       const { container, findByText } = await setup({ mockResponse });
@@ -43,7 +84,7 @@ describe('authenticator-enroll-security-question', () => {
       await user.click(submitButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         'POST',
-        'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
+        'http://localhost:3000/idp/idx/challenge/answer',
         {
           data: JSON.stringify({
             credentials: {
@@ -73,7 +114,7 @@ describe('authenticator-enroll-security-question', () => {
       // assert no network request
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
         'POST',
-        'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
+        'http://localhost:3000/idp/idx/challenge/answer',
         expect.anything(),
       );
       // assert global alert
@@ -102,6 +143,234 @@ describe('authenticator-enroll-security-question', () => {
         const answerFieldError = queryByTestId('credentials.answer-error');
         expect(answerFieldError).toBeNull();
       });
+    });
+
+    it('should show field level character count error message when invalid number of characters are sent and field should retain characters', async () => {
+      const {
+        user, authClient, findByText, findByTestId,
+      } = await setup({ mockRequestClient: mockRequestClientWithError });
+
+      await findByText(/Set up security question/);
+      const submitButton = await findByText('Verify', { selector: 'button' });
+      const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
+
+      const answer = 'pi';
+      await user.type(answerEle, answer);
+      expect(answerEle.value).toEqual(answer);
+
+      await user.click(submitButton);
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'http://localhost:3000/idp/idx/challenge/answer',
+        {
+          data: JSON.stringify({
+            credentials: {
+              questionKey: 'disliked_food',
+              answer,
+            },
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
+      const answerEleError = await findByTestId('credentials.answer-error');
+      // Previously entered characters should remain in the field
+      expect((await findByTestId('credentials.answer') as HTMLInputElement).value).toBe(answer);
+      expect(answerEleError.innerHTML).toEqual('The security question answer must be at least 4 characters in length');
+    });
+
+    it('should show field level character count error message on multiple attempts to submit with invalid character count', async () => {
+      const {
+        user, authClient, findByText, findByTestId,
+      } = await setup({ mockRequestClient: mockRequestClientWithError });
+
+      await findByText(/Set up security question/);
+      const submitButton = await findByText('Verify', { selector: 'button' });
+      const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
+
+      const answer = 'pi';
+      await user.type(answerEle, answer);
+      expect(answerEle.value).toEqual(answer);
+
+      await user.click(submitButton);
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        // TODO: OKTA-526754 - extract this payload into a re-usable util function
+        'POST',
+        'http://localhost:3000/idp/idx/challenge/answer',
+        {
+          data: JSON.stringify({
+            credentials: {
+              questionKey: 'disliked_food',
+              answer,
+            },
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
+      const answerEleError = await findByTestId('credentials.answer-error');
+      expect(answerEleError.innerHTML).toEqual('The security question answer must be at least 4 characters in length');
+      await user.click(await findByText('Verify', { selector: 'button' }));
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        // TODO: OKTA-526754 - extract this payload into a re-usable util function
+        'POST',
+        'http://localhost:3000/idp/idx/challenge/answer',
+        {
+          data: JSON.stringify({
+            credentials: {
+              questionKey: 'disliked_food',
+              answer,
+            },
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
+      expect((await findByTestId('credentials.answer-error')).innerHTML)
+        .toEqual('The security question answer must be at least 4 characters in length');
+    });
+
+    it('should send correct payload when toggling between question types and submitted form with incorrect number of characters', async () => {
+      const {
+        user, authClient, findByText, findByTestId, findByLabelText,
+      } = await setup({ mockRequestClient: mockRequestClientWithError });
+
+      await findByText(/Set up security question/);
+      const submitButton = await findByText('Verify', { selector: 'button' });
+      const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
+
+      const answer = 'pi';
+      await user.type(answerEle, answer);
+      expect(answerEle.value).toEqual(answer);
+
+      await user.click(submitButton);
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'http://localhost:3000/idp/idx/challenge/answer',
+        {
+          data: JSON.stringify({
+            credentials: {
+              questionKey: 'disliked_food',
+              answer,
+            },
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
+      const answerEleError = await findByTestId('credentials.answer-error');
+      // Previously entered characters should remain in the field
+      expect((await findByTestId('credentials.answer') as HTMLInputElement).value).toBe(answer);
+      expect(answerEleError.innerHTML).toEqual('The security question answer must be at least 4 characters in length');
+
+      // switch to custom question form
+      await user.click(await findByLabelText(/Create my own security question/));
+
+      const customQuestionEle = await findByTestId('credentials.question') as HTMLInputElement;
+      const customQuestionAnswerEle = await findByTestId('credentials.answer') as HTMLInputElement;
+      const customQuestion = 'What is life?';
+      await user.type(customQuestionEle, customQuestion);
+      await user.type(customQuestionAnswerEle, answer);
+      expect(customQuestionEle.value).toBe(customQuestion);
+      expect(customQuestionAnswerEle.value).toBe(answer);
+
+      await user.click(await findByText('Verify', { selector: 'button' }));
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'http://localhost:3000/idp/idx/challenge/answer',
+        {
+          data: JSON.stringify({
+            credentials: {
+              questionKey: 'custom',
+              question: customQuestion,
+              answer,
+            },
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
+      // Previously entered characters should remain in the field
+      expect((await findByTestId('credentials.answer') as HTMLInputElement).value).toBe(answer);
+      expect((await findByTestId('credentials.answer-error')).innerHTML)
+        .toEqual('The security question answer must be at least 4 characters in length');
+
+      // switch to predefined question form
+      await user.click(await findByLabelText(/Choose a security question/));
+      await findByLabelText('Choose a security question', { selector: 'select' });
+      const restoredAnswerEle = await findByTestId('credentials.answer') as HTMLInputElement;
+
+      await user.type(restoredAnswerEle, answer);
+      expect(restoredAnswerEle.value).toEqual(answer);
+
+      await user.click(await findByText('Verify', { selector: 'button' }));
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'http://localhost:3000/idp/idx/challenge/answer',
+        {
+          data: JSON.stringify({
+            credentials: {
+              questionKey: 'disliked_food',
+              answer,
+            },
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
+      expect((await findByTestId('credentials.answer') as HTMLInputElement).value).toBe(answer);
+      expect((await findByTestId('credentials.answer-error')).innerHTML)
+        .toEqual('The security question answer must be at least 4 characters in length');
+      await user.click(await findByText('Verify', { selector: 'button' }));
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'http://localhost:3000/idp/idx/challenge/answer',
+        {
+          data: JSON.stringify({
+            credentials: {
+              questionKey: 'disliked_food',
+              answer,
+            },
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
     });
   });
 
@@ -144,7 +413,7 @@ describe('authenticator-enroll-security-question', () => {
       await user.click(submitButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         'POST',
-        'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
+        'http://localhost:3000/idp/idx/challenge/answer',
         {
           data: JSON.stringify({
             credentials: {
@@ -168,6 +437,7 @@ describe('authenticator-enroll-security-question', () => {
       const {
         authClient,
         user,
+        container,
         findByTestId,
         findByText,
         findByLabelText,
@@ -178,15 +448,18 @@ describe('authenticator-enroll-security-question', () => {
       // switch to custom question form
       user.click(await findByLabelText(/Create my own security question/));
 
+      const questionEle = await findByTestId('credentials.question') as HTMLInputElement;
       const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
       const answer = '42';
       await user.type(answerEle, answer);
+      expect(answerEle.value).toBe(answer);
+      expect(questionEle.value).toBe('');
       await user.click(await findByText('Verify', { selector: 'button' }));
 
       // assert no network request
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
         'POST',
-        'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
+        'http://localhost:3000/idp/idx/challenge/answer',
         expect.anything(),
       );
       // assert global alert
@@ -197,6 +470,7 @@ describe('authenticator-enroll-security-question', () => {
       expect(questionFieldError.innerHTML).toEqual('This field cannot be left blank');
       const answerFieldError = queryByTestId('credentials.answer-error');
       expect(answerFieldError).toBeNull();
+      expect(container).toMatchSnapshot();
     });
 
     it('fails client side validation when answer is missing', async () => {
@@ -222,7 +496,7 @@ describe('authenticator-enroll-security-question', () => {
       // assert no network request
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
         'POST',
-        'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
+        'http://localhost:3000/idp/idx/challenge/answer',
         expect.anything(),
       );
       // assert global alert
@@ -251,7 +525,7 @@ describe('authenticator-enroll-security-question', () => {
       await user.click(await findByText('Verify', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
         'POST',
-        'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
+        'http://localhost:3000/idp/idx/challenge/answer',
         expect.anything(),
       );
       // assert global alert
@@ -285,6 +559,55 @@ describe('authenticator-enroll-security-question', () => {
         const answerFieldError = queryByTestId('credentials.answer-error');
         expect(answerFieldError).toBeNull();
       });
+    });
+
+    it('should show field level character count error message when invalid number of characters are sent and field should retain characters', async () => {
+      const {
+        user, authClient, findByText, findByTestId, findByLabelText,
+      } = await setup({ mockRequestClient: mockRequestClientWithError });
+
+      await findByText(/Set up security question/);
+
+      // switch to custom question form
+      user.click(await findByLabelText(/Create my own security question/));
+
+      const submitButton = await findByText('Verify', { selector: 'button' });
+      const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
+      const customQuestionEle = await findByTestId('credentials.question') as HTMLInputElement;
+
+      const question = 'What is the meaning of life?';
+      await user.type(customQuestionEle, question);
+      expect(customQuestionEle.value).toEqual(question);
+
+      const answer = 'pi';
+      await user.type(answerEle, answer);
+      expect(answerEle.value).toEqual(answer);
+
+      await user.click(submitButton);
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'http://localhost:3000/idp/idx/challenge/answer',
+        {
+          data: JSON.stringify({
+            credentials: {
+              questionKey: 'custom',
+              question,
+              answer,
+            },
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
+      const answerEleError = await findByTestId('credentials.answer-error');
+      // Previously entered characters should remain in the field
+      expect((await findByTestId('credentials.answer') as HTMLInputElement).value).toBe(answer);
+      expect(answerEleError.innerHTML).toEqual('The security question answer must be at least 4 characters in length');
     });
   });
 });

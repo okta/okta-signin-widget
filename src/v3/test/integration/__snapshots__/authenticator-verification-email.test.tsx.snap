@@ -620,7 +620,6 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                           id="credentials.passcode"
                           name="credentials.passcode"
                           type="text"
-                          value=""
                         />
                         <fieldset
                           aria-hidden="true"

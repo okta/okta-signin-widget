@@ -38,7 +38,7 @@ const Stepper: any = ({ uischema }: StepperProps) => {
   return (
     // Scope setStepIndex by only providing it to its own children components
     // Nested stepper can be supported with this pattern
-    <StepperContext.Provider value={{ setStepIndex }}>
+    <StepperContext.Provider value={{ setStepIndex, stepIndex }}>
       <Layout uischema={elements[stepIndex]} />
     </StepperContext.Provider>
   );

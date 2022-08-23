@@ -73,7 +73,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
     let payload: IdxActionParams = {};
     if (includeData) {
-      payload = merge(payload, omit(data, fieldsToExclude));
+      payload = merge(payload, omit(data, fieldsToExclude(data)));
     }
     if (params) {
       payload = merge(payload, params);
@@ -97,7 +97,8 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     try {
       const newTransaction = await fn(payload);
       setIdxTransaction(newTransaction);
-      setIsClientTransaction(false);
+      const isClientTransaction = newTransaction.nextStep?.name === currTransaction?.nextStep?.name;
+      setIsClientTransaction(isClientTransaction);
       setStepToRender(stepToRender);
     } catch (error) {
       handleError(error);

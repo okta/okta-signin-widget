@@ -34,6 +34,7 @@ const getComponentProps = (
 ): UISchemaElementComponentProps & { uischema: FieldElement; } => ({
   uischema: {
     type: 'Field',
+    key: 'phoneNumber',
     translations: [
       { name: 'label', i18nKey: 'label', value: 'Phone number' },
       { name: 'country', i18nKey: 'country.label', value: 'Country' },

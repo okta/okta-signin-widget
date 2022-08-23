@@ -107,10 +107,7 @@ const Form: FunctionComponent<{
       className="o-form" // FIXME update page objects using .o-form selectors
       data-se="form"
     >
-      <Layout
-        uischema={uischema}
-        stepName={currTransaction?.nextStep?.name}
-      />
+      <Layout uischema={uischema} />
     </form>
   );
 };

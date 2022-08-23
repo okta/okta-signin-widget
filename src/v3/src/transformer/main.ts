@@ -25,6 +25,7 @@ import { transformI18n } from './i18n';
 import { transformLayout } from './layout';
 import { transformMessages } from './messages';
 import { transformTestAttribute } from './testAttribute';
+import { transformUISchema } from './uischema';
 
 // use this function after each transformation step to log the formbag output
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -41,6 +42,7 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
     transformButtons(options),
     transformMessages(options),
     transformI18n(options),
+    transformUISchema(options),
     transformDataSchema,
     transformTestAttribute,
   ];
@@ -58,7 +60,7 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
     data: {},
     dataSchema: {
       fieldsToValidate: [],
-      fieldsToExclude: [],
+      fieldsToExclude: () => ([]),
     },
   });
 };
