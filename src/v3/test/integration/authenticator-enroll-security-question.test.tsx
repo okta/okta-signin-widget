@@ -77,6 +77,7 @@ describe('authenticator-enroll-security-question', () => {
       const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
 
       const answer = 'pizza';
+      await user.tab();
       await user.type(answerEle, answer);
 
       expect(answerEle.value).toEqual(answer);

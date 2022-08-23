@@ -23,7 +23,7 @@ import { h } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
-import { useOnChange, useValue } from '../../hooks';
+import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 
 const Radio: UISchemaElementComponent<{
   uischema: FieldElement
@@ -41,8 +41,10 @@ const Radio: UISchemaElementComponent<{
       },
       customOptions,
     },
+    focus,
   } = uischema;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
+  const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.value);
@@ -61,12 +63,14 @@ const Radio: UISchemaElementComponent<{
         onChange={handleChange}
       >
         {
-          (customOptions ?? options)?.map((item: IdxOption) => (
+          (customOptions ?? options)?.map((item: IdxOption, index) => (
             <FormControlLabel
               control={<RadioMui />}
               key={item.value}
               value={item.value}
               label={item.label}
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...(index === 0 && { inputRef: focusRef } )}
             />
           ))
         }

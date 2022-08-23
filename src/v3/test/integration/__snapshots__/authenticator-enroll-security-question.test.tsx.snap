@@ -823,7 +823,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
                         >
                           <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-19"
+                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root Mui-focusVisible MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-19"
                           >
                             <input
                               class="PrivateSwitchBase-input emotion-20"

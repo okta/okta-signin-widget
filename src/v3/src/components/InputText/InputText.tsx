@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import { h } from 'preact';
 
-import { useOnChange, useValue } from '../../hooks';
+import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent, UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -35,7 +35,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
 }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const { translations = [] } = uischema;
+  const { translations = [], focus } = uischema;
   const label = getTranslation(translations);
   const hint = getTranslation(translations, 'hint');
   const {
@@ -43,6 +43,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
     inputMeta: { name },
     dataSe,
   } = uischema.options;
+  const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched?.(true);
@@ -70,6 +71,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           'data-se': dataSe,
           ...attributes,
         }}
+        inputRef={focusRef}
       />
       {error && (
         <FormHelperText

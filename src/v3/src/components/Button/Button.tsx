@@ -13,7 +13,7 @@
 import { Button as ButtonMui } from '@mui/material';
 import { h } from 'preact';
 
-import { useOnSubmit } from '../../hooks';
+import { useAutoFocus, useOnSubmit } from '../../hooks';
 import {
   ButtonElement,
   ClickHandler,
@@ -28,6 +28,7 @@ const Button: UISchemaElementComponent<{
   const onSubmitHandler = useOnSubmit();
   const {
     label,
+    focus,
     options: {
       type,
       ariaLabel,
@@ -42,6 +43,8 @@ const Button: UISchemaElementComponent<{
       stepToRender,
     },
   } = uischema;
+
+  const focusRef = useAutoFocus(focus);
 
   const onClick: ClickHandler = async () => {
     onSubmitHandler({
@@ -58,6 +61,7 @@ const Button: UISchemaElementComponent<{
       type={type}
       variant={variant ?? 'primary'}
       fullWidth={wide ?? true}
+      ref={focusRef}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(dataType && { 'data-type': dataType } )}
       // eslint-disable-next-line react/jsx-props-no-spreading

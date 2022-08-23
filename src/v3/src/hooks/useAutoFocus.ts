@@ -10,9 +10,23 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './useAutoFocus';
-export * from './useFormFieldValidation';
-export * from './useOnChange';
-export * from './useOnSubmit';
-export * from './usePolling';
-export * from './useValue';
+import { Ref, useEffect, useRef } from 'preact/hooks';
+
+type InteractiveElement =
+  | HTMLInputElement
+  | HTMLButtonElement
+  | HTMLTextAreaElement
+  | HTMLSelectElement
+  | HTMLAnchorElement;
+
+export function useAutoFocus<T extends InteractiveElement>(
+  focus?: boolean,
+): Ref<T> {
+  const inputRef = useRef<T>(null);
+  useEffect(() => {
+    if (focus && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [focus]);
+  return inputRef;
+}

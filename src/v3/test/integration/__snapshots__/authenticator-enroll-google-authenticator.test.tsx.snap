@@ -283,7 +283,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                         Enter code
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-21"
                       >
                         <input
                           aria-invalid="false"
@@ -629,7 +629,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                         Enter code
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-21"
                       >
                         <input
                           aria-invalid="false"

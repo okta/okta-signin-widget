@@ -30,6 +30,8 @@ const Link: UISchemaElementComponent<{
     },
   } = uischema;
   const onSubmitHandler = useOnSubmit();
+  // TO DO: https://oktainc.atlassian.net/browse/OKTA-527004
+  // const focusRef = useAutoFocus<HTMLAnchorElement>(focus);
 
   const onClick: ClickHandler = async (e) => {
     e.preventDefault();
@@ -47,6 +49,7 @@ const Link: UISchemaElementComponent<{
         // eslint-disable-next-line no-script-url
         href="javascript:void(0)"
         onClick={onClick}
+        // ref={focusRef}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...(dataSe && { 'data-se': dataSe } )}
       >
@@ -56,6 +59,7 @@ const Link: UISchemaElementComponent<{
       : (
         <LinkMui
           href={href}
+          // ref={focusRef}
         >
           {label}
         </LinkMui>

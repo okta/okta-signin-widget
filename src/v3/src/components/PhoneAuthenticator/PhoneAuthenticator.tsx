@@ -20,11 +20,15 @@ import {
 import { NativeSelect } from '@okta/odyssey-react';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
-import { useCallback, useEffect, useState } from 'preact/hooks';
+import {
+  useCallback,
+  useEffect,
+  useState,
+} from 'preact/hooks';
 
 import CountryUtil from '../../../../util/CountryUtil';
 import { useWidgetContext } from '../../contexts';
-import { useOnChange } from '../../hooks';
+import { useAutoFocus, useOnChange } from '../../hooks';
 import {
   ChangeEvent,
   FormBag,
@@ -44,6 +48,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const { dataSchemaRef } = useWidgetContext();
   const {
     translations = [],
+    focus,
     options: {
       inputMeta: {
         name: fieldName,
@@ -66,6 +71,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const methodType = data['authenticator.methodType'];
   const showExtension = methodType === 'voice';
   const onChangeHandler = useOnChange(uischema);
+  const focusRef = useAutoFocus<HTMLSelectElement>(focus);
 
   const formatPhone = (
     phoneNumber: string,
@@ -129,6 +135,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         label={countryLabel}
         autocomplete="tel-country-code"
         onChange={(e: ChangeEvent) => { setPhoneCode(`+${CountryUtil.getCallingCodeForCountry(e.currentTarget.value)}`); }}
+        ref={focusRef}
       >
         {
             Object.entries(countries).map(([code, name]) => (

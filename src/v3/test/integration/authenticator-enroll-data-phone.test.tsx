@@ -52,6 +52,7 @@ describe('authenticator-enroll-data-phone', () => {
     const phoneNumberEle = await findByTestId('authenticator.phoneNumber') as HTMLInputElement;
 
     const phoneNumber = '2165551234';
+    await user.tab();
     await user.type(phoneNumberEle, phoneNumber);
 
     expect(phoneNumberEle.value).toEqual(phoneNumber);

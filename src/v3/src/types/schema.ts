@@ -48,7 +48,9 @@ export type AutoCompleteValue = 'username'
 | 'family-name'
 | 'email';
 
-export type InputAttributes = { autocomplete?: AutoCompleteValue; };
+export type InputAttributes = {
+  autocomplete?: AutoCompleteValue;
+};
 
 // flat params
 export type ActionParams = {
@@ -104,6 +106,7 @@ export interface UISchemaElement {
    */
   label?: string;
   noMargin?: boolean;
+  focus?: boolean;
 }
 
 export interface UISchemaLayout {

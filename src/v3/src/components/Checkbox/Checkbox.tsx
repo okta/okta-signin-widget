@@ -14,7 +14,7 @@ import { Checkbox as CheckboxMui, FormControlLabel } from '@mui/material';
 import { h } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
-import { useOnChange, useValue } from '../../hooks';
+import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import { getTranslation } from '../../util';
 
 const Checkbox: UISchemaElementComponent<{
@@ -23,8 +23,9 @@ const Checkbox: UISchemaElementComponent<{
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
 
-  const { options: { inputMeta: { name } } } = uischema;
+  const { options: { inputMeta: { name } }, focus } = uischema;
   const label = getTranslation(uischema.translations!);
+  const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.checked);
@@ -38,6 +39,7 @@ const Checkbox: UISchemaElementComponent<{
           checked={value === true}
           id={name}
           name={name}
+          inputRef={focusRef}
           onChange={handleChange}
           inputProps={{
             'data-se': name,

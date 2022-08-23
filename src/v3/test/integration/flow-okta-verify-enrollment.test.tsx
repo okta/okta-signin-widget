@@ -12,6 +12,7 @@
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
 import { act } from 'preact/test-utils';
+import { waitFor } from '@testing-library/preact';
 import { setup, updateStateHandleInMock } from './util';
 import qrPollingResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json';
 import emailPollingResponse from '../../src/mocks/response/idp/idx/challenge/send/enroll-ov-email-mfa.json';
@@ -292,6 +293,9 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Set up Okta Verify via SMS/);
     expect(container).toMatchSnapshot();
     const phoneNumberEl = await findByTestId('phoneNumber');
+    const countryEl = await findByTestId('countryList') as HTMLInputElement;
+
+    await waitFor(() => expect(countryEl).toHaveFocus());
     await user.type(phoneNumberEl, '123456789');
     await user.click(await findByText(/Send me the setup link/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(

@@ -14,6 +14,7 @@ import { Button } from '@mui/material';
 import { h } from 'preact';
 
 import { useStepperContext } from '../../contexts';
+import { useAutoFocus } from '../../hooks';
 import { StepperButtonElement, UISchemaElementComponent } from '../../types';
 
 const StepperButton: UISchemaElementComponent<{
@@ -22,11 +23,14 @@ const StepperButton: UISchemaElementComponent<{
   const { setStepIndex } = useStepperContext();
   const {
     label,
+    focus,
     options: {
       nextStepIndex,
       variant,
     },
   } = uischema;
+
+  const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
   const handleClick = () => {
     setStepIndex!(nextStepIndex);
@@ -38,6 +42,7 @@ const StepperButton: UISchemaElementComponent<{
       variant={variant ?? 'primary'}
       type="button"
       fullWidth
+      ref={focusRef}
     >
       {label}
     </Button>
