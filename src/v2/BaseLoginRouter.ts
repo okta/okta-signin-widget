@@ -39,6 +39,7 @@ import { RenderError, RenderResult } from 'types';
 import { OktaAuth, IdxResponse } from '@okta/okta-auth-js';
 import Hooks from 'models/Hooks';
 import IonHelper from './ion/IonResponseHelper';
+import { RecoverableError } from 'util/OAuthErrors';
 
 export interface BaseLoginRouterOptions extends BaseRouterOptions, Backbone.RouterOptions {
   globalSuccessFn?: (res: RenderResult) => void;
@@ -127,7 +128,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     await updateAppState(this.appState, formattedError.details);
   }
 
-  /* eslint max-statements: [2, 36], complexity: [2, 15] */
+  /* eslint max-statements: [2, 36], complexity: [2, 16] */
   async render(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.

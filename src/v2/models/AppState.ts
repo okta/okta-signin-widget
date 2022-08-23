@@ -24,7 +24,7 @@ import { _ } from '../mixins/mixins';
 import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
 import Settings from 'models/Settings';
 import Hooks from 'models/Hooks';
-import { TypedOAuthError } from 'util/OAuthErrors';
+import { RecoverableError } from 'util/OAuthErrors';
 
 
 const UNKNOWN_USER_I8N_KEY = "idx.unknown.user";
@@ -299,7 +299,7 @@ export default class AppState extends Model {
     }
   }
 
-  setNonIdxError(error: TypedOAuthError<unknown>) {
+  setNonIdxError(error: RecoverableError<any>) {
     this.set('remediations', [{ name: FORMS.TERMINAL }]);
     this.set('messages', { value: [
       {

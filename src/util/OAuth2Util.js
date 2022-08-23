@@ -50,14 +50,18 @@ util.getTokens = function(settings, params, controller) {
       controller.model.appState.set('flashError', typedError);
       controller.model.appState.trigger('navigate', 'signin/error');
     } else if (typedError.is('visible')) {
-      controller.model.trigger('error', controller.model, { responseJSON: typedError.errorDetails });
+      controller.model.trigger('error', controller.model, {
+        responseJSON: {
+          errorSummary: typedError.errorDetails.errorSummary
+        }
+      });
       controller.model.appState.trigger('removeLoading');
     }
 
-    Util.triggerAfterError(controller, typedError.message, settings);
+    Util.triggerAfterError(controller, typedError, settings);
 
     if (typedError instanceof NonRecoverableError) {
-      Util.callGlobalError(typedError);
+      settings.callGlobalError(typedError);
     }
   }
 

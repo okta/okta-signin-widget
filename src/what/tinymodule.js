@@ -1,0 +1,7 @@
+class What {
+
+}
+
+export {
+  What
+};

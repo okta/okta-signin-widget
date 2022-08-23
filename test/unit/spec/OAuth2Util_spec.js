@@ -86,7 +86,7 @@ describe('util/OAuth2Util', function() {
         expect(controller.model.trigger).toHaveBeenCalledTimes(1);
         if (errCode === 'access_denied') {
           expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model,
-            { responseJSON: authException });
+            { responseJSON: { errorSummary: errorMessage } });
         } else {
           expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model,
             { responseJSON: { errorSummary: loc('error.jit_failure', 'login') }});

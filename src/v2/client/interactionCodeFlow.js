@@ -13,7 +13,7 @@
 import Enums from 'util/Enums';
 import { ConfigError } from 'util/Errors';
 import { toQueryString } from '@okta/okta-auth-js';
-import { getTypedOAuthError } from 'util/OAuthErrors';
+import { getTypedOAuthError, RecoverableError } from 'util/OAuthErrors';
 
 // eslint-disable-next-line max-statements
 export async function interactionCodeFlow(settings, idxResponse) {
@@ -62,7 +62,7 @@ export async function interactionCodeFlow(settings, idxResponse) {
     })
     .catch(err => {
       const typedError = getTypedOAuthError(err);
-      if (typedError.is('terminal')) {
+      if (typedError instanceof RecoverableError && typedError.is('terminal')) {
         throw typedError;
       }
       settings.callGlobalError(err);

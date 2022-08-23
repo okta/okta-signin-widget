@@ -1,0 +1,7 @@
+class AnotherClass {
+
+}
+
+export {
+  AnotherClass
+};
