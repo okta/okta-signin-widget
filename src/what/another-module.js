@@ -1,7 +1,0 @@
-class AnotherClass {
-
-}
-
-export {
-  AnotherClass
-};

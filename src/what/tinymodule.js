@@ -1,7 +1,0 @@
-class What {
-
-}
-
-export {
-  What
-};
