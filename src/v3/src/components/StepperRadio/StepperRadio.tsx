@@ -50,7 +50,7 @@ const StepperRadio: UISchemaElementComponent<{
     }
     return defaultValue(widgetContext, stepIndex);
   });
-  const focusRef = useAutoFocus(focus);
+  const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const stepIdx = customOptions.findIndex((opt) => opt.value === e.currentTarget.value);

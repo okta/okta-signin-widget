@@ -48,7 +48,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const label = getTranslation(translations!, 'label');
   const { idxTransaction } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
-  const focusRef = useAutoFocus(focus);
+  const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
   const onClick: ClickHandler = async () => {
     // TODO: pass step from uischema

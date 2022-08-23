@@ -43,7 +43,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
     inputMeta: { name },
     dataSe,
   } = uischema.options;
-  const focusRef = useAutoFocus(focus);
+  const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched?.(true);

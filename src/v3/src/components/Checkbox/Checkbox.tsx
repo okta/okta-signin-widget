@@ -25,7 +25,7 @@ const Checkbox: UISchemaElementComponent<{
 
   const { options: { inputMeta: { name } }, focus } = uischema;
   const label = getTranslation(uischema.translations!);
-  const focusRef = useAutoFocus(focus) as RefObject<HTMLInputElement>;
+  const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChangeHandler(e.currentTarget.checked);
