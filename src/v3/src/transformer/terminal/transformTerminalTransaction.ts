@@ -42,6 +42,7 @@ import {
   loc,
   removeUsernameCookie,
   setUsernameCookie,
+  shouldShowCancelLink,
 } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { createForm } from '../utils';
@@ -77,13 +78,15 @@ const appendViewLinks = (
   uischema: UISchemaLayout,
   widgetProps: WidgetProps,
 ): void => {
-  const { baseUrl } = widgetProps;
+  const { baseUrl, features } = widgetProps;
+  const isCancelAvailable = shouldShowCancelLink(features);
   const cancelStep = transaction?.availableSteps?.find(({ name }) => name === 'cancel');
   const cancelLink: LinkElement = {
     type: 'Link',
     options: {
       label: loc('goback', 'login'),
       step: 'cancel',
+      isActionStep: true,
       href: cancelStep ? undefined : (baseUrl || '/'),
     },
   };
@@ -95,17 +98,19 @@ const appendViewLinks = (
         type: 'Button',
         label: loc('oie.enroll.skip.setup', 'login'),
         options: {
-          type: ButtonType.SUBMIT,
+          type: ButtonType.BUTTON,
           step: skipStep.name,
         },
       };
       uischema.elements.push(skipElement);
     }
-  } else if (containsOneOfMessageKeys(DEVICE_CODE_ERROR_KEYS, transaction.messages)) {
+  } else if (containsOneOfMessageKeys(DEVICE_CODE_ERROR_KEYS, transaction.messages)
+      && isCancelAvailable) {
     cancelLink.options.label = loc('oie.try.again', 'login');
     uischema.elements.push(cancelLink);
-  } else if (transaction.actions?.cancel
-    || !containsOneOfMessageKeys(TERMINAL_KEYS_WITHOUT_CANCEL, transaction.messages)) {
+  } else if ((transaction.actions?.cancel
+    || !containsOneOfMessageKeys(TERMINAL_KEYS_WITHOUT_CANCEL, transaction.messages))
+    && isCancelAvailable) {
     uischema.elements.push(cancelLink);
   }
 };

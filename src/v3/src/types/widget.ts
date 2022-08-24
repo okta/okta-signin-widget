@@ -194,6 +194,7 @@ export type OktaWidgetFeatures = {
   useDeviceFingerprintForSecurityImage?: boolean;
   trackTypingPattern?: boolean;
   hideSignOutLinkInMFA?: boolean;
+  mfaOnlyFlow?: boolean;
   hideBackToSignInForReset?: boolean;
   rememberMyUsernameOnOIE?: boolean;
   engFastpassMultipleAccounts?: boolean;

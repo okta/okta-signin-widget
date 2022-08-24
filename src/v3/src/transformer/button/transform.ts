@@ -19,7 +19,7 @@ import TransformerMap from '../layout/idxTransformerMapping';
 import { getButtonControls } from './getButtonControls';
 
 export const transformButtons: TransformStepFnWithOptions = (options) => (formbag) => {
-  const { transaction, step } = options;
+  const { transaction, step, widgetProps: { features } } = options;
   const { availableSteps, enabledFeatures } = transaction;
 
   const hasIdentityStep = availableSteps?.some((s) => s.name === IDX_STEP.IDENTIFY);
@@ -50,6 +50,7 @@ export const transformButtons: TransformStepFnWithOptions = (options) => (formba
       stepWithUnlockAccount,
       backToAuthList,
       verifyWithOther,
+      features,
     },
   );
 

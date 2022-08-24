@@ -21,10 +21,11 @@ import {
   ButtonType,
   DescriptionElement,
   LinkElement,
+  OktaWidgetFeatures,
   UISchemaElement,
   UISchemaLayoutType,
 } from '../../types';
-import { loc } from '../../util';
+import { loc, shouldShowCancelLink } from '../../util';
 
 interface GetButtonControls {
   elements: UISchemaElement[];
@@ -39,6 +40,7 @@ interface GetButtonControlsArgs {
   stepWithUnlockAccount?: boolean;
   verifyWithOther?: boolean;
   backToAuthList?: boolean;
+  features?: OktaWidgetFeatures;
 }
 
 export const getButtonControls = (
@@ -170,7 +172,7 @@ export const getButtonControls = (
   }
 
   const cancelStep = getButtonStep('cancel');
-  if (config.stepWithCancel && cancelStep) {
+  if (config.stepWithCancel && cancelStep && shouldShowCancelLink(config.features)) {
     const { name: step } = cancelStep;
     const cancel: LinkElement = {
       type: 'Link',
