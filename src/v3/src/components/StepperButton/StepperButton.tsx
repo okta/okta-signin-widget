@@ -43,6 +43,9 @@ const StepperButton: UISchemaElementComponent<{
       type="button"
       fullWidth
       ref={focusRef}
+      sx={{
+        whiteSpace: 'normal'
+      }}
     >
       {label}
     </Button>
