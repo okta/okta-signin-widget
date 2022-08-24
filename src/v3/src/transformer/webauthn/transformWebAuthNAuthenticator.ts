@@ -61,11 +61,14 @@ const generateUISchemaElementAndInformationLabelFor = (
 
 export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction, formBag }) => {
   const { uischema } = formBag;
+  const { nextStep: { name } = {} } = transaction;
 
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: loc('oie.enroll.webauthn.title', 'login'),
+      content: name === IDX_STEP.ENROLL_AUTHENTICATOR
+        ? loc('oie.enroll.webauthn.title', 'login')
+        : loc('oie.verify.webauth.title', 'login'),
     },
   };
   const informationalTextElement: DescriptionElement = {

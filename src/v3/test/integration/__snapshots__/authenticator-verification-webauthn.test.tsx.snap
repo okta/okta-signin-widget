@@ -81,7 +81,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
                     >
-                      Set up security key or biometric authenticator
+                      Verify with Security Key or Biometric Authenticator
                     </h2>
                   </div>
                 </div>
@@ -212,7 +212,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
                     >
-                      Set up security key or biometric authenticator
+                      Verify with Security Key or Biometric Authenticator
                     </h2>
                   </div>
                 </div>
