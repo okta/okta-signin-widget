@@ -26,7 +26,7 @@ describe('authenticator-verification-webauthn', () => {
       } as unknown as Navigator,
     );
     const { container, findByText } = await setup({ mockResponse });
-    await findByText(/Set up security key or biometric authenticator/);
+    await findByText(/Verify with Security Key or Biometric Authenticator/);
     await findByText(/You will be prompted to use a security key or biometric verification/);
     expect(container).toMatchSnapshot();
   });
@@ -39,7 +39,7 @@ describe('authenticator-verification-webauthn', () => {
       } as unknown as Navigator,
     );
     const { container, findByText } = await setup({ mockResponse });
-    await findByText(/Set up security key or biometric authenticator/);
+    await findByText(/Verify with Security Key or Biometric Authenticator/);
     await findByText(/Security key or biometric authenticator is not supported on this browser./);
     expect(container).toMatchSnapshot();
   });
