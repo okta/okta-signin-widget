@@ -66,6 +66,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"

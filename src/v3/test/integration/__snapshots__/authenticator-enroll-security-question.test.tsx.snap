@@ -95,6 +95,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-15"
@@ -444,6 +445,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -787,6 +789,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"

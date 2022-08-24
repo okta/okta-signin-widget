@@ -66,6 +66,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -196,6 +197,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
