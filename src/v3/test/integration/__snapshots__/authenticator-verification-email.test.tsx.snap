@@ -66,6 +66,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -203,6 +204,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -380,6 +382,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -559,6 +562,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -718,6 +722,7 @@ exports[`authenticator-verification-email renders correct form should render ses
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-5"

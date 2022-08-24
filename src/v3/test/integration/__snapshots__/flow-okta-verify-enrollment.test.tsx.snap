@@ -66,6 +66,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -238,6 +239,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -495,6 +497,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -698,6 +701,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -899,6 +903,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -1136,6 +1141,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -1308,6 +1314,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -1480,6 +1487,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -1737,6 +1745,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -3209,6 +3218,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -3410,6 +3420,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"

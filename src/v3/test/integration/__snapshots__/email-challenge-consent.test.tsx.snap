@@ -66,6 +66,7 @@ exports[`email-challenge-consent should render form 1`] = `
               class="o-form"
               data-se="form"
               novalidate=""
+              style="max-width: 100%;"
             >
               <div
                 class="MuiBox-root emotion-10"
