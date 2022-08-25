@@ -309,8 +309,14 @@ test.page(
 test.page(
   'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/authenticator-verification-select-authenticator',
 )('authenticator-verification-select-authenticator', async (t) => {
-  // TODO: images contain the same labelledBy value when duplicate authenticators exist in the response
-  // await checkA11y(t);
+  await checkA11y(t);
+  await takeScreenshot(t, 'authenticator-verification-select-authenticator');
+});
+
+test.page(
+  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/authenticator-verification-select-ov-code-and-push',
+)('authenticator-verification-select-ov-code-and-push', async (t) => {
+  await checkA11y(t);
   await takeScreenshot(t, 'authenticator-verification-select-authenticator');
 });
 

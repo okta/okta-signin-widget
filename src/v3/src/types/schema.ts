@@ -180,6 +180,9 @@ export interface AuthenticatorButtonElement {
     ctaLabel: string;
     description?: string;
     usageDescription?: string;
+    logoUri?: string;
+    iconName?: string;
+    iconDescr?: string;
   };
 }
 

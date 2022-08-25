@@ -30,21 +30,24 @@ describe('AuthCoin tests', () => {
       authenticatorKey: 'duo',
     };
 
-    const { findByText } = render(<AuthCoin {...props} />);
+    const { container, findByRole } = render(<AuthCoin {...props} />);
 
-    expect(await findByText('', { selector: 'mocksvgicon' })).toBeDefined();
+    expect(await findByRole('img')).toBeDefined();
+    expect(container).toMatchSnapshot();
   });
 
   it('should display standard theme Non-Branded AuthCoin without style customization', async () => {
-    const { findByText } = render(<AuthCoin {...props} />);
+    const { container, findByRole } = render(<AuthCoin {...props} />);
 
-    expect(await findByText('', { selector: 'mocksvgicon' })).toBeDefined();
+    expect(await findByRole('img')).toBeDefined();
+    expect(container).toMatchSnapshot();
   });
 
   it('should display Non-Branded AuthCoin with style customizations', async () => {
-    const { findByText } = render(<AuthCoin {...props} />);
+    const { container, findByRole } = render(<AuthCoin {...props} />);
 
-    expect(await findByText('', { selector: 'mocksvgicon' })).toBeDefined();
+    expect(await findByRole('img')).toBeDefined();
+    expect(container).toMatchSnapshot();
   });
 
   it('should display custom image in place of standard Non-Branded '
@@ -54,9 +57,10 @@ describe('AuthCoin tests', () => {
       url: '/img/socialButtonIcons/okta.svg',
     };
 
-    const { findByAltText } = render(<AuthCoin {...props} />);
+    const { container, findByRole } = render(<AuthCoin {...props} />);
 
-    expect(await findByAltText('Custom OTP')).toBeDefined();
+    expect(await findByRole('img')).toBeDefined();
+    expect(container).toMatchSnapshot();
   });
 
   it('should display branded AuthCoin when image URL is provided and '
@@ -66,9 +70,10 @@ describe('AuthCoin tests', () => {
       url: '/img/socialButtonIcons/okta.svg',
     };
 
-    const { findByText } = render(<AuthCoin {...props} />);
+    const { container, findByRole } = render(<AuthCoin {...props} />);
 
-    expect(await findByText('', { selector: 'mocksvgicon' })).toBeDefined();
+    expect(await findByRole('img')).toBeDefined();
+    expect(container).toMatchSnapshot();
   });
 
   it('should not render the component when invalid authenticator key is provided', async () => {
@@ -76,9 +81,10 @@ describe('AuthCoin tests', () => {
       authenticatorKey: 'blah',
     };
 
-    const { findByText, container } = render(<AuthCoin {...props} />);
+    const { queryByRole, container } = render(<AuthCoin {...props} />);
 
     expect(container.childElementCount).toBe(0);
-    expect(await findByText('', { selector: 'div' })).toBeDefined();
+    expect(await queryByRole('img')).not.toBeInTheDocument();
+    expect(container).toMatchSnapshot();
   });
 });

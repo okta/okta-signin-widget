@@ -124,7 +124,38 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       <div
                         class="iconContainer mfa-okta-password MuiBox-root emotion-7"
                       >
-                        <mocksvgicon />
+                        <svg
+                          aria-labelledby="okta_password_0"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="okta_password_0"
+                          >
+                            Password
+                          </title>
+                          <circle
+                            class="siwFillBg"
+                            cx="24"
+                            cy="24"
+                            fill="#F5F5F6"
+                            r="24"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M11 17h-1V9h8v1h-7v7Zm28 0h-1v-7h-7V9h8v8ZM18 39h-8v-8h1v7h7v1Zm21 0h-8v-1h7v-7h1v8Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="m14.91 22.067-1.829 1.064V21h-1v2.131l-1.83-1.064-.502.866L11.585 24l-1.836 1.067.502.866 1.83-1.064V27h1v-2.131l1.829 1.064.503-.866L13.576 24l1.837-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L19.531 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L21.523 24l1.836-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L27.477 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L29.47 24l1.836-1.067-.503-.866Zm8.448.866-.501-.866-1.83 1.064V21h-1v2.131l-1.83-1.064-.502.866L35.424 24l-1.837 1.067.503.866 1.829-1.064V27h1v-2.131l1.83 1.064.502-.866L37.415 24l1.836-1.067Z"
+                            fill="#00297A"
+                          />
+                        </svg>
                       </div>
                     </div>
                     <div
@@ -173,7 +204,48 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       <div
                         class="iconContainer mfa-okta-phone MuiBox-root emotion-7"
                       >
-                        <mocksvgicon />
+                        <svg
+                          aria-labelledby="phone_number_1"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="phone_number_1"
+                          >
+                            Voice Call Authentication
+                          </title>
+                          <circle
+                            class="siwFillBg"
+                            cx="24"
+                            cy="24"
+                            fill="#F5F5F6"
+                            r="24"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
+                            fill="#00297A"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
+                            fill="#00297A"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M34.606 34.606 33.9 33.9a13.998 13.998 0 0 0 0-19.8l.707-.707a15 15 0 0 1 0 21.212l-.001.001Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="m31.071 31.071-.707-.707a9 9 0 0 0 0-12.728l.707-.707a10 10 0 0 1 0 14.142Zm-3.535-3.536-.707-.707a4 4 0 0 0 0-5.656l.707-.707a5 5 0 0 1 0 7.07Z"
+                            fill="#A7B5EC"
+                          />
+                        </svg>
                       </div>
                     </div>
                     <div
@@ -222,7 +294,58 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       <div
                         class="iconContainer mfa-webauthn MuiBox-root emotion-7"
                       >
-                        <mocksvgicon />
+                        <svg
+                          aria-labelledby="webauthn_2"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="webauthn_2"
+                          >
+                            Security Key or Biometric Authenticator
+                          </title>
+                          <path
+                            class="siwFillBg"
+                            clip-rule="evenodd"
+                            d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                            fill="#F5F5F6"
+                            fill-rule="evenodd"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"
+                            fill="#00297A"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M19.5 25a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Zm0-4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"
+                            fill="#00297A"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M30 40a9 9 0 1 1 9-9 9.01 9.01 0 0 1-9 9Zm0-17a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M32.084 36.019a.472.472 0 0 1-.319-.112.501.501 0 0 1-.159-.532c.43-1.389 1.274-4.787-.119-6.352a1.962 1.962 0 0 0-1.946-.6 1.93 1.93 0 0 0-1.387 2.354c.007.024.666 2.823-.966 4.55a.5.5 0 1 1-.727-.685c1.24-1.314.728-3.6.723-3.622a2.933 2.933 0 0 1 2.106-3.566 2.977 2.977 0 0 1 2.944.906c1.67 1.875.922 5.386.328 7.312a.5.5 0 0 1-.478.347Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M28.63 37.25a.5.5 0 0 1-.359-.849c2.235-2.3 1.345-5.782 1.336-5.817a.5.5 0 0 1 .966-.259c.045.165 1.052 4.067-1.586 6.774a.5.5 0 0 1-.358.151Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M34.88 35.2a.5.5 0 0 1-.488-.612c.493-2.2.716-5.235-1.03-7.2a4.508 4.508 0 0 0-4.455-1.357 4.416 4.416 0 0 0-2.72 2.069 4.2 4.2 0 0 0-.468 3.2 3.1 3.1 0 0 1-.355 2.347.5.5 0 1 1-.728-.685 2.37 2.37 0 0 0 .11-1.434 5.174 5.174 0 0 1 .577-3.939 5.42 5.42 0 0 1 3.333-2.518 5.524 5.524 0 0 1 5.453 1.66c1.628 1.832 2.051 4.551 1.257 8.082a.5.5 0 0 1-.487.387Z"
+                            fill="#A7B5EC"
+                          />
+                        </svg>
                       </div>
                     </div>
                     <div

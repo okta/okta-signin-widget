@@ -41,8 +41,11 @@ const AuthenticatorButton: UISchemaElementComponent<{
       actionParams,
       description,
       usageDescription,
+      logoUri,
       ctaLabel,
       dataSe,
+      iconName,
+      iconDescr,
     },
   } = uischema;
   const label = getTranslation(translations!, 'label');
@@ -78,7 +81,12 @@ const AuthenticatorButton: UISchemaElementComponent<{
     >
       { authenticationKey && (
         <Box data-se="authenticator-icon">
-          <AuthCoin authenticatorKey={authenticationKey} />
+          <AuthCoin
+            authenticatorKey={authenticationKey}
+            url={logoUri}
+            name={iconName}
+            description={iconDescr}
+          />
         </Box>
       )}
       <Box className={style.infoSection}>

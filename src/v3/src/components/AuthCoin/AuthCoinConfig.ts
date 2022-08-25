@@ -10,27 +10,33 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { FunctionComponent } from 'preact';
+import { IconProps } from 'src/types';
+
 import { AUTHENTICATOR_KEY } from '../../constants';
-import CustomOTPIcon from '../../img/authCoinIcons/customOtp.svg';
-import DUOIcon from '../../img/authCoinIcons/duo.svg';
-import GoogleOTPIcon from '../../img/authCoinIcons/googleAuth.svg';
-import IDPIcon from '../../img/authCoinIcons/idp.svg';
-import OktaVerifyIcon from '../../img/authCoinIcons/oktaVerify.svg';
-import OnPremMFAIcon from '../../img/authCoinIcons/onPremMfa.svg';
-import PasswordIcon from '../../img/authCoinIcons/password.svg';
-import PhoneCallIcon from '../../img/authCoinIcons/phoneCall.svg';
-import RSAIcon from '../../img/authCoinIcons/rsa.svg';
-import EmailIcon from '../../img/authCoinIcons/secondaryEmail.svg';
-import SecurityQuestionIcon from '../../img/authCoinIcons/securityQuestion.svg';
-import SymantecVipIcon from '../../img/authCoinIcons/symantec.svg';
-import WebAuthNIcon from '../../img/authCoinIcons/webauthn.svg';
-import YubikeyIcon from '../../img/authCoinIcons/yubikey.svg';
+import { loc } from '../../util';
+import {
+  CustomAppIcon,
+  CustomOTPIcon,
+  DuoIcon,
+  EmailIcon,
+  GoogleOTPIcon,
+  IDPIcon,
+  OktaVerifyIcon,
+  OnPremMFAIcon,
+  PasswordIcon,
+  PhoneIcon,
+  RSAIcon,
+  SecurityKeyOrBiometricsIcon,
+  SecurityQuestionIcon,
+  SymantecIcon,
+  YubiKeyIcon,
+} from '../Icon';
 
 const AuthenticatorConfiguration: {
   [key: string]: {
-    // Had to disable because we cant type SVG icons
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    icon: any;
+    icon: FunctionComponent<IconProps>;
+    name: string;
     customizable: boolean;
     description: string;
     iconClassName: string;
@@ -39,91 +45,106 @@ const AuthenticatorConfiguration: {
   [AUTHENTICATOR_KEY.CUSTOM_OTP]: {
     icon: CustomOTPIcon,
     customizable: true,
-    description: 'Custom OTP',
+    name: 'customOtpAuthenticator',
+    description: loc('factor.hotp.description', 'login'),
     iconClassName: 'mfa-hotp',
   },
   [AUTHENTICATOR_KEY.CUSTOM_APP]: {
-    icon: null, // TODO: figure out what icon to use here
-    customizable: false,
-    description: 'Custom Push App',
+    icon: CustomAppIcon,
+    name: 'customAppAuthenticator',
+    customizable: true,
+    description: loc('factor.customFactor.description.generic', 'login'),
     iconClassName: 'mfa-custom-app-logo',
   },
   [AUTHENTICATOR_KEY.DUO]: {
-    icon: DUOIcon,
+    icon: DuoIcon,
+    name: 'duoAuthenticator',
     customizable: false,
-    description: 'DUO',
+    description: loc('factor.duo', 'login'),
     iconClassName: 'mfa-duo',
   },
   [AUTHENTICATOR_KEY.IDP]: {
     icon: IDPIcon,
+    name: 'idpAuthenticator',
     customizable: true,
-    description: 'IDP',
+    description: loc('factor.customFactor.description.generic', 'login'),
     iconClassName: 'mfa-custom-factor',
   },
   [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
     icon: GoogleOTPIcon,
+    name: 'googleOtpAuthenticator',
     customizable: false,
-    description: 'Google Authenticator',
+    description: loc('factor.totpSoft.googleAuthenticator', 'login'),
     iconClassName: 'mfa-google-auth',
   },
   [AUTHENTICATOR_KEY.EMAIL]: {
     icon: EmailIcon,
+    name: 'emailAuthenticator',
     customizable: true,
-    description: 'Email',
+    description: loc('factor.email', 'login'),
     iconClassName: 'mfa-okta-email',
   },
   [AUTHENTICATOR_KEY.PASSWORD]: {
     icon: PasswordIcon,
+    name: 'passwordAuthenticator',
     customizable: true,
-    description: 'Password',
+    description: loc('factor.password', 'login'),
     iconClassName: 'mfa-okta-password',
   },
   [AUTHENTICATOR_KEY.OV]: {
     icon: OktaVerifyIcon,
+    name: 'oktaVerifyAuthenticator',
     customizable: false,
-    description: 'Okta Verify',
+    description: loc('factor.totpSoft.oktaVerify', 'login'),
     iconClassName: 'mfa-okta-verify',
   },
   [AUTHENTICATOR_KEY.ON_PREM]: {
     icon: OnPremMFAIcon,
+    name: 'onPremAuthenticator',
     customizable: true,
-    description: 'On Prem MFA',
+    description: loc('factor.totpHard.description', 'login'),
     iconClassName: 'mfa-onprem',
   },
   [AUTHENTICATOR_KEY.PHONE]: {
-    icon: PhoneCallIcon,
+    icon: PhoneIcon,
+    name: 'phoneAuthenticator',
     customizable: true,
-    description: 'Phone Call',
+    description: loc('factor.call', 'login'),
     iconClassName: 'mfa-okta-phone',
   },
   [AUTHENTICATOR_KEY.RSA]: {
     icon: RSAIcon,
+    name: 'rsaAuthenticator',
     customizable: false,
-    description: 'RSA',
+    description: loc('factor.totpHard.rsaSecurId', 'login'),
     iconClassName: 'mfa-rsa',
   },
   [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
     icon: SecurityQuestionIcon,
+    name: 'securityQuestionAuthenticator',
     customizable: true,
-    description: 'Security Question',
+    description: loc('factor.securityQuestion', 'login'),
     iconClassName: 'mfa-okta-security-question',
   },
   [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
-    icon: SymantecVipIcon,
+    icon: SymantecIcon,
+    name: 'symantecVipAuthenticator',
     customizable: false,
-    description: 'Symantec VIP',
+    description: loc('factor.totpHard.symantecVip', 'login'),
     iconClassName: 'mfa-symantec',
   },
   [AUTHENTICATOR_KEY.WEBAUTHN]: {
-    icon: WebAuthNIcon,
+    icon: SecurityKeyOrBiometricsIcon,
+    name: 'webauthnAuthenticator',
     customizable: true,
-    description: 'WebAuthN',
+    description: loc('factor.webauthn.biometric', 'login'),
     iconClassName: 'mfa-webauthn',
   },
   [AUTHENTICATOR_KEY.YUBIKEY]: {
-    icon: YubikeyIcon,
+    icon: YubiKeyIcon,
+    name: 'yubikeyAuthenticator',
     customizable: false,
-    description: 'YubiKey Token',
+    description: loc('factor.totpHard.yubikey', 'login'),
     iconClassName: 'mfa-yubikey',
   },
 };

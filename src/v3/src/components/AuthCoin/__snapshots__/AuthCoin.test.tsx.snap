@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthCoin tests should display Branded AuthCoin and disallow style customization 1`] = `
+<div>
+  <div
+    class="iconContainer mfa-duo MuiBox-root emotion-0"
+  >
+    <svg
+      aria-labelledby="duoAuthenticator"
+      fill="none"
+      height="48"
+      role="img"
+      viewBox="0 0 48 48"
+      width="48"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title
+        id="duoAuthenticator"
+      >
+        factor.duo
+      </title>
+      <path
+        class="siwFillBg"
+        clip-rule="evenodd"
+        d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+        fill="#F5F5F6"
+        fill-rule="evenodd"
+      />
+      <path
+        clip-rule="evenodd"
+        d="M10.632 17H4v6.13h13.25c-.197-3.418-3.085-6.13-6.618-6.13Zm7.242 0v6.506c0 3.466 2.766 6.3 6.25 6.494V17h-6.25Zm13.886 6.13c.2-3.418 3.087-6.13 6.62-6.13s6.42 2.712 6.62 6.13H31.76Zm-6.873 6.859h6.238v-6.114a6.32 6.32 0 0 0 .012-.375V17h-6.25v12.989Zm-14.255.01H4v-6.124h13.25C17.054 27.291 14.166 30 10.633 30ZM38.38 30c-3.533 0-6.42-2.709-6.62-6.125H45C44.801 27.291 41.913 30 38.38 30Z"
+        fill="#77AF54"
+        fill-rule="evenodd"
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`AuthCoin tests should display Non-Branded AuthCoin with style customizations 1`] = `
+<div>
+  <div
+    class="iconContainer mfa-hotp MuiBox-root emotion-0"
+  >
+    <svg
+      aria-labelledby="customOtpAuthenticator"
+      fill="none"
+      height="48"
+      role="img"
+      viewBox="0 0 48 48"
+      width="48"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title
+        id="customOtpAuthenticator"
+      >
+        factor.hotp.description
+      </title>
+      <path
+        class="siwFillBg"
+        clip-rule="evenodd"
+        d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+        fill="#F5F5F6"
+        fill-rule="evenodd"
+      />
+      <path
+        class="siwFillSecondary"
+        d="M28 23h-6v-6h1v5h5v1Z"
+        fill="#A7B5EC"
+      />
+      <path
+        class="siwFillSecondary"
+        d="m29.39 14.32 1.46-1.47-.7-.7-1.6 1.59A11.323 11.323 0 0 0 23 12.03V10h2V9h-5v1h2v2.03c-1.967.078-3.88.667-5.55 1.71l-1.6-1.59-.7.7 1.46 1.47A11.459 11.459 0 0 0 13.79 31h1.37a10.5 10.5 0 1 1 14.68 0h1.37a11.459 11.459 0 0 0-1.82-16.68Z"
+        fill="#A7B5EC"
+      />
+      <path
+        class="siwFillPrimary"
+        d="m21.257 33.929-.514-.858L19 34.117V32h-1v2.117l-1.743-1.046-.514.858L17.528 35l-1.785 1.071.514.858L18 35.883V38h1v-2.117l1.743 1.046.514-.858L19.472 35l1.785-1.071Zm8 0-.514-.858L27 34.117V32h-1v2.117l-1.743-1.046-.514.858L25.528 35l-1.785 1.071.514.858L26 35.883V38h1v-2.117l1.743 1.046.514-.858L27.472 35l1.785-1.071Zm8 0-.514-.858L35 34.117V32h-1v2.117l-1.743-1.046-.514.858L33.528 35l-1.785 1.071.514.858L34 35.883V38h1v-2.117l1.743 1.046.514-.858L35.472 35l1.785-1.071Z"
+        fill="#00297A"
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`AuthCoin tests should display branded AuthCoin when image URL is provided and AuthenticatorKey requires a branded Type 1`] = `
+<div>
+  <div
+    class="iconContainer mfa-duo MuiBox-root emotion-0"
+  >
+    <svg
+      aria-labelledby="duoAuthenticator"
+      fill="none"
+      height="48"
+      role="img"
+      viewBox="0 0 48 48"
+      width="48"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title
+        id="duoAuthenticator"
+      >
+        factor.duo
+      </title>
+      <path
+        class="siwFillBg"
+        clip-rule="evenodd"
+        d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+        fill="#F5F5F6"
+        fill-rule="evenodd"
+      />
+      <path
+        clip-rule="evenodd"
+        d="M10.632 17H4v6.13h13.25c-.197-3.418-3.085-6.13-6.618-6.13Zm7.242 0v6.506c0 3.466 2.766 6.3 6.25 6.494V17h-6.25Zm13.886 6.13c.2-3.418 3.087-6.13 6.62-6.13s6.42 2.712 6.62 6.13H31.76Zm-6.873 6.859h6.238v-6.114a6.32 6.32 0 0 0 .012-.375V17h-6.25v12.989Zm-14.255.01H4v-6.124h13.25C17.054 27.291 14.166 30 10.633 30ZM38.38 30c-3.533 0-6.42-2.709-6.62-6.125H45C44.801 27.291 41.913 30 38.38 30Z"
+        fill="#77AF54"
+        fill-rule="evenodd"
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`AuthCoin tests should display custom image in place of standard Non-Branded AuthCoin when image URL is provided 1`] = `
+<div>
+  <div
+    class="iconContainer mfa-hotp MuiBox-root emotion-0"
+  >
+    <img
+      alt="factor.hotp.description"
+      class="customAuthImage"
+      src="/img/socialButtonIcons/okta.svg"
+    />
+  </div>
+</div>
+`;
+
+exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin without style customization 1`] = `
+<div>
+  <div
+    class="iconContainer mfa-hotp MuiBox-root emotion-0"
+  >
+    <svg
+      aria-labelledby="customOtpAuthenticator"
+      fill="none"
+      height="48"
+      role="img"
+      viewBox="0 0 48 48"
+      width="48"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title
+        id="customOtpAuthenticator"
+      >
+        factor.hotp.description
+      </title>
+      <path
+        class="siwFillBg"
+        clip-rule="evenodd"
+        d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+        fill="#F5F5F6"
+        fill-rule="evenodd"
+      />
+      <path
+        class="siwFillSecondary"
+        d="M28 23h-6v-6h1v5h5v1Z"
+        fill="#A7B5EC"
+      />
+      <path
+        class="siwFillSecondary"
+        d="m29.39 14.32 1.46-1.47-.7-.7-1.6 1.59A11.323 11.323 0 0 0 23 12.03V10h2V9h-5v1h2v2.03c-1.967.078-3.88.667-5.55 1.71l-1.6-1.59-.7.7 1.46 1.47A11.459 11.459 0 0 0 13.79 31h1.37a10.5 10.5 0 1 1 14.68 0h1.37a11.459 11.459 0 0 0-1.82-16.68Z"
+        fill="#A7B5EC"
+      />
+      <path
+        class="siwFillPrimary"
+        d="m21.257 33.929-.514-.858L19 34.117V32h-1v2.117l-1.743-1.046-.514.858L17.528 35l-1.785 1.071.514.858L18 35.883V38h1v-2.117l1.743 1.046.514-.858L19.472 35l1.785-1.071Zm8 0-.514-.858L27 34.117V32h-1v2.117l-1.743-1.046-.514.858L25.528 35l-1.785 1.071.514.858L26 35.883V38h1v-2.117l1.743 1.046.514-.858L27.472 35l1.785-1.071Zm8 0-.514-.858L35 34.117V32h-1v2.117l-1.743-1.046-.514.858L33.528 35l-1.785 1.071.514.858L34 35.883V38h1v-2.117l1.743 1.046.514-.858L35.472 35l1.785-1.071Z"
+        fill="#00297A"
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`AuthCoin tests should not render the component when invalid authenticator key is provided 1`] = `<div />`;

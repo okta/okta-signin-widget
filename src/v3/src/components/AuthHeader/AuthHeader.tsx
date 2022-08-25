@@ -17,7 +17,7 @@ import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
 import AuthCoin from '../AuthCoin/AuthCoin';
-import AuthenticatorConfiguration from '../AuthCoin/authenticatorConfiguration';
+import AuthenticatorConfiguration from '../AuthCoin/AuthCoinConfig';
 import { theme } from './AuthHeader.theme';
 import style from './style.module.css';
 
