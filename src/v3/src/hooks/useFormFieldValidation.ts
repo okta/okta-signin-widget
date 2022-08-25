@@ -15,7 +15,6 @@ import { StateUpdater, useCallback } from 'preact/hooks';
 import { getMessage } from '../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../contexts';
 import { DataSchema, FieldElement } from '../types';
-import debounce from 'lodash/debounce';
 
 export const useFormFieldValidation = (
   uischema: FieldElement,
@@ -25,7 +24,7 @@ export const useFormFieldValidation = (
   const { name } = uischema.options.inputMeta;
   const { dataSchemaRef, data } = useWidgetContext();
 
-  return useCallback(debounce((
+  return useCallback((
     setError?: StateUpdater<string | undefined>,
     value?: string | boolean | number,
   ) => {
@@ -43,5 +42,5 @@ export const useFormFieldValidation = (
       }
     }
     setError?.(undefined);
-  }, 0), [data, dataSchemaRef, name]);
+  }, [data, dataSchemaRef, name]);
 };
