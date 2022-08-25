@@ -53,7 +53,7 @@ exports[`unlock-account-success renders form 1`] = `
                   class="identifier identifierSpan MuiBox-root emotion-7"
                   data-se="identifier"
                 >
-                  glen.fannin@okta.com
+                  tester@okta1.com
                 </span>
               </div>
             </div>

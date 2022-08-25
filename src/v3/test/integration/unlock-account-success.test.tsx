@@ -20,4 +20,31 @@ describe('unlock-account-success', () => {
     await findByText(/Account successfully unlocked!/);
     expect(container).toMatchSnapshot();
   });
+
+  it('should send correct payload when clicking "Back to sign in" link', async () => {
+    const {
+      authClient,
+      user,
+      findByText,
+    } = await setup({ mockResponse });
+
+    const backToSigninLink = await findByText(/Back to sign in/);
+
+    await user.click(backToSigninLink);
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      'POST',
+      'http://localhost:3000/idp/idx/cancel',
+      {
+        data: JSON.stringify({
+          stateHandle: 'fake-stateHandle',
+        }),
+        headers: {
+          Accept: 'application/json; okta-version=1.0.0',
+          'Content-Type': 'application/json',
+          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        },
+        withCredentials: true,
+      },
+    );
+  });
 });
