@@ -197,6 +197,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             <FormHelperText
               data-se={`${fieldName}-error`}
               error
+              sx={{
+                marginTop: 0,
+                height: 0,
+              }}
             >
               {error}
             </FormHelperText>
