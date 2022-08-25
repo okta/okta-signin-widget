@@ -77,6 +77,10 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         <FormHelperText
           data-se={`${dataSe}-error`}
           error
+          sx={{
+            marginTop: 0,
+            height: 0,
+          }}
         >
           {error}
         </FormHelperText>

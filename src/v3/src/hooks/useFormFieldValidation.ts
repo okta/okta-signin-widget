@@ -43,5 +43,5 @@ export const useFormFieldValidation = (
       }
     }
     setError?.(undefined);
-  }, 200), [data, dataSchemaRef, name]);
+  }, 0), [data, dataSchemaRef, name]);
 };

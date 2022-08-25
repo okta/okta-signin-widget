@@ -74,6 +74,10 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         <FormHelperText
           data-se={`${name}-error`}
           error
+          sx={{
+            marginTop: 0,
+            height: 0,
+          }}
         >
           {error}
         </FormHelperText>
