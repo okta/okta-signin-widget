@@ -61,6 +61,7 @@ const Link: UISchemaElementComponent<{
       : (
         <LinkMui
           href={href}
+          onMouseDown={onMouseDown}
           // ref={focusRef}
         >
           {label}
