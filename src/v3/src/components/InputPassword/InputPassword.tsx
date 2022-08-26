@@ -58,10 +58,6 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         name={name}
         id={name}
         error={error !== undefined}
-        onBlur={() => {
-          setTouched?.(true);
-          onValidateHandler?.(setError);
-        }}
         onChange={handleChange}
         fullWidth
         inputProps={{
@@ -74,10 +70,6 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         <FormHelperText
           data-se={`${name}-error`}
           error
-          sx={{
-            marginTop: 1,
-            height: 0,
-          }}
         >
           {error}
         </FormHelperText>

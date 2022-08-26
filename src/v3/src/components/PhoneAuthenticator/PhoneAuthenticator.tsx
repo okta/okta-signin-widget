@@ -170,10 +170,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             name={fieldName}
             id={fieldName}
             error={error !== undefined}
-            onBlur={() => {
-              setTouched?.(true);
-              onValidateHandler?.(setError);
-            }}
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               setTouched?.(true);
               // Set new phone value without phone code
@@ -197,10 +193,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             <FormHelperText
               data-se={`${fieldName}-error`}
               error
-              sx={{
-                marginTop: 1,
-                height: 0,
-              }}
             >
               {error}
             </FormHelperText>
