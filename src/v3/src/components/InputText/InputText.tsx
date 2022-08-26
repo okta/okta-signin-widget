@@ -61,6 +61,10 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         id={name}
         name={name}
         error={error !== undefined}
+        onBlur={() => {
+          setTouched?.(true);
+          onValidateHandler?.(setError);
+        }}
         onChange={handleChange}
         fullWidth
         inputProps={{
