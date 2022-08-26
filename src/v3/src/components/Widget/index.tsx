@@ -82,6 +82,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   });
   const [message, setMessage] = useState<IdxMessage | undefined>();
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
+  const [previousTransaction, setPreviousTransaction] = useState<IdxTransaction | undefined>();
   const [isClientTransaction, setIsClientTransaction] = useState<boolean>(false);
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
@@ -260,8 +261,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       widgetProps,
       onSuccessCallback: onSuccess,
       idxTransaction,
+      previousTransaction,
       setAuthApiError,
       setIdxTransaction,
+      setPreviousTransaction,
       setIsClientTransaction,
       stepToRender,
       setStepToRender,

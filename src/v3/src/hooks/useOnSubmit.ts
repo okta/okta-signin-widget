@@ -32,7 +32,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     authClient,
     data,
     idxTransaction: currTransaction,
+    previousTransaction,
     dataSchemaRef,
+    setPreviousTransaction,
     setAuthApiError,
     setIdxTransaction,
     setIsClientTransaction,
@@ -50,6 +52,15 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       isActionStep,
       stepToRender,
     } = options;
+
+    let { stateHandle } = currTransaction!.context;
+
+    if (step === 'cancel') {
+      authClient?.transactionManager.clear({ clearIdxResponse: false });
+      if (previousTransaction) {
+        stateHandle = previousTransaction.context.stateHandle;
+      }
+    }
 
     // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
     const handleError = (error: unknown) => {
@@ -91,12 +102,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     }
     payload = toNestedObject(payload);
     if (currTransaction!.context.stateHandle) {
-      payload.stateHandle = currTransaction!.context.stateHandle;
+      payload.stateHandle = stateHandle;
     }
     setMessage(undefined);
     try {
       const newTransaction = await fn(payload);
       setIdxTransaction(newTransaction);
+      setPreviousTransaction(currTransaction);
       const isClientTransaction = newTransaction.nextStep?.name === currTransaction?.nextStep?.name;
       setIsClientTransaction(isClientTransaction);
       setStepToRender(stepToRender);
@@ -107,6 +119,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     data,
     authClient,
     currTransaction,
+    previousTransaction,
     dataSchemaRef,
     events,
     setAuthApiError,
@@ -114,5 +127,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setIsClientTransaction,
     setMessage,
     setStepToRender,
+    setPreviousTransaction,
   ]);
 };
