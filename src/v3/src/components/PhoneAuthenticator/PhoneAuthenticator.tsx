@@ -176,7 +176,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             }}
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               setTouched?.(true);
-              onValidateHandler?.(setError);
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
             }}
