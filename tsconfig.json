@@ -3,7 +3,7 @@
     "noEmit": true,
     "rootDir": ".",
     "baseUrl": ".",
-    "outDir": "./target/types",
+    "outDir": "./types",
     "target": "es6",
     "sourceMap": true,
     "moduleResolution": "nodenext",

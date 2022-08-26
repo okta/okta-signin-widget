@@ -21,28 +21,28 @@
     "not IE_Mob 11"
   ],
   "engines": {
-    "node": ">=12.22",
+    "node": ">=14.18",
     "yarn": "^1.7.0"
   },
-  "types": "./target/types/src/exports/default.d.ts",
+  "types": "./types/src/exports/default.d.ts",
   "main": "./target/js/okta-sign-in.default.js",
   "module": "./target/esm/src/exports/exports/default.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./target/types/src/exports/default.d.ts",
+      "types": "./types/src/exports/default.d.ts",
       "import": "./target/esm/src/exports/exports/default.js",
       "require": "./target/js/okta-sign-in.default.js",
       "default": "./target/esm/src/exports/exports/default.js"
     },
     "./classic": {
-      "types": "./target/types/src/exports/classic.d.ts",
+      "types": "./types/src/exports/classic.d.ts",
       "import": "./target/esm/src/exports/exports/classic.js",
       "require": "./target/js/okta-sign-in.classic.js",
       "default": "./target/esm/src/exports/exports/classic.js"
     },
     "./oie": {
-      "types": "./target/types/src/exports/oie.d.ts",
+      "types": "./types/src/exports/oie.d.ts",
       "import": "./target/esm/src/exports/exports/oie.js",
       "require": "./target/js/okta-sign-in.oie.js",
       "default": "./target/esm/src/exports/exports/oie.js"
@@ -218,7 +218,7 @@
     "webpack-dev-server": "^4.8.1"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "6.5.4",
+    "@okta/okta-auth-js": "https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-7.0.0-g3f4c031.tgz",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/jquery": "^3.5.14",

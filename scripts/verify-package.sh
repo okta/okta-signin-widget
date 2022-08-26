@@ -37,7 +37,7 @@ mv node_modules node_modules2
 
 # Verify minimum supported version of node
 export PATH=$ORIGINAL_PATH
-setup_service node v12.22.0
+setup_service node v14.18.0
 
 # Verify minimum supported version of yarn
 # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
