@@ -25,7 +25,7 @@ exports[`terminal-return-otp-only-full-location-unlock renders form 1`] = `
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="emailAuthenticator"
+                aria-labelledby="authCoinEmailAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -34,7 +34,7 @@ exports[`terminal-return-otp-only-full-location-unlock renders form 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="emailAuthenticator"
+                  id="authCoinEmailAuthenticator"
                 >
                   Email Authentication
                 </title>

@@ -25,7 +25,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -34,7 +34,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>

@@ -6,7 +6,7 @@ exports[`AuthCoin tests should display Branded AuthCoin and disallow style custo
     class="iconContainer mfa-duo MuiBox-root emotion-0"
   >
     <svg
-      aria-labelledby="duoAuthenticator"
+      aria-labelledby="authCoinDuoAuthenticator"
       fill="none"
       height="48"
       role="img"
@@ -15,7 +15,7 @@ exports[`AuthCoin tests should display Branded AuthCoin and disallow style custo
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="duoAuthenticator"
+        id="authCoinDuoAuthenticator"
       >
         factor.duo
       </title>
@@ -43,7 +43,7 @@ exports[`AuthCoin tests should display Non-Branded AuthCoin with style customiza
     class="iconContainer mfa-hotp MuiBox-root emotion-0"
   >
     <svg
-      aria-labelledby="customOtpAuthenticator"
+      aria-labelledby="authCoinCustomOtpAuthenticator"
       fill="none"
       height="48"
       role="img"
@@ -52,7 +52,7 @@ exports[`AuthCoin tests should display Non-Branded AuthCoin with style customiza
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="customOtpAuthenticator"
+        id="authCoinCustomOtpAuthenticator"
       >
         factor.hotp.description
       </title>
@@ -89,7 +89,7 @@ exports[`AuthCoin tests should display branded AuthCoin when image URL is provid
     class="iconContainer mfa-duo MuiBox-root emotion-0"
   >
     <svg
-      aria-labelledby="duoAuthenticator"
+      aria-labelledby="authCoinDuoAuthenticator"
       fill="none"
       height="48"
       role="img"
@@ -98,7 +98,7 @@ exports[`AuthCoin tests should display branded AuthCoin when image URL is provid
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="duoAuthenticator"
+        id="authCoinDuoAuthenticator"
       >
         factor.duo
       </title>
@@ -140,7 +140,7 @@ exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin witho
     class="iconContainer mfa-hotp MuiBox-root emotion-0"
   >
     <svg
-      aria-labelledby="customOtpAuthenticator"
+      aria-labelledby="authCoinCustomOtpAuthenticator"
       fill="none"
       height="48"
       role="img"
@@ -149,7 +149,7 @@ exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin witho
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="customOtpAuthenticator"
+        id="authCoinCustomOtpAuthenticator"
       >
         factor.hotp.description
       </title>

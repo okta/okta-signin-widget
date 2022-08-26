@@ -25,7 +25,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
               class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="webauthnAuthenticator"
+                aria-labelledby="authCoinWebauthnAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -34,7 +34,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="webauthnAuthenticator"
+                  id="authCoinWebauthnAuthenticator"
                 >
                   Security Key or Biometric Authenticator
                 </title>
@@ -207,7 +207,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
               class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="webauthnAuthenticator"
+                aria-labelledby="authCoinWebauthnAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -216,7 +216,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="webauthnAuthenticator"
+                  id="authCoinWebauthnAuthenticator"
                 >
                   Security Key or Biometric Authenticator
                 </title>

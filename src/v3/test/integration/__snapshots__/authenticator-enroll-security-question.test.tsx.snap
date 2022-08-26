@@ -25,7 +25,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
               class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="securityQuestionAuthenticator"
+                aria-labelledby="authCoinSecurityQuestionAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -34,7 +34,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="securityQuestionAuthenticator"
+                  id="authCoinSecurityQuestionAuthenticator"
                 >
                   Security Question
                 </title>
@@ -435,7 +435,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
               class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="securityQuestionAuthenticator"
+                aria-labelledby="authCoinSecurityQuestionAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -444,7 +444,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="securityQuestionAuthenticator"
+                  id="authCoinSecurityQuestionAuthenticator"
                 >
                   Security Question
                 </title>
@@ -810,7 +810,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
               class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="securityQuestionAuthenticator"
+                aria-labelledby="authCoinSecurityQuestionAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -819,7 +819,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="securityQuestionAuthenticator"
+                  id="authCoinSecurityQuestionAuthenticator"
                 >
                   Security Question
                 </title>

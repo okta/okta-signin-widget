@@ -25,7 +25,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
               class="iconContainer mfa-google-auth authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="googleOtpAuthenticator"
+                aria-labelledby="authCoinGoogleOtpAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -34,7 +34,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="googleOtpAuthenticator"
+                  id="authCoinGoogleOtpAuthenticator"
                 >
                   Google Authenticator
                 </title>
@@ -298,7 +298,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
               class="iconContainer mfa-google-auth authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="googleOtpAuthenticator"
+                aria-labelledby="authCoinGoogleOtpAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -307,7 +307,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="googleOtpAuthenticator"
+                  id="authCoinGoogleOtpAuthenticator"
                 >
                   Google Authenticator
                 </title>
@@ -589,7 +589,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
               class="iconContainer mfa-google-auth authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="googleOtpAuthenticator"
+                aria-labelledby="authCoinGoogleOtpAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -598,7 +598,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="googleOtpAuthenticator"
+                  id="authCoinGoogleOtpAuthenticator"
                 >
                   Google Authenticator
                 </title>
@@ -852,7 +852,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
               class="iconContainer mfa-google-auth authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="googleOtpAuthenticator"
+                aria-labelledby="authCoinGoogleOtpAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -861,7 +861,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="googleOtpAuthenticator"
+                  id="authCoinGoogleOtpAuthenticator"
                 >
                   Google Authenticator
                 </title>

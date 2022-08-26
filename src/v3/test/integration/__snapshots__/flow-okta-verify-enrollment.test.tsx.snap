@@ -25,7 +25,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -34,7 +34,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>
@@ -226,7 +226,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -235,7 +235,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>
@@ -512,7 +512,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -521,7 +521,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>
@@ -744,7 +744,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -753,7 +753,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>
@@ -974,7 +974,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -983,7 +983,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>
@@ -1240,7 +1240,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -1249,7 +1249,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>
@@ -1441,7 +1441,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -1450,7 +1450,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>
@@ -1642,7 +1642,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -1651,7 +1651,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>
@@ -1928,7 +1928,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -1937,7 +1937,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>
@@ -3429,7 +3429,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -3438,7 +3438,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>
@@ -3659,7 +3659,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="oktaVerifyAuthenticator"
+                aria-labelledby="authCoinOktaVerifyAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -3668,7 +3668,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="oktaVerifyAuthenticator"
+                  id="authCoinOktaVerifyAuthenticator"
                 >
                   Okta Verify
                 </title>

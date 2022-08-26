@@ -33,116 +33,116 @@ import {
   YubiKeyIcon,
 } from '../Icon';
 
-const AuthenticatorConfiguration: {
-  [key: string]: {
-    icon: FunctionComponent<IconProps>;
-    name: string;
-    customizable: boolean;
-    description: string;
-    iconClassName: string;
-  }
-} = {
+type AuthenticatorConfig = {
+  icon: FunctionComponent<IconProps>;
+  name: string;
+  customizable: boolean;
+  description: string;
+  iconClassName: string;
+};
+
+const AuthenticatorConfiguration: Record<string, AuthenticatorConfig> = {
   [AUTHENTICATOR_KEY.CUSTOM_OTP]: {
     icon: CustomOTPIcon,
     customizable: true,
-    name: 'customOtpAuthenticator',
+    name: 'authCoinCustomOtpAuthenticator',
     description: loc('factor.hotp.description', 'login'),
     iconClassName: 'mfa-hotp',
   },
   [AUTHENTICATOR_KEY.CUSTOM_APP]: {
     icon: CustomAppIcon,
-    name: 'customAppAuthenticator',
+    name: 'authCoinCustomAppAuthenticator',
     customizable: true,
     description: loc('factor.customFactor.description.generic', 'login'),
     iconClassName: 'mfa-custom-app-logo',
   },
   [AUTHENTICATOR_KEY.DUO]: {
     icon: DuoIcon,
-    name: 'duoAuthenticator',
+    name: 'authCoinDuoAuthenticator',
     customizable: false,
     description: loc('factor.duo', 'login'),
     iconClassName: 'mfa-duo',
   },
   [AUTHENTICATOR_KEY.IDP]: {
     icon: IDPIcon,
-    name: 'idpAuthenticator',
+    name: 'authCoinIdpAuthenticator',
     customizable: true,
     description: loc('factor.customFactor.description.generic', 'login'),
     iconClassName: 'mfa-custom-factor',
   },
   [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
     icon: GoogleOTPIcon,
-    name: 'googleOtpAuthenticator',
+    name: 'authCoinGoogleOtpAuthenticator',
     customizable: false,
     description: loc('factor.totpSoft.googleAuthenticator', 'login'),
     iconClassName: 'mfa-google-auth',
   },
   [AUTHENTICATOR_KEY.EMAIL]: {
     icon: EmailIcon,
-    name: 'emailAuthenticator',
+    name: 'authCoinEmailAuthenticator',
     customizable: true,
     description: loc('factor.email', 'login'),
     iconClassName: 'mfa-okta-email',
   },
   [AUTHENTICATOR_KEY.PASSWORD]: {
     icon: PasswordIcon,
-    name: 'passwordAuthenticator',
+    name: 'authCoinPasswordAuthenticator',
     customizable: true,
     description: loc('factor.password', 'login'),
     iconClassName: 'mfa-okta-password',
   },
   [AUTHENTICATOR_KEY.OV]: {
     icon: OktaVerifyIcon,
-    name: 'oktaVerifyAuthenticator',
+    name: 'authCoinOktaVerifyAuthenticator',
     customizable: false,
     description: loc('factor.totpSoft.oktaVerify', 'login'),
     iconClassName: 'mfa-okta-verify',
   },
   [AUTHENTICATOR_KEY.ON_PREM]: {
     icon: OnPremMFAIcon,
-    name: 'onPremAuthenticator',
+    name: 'authCoinOnPremAuthenticator',
     customizable: true,
     description: loc('factor.totpHard.description', 'login'),
     iconClassName: 'mfa-onprem',
   },
   [AUTHENTICATOR_KEY.PHONE]: {
     icon: PhoneIcon,
-    name: 'phoneAuthenticator',
+    name: 'authCoinPhoneAuthenticator',
     customizable: true,
     description: loc('factor.call', 'login'),
     iconClassName: 'mfa-okta-phone',
   },
   [AUTHENTICATOR_KEY.RSA]: {
     icon: RSAIcon,
-    name: 'rsaAuthenticator',
+    name: 'authCoinRsaAuthenticator',
     customizable: false,
     description: loc('factor.totpHard.rsaSecurId', 'login'),
     iconClassName: 'mfa-rsa',
   },
   [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
     icon: SecurityQuestionIcon,
-    name: 'securityQuestionAuthenticator',
+    name: 'authCoinSecurityQuestionAuthenticator',
     customizable: true,
     description: loc('factor.securityQuestion', 'login'),
     iconClassName: 'mfa-okta-security-question',
   },
   [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
     icon: SymantecIcon,
-    name: 'symantecVipAuthenticator',
+    name: 'authCoinSymantecVipAuthenticator',
     customizable: false,
     description: loc('factor.totpHard.symantecVip', 'login'),
     iconClassName: 'mfa-symantec',
   },
   [AUTHENTICATOR_KEY.WEBAUTHN]: {
     icon: SecurityKeyOrBiometricsIcon,
-    name: 'webauthnAuthenticator',
+    name: 'authCoinWebauthnAuthenticator',
     customizable: true,
     description: loc('factor.webauthn.biometric', 'login'),
     iconClassName: 'mfa-webauthn',
   },
   [AUTHENTICATOR_KEY.YUBIKEY]: {
     icon: YubiKeyIcon,
-    name: 'yubikeyAuthenticator',
+    name: 'authCoinYubikeyAuthenticator',
     customizable: false,
     description: loc('factor.totpHard.yubikey', 'login'),
     iconClassName: 'mfa-yubikey',

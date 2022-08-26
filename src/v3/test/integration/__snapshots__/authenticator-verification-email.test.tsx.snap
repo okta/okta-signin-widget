@@ -25,7 +25,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="emailAuthenticator"
+                aria-labelledby="authCoinEmailAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -34,7 +34,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="emailAuthenticator"
+                  id="authCoinEmailAuthenticator"
                 >
                   Email Authentication
                 </title>
@@ -194,7 +194,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="emailAuthenticator"
+                aria-labelledby="authCoinEmailAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -203,7 +203,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="emailAuthenticator"
+                  id="authCoinEmailAuthenticator"
                 >
                   Email Authentication
                 </title>
@@ -403,7 +403,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="emailAuthenticator"
+                aria-labelledby="authCoinEmailAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -412,7 +412,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="emailAuthenticator"
+                  id="authCoinEmailAuthenticator"
                 >
                   Email Authentication
                 </title>
@@ -614,7 +614,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="emailAuthenticator"
+                aria-labelledby="authCoinEmailAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -623,7 +623,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="emailAuthenticator"
+                  id="authCoinEmailAuthenticator"
                 >
                   Email Authentication
                 </title>

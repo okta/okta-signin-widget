@@ -25,7 +25,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
               class="iconContainer mfa-okta-phone authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="phoneAuthenticator"
+                aria-labelledby="authCoinPhoneAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -34,7 +34,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="phoneAuthenticator"
+                  id="authCoinPhoneAuthenticator"
                 >
                   Voice Call Authentication
                 </title>
@@ -1627,7 +1627,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
               class="iconContainer mfa-okta-phone authCoinOverlay MuiBox-root emotion-4"
             >
               <svg
-                aria-labelledby="phoneAuthenticator"
+                aria-labelledby="authCoinPhoneAuthenticator"
                 fill="none"
                 height="48"
                 role="img"
@@ -1636,7 +1636,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="phoneAuthenticator"
+                  id="authCoinPhoneAuthenticator"
                 >
                   Voice Call Authentication
                 </title>
