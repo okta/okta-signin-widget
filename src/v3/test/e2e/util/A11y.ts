@@ -17,6 +17,10 @@ const DEFAULT_A11Y_TAG_VALUES: TagValue[] = [
   'best-practice',
   'wcag21aa',
   'wcag2a',
+  // The below tags cause a color contrast issue on MUI input field
+  // 'cat.color',
+  // 'wcag2aa',
+  // 'wcag143',
 ];
 const ALWAYS_IGNORED_RULE_IDS: string[] = [
   'landmark-one-main',
