@@ -17,7 +17,7 @@ import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
 import AuthCoin from '../AuthCoin/AuthCoin';
-import AuthenticatorConfiguration from '../AuthCoin/AuthCoinConfig';
+import AuthCoinByAuthenticatorKeyConfig from '../AuthCoin/AuthCoinConfig';
 import { theme } from './AuthHeader.theme';
 import style from './style.module.css';
 
@@ -26,7 +26,7 @@ const cx = classNames.bind(style);
 // TODO: maybe extract to util class if used reused
 const shouldRenderAuthCoin = (props?: AuthCoinProps): boolean => {
   const authCoinConfig = props?.authenticatorKey
-    && AuthenticatorConfiguration[props?.authenticatorKey];
+    && AuthCoinByAuthenticatorKeyConfig[props?.authenticatorKey];
   if (!authCoinConfig) {
     return false;
   }

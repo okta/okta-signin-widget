@@ -17,7 +17,7 @@ import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
 import { theme } from './AuthCoin.theme';
-import AuthenticatorConfig from './AuthCoinConfig';
+import AuthCoinByAuthenticatorKey from './AuthCoinConfig';
 import style from './style.module.css';
 
 const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
@@ -29,7 +29,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     description: authcoinDescr,
   } = props;
 
-  const authCoinConfig = AuthenticatorConfig[authenticatorKey];
+  const authCoinConfig = AuthCoinByAuthenticatorKey[authenticatorKey];
 
   const containerClasses = classNames(
     style.iconContainer,

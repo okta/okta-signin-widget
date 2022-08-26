@@ -33,7 +33,7 @@ import {
   YubiKeyIcon,
 } from '../Icon';
 
-type AuthenticatorConfig = {
+type AuthCoinConfig = {
   icon: FunctionComponent<IconProps>;
   name: string;
   customizable: boolean;
@@ -41,7 +41,7 @@ type AuthenticatorConfig = {
   iconClassName: string;
 };
 
-const AuthenticatorConfiguration: Record<string, AuthenticatorConfig> = {
+const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
   [AUTHENTICATOR_KEY.CUSTOM_OTP]: {
     icon: CustomOTPIcon,
     customizable: true,
@@ -149,4 +149,4 @@ const AuthenticatorConfiguration: Record<string, AuthenticatorConfig> = {
   },
 };
 
-export default AuthenticatorConfiguration;
+export default AuthCoinByAuthenticatorKey;
