@@ -33,7 +33,7 @@ const TextWithHtml: UISchemaElementComponent<{
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
 
-  const onMouseDown: ClickHandler = (e) => { e.preventDefault(); console.log('mouse down'); };
+  const onMouseDown: ClickHandler = (e) => { e.preventDefault(); };
   const handleClick = async (e: Event) => {
     e.preventDefault();
 
