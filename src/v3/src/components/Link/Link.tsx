@@ -42,6 +42,7 @@ const Link: UISchemaElementComponent<{
       step,
     });
   };
+  const onMouseDown: ClickHandler = (e) => { e.preventDefault(); };
 
   return (
     typeof href === 'undefined' ? (
@@ -49,6 +50,7 @@ const Link: UISchemaElementComponent<{
         // eslint-disable-next-line no-script-url
         href="javascript:void(0)"
         onClick={onClick}
+        onMouseDown={onMouseDown}
         // ref={focusRef}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...(dataSe && { 'data-se': dataSe } )}
@@ -59,6 +61,7 @@ const Link: UISchemaElementComponent<{
       : (
         <LinkMui
           href={href}
+          onMouseDown={onMouseDown}
           // ref={focusRef}
         >
           {label}

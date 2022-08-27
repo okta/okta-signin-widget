@@ -102,6 +102,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   useEffect(() => {
     const formattedPhone = formatPhone(phone, phoneCode, extension);
     onChangeHandler(formattedPhone);
+    setTouched?.(true);
     onValidateHandler?.(setError, formattedPhone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phoneCode, phone, extension, showExtension]);
@@ -175,7 +176,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               onValidateHandler?.(setError);
             }}
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-              setTouched?.(true);
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
             }}

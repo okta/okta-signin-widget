@@ -15,6 +15,7 @@ import { h } from 'preact';
 
 import { useOnSubmit } from '../../hooks';
 import {
+  ClickHandler,
   TextWithHtmlElement,
   UISchemaElementComponent,
 } from '../../types';
@@ -32,6 +33,7 @@ const TextWithHtml: UISchemaElementComponent<{
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
 
+  const onMouseDown: ClickHandler = (e) => { e.preventDefault(); };
   const handleClick = async (e: Event) => {
     e.preventDefault();
 
@@ -51,6 +53,7 @@ const TextWithHtml: UISchemaElementComponent<{
       <Box
         onClick={handleClick}
         dangerouslySetInnerHTML={{ __html: content }}
+        onMouseDown={onMouseDown}
       />
     </Box>
   );

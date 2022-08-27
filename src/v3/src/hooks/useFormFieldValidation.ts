@@ -30,7 +30,7 @@ export const useFormFieldValidation = (
   ) => {
     const validator = dataSchemaRef.current?.[name] as DataSchema;
     if (typeof validator?.validate === 'function') {
-      const updatedData = { ...data, ...(value && { [name]: value }) };
+      const updatedData = { ...data, ...(value !== undefined && { [name]: value }) };
       const messages = validator.validate({ ...updatedData });
       const matchingMessage = messages?.find(
         (message) => message.name === undefined || message.name === name,

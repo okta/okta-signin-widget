@@ -3038,7 +3038,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                             Phone number
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-41"
+                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-41"
                           >
                             <span
                               class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-42"
@@ -3050,7 +3050,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               </p>
                             </span>
                             <input
-                              aria-invalid="false"
+                              aria-invalid="true"
                               autocomplete="tel-national"
                               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-44"
                               data-se="authenticator.phoneNumber"
@@ -3073,9 +3073,15 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               </legend>
                             </fieldset>
                           </div>
+                          <p
+                            class="MuiFormHelperText-root Mui-error emotion-47"
+                            data-se="authenticator.phoneNumber-error"
+                          >
+                            This field cannot be left blank
+                          </p>
                         </div>
                         <div
-                          class="MuiBox-root emotion-47"
+                          class="MuiBox-root emotion-48"
                         >
                           <label
                             class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-40"
@@ -3084,11 +3090,11 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                             Extension
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary emotion-49"
+                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary emotion-50"
                           >
                             <input
                               autocomplete="tel-extension"
-                              class="MuiOutlinedInput-input MuiInputBase-input emotion-50"
+                              class="MuiOutlinedInput-input MuiInputBase-input emotion-51"
                               data-se="extension"
                               id="phoneExtension"
                               name="extension"
@@ -3117,7 +3123,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-54"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-55"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -3130,7 +3136,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -3141,7 +3147,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
