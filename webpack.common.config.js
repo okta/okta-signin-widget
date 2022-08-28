@@ -11,7 +11,13 @@ var LOCAL_PACKAGES = resolve(__dirname, 'packages/');
 var COURAGE_DIST = `${LOCAL_PACKAGES}/@okta/courage-dist/esm`;
 
 // Return a function so that all consumers get a new copy of the config
-module.exports = function({ entry, outputFilename, mode = 'development', classic = false, oie = false }) {
+module.exports = function({
+  entry,
+  outputFilename,
+  mode = 'development',
+  engine = '',
+  cdn = true
+}) {
 
   // normalize entry so it is always an array
   entry = Array.isArray(entry) ? entry : [entry];
@@ -44,6 +50,10 @@ module.exports = function({ entry, outputFilename, mode = 'development', classic
     // acorn-hammerhead (testcafe) is currently unable to parse class fields, and will return the script unmodified
     // this will cause URLs to load outside the proxy and cause browser disconnect error
     babelOptions.plugins.unshift('@babel/plugin-proposal-class-properties');
+  }
+
+  if (cdn) {
+    babelOptions.plugins.push('add-module-exports');
   }
 
   const webpackConfig = {
@@ -134,12 +144,13 @@ module.exports = function({ entry, outputFilename, mode = 'development', classic
     webpackConfig.optimization = optimization;
   }
 
-  if (classic) {
+  switch (engine) {
+  case 'classic':
     webpackConfig.resolve.alias['@okta/okta-auth-js'] = '@okta/okta-auth-js/authn';
-  }
-
-  if (oie) {
+    break;
+  case 'oie':
     webpackConfig.resolve.alias['@okta/okta-auth-js'] = '@okta/okta-auth-js/idx';
+    break;
   }
 
   return webpackConfig;

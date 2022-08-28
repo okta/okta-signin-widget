@@ -9,15 +9,15 @@ module.exports = (env = {}) => {
 
   let entries = {
     'default': {
-      entry: './src/exports/default.ts',
+      entry: './src/exports/cdn/default.ts',
     },
     'classic': {
-      entry: './src/exports/classic.ts',
-      classic: true
+      entry: './src/exports/cdn/classic.ts',
+      engine: 'classic'
     },
     'oie': {
-      entry: './src/exports/oie.ts',
-      oie: true
+      entry: './src/exports/cdn/oie.ts',
+      engine: 'oie'
     }
   };
   
@@ -28,18 +28,18 @@ module.exports = (env = {}) => {
     };
   }
 
-  
   const configs = Object.keys(entries).map(entryName => {
     const entryValue = entries[entryName];
+    const fileNameBase = entryName === 'default' ? 'okta-sign-in' : `okta-sign-in.${entryName}`;
     const webpackConfig = {
       ...common({
-        outputFilename: `okta-sign-in.${entryName}.js`,
+        outputFilename: `${fileNameBase}.js`,
         ...entryValue,
       }),
       plugins: plugins({
         isProduction,
         skipAnalyzer,
-        analyzerFile: `okta-sign-in.${entryName}.analyzer`
+        analyzerFile: `${fileNameBase}.analyzer`
       })
     };
 

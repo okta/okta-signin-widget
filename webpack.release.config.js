@@ -17,11 +17,12 @@ var plugins = require('./scripts/buildtools/webpack/plugins');
 var useRuntime = require('./scripts/buildtools/webpack/runtime');
 var usePolyfill = require('./scripts/buildtools/webpack/polyfill');
 
-// 1. entryConfig (node module main entry. minified, no polyfill)
+// 1. entryConfig (node module main entry. minified, no polyfill, commonJS with multiple exports)
 var entryConfig = config({
   entry: './src/exports/default.ts',
   outputFilename: 'okta-sign-in.entry.js',
-  mode: 'production'
+  mode: 'production',
+  cdn: false
 });
 entryConfig.output.filename = 'okta-sign-in.entry.js';
 entryConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.entry.analyzer' });
@@ -29,7 +30,7 @@ useRuntime(entryConfig);
 
 // 2. noPolyfillConfig
 var noPolyfillConfig = config({
-  entry: './src/exports/default.ts',
+  entry: './src/exports/cdn/default.ts',
   outputFilename: 'okta-sign-in.no-polyfill.min.js',
   mode: 'production'
 });
@@ -38,7 +39,7 @@ useRuntime(noPolyfillConfig);
 
 // 3. cdnConfig (with polyfill)
 var cdnConfig = config({
-  entry: './src/exports/default.ts',
+  entry: './src/exports/cdn/default.ts',
   outputFilename: 'okta-sign-in.min.js',
   mode: 'production'
 });
@@ -47,7 +48,7 @@ usePolyfill(cdnConfig);
 
 // 4. devConfig (with polyfill, unminified)
 var devConfig = config({
-  entry: './src/exports/default.ts',
+  entry: './src/exports/cdn/default.ts',
   outputFilename: 'okta-sign-in.js',
   mode: 'development'
 });
