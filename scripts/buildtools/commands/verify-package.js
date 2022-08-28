@@ -57,13 +57,13 @@ function verifyPackageContents() {
     'dist/js/okta-sign-in.entry.js',
     'dist/js/okta-sign-in.entry.js.map',
     'dist/js/okta-sign-in.min.js',
-    'dist/esm/src/index.js',
+    'dist/esm/src/exports/exports/default.js',
     'dist/labels/json/country_de.json',
     'dist/labels/json/login_ru.json',
     'dist/sass/_fonts.scss',
     'dist/font/okticon.ttf',
     'dist/font/okticon.woff',
-    'types/src/index.d.ts',
+    'types/src/exports/default.d.ts',
     'types/packages/@okta/courage-dist/types/courage/framework/Model.d.ts'
   ];
 
