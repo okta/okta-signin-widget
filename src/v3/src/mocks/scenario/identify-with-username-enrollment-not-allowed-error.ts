@@ -36,7 +36,7 @@ scenario('identify-with-username-enrollment-not-allowed-error', (rest) => ([
     );
   }),
   rest.post('*/idp/idx/identify', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/identify-with-username-enrollment-unavailable-error.json');
+    const { default: body } = await import('../response/idp/idx/authenticator-enrollment-not-allowed.json');
     return res(
       ctx.status(400),
       ctx.json(body),
