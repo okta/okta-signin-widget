@@ -28,6 +28,9 @@ export const getValidationMessages = (
     .reduce((acc: Record<string, IdxMessageWithName[]>, [name, elementSchema]) => {
       if (fieldsToValidate.includes(name) && typeof elementSchema.validate === 'function') {
         const validationMessages = elementSchema.validate({
+          // data & params are passed here for validation in case a required field
+          // does not translate to user input, we rely on the transformer to populate
+          // actionParams to pass the required validation check.
           ...data,
           ...params,
         });
