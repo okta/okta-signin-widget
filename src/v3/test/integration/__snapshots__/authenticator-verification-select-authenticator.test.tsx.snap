@@ -148,7 +148,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Password
@@ -242,7 +242,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Security Key or Biometric Authenticator
@@ -336,7 +336,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Security Key or Biometric Authenticator
@@ -410,7 +410,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Email
@@ -494,13 +494,13 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Phone
                       </h3>
                       <p
-                        class="MuiBox-root emotion-54"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-54"
                         data-se="authenticator-button-description"
                       >
                         +1 XXX-XXX-5309
@@ -584,13 +584,13 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Phone
                       </h3>
                       <p
-                        class="MuiBox-root emotion-54"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-54"
                         data-se="authenticator-button-description"
                       >
                         +1 XXX-XXX-5309
@@ -664,7 +664,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Security Question
@@ -735,13 +735,13 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Use Okta FastPass
                       </h3>
                       <p
-                        class="MuiBox-root emotion-54"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-54"
                         data-se="authenticator-button-description"
                       >
                         Okta Verify
@@ -887,7 +887,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Google Authenticator
@@ -961,7 +961,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Atko Custom On-prem
@@ -1029,7 +1029,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         RSA SecurID
@@ -1099,7 +1099,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Duo Security
@@ -1178,7 +1178,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         IDP Authenticator
@@ -1257,7 +1257,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Atko Custom OTP Authenticator
@@ -1333,7 +1333,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Symantec VIP
@@ -1409,7 +1409,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         YubiKey Authenticator
@@ -1456,13 +1456,13 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Get a push notification
                       </h3>
                       <p
-                        class="MuiBox-root emotion-54"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-54"
                         data-se="authenticator-button-description"
                       >
                         Custom Push App

@@ -143,7 +143,7 @@ exports[`user-unlock-account renders form 1`] = `
                       class="infoSection MuiBox-root emotion-10"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Email
@@ -227,7 +227,7 @@ exports[`user-unlock-account renders form 1`] = `
                       class="infoSection MuiBox-root emotion-10"
                     >
                       <h3
-                        class="MuiBox-root emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Phone

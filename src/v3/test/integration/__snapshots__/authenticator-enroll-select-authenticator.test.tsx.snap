@@ -162,13 +162,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Password
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Choose a password for your account
@@ -252,13 +252,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Phone
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Verify with a code sent to your phone
@@ -352,13 +352,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Security Key or Biometric Authenticator
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Use a security key or a biometric authenticator to sign in
@@ -432,13 +432,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Security Question
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Choose a security question and answer that will be used for signing in
@@ -509,13 +509,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Okta Verify
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Okta Verify is an authenticator app, installed on your phone, used to prove your identity
@@ -661,13 +661,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Google Authenticator
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Enter a temporary code generated from the Google Authenticator app.
@@ -741,13 +741,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Atko Custom On-prem
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Verify by entering a code generated by Atko Custom On-prem.
@@ -815,13 +815,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         RSA SecurID
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Verify by entering a code generated by RSA SecurID
@@ -891,13 +891,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Duo Security
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Verify your identity using Duo Security.
@@ -976,13 +976,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         IDP Authenticator
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Redirect to verify with IDP Authenticator.
@@ -1061,13 +1061,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Atko Custom OTP Authenticator
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Enter a temporary code generated from an authenticator device.
@@ -1143,13 +1143,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Symantec VIP
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Verify by entering a temporary code from the Symantec VIP app.
@@ -1225,13 +1225,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         YubiKey Authenticator
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Verify your identity using YubiKey

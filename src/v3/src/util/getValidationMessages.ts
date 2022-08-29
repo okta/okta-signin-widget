@@ -11,7 +11,6 @@
  */
 
 import {
-  ActionOptions,
   ActionParams,
   DataSchema,
   FormBag,
@@ -19,31 +18,25 @@ import {
 } from '../types';
 
 export const getValidationMessages = (
-  dataSchema: Record<string, DataSchema> & {
-    submit: ActionOptions;
-    fieldsToValidate: string[];
-    fieldsToExclude: (data: FormBag['data']) => string[];
-  },
+  dataSchema: Record<string, DataSchema>,
+  fieldsToValidate: string[],
   data: FormBag['data'],
-  params: ActionParams | undefined,
+  params?: ActionParams,
 ): Record<string, IdxMessageWithName[]> | undefined => {
-  const { fieldsToValidate } = dataSchema;
   // aggregate field level messages based on validation rules in each field
   const messages = Object.entries(dataSchema)
-    .reduce((acc: Record<string, IdxMessageWithName[]>, curr) => {
-      const name = curr[0];
-      const elementSchema = curr[1] as DataSchema;
+    .reduce((acc: Record<string, IdxMessageWithName[]>, [name, elementSchema]) => {
       if (fieldsToValidate.includes(name) && typeof elementSchema.validate === 'function') {
         const validationMessages = elementSchema.validate({
           ...data,
           ...params,
         });
         if (validationMessages?.length) {
-          acc[name] = [...validationMessages];
+          acc[name] = validationMessages;
         }
       }
       return acc;
     }, {});
 
-  return Object.keys(messages)?.length ? messages : undefined;
+  return Object.keys(messages).length ? messages : undefined;
 };

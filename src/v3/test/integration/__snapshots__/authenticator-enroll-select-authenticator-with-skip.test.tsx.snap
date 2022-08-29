@@ -162,13 +162,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Password
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Choose a password for your account
@@ -252,13 +252,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Phone
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Verify with a code sent to your phone
@@ -352,13 +352,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       class="infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiBox-root emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
                         data-se="authenticator-button-label"
                       >
                         Security Key or Biometric Authenticator
                       </h3>
                       <p
-                        class="MuiBox-root emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="authenticator-button-description"
                       >
                         Use a security key or a biometric authenticator to sign in

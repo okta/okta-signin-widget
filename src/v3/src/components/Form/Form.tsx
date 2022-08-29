@@ -49,7 +49,13 @@ const Form: FunctionComponent<{
     // client side validation - only validate for fields in nextStep
     const { nextStep } = currTransaction!;
     if (!step || step === nextStep!.name) {
-      const messages = getValidationMessages(dataSchemaRef.current!, data, params);
+      const dataSchema = dataSchemaRef.current!;
+      const messages = getValidationMessages(
+        dataSchema,
+        dataSchema.fieldsToValidate,
+        data,
+        params,
+      );
       // update transaction with client validation messages to trigger rerender
       if (messages) {
         onValidationHandler(messages);

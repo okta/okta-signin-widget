@@ -18,7 +18,7 @@ import {
   AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP,
   AUTHENTICATOR_KEY,
 } from '../../constants';
-import { ActionParams, AuthenticatorButtonElement } from '../../types';
+import { ActionParams, AuthenticatorButtonElement, ButtonType } from '../../types';
 import { loc } from '../../util';
 
 const getAuthenticatorOption = (
@@ -60,6 +60,7 @@ const buildOktaVerifyOptions = (
       type: 'AuthenticatorButton',
       label: option.label,
       options: {
+        type: ButtonType.BUTTON,
         key: AUTHENTICATOR_KEY.OV,
         ctaLabel: isEnroll
           ? loc('oie.enroll.authenticator.button.text', 'login')
@@ -206,6 +207,7 @@ const formatAuthenticatorOptions = (
       type: 'AuthenticatorButton',
       label: option.label,
       options: {
+        type: ButtonType.BUTTON,
         key: authenticatorKey,
         authenticator,
         ctaLabel: isEnroll
@@ -270,6 +272,7 @@ export const getOVMethodTypeAuthenticatorButtonElements = (
     type: 'AuthenticatorButton',
     label: option.label,
     options: {
+      type: ButtonType.BUTTON,
       key: AUTHENTICATOR_KEY.OV,
       ctaLabel: loc('oie.verify.authenticator.button.text', 'login'),
       actionParams: {

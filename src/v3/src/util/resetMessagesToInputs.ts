@@ -10,11 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage, Input } from '@okta/okta-auth-js';
+import { Input } from '@okta/okta-auth-js';
+
+import { IdxMessageWithName } from '../types';
 
 export function resetMessagesToInputs(
   inputs: Input[],
-  messagesByField: Record<string, (IdxMessage & { name?: string })[]>,
+  messagesByField: Record<string, IdxMessageWithName[]>,
 ): void {
   const fn = (items: Input[], namePrefix: string) => {
     items.forEach((input) => {

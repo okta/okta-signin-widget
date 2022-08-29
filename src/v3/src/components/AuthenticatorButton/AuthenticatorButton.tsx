@@ -37,6 +37,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     translations,
     focus,
     options: {
+      type,
       key: authenticationKey,
       actionParams,
       description,
@@ -58,7 +59,13 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
   const onClick: ClickHandler = async () => {
-    const errorMessages = getValidationMessages(dataSchemaRef.current!, data, actionParams);
+    const dataSchema = dataSchemaRef.current!;
+    const errorMessages = getValidationMessages(
+      dataSchema,
+      dataSchema.fieldsToValidate,
+      data,
+      actionParams,
+    );
     if (errorMessages) {
       onValidationHandler(errorMessages);
       return;
@@ -74,7 +81,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   return (
     <Box
       component="button"
-      type="button"
+      type={type}
       sx={{ width: 1, backgroundColor: 'inherit' }}
       display="flex"
       padding={2}
@@ -100,23 +107,21 @@ const AuthenticatorButton: UISchemaElementComponent<{
         </Box>
       )}
       <Box className={style.infoSection}>
-        <Box
-          component="h3"
-          textAlign="start"
-          sx={{ fontSize: '1rem', margin: 0 }}
+        <Typography
+          variant="h3"
+          sx={{ fontSize: '1rem', margin: 0, textAlign: 'start' }}
           data-se="authenticator-button-label"
         >
           {label}
-        </Box>
+        </Typography>
         {description && (
-          <Box
-            component="p"
-            textAlign="start"
-            sx={{ fontSize: '.875rem', margin: 0 }}
+          <Typography
+            paragraph
+            sx={{ fontSize: '.875rem', margin: 0, textAlign: 'start' }}
             data-se="authenticator-button-description"
           >
             {description}
-          </Box>
+          </Typography>
         )}
         {usageDescription && (
           <Typography
