@@ -53,15 +53,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       stepToRender,
     } = options;
 
-    let { stateHandle } = currTransaction!.context;
-
-    if (step === 'cancel') {
-      authClient?.transactionManager.clear({ clearIdxResponse: false });
-      if (previousTransaction) {
-        stateHandle = previousTransaction.context.stateHandle;
-      }
-    }
-
     // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
     const handleError = (error: unknown) => {
       // TODO: handle error based on types
@@ -101,8 +92,17 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       payload = merge(payload, immutableData);
     }
     payload = toNestedObject(payload);
-    if (currTransaction!.context.stateHandle) {
-      payload.stateHandle = stateHandle;
+    if (currTransaction?.context.stateHandle) {
+      payload.stateHandle = currTransaction.context.stateHandle;
+    }
+    if (step === 'cancel') {
+      authClient?.transactionManager.clear({ clearIdxResponse: false });
+      // TODO: OKTA-528448 - The below code is a workaround to prevent auth-js from executing introspect
+      // when SIW intends to execute the cancel action. When the stateHandle is does not match the previous
+      // Transaction's stateHandle, it will force the introspect request instead of the cancel action.
+      if (previousTransaction) {
+        payload.stateHandle = previousTransaction.context.stateHandle;
+      }
     }
     setMessage(undefined);
     try {
