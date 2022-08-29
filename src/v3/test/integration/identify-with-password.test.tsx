@@ -251,6 +251,26 @@ describe('identify-with-password', () => {
     });
   });
 
+  it('should not pre-populate username into identifier field when set in cookie after an error', async () => {
+    const mockUsername = 'testuser@okta1.com';
+    jest.spyOn(cookieUtils, 'getUsernameCookie').mockReturnValue(mockUsername);
+    const {
+      user,
+      findByTestId,
+      findByText,
+    } = await setup({
+      mockResponse,
+      widgetOptions: { features: { rememberMyUsernameOnOIE: true } },
+    });
+    const submitButton = await findByText('Sign in', { selector: 'button' });
+    const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+
+    await user.clear(usernameEl);
+    await user.click(submitButton);
+
+    expect(usernameEl.value).not.toBe(mockUsername);
+  });
+
   describe('sends correct payload', () => {
     it('with all required fields', async () => {
       const {
