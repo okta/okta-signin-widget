@@ -21,7 +21,12 @@ import {
 import { getUsernameCookie, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
-export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
+export const transformIdentify: IdxStepTransformer = ({
+  formBag,
+  widgetProps,
+  transaction,
+  isClientTransaction,
+}) => {
   const { features, username } = widgetProps;
   const { uischema, data } = formBag;
 
@@ -36,8 +41,10 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
     // TODO: OKTA-508744 - to use rememberMe in features once Default values are added widgetProps.
     // (i.e. rememberMe is default = true in v2)
     } else if (features?.rememberMe !== false && features?.rememberMyUsernameOnOIE) {
-      const usernameCookie = getUsernameCookie();
-      data.identifier = usernameCookie;
+      if (!isClientTransaction) {
+        const usernameCookie = getUsernameCookie();
+        data.identifier = usernameCookie;
+      }
     }
   }
 
