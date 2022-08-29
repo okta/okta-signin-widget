@@ -10,17 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage } from '@okta/okta-auth-js';
-import { clone } from 'lodash';
 import { FunctionComponent, h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
-import { useOnSubmit } from '../../hooks';
+import { useOnSubmit, useOnSubmitValidation } from '../../hooks';
 import {
-  DataSchema, SubmitEvent, UISchemaLayout,
+  SubmitEvent,
+  UISchemaLayout,
 } from '../../types';
-import { loc, resetMessagesToInputs } from '../../util';
+import { getValidationMessages } from '../../util';
 import Layout from './Layout';
 
 const Form: FunctionComponent<{
@@ -29,12 +28,11 @@ const Form: FunctionComponent<{
   const {
     data,
     idxTransaction: currTransaction,
-    setIdxTransaction,
-    setIsClientTransaction,
     setMessage,
     dataSchemaRef,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
+  const onValidationHandler = useOnSubmitValidation();
 
   const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();
@@ -46,39 +44,21 @@ const Form: FunctionComponent<{
         step,
         includeImmutableData,
       },
-      fieldsToValidate,
     } = dataSchemaRef.current!;
 
     // client side validation - only validate for fields in nextStep
     const { nextStep } = currTransaction!;
     if (!step || step === nextStep!.name) {
-      // aggregate field level messages based on validation rules in each field
-      const messages = Object.entries(dataSchemaRef.current!)
-        .reduce((acc: Record<string, (IdxMessage & { name?: string })[]>, curr) => {
-          const name = curr[0];
-          const elementSchema = curr[1] as DataSchema;
-          if (fieldsToValidate.includes(name) && typeof elementSchema.validate === 'function') {
-            const validationMessages = elementSchema.validate({
-              ...data,
-              ...params,
-            });
-            if (validationMessages?.length) {
-              acc[name] = [...validationMessages];
-            }
-          }
-          return acc;
-        }, {});
+      const dataSchema = dataSchemaRef.current!;
+      const messages = getValidationMessages(
+        dataSchema,
+        dataSchema.fieldsToValidate,
+        data,
+        params,
+      );
       // update transaction with client validation messages to trigger rerender
-      if (Object.entries(messages).length) {
-        const newTransaction = clone(currTransaction);
-        resetMessagesToInputs(newTransaction!.nextStep!.inputs!, messages);
-        setMessage({
-          message: loc('oform.errorbanner.title', 'login'),
-          class: 'ERROR',
-          i18n: { key: 'oform.errorbanner.title' },
-        } as IdxMessage);
-        setIsClientTransaction(true);
-        setIdxTransaction(newTransaction);
+      if (messages) {
+        onValidationHandler(messages);
         return;
       }
     }
@@ -90,15 +70,7 @@ const Form: FunctionComponent<{
       params,
       step,
     });
-  }, [
-    data,
-    currTransaction,
-    dataSchemaRef,
-    setIdxTransaction,
-    setIsClientTransaction,
-    onSubmitHandler,
-    setMessage,
-  ]);
+  }, [currTransaction, data, dataSchemaRef, onSubmitHandler, onValidationHandler, setMessage]);
 
   return (
     <form

@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { within } from '@testing-library/preact';
 import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/unlock-account/default.json';
@@ -20,6 +21,26 @@ describe('user-unlock-account', () => {
     await findByText(/Unlock account\?/);
     await findByLabelText(/Username/);
     expect(container).toMatchSnapshot();
+  });
+
+  it('should display client-side validation errors when trying to submit the flow without a username', async () => {
+    const {
+      authClient, user, findByTestId, findByRole,
+    } = await setup({ mockResponse });
+
+    await findByTestId('identifier') as HTMLInputElement;
+    const emailAuthenticatorButton = await findByTestId('okta_email');
+
+    await user.click(emailAuthenticatorButton);
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
+      'POST',
+      'https://oie-4695462.oktapreview.com/idp/idx/challenge',
+      expect.anything(),
+    );
+    const alertBox = await findByRole('alert');
+    within(alertBox).findByText(/We found some errors/);
+    const identifierError = await findByTestId('identifier-error');
+    expect(identifierError.textContent).toEqual('This field cannot be left blank');
   });
 
   describe('send corrent payload', () => {

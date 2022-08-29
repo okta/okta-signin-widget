@@ -17,13 +17,13 @@ import classNames from 'classnames';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useOnSubmit } from '../../hooks';
+import { useAutoFocus, useOnSubmit, useOnSubmitValidation } from '../../hooks';
 import {
   AuthenticatorButtonElement,
   ClickHandler,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { getTranslation, getValidationMessages } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
 import ArrowRight from './arrow-right.svg';
 import { theme } from './AuthenticatorButton.theme';
@@ -37,6 +37,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     translations,
     focus,
     options: {
+      type,
       key: authenticationKey,
       actionParams,
       description,
@@ -46,25 +47,42 @@ const AuthenticatorButton: UISchemaElementComponent<{
       dataSe,
       iconName,
       iconDescr,
+      step,
+      includeData,
+      includeImmutableData,
     },
   } = uischema;
   const label = getTranslation(translations!, 'label');
-  const { idxTransaction } = useWidgetContext();
+  const { dataSchemaRef, data } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
+  const onValidationHandler = useOnSubmitValidation();
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
   const onClick: ClickHandler = async () => {
-    // TODO: pass step from uischema
-    const { name: step } = idxTransaction!.nextStep!;
+    const dataSchema = dataSchemaRef.current!;
+    const errorMessages = getValidationMessages(
+      dataSchema,
+      dataSchema.fieldsToValidate,
+      data,
+      actionParams,
+    );
+    if (errorMessages) {
+      onValidationHandler(errorMessages);
+      return;
+    }
     onSubmitHandler({
-      params: actionParams,
-      includeData: true,
       step,
+      params: actionParams,
+      includeData,
+      includeImmutableData,
     });
   };
 
   return (
     <Box
+      component="button"
+      type={type}
+      sx={{ width: 1, backgroundColor: 'inherit' }}
       display="flex"
       padding={2}
       border={1}
@@ -72,7 +90,6 @@ const AuthenticatorButton: UISchemaElementComponent<{
       borderRadius={Tokens.BorderRadiusBase}
       boxShadow={Tokens.ShadowScale0}
       className={style.authButton}
-      role="button"
       data-se="authenticator-button"
       tabIndex={0}
       onClick={onClick}
@@ -90,24 +107,27 @@ const AuthenticatorButton: UISchemaElementComponent<{
         </Box>
       )}
       <Box className={style.infoSection}>
-        <Box
-          className={style.title}
+        <Typography
+          variant="h3"
+          sx={{ fontSize: '1rem', margin: 0, textAlign: 'start' }}
           data-se="authenticator-button-label"
         >
           {label}
-        </Box>
+        </Typography>
         {description && (
-          <Box
-            className={style.description}
+          <Typography
+            paragraph
+            sx={{ fontSize: '.875rem', margin: 0, textAlign: 'start' }}
             data-se="authenticator-button-description"
           >
             {description}
-          </Box>
+          </Typography>
         )}
         {usageDescription && (
           <Typography
-            className={style.description}
             variant="caption"
+            textAlign="start"
+            sx={{ fontSize: '.875rem', margin: 0 }}
             data-se="authenticator-button-usage-text"
           >
             {usageDescription}
@@ -119,6 +139,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
         >
           <Box
             component="span"
+            sx={{ fontWeight: 700, fontSize: '.875rem' }}
             data-se="cta-button-label"
           >
             {ctaLabel}

@@ -44,10 +44,10 @@ export const transformAuthenticatorButton: TransformStepFnWithOptions = ({
         return;
       }
 
+      const authenticatorButtonEle = (element as AuthenticatorButtonElement);
       // try get i18nKey with methodType
-      const methodType = (
-        element as AuthenticatorButtonElement
-      ).options.authenticator?.methods?.[0]?.type;
+      const methodType = authenticatorButtonEle.options.authenticator?.methods?.[0]?.type
+        || authenticatorButtonEle.options.actionParams?.['authenticator.methodType'];
       i18nKey = getI18nKey(`${stepName}.authenticator.${(element as AuthenticatorButtonElement).options.key}.${methodType}`);
       if (i18nKey) {
         addTranslation({

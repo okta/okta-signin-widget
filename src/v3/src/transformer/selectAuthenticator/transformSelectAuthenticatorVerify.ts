@@ -44,14 +44,17 @@ export const transformSelectAuthenticatorVerify: IdxStepTransformer = ({
   widgetProps,
 }) => {
   const { brandName } = widgetProps;
-  const { nextStep: { inputs } = {} as NextStep } = transaction;
+  const { nextStep: { inputs, name: stepName } = {} as NextStep } = transaction;
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
   if (!authenticator?.options) {
     return formBag;
   }
 
   const { uischema } = formBag;
-  const authenticatorButtonElements = getAuthenticatorVerifyButtonElements(authenticator.options);
+  const authenticatorButtonElements = getAuthenticatorVerifyButtonElements(
+    authenticator.options,
+    stepName,
+  );
   uischema.elements = removeUIElementWithName(
     'authenticator',
     uischema.elements as UISchemaElement[],

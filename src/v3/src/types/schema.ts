@@ -39,6 +39,8 @@ export type FormBag = {
   }
 };
 
+export type IdxMessageWithName = IdxMessage & { name?: string; };
+
 export type AutoCompleteValue = 'username'
 | 'current-password'
 | 'one-time-code'
@@ -171,10 +173,10 @@ export interface ButtonElement extends UISchemaElement {
   };
 }
 
-export interface AuthenticatorButtonElement {
+export interface AuthenticatorButtonElement extends UISchemaElement {
   type: 'AuthenticatorButton';
   label: string;
-  options: Omit<ButtonElement['options'], 'type' | 'step'> & {
+  options: ButtonElement['options'] & {
     key: string;
     authenticator?: IdxAuthenticator;
     ctaLabel: string;
@@ -360,7 +362,7 @@ export interface RedirectElement extends UISchemaElement {
   options: { url: string; },
 }
 
-type ValidateFunction = (data: FormBag['data']) => (IdxMessage & { name?: string })[] | undefined;
+type ValidateFunction = (data: FormBag['data']) => IdxMessageWithName[] | undefined;
 
 export interface DataSchema {
   validate?: ValidateFunction;

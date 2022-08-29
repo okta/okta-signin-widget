@@ -92,11 +92,11 @@ exports[`user-unlock-account renders form 1`] = `
                 <div
                   class="MuiBox-root emotion-6"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-10"
@@ -142,18 +142,18 @@ exports[`user-unlock-account renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-10"
                     >
-                      <div
-                        class="title MuiBox-root emotion-10"
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Email
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-10"
                         data-se="okta_email"
                       >
                         <span
-                          class="MuiBox-root emotion-10"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -161,16 +161,16 @@ exports[`user-unlock-account renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-6"
                 >
-                  <div
+                  <button
                     class="authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
-                    role="button"
                     tabindex="0"
+                    type="button"
                   >
                     <div
                       class="MuiBox-root emotion-10"
@@ -226,18 +226,18 @@ exports[`user-unlock-account renders form 1`] = `
                     <div
                       class="infoSection MuiBox-root emotion-10"
                     >
-                      <div
-                        class="title MuiBox-root emotion-10"
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-21"
                         data-se="authenticator-button-label"
                       >
                         Phone
-                      </div>
+                      </h3>
                       <div
                         class="cta-button actionName MuiBox-root emotion-10"
                         data-se="phone_number"
                       >
                         <span
-                          class="MuiBox-root emotion-10"
+                          class="MuiBox-root emotion-23"
                           data-se="cta-button-label"
                         >
                           Select
@@ -245,7 +245,7 @@ exports[`user-unlock-account renders form 1`] = `
                         <mocksvgicon />
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-6"

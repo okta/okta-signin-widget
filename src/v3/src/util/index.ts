@@ -18,6 +18,7 @@ export * from './formUtils';
 export * from './getAuthenticatorKey';
 export * from './getImmutableData';
 export * from './getTranslation';
+export * from './getValidationMessages';
 export * from './idxUtils';
 export * from './isInteractiveElement';
 export * from './isPasswordRecovery';

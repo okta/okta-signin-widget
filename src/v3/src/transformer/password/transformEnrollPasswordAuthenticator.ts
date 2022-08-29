@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage } from '@okta/okta-auth-js';
-
 import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import {
   FieldElement,
   FormBag,
+  IdxMessageWithName,
   IdxStepTransformer,
   PasswordRequirementsElement,
   PasswordSettings,
@@ -80,7 +79,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     // @ts-ignore expose type from auth-js
     const errorMessages = passwordElement.options.inputMeta.messages.value;
     // @ts-ignore expose type from auth-js
-    const newPasswordErrors = errorMessages.filter((message: IdxMessage & { name?: string }) => {
+    const newPasswordErrors = errorMessages.filter((message: IdxMessageWithName) => {
       const { name: newPwName } = passwordElement.options.inputMeta;
       return message.name === newPwName || message.name === undefined;
     });
@@ -93,7 +92,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     }
 
     // @ts-ignore expose type from auth-js
-    const confirmPasswordError = errorMessages.find((message: IdxMessage & { name?: string }) => {
+    const confirmPasswordError = errorMessages.find((message: IdxMessageWithName) => {
       const { name: confirmPwName } = confirmPasswordElement.options.inputMeta;
       return message.name === confirmPwName;
     });
@@ -137,7 +136,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];
       const confirmPw = data.confirmPassword;
-      const errorMessages: (IdxMessage & { name?: string })[] = [];
+      const errorMessages: IdxMessageWithName[] = [];
       if (!newPw) {
         errorMessages.push({
           name: passwordFieldName,
