@@ -103,6 +103,11 @@ extends Partial<Pick<OktaAuthOptions,
   useClassicEngine?: boolean;
   hooks?: HooksOptions;
   proxyIdxResponse?: any;
+
+  /**
+   * @deprecated since version 7.0
+   */
+  useInteractionCodeFlow?: boolean;
 }
 
 // Auth params

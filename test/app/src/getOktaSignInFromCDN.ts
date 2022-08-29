@@ -1,4 +1,4 @@
-import OktaSignIn from '@okta/okta-signin-widget';
+import { OktaSignIn, WidgetOptions } from '@okta/okta-signin-widget';
 import { Config } from "./types";
 
 declare global {
@@ -8,7 +8,7 @@ declare global {
 }
 
 function getOktaSignIn(config: Config): OktaSignIn {
-  return new window.OktaSignIn(config);
+  return new window.OktaSignIn(config as WidgetOptions);
 }
 
 export default getOktaSignIn;

@@ -7,6 +7,13 @@ ENV.config();
 const DEV_SERVER_PORT = 3000;
 
 const WORKSPACE_ROOT = path.resolve(__dirname, '../..');
+const CROSS_BROWSER = process.env.TARGET === 'CROSS_BROWSER';
+const BUNDLE = process.env.BUNDLE || 'default';
+
+let WIDGET_JS = BUNDLE === 'default' ? 'js/okta-sign-in.js' : `js/okta-sign-in.${BUNDLE}.js`;
+if (CROSS_BROWSER) {
+  WIDGET_JS = 'js/okta-sign-in.min.js'; // cross browser: use full default bundle, w/ polyfill
+}
 
 const webpackConfig = {
   mode: 'development',
@@ -18,6 +25,7 @@ const webpackConfig = {
     libraryTarget: 'umd'
   },
   resolve: {
+    conditionNames: ['import', 'browser'],
     extensions: ['.js', '.ts'],
     alias: {
       './getOktaSignIn': './getOktaSignInFromCDN'
@@ -56,7 +64,8 @@ const webpackConfig = {
     new HtmlWebpackPlugin({
       template: `!!handlebars-loader!${path.resolve(__dirname, 'index.hbs')}`,
       templateParameters: {
-        CROSS_BROWSER: process.env.TARGET === 'CROSS_BROWSER'
+        CROSS_BROWSER: process.env.TARGET === 'CROSS_BROWSER',
+        WIDGET_JS
       },
       inject: false,
     }),
