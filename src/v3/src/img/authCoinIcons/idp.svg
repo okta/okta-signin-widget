@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" aria-labelledby="idpAuthenticator" role="img" viewBox="0 0 48 48">
-  <title id="idpAuthenticator">IDP Authenticator</title>
-  <path fill="#F5F5F6" fill-rule="evenodd" d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z" class="siwFillBg" clip-rule="evenodd"/>
-  <path fill="#A7B5EC" d="M15 29.5a5 5 0 1 1 4.78-6.5h1.03a6 6 0 1 0 0 3h-1.03A5.013 5.013 0 0 1 15 29.5Z" class="siwFillSecondary"/>
-  <path fill="#00297A" d="M27.5 36a11.433 11.433 0 0 1-6.61-2.088l-.186-.134.592-.806.17.123a10.5 10.5 0 1 0-.166-17.066l-.592-.806A11.5 11.5 0 1 1 27.5 36Z" class="siwFillPrimary"/>
-  <path fill="#00297A" d="m29.354 19.646-.708.708L32.293 24H14.707l1.647-1.646-.708-.708-2.853 2.854 2.853 2.854.708-.708L14.707 25h17.586l-3.647 3.646.708.708 4.853-4.854-4.853-4.854Z" class="siwFillPrimary"/>
-</svg>

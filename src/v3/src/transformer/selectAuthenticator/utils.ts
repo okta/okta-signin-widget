@@ -71,6 +71,10 @@ const buildOktaVerifyOptions = (
           'authenticator.id': id,
         } as ActionParams,
         dataSe: getAuthenticatorDataSeVal(AUTHENTICATOR_KEY.OV, option.value as string),
+        iconName: option.value === 'totp' ? 'oktaVerify' : 'oktaVerifyPush',
+        iconDescr: option.value === 'totp'
+          ? loc('factor.totpSoft.description', 'login')
+          : loc('factor.push.description', 'login'),
       },
     };
     return authenticatorButton;
@@ -182,7 +186,7 @@ const formatAuthenticatorOptions = (
   options: IdxOption[],
   isEnroll?: boolean,
 ): AuthenticatorButtonElement[] => (
-  options.map((option: IdxOption) => {
+  options.map((option: IdxOption, index: number) => {
     const authenticatorKey = option.relatesTo?.key as string;
     const id = getOptionValue(option.value as Input[], 'id')?.value;
     const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
@@ -208,6 +212,8 @@ const formatAuthenticatorOptions = (
           isEnroll,
         ),
         usageDescription: getUsageDescription(option),
+        // @ts-ignore logoUri missing from interface
+        logoUri: authenticator.logoUri,
         actionParams: {
           'authenticator.id': id,
           'authenticator.methodType': AUTHENTICATORS_WITH_METHOD_TYPE.includes(authenticatorKey)
@@ -221,6 +227,7 @@ const formatAuthenticatorOptions = (
             ? methodType
             : undefined,
         ),
+        iconName: `${authenticatorKey}_${index}`,
       },
     } as AuthenticatorButtonElement;
   })

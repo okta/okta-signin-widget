@@ -24,7 +24,48 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
             <div
               class="iconContainer mfa-okta-phone authCoinOverlay MuiBox-root emotion-4"
             >
-              <mocksvgicon />
+              <svg
+                aria-labelledby="authCoinPhoneAuthenticator"
+                fill="none"
+                height="48"
+                role="img"
+                viewBox="0 0 48 48"
+                width="48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title
+                  id="authCoinPhoneAuthenticator"
+                >
+                  Voice Call Authentication
+                </title>
+                <circle
+                  class="siwFillBg"
+                  cx="24"
+                  cy="24"
+                  fill="#F5F5F6"
+                  r="24"
+                />
+                <path
+                  class="siwFillPrimary"
+                  d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
+                  fill="#00297A"
+                />
+                <path
+                  class="siwFillPrimary"
+                  d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
+                  fill="#00297A"
+                />
+                <path
+                  class="siwFillSecondary"
+                  d="M34.606 34.606 33.9 33.9a13.998 13.998 0 0 0 0-19.8l.707-.707a15 15 0 0 1 0 21.212l-.001.001Z"
+                  fill="#A7B5EC"
+                />
+                <path
+                  class="siwFillSecondary"
+                  d="m31.071 31.071-.707-.707a9 9 0 0 0 0-12.728l.707-.707a10 10 0 0 1 0 14.142Zm-3.535-3.536-.707-.707a4 4 0 0 0 0-5.656l.707-.707a5 5 0 0 1 0 7.07Z"
+                  fill="#A7B5EC"
+                />
+              </svg>
             </div>
           </div>
           <div
@@ -1585,7 +1626,48 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
             <div
               class="iconContainer mfa-okta-phone authCoinOverlay MuiBox-root emotion-4"
             >
-              <mocksvgicon />
+              <svg
+                aria-labelledby="authCoinPhoneAuthenticator"
+                fill="none"
+                height="48"
+                role="img"
+                viewBox="0 0 48 48"
+                width="48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title
+                  id="authCoinPhoneAuthenticator"
+                >
+                  Voice Call Authentication
+                </title>
+                <circle
+                  class="siwFillBg"
+                  cx="24"
+                  cy="24"
+                  fill="#F5F5F6"
+                  r="24"
+                />
+                <path
+                  class="siwFillPrimary"
+                  d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
+                  fill="#00297A"
+                />
+                <path
+                  class="siwFillPrimary"
+                  d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
+                  fill="#00297A"
+                />
+                <path
+                  class="siwFillSecondary"
+                  d="M34.606 34.606 33.9 33.9a13.998 13.998 0 0 0 0-19.8l.707-.707a15 15 0 0 1 0 21.212l-.001.001Z"
+                  fill="#A7B5EC"
+                />
+                <path
+                  class="siwFillSecondary"
+                  d="m31.071 31.071-.707-.707a9 9 0 0 0 0-12.728l.707-.707a10 10 0 0 1 0 14.142Zm-3.535-3.536-.707-.707a4 4 0 0 0 0-5.656l.707-.707a5 5 0 0 1 0 7.07Z"
+                  fill="#A7B5EC"
+                />
+              </svg>
             </div>
           </div>
           <div

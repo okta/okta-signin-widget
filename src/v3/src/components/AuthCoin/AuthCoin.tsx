@@ -17,7 +17,7 @@ import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
 import { theme } from './AuthCoin.theme';
-import AuthenticatorConfig from './authenticatorConfiguration';
+import AuthCoinByAuthenticatorKey from './AuthCoinConfig';
 import style from './style.module.css';
 
 const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
@@ -25,9 +25,11 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     authenticatorKey,
     url,
     customClasses,
+    name: authcoinName,
+    description: authcoinDescr,
   } = props;
 
-  const authCoinConfig = AuthenticatorConfig[authenticatorKey];
+  const authCoinConfig = AuthCoinByAuthenticatorKey[authenticatorKey];
 
   const containerClasses = classNames(
     style.iconContainer,
@@ -35,7 +37,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     customClasses,
   );
 
-  function createAuthCoinImage() {
+  function createAuthCoinIcon() {
     // TODO: OKTA-467022 - Add warning when attempted to customize non-customizeable authenticator
     // if URL is provided it should be with an authenticator
     // key that can be customized or custom push app
@@ -48,13 +50,20 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
         />
       );
     }
-    const Icon = authCoinConfig?.icon;
-    return Icon && <Icon />;
+    const name = authcoinName || authCoinConfig?.name;
+    const description = authcoinDescr || authCoinConfig?.description;
+    const AuthCoinIcon = authCoinConfig?.icon;
+    return AuthCoinIcon && (
+      <AuthCoinIcon
+        name={name}
+        description={description}
+      />
+    );
   }
 
   return authCoinConfig && (
     <Box className={containerClasses}>
-      { createAuthCoinImage() }
+      { createAuthCoinIcon() }
     </Box>
   );
 };
