@@ -18,7 +18,6 @@ describe(`Language Test: ${TEST_LANG}`, () => {
       redirectUri: 'http://localhost:3000/done',
       el: '#okta-login-container',
       clientId: WIDGET_SPA_CLIENT_ID,
-      useInteractionCodeFlow: true,
       scopes: ['openid', 'email', 'profile']
     };
     await TestAppPage.open();
