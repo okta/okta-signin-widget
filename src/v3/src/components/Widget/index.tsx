@@ -82,7 +82,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   });
   const [message, setMessage] = useState<IdxMessage | undefined>();
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
-  const [previousTransaction, setPreviousTransaction] = useState<IdxTransaction | undefined>();
+  // TODO: OKTA-528448 - this stateHandle is used as a workaround
+  // for the cancel action to prevent broken links
+  const [stateHandle, setStateHandle] = useState<string | undefined>();
   const [isClientTransaction, setIsClientTransaction] = useState<boolean>(false);
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
@@ -261,10 +263,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       widgetProps,
       onSuccessCallback: onSuccess,
       idxTransaction,
-      previousTransaction,
+      // TODO: OKTA-528448 - workaround for cancel action
+      stateHandle,
+      setStateHandle,
       setAuthApiError,
       setIdxTransaction,
-      setPreviousTransaction,
       setIsClientTransaction,
       stepToRender,
       setStepToRender,
