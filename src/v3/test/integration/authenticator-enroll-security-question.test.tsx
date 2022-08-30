@@ -119,8 +119,8 @@ describe('authenticator-enroll-security-question', () => {
         expect.anything(),
       );
       // assert global alert
-      const globalError = await findAllByRole('alert');
-      expect(globalError[0].innerHTML).toContain('We found some errors. Please review the form and make corrections.');
+      const [globalError] = await findAllByRole('alert');
+      expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
       const answerFieldError = await findByTestId('credentials.answer-error');
       expect(answerFieldError.innerHTML).toEqual('This field cannot be left blank');
@@ -139,8 +139,8 @@ describe('authenticator-enroll-security-question', () => {
 
       // assert no error message
       await waitFor(() => {
-        const globalError = queryAllByRole('alert');
-        expect(globalError).toEqual([]);
+        const [globalError] = queryAllByRole('alert');
+        expect(globalError).toBeUndefined();
         const answerFieldError = queryByTestId('credentials.answer-error');
         expect(answerFieldError).toBeNull();
       });
@@ -464,8 +464,8 @@ describe('authenticator-enroll-security-question', () => {
         expect.anything(),
       );
       // assert global alert
-      const globalError = await findAllByRole('alert');
-      expect(globalError[0].innerHTML).toContain('We found some errors. Please review the form and make corrections.');
+      const [globalError] = await findAllByRole('alert');
+      expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
       const questionFieldError = await findByTestId('credentials.question-error');
       expect(questionFieldError.innerHTML).toEqual('This field cannot be left blank');
@@ -501,8 +501,8 @@ describe('authenticator-enroll-security-question', () => {
         expect.anything(),
       );
       // assert global alert
-      const globalError = await findAllByRole('alert');
-      expect(globalError[0].innerHTML).toContain('We found some errors. Please review the form and make corrections.');
+      const [globalError] = await findAllByRole('alert');
+      expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
       const answerFieldError = await findByTestId('credentials.answer-error');
       expect(answerFieldError.innerHTML).toEqual('This field cannot be left blank');
@@ -530,8 +530,8 @@ describe('authenticator-enroll-security-question', () => {
         expect.anything(),
       );
       // assert global alert
-      const globalError = await findAllByRole('alert');
-      expect(globalError[0].innerHTML).toContain('We found some errors. Please review the form and make corrections.');
+      const [globalError] = await findAllByRole('alert');
+      expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
       const questionFieldError = await findByTestId('credentials.question-error');
       expect(questionFieldError.innerHTML).toEqual('This field cannot be left blank');
@@ -553,8 +553,8 @@ describe('authenticator-enroll-security-question', () => {
 
       // assert no error message
       await waitFor(() => {
-        const globalError = queryAllByRole('alert');
-        expect(globalError).toEqual([]);
+        const [globalError] = queryAllByRole('alert');
+        expect(globalError).toBeUndefined();
         const questionFieldError = queryByTestId('credentials.question-error');
         expect(questionFieldError).toBeNull();
         const answerFieldError = queryByTestId('credentials.answer-error');

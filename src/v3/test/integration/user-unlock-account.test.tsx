@@ -37,8 +37,8 @@ describe('user-unlock-account', () => {
       'https://oie-4695462.oktapreview.com/idp/idx/challenge',
       expect.anything(),
     );
-    const alertBox = await findAllByRole('alert');
-    within(alertBox[0]).findByText(/We found some errors/);
+    const [alertBox] = await findAllByRole('alert');
+    within(alertBox).findByText(/We found some errors/);
     const identifierError = await findByTestId('identifier-error');
     expect(identifierError.textContent).toEqual('This field cannot be left blank');
   });

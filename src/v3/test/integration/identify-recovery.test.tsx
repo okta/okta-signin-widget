@@ -30,8 +30,8 @@ describe('identify-recovery', () => {
     } = await setup({ mockResponse });
 
     await user.click(await findByText('Next', { selector: 'button' }));
-    const globalError = await findAllByRole('alert');
-    expect(globalError[0].innerHTML).toContain('We found some errors. Please review the form and make corrections.');
+    const [globalError] = await findAllByRole('alert');
+    expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
     const identifierError = await findByTestId('identifier-error');
     expect(identifierError.textContent).toEqual('This field cannot be left blank');
   });
