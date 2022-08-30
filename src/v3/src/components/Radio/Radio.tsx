@@ -59,6 +59,7 @@ const Radio: UISchemaElementComponent<{
       <RadioGroup
         name={name}
         id={name}
+        aria-describedby={error && `${name}-error`}
         value={value as string ?? ''}
         onChange={handleChange}
       >
@@ -76,7 +77,14 @@ const Radio: UISchemaElementComponent<{
         }
       </RadioGroup>
       {error && (
-        <FormHelperText>{error}</FormHelperText>
+        <FormHelperText
+          id={`${name}-error`}
+          role="alert"
+          data-se={`${name}-error`}
+          error
+        >
+          {error}
+        </FormHelperText>
       )}
     </FormControl>
   );

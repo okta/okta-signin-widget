@@ -741,6 +741,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-22"
                       >
                         <input
+                          aria-describedby="credentials.passcode-error"
                           aria-invalid="true"
                           autocomplete="one-time-code"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
@@ -767,6 +768,8 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                       <p
                         class="MuiFormHelperText-root Mui-error emotion-26"
                         data-se="credentials.passcode-error"
+                        id="credentials.passcode-error"
+                        role="alert"
                       >
                         Invalid code. Try again.
                       </p>

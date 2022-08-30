@@ -190,11 +190,14 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             fullWidth
             inputProps={{
               'data-se': fieldName,
+              'aria-describedby': error && `${fieldName}-error`,
               ...attributes,
             }}
           />
           {!!error && (
             <FormHelperText
+              id={`${fieldName}-error`}
+              role="alert"
               data-se={`${fieldName}-error`}
               error
             >

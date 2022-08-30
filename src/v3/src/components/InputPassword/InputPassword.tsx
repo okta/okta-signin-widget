@@ -66,12 +66,15 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         fullWidth
         inputProps={{
           'data-se': name,
+          'aria-describedby': error && `${name}-error`,
           ...attributes,
         }}
         ref={focusRef}
       />
       {error && (
         <FormHelperText
+          id={`${name}-error`}
+          role="alert"
           data-se={`${name}-error`}
           error
         >

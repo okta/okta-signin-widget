@@ -69,12 +69,15 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         fullWidth
         inputProps={{
           'data-se': dataSe,
+          'aria-describedby': error && `${name}-error`,
           ...attributes,
         }}
         inputRef={focusRef}
       />
       {error && (
         <FormHelperText
+          id={`${name}-error`}
+          role="alert"
           data-se={`${dataSe}-error`}
           error
         >

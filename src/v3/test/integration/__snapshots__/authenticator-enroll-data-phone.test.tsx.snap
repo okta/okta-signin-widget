@@ -3132,6 +3132,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               </p>
                             </span>
                             <input
+                              aria-describedby="authenticator.phoneNumber-error"
                               aria-invalid="true"
                               autocomplete="tel-national"
                               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-44"
@@ -3158,6 +3159,8 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           <p
                             class="MuiFormHelperText-root Mui-error emotion-47"
                             data-se="authenticator.phoneNumber-error"
+                            id="authenticator.phoneNumber-error"
+                            role="alert"
                           >
                             This field cannot be left blank
                           </p>
