@@ -25,7 +25,7 @@ const webpackConfig = {
     libraryTarget: 'umd'
   },
   resolve: {
-    conditionNames: ['import', 'browser'],
+    // conditionNames: ['import', 'browser'],
     extensions: ['.js', '.ts'],
     alias: {
       './getOktaSignIn': './getOktaSignInFromCDN'

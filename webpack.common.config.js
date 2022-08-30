@@ -67,7 +67,7 @@ module.exports = function({
       libraryTarget: 'umd'
     },
     resolve: {
-      conditionNames: ['import', 'browser'],
+      // conditionNames: ['import', 'browser'],
       extensions: ['.js', '.ts'],
       modules: [SRC, 'packages', 'node_modules'],
       alias: {
