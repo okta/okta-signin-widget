@@ -25,7 +25,7 @@ describe('user-unlock-account', () => {
 
   it('should display client-side validation errors when trying to submit the flow without a username', async () => {
     const {
-      authClient, user, findByTestId, findByRole,
+      authClient, user, findByTestId, findAllByRole,
     } = await setup({ mockResponse });
 
     await findByTestId('identifier') as HTMLInputElement;
@@ -37,7 +37,7 @@ describe('user-unlock-account', () => {
       'https://oie-4695462.oktapreview.com/idp/idx/challenge',
       expect.anything(),
     );
-    const alertBox = await findByRole('alert');
+    const [alertBox] = await findAllByRole('alert');
     within(alertBox).findByText(/We found some errors/);
     const identifierError = await findByTestId('identifier-error');
     expect(identifierError.textContent).toEqual('This field cannot be left blank');

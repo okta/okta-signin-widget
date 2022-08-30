@@ -106,7 +106,7 @@ describe('authenticator-enroll-security-question', () => {
 
     it('fails client side validation when answer is missing', async () => {
       const {
-        authClient, user, findByRole, findByTestId, findByText,
+        authClient, user, findAllByRole, findByTestId, findByText,
       } = await setup({ mockResponse });
 
       await findByText(/Set up security question/);
@@ -119,7 +119,7 @@ describe('authenticator-enroll-security-question', () => {
         expect.anything(),
       );
       // assert global alert
-      const globalError = await findByRole('alert');
+      const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
       const answerFieldError = await findByTestId('credentials.answer-error');
@@ -128,7 +128,7 @@ describe('authenticator-enroll-security-question', () => {
 
     it('clears messages when switch to custom question form', async () => {
       const {
-        user, queryByRole, queryByTestId, findByText, findByLabelText,
+        user, queryAllByRole, findByText, findByLabelText, queryByTestId,
       } = await setup({ mockResponse });
 
       await findByText(/Set up security question/);
@@ -139,8 +139,8 @@ describe('authenticator-enroll-security-question', () => {
 
       // assert no error message
       await waitFor(() => {
-        const globalError = queryByRole('alert');
-        expect(globalError).toBeNull();
+        const [globalError] = queryAllByRole('alert');
+        expect(globalError).toBeUndefined();
         const answerFieldError = queryByTestId('credentials.answer-error');
         expect(answerFieldError).toBeNull();
       });
@@ -442,7 +442,7 @@ describe('authenticator-enroll-security-question', () => {
         findByTestId,
         findByText,
         findByLabelText,
-        findByRole,
+        findAllByRole,
         queryByTestId,
       } = await setup({ mockResponse });
 
@@ -464,7 +464,7 @@ describe('authenticator-enroll-security-question', () => {
         expect.anything(),
       );
       // assert global alert
-      const globalError = await findByRole('alert');
+      const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
       const questionFieldError = await findByTestId('credentials.question-error');
@@ -481,7 +481,7 @@ describe('authenticator-enroll-security-question', () => {
         findByTestId,
         findByText,
         findByLabelText,
-        findByRole,
+        findAllByRole,
         queryByTestId,
       } = await setup({ mockResponse });
 
@@ -501,7 +501,7 @@ describe('authenticator-enroll-security-question', () => {
         expect.anything(),
       );
       // assert global alert
-      const globalError = await findByRole('alert');
+      const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
       const answerFieldError = await findByTestId('credentials.answer-error');
@@ -517,7 +517,7 @@ describe('authenticator-enroll-security-question', () => {
         findByTestId,
         findByText,
         findByLabelText,
-        findByRole,
+        findAllByRole,
       } = await setup({ mockResponse });
 
       // switch to custom question form
@@ -530,7 +530,7 @@ describe('authenticator-enroll-security-question', () => {
         expect.anything(),
       );
       // assert global alert
-      const globalError = await findByRole('alert');
+      const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
       const questionFieldError = await findByTestId('credentials.question-error');
@@ -541,7 +541,7 @@ describe('authenticator-enroll-security-question', () => {
 
     it('clears messages when switch to predefined question form', async () => {
       const {
-        user, queryByRole, queryByTestId, findByText, findByLabelText,
+        user, queryAllByRole, queryByTestId, findByText, findByLabelText,
       } = await setup({ mockResponse });
 
       // switch to custom question form
@@ -553,8 +553,8 @@ describe('authenticator-enroll-security-question', () => {
 
       // assert no error message
       await waitFor(() => {
-        const globalError = queryByRole('alert');
-        expect(globalError).toBeNull();
+        const [globalError] = queryAllByRole('alert');
+        expect(globalError).toBeUndefined();
         const questionFieldError = queryByTestId('credentials.question-error');
         expect(questionFieldError).toBeNull();
         const answerFieldError = queryByTestId('credentials.answer-error');
