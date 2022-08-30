@@ -60,14 +60,17 @@ const Body = BaseForm.extend({
     const relatesToObject = this.options.currentViewState.relatesTo;
     const activationData = relatesToObject?.value.contextualData.activationData;
     if (webauthn.isNewApiAvailable()) {
-      var options = _.extend({}, activationData, {
+      const excludeCredentials = activationData.authenticatorSelection?.requireResidentKey === true ?
+      [] :
+      getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value);
+      const options = _.extend({}, activationData, {
         challenge: CryptoUtil.strToBin(activationData.challenge),
         user: {
           id: CryptoUtil.strToBin(activationData.user.id),
           name: activationData.user.name,
           displayName: activationData.user.displayName
         },
-        excludeCredentials: getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value)
+        excludeCredentials
       });
       this.webauthnAbortController = new AbortController();
       navigator.credentials.create({
