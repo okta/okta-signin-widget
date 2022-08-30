@@ -73,3 +73,25 @@ export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
 
   return (supportedLanguages[supportedPos] ?? config.defaultLanguage) as LanguageCode;
 };
+
+export const getBackToSignInUri = (widgetProps: WidgetProps): string | undefined => {
+  const { backToSignInLink, signOutLink } = widgetProps;
+  return backToSignInLink || signOutLink;
+};
+
+export const getBaseUrl = (widgetProps: WidgetProps): string | undefined => {
+  const {
+    authClient, authParams, baseUrl, issuer,
+  } = widgetProps;
+
+  if (baseUrl) {
+    return baseUrl;
+  }
+
+  if (authClient) {
+    return authClient.getIssuerOrigin();
+  }
+  const issuerPath = issuer || authParams?.issuer;
+  const [parsedBaseUrl] = issuerPath?.split('/oauth2/') ?? [];
+  return parsedBaseUrl;
+};

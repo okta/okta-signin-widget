@@ -30,9 +30,6 @@ export type IWidgetContext = {
   onSuccessCallback?: (data: Record<string, unknown>) => void;
   onErrorCallback?: (data: Record<string, unknown>) => void;
   idxTransaction: IdxTransaction | undefined;
-  // TODO: OKTA-528448 - workaround for cancel action
-  stateHandle: string | undefined;
-  setStateHandle: StateUpdater<string | undefined>;
   setAuthApiError: StateUpdater<AuthApiError | undefined>;
   setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
   setIsClientTransaction: StateUpdater<boolean>;

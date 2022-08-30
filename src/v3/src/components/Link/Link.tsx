@@ -27,6 +27,7 @@ const Link: UISchemaElementComponent<{
       actionParams,
       isActionStep,
       step,
+      onClick: onClickHandler,
     },
   } = uischema;
   const onSubmitHandler = useOnSubmit();
@@ -49,7 +50,7 @@ const Link: UISchemaElementComponent<{
       <LinkMui
         // eslint-disable-next-line no-script-url
         href="javascript:void(0)"
-        onClick={onClick}
+        onClick={onClickHandler || onClick}
         onMouseDown={onMouseDown}
         // ref={focusRef}
         // eslint-disable-next-line react/jsx-props-no-spreading

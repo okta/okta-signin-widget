@@ -33,9 +33,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     data,
     idxTransaction: currTransaction,
     dataSchemaRef,
-    // TODO: OKTA-528448 - workaround for cancel action
-    stateHandle,
-    setStateHandle,
     setAuthApiError,
     setIdxTransaction,
     setIsClientTransaction,
@@ -98,19 +95,11 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     }
     if (step === 'cancel') {
       authClient?.transactionManager.clear({ clearIdxResponse: false });
-      // TODO: OKTA-528448 - The below code is a workaround to prevent auth-js from executing introspect
-      // when SIW intends to execute the cancel action. When the stateHandle is does not match the previous
-      // Transaction's stateHandle, it will force the introspect request instead of the cancel action.
-      if (stateHandle) {
-        payload.stateHandle = stateHandle;
-      }
     }
     setMessage(undefined);
     try {
       const newTransaction = await fn(payload);
       setIdxTransaction(newTransaction);
-      // TODO: OKTA-528448 - workaround for cancel action
-      setStateHandle(currTransaction?.context.stateHandle);
       const isClientTransaction = newTransaction.nextStep?.name === currTransaction?.nextStep?.name;
       setIsClientTransaction(isClientTransaction);
       setStepToRender(stepToRender);
@@ -121,7 +110,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     data,
     authClient,
     currTransaction,
-    stateHandle,
     dataSchemaRef,
     events,
     setAuthApiError,
@@ -129,6 +117,5 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setIsClientTransaction,
     setMessage,
     setStepToRender,
-    setStateHandle,
   ]);
 };

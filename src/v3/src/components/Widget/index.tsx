@@ -82,13 +82,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   });
   const [message, setMessage] = useState<IdxMessage | undefined>();
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
-  // TODO: OKTA-528448 - this stateHandle is used as a workaround
-  // for the cancel action to prevent broken links
-  const [stateHandle, setStateHandle] = useState<string | undefined>();
   const [isClientTransaction, setIsClientTransaction] = useState<boolean>(false);
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
-  const [authApiError, setAuthApiError] = useState<AuthApiError>();
+  const [authApiError, setAuthApiError] = useState<AuthApiError | undefined>();
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
 
@@ -103,6 +100,37 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleError = (error: unknown) => {
+    // TODO: handle error based on types
+    // AuthApiError is one of the potential error that can be thrown here
+    // We will want to expose development stage errors from auth-js and file jiras against it
+    setAuthApiError(error as AuthApiError);
+    console.error(error);
+    // error event
+    events?.afterError?.({
+      stepName: idxTransaction?.nextStep?.name,
+    }, error);
+    return null;
+  };
+
+  const bootstrap = useCallback(async () => {
+    try {
+      const transaction = await authClient.idx.start({
+        stateHandle: stateToken,
+      });
+
+      setAuthApiError(undefined);
+      setIdxTransaction(transaction);
+      // ready event
+      events?.ready?.({
+        stepName: transaction.nextStep?.name,
+      });
+    } catch (error) {
+      handleError(error);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authClient, stateToken, setIdxTransaction, setAuthApiError]);
+
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
     if (authApiError) {
@@ -116,7 +144,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
     if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
         || !idxTransaction.nextStep) {
-      return transformTerminalTransaction(idxTransaction, widgetProps);
+      return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
     }
 
     let step = stepToRender || idxTransaction.nextStep.name;
@@ -140,6 +168,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     authApiError,
     stepToRender,
     widgetProps,
+    bootstrap,
   ]);
 
   // track previous idxTransaction
@@ -161,37 +190,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
     setUischema(formBag.uischema);
   }, [formBag, isClientTransaction]);
-
-  const handleError = (error: unknown) => {
-    // TODO: handle error based on types
-    // AuthApiError is one of the potential error that can be thrown here
-    // We will want to expose development stage errors from auth-js and file jiras against it
-    setAuthApiError(error as AuthApiError);
-    console.error(error);
-    // error event
-    events?.afterError?.({
-      stepName: idxTransaction?.nextStep?.name,
-    }, error);
-    return null;
-  };
-
-  const bootstrap = useCallback(async () => {
-    try {
-      const transaction = await authClient.idx.start({
-        stateHandle: stateToken,
-      });
-
-      setIdxTransaction(transaction);
-
-      // ready event
-      events?.ready?.({
-        stepName: transaction.nextStep?.name,
-      });
-    } catch (error) {
-      handleError(error);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authClient, stateToken, setIdxTransaction, setAuthApiError]);
 
   const resume = useCallback(async () => {
     try {
@@ -263,9 +261,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       widgetProps,
       onSuccessCallback: onSuccess,
       idxTransaction,
-      // TODO: OKTA-528448 - workaround for cancel action
-      stateHandle,
-      setStateHandle,
       setAuthApiError,
       setIdxTransaction,
       setIsClientTransaction,
