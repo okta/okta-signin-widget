@@ -82,7 +82,7 @@ function verifyPackageContents() {
       throw new Error(`Expected map file ${bundleName}.map was not found in the package dist/js folder`);
     }
     const entry = manifest.files.find(entry => entry.path === `dist/js/${bundleName}`);
-    const size = Math.round(entry.size / ONE_MB);
+    const size = Math.round((entry.size / ONE_MB) * 100) / 100;
     console.log(`${bundleName}: ${size} MB`);
   });
 
