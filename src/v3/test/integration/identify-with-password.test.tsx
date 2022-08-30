@@ -15,6 +15,7 @@ import { setup } from './util';
 
 import * as cookieUtils from '../../src/util/cookieUtils';
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
+import wrongPasswordMockresponse from '../../src/mocks/response/idp/idx/identify/error-wrong-password.json';
 
 describe('identify-with-password', () => {
   it('renders the loading state first', async () => {
@@ -259,13 +260,26 @@ describe('identify-with-password', () => {
       findByTestId,
       findByText,
     } = await setup({
-      mockResponse,
+      //mockResponse,
+      mockResponses: {
+        '/introspect': {
+          data: mockResponse,
+          status: 200,
+        },
+        '/idx/challenge/answer': {
+          data: wrongPasswordMockresponse,
+          status: 200,
+        },
+      },
       widgetOptions: { features: { rememberMyUsernameOnOIE: true } },
     });
     const submitButton = await findByText('Sign in', { selector: 'button' });
     const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+    const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     await user.clear(usernameEl);
+    await user.type(usernameEl, 'bad_user@bad.com');
+    await user.type(passwordEl, 'wrongPassword1234');
     await user.click(submitButton);
 
     expect(usernameEl.value).not.toBe(mockUsername);
