@@ -8,6 +8,7 @@ const terserOptions = require('./scripts/buildtools/terser/config');
 var SRC = resolve(__dirname, 'src');
 var TARGET_JS = resolve(__dirname, 'target/js/');
 var LOCAL_PACKAGES = resolve(__dirname, 'packages/');
+var NODE_MODULES = resolve(__dirname, 'node_modules/');
 var COURAGE_DIST = `${LOCAL_PACKAGES}/@okta/courage-dist/esm`;
 
 // Return a function so that all consumers get a new copy of the config
@@ -71,6 +72,9 @@ module.exports = function(outputFilename, mode = 'development') {
 
         'duo': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
         'typingdna': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
+
+        // Lock with specific package bundle from node_modules 
+        '@okta/okta-auth-js': `${NODE_MODULES}/@okta/okta-auth-js/dist/okta-auth-js.umd.js`,
       }
     },
 
