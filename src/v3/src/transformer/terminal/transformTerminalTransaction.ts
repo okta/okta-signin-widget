@@ -80,6 +80,7 @@ const appendViewLinks = (
 ): void => {
   const { useInteractionCodeFlow } = widgetProps;
   const cancelStep = transaction?.availableSteps?.find(({ name }) => name === 'cancel');
+  const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
   const cancelLink: LinkElement = {
     type: 'Link',
     options: {
@@ -89,13 +90,12 @@ const appendViewLinks = (
     },
   };
 
-  if (containsMessageKeyPrefix(TERMINAL_KEY.SAFE_MODE_KEY_PREFIX, transaction.messages)) {
-    const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
-    if (skipStep) {
-      cancelLink.options.label = loc('oie.enroll.skip.setup', 'login');
-      cancelLink.options.step = skipStep.name;
-      uischema.elements.push(cancelLink);
-    }
+  if (containsMessageKeyPrefix(TERMINAL_KEY.SAFE_MODE_KEY_PREFIX, transaction.messages)
+      && skipStep) {
+    cancelLink.options.label = loc('oie.enroll.skip.setup', 'login');
+    cancelLink.options.step = skipStep.name;
+    cancelLink.options.isActionStep = false;
+    uischema.elements.push(cancelLink);
   } else if (containsOneOfMessageKeys(DEVICE_CODE_ERROR_KEYS, transaction.messages)) {
     cancelLink.options.label = loc('oie.try.again', 'login');
     cancelLink.options.href = window.location.href;
