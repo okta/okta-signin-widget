@@ -33,19 +33,19 @@
       "types": "./types/src/exports/default.d.ts",
       "import": "./target/esm/src/exports/exports/default.js",
       "require": "./target/js/okta-sign-in.default.js",
-      "default": "./target/esm/src/exports/exports/default.js"
+      "default": "./target/js/okta-sign-in.default.js"
     },
     "./classic": {
       "types": "./types/src/exports/classic.d.ts",
       "import": "./target/esm/src/exports/exports/classic.js",
       "require": "./target/js/okta-sign-in.classic.js",
-      "default": "./target/esm/src/exports/exports/classic.js"
+      "default": "./target/js/okta-sign-in.classic.js"
     },
     "./oie": {
       "types": "./types/src/exports/oie.d.ts",
       "import": "./target/esm/src/exports/exports/oie.js",
       "require": "./target/js/okta-sign-in.oie.js",
-      "default": "./target/esm/src/exports/exports/oie.js"
+      "default": "./target/js/okta-sign-in.oie.js"
     }
   },
   "scripts": {
