@@ -17,14 +17,14 @@ import { FlowIdentifier } from '@okta/okta-auth-js';
 
 export class ConfigError extends Error {
   name = Enums.CONFIG_ERROR;
-  constructor(message: string) {
+  constructor(message?: string) {
     super(message || loc('error.config'));
   }
 }
 
 export class UnsupportedBrowserError extends Error {
   name = Enums.UNSUPPORTED_BROWSER_ERROR;
-  constructor(message: string) {
+  constructor(message?: string) {
     super(message || loc('error.unsupported.browser'));
   }
 }
