@@ -11,7 +11,7 @@
  */
 
 import Enums from 'util/Enums';
-import Errors from 'util/Errors';
+import { ConfigError } from 'util/Errors';
 import { toQueryString } from '@okta/okta-auth-js';
 
 // eslint-disable-next-line max-statements
@@ -33,7 +33,7 @@ export async function interactionCodeFlow(settings, idxResponse) {
   if (shouldRedirect) {
     const redirectUri = settings.get('redirectUri');
     if (!redirectUri) {
-      throw new Errors.ConfigError('"redirectUri" is required');
+      throw new ConfigError('"redirectUri" is required');
     }
     const qs = toQueryString({ 'interaction_code': interactionCode, state });
     window.location.assign(redirectUri + qs);
@@ -52,7 +52,7 @@ export async function interactionCodeFlow(settings, idxResponse) {
   // Operating in "relying-party" mode. The widget owns this transaction.
   // Complete the transaction client-side and call success/resolve promise
   if (!transactionMeta) {
-    throw new Errors.ConfigError('Could not load transaction data from storage');
+    throw new ConfigError('Could not load transaction data from storage');
   }
   const { codeVerifier } = transactionMeta;
   return authClient.token.exchangeCodeForTokens({ codeVerifier, interactionCode })

@@ -1,5 +1,5 @@
 import { _, $ } from 'okta';
-import Errors from 'util/Errors';
+import { ConfigError } from 'util/Errors';
 import OAuth2Util from 'util/OAuth2Util';
 
 export default function buildRenderOptions(widgetOptions = {}, options = {}) {
@@ -8,15 +8,15 @@ export default function buildRenderOptions(widgetOptions = {}, options = {}) {
   const renderOptions = Object.assign({}, { el, clientId, redirectUri, authParams });
 
   if (!renderOptions.el) {
-    throw new Errors.ConfigError('"el" is required');
+    throw new ConfigError('"el" is required');
   }
 
   if (!renderOptions.clientId) {
-    throw new Errors.ConfigError('"clientId" is required');
+    throw new ConfigError('"clientId" is required');
   }
 
   if (!renderOptions.redirectUri) {
-    throw new Errors.ConfigError('"redirectUri" is required');
+    throw new ConfigError('"redirectUri" is required');
   }
 
   return renderOptions;

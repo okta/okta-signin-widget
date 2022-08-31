@@ -19,8 +19,9 @@ import sessionStorageHelper from '../client/sessionStorageHelper';
 import { HttpResponse, IdxStatus, ProceedOptions } from '@okta/okta-auth-js';
 import { EventErrorContext } from 'types/events';
 import { CONFIGURED_FLOW } from '../client/constants';
-import Errors from 'util/Errors';
+import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
+
 export interface ContextData {
   controller: string;
   formName: string;
@@ -188,7 +189,7 @@ export default Controller.extend({
         }]
       };
     } else {
-      error = new Errors.ConfigError(`Invalid action selected: ${actionPath}`);
+      error = new ConfigError(`Invalid action selected: ${actionPath}`);
       this.options.settings.callGlobalError(error);
       await this.showFormErrors(this.formView.model, error, this.formView.form);
       return;

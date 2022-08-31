@@ -1,5 +1,5 @@
 import Settings from 'models/Settings';
-import Errors from 'util/Errors';
+import { ConfigError } from 'util/Errors';
 import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
 import { handleConfiguredFlow } from '../../../../../src/v2/client';
 
@@ -108,6 +108,6 @@ describe('v2/client/handleConfiguredFlow', () => {
     const { settings, idxState } = setup({
       flow: 'notarealvalue'
     });
-    await expect(handleConfiguredFlow(idxState, settings)).rejects.toThrow(Errors.ConfigError);
+    await expect(handleConfiguredFlow(idxState, settings)).rejects.toThrow(ConfigError);
   });
 });

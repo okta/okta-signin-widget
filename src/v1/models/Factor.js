@@ -12,7 +12,7 @@
 /* eslint complexity: [2, 13] */
 import { _, loc, Collection } from 'okta';
 import Q from 'q';
-import Errors from 'util/Errors';
+import { AuthStopPollInitiationError } from 'util/Errors';
 import factorUtil from 'util/FactorUtil';
 import Util from 'util/Util';
 import BaseLoginModel from './BaseLoginModel';
@@ -313,7 +313,7 @@ const FactorFactor = BaseLoginModel.extend({
           const initiatePollTimout = Util.callAfterTimeout(deferred.resolve, PUSH_INTERVAL);
           self.listenToOnce(self.options.appState, 'factorSwitched', () => {
             clearTimeout(initiatePollTimout);
-            deferred.reject(new Errors.AuthStopPollInitiationError());
+            deferred.reject(new AuthStopPollInitiationError());
           });
           return deferred.promise.then(function() {
             // Stop listening if factor was not switched before poll.

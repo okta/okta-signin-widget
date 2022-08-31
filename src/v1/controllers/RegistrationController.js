@@ -16,7 +16,7 @@ import RegistrationSchema from 'v1/models/RegistrationSchema';
 import Q from 'q';
 import BaseLoginController from 'v1/util/BaseLoginController';
 import Enums from 'util/Enums';
-import Errors from 'util/Errors';
+import { RegistrationError } from 'util/Errors';
 import RegistrationFormFactory from 'v1/util/RegistrationFormFactory';
 import Util from 'util/Util';
 import SubSchema from 'v1/views/registration/SubSchema';
@@ -134,7 +134,7 @@ export default BaseLoginController.extend({
 
           Util.triggerAfterError(
             this,
-            new Errors.RegistrationError(errorSummary)
+            new RegistrationError(errorSummary)
           );
         }
       });
@@ -215,7 +215,7 @@ export default BaseLoginController.extend({
     //throw registration error
     const errMsg = error.callback ? error.callback + ':' + error.errorSummary : error.errorSummary;
 
-    Util.triggerAfterError(this, new Errors.RegistrationError(errMsg));
+    Util.triggerAfterError(this, new RegistrationError(errMsg));
 
     if (hideRegisterButton) {
       this.$el.find('.button-primary').hide();

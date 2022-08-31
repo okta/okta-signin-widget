@@ -15,7 +15,7 @@ import hbs from 'handlebars-inline-precompile';
 import Factor from 'v1/models/Factor';
 import Q from 'q';
 import BrowserFeatures from 'util/BrowserFeatures';
-import Errors from 'util/Errors';
+import { UnsupportedBrowserError } from 'util/Errors';
 const DEFAULT_APP_LOGO = '/img/logos/default.png';
 
 // Keep track of stateMachine with this special model. Some reasons to not
@@ -131,7 +131,7 @@ export default Model.extend({
           .fail(function(jqXhr) {
             // Only notify the consumer on a CORS error
             if (BrowserFeatures.corsIsNotEnabled(jqXhr)) {
-              self.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
+              self.settings.callGlobalError(new UnsupportedBrowserError(loc('error.enabled.cors')));
             } else {
               throw jqXhr;
             }

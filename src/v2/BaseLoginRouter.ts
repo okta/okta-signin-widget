@@ -20,7 +20,7 @@ import Bundles from 'util/Bundles';
 import BrowserFeatures from 'util/BrowserFeatures';
 import ColorsUtil from 'util/ColorsUtil';
 import Enums from 'util/Enums';
-import Errors from 'util/Errors';
+import { ConfigError } from 'util/Errors';
 import Logger from 'util/Logger';
 import LanguageUtil from 'util/LanguageUtil';
 import AuthContainer from 'v1/views/shared/AuthContainer';
@@ -73,7 +73,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     this.settings.setAuthClient(options.authClient);
 
     if (!options.el) {
-      this.settings.callGlobalError(new Errors.ConfigError(loc('error.required.el')));
+      this.settings.callGlobalError(new ConfigError(loc('error.required.el')));
     }
 
     $('body > div').on('click', function() {
@@ -217,7 +217,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     // -- The `err` object from idx.js doesn't have XHR object
     // Global error handling for CORS enabled errors
     // if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
-    //   this.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
+    //   this.settings.callGlobalError(new UnsupportedBrowserError(loc('error.enabled.cors')));
     //   return;
     // }
   }

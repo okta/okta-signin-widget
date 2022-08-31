@@ -17,15 +17,16 @@ import config from 'config/config.json';
 import hbs from 'handlebars-inline-precompile';
 import Q from 'q';
 import BrowserFeatures from 'util/BrowserFeatures';
-import Errors from 'util/Errors';
+import {
+  ConfigError,
+  UnsupportedBrowserError
+} from 'util/Errors';
 import IDP from 'util/IDP';
 import Logger from 'util/Logger';
 import Util from 'util/Util';
 import CountryUtil from 'util/CountryUtil';
 import { OktaAuth } from '@okta/okta-auth-js';
 const SharedUtil = internal.util.Util;
-const ConfigError = Errors.ConfigError;
-const UnsupportedBrowserError = Errors.UnsupportedBrowserError;
 const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
 
 const local: Record<string, ModelProperty> = {

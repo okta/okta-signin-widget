@@ -15,7 +15,7 @@
 // call `idxState.proceed()` with a known remediation depending on the `flow` configuration to "step" the widget
 // (and the server's state) to the desired flow/form. The remediation is not guaranteed to be available 
 // and will default to the original idx response otherwise. This depends on the Org configurations
-import Errors from 'util/Errors';
+import { ConfigError } from 'util/Errors';
 import Logger from 'util/Logger';
 import { FORMS } from '../ion/RemediationConstants';
 import { CONFIGURED_FLOW } from './constants';
@@ -68,7 +68,7 @@ async function stepIntoSpecificIdxFlow(idxState, flow='default') {
 
   default:
     Logger.warn(`Unknown \`flow\` value: ${flow}`);
-    throw new Errors.ConfigError('Invalid "flow" configuration');
+    throw new ConfigError('Invalid "flow" configuration');
   }
 }
 

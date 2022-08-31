@@ -34,7 +34,7 @@ import Q from 'q';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import Bundles from 'util/Bundles';
-import Errors from 'util/Errors';
+import { ConfigError, UnsupportedBrowserError } from 'util/Errors';
 import Logger from 'util/Logger';
 import WidgetUtil from 'util/Util';
 let { Util: SharedUtil, Logger: CourageLogger } = internal.util;
@@ -297,7 +297,7 @@ Expect.describe('v1/LoginRouter', function() {
       setup({ foo: 'bla' });
     };
 
-    expect(fn).not.toThrowError(Errors.ConfigError);
+    expect(fn).not.toThrowError(ConfigError);
     expectUnexpectedFieldLog('foo');
   });
   it('has the correct error message if unknown option is passed as a widget param', function() {
@@ -745,7 +745,7 @@ Expect.describe('v1/LoginRouter', function() {
     expect(fn).not.toThrow();
     const err = errorSpy.calls.mostRecent().args[0];
 
-    expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
+    expect(err instanceof UnsupportedBrowserError).toBe(true);
     expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
     expect(err.message).toEqual('Unsupported browser - missing CORS support');
   });
