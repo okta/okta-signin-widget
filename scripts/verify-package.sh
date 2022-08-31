@@ -35,7 +35,25 @@ mv node_modules node_modules2
 
 # Verify minimum supported version of node
 
-if ! setup_service node v12.22.0; then
+EXPECTED_NODE_VERSION=12.22.0
+
+function install_node() {
+    nvm install ${EXPECTED_NODE_VERSION}
+    nvm use ${EXPECTED_NODE_VERSION}
+    nvm unalias default
+    nvm alias "default" "${EXPECTED_NODE_VERSION}"
+    npm config set prefix=/root/.nvm/versions/node/v${EXPECTED_NODE_VERSION}/bin
+    export PATH=$(echo ${PATH} | sed "s/node\/v[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+\/bin/node\/v${EXPECTED_NODE_VERSION}\/bin/")
+
+  node -v
+    if [[ "$(node -v)" != "v${EXPECTED_NODE_VERSION}" ]]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+if ! install_node; then
   echo "setup_service returned non-zero exit code";
   node --version
 fi
