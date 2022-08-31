@@ -210,7 +210,7 @@
     "time-grunt": "^2.0.0",
     "tsd": "^0.20.0",
     "ttypescript": "^1.5.13",
-    "typescript": "^4.7.4",
+    "typescript": "~4.2.2",
     "wait-on": "^6.0.1",
     "webdriver-manager": "^12.1.8",
     "webpack": "^5.51.1",

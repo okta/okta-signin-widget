@@ -8189,9 +8189,9 @@ iconv-lite@^0.6.3:
   dependencies:
     safer-buffer ">= 2.1.2 < 3.0.0"
 
-"iedriver@git+https://github.com/barretts/node-iedriver.git":
+"iedriver@https://github.com/barretts/node-iedriver":
   version "4.0.0"
-  resolved "git+https://github.com/barretts/node-iedriver.git#0cf00508787e60645355fa5b23233a40b3ea0181"
+  resolved "https://github.com/barretts/node-iedriver#0cf00508787e60645355fa5b23233a40b3ea0181"
   dependencies:
     extract-zip "1.7.0"
     kew "~0.1.7"
@@ -15263,10 +15263,15 @@ typescript@^3.3.3:
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
   integrity sha1-cPORCselHta+952ngAaQsZv3eLg=
 
-typescript@^4.4.4, typescript@^4.7.4:
+typescript@^4.4.4:
   version "4.8.2"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/typescript/-/typescript-4.8.2.tgz#e3b33d5ccfb5914e4eeab6699cf208adee3fd790"
   integrity sha1-47M9XM+1kU5O6rZpnPIIre4/15A=
+
+typescript@~4.2.2:
+  version "4.2.4"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
+  integrity sha1-hhC1l0feAo/aiYqK7w4QPxVtCWE=
 
 u2f-api-polyfill@0.4.3:
   version "0.4.3"

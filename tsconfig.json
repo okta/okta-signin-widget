@@ -6,7 +6,7 @@
     "outDir": "./types",
     "target": "es6",
     "sourceMap": true,
-    "moduleResolution": "nodenext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
