@@ -7,7 +7,7 @@ import Settings from 'models/Settings';
 import { AuthSdkError, OAuthError } from '@okta/okta-auth-js';
 import Enums from 'util/Enums';
 import { OAuthError } from 'util/Errors';
-import { NonRecoverableError } from 'util/OAuthErrors';
+import { NonRecoverableError, ClockDriftError } from 'util/OAuthErrors';
 
 
 
@@ -15,7 +15,10 @@ describe('util/OAuth2Util', function() {
   class MockModel {
     constructor() {
       this.trigger = jest.fn();
-      this.appState = { trigger: jest.fn() };
+      this.appState = { 
+        trigger: jest.fn(),
+        set: jest.fn()
+      };
     }
   }
 
@@ -78,6 +81,30 @@ describe('util/OAuth2Util', function() {
         expect(settings.callGlobalError).toHaveBeenCalledTimes(1);
         const exception= settings.callGlobalError.calls.mostRecent().args[0];
         expect(exception).toBeInstanceOf(NonRecoverableError);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('sets error message and triggers navigation to error view when encountering \'terminal\' error', function( done ) {
+      jest.spyOn(authClient.token, 'getWithPopup').mockImplementation(function() {
+        return new Promise(function() {
+          throw new OAuthError(
+            'INTERNAL', 'The JWT was issued in the future');
+        });
+      });
+
+      return new Promise(function(resolve) {
+        jest.spyOn(controller.model.appState, 'trigger').mockImplementation(resolve);
+        OAuth2Util.getTokens(settings, {}, controller);
+      }).then(function() {
+        expect(controller.model.appState.trigger).toHaveBeenCalledTimes(1);
+        expect(controller.model.appState.trigger).toHaveBeenLastCalledWith('navigate', 'signin/error');
+        
+        expect(controller.model.appState.set).toHaveBeenCalledTimes(1);
+        const [appStateProperty, exception] = controller.model.appState.set.mock.calls.pop();
+        expect(appStateProperty).toBe('flashError');
+        expect(exception).toBeInstanceOf(ClockDriftError);
+        expect(exception.is('terminal')).toBe(true);
         done();
       }).catch(done.fail);
     });

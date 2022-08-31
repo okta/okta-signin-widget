@@ -58,7 +58,9 @@ util.getTokens = function(settings, params, controller) {
       controller.model.appState.trigger('removeLoading');
     }
 
-    Util.triggerAfterError(controller, typedError, settings);
+    if (!typedError.is('terminal')) {
+      Util.triggerAfterError(controller, typedError, settings);
+    }
 
     if (typedError instanceof NonRecoverableError) {
       settings.callGlobalError(typedError);
