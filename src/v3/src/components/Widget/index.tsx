@@ -20,6 +20,7 @@ import {
   IdxStatus,
   IdxTransaction,
 } from '@okta/okta-auth-js';
+import isEqual from 'lodash/isEqual';
 import { FunctionComponent, h } from 'preact';
 import {
   useCallback,
@@ -44,6 +45,7 @@ import {
 } from '../../types';
 import {
   buildAuthCoinProps,
+  getAuthenticatorKey,
   getLanguageCode,
   isAndroidOrIOS,
   isAuthClientSet,
@@ -219,13 +221,27 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return;
     }
 
-    if (pollingTransaction.nextStep?.name !== idxTransaction.nextStep?.name) {
+    /**
+     * polling transaction name can sometimes be the same as the current transaction's name
+     * i.e. unlocking an account and immeidiately being challenged with a different authenticator
+     * when that is the case, we need to compare inputs to determine if it is the same transaction
+     * lastly, inputs could also be the same (i.e. email otp to password) in that case we finally
+     * check the authenticator key to determine if they are the same
+     * (as you shouldnt be challenged with the same authenticator)
+    */
+    const pollingTxAndCurrentTxInputsDiffer = !isEqual(
+      pollingTransaction.nextStep?.inputs,
+      idxTransaction.nextStep?.inputs,
+    );
+    const pollingTxAuthKey = getAuthenticatorKey(pollingTransaction);
+    const currentTxAuthKey = getAuthenticatorKey(idxTransaction);
+    if (pollingTransaction.nextStep?.name !== idxTransaction.nextStep?.name
+        || pollingTxAndCurrentTxInputsDiffer
+        || pollingTxAuthKey !== currentTxAuthKey) {
       setIdxTransaction(pollingTransaction);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    pollingTransaction, // only watch on pollingTransaction changes
-  ]);
+  }, [pollingTransaction]); // only watch on pollingTransaction changes
 
   useEffect(() => {
     if (!idxTransaction) {

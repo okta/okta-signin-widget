@@ -59,6 +59,7 @@ import './terminal-return-otp-only-partial-location';
 import './terminal-return-otp-only-no-location';
 import './terminal-return-stale-email';
 import './terminal-transferred-email';
+import './unlock-account-email-poll-with-webauthn-challenge';
 import './unlock-account-email-securityquestion';
 import './unlock-account-email-verify-with-ga';
 import './unlock-account-sms-verify-with-ga';
