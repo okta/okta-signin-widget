@@ -219,7 +219,7 @@
     "webpack-dev-server": "^4.8.1"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-7.0.0-g3f4c031.tgz",
+    "@okta/okta-auth-js": "https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-7.0.0-g6487734.tgz",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/jquery": "^3.5.14",
