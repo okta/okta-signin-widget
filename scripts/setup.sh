@@ -23,8 +23,8 @@ if [ ! -z "$AUTHJS_VERSION" ]; then
     exit ${FAILED_SETUP}
   fi
   
-  MATCH = "$(yarn why @okta/okta-auth-js | grep ${AUTHJS_VERSION})"
-  echo $MATCH
+  MATCH="$(yarn why @okta/okta-auth-js | grep ${AUTHJS_VERSION})"
+  echo ${MATCH}
   if [ -z "$MATCH" ]; then
     echo "AUTHJS_VERSION was not installed: ${AUTHJS_VERSION}"
     exit ${FAILED_SETUP}
