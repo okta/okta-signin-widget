@@ -90,8 +90,11 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       payload = merge(payload, immutableData);
     }
     payload = toNestedObject(payload);
-    if (currTransaction!.context.stateHandle) {
-      payload.stateHandle = currTransaction!.context.stateHandle;
+    if (currTransaction?.context.stateHandle) {
+      payload.stateHandle = currTransaction.context.stateHandle;
+    }
+    if (step === 'cancel') {
+      authClient?.transactionManager.clear({ clearIdxResponse: false });
     }
     setMessage(undefined);
     try {

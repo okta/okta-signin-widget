@@ -23,8 +23,6 @@ import {
   TERMINAL_TITLE_KEY,
 } from '../../constants';
 import {
-  ButtonElement,
-  ButtonType,
   FormBag,
   LinkElement,
   SpinnerElement,
@@ -37,12 +35,13 @@ import {
   containsMessageKey,
   containsMessageKeyPrefix,
   containsOneOfMessageKeys,
+  getBackToSignInUri,
+  getBaseUrl,
   getUserInfo,
   isAuthClientSet,
   loc,
   removeUsernameCookie,
   setUsernameCookie,
-  shouldShowCancelLink,
 } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { createForm } from '../utils';
@@ -77,40 +76,44 @@ const appendViewLinks = (
   transaction: IdxTransaction,
   uischema: UISchemaLayout,
   widgetProps: WidgetProps,
+  bootstrapFn: () => Promise<void>,
 ): void => {
-  const { baseUrl, features } = widgetProps;
-  const isCancelAvailable = shouldShowCancelLink(features);
+  const { useInteractionCodeFlow } = widgetProps;
   const cancelStep = transaction?.availableSteps?.find(({ name }) => name === 'cancel');
+  const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
   const cancelLink: LinkElement = {
     type: 'Link',
     options: {
       label: loc('goback', 'login'),
       step: 'cancel',
       isActionStep: true,
-      href: cancelStep ? undefined : (baseUrl || '/'),
     },
   };
 
-  if (containsMessageKeyPrefix(TERMINAL_KEY.SAFE_MODE_KEY_PREFIX, transaction.messages)) {
-    const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
-    if (skipStep) {
-      const skipElement: ButtonElement = {
-        type: 'Button',
-        label: loc('oie.enroll.skip.setup', 'login'),
-        options: {
-          type: ButtonType.BUTTON,
-          step: skipStep.name,
-        },
-      };
-      uischema.elements.push(skipElement);
-    }
-  } else if (containsOneOfMessageKeys(DEVICE_CODE_ERROR_KEYS, transaction.messages)
-      && isCancelAvailable) {
-    cancelLink.options.label = loc('oie.try.again', 'login');
+  if (containsMessageKeyPrefix(TERMINAL_KEY.SAFE_MODE_KEY_PREFIX, transaction.messages)
+      && skipStep) {
+    cancelLink.options.label = loc('oie.enroll.skip.setup', 'login');
+    cancelLink.options.step = skipStep.name;
+    cancelLink.options.isActionStep = false;
     uischema.elements.push(cancelLink);
-  } else if ((transaction.actions?.cancel
-    || !containsOneOfMessageKeys(TERMINAL_KEYS_WITHOUT_CANCEL, transaction.messages))
-    && isCancelAvailable) {
+  } else if (containsOneOfMessageKeys(DEVICE_CODE_ERROR_KEYS, transaction.messages)) {
+    cancelLink.options.label = loc('oie.try.again', 'login');
+    cancelLink.options.href = window.location.href;
+    uischema.elements.push(cancelLink);
+  } else if (cancelStep) {
+    uischema.elements.push(cancelLink);
+  } else if (!transaction.actions?.cancel
+      && !containsOneOfMessageKeys(TERMINAL_KEYS_WITHOUT_CANCEL, transaction.messages)) {
+    const backToSigninUri = getBackToSignInUri(widgetProps);
+    if (backToSigninUri) {
+      cancelLink.options.href = backToSigninUri;
+    } else if (useInteractionCodeFlow) {
+      cancelLink.options.onClick = async () => {
+        await bootstrapFn();
+      };
+    } else {
+      cancelLink.options.href = getBaseUrl(widgetProps);
+    }
     uischema.elements.push(cancelLink);
   }
 };
@@ -213,8 +216,9 @@ const updateIdentifierCookie = (transaction: IdxTransaction, rememberMe?: boolea
 export const transformTerminalTransaction = (
   transaction: IdxTransaction,
   widgetProps: WidgetProps,
+  bootstrapFn: () => Promise<void>,
 ): FormBag => {
-  const { useInteractionCodeFlow, features } = widgetProps;
+  const { authClient, useInteractionCodeFlow, features } = widgetProps;
   if (isSuccessfulAuthentication(transaction) && features?.rememberMyUsernameOnOIE) {
     // TODO: OKTA-506358 This identifier cookie can be removed once implemented in auth-js
     updateIdentifierCookie(transaction, features?.rememberMe);
@@ -237,6 +241,10 @@ export const transformTerminalTransaction = (
 
   const { messages } = transaction;
 
+  if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
+    authClient?.transactionManager.clear();
+  }
+
   if (!messages && transaction.interactionCode && !useInteractionCodeFlow) {
     throw new Error('Set "useInteractionCodeFlow" to true in configuration to enable the '
       + 'interaction_code" flow for self-hosted widget.');
@@ -248,7 +256,7 @@ export const transformTerminalTransaction = (
 
   transformTerminalMessages(transaction, formBag);
 
-  appendViewLinks(transaction, formBag.uischema, widgetProps);
+  appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
 
   return formBag;
 };

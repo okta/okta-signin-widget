@@ -126,6 +126,7 @@ export type WidgetOptions = {
   stateToken?: string;
   username?: string;
   signOutLink?: string;
+  backToSignInLink?: string;
   consent?: {
     cancel: { (): void };
   };

@@ -13,11 +13,50 @@
 import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
+import identifyWithPassword from '../../src/mocks/response/idp/idx/introspect/default.json';
 
 describe('error-session-expired', () => {
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/You have been logged out due to inactivity. Refresh or return to the sign in screen./);
     expect(container).toMatchSnapshot();
+  });
+
+  it('should bootstrap widget when clicking "Back to sign in" link', async () => {
+    const {
+      user,
+      findByText,
+      authClient,
+    } = await setup({
+      mockResponses: {
+        '/introspect': {
+          data: mockResponse,
+          status: 200,
+        },
+        '/idp/idx/introspect': {
+          data: identifyWithPassword,
+          status: 200,
+        },
+      },
+    });
+
+    const cancelLink = await findByText(/Back to sign in/);
+    await user.click(cancelLink);
+
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      'POST',
+      'https://oie-123456.oktapreview.com/idp/idx/introspect',
+      {
+        data: {
+          interactionHandle: 'fake-interactionhandle',
+        },
+        headers: {
+          Accept: 'application/ion+json; okta-version=1.0.0',
+          'Content-Type': 'application/ion+json; okta-version=1.0.0',
+          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        },
+        withCredentials: true,
+      },
+    );
   });
 });

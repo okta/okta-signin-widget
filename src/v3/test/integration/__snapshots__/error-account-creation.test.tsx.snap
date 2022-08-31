@@ -74,7 +74,7 @@ exports[`error-account-creation should render form 1`] = `
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-13"
-                    href="/"
+                    href="javascript:void(0)"
                   >
                     Back to sign in
                   </a>

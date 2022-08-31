@@ -110,7 +110,7 @@ exports[`terminal-return-email-error should render form 1`] = `
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-14"
-                    href="/"
+                    href="javascript:void(0)"
                   >
                     Back to sign in
                   </a>
