@@ -29,11 +29,6 @@ export interface ContextData {
   methodType?: string;
 }
 
-export interface ErrorContextData {
-  xhr: HttpResponse;
-  errorSummary?: string;
-}
-
 export default Controller.extend({
   className: 'form-controller',
 
