@@ -3,6 +3,7 @@ import Util from 'helpers/mocks/Util';
 import BaseLoginRouter from 'v2/BaseLoginRouter';
 import FormController from 'v2/controllers/FormController';
 import { ConfiguredFlowError, ConfigError } from 'util/Errors';
+import { RecoverableError } from 'util/OAuthErrors';
 import $sandbox from 'sandbox';
 import getAuthClient from 'widget/getAuthClient';
 import XHRInteract from '../../../../playground/mocks/data/oauth2/interact.json';
@@ -17,6 +18,7 @@ import UnauthorizedClientError from '../../../../playground/mocks/data/idp/idx/e
 import FakeIdxClientError from '../../../../playground/mocks/data/idp/idx/error-400-fake-error.json';
 import IdxSessionExpiredError from '../../../../playground/mocks/data/idp/idx/error-401-session-expired.json';
 import IdxRateLimitError from '../../../../playground/mocks/data/idp/idx/error-429-too-many-request-operation-ratelimit';
+import SuccessWithInteractionCode from '../../../../playground/mocks/data/idp/idx/success-with-interaction-code.json';
 import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
 
 const FakeController = Controller.extend({
@@ -50,10 +52,17 @@ jest.mock('v2/client/updateAppState', () => {
   };
 });
 
+jest.mock('v2/client/interactionCodeFlow', () => {
+  const actual = jest.requireActual('../../../../src/v2/client/interactionCodeFlow');
+  return {
+    interactionCodeFlow: actual.interactionCodeFlow,
+  };
+});
 
 const mocked = {
   startLoginFlow: require('../../../../src/v2/client/startLoginFlow'),
-  updateAppState: require('../../../../src/v2/client/updateAppState')
+  updateAppState: require('../../../../src/v2/client/updateAppState'),
+  interactionCodeFlow: require('../../../../src/v2/client/interactionCodeFlow'),
 };
 
 describe('v2/BaseLoginRouter', function() {
@@ -281,6 +290,28 @@ describe('v2/BaseLoginRouter', function() {
       expect(testContext.router.controller.$el.find('.o-form-error-container').text()).toBe(
         'Something went wrong. Potential misconfiguration detected. Please contact support.'
       );
+    });
+
+    it('should set current view to \'terminal\' when encountering termminal non-idx errors', async () => {
+      setup({
+        useInteractionCodeFlow: true,
+      });
+
+      const successfulAuthResponse = {
+        rawIdxState: JSON.parse(JSON.stringify(SuccessWithInteractionCode)),
+        interactionCode: 'thecode',
+      };
+      const terminalError = new RecoverableError(new Errors.OAuthError('Descriptive error message'), class T { terminal = true });
+
+      jest.spyOn(testContext.router.appState, 'setNonIdxError');
+      jest.spyOn(mocked.startLoginFlow, 'startLoginFlow').mockResolvedValue(successfulAuthResponse);
+      jest.spyOn(mocked.interactionCodeFlow, 'interactionCodeFlow').mockImplementation(() => { throw terminalError; });
+
+      await testContext.router.render(FormController); // use real FormController for error logic
+
+      expect(testContext.router.appState.getCurrentViewState().name).toBe('terminal');
+      const [ exception ] = testContext.router.appState.setNonIdxError.mock.calls.pop();
+      expect(exception).toBe(terminalError);
     });
 
     describe('idx session expired errors', () => {
