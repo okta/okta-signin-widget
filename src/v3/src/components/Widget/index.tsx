@@ -229,16 +229,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
      * check the authenticator key to determine if they are the same
      * (as you shouldnt be challenged with the same authenticator)
     */
-    const transactionInputsMatch = isEqual(
+    const pollingTxAndCurrentTxInputsDiffer = !isEqual(
       pollingTransaction.nextStep?.inputs,
       idxTransaction.nextStep?.inputs,
     );
     const pollingTxAuthKey = getAuthenticatorKey(pollingTransaction);
     const currentTxAuthKey = getAuthenticatorKey(idxTransaction);
-    const authenticatorKeysMatch = pollingTxAuthKey === currentTxAuthKey;
     if (pollingTransaction.nextStep?.name !== idxTransaction.nextStep?.name
-        || !transactionInputsMatch
-        || !authenticatorKeysMatch) {
+        || pollingTxAndCurrentTxInputsDiffer
+        || pollingTxAuthKey !== currentTxAuthKey) {
       setIdxTransaction(pollingTransaction);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
