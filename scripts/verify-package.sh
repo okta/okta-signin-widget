@@ -34,7 +34,11 @@ fi
 mv node_modules node_modules2
 
 # Verify minimum supported version of node
-setup_service node v12.22.0
+
+if ! setup_service node v12.22.0; then
+  echo "setup_service returned non-zero exit code";
+  node --version
+fi
 
 # Verify minimum supported version of yarn
 # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
