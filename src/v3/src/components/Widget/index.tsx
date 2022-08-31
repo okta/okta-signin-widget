@@ -85,7 +85,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [isClientTransaction, setIsClientTransaction] = useState<boolean>(false);
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
-  const [authApiError, setAuthApiError] = useState<AuthApiError | undefined>();
+  const [authApiError, setAuthApiError] = useState<AuthApiError | null>(null);
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
 
@@ -119,7 +119,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         stateHandle: stateToken,
       });
 
-      setAuthApiError(undefined);
+      setAuthApiError(null);
       setIdxTransaction(transaction);
       // ready event
       events?.ready?.({

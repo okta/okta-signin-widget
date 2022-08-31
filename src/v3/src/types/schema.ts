@@ -277,7 +277,7 @@ export interface LinkElement extends UISchemaElement {
     label: string;
     href?: string;
     dataSe?: string;
-    onClick?: () => Promise<void>;
+    onClick?: () => unknown;
   };
 }
 
