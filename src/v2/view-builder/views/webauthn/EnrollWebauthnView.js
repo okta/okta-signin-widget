@@ -61,8 +61,8 @@ const Body = BaseForm.extend({
     const activationData = relatesToObject?.value.contextualData.activationData;
     if (webauthn.isNewApiAvailable()) {
       const excludeCredentials = activationData.authenticatorSelection?.requireResidentKey === true ?
-      [] :
-      getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value);
+        [] :
+        getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value);
       const options = _.extend({}, activationData, {
         challenge: CryptoUtil.strToBin(activationData.challenge),
         user: {
