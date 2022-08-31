@@ -19,6 +19,7 @@ import wrongPasswordMockresponse from '../../src/mocks/response/idp/idx/identify
 describe('identify-with-password-error-flow', () => {
   it('should not pre-populate username into identifier field when set in cookie after an error', async () => {
     const mockUsername = 'testuser@okta1.com';
+    const badUsername = 'bad_user@bad.com';
     jest.spyOn(cookieUtils, 'getUsernameCookie').mockReturnValue(mockUsername);
     const {
       user,
@@ -43,11 +44,11 @@ describe('identify-with-password-error-flow', () => {
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     await user.clear(usernameEl);
-    await user.type(usernameEl, 'bad_user@bad.com');
+    await user.type(usernameEl, badUsername);
     await user.type(passwordEl, 'wrongPassword1234');
     await user.click(submitButton);
 
     await findByText('Unable to sign in');
-    expect((await findByTestId('identifier') as HTMLInputElement).value).not.toBe(mockUsername);
+    expect((await findByTestId('identifier') as HTMLInputElement).value).toBe(badUsername);
   });
 });
