@@ -21,7 +21,12 @@ import {
 import { getUsernameCookie, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
-export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
+export const transformIdentify: IdxStepTransformer = ({
+  formBag,
+  widgetProps,
+  transaction,
+  isClientTransaction,
+}) => {
   const { features, username } = widgetProps;
   const { uischema, data } = formBag;
 
@@ -29,7 +34,7 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
     'identifier',
     uischema.elements as UISchemaElement[],
   ) as FieldElement;
-  if (identifierElement) {
+  if (identifierElement && !isClientTransaction) {
     // add username/identifier from config if provided
     if (username) {
       data.identifier = username;

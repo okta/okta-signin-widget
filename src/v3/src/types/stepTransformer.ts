@@ -20,6 +20,7 @@ type IdxStepTransformerOptions = {
   prevTransaction?: IdxTransaction;
   formBag: FormBag;
   widgetProps: WidgetProps;
+  isClientTransaction?: boolean;
 };
 
 // TODO: remove
@@ -30,6 +31,7 @@ export type TransformationOptions = {
   transaction: IdxTransaction;
   prevTransaction?: IdxTransaction;
   step: string;
+  isClientTransaction?: boolean;
 };
 
 export type TransformStepFn = (formbag: FormBag) => FormBag;
