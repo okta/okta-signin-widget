@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ORIGINAL_PATH=$PATH
+
 source $OKTA_HOME/$REPO/scripts/setup.sh
 
 export PATH="${PATH}:$(yarn global bin)"
@@ -34,11 +36,13 @@ fi
 mv node_modules node_modules2
 
 # Verify minimum supported version of node
+export PATH=$ORIGINAL_PATH
 setup_service node v12.22.0
 
 # Verify minimum supported version of yarn
 # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
 setup_service yarn 1.7.0 /etc/pki/tls/certs/ca-bundle.crt
+export PATH="${PATH}:$(yarn global bin)"
 
 pushd test/package/tsc
 if ! (yarn && yarn test); then
