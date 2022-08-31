@@ -21,7 +21,6 @@ export const transformLayout: TransformStepFnWithOptions = (options) => (formBag
     transaction,
     prevTransaction,
     step,
-    isClientTransaction,
   } = options;
 
   const authenticatorKey = getAuthenticatorKey(transaction) ?? AUTHENTICATOR_KEY.DEFAULT;
@@ -31,7 +30,6 @@ export const transformLayout: TransformStepFnWithOptions = (options) => (formBag
     prevTransaction,
     formBag,
     widgetProps,
-    isClientTransaction,
   }) ?? formBag;
 
   return updatedFormBag;

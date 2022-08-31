@@ -25,7 +25,6 @@ export const transformIdentify: IdxStepTransformer = ({
   formBag,
   widgetProps,
   transaction,
-  isClientTransaction,
 }) => {
   const { features, username } = widgetProps;
   const { uischema, data } = formBag;
@@ -34,7 +33,7 @@ export const transformIdentify: IdxStepTransformer = ({
     'identifier',
     uischema.elements as UISchemaElement[],
   ) as FieldElement;
-  if (identifierElement && !isClientTransaction) {
+  if (identifierElement) {
     // add username/identifier from config if provided
     if (username) {
       data.identifier = username;

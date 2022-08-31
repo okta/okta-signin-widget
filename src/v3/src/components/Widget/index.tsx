@@ -183,8 +183,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     dataSchemaRef.current = formBag.dataSchema;
     if (isClientTransaction) {
       setData((prev) => ({
-        ...prev,
         ...formBag.data,
+        ...prev,
       }));
     } else {
       setData(formBag.data);
