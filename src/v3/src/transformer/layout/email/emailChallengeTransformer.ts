@@ -53,6 +53,9 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
     'credentials.passcode',
     uischema.elements as UISchemaElement[],
   );
+  if (passcodeElement) {
+    passcodeElement.focus = true;
+  }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
   const maginLinkText = redactedEmailAddress

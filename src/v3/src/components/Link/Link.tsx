@@ -13,7 +13,7 @@
 import { Link as LinkMui } from '@mui/material';
 import { h } from 'preact';
 
-import { useOnSubmit } from '../../hooks';
+import { useAutoFocus, useOnSubmit } from '../../hooks';
 import { ClickHandler, LinkElement, UISchemaElementComponent } from '../../types';
 
 const Link: UISchemaElementComponent<{
@@ -29,10 +29,10 @@ const Link: UISchemaElementComponent<{
       step,
       onClick: onClickHandler,
     },
+    focus,
   } = uischema;
   const onSubmitHandler = useOnSubmit();
-  // TO DO: https://oktainc.atlassian.net/browse/OKTA-527004
-  // const focusRef = useAutoFocus<HTMLAnchorElement>(focus);
+  const focusRef = useAutoFocus<HTMLAnchorElement>(focus);
 
   const onClick: ClickHandler = async (e) => {
     e.preventDefault();
@@ -52,7 +52,7 @@ const Link: UISchemaElementComponent<{
         href="javascript:void(0)"
         onClick={onClickHandler || onClick}
         onMouseDown={onMouseDown}
-        // ref={focusRef}
+        ref={focusRef}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...(dataSe && { 'data-se': dataSe } )}
       >
@@ -63,7 +63,7 @@ const Link: UISchemaElementComponent<{
         <LinkMui
           href={href}
           onMouseDown={onMouseDown}
-          // ref={focusRef}
+          ref={focusRef}
         >
           {label}
         </LinkMui>

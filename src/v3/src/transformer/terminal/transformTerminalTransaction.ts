@@ -44,6 +44,7 @@ import {
   setUsernameCookie,
 } from '../../util';
 import { redirectTransformer } from '../redirect';
+import { setFocusOnFirstElement } from '../uischema';
 import { createForm } from '../utils';
 import { transformTerminalMessages } from './transformTerminalMessages';
 
@@ -257,6 +258,8 @@ export const transformTerminalTransaction = (
   transformTerminalMessages(transaction, formBag);
 
   appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
+
+  setFocusOnFirstElement(formBag);
 
   return formBag;
 };
