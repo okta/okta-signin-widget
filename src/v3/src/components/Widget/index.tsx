@@ -162,7 +162,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       prevTransaction: prevIdxTransactionRef.current,
       step,
       widgetProps,
-      isClientTransaction,
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
