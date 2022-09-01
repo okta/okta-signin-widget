@@ -10,9 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { flow } from 'lodash';
+
 import {
+  TransformStepFn,
   TransformStepFnWithOptions,
+  UISchemaElement,
 } from '../../types';
+import { isInteractiveType } from '../../util';
 import { traverseLayout } from '../util';
 
 const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
@@ -28,6 +33,23 @@ const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formba
   return formbag;
 };
 
+export const setFocusOnFirstElement: TransformStepFn = (formbag) => {
+  let firstFieldFound = false;
+  traverseLayout({
+    layout: formbag.uischema,
+    predicate: (el) => (!firstFieldFound && isInteractiveType(el.type)),
+    callback: (el) => {
+      const uischemaElement = (el as UISchemaElement);
+      uischemaElement.focus = true;
+      firstFieldFound = true;
+    },
+  });
+  return formbag;
+};
+
 export const transformUISchema: TransformStepFnWithOptions = (
   options,
-) => (formbag) => addKeyToElement(options)(formbag);
+) => (formbag) => flow(
+  addKeyToElement(options),
+  setFocusOnFirstElement,
+)(formbag);
