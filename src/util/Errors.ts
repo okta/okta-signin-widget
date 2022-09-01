@@ -15,34 +15,45 @@ import Enums from './Enums';
 import { ErrorXHR, ErrorContextData } from 'types/errors';
 import { FlowIdentifier } from '@okta/okta-auth-js';
 
-export class ConfigError extends Error {
+abstract class CustomError extends Error {
+  constructor(message?: string) {
+    super(message);
+
+    // 'Error' breaks prototype chain. Need to restore it for ES5.
+    // https://github.com/microsoft/TypeScript/wiki/FAQ#why-doesnt-extending-built-ins-like-error-array-and-map-work
+    // Note: no need to adjust prototype in subclasses of 'CustomError'.
+    Object.setPrototypeOf(this, new.target.prototype);
+  }
+}
+
+export class ConfigError extends CustomError {
   name = Enums.CONFIG_ERROR;
   constructor(message?: string) {
     super(message || loc('error.config'));
   }
 }
 
-export class UnsupportedBrowserError extends Error {
+export class UnsupportedBrowserError extends CustomError {
   name = Enums.UNSUPPORTED_BROWSER_ERROR;
   constructor(message?: string) {
     super(message || loc('error.unsupported.browser'));
   }
 }
 
-export class OAuthError extends Error {
+export class OAuthError extends CustomError {
   name = Enums.OAUTH_ERROR;
 }
 
-export class RegistrationError extends Error {
+export class RegistrationError extends CustomError {
   name = Enums.REGISTRATION_FAILED;
 }
 
 // Thrown when initiation of poll was cancelled.
-export class AuthStopPollInitiationError extends Error {
+export class AuthStopPollInitiationError extends CustomError {
   name = Enums.AUTH_STOP_POLL_INITIATION_ERROR;
 }
 
-export class U2FError extends Error {
+export class U2FError extends CustomError {
   xhr: ErrorXHR;
   name = Enums.U2F_ERROR;
   constructor(err: ErrorContextData) {
@@ -51,7 +62,7 @@ export class U2FError extends Error {
   }
 }
 
-export class WebAuthnError extends Error {
+export class WebAuthnError extends CustomError {
   xhr: ErrorXHR;
   name = Enums.WEB_AUTHN_ERROR;
   constructor(err: ErrorContextData) {
@@ -61,11 +72,11 @@ export class WebAuthnError extends Error {
 }
 
 // This is triggered only when code aborts webauthn browser prompt.
-export class WebauthnAbortError extends Error {
+export class WebauthnAbortError extends CustomError {
   name = Enums.WEBAUTHN_ABORT_ERROR;
 }
 
-export class ConfiguredFlowError extends Error {
+export class ConfiguredFlowError extends CustomError {
   flowSetting: FlowIdentifier;
   name = Enums.CONFIGURED_FLOW_ERROR;
   constructor(message: string, flowSetting: FlowIdentifier) {
