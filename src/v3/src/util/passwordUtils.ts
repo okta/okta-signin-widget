@@ -48,13 +48,20 @@ const minSymbolValidator = (password: string, limit: unknown): boolean => (
   !(limit as number) || (password.match(/["!#$%&'()*+,-./\\:;<=>?@[\]^_`{|}~]/)?.length || 0) >= (limit as number)
 );
 
+/**
+ * The MDN recommended expression for escaping all special characters in RegExp
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+ */
+
+const escapeRegExp = (input: string): string => input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const excludeAttributeValidator = (
   password: string,
   ruleEnabled: boolean,
   attributeVal: string,
 ): boolean => {
   if (ruleEnabled) {
-    return password ? !new RegExp(attributeVal, 'i').test(password) : false;
+    return password ? !new RegExp(escapeRegExp(attributeVal), 'i').test(password) : false;
   }
   return true;
 };
