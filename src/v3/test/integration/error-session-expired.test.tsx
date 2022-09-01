@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
 import identifyWithPassword from '../../src/mocks/response/idp/idx/introspect/default.json';
-import { waitFor } from '@testing-library/preact';
 
 describe('error-session-expired', () => {
   it('should render form', async () => {
