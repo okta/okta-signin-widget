@@ -216,4 +216,62 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       })
       .catch(done.fail);
   });
+
+  it('credentials.get should be called with empty excludeCredentials when requreResidentKey=true', function(done) {
+    const newCredential = {
+      response: {
+        clientDataJSON: 123,
+        attestationObject: 234,
+      },
+    };
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
+    spyOn(BaseForm.prototype, 'saveForm');
+
+    const currentAuthenticator = JSON.parse(JSON.stringify(EnrollWebauthnResponse.currentAuthenticator.value));
+    currentAuthenticator.contextualData.activationData.authenticatorSelection.requireResidentKey = true;
+    testContext.init(currentAuthenticator);
+
+    testContext.init(currentAuthenticator, EnrollWebauthnResponse.authenticatorEnrollments);
+    testContext.view.$('.webauthn-setup').click();
+
+    Expect.waitForSpyCall(testContext.view.form.saveForm)
+      .then(() => {
+        expect(navigator.credentials.create).toHaveBeenCalledWith({
+          publicKey: {
+            rp: {
+              name: 'idx',
+            },
+            user: {
+              id: CryptoUtil.strToBin('00utjm1GstPjCF9Ad0g3'),
+              name: 'test@okta.com',
+              displayName: 'test user',
+            },
+            pubKeyCredParams: [
+              {
+                type: 'public-key',
+                alg: -7,
+              },
+              {
+                type: 'public-key',
+                alg: -257,
+              },
+            ],
+            challenge: CryptoUtil.strToBin('zrTo0mMXyCt90mweh2HL'),
+            attestation: 'direct',
+            authenticatorSelection: {
+              requireResidentKey: true,
+              userVerification: 'discouraged',
+            },
+            u2fParams: {
+              appid: 'http://idx.okta1.com:1802',
+            },
+            excludeCredentials: [],
+          },
+          signal: jasmine.any(Object),
+        });
+        done();
+      })
+      .catch(done.fail);
+  });
 });
