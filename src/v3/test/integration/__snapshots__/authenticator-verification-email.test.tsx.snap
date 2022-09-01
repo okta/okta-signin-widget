@@ -682,6 +682,35 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 </span>
               </div>
             </div>
+            <div
+              class="MuiBox-root emotion-10"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-11"
+                role="alert"
+              >
+                <div
+                  class="MuiAlert-icon emotion-12"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                    data-testid="ErrorOutlineIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiAlert-message emotion-14"
+                >
+                  We found some errors. Please review the form and make corrections.
+                </div>
+              </div>
+            </div>
             <form
               class="o-form"
               data-se="form"
@@ -689,22 +718,22 @@ exports[`authenticator-verification-email renders correct form renders the otp c
               style="max-width: 100%;"
             >
               <div
-                class="MuiBox-root emotion-10"
+                class="MuiBox-root emotion-15"
               >
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-15"
                 >
                   <div
-                    class="MuiBox-root emotion-12"
+                    class="MuiBox-root emotion-17"
                   />
                   <div
-                    class="MuiBox-root emotion-12"
+                    class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiBox-root emotion-14"
+                      class="MuiBox-root emotion-19"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        class="MuiTypography-root MuiTypography-h3 emotion-20"
                         data-se="o-form-head"
                       >
                         Verify with your email
@@ -712,13 +741,13 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-12"
+                    class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiBox-root emotion-14"
+                      class="MuiBox-root emotion-19"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
                         data-se="o-form-explain"
                       >
                         We sent an email to t***t@idx.com. Click the verification link in your email to continue or enter the code below.
@@ -726,25 +755,25 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-12"
+                    class="MuiBox-root emotion-17"
                   >
                     <div
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-21"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-26"
                         for="credentials.passcode"
                       >
                         Enter Code
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-22"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-27"
                       >
                         <input
                           aria-describedby="credentials.passcode-error"
                           aria-invalid="true"
                           autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
+                          class="MuiOutlinedInput-input MuiInputBase-input emotion-28"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
@@ -752,10 +781,10 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         />
                         <fieldset
                           aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-24"
+                          class="MuiOutlinedInput-notchedOutline emotion-29"
                         >
                           <legend
-                            class="emotion-25"
+                            class="emotion-30"
                           >
                             <span
                               class="notranslate"
@@ -766,7 +795,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         </fieldset>
                       </div>
                       <p
-                        class="MuiFormHelperText-root Mui-error emotion-26"
+                        class="MuiFormHelperText-root Mui-error emotion-31"
                         data-se="credentials.passcode-error"
                         id="credentials.passcode-error"
                         role="alert"
@@ -776,10 +805,10 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-12"
+                    class="MuiBox-root emotion-17"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-28"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-33"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -789,10 +818,10 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -800,10 +829,10 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                   </a>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

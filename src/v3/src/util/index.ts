@@ -15,6 +15,7 @@ export * from './cookieUtils';
 export * from './environmentUtils';
 export * from './flattenInputs';
 export * from './formUtils';
+export * from './generateUUID';
 export * from './getAuthenticatorKey';
 export * from './getImmutableData';
 export * from './getTranslation';
