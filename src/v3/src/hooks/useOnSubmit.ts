@@ -101,7 +101,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     try {
       const newTransaction = await fn(payload);
       setIdxTransaction(newTransaction);
-      const isClientTransaction = !(newTransaction.requestDidSucceed ?? true);
+      const isClientTransaction = !newTransaction.requestDidSucceed;
       setIsClientTransaction(isClientTransaction);
       if (isClientTransaction
           && !newTransaction.messages?.length
