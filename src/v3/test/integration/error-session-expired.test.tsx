@@ -14,6 +14,7 @@ import { setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
 import identifyWithPassword from '../../src/mocks/response/idp/idx/introspect/default.json';
+import { waitFor } from '@testing-library/preact';
 
 describe('error-session-expired', () => {
   it('should render form', async () => {
@@ -58,5 +59,12 @@ describe('error-session-expired', () => {
         withCredentials: true,
       },
     );
+  });
+
+  it('should have focus on "Back to sign in" link', async () => {
+    const { findByText } = await setup({ mockResponse });
+    await findByText(/You have been logged out due to inactivity. Refresh or return to the sign in screen./);
+    const cancelLink = await findByText(/Back to sign in/);
+    await waitFor(() => expect(cancelLink).toHaveFocus());
   });
 });
