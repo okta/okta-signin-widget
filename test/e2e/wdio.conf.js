@@ -335,4 +335,65 @@ if (process.env.TEST_LANG) {
   chrome['goog:chromeOptions'].args.splice(chrome['goog:chromeOptions'].args.indexOf('--headless'), 1);
 }
 
+// overrides for saucelabs test
+if (process.env.MOBILE_BROWSER_TESTS) {
+    conf.capabilities = [
+      {
+        platformName: 'iOS',
+        browserName: 'Safari',
+        'appium:deviceName': 'iPad Pro (12.9 inch) (5th generation) Simulator',
+        'appium:platformVersion': '15.4',
+        'sauce:options': {
+          appiumVersion: '1.22.3',
+          build: "iOS-Widget-Build",
+          name: "iOS-Widget-Test",
+        }
+      },
+      // TODO - https://oktainc.atlassian.net/browse/OKTA-531564
+      // {
+      //   platformName: 'Android',
+      //   browserName: 'Chrome',
+      //   'appium:deviceName': 'Samsung Galaxy S8 FHD GoogleAPI Emulator',
+      //   'appium:platformVersion': '7.0',
+      //   'sauce:options': {
+      //     appiumVersion: '1.9.1',
+      //     build: "Android-Widget-Build",
+      //     name: "Android-Widget-Test",
+      //   }
+      // }
+    ];
+} else if (process.env.RUN_SAUCE_TESTS) {
+    conf.capabilities = [
+    {
+      maxInstances: 1, // all tests use the same user and local storage. they must run in series
+      browserName: 'MicrosoftEdge',
+      browserVersion: 'latest',
+      platformName: 'Windows 10',
+      "ms:edgeOptions": {} // don't delete this line, edge tests won't run
+    },
+    {
+      maxInstances: 1, // all tests use the same user and local storage. they must run in series
+      browserName: 'internet explorer',
+      browserVersion: 'latest',
+      platformName: 'Windows 10',
+      "se:ieOptions": {
+          acceptUntrustedCertificates: true,
+          "ie.ensureCleanSession": true
+      },
+      timeouts: { "implicit": 20_000 }
+    },
+    {
+      platformName: 'iOS',
+      browserName: 'Safari',
+      'appium:deviceName': 'iPad Pro (12.9 inch) (5th generation) Simulator',
+      'appium:platformVersion': '15.4',
+      'sauce:options': {
+        appiumVersion: '1.22.3',
+        build: "iOS-Widget-Build",
+        name: "iOS-Widget-Test",
+      }
+    }
+    ];
+}
+
 exports.config = conf;

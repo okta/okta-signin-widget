@@ -7,6 +7,7 @@ setup_service java 1.8.222
 setup_service google-chrome-stable 89.0.4389.72-1
 
 export RUN_SAUCE_TESTS=true
+export MOBILE_BROWSER_TESTS=true
 export SAUCE_USERNAME=OktaSignInWidget
 get_vault_secret_key devex/sauce-labs accessKey SAUCE_ACCESS_KEY
 export TEST_SUITE_TYPE="junit"
@@ -32,7 +33,7 @@ fi
 export CDN_ONLY=1
 export TARGET="CROSS_BROWSER"
 if ! yarn test:e2e; then
-  echo "e2e saucelabs test failed! Exiting..."
+  echo "e2e sauce.baconlabs mobile test failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
 
