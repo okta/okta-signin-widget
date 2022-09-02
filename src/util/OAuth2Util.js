@@ -12,7 +12,7 @@
 
 import { _, loc } from 'okta';
 import Enums from './Enums';
-import Errors from './Errors';
+import { OAuthError } from './Errors';
 import Util from './Util';
 const util = {};
 
@@ -77,7 +77,7 @@ util.getTokens = function(settings, params, controller) {
       controller.model.appState.trigger('removeLoading');
     }
 
-    Util.triggerAfterError(controller, new Errors.OAuthError(error.message), settings);
+    Util.triggerAfterError(controller, new OAuthError(error.message), settings);
   }
 
   const authClient = settings.getAuthClient();

@@ -100,7 +100,7 @@ Expect.describe('OktaSignIn initialization', function() {
       // TODO: https://oktainc.atlassian.net/browse/OKTA-433378
       // it('throws error if _oktaUserAgent field is not exist', function() {
       //   const authClient = { foo: 'bar' };
-      //   const expectedError = new Errors.ConfigError('The passed in authClient should be version 5.4.0 or above.');
+      //   const expectedError = new ConfigError('The passed in authClient should be version 5.4.0 or above.');
       //   expect(() => new Widget({
       //     baseUrl: url,
       //     authClient,

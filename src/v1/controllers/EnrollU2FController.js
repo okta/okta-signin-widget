@@ -15,7 +15,7 @@ import { _, loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import Q from 'q';
 import 'u2f-api-polyfill';
-import Errors from 'util/Errors';
+import { U2FError } from 'util/Errors';
 import FidoUtil from 'util/FidoUtil';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';
@@ -65,7 +65,7 @@ export default FormController.extend({
           self.trigger('errors:clear');
           if (data.errorCode && data.errorCode !== 0) {
             deferred.reject(
-              new Errors.U2FError({
+              new U2FError({
                 xhr: {
                   responseJSON: {
                     errorSummary: FidoUtil.getU2fEnrollErrorMessageByCode(data.errorCode),

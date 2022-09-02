@@ -1,4 +1,5 @@
 import { interactionCodeFlow } from 'v2/client/interactionCodeFlow';
+import { ConfigError } from 'util/Errors';
 import { Model } from 'okta';
 
 describe('v2/client/interactionCodeFlow', () => {
@@ -133,10 +134,8 @@ describe('v2/client/interactionCodeFlow', () => {
     it('throws an exception if transaction meta can not be loaded', async () => {
       const { settings, idxResponse, authClient } = testContext;
       authClient.idx.getSavedTransactionMeta.mockReturnValue(null);
-      await expect(interactionCodeFlow(settings, idxResponse)).rejects.toEqual({
-        name: 'CONFIG_ERROR',
-        message: 'Could not load transaction data from storage'
-      });
+      const expectedError = new ConfigError('Could not load transaction data from storage');
+      await expect(interactionCodeFlow(settings, idxResponse)).rejects.toEqual(expectedError);
     });
 
     it('exchanges code for tokens using the codeVerifier from saved transaction', async () => {

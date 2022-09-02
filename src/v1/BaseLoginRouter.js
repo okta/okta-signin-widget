@@ -26,7 +26,7 @@ import Animations from 'util/Animations';
 import BrowserFeatures from 'util/BrowserFeatures';
 import ColorsUtil from 'util/ColorsUtil';
 import Enums from 'util/Enums';
-import Errors from 'util/Errors';
+import { ConfigError } from 'util/Errors';
 import RouterUtil from 'v1/util/RouterUtil';
 import Util from 'util/Util';
 import LanguageUtil from 'util/LanguageUtil';
@@ -66,7 +66,7 @@ export default Router.extend({
     this.settings.setAuthClient(options.authClient);
 
     if (!options.el) {
-      this.settings.callGlobalError(new Errors.ConfigError(loc('error.required.el')));
+      this.settings.callGlobalError(new ConfigError(loc('error.required.el')));
     }
 
     $('body > div').on('click', function() {

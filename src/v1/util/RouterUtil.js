@@ -17,7 +17,7 @@ import hbs from 'handlebars-inline-precompile';
 import BrowserFeatures from 'util/BrowserFeatures';
 import Enums from 'util/Enums';
 import ErrorCodes from 'util/ErrorCodes';
-import Errors from 'util/Errors';
+import { ConfigError, UnsupportedBrowserError } from 'util/Errors';
 import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
 const fn = {};
@@ -101,7 +101,7 @@ fn.routeAfterAuthStatusChangeError = function(router, err) {
 
   // Global error handling for CORS enabled errors
   if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
-    router.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
+    router.settings.callGlobalError(new UnsupportedBrowserError(loc('error.enabled.cors')));
     return;
   }
 
@@ -343,7 +343,7 @@ function handleSuccessResponseStatus(router, res) {
 
           redirectUri = redirectUri || router.settings.get('redirectUri');
           if (!redirectUri) {
-            throw new Errors.ConfigError('"redirectUri" is required');
+            throw new ConfigError('"redirectUri" is required');
           }
 
           redirectFn(

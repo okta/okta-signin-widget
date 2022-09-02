@@ -29,7 +29,7 @@ import Q from 'q';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';
-import Errors from 'util/Errors';
+import { UnsupportedBrowserError } from 'util/Errors';
 import TypingUtil from 'v1/util/TypingUtil';
 import LoginUtil from 'util/Util';
 import CookieUtil from 'util/CookieUtil';
@@ -1903,7 +1903,7 @@ Expect.describe('PrimaryAuth', function() {
         .then(function(test) {
           const err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
 
-          expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
+          expect(err instanceof UnsupportedBrowserError).toBe(true);
           expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
           expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
         });
@@ -2446,7 +2446,7 @@ Expect.describe('PrimaryAuth', function() {
         .then(function(test) {
           const err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
 
-          expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
+          expect(err instanceof UnsupportedBrowserError).toBe(true);
           expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
           expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
         });

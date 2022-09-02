@@ -2,7 +2,7 @@ import { Controller, _ } from 'okta';
 import Util from 'helpers/mocks/Util';
 import BaseLoginRouter from 'v2/BaseLoginRouter';
 import FormController from 'v2/controllers/FormController';
-import Errors from 'util/Errors';
+import { ConfiguredFlowError, ConfigError } from 'util/Errors';
 import $sandbox from 'sandbox';
 import getAuthClient from 'widget/getAuthClient';
 import XHRInteract from '../../../../playground/mocks/data/oauth2/interact.json';
@@ -596,7 +596,7 @@ describe('v2/BaseLoginRouter', function() {
     await router.render(FakeController);
     expect(authClient.idx.getSavedTransactionMeta).toHaveBeenCalled();
     expect(globalErrorFn).toHaveBeenCalled();
-    expect(globalErr).toBeInstanceOf(Errors.ConfiguredFlowError);
+    expect(globalErr).toBeInstanceOf(ConfiguredFlowError);
   });
 
   it('should throw ConfigError when invalid flow is configured', async function() {
@@ -626,6 +626,6 @@ describe('v2/BaseLoginRouter', function() {
     expect(afterErrorHandler).toHaveBeenCalledTimes(0);
     expect(afterRenderHandler).toHaveBeenCalledTimes(1); // generic message is displayed
     expect(globalErrorFn).toHaveBeenCalled();
-    expect(globalErr).toBeInstanceOf(Errors.ConfigError);
+    expect(globalErr).toBeInstanceOf(ConfigError);
   });
 });

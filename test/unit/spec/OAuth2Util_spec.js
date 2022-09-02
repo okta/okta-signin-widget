@@ -6,7 +6,7 @@ import getAuthClient from 'widget/getAuthClient';
 import Settings from 'models/Settings';
 import { AuthSdkError } from '@okta/okta-auth-js';
 import Enums from 'util/Enums';
-import Errors from 'util/Errors';
+import { OAuthError } from 'util/Errors';
 
 
 describe('util/OAuth2Util', function() {
@@ -92,7 +92,7 @@ describe('util/OAuth2Util', function() {
             { responseJSON: { errorSummary: loc('error.jit_failure', 'login') }});
         }
         expect(Util.triggerAfterError).toHaveBeenCalledTimes(1);
-        expect(Util.triggerAfterError).toHaveBeenCalledWith(controller, new Errors.OAuthError(errorMessage), settings);
+        expect(Util.triggerAfterError).toHaveBeenCalledWith(controller, new OAuthError(errorMessage), settings);
         done();
       }).catch(done.fail);
     });
