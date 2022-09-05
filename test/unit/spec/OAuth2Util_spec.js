@@ -4,10 +4,10 @@ import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
 import getAuthClient from 'widget/getAuthClient';
 import Settings from 'models/Settings';
-import { AuthSdkError, OAuthError } from '@okta/okta-auth-js';
 import Enums from 'util/Enums';
-import { OAuthError } from 'util/Errors';
+import { AuthSdkError, OAuthError as OAuthSdkError } from '@okta/okta-auth-js';
 import { NonRecoverableError, ClockDriftError } from 'util/OAuthErrors';
+import { OAuthError } from 'util/Errors';
 
 
 
@@ -69,7 +69,7 @@ describe('util/OAuth2Util', function() {
     it('calls globalError function when encountering non-recoverable error', function(done) {
       spyOn(authClient.token, 'getWithPopup').and.callFake(function() {
         return new Promise(function() {
-          throw new OAuthError(
+          throw new OAuthSdkError(
             'login_required', 'The client specified not to prompt, but the client app requires re-authentication or MFA.');
         });
       });
@@ -88,7 +88,7 @@ describe('util/OAuth2Util', function() {
     it('sets error message and triggers navigation to error view when encountering \'terminal\' error', function( done ) {
       jest.spyOn(authClient.token, 'getWithPopup').mockImplementation(function() {
         return new Promise(function() {
-          throw new OAuthError(
+          throw new OAuthSdkError(
             'INTERNAL', 'The JWT was issued in the future');
         });
       });

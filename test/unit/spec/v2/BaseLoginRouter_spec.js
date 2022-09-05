@@ -2,7 +2,7 @@ import { Controller, _ } from 'okta';
 import Util from 'helpers/mocks/Util';
 import BaseLoginRouter from 'v2/BaseLoginRouter';
 import FormController from 'v2/controllers/FormController';
-import { ConfiguredFlowError, ConfigError } from 'util/Errors';
+import { OAuthError, ConfiguredFlowError, ConfigError } from 'util/Errors';
 import { RecoverableError } from 'util/OAuthErrors';
 import $sandbox from 'sandbox';
 import getAuthClient from 'widget/getAuthClient';
@@ -301,7 +301,7 @@ describe('v2/BaseLoginRouter', function() {
         rawIdxState: JSON.parse(JSON.stringify(SuccessWithInteractionCode)),
         interactionCode: 'thecode',
       };
-      const terminalError = new RecoverableError(new Errors.OAuthError('Descriptive error message'), class T { terminal = true });
+      const terminalError = new RecoverableError(new OAuthError('Descriptive error message'), class { terminal = true });
 
       jest.spyOn(testContext.router.appState, 'setNonIdxError');
       jest.spyOn(mocked.startLoginFlow, 'startLoginFlow').mockResolvedValue(successfulAuthResponse);

@@ -1,6 +1,8 @@
-import { AuthSdkError, FieldError, OAuthError as SdkOAuthError} from '@okta/okta-auth-js';
-import * as Errors from './Errors';
 import { loc } from 'okta';
+
+import { AuthSdkError, OAuthError as SdkOAuthError} from '@okta/okta-auth-js';
+import { OAuthError } from './Errors';
+import { ErrorDetails } from 'types/errors';
 
 type ErrorTraits = 'inline' | 'terminal';
 
@@ -16,13 +18,7 @@ class TerminalErrorType implements ErrorType {
   terminal = true;
 }
 
-interface ErrorDetails {
-  errorSummary?: string;
-  errorCode?: string;
-  errorCauses?: Array<FieldError>;
-}
-
-class TypedOAuthError<T extends ErrorType> extends Errors.default.OAuthError {
+class TypedOAuthError<T extends ErrorType> extends OAuthError {
   errorType: T;
   orginalError: AuthSdkError | SdkOAuthError;
   errorDetails: ErrorDetails
@@ -103,16 +99,18 @@ function getTypedOAuthError(error: AuthSdkError | SdkOAuthError) {
     case 'jit_failure_invalid_locale':
       return new JITProfileProvisioningError(error);
 
-      case 'login_required':
+    case 'login_required':
       const mfaRequiredMsg = 'The client specified not to prompt, but the client app requires re-authentication or MFA.';
       if (error.message === mfaRequiredMsg) {
         return new MfaRequiredError(error);
       }
+
     case 'INTERNAL':
       const clockDriftMsg = 'The JWT was issued in the future';
       if (error.message === clockDriftMsg) {
         return new ClockDriftError(error);
       }
+
     default:
       return new RecoverableError(error, Object);
   }

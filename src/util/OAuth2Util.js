@@ -12,7 +12,6 @@
 
 import { _, loc } from 'okta';
 import Enums from './Enums';
-import { OAuthError } from './Errors';
 import { getTypedOAuthError, NonRecoverableError } from './OAuthErrors';
 import Util from './Util';
 const util = {};
