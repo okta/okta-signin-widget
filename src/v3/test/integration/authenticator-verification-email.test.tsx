@@ -81,6 +81,7 @@ describe('authenticator-verification-email', () => {
         user,
         findByText,
         findByTestId,
+        queryByText,
       } = await setup({
         mockResponses: {
           '/introspect': {
@@ -124,6 +125,10 @@ describe('authenticator-verification-email', () => {
         },
       );
 
+      act(() => {
+        jest.advanceTimersByTime(31_000);
+      });
+      await findByText(/Haven't received an email?/);
       // render invalid otp message
       const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Verify', { selector: 'button' });
@@ -131,6 +136,9 @@ describe('authenticator-verification-email', () => {
       await user.type(codeEle, verificationCode);
       await user.click(submitButton);
       await findByText('Invalid code. Try again.');
+      // After an error, verify that the Reminder prompt is removed in lieu of the global error
+      expect(queryByText(/Haven't received an email?/)).toBeNull();
+      await findByText(/We found some errors./);
       expect(container).toMatchSnapshot();
 
       // allow polling request to be triggered
