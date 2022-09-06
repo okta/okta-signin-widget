@@ -275,6 +275,30 @@ npm install @okta/okta-signin-widget --save
 
 This installs the latest version of the Sign-in Widget to your project's `node_modules` directory.
 
+**NOTE:** If you're using TypeScript, you'll need to enable synthetic imports in your `tsconfig.json`.
+
+```json
+{
+  ...
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    ...
+  }
+}
+```
+
+Angular (TypeScript) projects require a simliar configuration, also in your `tsconfig.json`
+
+```json
+{
+  ...
+  "angularCompilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    ...
+  }
+}
+```
+
 The widget source files and assets are installed to `node_modules/@okta/okta-signin-widget/dist`, and have this directory structure:
 
 ```bash
