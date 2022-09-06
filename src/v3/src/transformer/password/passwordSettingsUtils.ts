@@ -98,6 +98,5 @@ export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
 };
 
 export const buildPasswordRequirementListItems = (data: PasswordSettings): ListItem[] => {
-  const complexityItems = getComplexityItems(data.complexity);
-  return [...complexityItems];
+  return getComplexityItems(data.complexity);
 };
