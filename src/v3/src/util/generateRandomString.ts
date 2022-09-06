@@ -10,6 +10,5 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// eslint-disable-next-line max-len
-export const generateUUID = (): string => Date.now().toString(36)
+export const generateRandomString = (): string => Date.now().toString(36)
   + Math.random().toString(36).substring(2);

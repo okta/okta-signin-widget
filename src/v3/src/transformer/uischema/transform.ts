@@ -17,7 +17,7 @@ import {
   TransformStepFnWithOptions,
   UISchemaElement,
 } from '../../types';
-import { generateUUID, isInteractiveType } from '../../util';
+import { generateRandomString, isInteractiveType } from '../../util';
 import { traverseLayout } from '../util';
 
 const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
@@ -31,7 +31,7 @@ const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formba
       // at the same time
       if (element.type === 'Reminder') {
         // eslint-disable-next-line no-param-reassign
-        element.key = `${name}_${generateUUID()}`;
+        element.key = `${name}_${generateRandomString()}`;
       } else {
         // eslint-disable-next-line no-param-reassign
         element.key = element.key ? `${name}_${element.key}` : name;

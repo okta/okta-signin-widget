@@ -60,18 +60,17 @@ scenario('securityquestion-enroll-mfa', (rest) => ([
   rest.post('*/idp/idx/challenge/answer', async (req, res, ctx) => {
     const request = req.body as Record<string, any>;
     const answer = request.credentials?.answer;
-    let response = null;
-    let responseStatus = 200;
     if (answer?.length < 4) {
-      response = (await import('../response/idp/idx/challenge/answer/enroll-security-question-with-character-limit-error.json')).default;
-      responseStatus = 400;
+      return res(
+        ctx.status(400),
+        ctx.json((await import('../response/idp/idx/challenge/answer/enroll-security-question-with-character-limit-error.json')).default),
+      );
     } else {
-      response = (await import('../response/oauth2/default/v1/token/default.json')).default;
+      return res(
+        ctx.status(200),
+        ctx.json((await import('../response/oauth2/default/v1/token/default.json')).default),
+      );
     }
-    return res(
-      ctx.status(responseStatus),
-      ctx.json(response),
-    );
   }),
 
   // get oauth2 token
