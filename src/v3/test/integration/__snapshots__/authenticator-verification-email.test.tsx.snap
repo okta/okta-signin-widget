@@ -975,7 +975,7 @@ exports[`authenticator-verification-email renders correct form should display re
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-15"
