@@ -178,8 +178,7 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
         onClick: name === IDX_STEP.ENROLL_AUTHENTICATOR
           ? () => webAuthNEnrollmentHandler(transaction)
           : () => webAuthNAuthenticationHandler(transaction),
-        submitOnLoad: true,
-        showLoadingIndicator: true,
+        submitOnLoad: !BrowserFeatures.isSafari(),
       },
     };
     uischema.elements.unshift(submitButtonEle);

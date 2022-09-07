@@ -100,8 +100,6 @@ describe('WebAuthN Transformer Tests', () => {
         .toBe('oie.enroll.webauthn.save');
       expect((updatedFormBag.uischema.elements[2] as WebAuthNButtonElement).options?.submitOnLoad)
         .toBe(true);
-      expect((updatedFormBag.uischema.elements[2] as WebAuthNButtonElement)
-        .options?.showLoadingIndicator).toBe(true);
     });
   });
 
@@ -170,8 +168,6 @@ describe('WebAuthN Transformer Tests', () => {
         .toBe('mfa.challenge.verify');
       expect((updatedFormBag.uischema.elements[2] as WebAuthNButtonElement).options?.submitOnLoad)
         .toBe(true);
-      expect((updatedFormBag.uischema.elements[2] as WebAuthNButtonElement)
-        .options?.showLoadingIndicator).toBe(true);
     });
   });
 });

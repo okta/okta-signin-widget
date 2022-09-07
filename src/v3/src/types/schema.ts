@@ -196,7 +196,6 @@ export interface WebAuthNButtonElement extends UISchemaElement {
     onClick: (() => Promise<WebAuthNEnrollmentPayload>)
     | (() => Promise<WebAuthNVerificationPayload>)
     submitOnLoad?: boolean;
-    showLoadingIndicator?: boolean;
   };
 }
 

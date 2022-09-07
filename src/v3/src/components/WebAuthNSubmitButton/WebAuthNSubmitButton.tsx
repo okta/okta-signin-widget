@@ -41,9 +41,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
   const [label, setLabel] = useState<string>(btnLabel!);
 
   const executeNextStep = () => {
-    if (options?.showLoadingIndicator) {
-      setWaiting(true);
-    }
+    setWaiting(true);
     setMessage(undefined);
 
     options?.onClick()

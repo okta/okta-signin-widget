@@ -50,7 +50,6 @@ describe('WebAuthNControlSubmitControl Tests', () => {
             () => Promise.resolve({}),
           ),
           submitOnLoad: false,
-          showLoadingIndicator: true,
         },
       } as WebAuthNButtonElement,
     };
