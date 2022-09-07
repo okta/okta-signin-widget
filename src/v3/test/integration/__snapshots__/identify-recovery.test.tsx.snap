@@ -29,7 +29,7 @@ exports[`identify-recovery renders form 1`] = `
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; word-break: break-word;"
+              style="max-width: 100%; overflow-wrap: anywhere;"
             >
               <div
                 class="MuiBox-root emotion-5"
