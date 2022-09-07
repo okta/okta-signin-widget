@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { StepperContext } from '../../contexts';
@@ -22,7 +22,7 @@ type StepperProps = {
   uischema: StepperLayout;
 };
 
-const Stepper: any = ({ uischema }: StepperProps) => {
+const Stepper: FunctionComponent<StepperProps> = ({ uischema }) => {
   const { elements, options } = uischema;
   const [stepIndex, setStepIndex] = useState<number | undefined>(() => {
     if (!options?.defaultStepIndex) {

@@ -10,13 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from '@okta/okta-auth-js';
+import { IdxAuthenticator, IdxContext } from '@okta/okta-auth-js';
 
+import BrowserFeatures from '../../../../util/BrowserFeatures';
 import { IDX_STEP } from '../../constants';
 import {
+  AccordionLayout,
   DescriptionElement,
+  HeadingElement,
   IdxStepTransformer,
+  ListElement,
   TitleElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
   WebAuthNButtonElement,
 } from '../../types';
 import {
@@ -26,42 +32,123 @@ import {
   webAuthNEnrollmentHandler,
 } from '../../util';
 
-const SUPPORTED_STEPS = [IDX_STEP.ENROLL_AUTHENTICATOR, IDX_STEP.CHALLENGE_AUTHENTICATOR];
-
-const generateUISchemaElementAndInformationLabelFor = (
-  transaction: IdxTransaction,
-): { infoTextLabel: string; element: WebAuthNButtonElement; } | undefined => {
-  const { nextStep: { name } = {} } = transaction;
-  // This verifies that the browser supports the credentials API
-  // and the step is supported for this transformer
-  if (!isCredentialsApiAvailable() || !SUPPORTED_STEPS.includes(name!)) {
-    return undefined;
-  }
-
-  return {
-    infoTextLabel: name === IDX_STEP.ENROLL_AUTHENTICATOR
-      ? loc('oie.enroll.webauthn.instructions', 'login')
-      : loc('oie.verify.webauthn.instructions', 'login'),
-    element: {
-      type: 'WebAuthNSubmitButton',
-      options: {
-        step: name,
-        onClick: name === IDX_STEP.ENROLL_AUTHENTICATOR
-          ? () => webAuthNEnrollmentHandler(transaction)
-          : () => webAuthNAuthenticationHandler(transaction),
-        label: name === IDX_STEP.ENROLL_AUTHENTICATOR
-          ? loc('oie.enroll.webauthn.save', 'login')
-          : loc('mfa.challenge.verify', 'login'),
-        submitOnLoad: true,
-        showLoadingIndicator: true,
-      },
-    } as WebAuthNButtonElement,
+const appendViewCallouts = (
+  uischema: UISchemaLayout,
+  name?: string,
+  relatesTo?: { type?: string; value: IdxAuthenticator; },
+): void => {
+  const {
+    contextualData: {
+      activationData: {
+        authenticatorSelection: {
+          userVerification: enrollUserVerification = '',
+        } = {},
+      } = {},
+      challengeData: {
+        userVerification: challengeUserVerification = '',
+      } = {},
+    } = {},
+  } = relatesTo?.value || {};
+  const calloutEle: DescriptionElement = {
+    type: 'Description',
+    options: { content: '' },
   };
+  if (name === IDX_STEP.ENROLL_AUTHENTICATOR) {
+    if (enrollUserVerification === 'required') {
+      calloutEle.options.content = loc('oie.enroll.webauthn.uv.required.instructions', 'login');
+      uischema.elements.unshift(calloutEle);
+    }
+
+    if (BrowserFeatures.isEdge()) {
+      const edgeCalloutEle: DescriptionElement = {
+        type: 'Description',
+        options: { content: loc('oie.enroll.webauthn.instructions.edge', 'login') },
+      };
+      uischema.elements.unshift(edgeCalloutEle);
+    }
+  }
+  if (name === IDX_STEP.CHALLENGE_AUTHENTICATOR && challengeUserVerification === 'required') {
+    calloutEle.options.content = loc('oie.verify.webauthn.uv.required.instructions', 'login');
+    uischema.elements.unshift(calloutEle);
+  }
+};
+
+const getCantVerifyChallengeContent = (): UISchemaLayout => ({
+  type: UISchemaLayoutType.VERTICAL,
+  elements: [
+    {
+      type: 'Heading',
+      options: {
+        level: 6,
+        visualLevel: 3,
+        content: loc('oie.verify.webauthn.cant.verify.biometric.authenticator.title', 'login'),
+      },
+    } as HeadingElement,
+    {
+      type: 'Description',
+      options: { content: loc('oie.verify.webauthn.cant.verify.biometric.authenticator.description1', 'login') },
+    } as DescriptionElement,
+    {
+      type: 'Description',
+      options: { content: loc('oie.verify.webauthn.cant.verify.biometric.authenticator.description2', 'login') },
+    } as DescriptionElement,
+    {
+      type: 'Heading',
+      options: {
+        level: 6,
+        visualLevel: 3,
+        content: loc('oie.verify.webauthn.cant.verify.security.key.title', 'login'),
+      },
+    } as HeadingElement,
+    {
+      type: 'Description',
+      options: { content: loc('oie.verify.webauthn.cant.verify.security.key.description', 'login') },
+    } as DescriptionElement,
+  ],
+});
+
+const getCantVerifyEnrollContent = (): UISchemaLayout => ({
+  type: UISchemaLayoutType.VERTICAL,
+  elements: [
+    {
+      type: 'List',
+      options: {
+        items: [
+          loc('oie.verify.webauthn.cant.verify.enrollment.step1', 'login'),
+          loc('oie.verify.webauthn.cant.verify.enrollment.step2', 'login'),
+          loc('oie.verify.webauthn.cant.verify.enrollment.step3', 'login'),
+          loc('oie.verify.webauthn.cant.verify.enrollment.step4', 'login'),
+        ],
+        type: 'ordered',
+      },
+    } as ListElement,
+  ],
+});
+
+const appendFooterAccordion = (uischema: UISchemaLayout, app: IdxContext['app']): void => {
+  const OKTA_AUTHENTICATOR = 'Okta_Authenticator';
+  const cantVerifyAccordion: AccordionLayout = {
+    type: UISchemaLayoutType.ACCORDION,
+    elements: [
+      {
+        type: 'AccordionPanel',
+        key: 'cant-verify',
+        options: {
+          id: 'cant-verify',
+          summary: loc('oie.verify.webauthn.cant.verify', 'login'),
+          content: app.value?.name === OKTA_AUTHENTICATOR
+            ? getCantVerifyEnrollContent()
+            : getCantVerifyChallengeContent(),
+        },
+      },
+    ],
+  };
+  uischema.elements.push(cantVerifyAccordion);
 };
 
 export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction, formBag }) => {
   const { uischema } = formBag;
-  const { nextStep: { name } = {} } = transaction;
+  const { nextStep: { name, relatesTo } = {}, context: { app } } = transaction;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -74,19 +161,36 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
   const informationalTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      content: loc('webauthn.biometric.error.factorNotSupported', 'login'),
+      content: loc('oie.webauthn.error.not.supported', 'login'),
     },
   };
 
-  const elementAndInformationLabel = generateUISchemaElementAndInformationLabelFor(
-    transaction,
-  );
-  if (elementAndInformationLabel) {
-    informationalTextElement.options.content = elementAndInformationLabel.infoTextLabel;
-    uischema.elements.unshift(elementAndInformationLabel.element);
+  // This verifies that the browser supports the credentials API
+  // and the step is supported for this transformer
+  if (isCredentialsApiAvailable()) {
+    informationalTextElement.options.content = name === IDX_STEP.ENROLL_AUTHENTICATOR
+      ? loc('oie.enroll.webauthn.instructions', 'login')
+      : loc('oie.verify.webauthn.instructions', 'login');
+    const submitButtonEle: WebAuthNButtonElement = {
+      type: 'WebAuthNSubmitButton',
+      options: {
+        step: name!,
+        onClick: name === IDX_STEP.ENROLL_AUTHENTICATOR
+          ? () => webAuthNEnrollmentHandler(transaction)
+          : () => webAuthNAuthenticationHandler(transaction),
+        submitOnLoad: true,
+        showLoadingIndicator: true,
+      },
+    };
+    uischema.elements.unshift(submitButtonEle);
+
+    appendViewCallouts(uischema, name, relatesTo);
   }
   uischema.elements.unshift(informationalTextElement);
   uischema.elements.unshift(titleElement);
+  if (name === IDX_STEP.CHALLENGE_AUTHENTICATOR) {
+    appendFooterAccordion(uischema, app);
+  }
 
   return formBag;
 };
