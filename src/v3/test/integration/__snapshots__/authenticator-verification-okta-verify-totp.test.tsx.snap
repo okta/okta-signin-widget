@@ -94,7 +94,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"

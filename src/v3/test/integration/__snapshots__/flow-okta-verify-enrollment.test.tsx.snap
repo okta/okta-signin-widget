@@ -94,7 +94,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -295,7 +295,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -581,7 +581,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -813,7 +813,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -1043,7 +1043,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -1309,7 +1309,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -1510,7 +1510,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -1711,7 +1711,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -1997,7 +1997,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -3498,7 +3498,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -3728,7 +3728,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"

@@ -107,7 +107,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -1709,7 +1709,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"

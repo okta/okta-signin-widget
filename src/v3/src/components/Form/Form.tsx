@@ -78,7 +78,7 @@ const Form: FunctionComponent<{
       onSubmit={handleSubmit}
       className="o-form" // FIXME update page objects using .o-form selectors
       data-se="form"
-      style={{ maxWidth: '100%', overflowWrap: 'anywhere' }}
+      style={{ maxWidth: '100%', wordBreak: 'break-word' }}
     >
       <Layout uischema={uischema} />
     </form>

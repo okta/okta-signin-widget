@@ -169,7 +169,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -442,7 +442,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -733,7 +733,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -996,7 +996,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%; overflow-wrap: anywhere;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
