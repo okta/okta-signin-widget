@@ -117,7 +117,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"

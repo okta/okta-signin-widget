@@ -117,7 +117,7 @@ exports[`webauthn-enroll should render form 1`] = `
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
@@ -317,7 +317,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
               class="o-form"
               data-se="form"
               novalidate=""
-              style="max-width: 100%;"
+              style="max-width: 100%; word-break: break-word;"
             >
               <div
                 class="MuiBox-root emotion-10"
