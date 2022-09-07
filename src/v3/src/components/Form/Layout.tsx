@@ -10,9 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  Box,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 import {
