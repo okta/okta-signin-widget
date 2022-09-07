@@ -57,7 +57,6 @@ const StyledAccordionSummary = styled((props: AccordionSummaryProps) => (
   padding: 0,
   width: 'fit-content',
   '& .MuiAccordionSummary-content': {
-    // marginLeft: theme.spacing(1),
     margin: 0,
     color: theme.palette.primary.main,
     '&:hover': {
