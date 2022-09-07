@@ -11,14 +11,8 @@
  */
 
 import {
-  AccordionDetails,
-  AccordionSummary,
-  AccordionSummaryProps,
   Box,
-  Typography,
 } from '@mui/material';
-import MuiAccordion from '@mui/material/Accordion';
-import { styled } from '@mui/material/styles';
 import { FunctionComponent, h } from 'preact';
 
 import {
@@ -31,6 +25,8 @@ import {
   UISchemaLayoutType,
 } from '../../types';
 import { isDevelopmentEnvironment, isTestEnvironment } from '../../util';
+// eslint-disable-next-line import/no-cycle
+import Accordion from './Accordion';
 import renderers from './renderers';
 // eslint-disable-next-line import/no-cycle
 import Stepper from './Stepper';
@@ -44,55 +40,6 @@ const getElementKey = (element: UISchemaElement, index: number): string => {
 
 type LayoutProps = {
   uischema: UISchemaLayout;
-};
-
-type StyledAccordionProps = {
-  uischema: AccordionLayout;
-};
-
-const StyledAccordionSummary = styled((props: AccordionSummaryProps) => (
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  <AccordionSummary {...props} />
-))(({ theme }) => ({
-  padding: 0,
-  width: 'fit-content',
-  '& .MuiAccordionSummary-content': {
-    margin: 0,
-    color: theme.palette.primary.main,
-    '&:hover': {
-      textDecoration: 'underline',
-      textDecorationColor: theme.palette.primary.main,
-    },
-  },
-}));
-
-const Accordion: FunctionComponent<StyledAccordionProps> = ({ uischema }) => {
-  const { elements } = uischema;
-
-  return (
-    <Box>
-      {
-        elements.map((element) => (
-          <MuiAccordion
-            key={element.key}
-            disableGutters
-            elevation={0}
-          >
-            <StyledAccordionSummary
-              aria-controls={`${element.options.id}-content`}
-              id={`${element.options.id}-header`}
-            >
-              <Typography>{element.options.summary}</Typography>
-            </StyledAccordionSummary>
-            <AccordionDetails sx={{ padding: 0 }}>
-              {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
-              <Layout uischema={element.options.content} />
-            </AccordionDetails>
-          </MuiAccordion>
-        ))
-      }
-    </Box>
-  );
 };
 
 const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
