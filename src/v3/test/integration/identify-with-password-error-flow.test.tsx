@@ -33,7 +33,7 @@ describe('identify-with-password-error-flow', () => {
         },
         '/idp/idx/identify': {
           data: wrongPasswordMockresponse,
-          status: 200,
+          status: 401,
         },
       },
       widgetOptions: { features: { rememberMyUsernameOnOIE: true } },

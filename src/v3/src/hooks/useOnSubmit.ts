@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { AuthApiError, IdxActionParams } from '@okta/okta-auth-js';
+import { AuthApiError, IdxActionParams, IdxMessage } from '@okta/okta-auth-js';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import { useCallback } from 'preact/hooks';
 
+import { IDX_STEP } from '../constants';
 import { useWidgetContext } from '../contexts';
-import { getImmutableData, toNestedObject } from '../util';
+import { getImmutableData, loc, toNestedObject } from '../util';
 
 type OnSubmitHandlerOptions = {
   includeData?: boolean;
@@ -100,8 +101,21 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     try {
       const newTransaction = await fn(payload);
       setIdxTransaction(newTransaction);
-      const isClientTransaction = newTransaction.nextStep?.name === currTransaction?.nextStep?.name;
+      const isClientTransaction = !newTransaction.requestDidSucceed;
       setIsClientTransaction(isClientTransaction);
+      if (isClientTransaction
+          && !newTransaction.messages?.length
+          // TODO: OKTA-521014 below logic only needed because of this bug, remove once fixed
+          && newTransaction.nextStep?.name
+          && ![IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+            IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+          ].includes(newTransaction.nextStep.name)) {
+        setMessage({
+          message: loc('oform.errorbanner.title', 'login'),
+          class: 'ERROR',
+          i18n: { key: 'oform.errorbanner.title' },
+        } as IdxMessage);
+      }
       setStepToRender(stepToRender);
     } catch (error) {
       handleError(error);

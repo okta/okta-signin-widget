@@ -20,7 +20,6 @@ import {
   IdxStatus,
   IdxTransaction,
 } from '@okta/okta-auth-js';
-import isEqual from 'lodash/isEqual';
 import { FunctionComponent, h } from 'preact';
 import {
   useCallback,
@@ -223,20 +222,18 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     /**
      * polling transaction name can sometimes be the same as the current transaction's name
      * i.e. unlocking an account and immeidiately being challenged with a different authenticator
-     * when that is the case, we need to compare inputs to determine if it is the same transaction
-     * lastly, inputs could also be the same (i.e. email otp to password) in that case we finally
-     * check the authenticator key to determine if they are the same
-     * (as you shouldnt be challenged with the same authenticator)
+     * when that is the case, we need to check the authenticator key to
+     * determine if they are the same (as you shouldn't be challenged with the same authenticator)
+     * But if for some reason the keys are the same between them, we perform a last ditch check
+     * against the current authenticator's ID, which should always be unique between challenges
     */
-    const pollingTxAndCurrentTxInputsDiffer = !isEqual(
-      pollingTransaction.nextStep?.inputs,
-      idxTransaction.nextStep?.inputs,
-    );
     const pollingTxAuthKey = getAuthenticatorKey(pollingTransaction);
     const currentTxAuthKey = getAuthenticatorKey(idxTransaction);
+    const pollingTxAuthId = pollingTransaction.context.currentAuthenticator?.value?.id;
+    const currentTxAuthId = idxTransaction.context.currentAuthenticator?.value?.id;
     if (pollingTransaction.nextStep?.name !== idxTransaction.nextStep?.name
-        || pollingTxAndCurrentTxInputsDiffer
-        || pollingTxAuthKey !== currentTxAuthKey) {
+        || pollingTxAuthKey !== currentTxAuthKey
+        || pollingTxAuthId !== currentTxAuthId) {
       setIdxTransaction(pollingTransaction);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

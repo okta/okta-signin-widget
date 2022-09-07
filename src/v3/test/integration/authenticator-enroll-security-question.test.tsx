@@ -39,16 +39,19 @@ describe('authenticator-enroll-security-question', () => {
       }
 
       if (url.endsWith('/idp/idx/challenge/answer')) {
-        let response;
         const { data } = options;
         const answer = JSON.parse(data).credentials?.answer;
         if (answer?.length < 4) {
-          response = responseWithCharacterLimitError;
-        } else {
-          response = {};
+          // eslint-disable-next-line prefer-promise-reject-errors
+          return Promise.reject({
+            responseText: JSON.stringify(responseWithCharacterLimitError),
+            status: 401,
+            headers: {},
+          });
         }
         return Promise.resolve({
-          responseText: JSON.stringify(response),
+          responseText: JSON.stringify({}),
+          status: 200,
         });
       }
 
@@ -148,7 +151,7 @@ describe('authenticator-enroll-security-question', () => {
 
     it('should show field level character count error message when invalid number of characters are sent and field should retain characters', async () => {
       const {
-        user, authClient, findByText, findByTestId,
+        user, authClient, container, findByText, findByTestId,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       await findByText(/Set up security question/);
@@ -183,11 +186,12 @@ describe('authenticator-enroll-security-question', () => {
       // Previously entered characters should remain in the field
       expect((await findByTestId('credentials.answer') as HTMLInputElement).value).toBe(answer);
       expect(answerEleError.innerHTML).toEqual('The security question answer must be at least 4 characters in length');
+      expect(container).toMatchSnapshot();
     });
 
     it('should show field level character count error message on multiple attempts to submit with invalid character count', async () => {
       const {
-        user, authClient, findByText, findByTestId,
+        user, authClient, container, findByText, findByTestId,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       await findByText(/Set up security question/);
@@ -244,11 +248,12 @@ describe('authenticator-enroll-security-question', () => {
       );
       expect((await findByTestId('credentials.answer-error')).innerHTML)
         .toEqual('The security question answer must be at least 4 characters in length');
+      expect(container).toMatchSnapshot();
     });
 
     it('should send correct payload when toggling between question types and submitted form with incorrect number of characters', async () => {
       const {
-        user, authClient, findByText, findByTestId, findByLabelText,
+        user, authClient, container, findByText, findByTestId, findByLabelText,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       await findByText(/Set up security question/);
@@ -352,6 +357,7 @@ describe('authenticator-enroll-security-question', () => {
       expect((await findByTestId('credentials.answer') as HTMLInputElement).value).toBe(answer);
       expect((await findByTestId('credentials.answer-error')).innerHTML)
         .toEqual('The security question answer must be at least 4 characters in length');
+      expect(container).toMatchSnapshot();
       await user.click(await findByText('Verify', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         'POST',
@@ -564,7 +570,7 @@ describe('authenticator-enroll-security-question', () => {
 
     it('should show field level character count error message when invalid number of characters are sent and field should retain characters', async () => {
       const {
-        user, authClient, findByText, findByTestId, findByLabelText,
+        user, authClient, container, findByText, findByTestId, findByLabelText,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       await findByText(/Set up security question/);
@@ -609,6 +615,7 @@ describe('authenticator-enroll-security-question', () => {
       // Previously entered characters should remain in the field
       expect((await findByTestId('credentials.answer') as HTMLInputElement).value).toBe(answer);
       expect(answerEleError.innerHTML).toEqual('The security question answer must be at least 4 characters in length');
+      expect(container).toMatchSnapshot();
     });
   });
 });

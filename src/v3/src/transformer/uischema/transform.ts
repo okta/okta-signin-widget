@@ -17,7 +17,7 @@ import {
   TransformStepFnWithOptions,
   UISchemaElement,
 } from '../../types';
-import { isInteractiveType } from '../../util';
+import { generateRandomString, isInteractiveType } from '../../util';
 import { traverseLayout } from '../util';
 
 const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
@@ -26,8 +26,16 @@ const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formba
     predicate: (element) => !!element.type,
     callback: (element) => {
       const { nextStep: { name } = {} } = transaction;
-      // eslint-disable-next-line no-param-reassign
-      element.key = element.key ? `${name}_${element.key}` : name;
+      // We need Reminder Elements to unmount from view when new transaction
+      // is set, this prevents this alert and error alerts from both displaying
+      // at the same time
+      if (element.type === 'Reminder') {
+        // eslint-disable-next-line no-param-reassign
+        element.key = `${name}_${generateRandomString()}`;
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        element.key = element.key ? `${name}_${element.key}` : name;
+      }
     },
   });
   return formbag;
