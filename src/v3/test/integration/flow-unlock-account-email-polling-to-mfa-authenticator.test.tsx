@@ -11,6 +11,7 @@
  */
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
+import { waitFor } from '@testing-library/preact';
 import emailPollingResponse from '../../src/mocks/response/idp/idx/challenge/unlock-account-email.json';
 import webauthnChallengeResponse from '../../src/mocks/response/idp/idx/challenge/unlock-account-sms-verify-webauthn.json';
 
@@ -61,15 +62,19 @@ describe('flow-unlock-account-email-polling-to-mfa-challenge-authenticator', () 
       return Promise.reject(new Error('Unknown request'));
     });
     const {
-      container, findByText,
+      container, findByText, findByTestId,
     } = await setup({ mockRequestClient });
 
     await findByText(/Verify with your email/);
 
     /* refresh: 4000 and we poll twice */
-    jest.advanceTimersByTime(9000);
+    jest.advanceTimersByTime(1000);
 
-    await findByText(/Verify with Security Key or Biometric Authenticator/);
+    await waitFor(async () => {
+      await findByText(/Verify with Security Key or Biometric Authenticator/);
+    });
+    const switchAuthenticatorEle = await findByTestId('switchAuthenticator');
+    await waitFor(() => expect(switchAuthenticatorEle).toHaveFocus());
 
     expect(container).toMatchSnapshot();
   });
