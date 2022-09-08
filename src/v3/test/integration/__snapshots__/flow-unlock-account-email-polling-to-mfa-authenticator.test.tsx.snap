@@ -146,15 +146,137 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
                     >
-                      Security key or biometric authenticator is not supported on this browser. Select another factor or contact your admin for assistance.
+                      Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.
                     </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-4"
+                >
+                  <div
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAccordion-root MuiAccordion-rounded emotion-18"
+                  >
+                    <div
+                      aria-controls="cant-verify-content"
+                      aria-expanded="false"
+                      class="MuiButtonBase-root MuiAccordionSummary-root emotion-19"
+                      id="cant-verify-header"
+                      role="button"
+                      tabindex="0"
+                    >
+                      <div
+                        class="MuiAccordionSummary-content emotion-20"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 emotion-21"
+                        >
+                          Can't verify?
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-22"
+                      style="min-height: 0px;"
+                    >
+                      <div
+                        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-23"
+                      >
+                        <div
+                          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-24"
+                        >
+                          <div
+                            aria-labelledby="cant-verify-header"
+                            class="MuiAccordion-region"
+                            id="cant-verify-content"
+                            role="region"
+                          >
+                            <div
+                              class="MuiAccordionDetails-root emotion-25"
+                            >
+                              <div
+                                class="MuiBox-root emotion-10"
+                              >
+                                <div
+                                  class="MuiBox-root emotion-11"
+                                >
+                                  <div
+                                    class="MuiBox-root emotion-28"
+                                  >
+                                    <h3
+                                      class="MuiTypography-root MuiTypography-h6 emotion-29"
+                                    >
+                                      Are you trying to use a biometric authenticator?
+                                    </h3>
+                                  </div>
+                                </div>
+                                <div
+                                  class="MuiBox-root emotion-11"
+                                >
+                                  <div
+                                    class="MuiBox-root emotion-12"
+                                  >
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                                      data-se="o-form-explain"
+                                    >
+                                      Biometric authenticators (fingerprint, face recognition, PIN) will only work on the same device on which they were set up.
+                                    </p>
+                                  </div>
+                                </div>
+                                <div
+                                  class="MuiBox-root emotion-11"
+                                >
+                                  <div
+                                    class="MuiBox-root emotion-12"
+                                  >
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                                      data-se="o-form-explain"
+                                    >
+                                      If available, set up another security method on the device you used to set up your biometric authenticator.
+                                    </p>
+                                  </div>
+                                </div>
+                                <div
+                                  class="MuiBox-root emotion-11"
+                                >
+                                  <div
+                                    class="MuiBox-root emotion-28"
+                                  >
+                                    <h3
+                                      class="MuiTypography-root MuiTypography-h6 emotion-29"
+                                    >
+                                      Are you trying to use a security key?
+                                    </h3>
+                                  </div>
+                                </div>
+                                <div
+                                  class="MuiBox-root emotion-11"
+                                >
+                                  <div
+                                    class="MuiBox-root emotion-12"
+                                  >
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                                      data-se="o-form-explain"
+                                    >
+                                      If you have set up a security key, insert it in a USB port when prompted by the browser and tap on the button or gold disk. Security keys can work on multiple devices.
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -165,7 +287,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
