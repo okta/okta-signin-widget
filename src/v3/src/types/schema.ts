@@ -113,7 +113,7 @@ export interface UISchemaElement {
 
 export interface UISchemaLayout {
   type: UISchemaLayoutType;
-  elements: (UISchemaElement | UISchemaLayout | StepperLayout)[];
+  elements: (UISchemaElement | UISchemaLayout | StepperLayout | AccordionLayout)[];
   options?: {
     onClick?: ClickHandler;
   }
@@ -132,6 +132,7 @@ export enum UISchemaLayoutType {
   HORIZONTAL = 'HorizontalLayout',
   VERTICAL = 'VerticalLayout',
   STEPPER = 'Stepper',
+  ACCORDION = 'Accordion',
 }
 
 export function isUISchemaLayoutType(type: string): boolean {
@@ -191,12 +192,10 @@ export interface AuthenticatorButtonElement extends UISchemaElement {
 export interface WebAuthNButtonElement extends UISchemaElement {
   type: 'WebAuthNSubmitButton';
   options: {
-    label: string;
     step: string;
     onClick: (() => Promise<WebAuthNEnrollmentPayload>)
     | (() => Promise<WebAuthNVerificationPayload>)
     submitOnLoad?: boolean;
-    showLoadingIndicator?: boolean;
   };
 }
 
@@ -281,6 +280,15 @@ export interface LinkElement extends UISchemaElement {
   };
 }
 
+export interface AccordionPanelElement extends UISchemaElement {
+  type: 'AccordionPanel',
+  options: {
+    id: string;
+    summary: string;
+    content: UISchemaLayout;
+  };
+}
+
 export interface ImageWithTextElement extends UISchemaElement {
   type: 'ImageWithText';
   options: {
@@ -335,6 +343,11 @@ export interface StepperLayout {
   options?: {
     defaultStepIndex: () => number;
   }
+}
+
+export interface AccordionLayout {
+  type: UISchemaLayoutType.ACCORDION;
+  elements: AccordionPanelElement[];
 }
 
 export interface StepperButtonElement {

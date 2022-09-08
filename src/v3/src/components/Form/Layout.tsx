@@ -14,6 +14,7 @@ import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 import {
+  AccordionLayout,
   FieldElement,
   StepperLayout,
   UISchemaElement,
@@ -22,19 +23,21 @@ import {
   UISchemaLayoutType,
 } from '../../types';
 import { isDevelopmentEnvironment, isTestEnvironment } from '../../util';
+// eslint-disable-next-line import/no-cycle
+import Accordion from './Accordion';
 import renderers from './renderers';
 // eslint-disable-next-line import/no-cycle
 import Stepper from './Stepper';
-
-type LayoutProps = {
-  uischema: UISchemaLayout;
-};
 
 const getElementKey = (element: UISchemaElement, index: number): string => {
   const defaultKey = [element.type, element.key, index].join('_');
   return element.type === 'Field' && (element as FieldElement).key
     ? [(element as FieldElement).key].join('_')
     : defaultKey;
+};
+
+type LayoutProps = {
+  uischema: UISchemaLayout;
 };
 
 const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
@@ -58,6 +61,15 @@ const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
               <Stepper
                 key={elementKey}
                 uischema={element as StepperLayout}
+              />
+            );
+          }
+
+          if (element.type === UISchemaLayoutType.ACCORDION) {
+            return (
+              <Accordion
+                key={elementKey}
+                uischema={element as AccordionLayout}
               />
             );
           }

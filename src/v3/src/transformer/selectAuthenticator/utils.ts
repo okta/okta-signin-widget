@@ -218,7 +218,7 @@ const formatAuthenticatorOptions = (
           authenticatorKey,
           isEnroll,
         ),
-        usageDescription: getUsageDescription(option),
+        usageDescription: isEnroll && getUsageDescription(option),
         // @ts-ignore logoUri missing from interface
         logoUri: authenticator.logoUri,
         actionParams: {

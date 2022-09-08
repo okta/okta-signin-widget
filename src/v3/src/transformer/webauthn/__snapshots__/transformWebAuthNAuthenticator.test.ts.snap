@@ -1,0 +1,363 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WebAuthN Transformer Tests WebAuthN Challenge Tests should only render title and description elements when WebAuthN API is not available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.verify.webauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.webauthn.error.not.supported",
+        },
+        "type": "Description",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "key": "cant-verify",
+            "options": Object {
+              "content": Object {
+                "elements": Array [
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.title",
+                      "level": 6,
+                      "visualLevel": 3,
+                    },
+                    "type": "Heading",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description1",
+                    },
+                    "type": "Description",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description2",
+                    },
+                    "type": "Description",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.security.key.title",
+                      "level": 6,
+                      "visualLevel": 3,
+                    },
+                    "type": "Heading",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.security.key.description",
+                    },
+                    "type": "Description",
+                  },
+                ],
+                "type": "VerticalLayout",
+              },
+              "id": "cant-verify",
+              "summary": "oie.verify.webauthn.cant.verify",
+            },
+            "type": "AccordionPanel",
+          },
+        ],
+        "type": "Accordion",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`WebAuthN Transformer Tests WebAuthN Challenge Tests should render title, description and button elements when WebAuthN API is available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.verify.webauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.verify.webauthn.instructions",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "onClick": [Function],
+          "step": "challenge-authenticator",
+          "submitOnLoad": false,
+        },
+        "type": "WebAuthNSubmitButton",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "key": "cant-verify",
+            "options": Object {
+              "content": Object {
+                "elements": Array [
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.title",
+                      "level": 6,
+                      "visualLevel": 3,
+                    },
+                    "type": "Heading",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description1",
+                    },
+                    "type": "Description",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description2",
+                    },
+                    "type": "Description",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.security.key.title",
+                      "level": 6,
+                      "visualLevel": 3,
+                    },
+                    "type": "Heading",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.security.key.description",
+                    },
+                    "type": "Description",
+                  },
+                ],
+                "type": "VerticalLayout",
+              },
+              "id": "cant-verify",
+              "summary": "oie.verify.webauthn.cant.verify",
+            },
+            "type": "AccordionPanel",
+          },
+        ],
+        "type": "Accordion",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`WebAuthN Transformer Tests WebAuthN Challenge Tests should render title, description, button, and callout elements when WebAuthN API is available in Safari Browser 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.verify.webauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.verify.webauthn.instructions",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.verify.webauthn.uv.required.instructions",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "onClick": [Function],
+          "step": "challenge-authenticator",
+          "submitOnLoad": false,
+        },
+        "type": "WebAuthNSubmitButton",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "key": "cant-verify",
+            "options": Object {
+              "content": Object {
+                "elements": Array [
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.title",
+                      "level": 6,
+                      "visualLevel": 3,
+                    },
+                    "type": "Heading",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description1",
+                    },
+                    "type": "Description",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description2",
+                    },
+                    "type": "Description",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.security.key.title",
+                      "level": 6,
+                      "visualLevel": 3,
+                    },
+                    "type": "Heading",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.security.key.description",
+                    },
+                    "type": "Description",
+                  },
+                ],
+                "type": "VerticalLayout",
+              },
+              "id": "cant-verify",
+              "summary": "oie.verify.webauthn.cant.verify",
+            },
+            "type": "AccordionPanel",
+          },
+        ],
+        "type": "Accordion",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`WebAuthN Transformer Tests WebAuthN Enroll Tests should only render title and description elements when WebAuthN API is not available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.webauthn.error.not.supported",
+        },
+        "type": "Description",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`WebAuthN Transformer Tests WebAuthN Enroll Tests should render title, description and button elements when WebAuthN API is available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.instructions",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.instructions.edge",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "onClick": [Function],
+          "step": "enroll-authenticator",
+          "submitOnLoad": false,
+        },
+        "type": "WebAuthNSubmitButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`WebAuthN Transformer Tests WebAuthN Enroll Tests should render title, description, button, and callout elements when WebAuthN API is available on MS Edge browser 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.instructions",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.instructions.edge",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.uv.required.instructions",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "onClick": [Function],
+          "step": "enroll-authenticator",
+          "submitOnLoad": false,
+        },
+        "type": "WebAuthNSubmitButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

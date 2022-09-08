@@ -24,20 +24,24 @@ import {
   UISchemaElementComponent,
   WebAuthNButtonElement,
 } from '../../types';
+import { getTranslation } from '../../util';
 
 const WebAuthNSubmit: UISchemaElementComponent<{
   uischema: WebAuthNButtonElement
 }> = ({ uischema }) => {
+  const { translations = [] } = uischema;
   const { options } = uischema;
+
+  const btnLabel = getTranslation(translations);
+  const btnRetryLabel = getTranslation(translations, 'retry-label');
 
   const { setMessage } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const [waiting, setWaiting] = useState<boolean>(false);
+  const [label, setLabel] = useState<string>(btnLabel!);
 
   const executeNextStep = () => {
-    if (options?.showLoadingIndicator) {
-      setWaiting(true);
-    }
+    setWaiting(true);
     setMessage(undefined);
 
     options?.onClick()
@@ -56,6 +60,9 @@ const WebAuthNSubmit: UISchemaElementComponent<{
           class: 'ERROR',
           i18n: { key: message },
         });
+        if (btnRetryLabel) {
+          setLabel(btnRetryLabel);
+        }
       })
       .finally(() => setWaiting(false));
   };
@@ -98,7 +105,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
               variant="primary"
               wide
             >
-              { options?.label }
+              { label }
             </Button>
           )
       }

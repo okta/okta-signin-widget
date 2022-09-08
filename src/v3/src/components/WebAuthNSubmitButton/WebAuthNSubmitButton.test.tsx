@@ -43,14 +43,13 @@ describe('WebAuthNControlSubmitControl Tests', () => {
     props = {
       uischema: {
         type: 'WebAuthNSubmitButton',
+        translations: [{ name: 'label', value: 'Verify', i18nKey: 'some.key' }],
         options: {
-          label: 'Verify',
           step: 'enroll-authenticator',
           onClick: jest.fn().mockImplementation(
             () => Promise.resolve({}),
           ),
           submitOnLoad: false,
-          showLoadingIndicator: true,
         },
       } as WebAuthNButtonElement,
     };
@@ -68,11 +67,15 @@ describe('WebAuthNControlSubmitControl Tests', () => {
     });
   });
 
-  it('should render webauthn verify button and handle click when known error occurs', async () => {
+  it('should render webauthn verify button and handle click when known error occurs with retry label', async () => {
     props = {
       ...props,
       uischema: {
         ...props.uischema,
+        translations: [
+          ...props.uischema.translations!,
+          { name: 'retry-label', value: 'Retry', i18nKey: 'another.key' },
+        ],
         options: {
           ...props.uischema.options,
           onClick: () => new Promise((resolve, reject) => {
@@ -83,18 +86,19 @@ describe('WebAuthNControlSubmitControl Tests', () => {
         },
       },
     };
-    const { findByTestId } = render(<WebAuthNSubmitButton {...props} />);
+    const { findByTestId, findByText } = render(<WebAuthNSubmitButton {...props} />);
 
     const button = await findByTestId('button');
 
     fireEvent.click(button);
 
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(setMessageMockFn).toHaveBeenLastCalledWith({
         message: 'Operation not allowed',
         class: MessageType.ERROR,
         i18n: { key: 'Operation not allowed' },
       });
+      await findByText(/Retry/);
     });
   });
 

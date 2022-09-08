@@ -13,6 +13,7 @@
 import { setup, getMockCredentialsResponse } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/webauthn-enroll-mfa.json';
+import mockResponseWithRequiredUserVerification from '../../src/mocks/response/idp/idx/authenticator-enroll-webauthn-userverification-required.json';
 
 describe('webauthn-enroll', () => {
   let mockCredentialsContainer: CredentialsContainer | undefined;
@@ -33,9 +34,21 @@ describe('webauthn-enroll', () => {
   it('should render form', async () => {
     const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
     navigatorCredentials.mockReturnValue(
-      { credentials: mockCredentialsContainer } as unknown as Navigator,
+      { credentials: mockCredentialsContainer, userAgent: '' } as unknown as Navigator,
     );
     const { container, findByText } = await setup({ mockResponse });
+    await findByText(/Set up security key or biometric authenticator/);
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render form with user verification and edge browser callouts', async () => {
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { credentials: mockCredentialsContainer, userAgent: 'edge' } as unknown as Navigator,
+    );
+    const { container, findByText } = await setup({
+      mockResponse: mockResponseWithRequiredUserVerification,
+    });
     await findByText(/Set up security key or biometric authenticator/);
     expect(container).toMatchSnapshot();
   });
@@ -43,13 +56,13 @@ describe('webauthn-enroll', () => {
   it('should render form when Credentials API is not available', async () => {
     const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
     navigatorCredentials.mockReturnValue(
-      { credentials: undefined } as unknown as Navigator,
+      { credentials: undefined, userAgent: '' } as unknown as Navigator,
     );
 
     const { container, findByText } = await setup({ mockResponse });
 
     await findByText(/Set up security key or biometric authenticator/);
-    await findByText(/Security key or biometric authenticator is not supported on this browser. Select another factor or contact your admin for assistance./);
+    await findByText(/Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance./);
 
     expect(container).toMatchSnapshot();
   });
@@ -57,7 +70,7 @@ describe('webauthn-enroll', () => {
   it('should send correct payload', async () => {
     const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
     navigatorCredentials.mockReturnValue(
-      { credentials: mockCredentialsContainer } as unknown as Navigator,
+      { credentials: mockCredentialsContainer, userAgent: '' } as unknown as Navigator,
     );
 
     const {

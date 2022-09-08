@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import mockResponseWithRequiredUserVerification from '@okta/mocks/data/idp/idx/authenticator-verification-webauthn.json';
 import { setup, getMockCredentialsResponse } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/unlock-account-email-verify-webauthn.json';
@@ -23,9 +24,29 @@ describe('authenticator-verification-webauthn', () => {
           create: jest.fn(),
           get: jest.fn().mockResolvedValue(getMockCredentialsResponse()),
         },
+        userAgent: '',
       } as unknown as Navigator,
     );
     const { container, findByText } = await setup({ mockResponse });
+    await findByText(/Verify with Security Key or Biometric Authenticator/);
+    await findByText(/You will be prompted to use a security key or biometric verification/);
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render form with required user verification in safari browser', async () => {
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      {
+        credentials: {
+          create: jest.fn(),
+          get: jest.fn().mockResolvedValue(getMockCredentialsResponse()),
+        },
+        userAgent: 'safari',
+      } as unknown as Navigator,
+    );
+    const { container, findByText } = await setup({
+      mockResponse: mockResponseWithRequiredUserVerification,
+    });
     await findByText(/Verify with Security Key or Biometric Authenticator/);
     await findByText(/You will be prompted to use a security key or biometric verification/);
     expect(container).toMatchSnapshot();
@@ -36,11 +57,12 @@ describe('authenticator-verification-webauthn', () => {
     navigatorCredentials.mockReturnValue(
       {
         credentials: undefined,
+        userAgent: '',
       } as unknown as Navigator,
     );
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Verify with Security Key or Biometric Authenticator/);
-    await findByText(/Security key or biometric authenticator is not supported on this browser./);
+    await findByText(/Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance./);
     expect(container).toMatchSnapshot();
   });
 });
