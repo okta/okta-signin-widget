@@ -276,7 +276,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways Mui-focusVisible emotion-43"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
