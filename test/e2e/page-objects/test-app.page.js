@@ -1,4 +1,5 @@
 import { waitForLoad } from '../util/waitUtil';
+import PrimaryAuthPage  from './primary-auth.page';
 
 const { WIDGET_TEST_SERVER } = process.env;
 
@@ -9,7 +10,6 @@ class TestAppPage {
   get code() { return $('#code-container'); }
   get cspErrors() { return $('#csp-errors-container'); }
   get oidcError() { return $('#oidc-error-container'); }
-
   // widget general elements
   get widgetTitle() { return $('[data-se="o-form-head"]'); }
   get submit() { return $('[data-type="save"]'); }
@@ -113,6 +113,12 @@ class TestAppPage {
     await waitForLoad(this.cspErrors);
     await this.cspErrors.then(el => el.getText()).then(txt => {
       expect(txt).toEqual(expectedError);
+    });
+  }
+
+  async assertWidgetUnableToSignin() {
+    await PrimaryAuthPage.errorBox.then(el => el.getText()).then(txt => {
+      expect(txt).toBe('Unable to sign in');
     });
   }
 

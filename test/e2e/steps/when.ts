@@ -23,6 +23,7 @@ import ResetPasswordPage from '../page-objects/reset-password.page';
 import RegistrationPage from '../page-objects/registration.page';
 import EnrollPhonePage from '../page-objects/enroll-phone-authenticator.page';
 import VerifyPhoneAuthenticatorPage from '../page-objects/verify-phone-authenticator.page';
+import UnlockPage from '../page-objects/unlock.page.js'
 
 When(
   /^user logs in with username and password$/,
@@ -30,6 +31,20 @@ When(
   async function(this: ActionContext) {
     return await PrimaryAuthPage.login(this.credentials.emailAddress, this.credentials.password);
   }
+);
+
+When(
+    /^user logs in with username and wrong password 5 times$/,
+    async function() {
+        let n=0;
+        while(n<5) {
+            await waitForLoad(TestAppPage.widget);
+            await PrimaryAuthPage.login(this.credentials.emailAddress, "userR1234");
+            await browser.pause(1000);
+            n++;
+        }
+        return
+    }
 );
 
 When(
@@ -111,6 +126,28 @@ When(
 );
 
 When(
+  /^user clicks unlock account$/,
+  async function() {
+    await PrimaryAuthPage.clickUnlockButton();
+    await browser.pause(1000)
+  }
+)
+
+When(
+    /^user selects email to unlock account$/,
+    async function() {
+        await UnlockPage.selectEmailToUnlock();
+    }
+);
+
+When (
+    /^user enters passowrd to unlock$/,
+    async function() {
+        await UnlockPage.enterPasswordAndVerify(this.credentials.password);
+}
+);
+
+When(
   /^user clicks the email magic link$/,
   async function() {
     const emailMagicLink = await this.a18nClient.getEmailMagicLink(this.credentials.profileId);
@@ -154,11 +191,26 @@ When(
 );
 
 When(
+    /^user submits their email to unlock$/,
+    async function() {
+        return await UnlockPage.enterUserEmailToUnlock(this.credentials.emailAddress);
+    }
+);
+
+When(
   /^user clicks the password reset magic link$/,
   async function() {
     const passwordResetMagicLink = await this.a18nClient.getPasswordResetMagicLink(this.credentials.profileId);
     await browser.url(passwordResetMagicLink);
   }
+);
+
+When(
+    /^user clicks the unlock account magic link$/,
+    async function() {
+        const unlockAccountLink = await this.a18nClient.getUnlockAccountLink(this.credentials.profileId);
+        await browser.url(unlockAccountLink);
+    }
 );
 
 When(
