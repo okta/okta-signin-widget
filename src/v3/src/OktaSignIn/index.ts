@@ -34,6 +34,8 @@ export type RenderErrorCallback = {
 export type RenderResult = JsonObject;
 export type Tokens = JsonObject;
 
+console.debug(`${VERSION}-g${COMMITHASH.substring(0, 7)}`);
+
 export default class OktaSignIn {
   /**
    * Version string

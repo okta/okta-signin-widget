@@ -13,8 +13,6 @@
 import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
-const version = `${VERSION}-g${COMMITHASH.substring(0, 7)}`;
-
 const AuthContent: FunctionComponent = ({ children }) => (
   <Box
     display="flex"
@@ -28,13 +26,6 @@ const AuthContent: FunctionComponent = ({ children }) => (
     marginBottom={3}
   >
     { children }
-    {
-      process.env.NODE_ENV !== 'test' && (
-        <code aria-hidden>
-          { version }
-        </code>
-      )
-    }
   </Box>
 );
 
