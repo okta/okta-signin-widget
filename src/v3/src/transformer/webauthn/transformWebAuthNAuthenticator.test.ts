@@ -24,8 +24,8 @@ import { transformWebAuthNAuthenticator } from '.';
 let mockIsEdgeBrowser = false;
 let mockIsSafariBrowser = false;
 jest.mock('../../../../util/BrowserFeatures', () => ({
-  isEdge: () => jest.fn().mockImplementation(() => mockIsEdgeBrowser),
-  isSafari: jest.fn().mockImplementation(() => mockIsSafariBrowser),
+  isEdge: () => jest.fn().mockReturnValue(mockIsEdgeBrowser),
+  isSafari: () => jest.fn().mockReturnValue(mockIsSafariBrowser),
 }));
 
 describe('WebAuthN Transformer Tests', () => {
@@ -74,12 +74,8 @@ describe('WebAuthN Transformer Tests', () => {
 
     it('should render title, description and button elements when WebAuthN API is available', () => {
       mockCredentialsContainer = {
-        create: jest.fn().mockImplementationOnce(
-          () => Promise.resolve({}),
-        ),
-        get: jest.fn().mockImplementationOnce(
-          () => Promise.resolve({}),
-        ),
+        create: jest.fn().mockResolvedValue({}),
+        get: jest.fn().mockResolvedValue({}),
         preventSilentAccess: jest.fn(),
         store: jest.fn(),
       };
@@ -95,7 +91,7 @@ describe('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag).toMatchSnapshot();
     });
 
-    it('should render title, description, button, and callout elements when WebAuthN API is available', () => {
+    it('should render title, description, button, and callout elements when WebAuthN API is available on MS Edge browser', () => {
       transaction.nextStep!.relatesTo = {
         value: {
           contextualData: {
@@ -107,12 +103,8 @@ describe('WebAuthN Transformer Tests', () => {
       };
       mockIsEdgeBrowser = true;
       mockCredentialsContainer = {
-        create: jest.fn().mockImplementationOnce(
-          () => Promise.resolve({}),
-        ),
-        get: jest.fn().mockImplementationOnce(
-          () => Promise.resolve({}),
-        ),
+        create: jest.fn().mockResolvedValue({}),
+        get: jest.fn().mockResolvedValue({}),
         preventSilentAccess: jest.fn(),
         store: jest.fn(),
       };
@@ -159,12 +151,8 @@ describe('WebAuthN Transformer Tests', () => {
 
     it('should render title, description and button elements when WebAuthN API is available', () => {
       mockCredentialsContainer = {
-        create: jest.fn().mockImplementationOnce(
-          () => Promise.resolve({}),
-        ),
-        get: jest.fn().mockImplementationOnce(
-          () => Promise.resolve({}),
-        ),
+        create: jest.fn().mockResolvedValue({}),
+        get: jest.fn().mockResolvedValue({}),
         preventSilentAccess: jest.fn(),
         store: jest.fn(),
       };
@@ -179,7 +167,7 @@ describe('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag).toMatchSnapshot();
     });
 
-    it('should render title, description, button, and callout elements when WebAuthN API is available', () => {
+    it('should render title, description, button, and callout elements when WebAuthN API is available in Safari Browser', () => {
       transaction.nextStep!.relatesTo = {
         value: {
           contextualData: {
@@ -189,15 +177,10 @@ describe('WebAuthN Transformer Tests', () => {
           },
         } as unknown as IdxAuthenticator,
       };
-      // mockIsSafariBrowser.mockReturnValue(true);
       mockIsSafariBrowser = true;
       mockCredentialsContainer = {
-        create: jest.fn().mockImplementationOnce(
-          () => Promise.resolve({}),
-        ),
-        get: jest.fn().mockImplementationOnce(
-          () => Promise.resolve({}),
-        ),
+        create: jest.fn().mockResolvedValue({}),
+        get: jest.fn().mockResolvedValue({}),
         preventSilentAccess: jest.fn(),
         store: jest.fn(),
       };

@@ -100,7 +100,7 @@ Object {
         "options": Object {
           "onClick": [Function],
           "step": "challenge-authenticator",
-          "submitOnLoad": true,
+          "submitOnLoad": false,
         },
         "type": "WebAuthNSubmitButton",
       },
@@ -162,7 +162,7 @@ Object {
 }
 `;
 
-exports[`WebAuthN Transformer Tests WebAuthN Challenge Tests should render title, description, button, and callout elements when WebAuthN API is available 1`] = `
+exports[`WebAuthN Transformer Tests WebAuthN Challenge Tests should render title, description, button, and callout elements when WebAuthN API is available in Safari Browser 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {},
@@ -317,7 +317,7 @@ Object {
 }
 `;
 
-exports[`WebAuthN Transformer Tests WebAuthN Enroll Tests should render title, description, button, and callout elements when WebAuthN API is available 1`] = `
+exports[`WebAuthN Transformer Tests WebAuthN Enroll Tests should render title, description, button, and callout elements when WebAuthN API is available on MS Edge browser 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {},
