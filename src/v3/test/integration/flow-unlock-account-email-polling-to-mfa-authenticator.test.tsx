@@ -68,11 +68,13 @@ describe('flow-unlock-account-email-polling-to-mfa-challenge-authenticator', () 
     await findByText(/Verify with your email/);
 
     /* refresh: 4000 and we poll twice */
-    jest.advanceTimersByTime(1000);
+    jest.advanceTimersByTime(9000);
 
-    await waitFor(async () => {
-      await findByText(/Verify with Security Key or Biometric Authenticator/);
-    });
+    await findByText(
+      /Verify with Security Key or Biometric Authenticator/,
+      undefined,
+      { timeout: 5000 },
+    );
     const switchAuthenticatorEle = await findByTestId('switchAuthenticator');
     await waitFor(() => expect(switchAuthenticatorEle).toHaveFocus());
 
