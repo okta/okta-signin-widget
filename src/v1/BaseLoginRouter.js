@@ -237,11 +237,17 @@ export default Router.extend({
             oldController.$el.remove();
             this.controller.postRenderAnimation();
             if (flashError) {
-              const errorKey = (this.settings.get('features.mfaOnlyFlow')) ?
-                'error.mfa.only.expired.session' : 'error.expired.session';
+              let errorSummary;
+              const isTerminalError = flashError.is && flashError.is('terminal');
+              if (isTerminalError) {
+                errorSummary = flashError.errorDetails.errorSummary;
+              } else {
+                errorSummary = loc((this.settings.get('features.mfaOnlyFlow')) ?
+                  'error.mfa.only.expired.session' : 'error.expired.session');
+              }
               model.trigger('error', model, {
                 responseJSON: {
-                  errorSummary: loc(errorKey),
+                  errorSummary
                 },
               });
               this.appState.unset('flashError');
