@@ -299,7 +299,11 @@ export default Controller.extend({
         await onSuccess();
       }
     } catch(error) {
-      await this.showFormErrors(model, error, this.formView.form);
+      if (error.is?.('terminal')) {
+        this.options.appState.setNonIdxError(error);
+      } else {
+        await this.showFormErrors(model, error, this.formView.form);
+      }
     } finally {
       this.toggleFormButtonState(false);
     }

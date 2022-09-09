@@ -4,16 +4,21 @@ import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
 import getAuthClient from 'widget/getAuthClient';
 import Settings from 'models/Settings';
-import { AuthSdkError } from '@okta/okta-auth-js';
 import Enums from 'util/Enums';
+import { AuthSdkError, OAuthError as OAuthSdkError } from '@okta/okta-auth-js';
+import { NonRecoverableError, ClockDriftError } from 'util/OAuthErrors';
 import { OAuthError } from 'util/Errors';
+
 
 
 describe('util/OAuth2Util', function() {
   class MockModel {
     constructor() {
       this.trigger = jest.fn();
-      this.appState = { trigger: jest.fn() };
+      this.appState = { 
+        trigger: jest.fn(),
+        set: jest.fn()
+      };
     }
   }
 
@@ -61,6 +66,49 @@ describe('util/OAuth2Util', function() {
       }).catch(done.fail);
     });
 
+    it('calls globalError function when encountering non-recoverable error', function(done) {
+      spyOn(authClient.token, 'getWithPopup').and.callFake(function() {
+        return new Promise(function() {
+          throw new OAuthSdkError(
+            'login_required', 'The client specified not to prompt, but the client app requires re-authentication or MFA.');
+        });
+      });
+
+      return new Promise(function(resolve) {
+        spyOn(settings, 'callGlobalError').and.callFake(resolve);
+        OAuth2Util.getTokens(settings, {}, controller);
+      }).then(function() {
+        expect(settings.callGlobalError).toHaveBeenCalledTimes(1);
+        const exception= settings.callGlobalError.calls.mostRecent().args[0];
+        expect(exception).toBeInstanceOf(NonRecoverableError);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('sets error message and triggers navigation to error view when encountering \'terminal\' error', function( done ) {
+      jest.spyOn(authClient.token, 'getWithPopup').mockImplementation(function() {
+        return new Promise(function() {
+          throw new OAuthSdkError(
+            'INTERNAL', 'The JWT was issued in the future');
+        });
+      });
+
+      return new Promise(function(resolve) {
+        jest.spyOn(controller.model.appState, 'trigger').mockImplementation(resolve);
+        OAuth2Util.getTokens(settings, {}, controller);
+      }).then(function() {
+        expect(controller.model.appState.trigger).toHaveBeenCalledTimes(1);
+        expect(controller.model.appState.trigger).toHaveBeenLastCalledWith('navigate', 'signin/error');
+        
+        expect(controller.model.appState.set).toHaveBeenCalledTimes(1);
+        const [appStateProperty, exception] = controller.model.appState.set.mock.calls.pop();
+        expect(appStateProperty).toBe('flashError');
+        expect(exception).toBeInstanceOf(ClockDriftError);
+        expect(exception.is('terminal')).toBe(true);
+        done();
+      }).catch(done.fail);
+    });
+
     it.each([
       'access_denied',
       'jit_failure_missing_fields',
@@ -86,7 +134,7 @@ describe('util/OAuth2Util', function() {
         expect(controller.model.trigger).toHaveBeenCalledTimes(1);
         if (errCode === 'access_denied') {
           expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model,
-            { responseJSON: authException });
+            { responseJSON: { errorSummary: errorMessage } });
         } else {
           expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model,
             { responseJSON: { errorSummary: loc('error.jit_failure', 'login') }});

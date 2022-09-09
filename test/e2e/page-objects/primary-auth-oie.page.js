@@ -5,11 +5,11 @@ class PrimaryAuthOIEPage {
 
   get forgotPassword() { return $('.siw-main-view.identify-recovery.forgot-password'); }
   get forgotPasswordButton() { return $('[data-se="forgot-password"]'); }
+  get unlockButton() {return $('[data-se="unlock"]');}
   get nextButton() { return $('[value="Next"]'); }
   get signupForm() { return $('.siw-main-view.enroll-profile.registration'); }
   get signupLink() { return $('a[data-se="enroll"]'); }
   get unlockAccountForm() { return $('.siw-main-view.select-authenticator-unlock-account'); }
-
   get primaryAuthForm() { return $('.siw-main-view.primary-auth'); }
   get identifierField() { return $('input[name="identifier"]'); }
   get passwordField() { return $('input[name="credentials.passcode"]'); }
@@ -37,6 +37,10 @@ class PrimaryAuthOIEPage {
 
   async clickForgotPasswordButton() {
     await this.forgotPasswordButton.click();
+  }
+
+  async clickUnlockButton() {
+    await this.unlockButton.click();
   }
 
   async clickSignUpLink() {
