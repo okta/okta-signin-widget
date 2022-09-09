@@ -22,6 +22,7 @@ import ResetPasswordPage from '../page-objects/reset-password.page';
 import EnrollPasswordPage from '../page-objects/enroll-password-authenticator.page';
 import EnrollPhonePage from '../page-objects/enroll-phone-authenticator.page';
 import VerifyPhoneAuthenticatorPage from '../page-objects/verify-phone-authenticator.page';
+import UnlockPage from '../page-objects/unlock.page.js';
 
 Then(
   /^user sees the tokens on the page$/,
@@ -95,6 +96,19 @@ Then(
   async function() {
     return await PrimaryAuthPage.waitForUnlockAccountForm();
   }
+);
+Then(
+  /^user is locked out$/,
+  async function() {
+      return await TestAppPage.assertWidgetUnableToSignin();
+  }
+);
+
+Then(
+    /^user account is unlocked$/,
+    async function() {
+        return await UnlockPage.assertUnlockMessage();
+    }
 );
 
 Then(

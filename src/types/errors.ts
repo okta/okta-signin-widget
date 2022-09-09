@@ -1,4 +1,4 @@
-import { HttpResponse, OktaAuth } from '@okta/okta-auth-js';
+import { HttpResponse, FieldError } from '@okta/okta-auth-js';
 
 export interface ErrorXHR {
   status: number;
@@ -10,4 +10,10 @@ export interface ErrorXHR {
 export interface ErrorContextData {
   xhr: HttpResponse;
   errorSummary?: string;
+}
+
+export interface ErrorDetails {
+  errorSummary?: string;
+  errorCode?: string;
+  errorCauses?: Array<FieldError>;
 }
