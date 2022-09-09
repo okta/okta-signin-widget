@@ -128,6 +128,22 @@ export default class A18nClient {
     return url;
   }
 
+  async getUnlockAccountLink(profileId: string) {
+    let retryAttemptsRemaining = 5;
+    let response;
+    while (!response?.content && retryAttemptsRemaining > 0) {
+      await waitForOneSecond();
+      response = await this.getOnURL(LATEST_EMAIL_URL.replace(':profileId', profileId)) as Record<string, string>;
+      --retryAttemptsRemaining;
+    }
+    const match = response?.content?.match(/<a id="unlock-account-link" href="(?<url>\S+)"/);
+    const url = match?.groups?.url;
+    if (!url) {
+      throw new Error('Unable to retrieve unlock account link from email.');
+    }
+    return url;
+  }
+
   private async deleteOnProtectedURL(url: string): Promise<string|never>{
     try {
       const response =  await fetch(url, {
