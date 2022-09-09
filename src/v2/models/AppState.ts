@@ -17,12 +17,15 @@ import {
   FORMS_WITH_STATIC_BACK_LINK,
   FORMS_FOR_VERIFICATION,
   AUTHENTICATOR_KEY,
+  FORMS,
 } from '../ion/RemediationConstants';
 import { createOVOptions } from '../ion/ui-schema/ion-object-handler';
 import { _ } from '../mixins/mixins';
 import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
 import Settings from 'models/Settings';
 import Hooks from 'models/Hooks';
+import { RecoverableError } from 'util/OAuthErrors';
+
 
 const UNKNOWN_USER_I8N_KEY = "idx.unknown.user";
 /**
@@ -294,6 +297,17 @@ export default class AppState extends Model {
 
       await executeHooksAfter(hook);
     }
+  }
+
+  setNonIdxError(error: RecoverableError<any>) {
+    this.set('remediations', [{ name: FORMS.TERMINAL }]);
+    this.set('messages', { value: [
+      {
+        message: error.errorDetails.errorSummary,
+        class: 'ERROR'
+      }
+    ]})
+    this.set('currentFormName', FORMS.TERMINAL);
   }
 
   getUser() {

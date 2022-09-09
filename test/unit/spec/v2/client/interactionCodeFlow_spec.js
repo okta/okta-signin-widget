@@ -1,6 +1,7 @@
 import { interactionCodeFlow } from 'v2/client/interactionCodeFlow';
 import { ConfigError } from 'util/Errors';
 import { Model } from 'okta';
+import { RecoverableError } from 'util/OAuthErrors';
 
 describe('v2/client/interactionCodeFlow', () => {
   let testContext;
@@ -171,6 +172,18 @@ describe('v2/client/interactionCodeFlow', () => {
         jest.spyOn(authClient.idx, 'clearTransactionMeta');
         await interactionCodeFlow(settings, idxResponse);
         expect(authClient.idx.clearTransactionMeta).toHaveBeenCalled();
+      });
+
+      it('rethrows terminal recoverable errors', async () => {
+        const terminalError = new RecoverableError(new Error('No tokens available, please try again later'), class { terminal = true });
+        jest.spyOn(testContext.authClient.token, 'exchangeCodeForTokens').mockImplementation(() => { throw terminalError; });
+        jest.spyOn(testContext.settings, 'callGlobalError');
+        try {
+          await interactionCodeFlow(testContext.settings, testContext.idxResponse);
+        } catch (err) {
+          expect(testContext.settings.callGlobalError).not.toHaveBeenCalled();
+          expect(err).toBe(terminalError);
+        }
       });
     });
   });

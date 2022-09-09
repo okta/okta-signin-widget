@@ -39,7 +39,7 @@ export async function updateAppState(appState: AppState, idxResponse: IdxRespons
   // to avoid incorrect/unnecessary updates.
   if (hasAuthenticationSucceeded(idxResponse) && settings.get('features.rememberMyUsernameOnOIE')) {
       updateIdentifierCookie(appState, idxResponse);
-  }    
+  }
 
   const lastResponse = appState.get('idx');
   const useInteractionCodeFlow = settings.get('useInteractionCodeFlow');
@@ -49,7 +49,12 @@ export async function updateAppState(appState: AppState, idxResponse: IdxRespons
       // it's better to clean up at the end of the flow.
       sessionStorageHelper.removeStateHandle();
       // This is the end of the IDX flow, now entering OAuth
-      return interactionCodeFlow(settings, idxResponse);
+      const tokens = await interactionCodeFlow(settings, idxResponse);
+      // reset terminal view in case the were OAuth errors prior to successful token retrieval
+      if (appState.get('currentFormName') === FORMS.TERMINAL) {
+        appState.unset('currentFormName', { silent: true });
+      }
+      return tokens;
     }  
   } else {
     // Do not save state handle for the first page loads.
