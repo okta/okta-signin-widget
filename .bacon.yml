@@ -55,6 +55,14 @@ test_suites:
       script_name: e2e-saucelabs
       criteria: MERGE
       queue_name: small
+    # Optional test suite until Android is enabled
+    - name: e2e-saucelabs-mobile
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '6'
+      timeout: '20'
+      script_name: e2e-saucelabs-mobile
+      criteria: OPTIONAL
+      queue_name: small
     - name: tsd
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '7'
