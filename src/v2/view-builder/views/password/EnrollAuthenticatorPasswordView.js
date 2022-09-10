@@ -42,17 +42,26 @@ const Body = BaseForm.extend({
 
   getUISchema() {
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
-    return uiSchemas.concat([
-      {
-        name: 'confirmPassword',
-        label: loc('oie.password.confirmPasswordLabel','login'),
-        type: 'password',
-        'label-top': true,
-        params: {
-          showPasswordToggle: this.settings.get('showPasswordToggle'),
-        }
+    const confirmPassword = {
+      name: 'confirmPassword',
+      label: loc('oie.password.confirmPasswordLabel','login'),
+      type: 'password',
+      'label-top': true,
+      params: {
+        showPasswordToggle: this.settings.get('showPasswordToggle'),
       }
-    ]);
+    };
+
+    const updatedSchema = [];
+
+    for (let field of uiSchemas) {
+      updatedSchema.push(field);
+      if (field.name === 'credentials.passcode') {
+        updatedSchema.push(confirmPassword);
+      }
+    }
+
+    return updatedSchema;
   }
 });
 
