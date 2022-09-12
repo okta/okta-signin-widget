@@ -76,26 +76,33 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
     },
   };
 
+  const smsLayoutElements = [
+    smsInfoTextElement,
+    phoneNumberElement,
+    smsStepSubmitButton,
+  ];
+
+  const voiceLayoutElements = [
+    voiceInfoTextElement,
+    phoneNumberElement,
+    voiceStepSubmitButton,
+  ];
+
+  if(methodTypeElement!.options!.inputMeta.options!.length > 1) {
+    smsLayoutElements.splice(1, 0, methodTypeElement);
+    voiceLayoutElements.splice(1, 0, methodTypeElement);
+  }
+
   const stepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
     elements: [
       {
         type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          smsInfoTextElement,
-          methodTypeElement,
-          phoneNumberElement,
-          smsStepSubmitButton,
-        ],
+        elements: smsLayoutElements,
       },
       {
         type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          voiceInfoTextElement,
-          methodTypeElement,
-          phoneNumberElement,
-          voiceStepSubmitButton,
-        ],
+        elements: voiceLayoutElements,
       },
     ],
   };
