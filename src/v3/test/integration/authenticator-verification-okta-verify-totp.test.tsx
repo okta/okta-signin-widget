@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/verify-ov-code-mfa.json';
 
@@ -38,22 +38,9 @@ describe('authenticator-verification-okta-verify-totp', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
-      {
-        data: JSON.stringify({
-          credentials: {
-            totp,
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: { totp },
+      }),
     );
   });
 });

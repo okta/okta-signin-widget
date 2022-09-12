@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/password-reset.json';
 
@@ -35,23 +35,12 @@ describe('authenticator-email-verification-data', () => {
     await user.click(submitButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://dev-08160404.okta.com/idp/idx/challenge',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            methodType: 'email',
-            id: 'aut41wnl0irhAgO6C5d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
+        authenticator: {
+          methodType: 'email',
+          id: 'aut41wnl0irhAgO6C5d7',
         },
-        withCredentials: true,
-      },
+      }),
     );
   });
 });

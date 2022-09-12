@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/recover/default.json';
 
@@ -49,20 +49,7 @@ describe('identify-recovery', () => {
     await user.click(await findByText('Next', { selector: 'button' }));
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://dev-08160404.okta.com/idp/idx/identify',
-      {
-        data: JSON.stringify({
-          identifier: 'testuser@okta.com',
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/identify', { identifier: 'testuser@okta.com' }),
     );
   });
 });

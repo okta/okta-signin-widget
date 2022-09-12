@@ -9,7 +9,7 @@
       {
         "rel": ["create-form"],
         "name": "identify",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/identify",
+        "href": "http://localhost:3000/idp/idx/identify",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -43,7 +43,7 @@
         "rel": ["create-form"],
         "name": "launch-authenticator",
         "relatesTo": ["authenticatorChallenge"],
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/authenticators/okta-verify/launch",
+        "href": "http://localhost:3000/idp/idx/authenticators/okta-verify/launch",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -60,7 +60,7 @@
       {
         "rel": ["create-form"],
         "name": "select-enroll-profile",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/enroll",
+        "href": "http://localhost:3000/idp/idx/enroll",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -77,7 +77,7 @@
       {
         "rel": ["create-form"],
         "name": "unlock-account",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/unlock-account",
+        "href": "http://localhost:3000/idp/idx/unlock-account",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -99,7 +99,7 @@
       "recover": {
         "rel": ["create-form"],
         "name": "recover",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/recover",
+        "href": "http://localhost:3000/idp/idx/recover",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -123,7 +123,7 @@
   "cancel": {
     "rel": ["create-form"],
     "name": "cancel",
-    "href": "https://oie-4695462.oktapreview.com/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "produces": "application/ion+json; okta-version=1.0.0",
     "value": [

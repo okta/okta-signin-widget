@@ -11,7 +11,7 @@
  */
 
 import { waitFor } from '@testing-library/preact';
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import * as cookieUtils from '../../src/util/cookieUtils';
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
@@ -81,11 +81,7 @@ describe('identify-with-password', () => {
       expect(identifierError.textContent).toEqual('This field cannot be left blank');
       expect(container).toMatchSnapshot();
       expect(passwordError.textContent).toEqual('This field cannot be left blank');
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-        'POST',
-        'https://oie-8425965.oktapreview.com/idp/idx/identify',
-        expect.anything(),
-      );
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     });
 
     it('should attempt to submit page with all required fields empty and type in one of the required fields to remove error', async () => {
@@ -110,11 +106,7 @@ describe('identify-with-password', () => {
       expect(identifierError.textContent).toEqual('This field cannot be left blank');
       expect(container).toMatchSnapshot();
       expect(passwordError.textContent).toEqual('This field cannot be left blank');
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-        'POST',
-        'https://oie-8425965.oktapreview.com/idp/idx/identify',
-        expect.anything(),
-      );
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
 
       const identifierField = await findByTestId('identifier') as HTMLInputElement;
       await user.type(identifierField, 'someuser@okta1.com');
@@ -199,11 +191,7 @@ describe('identify-with-password', () => {
 
       passwordError = await findByTestId('credentials.passcode-error');
       expect(passwordError.textContent).toEqual('This field cannot be left blank');
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-        'POST',
-        'https://oie-8425965.oktapreview.com/idp/idx/identify',
-        expect.anything(),
-      );
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
 
       // add username - updates field level error
       await user.type(usernameEl, 'testuser@okta.com');
@@ -213,11 +201,7 @@ describe('identify-with-password', () => {
         expect(passwordError.textContent).toEqual('This field cannot be left blank');
         identifierError = queryByTestId('identifier-error');
         expect(identifierError).toBeNull();
-        expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-          'POST',
-          'https://oie-8425965.oktapreview.com/idp/idx/identify',
-          expect.anything(),
-        );
+        expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
       });
 
       // add password - clears error and send payload
@@ -225,23 +209,12 @@ describe('identify-with-password', () => {
       await user.click(submitButton);
       await waitFor(async () => {
         expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-          'POST',
-          'https://oie-8425965.oktapreview.com/idp/idx/identify',
-          {
-            data: JSON.stringify({
-              identifier: 'testuser@okta.com',
-              credentials: {
-                passcode: 'fake-password',
-              },
-              stateHandle: 'fake-stateHandle',
-            }),
-            headers: {
-              Accept: 'application/json; okta-version=1.0.0',
-              'Content-Type': 'application/json',
-              'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          ...createAuthJsPayloadArgs('POST', 'idp/idx/identify', {
+            identifier: 'testuser@okta.com',
+            credentials: {
+              passcode: 'fake-password',
             },
-            withCredentials: true,
-          },
+          }),
         );
         identifierError = queryByTestId('identifier-error');
         expect(identifierError).toBeNull();
@@ -268,23 +241,12 @@ describe('identify-with-password', () => {
       await user.click(submitButton);
 
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'https://oie-8425965.oktapreview.com/idp/idx/identify',
-        {
-          data: JSON.stringify({
-            identifier: 'testuser@okta.com',
-            credentials: {
-              passcode: 'fake-password',
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/identify', {
+          identifier: 'testuser@okta.com',
+          credentials: {
+            passcode: 'fake-password',
           },
-          withCredentials: true,
-        },
+        }),
       );
     });
 
@@ -306,24 +268,13 @@ describe('identify-with-password', () => {
       await user.click(submitButton);
 
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'https://oie-8425965.oktapreview.com/idp/idx/identify',
-        {
-          data: JSON.stringify({
-            identifier: 'testuser@okta.com',
-            credentials: {
-              passcode: 'fake-password',
-            },
-            rememberMe: true,
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/identify', {
+          identifier: 'testuser@okta.com',
+          credentials: {
+            passcode: 'fake-password',
           },
-          withCredentials: true,
-        },
+          rememberMe: true,
+        }),
       );
     });
   });

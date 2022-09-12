@@ -11,7 +11,7 @@
           "create-form"
         ],
         "name": "select-authenticator-enroll",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/credential/enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -94,7 +94,7 @@
           "create-form"
         ],
         "name": "skip",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/skip",
+        "href": "http://localhost:3000/idp/idx/skip",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -225,7 +225,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "https://oie-4695462.oktapreview.com/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "produces": "application/ion+json; okta-version=1.0.0",
     "value": [

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/securityquestion-verify.json';
 
@@ -38,23 +38,12 @@ describe('authenticator-verification-security-question', () => {
     expect(answerEl.value).toEqual('fake-answer');
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://dev-08160404.okta.com/idp/idx/challenge/answer',
-      {
-        data: JSON.stringify({
-          credentials: {
-            answer: 'fake-answer',
-            questionKey: 'disliked_food',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: {
+          answer: 'fake-answer',
+          questionKey: 'disliked_food',
         },
-        withCredentials: true,
-      },
+      }),
     );
   });
 });

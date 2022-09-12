@@ -12,7 +12,7 @@
 
 import { act } from 'preact/test-utils';
 import { within } from '@testing-library/preact';
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import authenticatorVerificationEmail from '../../src/mocks/response/idp/idx/challenge/default.json';
 import authenticatorVerificationEmailInvalidOtp from '../../src/mocks/response/idp/idx/challenge/error-401-invalid-otp-passcode.json';
@@ -43,19 +43,7 @@ describe('authenticator-verification-email', () => {
       jest.advanceTimersByTime(5000 /* refresh: 4000 */);
       await findByText(/Verify with your email/);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/poll',
-        {
-          data: JSON.stringify({
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-          },
-          withCredentials: true,
-        },
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/poll'),
       );
     });
 
@@ -161,19 +149,7 @@ describe('authenticator-verification-email', () => {
       jest.advanceTimersByTime(5000 /* refresh: 4000 */);
       await findByText(/Enter Code/);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/poll',
-        {
-          data: JSON.stringify({
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-          },
-          withCredentials: true,
-        },
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/poll'),
       );
 
       act(() => {
@@ -196,19 +172,7 @@ describe('authenticator-verification-email', () => {
       jest.advanceTimersByTime(5000 /* refresh: 4000 */);
       await findByText('Invalid code. Try again.');
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/poll',
-        {
-          data: JSON.stringify({
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-          },
-          withCredentials: true,
-        },
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/poll'),
       );
     });
 
@@ -268,22 +232,9 @@ describe('authenticator-verification-email', () => {
     await user.click(submitButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'http://localhost:3000/idp/idx/challenge/answer',
-      {
-        data: JSON.stringify({
-          credentials: {
-            passcode: verificationCode,
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: { passcode: verificationCode },
+      }),
     );
   });
 });

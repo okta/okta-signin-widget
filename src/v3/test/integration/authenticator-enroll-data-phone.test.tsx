@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-phone-voice-sms-mfa.json';
 
@@ -33,11 +33,7 @@ describe('authenticator-enroll-data-phone', () => {
     await user.click(submitButton);
     const phonenumberError = await findByTestId('authenticator.phoneNumber-error');
     expect(phonenumberError.textContent).toEqual('This field cannot be left blank');
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      expect.anything(),
-    );
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
   });
 
   it('should send correct payload when selecting sms', async () => {
@@ -60,24 +56,13 @@ describe('authenticator-enroll-data-phone', () => {
     await user.click(submitButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            methodType: 'sms',
-            phoneNumber: `+1${phoneNumber}`,
-            id: 'aut2h3fft10VeLDPD1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+        authenticator: {
+          methodType: 'sms',
+          phoneNumber: `+1${phoneNumber}`,
+          id: 'aut2h3fft10VeLDPD1d7',
         },
-        withCredentials: true,
-      },
+      }),
     );
   });
 
@@ -109,24 +94,13 @@ describe('authenticator-enroll-data-phone', () => {
     await user.click(submitButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            methodType: 'voice',
-            phoneNumber: `+1${phoneNumber}x${extension}`,
-            id: 'aut2h3fft10VeLDPD1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+        authenticator: {
+          methodType: 'voice',
+          phoneNumber: `+1${phoneNumber}x${extension}`,
+          id: 'aut2h3fft10VeLDPD1d7',
         },
-        withCredentials: true,
-      },
+      }),
     );
   });
 });

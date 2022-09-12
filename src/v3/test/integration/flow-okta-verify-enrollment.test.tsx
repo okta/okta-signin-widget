@@ -13,7 +13,7 @@
 import { HttpRequestClient } from '@okta/okta-auth-js';
 import { act } from 'preact/test-utils';
 import { waitFor } from '@testing-library/preact';
-import { setup, updateStateHandleInMock } from './util';
+import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 import qrPollingResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json';
 import emailPollingResponse from '../../src/mocks/response/idp/idx/challenge/send/enroll-ov-email-mfa.json';
 import smsPollingResponse from '../../src/mocks/response/idp/idx/challenge/send/enroll-ov-sms-mfa.json';
@@ -100,22 +100,9 @@ describe('flow-okta-verify-enrollment', () => {
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/Can't scan\?/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            id: 'aut2h3fft4y9pDPCS1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+        authenticator: { id: 'aut2h3fft4y9pDPCS1d7' },
+      }),
     );
 
     // channel selection
@@ -125,23 +112,12 @@ describe('flow-okta-verify-enrollment', () => {
     expect(container).toMatchSnapshot();
     await user.click(await findByText('Next', { selector: 'button' }));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            channel: 'email',
-            id: 'aut2h3fft4y9pDPCS1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+        authenticator: {
+          channel: 'email',
+          id: 'aut2h3fft4y9pDPCS1d7',
         },
-        withCredentials: true,
-      },
+      }),
     );
 
     // data enrollment
@@ -151,20 +127,9 @@ describe('flow-okta-verify-enrollment', () => {
     await user.type(emailEl, 'testuser@okta.com');
     await user.click(await findByText(/Send me the setup link/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge/send',
-      {
-        data: JSON.stringify({
-          email: 'testuser@okta.com',
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/send', {
+        email: 'testuser@okta.com',
+      }),
     );
 
     // email polling
@@ -176,22 +141,9 @@ describe('flow-okta-verify-enrollment', () => {
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            id: 'aut2h3fft4y9pDPCS1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+        authenticator: { id: 'aut2h3fft4y9pDPCS1d7' },
+      }),
     );
 
     // channel selection
@@ -201,23 +153,12 @@ describe('flow-okta-verify-enrollment', () => {
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/Next/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            channel: 'qrcode',
-            id: 'aut2h3fft4y9pDPCS1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+        authenticator: {
+          channel: 'qrcode',
+          id: 'aut2h3fft4y9pDPCS1d7',
         },
-        withCredentials: true,
-      },
+      }),
     );
 
     // qr polling
@@ -244,22 +185,9 @@ describe('flow-okta-verify-enrollment', () => {
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/Can't scan\?/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            id: 'aut2h3fft4y9pDPCS1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+        authenticator: { id: 'aut2h3fft4y9pDPCS1d7' },
+      }),
     );
 
     // channel selection
@@ -270,23 +198,12 @@ describe('flow-okta-verify-enrollment', () => {
     await user.click(smsOption);
     await user.click(await findByText('Next', { selector: 'button' }));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            channel: 'sms',
-            id: 'aut2h3fft4y9pDPCS1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+        authenticator: {
+          channel: 'sms',
+          id: 'aut2h3fft4y9pDPCS1d7',
         },
-        withCredentials: true,
-      },
+      }),
     );
 
     // data enrollment
@@ -299,20 +216,9 @@ describe('flow-okta-verify-enrollment', () => {
     await user.type(phoneNumberEl, '123456789');
     await user.click(await findByText(/Send me the setup link/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge/send',
-      {
-        data: JSON.stringify({
-          phoneNumber: '+1123456789',
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/send', {
+        phoneNumber: '+1123456789',
+      }),
     );
 
     // sms polling
@@ -323,22 +229,9 @@ describe('flow-okta-verify-enrollment', () => {
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            id: 'aut2h3fft4y9pDPCS1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+        authenticator: { id: 'aut2h3fft4y9pDPCS1d7' },
+      }),
     );
 
     // channel selection
@@ -348,23 +241,12 @@ describe('flow-okta-verify-enrollment', () => {
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/Next/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/credential/enroll',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            channel: 'qrcode',
-            id: 'aut2h3fft4y9pDPCS1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+        authenticator: {
+          channel: 'qrcode',
+          id: 'aut2h3fft4y9pDPCS1d7',
         },
-        withCredentials: true,
-      },
+      }),
     );
 
     // qr polling

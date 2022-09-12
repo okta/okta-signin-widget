@@ -12,7 +12,7 @@
 
 import mockResponse from '@okta/mocks/data/idp/idx/enroll-profile-new.json';
 import { waitFor } from '@testing-library/preact';
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-new', () => {
   it('should render form', async () => {
@@ -47,24 +47,14 @@ describe('enroll-profile-new', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'http://localhost:3000/idp/idx/enroll/new',
-      {
-        data: JSON.stringify({
-          stateHandle: 'fake-stateHandle',
-          userProfile: {
-            firstName,
-            lastName,
-            email,
-          },
-        }),
-        headers: {
-          Accept: 'application/vnd.okta.v1+json',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/enroll/new', {
+        stateHandle: 'fake-stateHandle',
+        userProfile: {
+          firstName,
+          lastName,
+          email,
         },
-        withCredentials: true,
-      },
+      }, 'application/vnd.okta.v1+json'),
     );
   });
 
@@ -83,10 +73,6 @@ describe('enroll-profile-new', () => {
     const emailError = await findByTestId('userProfile.email-error');
     expect(emailError.textContent).toEqual('This field cannot be left blank');
 
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-      'POST',
-      'http://localhost:3000/idp/idx/enroll/new',
-      expect.anything(),
-    );
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
   });
 });

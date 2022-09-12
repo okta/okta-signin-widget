@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup, updateDynamicAttribute } from './util';
+import { createAuthJsPayloadArgs, setup, updateDynamicAttribute } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/answer/password-reset.json';
 
@@ -53,22 +53,9 @@ describe('authenticator-reset-password', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
-      {
-        data: JSON.stringify({
-          credentials: {
-            passcode: password,
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: { passcode: password },
+      }),
     );
   });
 });

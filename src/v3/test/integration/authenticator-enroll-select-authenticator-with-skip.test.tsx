@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/authenticator-enroll-select-authenticator-with-skip.json';
 
@@ -33,22 +33,9 @@ describe('authenticator-enroll-select-authenticator', () => {
       const authenticatorButton = await findByTestId('phone_number');
       await user.click(authenticatorButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/credential/enroll',
-        {
-          data: JSON.stringify({
-            authenticator: {
-              id: 'aid568g3mXgtID0X1SLH',
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-          },
-          withCredentials: true,
-        },
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
+          authenticator: { id: 'aid568g3mXgtID0X1SLH' },
+        }),
       );
     });
 
@@ -62,19 +49,7 @@ describe('authenticator-enroll-select-authenticator', () => {
       const skipBtn = await findByText('Set up later', { selector: 'button' });
       await user.click(skipBtn);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/skip',
-        {
-          data: JSON.stringify({
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-          },
-          withCredentials: true,
-        },
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/skip'),
       );
     });
   });

@@ -48,7 +48,7 @@ export const createAuthClient = (options: CreateAuthClientOptions): OktaAuth => 
 
   const authClient = new OktaAuth({
     clientId: 'dummy_client_id',
-    issuer: 'https://oie-123456.oktapreview.com/oauth2/default',
+    issuer: 'http://localhost:3000/oauth2/default',
     redirectUri: 'http://localhost:3000/login/callback',
     scopes: ['openid', 'profile', 'email'],
     pkce: false,

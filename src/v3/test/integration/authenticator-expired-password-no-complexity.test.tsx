@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/authenticator-expired-password-no-complexity.json';
 
@@ -41,22 +41,10 @@ describe('authenticator-expired-password-no-complexity', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'http://localhost:3000/idp/idx/challenge/answer',
-      {
-        data: JSON.stringify({
-          stateHandle: 'fake-stateHandle',
-          credentials: {
-            passcode: password,
-          },
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        stateHandle: 'fake-stateHandle',
+        credentials: { passcode: password },
+      }),
     );
   });
 });

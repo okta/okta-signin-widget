@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup, getMockCredentialsResponse } from './util';
+import { setup, getMockCredentialsResponse, createAuthJsPayloadArgs } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/webauthn-enroll-mfa.json';
 import mockResponseWithRequiredUserVerification from '../../src/mocks/response/idp/idx/authenticator-enroll-webauthn-userverification-required.json';
@@ -87,23 +87,12 @@ describe('webauthn-enroll', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
-      {
-        data: JSON.stringify({
-          credentials: {
-            clientData: 'AAAAAAAAAAAAAA==',
-            attestation: 'AAAAAAAAAAAAAA==',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: {
+          clientData: 'AAAAAAAAAAAAAA==',
+          attestation: 'AAAAAAAAAAAAAA==',
         },
-        withCredentials: true,
-      },
+      }),
     );
   });
 });
