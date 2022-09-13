@@ -44,6 +44,9 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
     'credentials.passcode',
     uischema.elements as UISchemaElement[],
   ) as FieldElement;
+  if (passcodeElement) {
+    passcodeElement.focus = true;
+  }
 
   const titleElement: TitleElement = {
     type: 'Title',
