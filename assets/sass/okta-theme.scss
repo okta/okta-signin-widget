@@ -188,6 +188,18 @@
     }
   }
 
+  .okta-metamask-authenticator {
+    /* -- MetaMask Authenticator (small) -- */
+    background-image: url('../img/icons/mfa/metamask_authenticator.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- MetaMask Authenticator Icons (high DPI) -- */
+      background-image: url('../img/icons/mfa/metamask_authenticator@2x.png');
+    }
+  }
+
   .okta-verify-authenticator {
     /* -- Okta Verify Authenticator (small) -- */
     background-image: url('../img/icons/mfa/oktaVerify_authenticator.png');

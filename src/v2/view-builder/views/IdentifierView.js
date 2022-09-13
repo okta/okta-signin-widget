@@ -8,6 +8,7 @@ import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 import signInWithWebAuthn from './signin/SignInWithWebAuthn';
+import signInWithMetaMask from './signin/SignInWithMetaMask';
 import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
@@ -38,7 +39,7 @@ const Body = BaseForm.extend({
     // 1. Use username/identifier from the config.
     // 2. Use identifier value returned in remediation response (model will have this attr set if it's there) 
     // 3. Use value from the "remember my username" cookie.
-    if(this._shouldAddUsername(uiSchema)) {
+    if (this._shouldAddUsername(uiSchema)) {
       // Set username/identifier from the config (i.e. config.username)
       this.model.set('identifier', this.settings.get('username'));
     } else if (!this.model.get('identifier') && this._shouldApplyRememberMyUsername(uiSchema)) {
@@ -84,6 +85,12 @@ const Body = BaseForm.extend({
 
     if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_WEBAUTHN_AUTHENTICATOR)) {
       this.add(signInWithWebAuthn, '.o-form-fieldset-container', false, true, { isRequired: false });
+    }
+
+    if (
+      this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_METAMASK_AUTHENTICATOR) &&
+      typeof window.ethereum !== 'undefined' && ethereum.isMetaMask) { // has metamask remediation and metamask browser extension installed
+      this.add(signInWithMetaMask, '.o-form-fieldset-container', false, true, { isRequired: false });
     }
 
     // add forgot password link and external idps buttons if needed
@@ -224,12 +231,12 @@ const Body = BaseForm.extend({
     // We pre-populate the identifier/username field only if we're in an identifier
     // form and if the option is passed in.
     return (uiSchema.find(schema => schema.name === 'identifier') && this.settings.get('username'));
-  }, 
-   
+  },
+
   _shouldApplyRememberMyUsername(uiSchema) {
-    return (uiSchema.find(schema => schema.name === 'identifier') 
-        && this.settings.get('features.rememberMe')
-        && this.settings.get('features.rememberMyUsernameOnOIE'));
+    return (uiSchema.find(schema => schema.name === 'identifier')
+      && this.settings.get('features.rememberMe')
+      && this.settings.get('features.rememberMyUsernameOnOIE'));
   },
 
   /**
@@ -250,7 +257,7 @@ export default BaseView.extend({
 
   createModelClass() {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
-    
+
     // customize pre-submit form validation inline error messages
     const identifierRequiredi18nKey = 'error.username.required';
     const passwordRequiredi18nKey = 'error.password.required';
@@ -292,7 +299,7 @@ export default BaseView.extend({
     // If user entered identifier is not found, API sends back a message with a link to sign up
     // This is the click handler for that link
     const appState = this.options.appState;
-    this.$el.find('.js-sign-up').click(function() {
+    this.$el.find('.js-sign-up').click(function () {
       appState.trigger('invokeAction', RemediationForms.SELECT_ENROLL_PROFILE);
       return false;
     });
