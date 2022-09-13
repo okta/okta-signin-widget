@@ -92,3 +92,11 @@ test_suites:
       script_name: verify-registry-install
       criteria: MERGE
       queue_name: small
+    # E2E tests using dockerized monolith - optional (for now)
+    - name: e2e-monolith
+      script_path: ../okta-signin-widget/scripts
+      sort_order: '1'
+      timeout: '30'
+      script_name: e2e-monolith
+      criteria: OPTIONAL
+      queue_name: ci-queue-prodJenga-Monolith-Build
