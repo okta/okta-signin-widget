@@ -62,6 +62,7 @@ const FORMS = {
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
   LAUNCH_WEBAUTHN_AUTHENTICATOR: 'launch-webauthn-authenticator',
   ENROLL_WEBAUTHN_RESIDENTKEY: 'enroll-webauthn-residentkey',
+  LAUNCH_METAMASK_AUTHENTICATOR: 'launch-metamask-authenticator',
 
   DEVICE_ENROLLMENT_TERMINAL: 'device-enrollment-terminal',
 
