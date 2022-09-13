@@ -18,6 +18,7 @@ import {
   IdxStepTransformer,
   StepperLayout,
   TitleElement,
+  UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
 import { loc } from '../../util';
@@ -76,44 +77,62 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
     },
   };
 
-  const smsLayoutElements = [
-    smsInfoTextElement,
-    phoneNumberElement,
-    smsStepSubmitButton,
-  ];
-
-  const voiceLayoutElements = [
-    voiceInfoTextElement,
-    phoneNumberElement,
-    voiceStepSubmitButton,
-  ];
-
-  if(methodTypeElement!.options!.inputMeta.options!.length > 1) {
-    smsLayoutElements.splice(1, 0, methodTypeElement);
-    voiceLayoutElements.splice(1, 0, methodTypeElement);
+  const phoneOptionLayouts: {[key:string]: UISchemaLayout | StepperLayout} = {
+    'sms': {
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [
+        smsInfoTextElement,
+        phoneNumberElement,
+        smsStepSubmitButton,
+      ],
+    },
+    'voice': {
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [
+        voiceInfoTextElement,
+        phoneNumberElement,
+        voiceStepSubmitButton,
+      ],
+    },
+    'both': {
+      type: UISchemaLayoutType.STEPPER,
+      elements: [
+        {
+          type: UISchemaLayoutType.VERTICAL,
+          elements: [
+            smsInfoTextElement,
+            methodTypeElement,
+            phoneNumberElement,
+            smsStepSubmitButton,
+          ],
+        },
+        {
+          type: UISchemaLayoutType.VERTICAL,
+          elements: [
+            voiceInfoTextElement,
+            methodTypeElement,
+            phoneNumberElement,
+            voiceStepSubmitButton,
+          ],
+        },
+      ],
+    } as StepperLayout,
   }
-
-  const stepper: StepperLayout = {
-    type: UISchemaLayoutType.STEPPER,
-    elements: [
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: smsLayoutElements,
-      },
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: voiceLayoutElements,
-      },
-    ],
-  };
 
   uischema.elements = [
     titleElement,
-    stepper,
   ];
 
+  const phoneMethodOptions = methodTypeElement!.options!.inputMeta.options!;
+  if(phoneMethodOptions.length === 1) {
+    const methodType = phoneMethodOptions[0].value.toString();
+    uischema.elements.push(phoneOptionLayouts[methodType]);
+  } else {
+    uischema.elements.push(phoneOptionLayouts.both);
+  }
+
   // set default dataSchema
-  dataSchema.submit = smsStepSubmitButton.options;
+  dataSchema.submit = phoneMethodOptions[0].value === 'sms' ? smsStepSubmitButton.options : voiceStepSubmitButton.options;
 
   return formBag;
 };
