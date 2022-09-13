@@ -4,13 +4,17 @@ module.exports = {
     browser: true
   },
   settings: {
-    // TODO: walk through list below to identify if polyfill should be added in build process
-    // JIRA: https://oktainc.atlassian.net/browse/OKTA-529319
     polyfills: [
+      // API availability is checked at runtime
       'navigator.credentials',
+      // API availability is checked at runtime
       'AbortController',
+      // API availability is checked at runtime by 'broadcast-channel', this polyfill should be removed in v7
       'BroadcastChannel',
+      // No polyfill exist in CDN bundle for this API
+      // Use [text-encoding](https://github.com/inexorabletash/text-encoding) as the polyfill if cross-browser compatibility is required for the embedded app
       'TextEncoder',
+      // Polyfill is added by "core-js/stable" in build stage
       'URL.username',
       'URL.host',
       'URL.hash',

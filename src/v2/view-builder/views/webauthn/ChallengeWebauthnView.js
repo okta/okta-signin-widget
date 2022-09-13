@@ -69,7 +69,9 @@ const Body = BaseForm.extend({
     this._startVerification();
     // AbortController is not supported in IE11
     // eslint-disable-next-line compat/compat
-    this.webauthnAbortController = new AbortController();
+    if (typeof AbortController !== 'undefined') {
+      this.webauthnAbortController = new AbortController();
+    }
     const relatesToObject = this.options.currentViewState.relatesTo;
     const authenticatorData = relatesToObject?.value || {};
     const allowCredentials = [];
@@ -91,7 +93,7 @@ const Body = BaseForm.extend({
     // eslint-disable-next-line compat/compat
     navigator.credentials.get({
       publicKey: options,
-      signal: this.webauthnAbortController.signal
+      signal: this.webauthnAbortController && this.webauthnAbortController.signal
     }).then((assertion) => {
       const credentials = {
         clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),

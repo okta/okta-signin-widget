@@ -101,13 +101,15 @@ export default FormController.extend({
 
           // AbortController is not supported in IE11
           // eslint-disable-next-line compat/compat
-          self.webauthnAbortController = new AbortController();
+          if (typeof AbortController !== 'undefined') {
+            self.webauthnAbortController = new AbortController();
+          }
           return new Q(
             // navigator.credentials is not supported in IE11
             // eslint-disable-next-line compat/compat
             navigator.credentials.get({
               publicKey: options,
-              signal: self.webauthnAbortController.signal,
+              signal: self.webauthnAbortController && self.webauthnAbortController.signal,
             })
           )
             .then(function(assertion) {

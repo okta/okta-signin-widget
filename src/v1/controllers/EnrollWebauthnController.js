@@ -85,11 +85,13 @@ export default FormController.extend({
             excludeCredentials: getExcludeCredentials(activation.excludeCredentials),
           });
 
-          self.webauthnAbortController = new AbortController();
+          if (typeof AbortController !== 'undefined') {
+            self.webauthnAbortController = new AbortController();
+          }
           return new Q(
             navigator.credentials.create({
               publicKey: options,
-              signal: self.webauthnAbortController.signal,
+              signal: self.webauthnAbortController && self.webauthnAbortController.signal,
             })
           )
             .then(function(newCredential) {

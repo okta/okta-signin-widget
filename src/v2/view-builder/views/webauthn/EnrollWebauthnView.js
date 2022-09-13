@@ -72,10 +72,12 @@ const Body = BaseForm.extend({
         },
         excludeCredentials
       });
-      this.webauthnAbortController = new AbortController();
+      if (typeof AbortController !== 'undefined') {
+        this.webauthnAbortController = new AbortController();
+      }
       navigator.credentials.create({
         publicKey: options,
-        signal: this.webauthnAbortController.signal
+        signal: this.webauthnAbortController && this.webauthnAbortController.signal
       }).then((newCredential) => {
         this.model.set({
           credentials : {
