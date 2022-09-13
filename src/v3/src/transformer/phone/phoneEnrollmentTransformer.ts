@@ -110,7 +110,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
         ],
       },
     ],
-  }
+  };
 
   uischema.elements = [
     titleElement,
@@ -119,7 +119,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
   const phoneMethodOptions = methodTypeElement!.options!.inputMeta.options!;
   const firstOptionMethod = phoneMethodOptions[0].value;
   if (phoneMethodOptions.length === 1) {
-    if(firstOptionMethod === 'sms') {
+    if (firstOptionMethod === 'sms') {
       uischema.elements = uischema.elements.concat(smsOptionElements);
     } else {
       uischema.elements = uischema.elements.concat(voiceOptionElements);
@@ -129,7 +129,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
   }
 
   // set default dataSchema
-  dataSchema.submit = firstOptionMethod === 'sms' ? smsStepSubmitButton.options : voiceStepSubmitButton.options;
+  dataSchema.submit = smsStepSubmitButton.options;
 
   return formBag;
 };
