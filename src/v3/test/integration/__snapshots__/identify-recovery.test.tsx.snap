@@ -55,18 +55,18 @@ exports[`identify-recovery renders form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
+                      class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-11"
                       for="identifier"
                     >
                       Email or Username
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="username"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
+                        class="MuiInputBase-input MuiOutlinedInput-input emotion-13"
                         data-se="identifier"
                         id="identifier"
                         name="identifier"
@@ -93,7 +93,7 @@ exports[`identify-recovery renders form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-17"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-17"
                     data-type="save"
                     tabindex="0"
                     type="submit"

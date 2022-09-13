@@ -164,18 +164,18 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     class="MuiBox-root emotion-4"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
+                      class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-23"
                       for="credentials.passcode"
                     >
                       Enter Code
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-24"
+                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-24"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="one-time-code"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-25"
+                        class="MuiInputBase-input MuiOutlinedInput-input emotion-25"
                         data-se="credentials.passcode"
                         id="credentials.passcode"
                         name="credentials.passcode"
@@ -202,7 +202,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-29"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
                     data-type="save"
                     tabindex="0"
                     type="submit"

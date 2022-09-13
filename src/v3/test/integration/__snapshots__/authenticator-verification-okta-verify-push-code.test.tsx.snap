@@ -123,7 +123,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-16"
                   >
                     <span
-                      class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-17"
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary emotion-17"
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-18"

@@ -147,7 +147,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root emotion-19"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-19"
                     >
                       <div
                         class="MuiFormGroup-root emotion-20"
@@ -158,7 +158,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                         >
                           <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-22"
+                            class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked emotion-22"
                           >
                             <input
                               class="PrivateSwitchBase-input emotion-23"
@@ -203,7 +203,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                         >
                           <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-22"
+                            class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary emotion-22"
                           >
                             <input
                               class="PrivateSwitchBase-input emotion-23"
@@ -1512,13 +1512,13 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                           class="MuiBox-root emotion-39"
                         >
                           <label
-                            class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-40"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-40"
                             for="authenticator.phoneNumber"
                           >
                             Phone number
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-41"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-41"
                           >
                             <span
                               class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-42"
@@ -1532,7 +1532,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             <input
                               aria-invalid="false"
                               autocomplete="tel-national"
-                              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-44"
+                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart emotion-44"
                               data-se="authenticator.phoneNumber"
                               id="authenticator.phoneNumber"
                               name="authenticator.phoneNumber"
@@ -1561,7 +1561,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-48"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-48"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -1749,7 +1749,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root emotion-19"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-19"
                     >
                       <div
                         class="MuiFormGroup-root emotion-20"
@@ -1760,7 +1760,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                         >
                           <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-22"
+                            class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary emotion-22"
                           >
                             <input
                               class="PrivateSwitchBase-input emotion-23"
@@ -1805,7 +1805,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                         >
                           <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-22"
+                            class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked emotion-22"
                           >
                             <input
                               class="PrivateSwitchBase-input emotion-23"
@@ -3114,13 +3114,13 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           class="MuiBox-root emotion-39"
                         >
                           <label
-                            class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-40"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-40"
                             for="authenticator.phoneNumber"
                           >
                             Phone number
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-41"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-41"
                           >
                             <span
                               class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-42"
@@ -3135,7 +3135,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               aria-describedby="authenticator.phoneNumber-error"
                               aria-invalid="true"
                               autocomplete="tel-national"
-                              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-44"
+                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart emotion-44"
                               data-se="authenticator.phoneNumber"
                               id="authenticator.phoneNumber"
                               name="authenticator.phoneNumber"
@@ -3169,17 +3169,17 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           class="MuiBox-root emotion-48"
                         >
                           <label
-                            class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-40"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-40"
                             for="phoneExtension"
                           >
                             Extension
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary emotion-50"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary emotion-50"
                           >
                             <input
                               autocomplete="tel-extension"
-                              class="MuiOutlinedInput-input MuiInputBase-input emotion-51"
+                              class="MuiInputBase-input MuiOutlinedInput-input emotion-51"
                               data-se="extension"
                               id="phoneExtension"
                               name="extension"
@@ -3208,7 +3208,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-55"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-55"
                       data-type="save"
                       tabindex="0"
                       type="submit"

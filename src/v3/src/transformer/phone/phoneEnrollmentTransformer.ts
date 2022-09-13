@@ -77,8 +77,8 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
     },
   };
 
-  const phoneOptionLayouts: {[key:string]: UISchemaLayout | StepperLayout} = {
-    'sms': {
+  const phoneOptionLayouts: { [key:string]: UISchemaLayout | StepperLayout } = {
+    sms: {
       type: UISchemaLayoutType.VERTICAL,
       elements: [
         smsInfoTextElement,
@@ -86,7 +86,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
         smsStepSubmitButton,
       ],
     },
-    'voice': {
+    voice: {
       type: UISchemaLayoutType.VERTICAL,
       elements: [
         voiceInfoTextElement,
@@ -94,7 +94,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
         voiceStepSubmitButton,
       ],
     },
-    'both': {
+    both: {
       type: UISchemaLayoutType.STEPPER,
       elements: [
         {
@@ -117,14 +117,14 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
         },
       ],
     } as StepperLayout,
-  }
+  };
 
   uischema.elements = [
     titleElement,
   ];
 
   const phoneMethodOptions = methodTypeElement!.options!.inputMeta.options!;
-  if(phoneMethodOptions.length === 1) {
+  if (phoneMethodOptions.length === 1) {
     const methodType = phoneMethodOptions[0].value.toString();
     uischema.elements.push(phoneOptionLayouts[methodType]);
   } else {

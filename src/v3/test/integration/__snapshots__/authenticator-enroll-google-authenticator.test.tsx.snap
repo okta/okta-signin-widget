@@ -222,7 +222,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-21"
                       tabindex="0"
                       type="button"
                     >
@@ -233,7 +233,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
                       tabindex="0"
                       type="button"
                     >
@@ -485,18 +485,18 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-20"
                         for="credentials.passcode"
                       >
                         Enter code
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
+                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
                       >
                         <input
                           aria-invalid="false"
                           autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                          class="MuiInputBase-input MuiOutlinedInput-input emotion-22"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
@@ -523,7 +523,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -787,7 +787,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-22"
                       tabindex="0"
                       type="button"
                     >
@@ -1039,18 +1039,18 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-20"
                         for="credentials.passcode"
                       >
                         Enter code
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
+                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
                       >
                         <input
                           aria-invalid="false"
                           autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                          class="MuiInputBase-input MuiOutlinedInput-input emotion-22"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
@@ -1077,7 +1077,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                       data-type="save"
                       tabindex="0"
                       type="submit"
