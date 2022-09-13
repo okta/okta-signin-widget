@@ -27,6 +27,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: 'mfa-verify',
     [AUTHENTICATOR_KEY.YUBIKEY]: 'mfa-verify',
     [AUTHENTICATOR_KEY.CUSTOM_APP]: 'mfa-verify',
+    [AUTHENTICATOR_KEY.METAMASK]: 'mfa-verify-metamask',
   },
   [FORMS.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
@@ -48,6 +49,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     [AUTHENTICATOR_KEY.DUO]: 'enroll-duo',
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: 'enroll-symantec',
     [AUTHENTICATOR_KEY.YUBIKEY]: 'enroll-yubikey',
+    [AUTHENTICATOR_KEY.METAMASK]: 'enroll-metamask',
   },
 
   [FORMS.SELECT_AUTHENTICATOR_ENROLL]: {

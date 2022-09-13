@@ -112,6 +112,7 @@ const AUTHENTICATOR_KEY = {
   SYMANTEC_VIP: 'symantec_vip',
   YUBIKEY: 'yubikey_token',
   CUSTOM_APP: 'custom_app',
+  METAMASK: 'metamask',
 };
 
 const AUTHENTICATOR_METHODS = {

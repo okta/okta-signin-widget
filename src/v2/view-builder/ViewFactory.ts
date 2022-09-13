@@ -109,7 +109,11 @@ import AuthenticatorYubiKeyView from './views/yubikey/AuthenticatorYubiKeyView';
 
 // custom app
 import ChallengePushView from './views/shared/ChallengePushView';
-import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustomAppResendPushView'; 
+import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustomAppResendPushView';
+
+// metamask
+import EnrollMetaMaskView from './views/metamask/EnrollMetaMaskView';
+import ChallengeMetaMaskView from './views/metamask/ChallengeMetaMaskView';
 
 const DEFAULT = '_';
 
@@ -173,6 +177,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
     [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
     [AUTHENTICATOR_KEY.YUBIKEY]: AuthenticatorYubiKeyView,
+    [AUTHENTICATOR_KEY.METAMASK]: EnrollMetaMaskView,
   },
   [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.CUSTOM_OTP]: ChallengeCustomOTPAuthenticatorView,
@@ -189,6 +194,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
     [AUTHENTICATOR_KEY.WEBAUTHN]: ChallengeWebauthnView,
     [AUTHENTICATOR_KEY.YUBIKEY]: AuthenticatorYubiKeyView,
+    [AUTHENTICATOR_KEY.METAMASK]: ChallengeMetaMaskView,
   },
   [RemediationForms.ENROLL_POLL]: {
     [AUTHENTICATOR_KEY.OV]: EnrollPollOktaVerifyView,
