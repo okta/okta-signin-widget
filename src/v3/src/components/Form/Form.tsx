@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// import { PasswordGenerator } from 'genpass';
 import { FunctionComponent, h } from 'preact';
 import { useCallback } from 'preact/hooks';
-
-// import { PasswordGenerator } from 'genpass';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit, useOnSubmitValidation } from '../../hooks';
