@@ -13,6 +13,8 @@
 import { FunctionComponent, h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
+// import { PasswordGenerator } from 'genpass';
+
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit, useOnSubmitValidation } from '../../hooks';
 import {
@@ -80,6 +82,7 @@ const Form: FunctionComponent<{
       data-se="form"
       style={{ maxWidth: '100%', wordBreak: 'break-word' }}
     >
+      {/* <PasswordGenerator /> */}
       <Layout uischema={uischema} />
     </form>
   );

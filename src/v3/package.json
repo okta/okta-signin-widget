@@ -67,6 +67,7 @@
     "chroma-js": "^2.4.2",
     "classnames": "^2.3.1",
     "deepmerge": "^4.2.2",
+    "genpass": "file:/Users/glenfannin/okta/genpass",
     "i18next": "^21.6.0",
     "i18next-browser-languagedetector": "^6.1.2",
     "i18next-chained-backend": "^3.0.2",
