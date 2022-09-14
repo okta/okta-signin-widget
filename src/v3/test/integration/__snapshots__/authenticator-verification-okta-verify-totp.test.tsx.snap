@@ -130,10 +130,11 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     >
                       <input
                         aria-invalid="false"
-                        autocomplete="one-time-code"
+                        autocomplete="off"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
                         data-se="credentials.totp"
                         id="credentials.totp"
+                        inputmode="numeric"
                         name="credentials.totp"
                         type="text"
                       />

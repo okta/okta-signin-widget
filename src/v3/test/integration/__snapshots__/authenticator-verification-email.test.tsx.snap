@@ -531,10 +531,11 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                       >
                         <input
                           aria-invalid="false"
-                          autocomplete="one-time-code"
+                          autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
+                          inputmode="numeric"
                           name="credentials.passcode"
                           type="text"
                         />
@@ -772,10 +773,11 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                         <input
                           aria-describedby="credentials.passcode-error"
                           aria-invalid="true"
-                          autocomplete="one-time-code"
+                          autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-28"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
+                          inputmode="numeric"
                           name="credentials.passcode"
                           type="text"
                         />
@@ -1072,10 +1074,11 @@ exports[`authenticator-verification-email renders correct form should display re
                         <input
                           aria-describedby="credentials.passcode-error"
                           aria-invalid="true"
-                          autocomplete="one-time-code"
+                          autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-35"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
+                          inputmode="numeric"
                           name="credentials.passcode"
                           type="text"
                         />

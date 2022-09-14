@@ -495,10 +495,11 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                       >
                         <input
                           aria-invalid="false"
-                          autocomplete="one-time-code"
+                          autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
+                          inputmode="numeric"
                           name="credentials.passcode"
                           type="text"
                         />
@@ -1049,10 +1050,11 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                       >
                         <input
                           aria-invalid="false"
-                          autocomplete="one-time-code"
+                          autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
+                          inputmode="numeric"
                           name="credentials.passcode"
                           type="text"
                         />

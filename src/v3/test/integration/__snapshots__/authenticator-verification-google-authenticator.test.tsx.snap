@@ -219,10 +219,11 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                     >
                       <input
                         aria-invalid="false"
-                        autocomplete="one-time-code"
+                        autocomplete="off"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-21"
                         data-se="credentials.passcode"
                         id="credentials.passcode"
+                        inputmode="numeric"
                         name="credentials.passcode"
                         type="text"
                       />

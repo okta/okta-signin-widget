@@ -621,6 +621,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
                         data-se="email"
                         id="email"
+                        inputmode="email"
                         name="email"
                         type="text"
                       />
@@ -3304,6 +3305,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                             class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-23"
                             data-se="phoneNumber"
                             id="phoneNumber"
+                            inputmode="tel"
                             name="phoneNumber"
                             type="tel"
                           />

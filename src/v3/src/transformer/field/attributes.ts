@@ -12,7 +12,8 @@
 
 import { Input } from '@okta/okta-auth-js';
 
-import { AutoCompleteValue, InputAttributes, Nullable } from '../../types';
+import { AutoCompleteValue, InputAttributes, InputModeValue } from '../../types';
+import { isAndroidOrIOS } from '../../util';
 
 type Result = {
   attributes: InputAttributes;
@@ -32,12 +33,19 @@ const autocompleteValueMap = new Map<string, AutoCompleteValue>([
   ['answer', 'off'],
 ]);
 
+const inputModeValueMap = new Map<string, InputModeValue>([
+  ['passcode', 'numeric'],
+  ['totp', 'numeric'],
+  ['email', 'email'],
+  ['phoneNumber', 'tel'],
+]);
+
 const getKeyFromMap = (
-  map: Map<string, AutoCompleteValue>,
+  map: Map<string, AutoCompleteValue> | Map<string, InputModeValue>,
   inputName: string,
 ): string | undefined => {
   let isMatch;
-  map.forEach((value: AutoCompleteValue, key: string) => {
+  map.forEach((_, key: string) => {
     if (inputName.match(key)?.length) {
       isMatch = key;
     }
@@ -45,23 +53,45 @@ const getKeyFromMap = (
   return isMatch;
 };
 
-const autocompleteValueTransformer = (input: Input): Nullable<AutoCompleteValue> => {
+const autocompleteValueTransformer = (input: Input): AutoCompleteValue | null => {
   // passcode name is shared with password + totp code types, only differ by secret
   if (input.name === 'credentials.passcode' && input.secret) {
     return autocompleteValueMap.get('password') ?? null;
   }
   const key = getKeyFromMap(autocompleteValueMap, input.name);
+  if (!key) {
+    return null;
+  }
+  const autocompleteValue = autocompleteValueMap.get(key) ?? null;
+  // If not on iOS or Android, disable autocomplete for otp
+  if (autocompleteValue === 'one-time-code' && !isAndroidOrIOS()) {
+    return 'off';
+  }
+  return autocompleteValue;
+};
+
+const inputModeValueTransformer = (input: Input): InputModeValue | null => {
+  // passcode name is shared with password + totp code types, only differ by secret
+  if (input.name === 'credentials.passcode' && input.secret) {
+    return null;
+  }
+  const key = getKeyFromMap(inputModeValueMap, input.name);
   if (key) {
-    return autocompleteValueMap.get(key) ?? null;
+    return inputModeValueMap.get(key) ?? null;
   }
   return null;
 };
 
-export const transformer = (input: Input): Nullable<Result> => {
+export const transformer = (input: Input): Result | null => {
   const attributes: InputAttributes = {};
   const autocompleteValue = autocompleteValueTransformer(input);
   if (autocompleteValue) {
     attributes.autocomplete = autocompleteValue;
+  }
+
+  const inputModeValue = inputModeValueTransformer(input);
+  if (inputModeValue) {
+    attributes.inputmode = inputModeValue;
   }
   // Can add additional attributes here when/if necessary
   return Object.keys(attributes).length ? { attributes } : null;

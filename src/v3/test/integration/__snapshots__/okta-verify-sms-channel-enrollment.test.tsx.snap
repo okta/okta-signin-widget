@@ -1401,6 +1401,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                             class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-23"
                             data-se="phoneNumber"
                             id="phoneNumber"
+                            inputmode="tel"
                             name="phoneNumber"
                             type="tel"
                           />

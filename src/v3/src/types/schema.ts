@@ -51,8 +51,16 @@ export type AutoCompleteValue = 'username'
 | 'email'
 | 'off';
 
+export type InputModeValue = 'numeric'
+| 'decimal'
+| 'tel'
+| 'email'
+| 'url'
+| 'search';
+
 export type InputAttributes = {
   autocomplete?: AutoCompleteValue;
+  inputmode?: InputModeValue;
 };
 
 // flat params
