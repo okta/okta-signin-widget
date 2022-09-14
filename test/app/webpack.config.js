@@ -40,7 +40,6 @@ const webpackConfig = {
     static: [
       path.resolve(__dirname, '..', '..', 'target'),
       path.resolve(__dirname, 'public'),
-      path.resolve(__dirname, 'node_modules'),
       {
         staticOptions: {
           watchContentBase: true

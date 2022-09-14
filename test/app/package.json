@@ -8,8 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@okta/okta-signin-widget": "*",
-    "text-encoding": "0.7.0"
+    "@okta/okta-signin-widget": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -32,8 +31,5 @@
     "webpack": "^5.51.1",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.9.2"
-  },
-  "workspaces": {
-    "nohoist": ["text-encoding"]
   }
 }
