@@ -5,6 +5,7 @@ import webauthn from 'util/webauthn';
 import CryptoUtil from 'util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
 import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
+import Util from 'util/Util';
 
 function getExcludeCredentials(authenticatorEnrollments = []) {
   const credentials = [];
@@ -59,7 +60,11 @@ const Body = BaseForm.extend({
     this._startEnrollment();
     const relatesToObject = this.options.currentViewState.relatesTo;
     const activationData = relatesToObject?.value.contextualData.activationData;
-    if (webauthn.isNewApiAvailable()) {
+    const androidAppLinks = activationData.androidAppLinks;
+
+    if (androidAppLinks) {
+      Util.redirect(androidAppLinks, window, true);
+    } else if (webauthn.isNewApiAvailable()) {
       var options = _.extend({}, activationData, {
         challenge: CryptoUtil.strToBin(activationData.challenge),
         user: {

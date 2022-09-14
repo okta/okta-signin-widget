@@ -201,7 +201,8 @@
           },
           "u2fParams": {
             "appid": "http://idx.okta1.com:1802"
-          }
+          },
+          "androidAppLinks": "/auth/okta-verify/?challengeRequest="
         }
       }
     }
