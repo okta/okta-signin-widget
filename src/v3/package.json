@@ -126,6 +126,7 @@
     "jest-extended": "1.2.1",
     "jest-junit": "^12.2.0",
     "lint-staged": "^12.2.1",
+    "most-common-words-by-language": "^3.0.10",
     "msw": "^0.35.0",
     "postcss": "^8.4.13",
     "preact-cli": "^3.3.5",

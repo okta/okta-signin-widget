@@ -48,6 +48,10 @@ export default {
       chunk.name === 'bundle' ? 'okta-sign-in.next.js' : '[name].next.js'
     );
 
+    config.node = {
+      fs: 'empty',
+    };
+
     // remove MiniCssExtractPlugin
     config.plugins = config.plugins.filter(
       (plugin) => !(plugin instanceof MiniCssExtractPlugin),
@@ -164,7 +168,7 @@ export default {
       '..',
       'genpass',
       'dist',
-      'index.js'
+      'index.js',
     );
 
     config.resolve.alias.nls = rootResolve('packages', '@okta/i18n/src/json');

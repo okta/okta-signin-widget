@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// import { PasswordGenerator } from 'genpass';
+// @ts-ignore missing decl file
+import { PasswordGenerator } from 'genpass';
 import { FunctionComponent, h } from 'preact';
 import { useCallback } from 'preact/hooks';
 
@@ -81,7 +82,7 @@ const Form: FunctionComponent<{
       data-se="form"
       style={{ maxWidth: '100%', wordBreak: 'break-word' }}
     >
-      {/* <PasswordGenerator /> */}
+      <PasswordGenerator />
       <Layout uischema={uischema} />
     </form>
   );
