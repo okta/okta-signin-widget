@@ -50,7 +50,7 @@ const webpackConfig = {
     port: DEV_SERVER_PORT,
     historyApiFallback: true,
     headers: {
-      'Content-Security-Policy': `script-src http://localhost:${DEV_SERVER_PORT}`
+      'Content-Security-Policy': `script-src http://localhost:${DEV_SERVER_PORT} https://global.oktacdn.com`
     },
   },
   plugins: [
