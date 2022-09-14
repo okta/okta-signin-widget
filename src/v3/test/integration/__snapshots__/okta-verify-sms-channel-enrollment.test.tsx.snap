@@ -1378,13 +1378,13 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                         class="MuiBox-root emotion-18"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-19"
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
                           for="phoneNumber"
                         >
                           Phone number
                         </label>
                         <div
-                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-20"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-20"
                         >
                           <span
                             class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-21"
@@ -1398,7 +1398,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                           <input
                             aria-invalid="false"
                             autocomplete="tel-national"
-                            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart emotion-23"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-23"
                             data-se="phoneNumber"
                             id="phoneNumber"
                             name="phoneNumber"
@@ -1441,7 +1441,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-30"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-30"
                     data-type="save"
                     tabindex="0"
                     type="submit"

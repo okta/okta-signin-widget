@@ -126,17 +126,17 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-17"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
                         for="credentials.answer"
                       >
                         What is the food you least liked as a child?
                       </label>
                       <div
-                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-18"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-18"
                       >
                         <input
                           aria-invalid="false"
-                          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-19"
+                          class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-19"
                           data-se="credentials.answer"
                           id="credentials.answer"
                           name="credentials.answer"
@@ -154,7 +154,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-22"
                               data-testid="VisibilityIcon"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -187,7 +187,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
                     data-type="save"
                     tabindex="0"
                     type="submit"

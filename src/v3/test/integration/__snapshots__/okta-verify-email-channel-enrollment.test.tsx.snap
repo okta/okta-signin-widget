@@ -120,18 +120,18 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                     class="MuiBox-root emotion-4"
                   >
                     <label
-                      class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-16"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
                       for="email"
                     >
                       Email
                     </label>
                     <div
-                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="email"
-                        class="MuiInputBase-input MuiOutlinedInput-input emotion-18"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
                         data-se="email"
                         id="email"
                         name="email"
@@ -172,7 +172,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
                     data-type="save"
                     tabindex="0"
                     type="submit"

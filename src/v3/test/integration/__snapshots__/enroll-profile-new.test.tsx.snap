@@ -55,18 +55,18 @@ exports[`enroll-profile-new should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <label
-                      class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-11"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
                       for="userProfile.lastName"
                     >
                       Last name
                     </label>
                     <div
-                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="family-name"
-                        class="MuiInputBase-input MuiOutlinedInput-input emotion-13"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
                         data-se="userProfile.lastName"
                         id="userProfile.lastName"
                         name="userProfile.lastName"
@@ -96,18 +96,18 @@ exports[`enroll-profile-new should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <label
-                      class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-11"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
                       for="userProfile.firstName"
                     >
                       First name
                     </label>
                     <div
-                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="given-name"
-                        class="MuiInputBase-input MuiOutlinedInput-input emotion-13"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
                         data-se="userProfile.firstName"
                         id="userProfile.firstName"
                         name="userProfile.firstName"
@@ -137,18 +137,18 @@ exports[`enroll-profile-new should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <label
-                      class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary emotion-11"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
                       for="userProfile.email"
                     >
                       Email
                     </label>
                     <div
-                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="email"
-                        class="MuiInputBase-input MuiOutlinedInput-input emotion-13"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
                         data-se="userProfile.email"
                         id="userProfile.email"
                         name="userProfile.email"
@@ -175,7 +175,7 @@ exports[`enroll-profile-new should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-31"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-31"
                     data-type="save"
                     tabindex="0"
                     type="submit"
