@@ -1061,6 +1061,15 @@ const selectOktaVerifyMethod = {
   ],
 };
 
+const siwe = {
+  '/idp/idx/introspect': [
+    'identify-with-metamask',
+  ],
+  '/idp/idx/authenticators/webauthn/launch': [
+    'launch-metamask'
+  ],
+}
+
 module.exports = {
   mocks: idx
 };
