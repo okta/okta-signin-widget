@@ -206,7 +206,7 @@
     "@types/underscore": "^1.11.4",
     "clipboard": "^1.5.16",
     "cross-fetch": "^3.1.5",
-    "ethers": "^5.7.0",
+    "ethers": "^5.7.1",
     "handlebars": "^4.7.7",
     "parse-ms": "^2.0.0",
     "q": "1.4.1",
