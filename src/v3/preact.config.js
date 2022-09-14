@@ -160,6 +160,13 @@ export default {
       'index.js',
     );
 
+    config.resolve.alias.genpass = rootResolve(
+      '..',
+      'genpass',
+      'dist',
+      'index.js'
+    );
+
     config.resolve.alias.nls = rootResolve('packages', '@okta/i18n/src/json');
     config.resolve.alias.qtip = rootResolve('packages', '@okta/qtip2/dist/jquery.qtip.js');
     config.resolve.alias['okta-i18n-bundles'] = rootResolve('src', 'util', 'Bundles');

@@ -9325,7 +9325,10 @@ generic-names@^4.0.0:
     "@mui/icons-material" "^5.10.3"
     "@mui/material" "^5.10.5"
     l33t "^1.0.1"
+    most-common-words-by-language "^3.0.10"
     niceware "^4.0.0"
+    randombytes "^2.1.0"
+    secure-random-password "^0.2.3"
 
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
@@ -13704,6 +13707,11 @@ morgan@^1.10.0:
     on-finished "~2.3.0"
     on-headers "~1.0.2"
 
+most-common-words-by-language@^3.0.10:
+  version "3.0.10"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/most-common-words-by-language/-/most-common-words-by-language-3.0.10.tgz#e7b1ad6577a9a998d3679cbfc933df1c14607947"
+  integrity sha1-57GtZXepqZjTZ5y/yTPfHBRgeUc=
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -16505,9 +16513,9 @@ reflect-metadata@0.1.13:
   integrity sha1-Z648pXyXKiqhZCsQ/jY/4y1J3Ag=
 
 regenerate-unicode-properties@^10.0.1:
-  version "10.0.1"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/regenerate-unicode-properties/-/regenerate-unicode-properties-10.0.1.tgz#7f442732aa7934a3740c779bb9b3340dccc1fb56"
-  integrity sha1-f0QnMqp5NKN0DHebubM0DczB+1Y=
+  version "10.1.0"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/regenerate-unicode-properties/-/regenerate-unicode-properties-10.1.0.tgz#7c3192cab6dd24e21cb4461e5ddd7dd24fa8374c"
+  integrity sha1-fDGSyrbdJOIctEYeXd190k+oN0w=
   dependencies:
     regenerate "^1.4.2"
 
@@ -17182,6 +17190,18 @@ schema-utils@^4.0.0:
     ajv "^8.8.0"
     ajv-formats "^2.1.1"
     ajv-keywords "^5.0.0"
+
+secure-random-password@^0.2.3:
+  version "0.2.3"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/secure-random-password/-/secure-random-password-0.2.3.tgz#cc99714a824328f251b11b35b557b685c09717db"
+  integrity sha1-zJlxSoJDKPJRsRs1tVe2hcCXF9s=
+  dependencies:
+    secure-random "^1.1.2"
+
+secure-random@^1.1.2:
+  version "1.1.2"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/secure-random/-/secure-random-1.1.2.tgz#ed103b460a851632d420d46448b2a900a41e7f7c"
+  integrity sha1-7RA7RgqFFjLUINRkSLKpAKQef3w=
 
 seed-random@~2.2.0:
   version "2.2.0"
@@ -19570,9 +19590,9 @@ unicode-match-property-value-ecmascript@^2.0.0:
   integrity sha1-GgGqVyR8FMVouJd1pUk4eIGJpxQ=
 
 unicode-property-aliases-ecmascript@^2.0.0:
-  version "2.0.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.0.0.tgz#0a36cb9a585c4f6abd51ad1deddb285c165297c8"
-  integrity sha1-CjbLmlhcT2q9Ua0d7dsoXBZSl8g=
+  version "2.1.0"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.1.0.tgz#43d41e3be698bd493ef911077c9b131f827e8ccd"
+  integrity sha1-Q9QeO+aYvUk++REHfJsTH4J+jM0=
 
 unified@^9.1.0:
   version "9.2.2"
