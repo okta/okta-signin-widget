@@ -96,12 +96,12 @@
                 }
             },
             "type": "security_key",
-            "key": "webauthn",
+            "key": "metamask",
             "id": "auta5ovFRZbqouLUI0g4",
             "displayName": "Security Key or Biometric",
             "methods": [
                 {
-                    "type": "webauthn"
+                    "type": "metamask"
                 }
             ]
         }

@@ -3,6 +3,9 @@ import hbs from 'handlebars-inline-precompile';
 import { ethers } from 'ethers';
 import { SiweMessage } from 'siwe';
 import { FORMS } from '../../../ion/RemediationConstants';
+import BaseAuthenticatorView from '../metamask/EnrollMetaMaskView';
+import { BaseForm } from 'v2/view-builder/internals';
+import ChallengeMetaMaskView from '../metamask/ChallengeMetaMaskView';
 
 const domain = window.location.host;
 const origin = window.location.origin;
@@ -48,32 +51,15 @@ const challengeMetaMask = async (provider, nonceHref, stateHandle) => {
     nonce
   );
   const signature = await signer.signMessage(message);
-  const res = await fetch(`/verify`, {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ message, signature }),
-    credentials: 'include'
-  });
-};
+  console.log(signature);
+  console.log(currentAccount);
 
-const connectWallet = async (provider) => {
-  ethereum
-    .request({ method: 'eth_requestAccounts' })
-    .then((data) => {
-      handleAccountsChanged(data);
-      challengeMetaMask(provider);
-    })
-    .catch((err) => {
-      if (err.code === 4001) {
-        // EIP-1193 userRejectedRequest error
-        // If this happens, the user rejected the connection request.
-        console.log('Please connect to MetaMask.');
-      } else {
-        console.error(err);
-      }
-    });
+  const credentials = {
+    signature,
+    currentAccount
+  };
+
+  return credentials;
 };
 
 const createSiweMessage = async (address, statement, nonce) => {
@@ -91,6 +77,7 @@ const createSiweMessage = async (address, statement, nonce) => {
 
 export default View.extend({
   className: 'sign-in-with-webauthn-option',
+  Body: ChallengeMetaMaskView,
   template: hbs`
     <div class="okta-webauthn-container">
     </div>
@@ -105,12 +92,17 @@ export default View.extend({
       icon: 'okta-metamask-authenticator',
       title: loc('signinWithMetaMask.button', 'login'),
       click: async () => {
-        const currentViewState = this.options.appState.get('remediations').filter(r => r.name === FORMS.LAUNCH_METAMASK_AUTHENTICATOR)[0];
-        // this.options.appState.trigger('invokeAction', FORMS.LAUNCH_METAMASK_AUTHENTICATOR);
-        const stateHandle = this.options.currentViewState.value.filter((val) => { return val.name === 'stateHandle' })[0].value;
+        this.options.appState.trigger('invokeAction', FORMS.LAUNCH_METAMASK_AUTHENTICATOR);
+        // const currentViewState = this.options.appState.get('remediations').filter(r => r.name === FORMS.LAUNCH_METAMASK_AUTHENTICATOR)[0];
+        // const stateHandle = this.options.currentViewState.value.filter((val) => { return val.name === 'stateHandle' })[0].value;
 
         // await connectWallet(provider);
-        await challengeMetaMask(provider, currentViewState.href, stateHandle);
+        // const credentials = await challengeMetaMask(provider, currentViewState.href, stateHandle);
+
+        // this.model.set({
+        //   credentials
+        // });
+        // ChallengeMetaMaskView.saveForm(this.model);
       }
     }), '.okta-webauthn-container');
   },
