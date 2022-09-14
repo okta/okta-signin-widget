@@ -14,17 +14,24 @@ type MethodType = 'POST' | 'GET';
 
 export const createAuthJsPayloadArgs = (
   methodType: MethodType,
-  uri: string,
+  path: string,
   data?: Record<string, unknown>,
   acceptVersion = 'application/json; okta-version=1.0.0',
   contentType = 'application/json',
 ): [MethodType, string, Record<string, unknown>] => {
-  const payloadData = data?.interactionHandle ? data : JSON.stringify({
+  const payloadData = data?.interactionHandle ? data : {
     ...data,
     stateHandle: (data && 'stateHandle' in data) ? data.stateHandle : 'fake-stateHandle',
-  });
-  const payload: Record<string, unknown> = {
-    data: payloadData,
+  };
+  if ('stateHandle' in payloadData && typeof payloadData.stateHandle === 'undefined') {
+    delete payloadData.stateHandle;
+  }
+  const payload: {
+    data: Record<string, unknown> | string,
+    headers: Record<string, unknown>,
+    withCredentials: boolean,
+  } = {
+    data: 'interactionHandle' in payloadData ? payloadData : JSON.stringify(payloadData),
     headers: {
       Accept: acceptVersion,
       'Content-Type': contentType,
@@ -32,10 +39,6 @@ export const createAuthJsPayloadArgs = (
     },
     withCredentials: true,
   };
-  const authJsPayload = (payload.data as Record<string, unknown>);
-  if (authJsPayload.stateHandle === undefined) {
-    delete authJsPayload.stateHandle;
-  }
 
-  return [methodType, `http://localhost:3000/${uri}`, payload];
+  return [methodType, `http://localhost:3000/${path}`, payload];
 };
