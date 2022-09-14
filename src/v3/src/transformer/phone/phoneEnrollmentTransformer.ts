@@ -17,14 +17,15 @@ import {
   FieldElement,
   IdxStepTransformer,
   StepperLayout,
+  StepperRadioElement,
   TitleElement,
   UISchemaLayoutType,
 } from '../../types';
-import { loc } from '../../util';
+import { loc, removeFieldLevelMessages } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transaction }) => {
-  const { uischema, data, dataSchema } = formBag;
+  const { uischema, dataSchema } = formBag;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -34,11 +35,41 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
   };
 
   const methodTypeElement = getUIElementWithName('authenticator.methodType', uischema.elements) as FieldElement;
-  methodTypeElement.options = {
-    ...methodTypeElement.options,
-    format: 'radio',
+
+  const phoneMethodStepper: StepperLayout = {
+    type: UISchemaLayoutType.STEPPER,
+    elements: [],
   };
-  data['authenticator.methodType'] = methodTypeElement!.options!.inputMeta.options![0].value;
+
+  const phoneMethodOptions = methodTypeElement!.options!.inputMeta.options!;
+  const methodTypeRadioEl: StepperRadioElement = {
+    type: 'StepperRadio',
+    options: {
+      name: methodTypeElement!.options!.inputMeta.name,
+      customOptions: phoneMethodOptions.map((option) => ({
+        ...option,
+        callback: (widgetContext, stepIndex) => {
+          const { setData } = widgetContext;
+
+          setData((prev) => ({
+            ...prev,
+            'authenticator.methodType': phoneMethodOptions[stepIndex].value,
+          }));
+
+          const stepLayout = phoneMethodStepper.elements[stepIndex];
+          stepLayout.elements = removeFieldLevelMessages(stepLayout.elements);
+        },
+      })),
+      defaultValue: (widgetContext, stepIndex) => {
+        const { setData } = widgetContext;
+        setData((prev) => ({
+          ...prev,
+          'authenticator.methodType': phoneMethodOptions[stepIndex].value,
+        }));
+        return phoneMethodOptions[0].value.toString();
+      },
+    },
+  };
 
   const phoneNumberElement = getUIElementWithName('authenticator.phoneNumber', uischema.elements) as FieldElement;
   // TODO: Top level transformer (flattener logic) removes label so we have to add it here manually
@@ -76,33 +107,30 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
     },
   };
 
-  const stepper: StepperLayout = {
-    type: UISchemaLayoutType.STEPPER,
-    elements: [
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          smsInfoTextElement,
-          methodTypeElement,
-          phoneNumberElement,
-          smsStepSubmitButton,
-        ],
-      },
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          voiceInfoTextElement,
-          methodTypeElement,
-          phoneNumberElement,
-          voiceStepSubmitButton,
-        ],
-      },
-    ],
-  };
+  phoneMethodStepper.elements = [
+    {
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [
+        smsInfoTextElement,
+        methodTypeRadioEl,
+        phoneNumberElement,
+        smsStepSubmitButton,
+      ],
+    },
+    {
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [
+        voiceInfoTextElement,
+        methodTypeRadioEl,
+        phoneNumberElement,
+        voiceStepSubmitButton,
+      ],
+    },
+  ];
 
   uischema.elements = [
     titleElement,
-    stepper,
+    phoneMethodStepper,
   ];
 
   // set default dataSchema
