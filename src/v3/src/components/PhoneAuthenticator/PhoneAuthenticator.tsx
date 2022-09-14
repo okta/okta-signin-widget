@@ -102,7 +102,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   useEffect(() => {
     const formattedPhone = formatPhone(phone, phoneCode, extension);
     onChangeHandler(formattedPhone);
-    setTouched?.(true);
     onValidateHandler?.(setError, formattedPhone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phoneCode, phone, extension, showExtension]);
@@ -178,6 +177,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
+              // setTimeout needed because touched is being updated before validation
+              setTimeout(() => {
+                setTouched?.(true);
+              }, 0);
             }}
             startAdornment={(
               <InputAdornment
