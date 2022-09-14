@@ -37,8 +37,8 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
     reminderElement = {
       type: 'Reminder',
       options: {
-        content: loc('oie.phone.verify.sms.resendText', 'login'),
-        buttonText: loc('email.button.resend', 'login'),
+        content: methodType === 'sms' ? loc('oie.phone.verify.sms.resendText', 'login') : loc('oie.phone.verify.call.resendText', 'login'),
+        buttonText: methodType === 'sms' ? loc('oie.phone.verify.sms.resendLinkText', 'login') : loc('oie.phone.verify.call.resendLinkText', 'login'),
         step: name,
         isActionStep: true,
         actionParams: { resend: true },

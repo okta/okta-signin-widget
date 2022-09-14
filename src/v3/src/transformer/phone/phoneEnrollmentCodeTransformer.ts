@@ -28,14 +28,17 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
 
   let reminderElement: ReminderElement | undefined;
 
+  const { methods, profile } = nextStep.relatesTo?.value || {};
+  const { phoneNumber } = profile || {};
+  const methodType = methods?.[0]?.type;
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
   if (resendStep) {
     const { name } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
-        content: loc('oie.phone.verify.sms.resendText', 'login'),
-        buttonText: loc('email.button.resend', 'login'),
+        content: methodType === 'sms' ? loc('oie.phone.verify.sms.resendText', 'login') : loc('oie.phone.verify.call.resendText', 'login'),
+        buttonText: methodType === 'sms' ? loc('oie.phone.verify.sms.resendLinkText', 'login') : loc('oie.phone.verify.call.resendLinkText', 'login'),
         step: name,
         isActionStep: true,
         actionParams: { resend: true },
@@ -49,10 +52,6 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
       content: loc('oie.phone.enroll.title', 'login'),
     },
   };
-
-  const { methods, profile } = nextStep.relatesTo?.value || {};
-  const { phoneNumber } = profile || {};
-  const methodType = methods?.[0]?.type;
   const sendInfoText = methodType === 'sms'
     ? loc('oie.phone.verify.sms.codeSentText', 'login')
     : loc('mfa.calling', 'login');
