@@ -14,7 +14,9 @@ import {
   ButtonElement,
   ButtonType,
   IdxStepTransformer,
+  StepperLayout,
   TitleElement,
+  UISchemaLayout,
 } from '../../types';
 import { loc } from '../../util';
 import { transformEnrollPasswordAuthenticator } from './transformEnrollPasswordAuthenticator';
@@ -51,8 +53,10 @@ export const transformExpiredPasswordAuthenticator: IdxStepTransformer = ({
   };
 
   // Replace default (enrollment) title with reset title
-  uischema.elements.splice(0, 1, titleElement);
-  uischema.elements.push(submitBtnElement);
+  // eslint-disable-next-line max-len
+  ((uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout).elements.splice(0, 1, titleElement);
+  // eslint-disable-next-line max-len
+  ((uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout).elements.splice(-1, 1, submitBtnElement);
 
   return baseFormBag;
 };

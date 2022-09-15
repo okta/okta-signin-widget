@@ -17,7 +17,9 @@ import {
   DescriptionElement,
   IdxStepTransformer,
   PasswordSettings,
+  StepperLayout,
   TitleElement,
+  UISchemaLayout,
 } from '../../types';
 import { loc } from '../../util';
 import { transformEnrollPasswordAuthenticator } from './transformEnrollPasswordAuthenticator';
@@ -54,10 +56,11 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
   };
 
   // Replace default (enrollment) title with reset title
-  uischema.elements.splice(0, 1, titleElement);
+  // eslint-disable-next-line max-len
+  ((uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout).elements.splice(0, 1, titleElement);
   if (brandName) {
     // add element after title in elements array
-    uischema.elements.splice(1, 0, {
+    ((uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout).elements.splice(1, 0, {
       type: 'Description',
       options: { content: loc('password.expiring.subtitle.specific', 'login', [brandName]) },
     } as DescriptionElement);
@@ -65,7 +68,7 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
 
   if (!brandName && messages?.length) {
     // add element after title in elements array
-    uischema.elements.splice(1, 0, {
+    ((uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout).elements.splice(1, 0, {
       type: 'Description',
       // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
       options: { content: getMessage(messages[0]) },
@@ -80,7 +83,8 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
       step: transaction.nextStep!.name,
     },
   };
-  uischema.elements.push(submitBtnElement);
+  // eslint-disable-next-line max-len
+  ((uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout).elements.splice(-1, 1, submitBtnElement);
 
   const skipStep = availableSteps?.find(({ name }) => name === 'skip' );
   if (skipStep) {
@@ -95,7 +99,8 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
         step,
       },
     };
-    uischema.elements.push(skipBtnElement);
+    // eslint-disable-next-line max-len
+    ((uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout).elements.push(skipBtnElement);
   }
 
   return baseFormBag;

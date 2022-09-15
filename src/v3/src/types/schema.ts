@@ -359,6 +359,15 @@ export interface StepperButtonElement {
   }
 }
 
+export interface StepperLinkElement {
+  type: 'StepperLink',
+  label: string;
+  options: Omit<ButtonElement['options'], 'step'>
+  & {
+    nextStepIndex: number;
+  }
+}
+
 export interface StepperRadioElement {
   type: 'StepperRadio',
   options: {
@@ -369,6 +378,13 @@ export interface StepperRadioElement {
     name: string;
     defaultValue: (widgetContext: IWidgetContext, stepIndex: number) => string | number | boolean;
   }
+}
+
+export interface PasswordGeneratorElement extends UISchemaElement {
+  type: 'PasswordGenerator';
+  options: {
+    settings: PasswordSettings;
+  };
 }
 
 export interface RedirectElement extends UISchemaElement {

@@ -12,13 +12,20 @@
 
 import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import {
+  ButtonType,
   FieldElement,
   FormBag,
   IdxMessageWithName,
   IdxStepTransformer,
+  PasswordGeneratorElement,
   PasswordRequirementsElement,
   PasswordSettings,
+  StepperButtonElement,
+  StepperLayout,
+  StepperLinkElement,
   TitleElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
 } from '../../types';
 import { getUserInfo, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
@@ -119,15 +126,56 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     },
   };
 
-  uischema.elements = [
-    titleElement,
-    ...(Object.keys(passwordSettings)?.length > 0
-      ? [passwordRequirementsElement]
-      : []
-    ),
-    passwordElement,
-    confirmPasswordElement,
-  ];
+  const stepper: StepperLayout = {
+    type: UISchemaLayoutType.STEPPER,
+    elements: [
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          { type: 'Title', options: { content: 'Generate a password' } } as TitleElement,
+          { type: 'PasswordGenerator', options: { settings: passwordSettings } } as PasswordGeneratorElement,
+          {
+            type: 'StepperButton',
+            label: 'Next',
+            options: {
+              type: ButtonType.BUTTON,
+              nextStepIndex: 1,
+            },
+          } as StepperButtonElement,
+          {
+            type: 'StepperLink',
+            label: 'Skip and provide my own password',
+            options: {
+              type: ButtonType.BUTTON,
+              nextStepIndex: 1,
+            },
+          } as StepperLinkElement,
+        ],
+      } as UISchemaLayout,
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          titleElement,
+          ...(Object.keys(passwordSettings)?.length > 0
+            ? [passwordRequirementsElement]
+            : []
+          ),
+          passwordElement,
+          confirmPasswordElement,
+          {
+            type: 'Button',
+            label: 'Next',
+            options: {
+              type: ButtonType.SUBMIT,
+              step: transaction.nextStep!.name,
+            },
+          },
+        ],
+      } as UISchemaLayout,
+    ],
+  };
+
+  uischema.elements = [stepper];
 
   // update default dataSchema
   dataSchema.fieldsToExclude = () => (['confirmPassword']);

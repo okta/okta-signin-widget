@@ -25,6 +25,7 @@ import InputPassword from '../InputPassword';
 import InputText from '../InputText';
 import Link from '../Link';
 import List from '../List';
+import PasswordGenerator from '../PasswordGenerator';
 import PasswordRequirements from '../PasswordRequirements';
 import PhoneAuthenticator from '../PhoneAuthenticator';
 import QRCode from '../QRCode';
@@ -34,6 +35,7 @@ import ReminderPrompt from '../ReminderPrompt';
 import Select from '../Select';
 import Spinner from '../Spinner';
 import StepperButton from '../StepperButton';
+import StepperLink from '../StepperLink';
 import StepperRadio from '../StepperRadio';
 import SuccessCallback from '../SuccessCallback';
 import TextWithHtml from '../TextWithHtml';
@@ -78,6 +80,14 @@ export default [
   {
     tester: ({ type }) => type === 'StepperButton',
     renderer: StepperButton,
+  },
+  {
+    tester: ({ type }) => type === 'StepperLink',
+    renderer: StepperLink,
+  },
+  {
+    tester: ({ type }) => type === 'PasswordGenerator',
+    renderer: PasswordGenerator,
   },
   {
     tester: ({ type }) => type === 'StepperRadio',

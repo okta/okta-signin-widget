@@ -55,6 +55,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           (isHidden: boolean) => (isHidden ? getTranslation(translations, 'show') : getTranslation(translations, 'hide'))
         }
         value={value}
+        defaultValue={value}
         name={name}
         id={name}
         error={error !== undefined}
