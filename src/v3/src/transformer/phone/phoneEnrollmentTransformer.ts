@@ -34,7 +34,8 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
     },
   };
 
-  const methodTypeElement = getUIElementWithName('authenticator.methodType', uischema.elements) as FieldElement;
+  const METHOD_TYPE_KEY = 'authenticator.methodType';
+  const methodTypeElement = getUIElementWithName(METHOD_TYPE_KEY, uischema.elements) as FieldElement;
 
   const phoneMethodStepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
@@ -53,7 +54,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
 
           setData((prev) => ({
             ...prev,
-            'authenticator.methodType': phoneMethodOptions[stepIndex].value,
+            [METHOD_TYPE_KEY]: phoneMethodOptions[stepIndex].value,
           }));
 
           const stepLayout = phoneMethodStepper.elements[stepIndex];
@@ -64,7 +65,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
         const { setData } = widgetContext;
         setData((prev) => ({
           ...prev,
-          'authenticator.methodType': phoneMethodOptions[stepIndex].value,
+          [METHOD_TYPE_KEY]: phoneMethodOptions[stepIndex].value,
         }));
         return phoneMethodOptions[0].value.toString();
       },
@@ -113,7 +114,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
 
   if (phoneMethodOptions.length === 1) {
     const firstOptionMethod = phoneMethodOptions[0].value;
-    data['authenticator.methodType'] = firstOptionMethod;
+    data[METHOD_TYPE_KEY] = firstOptionMethod;
     if (firstOptionMethod === 'sms') {
       uischema.elements = uischema.elements.concat([
         smsInfoTextElement,

@@ -180,7 +180,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               // setTimeout needed because touched is being updated before validation
               setTimeout(() => {
                 setTouched?.(true);
-              }, 0);
+              });
             }}
             startAdornment={(
               <InputAdornment
