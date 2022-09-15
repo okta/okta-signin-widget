@@ -114,7 +114,6 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
   if (phoneMethodOptions.length === 1) {
     const firstOptionMethod = phoneMethodOptions[0].value;
     data['authenticator.methodType'] = firstOptionMethod;
-    
     if (firstOptionMethod === 'sms') {
       uischema.elements = uischema.elements.concat([
         smsInfoTextElement,
