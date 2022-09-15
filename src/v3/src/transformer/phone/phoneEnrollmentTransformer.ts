@@ -117,14 +117,12 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
     if (firstOptionMethod === 'sms') {
       uischema.elements = uischema.elements.concat([
         smsInfoTextElement,
-        methodTypeRadioEl,
         phoneNumberElement,
         smsStepSubmitButton,
       ]);
     } else {
       uischema.elements = uischema.elements.concat([
         voiceInfoTextElement,
-        methodTypeRadioEl,
         phoneNumberElement,
         voiceStepSubmitButton,
       ]);
