@@ -654,6 +654,18 @@
     }
   }
 
+  .mfa-metamask {
+    /* -- Factor Icons (large): MetaMask -- */
+    background-image: url('../img/icons/mfa/ethereum_authenticator_64x64.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): MetaMask -- */
+      background-image: url('../img/icons/mfa/ethereum_authenticator_128x128.png');
+    }
+  }
+
   .mfa-custom-app-logo {
     background-image: url('../img/icons/mfa/custom-app-default-logo.svg');
     background-size: 70%;

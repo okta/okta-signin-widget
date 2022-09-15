@@ -1,9 +1,10 @@
 import { loc } from "okta";
 import BaseAuthenticatorView from "v2/view-builder/components/BaseAuthenticatorView";
-import { BaseForm } from "v2/view-builder/internals";
+import { BaseForm, BaseHeader } from "v2/view-builder/internals";
 import { ethers } from 'ethers';
 import { SiweMessage } from 'siwe';
 import { FORMS } from "v2/ion/RemediationConstants";
+import HeaderBeacon from "v2/view-builder/components/HeaderBeacon";
 
 const domain = window.location.host;
 const origin = window.location.origin;
@@ -97,5 +98,18 @@ const Body = BaseForm.extend({
 });
 
 export default BaseAuthenticatorView.extend({
+  Header: BaseHeader.extend({
+    HeaderBeacon: HeaderBeacon.extend({
+      authenticatorKey() {
+        return this.options.appState.get('authenticatorKey');
+      },
+      getBeaconClassName: function () {
+        return 'mfa-metamask';
+      },
+    }),
+  }),
   Body,
+  postRender() {
+    BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
+  },
 });
