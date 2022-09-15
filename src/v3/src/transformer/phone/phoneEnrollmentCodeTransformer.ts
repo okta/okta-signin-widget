@@ -32,9 +32,9 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
   const { phoneNumber } = profile || {};
   const methodType = methods?.[0]?.type;
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
+  const smsMethodType = methodType === 'sms';
   if (resendStep) {
     const { name } = resendStep;
-    const smsMethodType = methodType === 'sms';
     reminderElement = {
       type: 'Reminder',
       options: {
@@ -53,7 +53,7 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
       content: loc('oie.phone.enroll.title', 'login'),
     },
   };
-  const sendInfoText = methodType === 'sms'
+  const sendInfoText = smsMethodType
     ? loc('oie.phone.verify.sms.codeSentText', 'login')
     : loc('mfa.calling', 'login');
   const phoneInfoText = phoneNumber || loc('oie.phone.alternate.title', 'login');
