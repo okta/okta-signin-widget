@@ -35,7 +35,10 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
   };
 
   const METHOD_TYPE_KEY = 'authenticator.methodType';
-  const methodTypeElement = getUIElementWithName(METHOD_TYPE_KEY, uischema.elements) as FieldElement;
+  const methodTypeElement = getUIElementWithName(
+    METHOD_TYPE_KEY,
+    uischema.elements,
+  ) as FieldElement;
 
   const phoneMethodStepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
