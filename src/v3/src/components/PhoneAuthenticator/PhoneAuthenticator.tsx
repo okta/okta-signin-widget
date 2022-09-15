@@ -68,6 +68,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   // Sets US as default code
   const [phoneCode, setPhoneCode] = useState(`+${CountryUtil.getCallingCodeForCountry('US')}`);
   const [extension, setExtension] = useState<string>('');
+  const [phoneChanged, setPhoneChanged] = useState<boolean>(false);
   const methodType = data['authenticator.methodType'];
   const showExtension = methodType === 'voice';
   const onChangeHandler = useOnChange(uischema);
@@ -102,10 +103,15 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   useEffect(() => {
     const formattedPhone = formatPhone(phone, phoneCode, extension);
     onChangeHandler(formattedPhone);
-    setTouched?.(true);
     onValidateHandler?.(setError, formattedPhone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phoneCode, phone, extension, showExtension]);
+
+  useEffect(() => {
+    if (phoneChanged) {
+      setTouched?.(true);
+    }
+  }, [phoneChanged, setTouched]);
 
   const renderExtension = () => (
     showExtension && (
@@ -178,6 +184,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
+              setPhoneChanged(true);
             }}
             startAdornment={(
               <InputAdornment

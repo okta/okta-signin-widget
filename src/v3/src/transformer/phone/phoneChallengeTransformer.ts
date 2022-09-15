@@ -32,13 +32,14 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
   let reminderElement: ReminderElement | undefined;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
+  const smsMethodType = methodType === 'sms';
   if (resendStep) {
     const { name } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
-        content: loc('oie.phone.verify.sms.resendText', 'login'),
-        buttonText: loc('email.button.resend', 'login'),
+        content: smsMethodType ? loc('oie.phone.verify.sms.resendText', 'login') : loc('oie.phone.verify.call.resendText', 'login'),
+        buttonText: smsMethodType ? loc('oie.phone.verify.sms.resendLinkText', 'login') : loc('oie.phone.verify.call.resendLinkText', 'login'),
         step: name,
         isActionStep: true,
         actionParams: { resend: true },
@@ -46,9 +47,9 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
     };
   }
 
-  const sendInfoText = methodType === 'voice'
-    ? loc('mfa.calling', 'login')
-    : loc('oie.phone.verify.sms.codeSentText', 'login');
+  const sendInfoText = smsMethodType
+    ? loc('oie.phone.verify.sms.codeSentText', 'login')
+    : loc('mfa.calling', 'login');
   const phoneInfoText = phoneNumber || loc('oie.phone.alternate.title', 'login');
   const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
   const informationalText: DescriptionElement = {

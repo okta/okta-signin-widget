@@ -92,7 +92,7 @@ describe('authenticator-enroll-data-phone', () => {
     const methodType = await findByLabelText(/Voice call/);
     await user.click(methodType);
 
-    const submitButton = await findByText('Receive a code via SMS');
+    const submitButton = await findByText('Receive a code via voice call');
     const phoneNumberEle = await findByTestId('authenticator.phoneNumber') as HTMLInputElement;
     const extensionEle = await findByTestId('extension') as HTMLInputElement;
 

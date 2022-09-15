@@ -149,16 +149,16 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     <fieldset
                       class="MuiFormControl-root emotion-19"
                     >
+                      
                       <div
                         class="MuiFormGroup-root emotion-20"
-                        id="authenticator.methodType"
                         role="radiogroup"
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                         >
                           <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-22"
+                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root Mui-focusVisible MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-22"
                           >
                             <input
                               class="PrivateSwitchBase-input emotion-23"
@@ -1741,7 +1741,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
                         data-se="o-form-explain"
                       >
-                        Enter your phone number to receive a verification code via SMS.
+                        Enter your phone number to receive a verification code via voice call.
                       </p>
                     </div>
                   </div>
@@ -1751,9 +1751,9 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     <fieldset
                       class="MuiFormControl-root emotion-19"
                     >
+                      
                       <div
                         class="MuiFormGroup-root emotion-20"
-                        id="authenticator.methodType"
                         role="radiogroup"
                       >
                         <label
@@ -3120,7 +3120,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                             Phone number
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-41"
+                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-41"
                           >
                             <span
                               class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-42"
@@ -3132,8 +3132,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               </p>
                             </span>
                             <input
-                              aria-describedby="authenticator.phoneNumber-error"
-                              aria-invalid="true"
+                              aria-invalid="false"
                               autocomplete="tel-national"
                               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-44"
                               data-se="authenticator.phoneNumber"
@@ -3156,17 +3155,9 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               </legend>
                             </fieldset>
                           </div>
-                          <p
-                            class="MuiFormHelperText-root Mui-error emotion-47"
-                            data-se="authenticator.phoneNumber-error"
-                            id="authenticator.phoneNumber-error"
-                            role="alert"
-                          >
-                            This field cannot be left blank
-                          </p>
                         </div>
                         <div
-                          class="MuiBox-root emotion-48"
+                          class="MuiBox-root emotion-47"
                         >
                           <label
                             class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-40"
@@ -3175,11 +3166,11 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                             Extension
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary emotion-50"
+                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary emotion-49"
                           >
                             <input
                               autocomplete="tel-extension"
-                              class="MuiOutlinedInput-input MuiInputBase-input emotion-51"
+                              class="MuiOutlinedInput-input MuiInputBase-input emotion-50"
                               data-se="extension"
                               id="phoneExtension"
                               name="extension"
@@ -3208,12 +3199,12 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-55"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-54"
                       data-type="save"
                       tabindex="0"
                       type="submit"
                     >
-                      Receive a code via SMS
+                      Receive a code via voice call
                     </button>
                   </div>
                 </div>
@@ -3221,7 +3212,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -3232,7 +3223,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
