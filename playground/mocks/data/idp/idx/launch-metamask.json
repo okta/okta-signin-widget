@@ -15,7 +15,7 @@
                 "relatesTo": [
                     "$.currentAuthenticator"
                 ],
-                "href": "http://test-oie.okta1.com:1802/idp/idx/challenge/answer",
+                "href": "http://localhost:3000/idp/idx/challenge/answer",
                 "method": "POST",
                 "produces": "application/ion+json; okta-version=1.0.0",
                 "value": [
