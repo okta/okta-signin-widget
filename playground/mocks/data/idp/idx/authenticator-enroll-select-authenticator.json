@@ -102,6 +102,30 @@
                 "relatesTo": "$.authenticators.value[1]"
               },
               {
+                "label": "Connect to Wallet",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aidtheidkwh282hv8g3",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "value": "metamask",
+                        "required": false,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[13]"
+              },
+              {
                 "label": "Okta Security Question",
                 "value": {
                   "form": {
@@ -465,6 +489,13 @@
             "type": "otp"
           }
         ]
+      },
+      {
+        "displayName": "Wallet",
+        "type": "metamask",
+        "key": "metamask",
+        "authenticatorid": "aidtheidkwh282hv8g3",
+        "id": "webauthn-enroll-id-123"
       }
     ]
   },

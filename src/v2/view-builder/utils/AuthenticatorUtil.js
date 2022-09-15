@@ -81,6 +81,16 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
     });
     break;
 
+    case AUTHENTICATOR_KEY.METAMASK:
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.metamask.description', 'login'),
+      iconClassName: 'mfa-metamask',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    });
+    break;
+
   case AUTHENTICATOR_KEY.OV:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator

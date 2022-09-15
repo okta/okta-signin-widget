@@ -45,6 +45,12 @@ const factorData = {
     iconClassName: 'mfa-webauthn',
     sortOrder: 2,
   },
+  METAMASK: {
+    label: 'factor.webauthn.biometric',
+    description: 'factor.webauthn.biometric.description',
+    iconClassName: 'mfa-webauthn',
+    sortOrder: 2,
+  },
   WINDOWS_HELLO: {
     /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.windowsHello',
