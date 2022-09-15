@@ -75,9 +75,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
-        : loc('oie.webauthn.description', 'login'),
-      iconClassName: 'mfa-webauthn',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+        : loc('oie.metamask.description', 'login'),
+      iconClassName: 'mfa-metamask',
+      buttonDataSeAttr: 'metamask',
     });
     break;
 

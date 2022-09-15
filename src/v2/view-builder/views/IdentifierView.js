@@ -83,14 +83,14 @@ const Body = BaseForm.extend({
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true, { isRequired: false });
     }
 
-    if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_WEBAUTHN_AUTHENTICATOR)) {
-      this.add(signInWithWebAuthn, '.o-form-fieldset-container', false, true, { isRequired: false });
-    }
-
     if (
       this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_METAMASK_AUTHENTICATOR) &&
       typeof window.ethereum !== 'undefined' && ethereum.isMetaMask) { // has metamask remediation and metamask browser extension installed
       this.add(signInWithMetaMask, '.o-form-fieldset-container', false, true, { isRequired: false });
+    } else {
+      if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_WEBAUTHN_AUTHENTICATOR)) {
+        this.add(signInWithWebAuthn, '.o-form-fieldset-container', false, true, { isRequired: false });
+      }
     }
 
     // add forgot password link and external idps buttons if needed

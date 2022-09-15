@@ -72,7 +72,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-enroll.authenticator.rsa_token': 'factor.totpHard.rsaSecurId',
   'select-authenticator-enroll.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-enroll.authenticator.symantec_vip': 'factor.totpHard.symantecVip',
-  'select-authenticator-enroll.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-enroll.authenticator.webauthn': 'oie.metamask.label',
   'select-authenticator-enroll.authenticator.metamask': 'oie.metamask.label',
   'select-authenticator-enroll.authenticator.yubikey_token': 'oie.yubikey.label',
 
