@@ -41,10 +41,10 @@ const inputModeValueMap = new Map<string, InputModeValue>([
 ]);
 
 const getKeyFromMap = (
-  map: Map<string, AutoCompleteValue> | Map<string, InputModeValue>,
+  map: Map<string, unknown>,
   inputName: string,
 ): string | undefined => {
-  let isMatch;
+  let isMatch: string | undefined;
   map.forEach((_, key: string) => {
     if (inputName.match(key)?.length) {
       isMatch = key;
@@ -59,15 +59,9 @@ const autocompleteValueTransformer = (input: Input): AutoCompleteValue | null =>
     return autocompleteValueMap.get('password') ?? null;
   }
   const key = getKeyFromMap(autocompleteValueMap, input.name);
-  if (!key) {
-    return null;
-  }
-  const autocompleteValue = autocompleteValueMap.get(key) ?? null;
+  const autocompleteValue = key ? autocompleteValueMap.get(key) ?? null : null;
   // If not on iOS or Android, disable autocomplete for otp
-  if (autocompleteValue === 'one-time-code' && !isAndroidOrIOS()) {
-    return 'off';
-  }
-  return autocompleteValue;
+  return autocompleteValue === 'one-time-code' && !isAndroidOrIOS() ? 'off' : autocompleteValue;
 };
 
 const inputModeValueTransformer = (input: Input): InputModeValue | null => {
@@ -76,10 +70,7 @@ const inputModeValueTransformer = (input: Input): InputModeValue | null => {
     return null;
   }
   const key = getKeyFromMap(inputModeValueMap, input.name);
-  if (key) {
-    return inputModeValueMap.get(key) ?? null;
-  }
-  return null;
+  return key ? inputModeValueMap.get(key) ?? null : null;
 };
 
 export const transformer = (input: Input): Result | null => {
@@ -89,6 +80,8 @@ export const transformer = (input: Input): Result | null => {
     attributes.autocomplete = autocompleteValue;
   }
 
+  // Inputmode is used to optimize the mobile virtual keyboard based on the type of content entered
+  // See https://web.dev/sms-otp-form/#inputmode=numeric
   const inputModeValue = inputModeValueTransformer(input);
   if (inputModeValue) {
     attributes.inputmode = inputModeValue;
