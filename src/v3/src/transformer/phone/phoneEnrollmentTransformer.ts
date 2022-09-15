@@ -25,7 +25,7 @@ import { loc, removeFieldLevelMessages } from '../../util';
 import { getUIElementWithName } from '../utils';
 
 export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transaction }) => {
-  const { uischema, dataSchema } = formBag;
+  const { uischema, data, dataSchema } = formBag;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -107,31 +107,52 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
     },
   };
 
-  phoneMethodStepper.elements = [
-    {
-      type: UISchemaLayoutType.VERTICAL,
-      elements: [
+  uischema.elements = [
+    titleElement,
+  ];
+
+  if (phoneMethodOptions.length === 1) {
+    const firstOptionMethod = phoneMethodOptions[0].value;
+    data['authenticator.methodType'] = firstOptionMethod;
+    if (firstOptionMethod === 'sms') {
+      uischema.elements = uischema.elements.concat([
         smsInfoTextElement,
         methodTypeRadioEl,
         phoneNumberElement,
         smsStepSubmitButton,
-      ],
-    },
-    {
-      type: UISchemaLayoutType.VERTICAL,
-      elements: [
+      ]);
+    } else {
+      uischema.elements = uischema.elements.concat([
         voiceInfoTextElement,
         methodTypeRadioEl,
         phoneNumberElement,
         voiceStepSubmitButton,
-      ],
-    },
-  ];
+      ]);
+    }
+  } else {
+    phoneMethodStepper.elements = [
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          smsInfoTextElement,
+          methodTypeRadioEl,
+          phoneNumberElement,
+          smsStepSubmitButton,
+        ],
+      },
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          voiceInfoTextElement,
+          methodTypeRadioEl,
+          phoneNumberElement,
+          voiceStepSubmitButton,
+        ],
+      },
+    ];
 
-  uischema.elements = [
-    titleElement,
-    phoneMethodStepper,
-  ];
+    uischema.elements.push(phoneMethodStepper);
+  }
 
   // set default dataSchema
   dataSchema.submit = smsStepSubmitButton.options;
