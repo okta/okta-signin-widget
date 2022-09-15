@@ -190,13 +190,13 @@
 
   .okta-metamask-authenticator {
     /* -- MetaMask Authenticator (small) -- */
-    background-image: url('../img/icons/mfa/metamask_authenticator.png');
+    background-image: url('../img/icons/mfa/ethereum_authenticator_64x64.png');
 
     @media
       (-webkit-min-device-pixel-ratio: 2),
       (min-resolution: 192dpi) {
       /* -- MetaMask Authenticator Icons (high DPI) -- */
-      background-image: url('../img/icons/mfa/metamask_authenticator@2x.png');
+      background-image: url('../img/icons/mfa/ethereum_authenticator_128x128.png');
     }
   }
 
