@@ -175,7 +175,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.RSA]: EnrollAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: EnrollAuthenticatorSecurityQuestion,
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
-    [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
+    [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollMetaMaskView,
     [AUTHENTICATOR_KEY.YUBIKEY]: AuthenticatorYubiKeyView,
     [AUTHENTICATOR_KEY.METAMASK]: EnrollMetaMaskView,
   },
