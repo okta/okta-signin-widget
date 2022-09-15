@@ -68,7 +68,7 @@ const Body = BaseForm.extend({
       authenticatorData: 'authenticatorData',
       clientData: 'clientData',
     };
-
+    console.log(credentials);
     return credentials;
   },
 
