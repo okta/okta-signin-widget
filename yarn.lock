@@ -9208,6 +9208,11 @@ check-error@^1.0.2:
   resolved "https://registry.yarnpkg.com/check-error/-/check-error-1.0.2.tgz#574d312edd88bb5dd8912e9286dd6c0aed4aac82"
   integrity sha1-V00xLt2Iu13YkS6Sht1sCu1KrII=
 
+check-pwnedpasswords@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/check-pwnedpasswords/-/check-pwnedpasswords-1.0.2.tgz#384f8f84d70981b1e21b8a6e9c763dc7b5247d5d"
+  integrity sha512-UrDHOJTi6pYxGofyiVy6SYAgt1pHlyuAL4W+eXpXjmUgvB1Nip6EawMv2uIwld+8WCvqx5/Oc3qU0IC359L/lQ==
+
 cherow@^1.6.8:
   version "1.6.9"
   resolved "https://registry.yarnpkg.com/cherow/-/cherow-1.6.9.tgz#7c5e34fce297f152a6f7853dcc9fe2f9e1b36ab8"
@@ -13324,13 +13329,15 @@ generic-names@^4.0.0:
   dependencies:
     loader-utils "^3.2.0"
 
-"genpass@file:../genpass":
+genpass@tarunbatra/genpass#main:
   version "1.0.0"
+  resolved "https://codeload.github.com/tarunbatra/genpass/tar.gz/307745730970bfe6afea1ed3d06b4181c5425950"
   dependencies:
     "@emotion/react" "^11.10.4"
     "@emotion/styled" "^11.10.4"
     "@mui/icons-material" "^5.10.3"
     "@mui/material" "^5.10.5"
+    check-pwnedpasswords "^1.0.2"
     l33t "^1.0.1"
     most-common-words-by-language "^3.0.10"
     niceware "^4.0.0"

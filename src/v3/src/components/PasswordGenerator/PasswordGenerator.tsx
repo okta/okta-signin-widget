@@ -11,6 +11,7 @@
  */
 
 // @ts-ignore declaration not defined
+// eslint-disable-next-line import/no-unresolved
 import { PasswordGenerator as OktaPasswordGenerator } from 'genpass';
 import { h } from 'preact';
 
@@ -40,6 +41,8 @@ const PasswordGenerator: UISchemaElementComponent<{
     <OktaPasswordGenerator
       onPasswordGenerated={setDefaultPassword}
       requirements={settings?.complexity}
+      customType="random"
+      removeCopy
     />
   );
 };
