@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// @ts-ignore declaration not defined
+// @ts-ignore missing decl
 // eslint-disable-next-line import/no-unresolved
 import { PasswordGenerator as OktaPasswordGenerator } from 'genpass';
 import { h } from 'preact';

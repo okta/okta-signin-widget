@@ -165,9 +165,9 @@ export default {
     );
 
     config.resolve.alias.genpass = rootResolve(
-      '..',
+      'node_modules',
       'genpass',
-      'dist',
+      'src',
       'index.js',
     );
 
