@@ -171,7 +171,7 @@ Then(
 Then(
   /^user sees the CSP error on the page$/,
   async function() {
-    await TestAppPage.assertCSPError('eval blocked due to CSP rule script-src from script-src http://localhost:3000');
+    await TestAppPage.assertCSPError('eval blocked due to CSP rule script-src from script-src http://localhost:3000 https://global.oktacdn.com');
   }
 );
 
