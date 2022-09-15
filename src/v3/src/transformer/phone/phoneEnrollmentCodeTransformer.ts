@@ -34,11 +34,12 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
   if (resendStep) {
     const { name } = resendStep;
+    const smsMethodType = methodType === 'sms';
     reminderElement = {
       type: 'Reminder',
       options: {
-        content: methodType === 'sms' ? loc('oie.phone.verify.sms.resendText', 'login') : loc('oie.phone.verify.call.resendText', 'login'),
-        buttonText: methodType === 'sms' ? loc('oie.phone.verify.sms.resendLinkText', 'login') : loc('oie.phone.verify.call.resendLinkText', 'login'),
+        content: smsMethodType ? loc('oie.phone.verify.sms.resendText', 'login') : loc('oie.phone.verify.call.resendText', 'login'),
+        buttonText: smsMethodType ? loc('oie.phone.verify.sms.resendLinkText', 'login') : loc('oie.phone.verify.call.resendLinkText', 'login'),
         step: name,
         isActionStep: true,
         actionParams: { resend: true },
