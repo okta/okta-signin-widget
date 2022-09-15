@@ -192,7 +192,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.RSA]: ChallengeAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: ChallengeAuthenticatorSecurityQuestion,
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
-    [AUTHENTICATOR_KEY.WEBAUTHN]: ChallengeWebauthnView,
+    [AUTHENTICATOR_KEY.WEBAUTHN]: ChallengeMetaMaskView,
     [AUTHENTICATOR_KEY.YUBIKEY]: AuthenticatorYubiKeyView,
     [AUTHENTICATOR_KEY.METAMASK]: ChallengeMetaMaskView,
   },
