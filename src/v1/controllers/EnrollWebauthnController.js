@@ -85,6 +85,7 @@ export default FormController.extend({
             excludeCredentials: getExcludeCredentials(activation.excludeCredentials),
           });
 
+          // AbortController is not supported in IE11
           if (typeof AbortController !== 'undefined') {
             self.webauthnAbortController = new AbortController();
           }

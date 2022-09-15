@@ -100,7 +100,6 @@ export default FormController.extend({
           });
 
           // AbortController is not supported in IE11
-          // eslint-disable-next-line compat/compat
           if (typeof AbortController !== 'undefined') {
             self.webauthnAbortController = new AbortController();
           }

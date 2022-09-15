@@ -68,7 +68,6 @@ const Body = BaseForm.extend({
     this.clearErrors();
     this._startVerification();
     // AbortController is not supported in IE11
-    // eslint-disable-next-line compat/compat
     if (typeof AbortController !== 'undefined') {
       this.webauthnAbortController = new AbortController();
     }

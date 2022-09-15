@@ -72,6 +72,7 @@ const Body = BaseForm.extend({
         },
         excludeCredentials
       });
+      // AbortController is not supported in IE11
       if (typeof AbortController !== 'undefined') {
         this.webauthnAbortController = new AbortController();
       }
