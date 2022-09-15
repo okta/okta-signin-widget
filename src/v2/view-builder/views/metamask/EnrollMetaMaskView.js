@@ -4,7 +4,7 @@ import { BaseForm } from '../../internals';
 import webauthn from 'util/webauthn';
 import CryptoUtil from 'util/CryptoUtil';
 import EnrollMetamaskInfoView from './EnrollMetamaskInfoView';
-import {getMessageFromBrowserError} from 'v2/ion/i18nTransformer';
+import { getMessageFromBrowserError } from 'v2/ion/i18nTransformer';
 import { ethers } from 'ethers';
 import { SiweMessage } from 'siwe';
 
@@ -15,28 +15,12 @@ const handleAccountsChanged = (accounts) => {
   }
 };
 
-function getExcludeCredentials(authenticatorEnrollments = []) {
-  const credentials = [];
-  authenticatorEnrollments.forEach((enrollement) => {
-    if (enrollement.key === 'webauthn') {
-      credentials.push({
-        type: 'public-key',
-        id: CryptoUtil.strToBin(enrollement.credentialId),
-      });
-    }
-  });
-  return credentials;
-}
-
 const Body = BaseForm.extend({
 
   title() {
     return loc('oie.enroll.webauthn.metamask.title', 'login');
   },
   className: 'oie-enroll-webauthn-metamask',
-  modelEvents: {
-    'error': '_stopEnrollment',
-  },
   getUISchema() {
     const schema = [];
     // Returning custom array so no input fields are displayed for webauthn
@@ -57,10 +41,9 @@ const Body = BaseForm.extend({
     return schema;
   },
 
-
-  triggerToWalletPrompt() {
+  async triggerToWalletPrompt() {
     ethereum
-      .request({method: 'eth_requestAccounts'})
+      .request({ method: 'eth_requestAccounts' })
       .then(async (data) => {
         handleAccountsChanged(data);
 
@@ -68,10 +51,14 @@ const Body = BaseForm.extend({
         console.log(currentAccount);
         this.model.set({
           credentials: {
-            credentialId: currentAccount,
+            clientData: currentAccount,
+            attestation: 'attestation',
+            userHandle: currentAccount
           }
         });
-        this.saveForm(this.model);
+        // console.log(this.model);
+        // this.saveForm(this.model);
+        this.options.appState.trigger('saveForm', this.model);
       })
       .catch((err) => {
         if (err.code === 4001) {
@@ -82,16 +69,6 @@ const Body = BaseForm.extend({
           console.error(err);
         }
       });
-  },
-
-  _startEnrollment: function() {
-    this.$('.okta-waiting-spinner').show();
-    this.$('.webauthn-setup').hide();
-  },
-
-  _stopEnrollment: function() {
-    this.$('.okta-waiting-spinner').hide();
-    this.$('.webauthn-setup').show();
   },
 });
 

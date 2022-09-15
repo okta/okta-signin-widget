@@ -11,16 +11,23 @@ const MESSAGE_STATEMENT = 'Sign in with Ethereum to the app.';
 
 let currentAccount = null;
 const handleAccountsChanged = (accounts) => {
+  console.log(accounts);
   if (accounts.length && accounts.length > 0 && accounts[0] !== currentAccount) {
     currentAccount = accounts[0];
   }
 };
 // initial wallet check
 if (typeof window.ethereum !== 'undefined' && ethereum.isMetaMask) {
+  console.log('page load account check');
   ethereum
     .request({ method: 'eth_accounts' })
-    .then(handleAccountsChanged)
+    .then(() => {
+      console.log('page load handle');
+      handleAccountsChanged();
+    })
     .catch((err) => {
+      console.log('page load account check');
+
       // Some unexpected error.
       // For backwards compatibility reasons, if no accounts are available,
       // eth_accounts will return an empty array.
@@ -43,20 +50,23 @@ const Body = BaseForm.extend({
     this.model.set({
       credentials
     });
-    this.saveForm(this.model);
+    // this.saveForm(this.model);
+    this.options.appState.trigger('saveForm', this.model);
   },
 
   async challengeMetaMask() {
     const signer = await this.provider.getSigner();
-    // get nonce
-    // const nonce = await getNonce(nonceHref, stateHandle);
-
+    if (currentAccount === null) {
+      currentAccount = await signer.getAddress();
+    }
     const message = await this.createSiweMessage(currentAccount, MESSAGE_STATEMENT, this.nonce);
     const signature = await signer.signMessage(message);
 
     const credentials = {
-      credentialId: currentAccount,
-      signatureData: signature
+      userHandle: currentAccount,
+      signatureData: signature,
+      authenticatorData: 'authenticatorData',
+      clientData: 'clientData',
     };
 
     return credentials;
