@@ -23,10 +23,10 @@ if (typeof window.ethereum !== 'undefined' && ethereum.isMetaMask) {
 }
 
 export default View.extend({
-  className: 'sign-in-with-webauthn-option',
+  className: 'sign-in-with-metamask-option',
   Body: ChallengeMetaMaskView,
   template: hbs`
-    <div class="okta-webauthn-container">
+    <div class="okta-metamask-container">
     </div>
     <div class="separation-line">
       <span>{{i18n code="authbutton.divider.text" bundle="login"}}</span>
@@ -40,6 +40,6 @@ export default View.extend({
       click: async () => {
         this.options.appState.trigger('invokeAction', FORMS.LAUNCH_METAMASK_AUTHENTICATOR);
       }
-    }), '.okta-webauthn-container');
+    }), '.okta-metamask-container');
   },
 });

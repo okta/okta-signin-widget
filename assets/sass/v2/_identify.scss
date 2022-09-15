@@ -1,7 +1,9 @@
 .sign-in-with-device-option,
-.sign-in-with-webauthn-option {
+.sign-in-with-webauthn-option,
+.sign-in-with-metamask-option {
   .okta-verify-container,
-  .okta-webauthn-container {
+  .okta-webauthn-container,
+  .okta-metamask-container {
     text-align: center;
   }
 }
@@ -27,10 +29,12 @@
 
 .sign-in-with-device-option,
 .sign-in-with-webauthn-option,
+.sign-in-with-metamask-option,
 .sign-in-with-idp,
 .custom-buttons {
   .okta-verify-container,
-  .okta-webauthn-container {
+  .okta-webauthn-container,
+  .okta-metamask-container {
     .signin-with-ov-description {
       margin-bottom: 0.83em;
     }
