@@ -3,11 +3,11 @@ import BaseAuthenticatorView from "v2/view-builder/components/BaseAuthenticatorV
 import { BaseForm, BaseHeader } from "v2/view-builder/internals";
 import { ethers } from 'ethers';
 import { SiweMessage } from 'siwe';
-import { FORMS } from "v2/ion/RemediationConstants";
 import HeaderBeacon from "v2/view-builder/components/HeaderBeacon";
 
 const domain = window.location.host;
 const origin = window.location.origin;
+const MESSAGE_STATEMENT = 'Sign in with Ethereum to the app.';
 
 let currentAccount = null;
 const handleAccountsChanged = (accounts) => {
@@ -51,14 +51,8 @@ const Body = BaseForm.extend({
     // get nonce
     // const nonce = await getNonce(nonceHref, stateHandle);
 
-    const message = await this.createSiweMessage(
-      currentAccount,
-      'Sign in with Ethereum to the app.',
-      this.nonce
-    );
+    const message = await this.createSiweMessage(currentAccount, MESSAGE_STATEMENT, this.nonce);
     const signature = await signer.signMessage(message);
-    console.log(signature);
-    console.log(currentAccount);
 
     const credentials = {
       credentialId: currentAccount,

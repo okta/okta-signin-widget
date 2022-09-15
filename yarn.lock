@@ -3059,17 +3059,10 @@
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/@ethersproject/logger/-/logger-5.7.0.tgz#6ce9ae168e74fecf287be17062b590852c311892"
   integrity sha1-bOmuFo50/s8oe+FwYrWQhSwxGJI=
 
-"@ethersproject/networks@5.7.1":
+"@ethersproject/networks@5.7.1", "@ethersproject/networks@^5.7.0":
   version "5.7.1"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/@ethersproject/networks/-/networks-5.7.1.tgz#118e1a981d757d45ccea6bb58d9fd3d9db14ead6"
   integrity sha1-EY4amB11fUXM6mu1jZ/T2dsU6tY=
-  dependencies:
-    "@ethersproject/logger" "^5.7.0"
-
-"@ethersproject/networks@^5.7.0":
-  version "5.7.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/@ethersproject/networks/-/networks-5.7.0.tgz#df72a392f1a63a57f87210515695a31a245845ad"
-  integrity sha1-33KjkvGmOlf4chBRVpWjGiRYRa0=
   dependencies:
     "@ethersproject/logger" "^5.7.0"
 
@@ -3217,21 +3210,10 @@
     "@ethersproject/transactions" "^5.7.0"
     "@ethersproject/wordlists" "^5.7.0"
 
-"@ethersproject/web@5.7.1":
+"@ethersproject/web@5.7.1", "@ethersproject/web@^5.7.0":
   version "5.7.1"
   resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/@ethersproject/web/-/web-5.7.1.tgz#de1f285b373149bee5928f4eb7bcb87ee5fbb4ae"
   integrity sha1-3h8oWzcxSb7lko9Ot7y4fuX7tK4=
-  dependencies:
-    "@ethersproject/base64" "^5.7.0"
-    "@ethersproject/bytes" "^5.7.0"
-    "@ethersproject/logger" "^5.7.0"
-    "@ethersproject/properties" "^5.7.0"
-    "@ethersproject/strings" "^5.7.0"
-
-"@ethersproject/web@^5.7.0":
-  version "5.7.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/@ethersproject/web/-/web-5.7.0.tgz#40850c05260edad8b54827923bbad23d96aac0bc"
-  integrity sha1-QIUMBSYO2ti1SCeSO7rSPZaqwLw=
   dependencies:
     "@ethersproject/base64" "^5.7.0"
     "@ethersproject/bytes" "^5.7.0"
@@ -10450,8 +10432,8 @@ has@^1.0.0, has@^1.0.1, has@^1.0.3:
 
 hash.js@1.1.7, hash.js@^1.0.0, hash.js@^1.0.3, hash.js@^1.1.7:
   version "1.1.7"
-  resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
-  integrity sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
+  integrity sha1-C6vKU46NTuSg+JiNaIZlN6ADz0I=
   dependencies:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"

@@ -15,7 +15,9 @@ const external = [
   'cross-fetch',
   'parse-ms',
   'q',
-  'u2f-api-polyfill'
+  'u2f-api-polyfill',
+  'siwe',
+  'ethers',
 ];
 
 const input = 'src/index.ts';
