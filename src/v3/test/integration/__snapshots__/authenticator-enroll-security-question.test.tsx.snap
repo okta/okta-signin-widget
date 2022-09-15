@@ -270,6 +270,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                         <input
                           aria-describedby="credentials.question-error"
                           aria-invalid="true"
+                          autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-41"
                           data-se="credentials.question"
                           id="credentials.question"
@@ -653,6 +654,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                       >
                         <input
                           aria-invalid="false"
+                          autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-36"
                           data-se="credentials.question"
                           id="credentials.question"
@@ -1057,6 +1059,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                       >
                         <input
                           aria-invalid="false"
+                          autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-41"
                           data-se="credentials.question"
                           id="credentials.question"
@@ -1592,6 +1595,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                         >
                           <input
                             aria-invalid="false"
+                            autocomplete="off"
                             class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-39"
                             data-se="credentials.answer"
                             id="credentials.answer"
@@ -2105,6 +2109,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                           <input
                             aria-describedby="credentials.answer-error"
                             aria-invalid="true"
+                            autocomplete="off"
                             class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-44"
                             data-se="credentials.answer"
                             id="credentials.answer"
@@ -2597,6 +2602,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                           <input
                             aria-describedby="credentials.answer-error"
                             aria-invalid="true"
+                            autocomplete="off"
                             class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-39"
                             data-se="credentials.answer"
                             id="credentials.answer"
@@ -3118,6 +3124,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                           <input
                             aria-describedby="credentials.answer-error"
                             aria-invalid="true"
+                            autocomplete="off"
                             class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-44"
                             data-se="credentials.answer"
                             id="credentials.answer"
