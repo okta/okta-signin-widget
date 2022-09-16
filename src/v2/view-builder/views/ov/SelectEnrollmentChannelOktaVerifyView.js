@@ -16,6 +16,8 @@ const Body = BaseForm.extend({
     channelField.options = _.filter(channelField?.options, (option) =>
       option.value !== this.options.appState.get('currentAuthenticator')?.contextualData?.selectedChannel);
     channelField.value = channelField.options[0]?.value;
+    channelField.sublabel = null;
+    this.model.set('authenticator.channel', channelField.value);
     const description = {
       View: loc('oie.enroll.okta_verify.select.channel.description', 'login'),
       selector: '.o-form-fieldset-container',
