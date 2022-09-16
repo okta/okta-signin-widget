@@ -13344,7 +13344,7 @@ generic-names@^4.0.0:
 
 genpass@tarunbatra/genpass#main:
   version "1.0.0"
-  resolved "https://codeload.github.com/tarunbatra/genpass/tar.gz/524ce689390bfc9da061cb3fd5c6f943105d9719"
+  resolved "https://codeload.github.com/tarunbatra/genpass/tar.gz/99c52142d211c0d82f70d5698062746350b3ee85"
   dependencies:
     "@emotion/react" "^11.10.4"
     "@emotion/styled" "^11.10.4"
