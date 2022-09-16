@@ -13,6 +13,8 @@
 //    the widget that contains helpful warning messages and includes everything
 //    necessary to run (including all vendor libraries).
 
+var path = require('path');
+
 var config  = require('./webpack.common.config');
 var plugins = require('./scripts/buildtools/webpack/plugins');
 var useRuntime = require('./scripts/buildtools/webpack/runtime');
@@ -53,4 +55,16 @@ var devConfig = config('okta-sign-in.js', 'development');
 devConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in.analyzer' });
 usePolyfill(devConfig);
 
-module.exports = [entryConfig, noPolyfillConfig, cdnConfig, noJqueryConfig, devConfig];
+// 6. plugins: a11y
+var a11yPluginConfig = config('okta-plugin-a11y.js', 'production');
+a11yPluginConfig.entry = [path.resolve(__dirname, 'src/plugins/OktaPluginA11y.ts')];
+a11yPluginConfig.output.library = 'OktaPluginA11y';
+
+module.exports = [
+  entryConfig,
+  noPolyfillConfig,
+  cdnConfig,
+  noJqueryConfig,
+  devConfig,
+  a11yPluginConfig
+];
