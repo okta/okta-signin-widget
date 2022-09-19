@@ -238,6 +238,40 @@ describe('authenticator-verification-email', () => {
     );
   });
 
+  it('should send correct payload when otp is padded with spaces', async () => {
+    const {
+      authClient,
+      user,
+      findByText,
+      findByTestId,
+    } = await setup({
+      mockResponse: authenticatorVerificationEmail,
+    });
+
+    await findByText(/Verify with your email/);
+    await findByText(/We sent an email to/);
+
+    const nextPageBtn = await findByText(/Enter a code from the email instead/);
+
+    await user.click(nextPageBtn);
+    await findByText(/Enter Code/);
+
+    const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const submitButton = await findByText('Verify', { selector: 'button' });
+
+    const verificationCode = '123456';
+    const verificationCodewithSpaces = '  123456';
+    await user.type(codeEle, verificationCodewithSpaces);
+    expect(codeEle.value).toEqual(verificationCodewithSpaces);
+    await user.click(submitButton);
+
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: { passcode: verificationCode },
+      }),
+    );
+  });
+
   it('should have autocomplete attribute on otp input element when in ios browser', async () => {
     const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
     navigatorCredentials.mockReturnValue(

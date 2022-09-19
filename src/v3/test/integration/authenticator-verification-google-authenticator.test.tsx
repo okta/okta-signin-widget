@@ -44,4 +44,30 @@ describe('authenticator-verification-google-authenticator', () => {
       }),
     );
   });
+
+  it('should send correct payload when otp is padded with spaces', async () => {
+    const {
+      authClient,
+      user,
+      findByText,
+      findByTestId,
+    } = await setup({ mockResponse });
+
+    await findByText(/Verify with Google Authenticator/);
+    await findByText(/Enter the temporary code generated in your Google Authenticator app/);
+
+    const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const submitButton = await findByText('Verify', { selector: 'button' });
+
+    const verificationCode = '123456';
+    const verificationCodeWithSpaces = '  123456 ';
+    await user.type(codeEle, verificationCodeWithSpaces);
+    expect(codeEle.value).toEqual(verificationCodeWithSpaces);
+    await user.click(submitButton);
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: { passcode: verificationCode },
+      }),
+    );
+  });
 });

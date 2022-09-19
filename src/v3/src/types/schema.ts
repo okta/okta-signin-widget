@@ -34,6 +34,7 @@ export type FormBag = {
   // temp schema bag to handle client validation and form submission
   dataSchema: GeneralDataSchemaBag & {
     submit: ActionOptions;
+    fieldsToTrim: string[];
     fieldsToValidate: string[];
     fieldsToExclude: (data: FormBag['data']) => string[];
   }

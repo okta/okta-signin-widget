@@ -250,6 +250,32 @@ describe('identify-with-password', () => {
       );
     });
 
+    it('should not remove padded spaces from password', async () => {
+      const {
+        authClient, user, findByTestId, findByText,
+      } = await setup({ mockResponse });
+
+      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const submitButton = await findByText('Sign in', { selector: 'button' });
+
+      const password = '   fake-password   ';
+      await user.type(usernameEl, 'testuser@okta.com');
+      expect(usernameEl.value).toEqual('testuser@okta.com');
+      await user.type(passwordEl, password);
+      expect(passwordEl.value).toEqual(password);
+      await user.click(submitButton);
+
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/identify', {
+          identifier: 'testuser@okta.com',
+          credentials: {
+            passcode: password,
+          },
+        }),
+      );
+    });
+
     it('with required fields + optional fields', async () => {
       const {
         authClient, user, findByTestId, findByText,
