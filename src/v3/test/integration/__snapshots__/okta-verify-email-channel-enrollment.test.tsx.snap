@@ -134,6 +134,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
                         data-se="email"
                         id="email"
+                        inputmode="email"
                         name="email"
                         type="text"
                       />

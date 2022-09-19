@@ -1535,6 +1535,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-44"
                               data-se="authenticator.phoneNumber"
                               id="authenticator.phoneNumber"
+                              inputmode="tel"
                               name="authenticator.phoneNumber"
                               type="tel"
                             />
@@ -3137,6 +3138,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-44"
                               data-se="authenticator.phoneNumber"
                               id="authenticator.phoneNumber"
+                              inputmode="tel"
                               name="authenticator.phoneNumber"
                               type="tel"
                             />

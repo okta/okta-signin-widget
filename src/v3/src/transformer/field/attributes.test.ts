@@ -47,18 +47,50 @@ describe('Attributes transformer', () => {
     expect(transformer(formfield)).toEqual(result);
   });
 
-  it('should return uischema object with options.attributes.autocomplete === "one-time-code" if formfield.name === "passcode" & secret property doesnt exist in ion object', () => {
+  it('should return uischema object with options.attributes.autocomplete === "one-time-code" and options.attributes.inputmode === "numeric" if formfield.name === "passcode" & secret property doesnt exist in ion object when on ios device', () => {
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { userAgent: 'iPhone' } as unknown as Navigator,
+    );
     const formfield: Input = { name: 'credentials.passcode' };
 
-    const result = { attributes: { autocomplete: 'one-time-code' } };
+    const result = { attributes: { autocomplete: 'one-time-code', inputmode: 'numeric' } };
 
     expect(transformer(formfield)).toEqual(result);
   });
 
-  it('should return uischema object with options.attributes.autocomplete === "one-time-code" if formfield.name === "totp" is present in ion object', () => {
+  it('should return uischema object with options.attributes.autocomplete === "off" if formfield.name === "passcode" & secret property doesnt exist in ion object when on desktop', () => {
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { userAgent: 'Mozilla' } as unknown as Navigator,
+    );
+    const formfield: Input = { name: 'credentials.passcode' };
+
+    const result = { attributes: { autocomplete: 'off', inputmode: 'numeric' } };
+
+    expect(transformer(formfield)).toEqual(result);
+  });
+
+  it('should return uischema object with options.attributes.autocomplete === "one-time-code" if formfield.name === "totp" is present in ion object when on ios device', () => {
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { userAgent: 'iPhone' } as unknown as Navigator,
+    );
     const formfield: Input = { name: 'totp' };
 
-    const result = { attributes: { autocomplete: 'one-time-code' } };
+    const result = { attributes: { autocomplete: 'one-time-code', inputmode: 'numeric' } };
+
+    expect(transformer(formfield)).toEqual(result);
+  });
+
+  it('should return uischema object with options.attributes.autocomplete === "off" if formfield.name === "totp" is present in ion object when on desktop', () => {
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { userAgent: 'Mozilla' } as unknown as Navigator,
+    );
+    const formfield: Input = { name: 'totp' };
+
+    const result = { attributes: { autocomplete: 'off', inputmode: 'numeric' } };
 
     expect(transformer(formfield)).toEqual(result);
   });
@@ -66,7 +98,7 @@ describe('Attributes transformer', () => {
   it('should return uischema object with options.attributes.autocomplete === "tel-national" if formfield.name === "phoneNumber" is present in ion object', () => {
     const formfield: Input = { name: 'phoneNumber' };
 
-    const result = { attributes: { autocomplete: 'tel-national' } };
+    const result = { attributes: { autocomplete: 'tel-national', inputmode: 'tel' } };
 
     expect(transformer(formfield)).toEqual(result);
   });

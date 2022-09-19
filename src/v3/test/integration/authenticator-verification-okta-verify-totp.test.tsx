@@ -43,4 +43,21 @@ describe('authenticator-verification-okta-verify-totp', () => {
       }),
     );
   });
+
+  it('should have autocomplete attribute on totp input element when in ios browser', async () => {
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { userAgent: 'iPhone' } as unknown as Navigator,
+    );
+    const {
+      container, findByTestId, findByText,
+    } = await setup({ mockResponse });
+
+    await findByText(/Enter a code/);
+
+    const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;
+
+    expect(otpEle.getAttribute('autocomplete')).toBe('one-time-code');
+    expect(container).toMatchSnapshot();
+  });
 });

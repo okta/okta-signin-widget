@@ -151,6 +151,7 @@ exports[`enroll-profile-new should render form 1`] = `
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
                         data-se="userProfile.email"
                         id="userProfile.email"
+                        inputmode="email"
                         name="userProfile.email"
                         type="text"
                       />

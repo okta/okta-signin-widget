@@ -237,4 +237,32 @@ describe('authenticator-verification-email', () => {
       }),
     );
   });
+
+  it('should have autocomplete attribute on otp input element when in ios browser', async () => {
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { userAgent: 'iPhone' } as unknown as Navigator,
+    );
+    const {
+      container,
+      user,
+      findByText,
+      findByTestId,
+    } = await setup({
+      mockResponse: authenticatorVerificationEmail,
+    });
+
+    await findByText(/Verify with your email/);
+    await findByText(/We sent an email to/);
+
+    const nextPageBtn = await findByText(/Enter a code from the email instead/);
+
+    await user.click(nextPageBtn);
+    await findByText(/Enter Code/);
+
+    const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+
+    expect(codeEle.getAttribute('autocomplete')).toBe('one-time-code');
+    expect(container).toMatchSnapshot();
+  });
 });
