@@ -28,6 +28,8 @@ const autocompleteValueMap = new Map<string, AutoCompleteValue>([
   ['firstName', 'given-name'],
   ['lastName', 'family-name'],
   ['email', 'email'],
+  ['question', 'off'],
+  ['answer', 'off'],
 ]);
 
 const getKeyFromMap = (

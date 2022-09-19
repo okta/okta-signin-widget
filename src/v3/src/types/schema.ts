@@ -48,7 +48,8 @@ export type AutoCompleteValue = 'username'
 | 'tel-national'
 | 'given-name'
 | 'family-name'
-| 'email';
+| 'email'
+| 'off';
 
 export type InputAttributes = {
   autocomplete?: AutoCompleteValue;

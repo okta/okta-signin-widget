@@ -136,6 +136,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                       >
                         <input
                           aria-invalid="false"
+                          autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-19"
                           data-se="credentials.answer"
                           id="credentials.answer"
