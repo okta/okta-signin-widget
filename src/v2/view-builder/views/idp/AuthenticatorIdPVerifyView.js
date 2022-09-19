@@ -1,6 +1,5 @@
 import { loc } from 'okta';
-import BaseIdPAuthenticatorBody from './BaseIdPAuthenticatorBody';
-import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import { BaseIdPAuthenticatorBody, BaseIdpAuthenticatorView} from './BaseIdpAuthenticator';
 
 const Body = BaseIdPAuthenticatorBody.extend({
 
@@ -20,6 +19,6 @@ const Body = BaseIdPAuthenticatorBody.extend({
 
 });
 
-export default BaseAuthenticatorView.extend({
-  Body,
+export default BaseIdpAuthenticatorView.extend({
+  Body
 });

@@ -105,6 +105,7 @@ describe('v2/view-builder/views/idp/AuthenticatorIdPVerifyView', function() {
       );
     }
     expect(testContext.view.$('.okta-waiting-spinner').css('display')).toBe('block');
+    expect(testContext.view.$('.o-form-button-bar').css('display')).toBe('none');
     // make sure save form is called.
     expect(appStateTriggerSpy).toHaveBeenCalledWith('saveForm', testContext.view.model);
     expect(appStateTriggerSpy).toHaveBeenCalledTimes(1);
