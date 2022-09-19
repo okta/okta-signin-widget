@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-ov-email-channel.json';
 
 describe('okta-verify-email-channel-enrollment', () => {
@@ -30,20 +30,9 @@ describe('okta-verify-email-channel-enrollment', () => {
     expect(emailEl.value).toEqual('tester@okta1.com');
     await user.click(submitBtn);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge/send',
-      {
-        data: JSON.stringify({
-          email: 'tester@okta1.com',
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/send', {
+        email: 'tester@okta1.com',
+      }),
     );
   });
 });

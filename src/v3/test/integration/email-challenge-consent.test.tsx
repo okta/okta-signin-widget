@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/email-challenge-consent.json';
 
@@ -29,20 +29,9 @@ describe('email-challenge-consent', () => {
     const allowConsentBtn = await findByText("Yes, it's me");
     await user.click(allowConsentBtn);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/consent',
-      {
-        data: JSON.stringify({
-          consent: true,
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/consent', {
+        consent: true,
+      }),
     );
   });
 
@@ -52,20 +41,9 @@ describe('email-challenge-consent', () => {
     const denyConsentBtn = await findByText("No, it's not me");
     await user.click(denyConsentBtn);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/consent',
-      {
-        data: JSON.stringify({
-          consent: false,
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/consent', {
+        consent: false,
+      }),
     );
   });
 });

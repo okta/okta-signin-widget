@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/sms-method.json';
 
 describe('authenticator-verification-data-phone-sms-only', () => {
@@ -34,24 +34,13 @@ describe('authenticator-verification-data-phone-sms-only', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://dev-08160404.okta.com/idp/idx/challenge',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            methodType: 'sms',
-            id: 'aut41wnl0jzrilXNz5d7',
-            enrollmentId: 'sms4bvjioge7Sdu3p5d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
+        authenticator: {
+          methodType: 'sms',
+          id: 'aut41wnl0jzrilXNz5d7',
+          enrollmentId: 'sms4bvjioge7Sdu3p5d7',
         },
-        withCredentials: true,
-      },
+      }),
     );
   });
 });

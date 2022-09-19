@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/authenticator-verification-select-authenticator.json';
 
@@ -32,22 +32,9 @@ describe('authenticator-verification-select-authenticator', () => {
       const authenticatorButton = await findByTestId('google_otp');
       await user.click(authenticatorButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge',
-        {
-          data: JSON.stringify({
-            authenticator: {
-              id: 'aut11ceMaP0B0EzMI0g4',
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-          },
-          withCredentials: true,
-        },
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
+          authenticator: { id: 'aut11ceMaP0B0EzMI0g4' },
+        }),
       );
     });
   });

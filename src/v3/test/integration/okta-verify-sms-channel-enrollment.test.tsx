@@ -11,7 +11,7 @@
  */
 
 import { waitFor } from '@testing-library/preact';
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-ov-sms-channel.json';
 
 describe('okta-verify-sms-channel-enrollment', () => {
@@ -34,20 +34,9 @@ describe('okta-verify-sms-channel-enrollment', () => {
     expect(phoneEl.value).toEqual(mockPhoneNumber);
     await user.click(submitBtn);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge/send',
-      {
-        data: JSON.stringify({
-          phoneNumber: `+1${mockPhoneNumber}`,
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/send', {
+        phoneNumber: `+1${mockPhoneNumber}`,
+      }),
     );
   });
 });

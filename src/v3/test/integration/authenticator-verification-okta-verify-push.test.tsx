@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/verify-ov-push-method.json';
 
@@ -35,24 +35,13 @@ describe('authenticator-verification-okta-verify-push', () => {
     await user.click(submitButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            autoChallenge: true,
-            methodType: 'push',
-            id: 'aut2h3fft4y9pDPCS1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
+        authenticator: {
+          autoChallenge: true,
+          methodType: 'push',
+          id: 'aut2h3fft4y9pDPCS1d7',
         },
-        withCredentials: true,
-      },
+      }),
     );
   });
 
@@ -73,24 +62,13 @@ describe('authenticator-verification-okta-verify-push', () => {
     await user.click(submitButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge',
-      {
-        data: JSON.stringify({
-          authenticator: {
-            autoChallenge: false,
-            methodType: 'push',
-            id: 'aut2h3fft4y9pDPCS1d7',
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
+        authenticator: {
+          autoChallenge: false,
+          methodType: 'push',
+          id: 'aut2h3fft4y9pDPCS1d7',
         },
-        withCredentials: true,
-      },
+      }),
     );
   });
 });

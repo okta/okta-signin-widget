@@ -14,7 +14,7 @@
         "relatesTo": [
           "$.currentAuthenticatorEnrollment"
         ],
-        "href": "https://dev-08160404.okta.com/idp/idx/challenge",
+        "href": "http://localhost:3000/idp/idx/challenge",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -64,7 +64,7 @@
           "create-form"
         ],
         "name": "select-authenticator-authenticate",
-        "href": "https://dev-08160404.okta.com/idp/idx/challenge",
+        "href": "http://localhost:3000/idp/idx/challenge",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -152,7 +152,7 @@
           "create-form"
         ],
         "name": "resend",
-        "href": "https://dev-08160404.okta.com/idp/idx/challenge/resend",
+        "href": "http://localhost:3000/idp/idx/challenge/resend",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -255,7 +255,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "https://dev-08160404.okta.com/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "produces": "application/ion+json; okta-version=1.0.0",
     "value": [

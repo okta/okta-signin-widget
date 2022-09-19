@@ -11,7 +11,7 @@
  */
 
 import { within } from '@testing-library/preact';
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/unlock-account/default.json';
 
@@ -32,11 +32,7 @@ describe('user-unlock-account', () => {
     const emailAuthenticatorButton = await findByTestId('okta_email');
 
     await user.click(emailAuthenticatorButton);
-    expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-      'POST',
-      'https://oie-4695462.oktapreview.com/idp/idx/challenge',
-      expect.anything(),
-    );
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     const [alertBox] = await findAllByRole('alert');
     within(alertBox).findByText(/We found some errors/);
     const identifierError = await findByTestId('identifier-error');
@@ -53,23 +49,12 @@ describe('user-unlock-account', () => {
       const emailAuthenticatorButton = await findByTestId('okta_email');
       await user.click(emailAuthenticatorButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'https://oie-4695462.oktapreview.com/idp/idx/challenge',
-        {
-          data: JSON.stringify({
-            identifier: 'testuser@okta.com',
-            authenticator: {
-              id: 'aut2h3fft0FbVvFYV1d7',
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
+          identifier: 'testuser@okta.com',
+          authenticator: {
+            id: 'aut2h3fft0FbVvFYV1d7',
           },
-          withCredentials: true,
-        },
+        }),
       );
     });
 
@@ -82,23 +67,12 @@ describe('user-unlock-account', () => {
       const phoneAuthenticatorButton = await findByTestId('phone_number');
       await user.click(phoneAuthenticatorButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'https://oie-4695462.oktapreview.com/idp/idx/challenge',
-        {
-          data: JSON.stringify({
-            identifier: 'testuser@okta.com',
-            authenticator: {
-              id: 'aut2h3fft10VeLDPD1d7',
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
+          identifier: 'testuser@okta.com',
+          authenticator: {
+            id: 'aut2h3fft10VeLDPD1d7',
           },
-          withCredentials: true,
-        },
+        }),
       );
     });
 
@@ -108,19 +82,7 @@ describe('user-unlock-account', () => {
       const cancelButton = await findByTestId('cancel');
       await user.click(cancelButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'https://oie-4695462.oktapreview.com/idp/idx/cancel',
-        {
-          data: JSON.stringify({
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-          },
-          withCredentials: true,
-        },
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/cancel'),
       );
     });
   });

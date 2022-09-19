@@ -21,7 +21,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "https://oie-4695462.oktapreview.com/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "produces": "application/ion+json; okta-version=1.0.0",
     "value": [
@@ -48,7 +48,7 @@
       "create-form"
     ],
     "name": "issue",
-    "href": "https://oie-4695462.oktapreview.com/oauth2/aus2h3f9n6mV9Rynu1d7/v1/token",
+    "href": "http://localhost:3000/oauth2/aus2h3f9n6mV9Rynu1d7/v1/token",
     "method": "POST",
     "value": [
       {

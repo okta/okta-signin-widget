@@ -11,7 +11,7 @@
           "create-form"
         ],
         "name": "enroll-poll",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/challenge/poll",
+        "href": "http://localhost:3000/idp/idx/challenge/poll",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "refresh": 4000,
@@ -31,7 +31,7 @@
           "create-form"
         ],
         "name": "select-enrollment-channel",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/credential/enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -86,7 +86,7 @@
           "create-form"
         ],
         "name": "select-authenticator-enroll",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/credential/enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -151,7 +151,7 @@
           "create-form"
         ],
         "name": "resend",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/challenge/resend",
+        "href": "http://localhost:3000/idp/idx/challenge/resend",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -272,7 +272,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "https://oie-4695462.oktapreview.com/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "produces": "application/ion+json; okta-version=1.0.0",
     "value": [

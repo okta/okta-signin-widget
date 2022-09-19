@@ -1,10 +1,10 @@
 {
-  "issuer": "https://oie-8425965.oktapreview.com/oauth2/default",
-  "authorization_endpoint": "https://oie-8425965.oktapreview.com/oauth2/default/v1/authorize",
-  "token_endpoint": "https://oie-8425965.oktapreview.com/oauth2/default/v1/token",
-  "userinfo_endpoint": "https://oie-8425965.oktapreview.com/oauth2/default/v1/userinfo",
-  "registration_endpoint": "https://oie-8425965.oktapreview.com/oauth2/v1/clients",
-  "jwks_uri": "https://oie-8425965.oktapreview.com/oauth2/default/v1/keys",
+  "issuer": "http://localhost:3000/oauth2/default",
+  "authorization_endpoint": "http://localhost:3000/oauth2/default/v1/authorize",
+  "token_endpoint": "http://localhost:3000/oauth2/default/v1/token",
+  "userinfo_endpoint": "http://localhost:3000/oauth2/default/v1/userinfo",
+  "registration_endpoint": "http://localhost:3000/oauth2/v1/clients",
+  "jwks_uri": "http://localhost:3000/oauth2/default/v1/keys",
   "response_types_supported": [
     "code",
     "id_token",
@@ -83,7 +83,7 @@
   "code_challenge_methods_supported": [
     "S256"
   ],
-  "introspection_endpoint": "https://oie-8425965.oktapreview.com/oauth2/default/v1/introspect",
+  "introspection_endpoint": "http://localhost:3000/oauth2/default/v1/introspect",
   "introspection_endpoint_auth_methods_supported": [
     "client_secret_basic",
     "client_secret_post",
@@ -91,7 +91,7 @@
     "private_key_jwt",
     "none"
   ],
-  "revocation_endpoint": "https://oie-8425965.oktapreview.com/oauth2/default/v1/revoke",
+  "revocation_endpoint": "http://localhost:3000/oauth2/default/v1/revoke",
   "revocation_endpoint_auth_methods_supported": [
     "client_secret_basic",
     "client_secret_post",
@@ -99,7 +99,7 @@
     "private_key_jwt",
     "none"
   ],
-  "end_session_endpoint": "https://oie-8425965.oktapreview.com/oauth2/default/v1/logout",
+  "end_session_endpoint": "http://localhost:3000/oauth2/default/v1/logout",
   "request_parameter_supported": true,
   "request_object_signing_alg_values_supported": [
     "HS256",

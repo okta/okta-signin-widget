@@ -11,7 +11,7 @@
  */
 
 import { waitFor } from '@testing-library/preact';
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
 import identifyWithPassword from '../../src/mocks/response/idp/idx/introspect/default.json';
@@ -45,19 +45,10 @@ describe('error-session-expired', () => {
     await user.click(cancelLink);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'https://oie-123456.oktapreview.com/idp/idx/introspect',
-      {
-        data: {
-          interactionHandle: 'fake-interactionhandle',
-        },
-        headers: {
-          Accept: 'application/ion+json; okta-version=1.0.0',
-          'Content-Type': 'application/ion+json; okta-version=1.0.0',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-        },
-        withCredentials: true,
-      },
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/introspect', {
+        stateHandle: undefined,
+        interactionHandle: 'fake-interactionhandle',
+      }, 'application/ion+json; okta-version=1.0.0', 'application/ion+json; okta-version=1.0.0'),
     );
   });
 

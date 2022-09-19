@@ -12,7 +12,7 @@
 
 import { waitFor } from '@testing-library/preact';
 import { HttpRequestClient } from '@okta/okta-auth-js';
-import { setup, updateStateHandleInMock } from './util';
+import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/securityquestion-enroll-mfa.json';
 import responseWithCharacterLimitError
@@ -87,23 +87,12 @@ describe('authenticator-enroll-security-question', () => {
 
       await user.click(submitButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        {
-          data: JSON.stringify({
-            credentials: {
-              questionKey: 'disliked_food',
-              answer,
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'disliked_food',
+            answer,
           },
-          withCredentials: true,
-        },
+        }),
       );
     });
 
@@ -116,11 +105,7 @@ describe('authenticator-enroll-security-question', () => {
       await user.click(await findByText('Verify', { selector: 'button' }));
 
       // assert no network request
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        expect.anything(),
-      );
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
       // assert global alert
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
@@ -164,23 +149,12 @@ describe('authenticator-enroll-security-question', () => {
 
       await user.click(submitButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        {
-          data: JSON.stringify({
-            credentials: {
-              questionKey: 'disliked_food',
-              answer,
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'disliked_food',
+            answer,
           },
-          withCredentials: true,
-        },
+        }),
       );
       const answerEleError = await findByTestId('credentials.answer-error');
       // Previously entered characters should remain in the field
@@ -204,47 +178,23 @@ describe('authenticator-enroll-security-question', () => {
 
       await user.click(submitButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        // TODO: OKTA-526754 - extract this payload into a re-usable util function
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        {
-          data: JSON.stringify({
-            credentials: {
-              questionKey: 'disliked_food',
-              answer,
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'disliked_food',
+            answer,
           },
-          withCredentials: true,
-        },
+        }),
       );
       const answerEleError = await findByTestId('credentials.answer-error');
       expect(answerEleError.innerHTML).toEqual('The security question answer must be at least 4 characters in length');
       await user.click(await findByText('Verify', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        // TODO: OKTA-526754 - extract this payload into a re-usable util function
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        {
-          data: JSON.stringify({
-            credentials: {
-              questionKey: 'disliked_food',
-              answer,
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'disliked_food',
+            answer,
           },
-          withCredentials: true,
-        },
+        }),
       );
       expect((await findByTestId('credentials.answer-error')).innerHTML)
         .toEqual('The security question answer must be at least 4 characters in length');
@@ -266,23 +216,12 @@ describe('authenticator-enroll-security-question', () => {
 
       await user.click(submitButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        {
-          data: JSON.stringify({
-            credentials: {
-              questionKey: 'disliked_food',
-              answer,
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'disliked_food',
+            answer,
           },
-          withCredentials: true,
-        },
+        }),
       );
       const answerEleError = await findByTestId('credentials.answer-error');
       // Previously entered characters should remain in the field
@@ -302,24 +241,13 @@ describe('authenticator-enroll-security-question', () => {
 
       await user.click(await findByText('Verify', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        {
-          data: JSON.stringify({
-            credentials: {
-              questionKey: 'custom',
-              question: customQuestion,
-              answer,
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'custom',
+            question: customQuestion,
+            answer,
           },
-          withCredentials: true,
-        },
+        }),
       );
       // Previously entered characters should remain in the field
       expect((await findByTestId('credentials.answer') as HTMLInputElement).value).toBe(answer);
@@ -336,23 +264,12 @@ describe('authenticator-enroll-security-question', () => {
 
       await user.click(await findByText('Verify', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        {
-          data: JSON.stringify({
-            credentials: {
-              questionKey: 'disliked_food',
-              answer,
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'disliked_food',
+            answer,
           },
-          withCredentials: true,
-        },
+        }),
       );
       expect((await findByTestId('credentials.answer') as HTMLInputElement).value).toBe(answer);
       expect((await findByTestId('credentials.answer-error')).innerHTML)
@@ -360,23 +277,12 @@ describe('authenticator-enroll-security-question', () => {
       expect(container).toMatchSnapshot();
       await user.click(await findByText('Verify', { selector: 'button' }));
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        {
-          data: JSON.stringify({
-            credentials: {
-              questionKey: 'disliked_food',
-              answer,
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'disliked_food',
+            answer,
           },
-          withCredentials: true,
-        },
+        }),
       );
     });
   });
@@ -419,24 +325,13 @@ describe('authenticator-enroll-security-question', () => {
 
       await user.click(submitButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        {
-          data: JSON.stringify({
-            credentials: {
-              questionKey: 'custom',
-              question,
-              answer,
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'custom',
+            question,
+            answer,
           },
-          withCredentials: true,
-        },
+        }),
       );
     });
 
@@ -464,11 +359,7 @@ describe('authenticator-enroll-security-question', () => {
       await user.click(await findByText('Verify', { selector: 'button' }));
 
       // assert no network request
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        expect.anything(),
-      );
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
       // assert global alert
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
@@ -501,11 +392,7 @@ describe('authenticator-enroll-security-question', () => {
       await user.click(await findByText('Verify', { selector: 'button' }));
 
       // assert no network request
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        expect.anything(),
-      );
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
       // assert global alert
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
@@ -530,11 +417,7 @@ describe('authenticator-enroll-security-question', () => {
       user.click(await findByLabelText(/Create my own security question/));
 
       await user.click(await findByText('Verify', { selector: 'button' }));
-      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        expect.anything(),
-      );
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
       // assert global alert
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
@@ -592,24 +475,13 @@ describe('authenticator-enroll-security-question', () => {
 
       await user.click(submitButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-        'POST',
-        'http://localhost:3000/idp/idx/challenge/answer',
-        {
-          data: JSON.stringify({
-            credentials: {
-              questionKey: 'custom',
-              question,
-              answer,
-            },
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'custom',
+            question,
+            answer,
           },
-          withCredentials: true,
-        },
+        }),
       );
       const answerEleError = await findByTestId('credentials.answer-error');
       // Previously entered characters should remain in the field

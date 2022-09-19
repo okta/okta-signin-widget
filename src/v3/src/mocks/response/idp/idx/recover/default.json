@@ -11,7 +11,7 @@
           "create-form"
         ],
         "name": "identify-recovery",
-        "href": "https://dev-08160404.okta.com/idp/idx/identify",
+        "href": "http://localhost:3000/idp/idx/identify",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -37,7 +37,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "https://dev-08160404.okta.com/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "produces": "application/ion+json; okta-version=1.0.0",
     "value": [

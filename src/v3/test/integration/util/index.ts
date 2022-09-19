@@ -11,6 +11,7 @@
  */
 
 export * from './createAuthClient';
+export * from './createAuthJsPayload';
 export * from './updateDynamicAttribute';
 export * from './setup';
 export * from './getMockCredentialsResponse';

@@ -200,7 +200,7 @@
             "userVerification": "required"
           },
           "u2fParams": {
-            "appid": "http://idx.okta1.com:1802"
+            "appid": "http://localhost:3000"
           }
         }
       }

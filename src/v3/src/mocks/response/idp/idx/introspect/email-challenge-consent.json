@@ -11,7 +11,7 @@
           "create-form"
         ],
         "name": "email-challenge-consent",
-        "href": "https://oie-4695462.oktapreview.com/idp/idx/consent",
+        "href": "http://localhost:3000/idp/idx/consent",
         "method": "POST",
         "accepts": "application/json; okta-version=1.0.0",
         "produces": "application/ion+json; okta-version=1.0.0",

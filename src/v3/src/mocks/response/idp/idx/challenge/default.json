@@ -199,7 +199,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "https://oie-8425965.oktapreview.com/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "produces": "application/ion+json; okta-version=1.0.0",
     "value": [
