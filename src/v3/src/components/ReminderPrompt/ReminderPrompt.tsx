@@ -111,6 +111,12 @@ const ReminderPrompt: UISchemaElementComponent<{
       <Alert
         severity="warning"
         variant="infobox"
+        sx={{
+          '& .MuiAlert-message': {
+            paddingLeft: '3px',
+            paddingBottom: '1px',
+          },
+        }}
       >
         {renderAlertContent()}
         {renderActionLink()}
