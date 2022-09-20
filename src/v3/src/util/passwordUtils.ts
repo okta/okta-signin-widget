@@ -97,6 +97,10 @@ const excludeAttributeValidator = (
   return true;
 };
 
+/**
+ * This mimics backend logic for validating if password contains username
+ * @see {@link https://github.com/okta/okta-core/blob/master/components/platform/policy/impl/src/main/java/com/saasure/core/services/auth/password/impl/PasswordPolicyVerificationHelperImpl.java#L241-L250}
+ */
 const excludeUsernameValidator = (
   password: string,
   ruleVal: unknown,
@@ -106,7 +110,6 @@ const excludeUsernameValidator = (
     return true;
   }
   const usernameParts = getParts(userInfo.identifier);
-  // This mimics backend logic see: okta-core - PasswordPolicyVerificationHelperImpl.java#L241-L250
   // if any parts of username is included in password return false (meaning invalid)
   return usernameParts.every(
     (part) => excludeAttributeValidator(password, ruleVal as boolean, part),
