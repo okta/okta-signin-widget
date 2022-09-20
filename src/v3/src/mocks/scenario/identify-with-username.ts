@@ -36,7 +36,30 @@ scenario('identify-with-username', (rest) => ([
     );
   }),
   rest.post('*/idp/idx/identify', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/introspect/identify-with-username.json');
+    const { default: body } = await import('../response/idp/idx/identify/authenticator-verification-password.json');
+    return res(
+      ctx.status(200),
+      ctx.json(body),
+    );
+  }),
+  rest.post('*/idp/idx/challenge/answer', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/challenge/answer/default.json');
+    return res.once(
+      ctx.status(200),
+      ctx.json(body),
+    );
+  }),
+  // get oauth2 token
+  rest.post('*/oauth2/default/v1/token', async (req, res, ctx) => {
+    const { default: body } = await import('../response/oauth2/default/v1/token/default.json');
+    return res(
+      ctx.status(200),
+      ctx.json(body),
+    );
+  }),
+  // get oauth2 keys
+  rest.get('*/oauth2/default/v1/keys', async (req, res, ctx) => {
+    const { default: body } = await import('../response/oauth2/default/v1/keys/default.json');
     return res(
       ctx.status(200),
       ctx.json(body),
