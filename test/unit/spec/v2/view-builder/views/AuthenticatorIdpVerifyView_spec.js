@@ -75,57 +75,60 @@ describe('v2/view-builder/views/idp/AuthenticatorIdPVerifyView', function() {
     $sandbox.empty();
   });
 
-  it.each(['Verification', 'Enrollment']) ('shows idp authenticator %s screen with ' +
-        'SKIP_IDP_FACTOR_VERIFICATION_BUTTON disabled', function(requestName) {
-    testContext.init(requestName);
+  function validateDescriptionText(requestName, testContext) {
     if (requestName === 'Verification') {
       expect(testContext.view.$('.okta-form-subtitle').text()).toBe(
         'You will be redirected to verify with IDP Authenticator'
       );
     } else {
       expect(testContext.view.$('.okta-form-subtitle').text()).toBe(
-        'Clicking below will redirect to enrollment in IDP Authenticator'
+        'You will be redirected to enroll with IDP Authenticator'
       );
     }
+  }
+
+  it.each(['Verification', 'Enrollment']) ('shows idp authenticator %s screen with ' +
+        'features.skipIdpFactorVerificationBtn set to false.', function(requestName) {
+    testContext.init(requestName);
+    validateDescriptionText(requestName, testContext);
     expect(testContext.view.$('.o-form-button-bar').css('display')).toBe('block');
     expect(testContext.view.$('.okta-waiting-spinner').css('display')).toBe('none');
     expect(appStateTriggerSpy).toHaveBeenCalledTimes(0);
+    // check for no error message
+    expect(testContext.view.$('.o-form-error-container .infobox-error').length).toBe(
+      0
+    );
   });
 
-  it.each(['Verification', 'Enrollment']) ('auto-submit idp authenticator %s screen with SKIP_IDP_FACTOR_VERIFICATION_BUTTON enabled', function(requestName) {
+  it.each(['Verification', 'Enrollment']) ('auto-submit idp authenticator %s screen with features.skipIdpFactorVerificationBtn set to true.', function(requestName) {
 
     testContext.init(requestName, true);
-    if (requestName === 'Verification') {
-      expect(testContext.view.$('.okta-form-subtitle').text()).toBe(
-        'You will be redirected to verify with IDP Authenticator'
-      );
-    } else {
-      expect(testContext.view.$('.okta-form-subtitle').text()).toBe(
-        'Clicking below will redirect to enrollment in IDP Authenticator'
-      );
-    }
+    validateDescriptionText(requestName, testContext);
     expect(testContext.view.$('.okta-waiting-spinner').css('display')).toBe('block');
     expect(testContext.view.$('.o-form-button-bar').css('display')).toBe('none');
+    // check for no error message
+    expect(testContext.view.$('.o-form-error-container .infobox-error').length).toBe(
+      0
+    );
     // make sure save form is called.
     expect(appStateTriggerSpy).toHaveBeenCalledWith('saveForm', testContext.view.model);
     expect(appStateTriggerSpy).toHaveBeenCalledTimes(1);
   });
 
-  it.each(['Verification', 'Enrollment']) ('show error messages and no auto-submit idp authenticator %s screen with SKIP_IDP_FACTOR_VERIFICATION_BUTTON ' +
-        'enabled in case of failure', function(requestName) {
+  it.each(['Verification', 'Enrollment']) ('show error messages and no auto-submit idp authenticator %s screen with features.skipIdpFactorVerificationBtn ' +
+        'set to true in case of failure', function(requestName) {
 
     testContext.init(requestName, true, true);
-    if (requestName === 'Verification') {
-      expect(testContext.view.$('.okta-form-subtitle').text()).toBe(
-        'You will be redirected to verify with IDP Authenticator'
-      );
-    } else {
-      expect(testContext.view.$('.okta-form-subtitle').text()).toBe(
-        'Clicking below will redirect to enrollment in IDP Authenticator'
-      );
-    }
+    validateDescriptionText(requestName, testContext);
     expect(testContext.view.$('.okta-waiting-spinner').css('display')).toBe('none');
     expect(testContext.view.$('.o-form-button-bar').css('display')).toBe('block');
+    // check for error message on failure
+    expect(testContext.view.$('.o-form-error-container .infobox-error').length).toBe(
+      1
+    );
+    expect(testContext.view.$('.o-form-error-container .infobox-error').text()).toBe(
+      'Authentication failed. Please try again.'
+    );
     // make sure no save form is called in case of error.
     expect(appStateTriggerSpy).toHaveBeenCalledTimes(0);
   });
