@@ -55,15 +55,15 @@ const minSymbolValidator = (password: string, limit: unknown): boolean => (
 
 const escapeRegExp = (input: string): string => input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-/*
-* Copied from backend logic
-* See: okta-core - PasswordUtil.java#L72-L97
+/**
+* Breaks apart a string based on a set of delimiters for (Copied from okta-core password validation logic)
+* @see {@link https://github.com/okta/okta-core/blob/master/components/framework/security/api/src/main/java/com/saasure/framework/security/password/PasswordUtil.java#L72-L97}
 */
 const getParts = (attributeVal: string): string[] => {
   const MIN_PARTS_LENGTH = 4;
   const parts: string[] = [];
   const delimiters = new Set<string>([',', '.', '-', '_', '#', '@']);
-  const characters = attributeVal.split('');
+  const characters = Array.from(attributeVal);
   let combinedStringArr: string[] = [];
 
   characters.forEach((character) => {
