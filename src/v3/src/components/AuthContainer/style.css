@@ -5,6 +5,11 @@
 
 .mainViewContainer {
   min-width: 100%;
-  /* To prevent overflow scroll */
-  min-height: 98vh; 
+  margin: 100px auto 8px;
+}
+
+@media only screen and (max-device-width: 750px) {
+  .mainViewContainer {
+    margin-top: 0;
+  }
 }
