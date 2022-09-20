@@ -259,15 +259,15 @@ describe('authenticator-verification-email', () => {
     const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
-    const verificationCode = '123456';
-    const verificationCodewithSpaces = '  123456';
+    const otp = '123456';
+    const verificationCodewithSpaces = `  ${otp}`;
     await user.type(codeEle, verificationCodewithSpaces);
     expect(codeEle.value).toEqual(verificationCodewithSpaces);
     await user.click(submitButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
-        credentials: { passcode: verificationCode },
+        credentials: { passcode: otp },
       }),
     );
   });

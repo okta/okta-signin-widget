@@ -55,7 +55,7 @@ describe('authenticator-verification-okta-verify-totp', () => {
     const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;
 
     const totp = '123456';
-    const totpWithSpaces = '   123456   ';
+    const totpWithSpaces = `   ${totp}   `;
     await user.type(otpEle, totpWithSpaces);
 
     expect(otpEle.value).toEqual(totpWithSpaces);

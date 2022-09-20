@@ -59,14 +59,14 @@ describe('authenticator-verification-google-authenticator', () => {
     const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
-    const verificationCode = '123456';
-    const verificationCodeWithSpaces = '  123456 ';
+    const otp = '123456';
+    const verificationCodeWithSpaces = `  ${otp} `;
     await user.type(codeEle, verificationCodeWithSpaces);
     expect(codeEle.value).toEqual(verificationCodeWithSpaces);
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
-        credentials: { passcode: verificationCode },
+        credentials: { passcode: otp },
       }),
     );
   });

@@ -76,7 +76,7 @@ describe('authenticator-enroll-google-authenticator', () => {
 
     const codeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
     const otp = '123456';
-    const otpWithSpaces = '123456  ';
+    const otpWithSpaces = `${otp}  `;
     await user.type(codeEl, otpWithSpaces);
     expect(codeEl.value).toEqual(otpWithSpaces);
 
