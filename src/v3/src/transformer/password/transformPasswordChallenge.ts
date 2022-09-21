@@ -13,10 +13,11 @@
 import {
   ButtonElement,
   ButtonType,
+  HiddenInputElement,
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
-import { loc } from '../../util';
+import { getUserInfo, loc } from '../../util';
 
 export const transformPasswordChallenge: IdxStepTransformer = ({ formBag, transaction }) => {
   const { uischema } = formBag;
@@ -35,6 +36,12 @@ export const transformPasswordChallenge: IdxStepTransformer = ({ formBag, transa
     },
   };
 
+  const userInfo = getUserInfo(transaction);
+  uischema.elements.unshift({
+    type: 'HiddenInput',
+    noMargin: true,
+    options: { name: 'username', value: userInfo.identifier },
+  } as HiddenInputElement);
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitBtnElement);
 

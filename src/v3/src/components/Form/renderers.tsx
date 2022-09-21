@@ -18,6 +18,7 @@ import Button from '../Button';
 import Checkbox from '../Checkbox';
 import Divider from '../Divider';
 import Heading from '../Heading';
+import HiddenInput from '../HiddenInput';
 import ImageWithText from '../ImageWithText';
 import InfoBox from '../InfoBox';
 import InformationalText from '../InformationalText';
@@ -96,6 +97,10 @@ export default [
   {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',
     renderer: WebAuthNSubmitButton,
+  },
+  {
+    tester: ({ type }) => type === 'HiddenInput',
+    renderer: HiddenInput,
   },
   {
     tester: (uischema: FieldElement) => {

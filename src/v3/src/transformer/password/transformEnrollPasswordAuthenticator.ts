@@ -14,6 +14,7 @@ import { PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import {
   FieldElement,
   FormBag,
+  HiddenInputElement,
   IdxMessageWithName,
   IdxStepTransformer,
   PasswordRequirementsElement,
@@ -119,12 +120,18 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     },
   };
 
+  const userInfo = getUserInfo(transaction);
   uischema.elements = [
     titleElement,
     ...(Object.keys(passwordSettings)?.length > 0
       ? [passwordRequirementsElement]
       : []
     ),
+    {
+      type: 'HiddenInput',
+      noMargin: true,
+      options: { name: 'username', value: userInfo.identifier },
+    } as HiddenInputElement,
     passwordElement,
     confirmPasswordElement,
   ];

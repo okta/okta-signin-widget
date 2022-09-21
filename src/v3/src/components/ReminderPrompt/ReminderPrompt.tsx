@@ -112,7 +112,7 @@ const ReminderPrompt: UISchemaElementComponent<{
         severity="warning"
         variant="infobox"
         sx={{
-          // Allows the focus outline to not be cut off
+          // TODO: OKTA-534606 - switch to ODS component which has this fix
           '& .MuiAlert-message': {
             overflow: 'visible',
           },
