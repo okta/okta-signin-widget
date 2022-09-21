@@ -82,7 +82,7 @@ describe('v2/view-builder/views/idp/AuthenticatorIdPVerifyView', function() {
       );
     } else {
       expect(testContext.view.$('.okta-form-subtitle').text()).toBe(
-        'You will be redirected to enroll with IDP Authenticator'
+        'Redirecting you to enroll in the IDP Authenticator'
       );
     }
   }
