@@ -99,63 +99,65 @@ exports[`authenticator-email-verification-data should render form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-10"
+              >
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-12"
                   >
-                    <div
-                      class="MuiBox-root emotion-12"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-13"
-                        data-se="o-form-head"
-                      >
-                        Verify with your email
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
-                        data-se="o-form-explain"
-                      >
-                        Verify with an email link or enter a code sent to your email.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-18"
-                      data-type="save"
-                      tabindex="0"
-                      type="submit"
-                    >
-                      Send me an email
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
+                      Verify with your email
+                    </h2>
                   </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <div
+                    class="MuiBox-root emotion-12"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
+                    >
+                      Verify with an email link or enter a code sent to your email.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-18"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    <div
+                      class="MuiBox-root emotion-19"
+                    >
+                      Send me an email
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>

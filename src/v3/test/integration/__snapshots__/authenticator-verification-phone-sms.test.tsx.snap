@@ -109,133 +109,135 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-10"
+              >
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-11"
+                />
+                <div
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-11"
-                  />
-                  <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-13"
                   >
-                    <div
-                      class="MuiBox-root emotion-13"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-14"
+                      data-se="o-form-head"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
-                        data-se="o-form-head"
-                      >
-                        Verify with your phone
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-13"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
-                        data-se="o-form-explain"
-                      >
-                        A code was sent to +1 XXX-XXX-4601. Enter the code below to verify.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-13"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
-                        data-se="o-form-explain"
-                      >
-                        Carrier messaging charges may apply
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-4"
-                    >
-                      <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
-                        for="credentials.passcode"
-                      >
-                        Enter Code
-                      </label>
-                      <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-24"
-                      >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="off"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-25"
-                          data-se="credentials.passcode"
-                          id="credentials.passcode"
-                          inputmode="numeric"
-                          name="credentials.passcode"
-                          type="text"
-                        />
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-26"
-                        >
-                          <legend
-                            class="emotion-27"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-29"
-                      data-type="save"
-                      tabindex="0"
-                      type="submit"
-                    >
-                      Verify
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
-                      data-se="switchAuthenticator"
-                      href="javascript:void(0)"
-                    >
-                      Verify with something else
-                    </a>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
+                      Verify with your phone
+                    </h2>
                   </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <div
+                    class="MuiBox-root emotion-13"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                      data-se="o-form-explain"
+                    >
+                      A code was sent to +1 XXX-XXX-4601. Enter the code below to verify.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <div
+                    class="MuiBox-root emotion-13"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                      data-se="o-form-explain"
+                    >
+                      Carrier messaging charges may apply
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <div
+                    class="MuiBox-root emotion-4"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
+                      for="credentials.passcode"
+                    >
+                      Enter Code
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-24"
+                    >
+                      <input
+                        aria-invalid="false"
+                        autocomplete="off"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-25"
+                        data-se="credentials.passcode"
+                        id="credentials.passcode"
+                        inputmode="numeric"
+                        name="credentials.passcode"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-26"
+                      >
+                        <legend
+                          class="emotion-27"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-29"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    <div
+                      class="MuiBox-root emotion-30"
+                    >
+                      Verify
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
+                  >
+                    Verify with something else
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>

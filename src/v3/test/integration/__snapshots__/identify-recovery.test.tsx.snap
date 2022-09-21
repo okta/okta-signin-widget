@@ -31,90 +31,92 @@ exports[`identify-recovery renders form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-5"
+              >
                 <div
-                  class="MuiBox-root emotion-5"
+                  class="MuiBox-root emotion-6"
                 >
                   <div
-                    class="MuiBox-root emotion-6"
+                    class="MuiBox-root emotion-7"
                   >
-                    <div
-                      class="MuiBox-root emotion-7"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      data-se="o-form-head"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-8"
-                        data-se="o-form-head"
-                      >
-                        Reset your password
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-6"
-                  >
-                    <div
-                      class="MuiBox-root emotion-10"
-                    >
-                      <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
-                        for="identifier"
-                      >
-                        Email or Username
-                      </label>
-                      <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
-                      >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="username"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
-                          data-se="identifier"
-                          id="identifier"
-                          name="identifier"
-                          type="text"
-                        />
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-14"
-                        >
-                          <legend
-                            class="emotion-15"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-6"
-                  >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-17"
-                      data-type="save"
-                      tabindex="0"
-                      type="submit"
-                    >
-                      Next
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-6"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
+                      Reset your password
+                    </h2>
                   </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
+                      for="identifier"
+                    >
+                      Email or Username
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                    >
+                      <input
+                        aria-invalid="false"
+                        autocomplete="username"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
+                        data-se="identifier"
+                        id="identifier"
+                        name="identifier"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-14"
+                      >
+                        <legend
+                          class="emotion-15"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-17"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    <div
+                      class="MuiBox-root emotion-18"
+                    >
+                      Next
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>

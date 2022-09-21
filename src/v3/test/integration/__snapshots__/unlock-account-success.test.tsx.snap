@@ -63,50 +63,48 @@ exports[`unlock-account-success renders form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-9"
+              >
                 <div
-                  class="MuiBox-root emotion-9"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-11"
                   >
-                    <div
-                      class="MuiBox-root emotion-11"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-12"
+                      data-se="o-form-head"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-12"
-                        data-se="o-form-head"
-                      >
-                        Account successfully unlocked!
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiBox-root emotion-11"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
-                        data-se="o-form-explain"
-                      >
-                        You can log in using your existing username and password.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
+                      Account successfully unlocked!
+                    </h2>
                   </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
+                      data-se="o-form-explain"
+                    >
+                      You can log in using your existing username and password.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>

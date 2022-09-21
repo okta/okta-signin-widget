@@ -99,54 +99,52 @@ exports[`terminal-return-email renders form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-10"
+              >
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-12"
                   >
-                    <div
-                      class="MuiBox-root emotion-12"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-13"
-                        data-se="o-form-head"
-                      >
-                        Success! Return to the original tab or window
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
-                        data-se="o-form-explain"
-                      >
-                        To continue, please return to the original browser tab or window you used to verify.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
-                        data-se="o-form-explain"
-                      >
-                        Close this window anytime.
-                      </p>
-                    </div>
+                      Success! Return to the original tab or window
+                    </h2>
                   </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <div
+                    class="MuiBox-root emotion-12"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
+                    >
+                      To continue, please return to the original browser tab or window you used to verify.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <div
+                    class="MuiBox-root emotion-12"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                      data-se="o-form-explain"
+                    >
+                      Close this window anytime.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </form>
           </div>
         </div>

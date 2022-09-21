@@ -96,104 +96,106 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-10"
+              >
                 <div
                   class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-12"
                   >
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-13"
                     >
-                      <div
-                        class="MuiBox-root emotion-13"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        data-se="o-form-head"
                       >
-                        <h2
-                          class="MuiTypography-root MuiTypography-h3 emotion-14"
-                          data-se="o-form-head"
+                        Set up Okta Verify
+                      </h2>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-12"
+                  >
+                    <div
+                      class="MuiBox-root emotion-16"
+                    >
+                      <ol
+                        class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-5GAsrW ods-1goWbr"
+                      >
+                        <li
+                          class="ods-5vIIsH"
                         >
-                          Set up Okta Verify
-                        </h2>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <div
-                        class="MuiBox-root emotion-16"
-                      >
-                        <ol
-                          class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-5GAsrW ods-1goWbr"
+                          On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).
+                        </li>
+                        <li
+                          class="ods-5vIIsH"
                         >
-                          <li
-                            class="ods-5vIIsH"
-                          >
-                            On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).
-                          </li>
-                          <li
-                            class="ods-5vIIsH"
-                          >
-                            Open the app and follow the instructions to add your account
-                          </li>
-                          <li
-                            class="ods-5vIIsH"
-                          >
-                            When prompted, tap Scan a QR code, then scan the QR code below:
-                          </li>
-                        </ol>
-                      </div>
+                          Open the app and follow the instructions to add your account
+                        </li>
+                        <li
+                          class="ods-5vIIsH"
+                        >
+                          When prompted, tap Scan a QR code, then scan the QR code below:
+                        </li>
+                      </ol>
                     </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-12"
+                  >
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="qrContainer MuiBox-root emotion-4"
+                    >
+                      <img
+                        alt="QR code"
+                        class="qrImg"
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAFq0lEQVR42u3dy07kQAwF0P7/n4YFayRCfG1Xcq40G4S6SVJnFNfz8yUiv+bjFogAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIICKAiAAiIoCIACICiAggIoCIAPLzRZ9P+b/fPv/O33PnMxOfX3Vdf/l77vwNf7nGxHMHBBBAAAEEEEBKLrDzQSQacOc92dCAO68REEAAAQQQQAC59IASDzr9mel6If1+fhVd4t4CAggggAACCCCrgNz5/KpGeEoXceKeAwIIIIAAAgggjwEy9eC2dUdX1SwbuuUBAQQQQAABBJDoO/mdG76hWzINrbNG66zFAAEEEEAAAQSQf3ddpifF+fmen1sPAoifAwKInwPyyCTeh9Pv5OnJkFVdwVMNGBBAAAEEEEBeDqTq5ieWuHa+G2/7rsTfmb7/gAACCCCAAALIJSAbaoR0V/bV6003wsTv3OkWVoMAAggggAACyHhXbdWkwalu2/R+wp31y1O7jgEBBBBAAAHkAUA6d9Wo6t5MdGneuZbOhr1hEikggAACCCCAvBxI57v3VJdpYoQ6/R/F5hHzV9UggAACCCCAANJTX0zVMunR/M21TGIv39PXlQACCCCAAALIQd28p4/wdv6H0Dl6nr5vJy7RBQQQQAABBJCDgFR1UVY90M4jCRI7jUxN2kz8vsmKgAACCCCAAFJed0wdCtl5tMGG89y3jZ5vrlkAAQQQQAAB5AE1SOf6iDtdsp27eaQPD03cz0R3sSIdEEAAAQQQQEoaTHokOv1Qpkb2N+xj3AkWEEAAAQQQQAAZWXORfm9PXHti8mT62tP33DgIIIAAAggggJR3e06NjKe7ptObs21owIkjIQABBBBAAAEEkLb35/RI8YbN7tLfu2F/YAumAAEEEEAAASTandi5fLVzYuGGE6+2LUPeHEAAAQQQQAA5CEi6YUx1mSZG5Kf2Ct62sd5rp5oAAggggAACSK4GSTfCdN2RxtW5cdxTD+sEBBBAAAEEkIcBmfr9zsZ8ynEPU7u1WHILCCCAAAIIICNAOt+f0yO/G/bIraoT0zUOIIAAAggggABS8s6Z6CLuxNLZwBJd3527uBhJBwQQQAABBJCvTYjSI86dNUW6juicJJk+DBQQQAABBBBAACmpKRI3p3PtQ7pbu6rW6PxPxsZxgAACCCCAADJSayQa8NQ7ebr+2nwyV+ekR0AAAQQQQAB5OZCp/WA3v+dX3cOq+5+YqLnhvgECCCCAAALIyzeOSzSS9J69pxymmT6GoHMDQEAAAQQQQAABJPqOvWEJauc7/9SpVYnr6jwLHhBAAAEEEEBeUoNUvRunuwq31SNVtV4a+ClduIAAAggggADysBpk2yGPGybgTTWezpH0RLc2IIAAAggggLwcyLZ1HOkz1jd8V1U37NQ6lA11CiCAAAIIIIAcVINs6/69873p76qqIxJ1wdSERkAAAQQQQAAB5N+Np6ohpU8+6pxgWQVnc/esbX8AAQQQQAABpPzBTa0H2bwZWueIdqL+OvHgTkAAAQQQQAA5CEjnyHgaQqKeOn0Dt221HiCAAAIIIIC8BMgUwMT79obDNNOHnKbrLOtBAAEEEEAAAaStBpk6Z3zD4Z4bToZKfP7Uga2AAAIIIIAA8kIgic9Jb78/taV/Z5dvYsmtGgQQQAABBBBARoBsWC6aaEib668NZ9MbSQcEEEAAAQSQI4BcfY9Nv2+n65SpYwg2zzoABBBAAAEEEEDagFR1gXY+0EQX6LZZCqdgAQQQQAABBJBDgXRCmxoBT9c+m89kT4MFBBBAAAEEEEDaTjhKdzlOTeTbUE9tG3kHBBBAAAEEkJcDETkxgIgAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIICKAiAAiIoCIACICiAggIoCIACJybr4BVbQ91L3A8YAAAAAASUVORK5CYII="
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-label="Setup without scanning a QR code."
+                      class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
+                      tabindex="0"
+                      type="button"
                     >
                       <div
-                        class="qrContainer MuiBox-root emotion-4"
-                      >
-                        <img
-                          alt="QR code"
-                          class="qrImg"
-                          src="data:image/png;base64,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"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <button
-                        aria-label="Setup without scanning a QR code."
-                        class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
-                        tabindex="0"
-                        type="button"
+                        class="MuiBox-root emotion-21"
                       >
                         Can't scan?
-                      </button>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
-                      data-se="switchAuthenticator"
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
+                      </div>
+                    </button>
                   </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-12"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
+                  >
+                    Return to authenticator list
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-12"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -299,189 +301,191 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-10"
+              >
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-12"
                   >
-                    <div
-                      class="MuiBox-root emotion-12"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-13"
-                        data-se="o-form-head"
-                      >
-                        More options
-                      </h2>
-                    </div>
+                      More options
+                    </h2>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-11"
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <fieldset
+                    class="MuiFormControl-root emotion-15"
                   >
-                    <fieldset
-                      class="MuiFormControl-root emotion-15"
+                    <label
+                      class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                    >
+                      Which option do you want to try?
+                    </label>
+                    <div
+                      class="MuiFormGroup-root emotion-17"
+                      id="authenticator.channel"
+                      role="radiogroup"
                     >
                       <label
-                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
                       >
-                        Which option do you want to try?
+                        <span
+                          class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-19"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-20"
+                            name="authenticator.channel"
+                            type="radio"
+                            value="email"
+                          />
+                          <span
+                            class="emotion-21"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
+                              data-testid="RadioButtonUncheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                              />
+                            </svg>
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-23"
+                              data-testid="RadioButtonCheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                              />
+                            </svg>
+                          </span>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
+                        >
+                          Email me a setup link
+                        </span>
                       </label>
-                      <div
-                        class="MuiFormGroup-root emotion-17"
-                        id="authenticator.channel"
-                        role="radiogroup"
+                      <label
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
                       >
-                        <label
-                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
+                        <span
+                          class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-19"
                         >
+                          <input
+                            class="PrivateSwitchBase-input emotion-20"
+                            name="authenticator.channel"
+                            type="radio"
+                            value="sms"
+                          />
                           <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-19"
+                            class="emotion-21"
                           >
-                            <input
-                              class="PrivateSwitchBase-input emotion-20"
-                              name="authenticator.channel"
-                              type="radio"
-                              value="email"
-                            />
-                            <span
-                              class="emotion-21"
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
+                              data-testid="RadioButtonUncheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
                             >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
-                                data-testid="RadioButtonUncheckedIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                />
-                              </svg>
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-23"
-                                data-testid="RadioButtonCheckedIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                />
-                              </svg>
-                            </span>
+                              <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                              />
+                            </svg>
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-30"
+                              data-testid="RadioButtonCheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                              />
+                            </svg>
                           </span>
-                          <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
-                          >
-                            Email me a setup link
-                          </span>
-                        </label>
-                        <label
-                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
                         >
-                          <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-19"
-                          >
-                            <input
-                              class="PrivateSwitchBase-input emotion-20"
-                              name="authenticator.channel"
-                              type="radio"
-                              value="sms"
-                            />
-                            <span
-                              class="emotion-21"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
-                                data-testid="RadioButtonUncheckedIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                />
-                              </svg>
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-30"
-                                data-testid="RadioButtonCheckedIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                />
-                              </svg>
-                            </span>
-                          </span>
-                          <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
-                          >
-                            Text me a setup link
-                          </span>
-                        </label>
-                      </div>
-                    </fieldset>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
+                          Text me a setup link
+                        </span>
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-33"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
                   >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-33"
-                      data-type="save"
-                      tabindex="0"
-                      type="submit"
+                    <div
+                      class="MuiBox-root emotion-34"
                     >
                       Next
-                    </button>
-                  </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-4"
                   >
                     <div
                       class="MuiBox-root emotion-4"
                     >
-                      <div
-                        class="MuiBox-root emotion-4"
+                      Or 
+                      <a
+                        class="switch-channel-link"
+                        href="#"
                       >
-                        Or 
-                        <a
-                          class="switch-channel-link"
-                          href="#"
-                        >
-                          try a different way
-                        </a>
-                         to set up Okta Verify.
-                      </div>
+                        try a different way
+                      </a>
+                       to set up Okta Verify.
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
-                      data-se="switchAuthenticator"
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
+                  >
+                    Return to authenticator list
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -1525,104 +1529,106 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-10"
+              >
                 <div
                   class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-12"
                   >
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-13"
                     >
-                      <div
-                        class="MuiBox-root emotion-13"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        data-se="o-form-head"
                       >
-                        <h2
-                          class="MuiTypography-root MuiTypography-h3 emotion-14"
-                          data-se="o-form-head"
+                        Set up Okta Verify
+                      </h2>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-12"
+                  >
+                    <div
+                      class="MuiBox-root emotion-16"
+                    >
+                      <ol
+                        class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-5GAsrW ods-1goWbr"
+                      >
+                        <li
+                          class="ods-5vIIsH"
                         >
-                          Set up Okta Verify
-                        </h2>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <div
-                        class="MuiBox-root emotion-16"
-                      >
-                        <ol
-                          class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-5GAsrW ods-1goWbr"
+                          On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).
+                        </li>
+                        <li
+                          class="ods-5vIIsH"
                         >
-                          <li
-                            class="ods-5vIIsH"
-                          >
-                            On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).
-                          </li>
-                          <li
-                            class="ods-5vIIsH"
-                          >
-                            Open the app and follow the instructions to add your account
-                          </li>
-                          <li
-                            class="ods-5vIIsH"
-                          >
-                            When prompted, tap Scan a QR code, then scan the QR code below:
-                          </li>
-                        </ol>
-                      </div>
+                          Open the app and follow the instructions to add your account
+                        </li>
+                        <li
+                          class="ods-5vIIsH"
+                        >
+                          When prompted, tap Scan a QR code, then scan the QR code below:
+                        </li>
+                      </ol>
                     </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-12"
+                  >
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="qrContainer MuiBox-root emotion-4"
+                    >
+                      <img
+                        alt="QR code"
+                        class="qrImg"
+                        src="data:image/png;base64,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"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-label="Setup without scanning a QR code."
+                      class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
+                      tabindex="0"
+                      type="button"
                     >
                       <div
-                        class="qrContainer MuiBox-root emotion-4"
-                      >
-                        <img
-                          alt="QR code"
-                          class="qrImg"
-                          src="data:image/png;base64,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"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <button
-                        aria-label="Setup without scanning a QR code."
-                        class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
-                        tabindex="0"
-                        type="button"
+                        class="MuiBox-root emotion-21"
                       >
                         Can't scan?
-                      </button>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
-                      data-se="switchAuthenticator"
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
+                      </div>
+                    </button>
                   </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-12"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
+                  >
+                    Return to authenticator list
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-12"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -1728,189 +1734,191 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-10"
+              >
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-12"
                   >
-                    <div
-                      class="MuiBox-root emotion-12"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-13"
-                        data-se="o-form-head"
-                      >
-                        More options
-                      </h2>
-                    </div>
+                      More options
+                    </h2>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-11"
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <fieldset
+                    class="MuiFormControl-root emotion-15"
                   >
-                    <fieldset
-                      class="MuiFormControl-root emotion-15"
+                    <label
+                      class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                    >
+                      Which option do you want to try?
+                    </label>
+                    <div
+                      class="MuiFormGroup-root emotion-17"
+                      id="authenticator.channel"
+                      role="radiogroup"
                     >
                       <label
-                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
                       >
-                        Which option do you want to try?
+                        <span
+                          class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-19"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-20"
+                            name="authenticator.channel"
+                            type="radio"
+                            value="email"
+                          />
+                          <span
+                            class="emotion-21"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
+                              data-testid="RadioButtonUncheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                              />
+                            </svg>
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-23"
+                              data-testid="RadioButtonCheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                              />
+                            </svg>
+                          </span>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
+                        >
+                          Email me a setup link
+                        </span>
                       </label>
-                      <div
-                        class="MuiFormGroup-root emotion-17"
-                        id="authenticator.channel"
-                        role="radiogroup"
+                      <label
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
                       >
-                        <label
-                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
+                        <span
+                          class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-19"
                         >
+                          <input
+                            class="PrivateSwitchBase-input emotion-20"
+                            name="authenticator.channel"
+                            type="radio"
+                            value="sms"
+                          />
                           <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked emotion-19"
+                            class="emotion-21"
                           >
-                            <input
-                              class="PrivateSwitchBase-input emotion-20"
-                              name="authenticator.channel"
-                              type="radio"
-                              value="email"
-                            />
-                            <span
-                              class="emotion-21"
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
+                              data-testid="RadioButtonUncheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
                             >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
-                                data-testid="RadioButtonUncheckedIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                />
-                              </svg>
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-23"
-                                data-testid="RadioButtonCheckedIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                />
-                              </svg>
-                            </span>
+                              <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                              />
+                            </svg>
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-30"
+                              data-testid="RadioButtonCheckedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                              />
+                            </svg>
                           </span>
-                          <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
-                          >
-                            Email me a setup link
-                          </span>
-                        </label>
-                        <label
-                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
                         >
-                          <span
-                            class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root emotion-19"
-                          >
-                            <input
-                              class="PrivateSwitchBase-input emotion-20"
-                              name="authenticator.channel"
-                              type="radio"
-                              value="sms"
-                            />
-                            <span
-                              class="emotion-21"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
-                                data-testid="RadioButtonUncheckedIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                />
-                              </svg>
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-30"
-                                data-testid="RadioButtonCheckedIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                />
-                              </svg>
-                            </span>
-                          </span>
-                          <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
-                          >
-                            Text me a setup link
-                          </span>
-                        </label>
-                      </div>
-                    </fieldset>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
+                          Text me a setup link
+                        </span>
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-33"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
                   >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-33"
-                      data-type="save"
-                      tabindex="0"
-                      type="submit"
+                    <div
+                      class="MuiBox-root emotion-34"
                     >
                       Next
-                    </button>
-                  </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-4"
                   >
                     <div
                       class="MuiBox-root emotion-4"
                     >
-                      <div
-                        class="MuiBox-root emotion-4"
+                      Or 
+                      <a
+                        class="switch-channel-link"
+                        href="#"
                       >
-                        Or 
-                        <a
-                          class="switch-channel-link"
-                          href="#"
-                        >
-                          try a different way
-                        </a>
-                         to set up Okta Verify.
-                      </div>
+                        try a different way
+                      </a>
+                       to set up Okta Verify.
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
-                      data-se="switchAuthenticator"
-                      href="javascript:void(0)"
-                    >
-                      Return to authenticator list
-                    </a>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
+                  >
+                    Return to authenticator list
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>

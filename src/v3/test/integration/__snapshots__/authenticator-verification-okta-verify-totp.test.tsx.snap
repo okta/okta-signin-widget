@@ -96,102 +96,104 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-10"
+              >
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-12"
                   >
-                    <div
-                      class="MuiBox-root emotion-12"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-13"
-                        data-se="o-form-head"
-                      >
-                        Enter a code
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-4"
-                    >
-                      <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
-                        for="credentials.totp"
-                      >
-                        Enter code from Okta Verify app
-                      </label>
-                      <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
-                      >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
-                          data-se="credentials.totp"
-                          id="credentials.totp"
-                          inputmode="numeric"
-                          name="credentials.totp"
-                          type="text"
-                        />
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-19"
-                        >
-                          <legend
-                            class="emotion-20"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
-                      data-type="save"
-                      tabindex="0"
-                      type="submit"
-                    >
-                      Verify
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-                      data-se="switchAuthenticator"
-                      href="javascript:void(0)"
-                    >
-                      Verify with something else
-                    </a>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
+                      Enter a code
+                    </h2>
                   </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <div
+                    class="MuiBox-root emotion-4"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                      for="credentials.totp"
+                    >
+                      Enter code from Okta Verify app
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
+                    >
+                      <input
+                        aria-invalid="false"
+                        autocomplete="one-time-code"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
+                        data-se="credentials.totp"
+                        id="credentials.totp"
+                        inputmode="numeric"
+                        name="credentials.totp"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-19"
+                      >
+                        <legend
+                          class="emotion-20"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    <div
+                      class="MuiBox-root emotion-23"
+                    >
+                      Verify
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
+                  >
+                    Verify with something else
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -297,102 +299,104 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-10"
+              >
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-12"
                   >
-                    <div
-                      class="MuiBox-root emotion-12"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      data-se="o-form-head"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-13"
-                        data-se="o-form-head"
-                      >
-                        Enter a code
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-4"
-                    >
-                      <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
-                        for="credentials.totp"
-                      >
-                        Enter code from Okta Verify app
-                      </label>
-                      <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
-                      >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="off"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
-                          data-se="credentials.totp"
-                          id="credentials.totp"
-                          inputmode="numeric"
-                          name="credentials.totp"
-                          type="text"
-                        />
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-19"
-                        >
-                          <legend
-                            class="emotion-20"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
-                      data-type="save"
-                      tabindex="0"
-                      type="submit"
-                    >
-                      Verify
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-                      data-se="switchAuthenticator"
-                      href="javascript:void(0)"
-                    >
-                      Verify with something else
-                    </a>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
+                      Enter a code
+                    </h2>
                   </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <div
+                    class="MuiBox-root emotion-4"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                      for="credentials.totp"
+                    >
+                      Enter code from Okta Verify app
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
+                    >
+                      <input
+                        aria-invalid="false"
+                        autocomplete="off"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
+                        data-se="credentials.totp"
+                        id="credentials.totp"
+                        inputmode="numeric"
+                        name="credentials.totp"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-19"
+                      >
+                        <legend
+                          class="emotion-20"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    <div
+                      class="MuiBox-root emotion-23"
+                    >
+                      Verify
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                    data-se="switchAuthenticator"
+                    href="javascript:void(0)"
+                  >
+                    Verify with something else
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-11"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>

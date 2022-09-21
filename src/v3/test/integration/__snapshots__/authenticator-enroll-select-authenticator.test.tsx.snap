@@ -63,1208 +63,1206 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-9"
+              >
                 <div
-                  class="MuiBox-root emotion-9"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-11"
                   >
-                    <div
-                      class="MuiBox-root emotion-11"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-12"
+                      data-se="o-form-head"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-12"
-                        data-se="o-form-head"
-                      >
-                        Set up security methods
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiBox-root emotion-11"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
-                        data-se="o-form-explain"
-                      >
-                        Security methods help protect your account by ensuring only you have access.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiBox-root emotion-11"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
-                        data-se="o-form-explain"
-                      >
-                        Set up required
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-okta-password MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="okta_password_0"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="okta_password_0"
-                            >
-                              Password
-                            </title>
-                            <circle
-                              class="siwFillBg"
-                              cx="24"
-                              cy="24"
-                              fill="#F5F5F6"
-                              r="24"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="M11 17h-1V9h8v1h-7v7Zm28 0h-1v-7h-7V9h8v8ZM18 39h-8v-8h1v7h7v1Zm21 0h-8v-1h7v-7h1v8Z"
-                              fill="#A7B5EC"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              d="m14.91 22.067-1.829 1.064V21h-1v2.131l-1.83-1.064-.502.866L11.585 24l-1.836 1.067.502.866 1.83-1.064V27h1v-2.131l1.829 1.064.503-.866L13.576 24l1.837-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L19.531 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L21.523 24l1.836-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L27.477 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L29.47 24l1.836-1.067-.503-.866Zm8.448.866-.501-.866-1.83 1.064V21h-1v2.131l-1.83-1.064-.502.866L35.424 24l-1.837 1.067.503.866 1.829-1.064V27h1v-2.131l1.83 1.064.502-.866L37.415 24l1.836-1.067Z"
-                              fill="#00297A"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          Password
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Choose a password for your account
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="okta_password"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-okta-phone MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="phone_number_1"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="phone_number_1"
-                            >
-                              Voice Call Authentication
-                            </title>
-                            <circle
-                              class="siwFillBg"
-                              cx="24"
-                              cy="24"
-                              fill="#F5F5F6"
-                              r="24"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
-                              fill="#00297A"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
-                              fill="#00297A"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="M34.606 34.606 33.9 33.9a13.998 13.998 0 0 0 0-19.8l.707-.707a15 15 0 0 1 0 21.212l-.001.001Z"
-                              fill="#A7B5EC"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="m31.071 31.071-.707-.707a9 9 0 0 0 0-12.728l.707-.707a10 10 0 0 1 0 14.142Zm-3.535-3.536-.707-.707a4 4 0 0 0 0-5.656l.707-.707a5 5 0 0 1 0 7.07Z"
-                              fill="#A7B5EC"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          Phone
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Verify with a code sent to your phone
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="phone_number"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-webauthn MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="webauthn_2"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="webauthn_2"
-                            >
-                              Security Key or Biometric Authenticator
-                            </title>
-                            <path
-                              class="siwFillBg"
-                              clip-rule="evenodd"
-                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                              fill="#F5F5F6"
-                              fill-rule="evenodd"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"
-                              fill="#00297A"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              d="M19.5 25a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Zm0-4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"
-                              fill="#00297A"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="M30 40a9 9 0 1 1 9-9 9.01 9.01 0 0 1-9 9Zm0-17a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Z"
-                              fill="#A7B5EC"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="M32.084 36.019a.472.472 0 0 1-.319-.112.501.501 0 0 1-.159-.532c.43-1.389 1.274-4.787-.119-6.352a1.962 1.962 0 0 0-1.946-.6 1.93 1.93 0 0 0-1.387 2.354c.007.024.666 2.823-.966 4.55a.5.5 0 1 1-.727-.685c1.24-1.314.728-3.6.723-3.622a2.933 2.933 0 0 1 2.106-3.566 2.977 2.977 0 0 1 2.944.906c1.67 1.875.922 5.386.328 7.312a.5.5 0 0 1-.478.347Z"
-                              fill="#A7B5EC"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="M28.63 37.25a.5.5 0 0 1-.359-.849c2.235-2.3 1.345-5.782 1.336-5.817a.5.5 0 0 1 .966-.259c.045.165 1.052 4.067-1.586 6.774a.5.5 0 0 1-.358.151Z"
-                              fill="#A7B5EC"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="M34.88 35.2a.5.5 0 0 1-.488-.612c.493-2.2.716-5.235-1.03-7.2a4.508 4.508 0 0 0-4.455-1.357 4.416 4.416 0 0 0-2.72 2.069 4.2 4.2 0 0 0-.468 3.2 3.1 3.1 0 0 1-.355 2.347.5.5 0 1 1-.728-.685 2.37 2.37 0 0 0 .11-1.434 5.174 5.174 0 0 1 .577-3.939 5.42 5.42 0 0 1 3.333-2.518 5.524 5.524 0 0 1 5.453 1.66c1.628 1.832 2.051 4.551 1.257 8.082a.5.5 0 0 1-.487.387Z"
-                              fill="#A7B5EC"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          Security Key or Biometric Authenticator
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Use a security key or a biometric authenticator to sign in
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="webauthn"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-okta-security-question MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="security_question_3"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="security_question_3"
-                            >
-                              Security Question
-                            </title>
-                            <circle
-                              class="siwFillBg"
-                              cx="24"
-                              cy="24"
-                              fill="#F5F5F6"
-                              r="24"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="m24.25 39.123-4.615-3.433a21.799 21.799 0 0 1-8.827-16.259l-.329-5.738 12.84-4.534a2.818 2.818 0 0 1 1.862 0l12.84 4.534-.329 5.738a21.8 21.8 0 0 1-8.827 16.259l-4.615 3.433ZM11.521 14.387l.285 4.987a20.811 20.811 0 0 0 8.425 15.514l4.019 2.989 4.019-2.989a20.81 20.81 0 0 0 8.425-15.514l.285-4.987L24.848 10.1a1.792 1.792 0 0 0-1.2 0l-12.127 4.287Z"
-                              fill="#A7B5EC"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-                              fill="#00297A"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          Security Question
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Choose a security question and answer that will be used for signing in
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="security_question"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-okta-verify MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="okta_verify_4"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="okta_verify_4"
-                            >
-                              Okta Verify
-                            </title>
-                            <circle
-                              class="siwFillBg"
-                              cx="24"
-                              cy="24"
-                              fill="#F5F5F6"
-                              r="24"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              clip-rule="evenodd"
-                              d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
-                              fill="#00297A"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          Okta Verify
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Okta Verify is an authenticator app, installed on your phone, used to prove your identity
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="okta_verify"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-google-auth MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="google_otp_5"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="google_otp_5"
-                            >
-                              Google Authenticator
-                            </title>
-                            <path
-                              class="siwFillBg"
-                              clip-rule="evenodd"
-                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                              fill="#F5F5F6"
-                              fill-rule="evenodd"
-                            />
-                            <path
-                              d="M24 40.001c8.838 0 16.001-7.163 16.001-16S32.838 8 24.001 8 8 15.164 8 24c0 8.838 7.164 16.001 16 16.001Z"
-                              fill="#616161"
-                            />
-                            <path
-                              d="M24 34.182c-5.623 0-10.181-4.557-10.181-10.181 0-5.624 4.558-10.182 10.182-10.182 2.81 0 5.355 1.14 7.2 2.982l4.114-4.114A15.952 15.952 0 0 0 24 8C15.163 8 8 15.164 8 24c0 8.838 7.164 16.001 16 16.001 4.42 0 8.419-1.79 11.316-4.685l-4.114-4.114A10.164 10.164 0 0 1 24 34.182Z"
-                              fill="#9E9E9E"
-                            />
-                            <path
-                              d="M34.183 24H29.09a5.09 5.09 0 1 0-8.76 3.528l-.004.004 6.304 6.304.001.001c4.348-1.16 7.55-5.124 7.55-9.836Z"
-                              fill="#424242"
-                            />
-                            <path
-                              d="M40 24h-5.82c0 4.713-3.204 8.676-7.549 9.837l4.493 4.493C36.385 35.71 40 30.277 40 24Z"
-                              fill="#616161"
-                            />
-                            <path
-                              d="M24 39.818c-8.806 0-15.948-7.114-15.999-15.909L8 24.001c0 8.837 7.164 16 16 16 8.838 0 16.001-7.163 16.001-16L40 23.909c-.05 8.795-7.194 15.91-16 15.91Z"
-                              fill="#212121"
-                              fill-opacity=".1"
-                            />
-                            <path
-                              d="m26.634 33.837.141.142c4.273-1.207 7.408-5.134 7.408-9.797v-.181c0 4.712-3.204 8.675-7.55 9.836Z"
-                              fill="#fff"
-                              fill-opacity=".05"
-                            />
-                            <path
-                              d="M37.092 22.546H24a1.454 1.454 0 1 0 0 2.908h13.09a1.454 1.454 0 0 0 .002-2.908Z"
-                              fill="#9E9E9E"
-                            />
-                            <path
-                              d="M37.092 22.546H24a1.454 1.454 0 1 0 0 2.908h13.09a1.454 1.454 0 0 0 .002-2.908Z"
-                              fill="#BDBDBD"
-                              opacity=".5"
-                            />
-                            <path
-                              d="M10.909 25.091a1.09 1.09 0 1 0 0-2.181 1.09 1.09 0 0 0 0 2.181ZM24 12a1.09 1.09 0 1 0 0-2.182A1.09 1.09 0 0 0 24 12Zm0 26.182a1.09 1.09 0 1 0 0-2.181 1.09 1.09 0 0 0 0 2.181Zm-9.272-22.348a1.09 1.09 0 1 0 0-2.182 1.09 1.09 0 0 0 0 2.182Zm0 18.53a1.09 1.09 0 1 0 0-2.181 1.09 1.09 0 0 0 0 2.181Z"
-                              fill="#BDBDBD"
-                            />
-                            <path
-                              d="M33.274 34.364a1.09 1.09 0 1 0 0-2.181 1.09 1.09 0 0 0 0 2.181Z"
-                              fill="#757575"
-                            />
-                            <path
-                              d="M24 22.728h13.091c.773 0 1.404.603 1.45 1.364 0-.03.005-.06.005-.091 0-.804-.651-1.455-1.455-1.455h-13.09a1.454 1.454 0 0 0-1.45 1.546 1.451 1.451 0 0 1 1.45-1.364Z"
-                              fill="#fff"
-                              fill-opacity=".2"
-                            />
-                            <path
-                              d="M38.54 24.09a1.456 1.456 0 0 1-1.449 1.365h-13.09a1.452 1.452 0 0 1-1.45-1.364 1.454 1.454 0 0 0 1.45 1.545h13.09a1.454 1.454 0 0 0 1.45-1.545Z"
-                              fill="#212121"
-                              fill-opacity=".2"
-                            />
-                            <path
-                              d="M24 14c2.811 0 5.357 1.14 7.2 2.983l4.204-4.206-.09-.092L31.2 16.8a10.154 10.154 0 0 0-7.2-2.982c-5.623 0-10.181 4.557-10.181 10.181l.001.092C13.87 18.509 18.408 14 24 14Z"
-                              fill="#212121"
-                              fill-opacity=".1"
-                            />
-                            <path
-                              d="M24 40.001c8.838 0 16.001-7.163 16.001-16S32.838 8 24.001 8 8 15.164 8 24c0 8.838 7.164 16.001 16 16.001Z"
-                              fill="url(#paint0_radial_5_581)"
-                            />
-                            <defs>
-                              <radialgradient
-                                cx="0"
-                                cy="0"
-                                gradientTransform="translate(12.692 12.656) scale(31.946)"
-                                gradientUnits="userSpaceOnUse"
-                                id="paint0_radial_5_581"
-                                r="1"
-                              >
-                                <stop
-                                  stop-color="#fff"
-                                  stop-opacity=".1"
-                                />
-                                <stop
-                                  offset="1"
-                                  stop-color="#fff"
-                                  stop-opacity="0"
-                                />
-                              </radialgradient>
-                            </defs>
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          Google Authenticator
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Enter a temporary code generated from the Google Authenticator app.
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="google_otp"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-onprem MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="onprem_mfa_6"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="onprem_mfa_6"
-                            >
-                              Enter a single-use code from a hardware token.
-                            </title>
-                            <path
-                              class="siwFillBg"
-                              clip-rule="evenodd"
-                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                              fill="#F5F5F6"
-                              fill-rule="evenodd"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              d="M39 20h-8v-3H16.5a7.5 7.5 0 0 0 0 15H31v-3h8v-9Zm-9 11H16.5a6.5 6.5 0 1 1 0-13H30v13Zm8-3h-7v-7h7v7Z"
-                              fill="#00297A"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="M15.5 28a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0-6a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"
-                              fill="#A7B5EC"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          Atko Custom On-prem
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Verify by entering a code generated by Atko Custom On-prem.
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="onprem_mfa-otp"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-rsa MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="rsa_token_7"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="rsa_token_7"
-                            >
-                              RSA SecurID
-                            </title>
-                            <path
-                              class="siwFillBg"
-                              clip-rule="evenodd"
-                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                              fill="#F5F5F6"
-                              fill-rule="evenodd"
-                            />
-                            <path
-                              d="m40 29.725-4.93-11.438h.002-.002v-.002.001h-1.98L28.27 29.73h2.124l3.669-8.974 3.825 8.974L40 29.725Zm-25.757-4.897c1.547-.588 2.287-1.886 2.27-3.21-.028-2.009-1.579-3.41-3.771-3.41H8V29.71h1.727v-9.824h2.916c.978 0 2.028.517 2.045 1.755.014 1.104-.796 1.793-2.169 1.852l-.027.001-1.046.01 3.484 6.225 2.04-.005-2.727-4.898Zm4.61-3.65c0 2.29 2.237 2.937 3.976 3.435 1.812.52 2.443 1.107 2.443 1.997 0 1.484-1.481 1.715-2.397 1.715-1.257 0-2.295-.357-3.31-.994l-.867 1.492C19.98 29.626 21.307 30 22.875 30c2.62 0 4.36-1.38 4.36-3.514 0-2.385-2.117-3.045-3.897-3.556-1.813-.52-2.522-.961-2.522-1.851 0-1.348 1.623-1.479 2.204-1.479.915 0 2.077.311 2.766.672l.729-1.458c-.929-.488-2.353-.814-3.543-.814-2.533 0-4.119 1.172-4.119 3.178Z"
-                              fill="#D9222A"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          RSA SecurID
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Verify by entering a code generated by RSA SecurID
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="rsa_token-otp"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-duo MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="duo_8"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="duo_8"
-                            >
-                              Duo Security
-                            </title>
-                            <path
-                              class="siwFillBg"
-                              clip-rule="evenodd"
-                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                              fill="#F5F5F6"
-                              fill-rule="evenodd"
-                            />
-                            <path
-                              clip-rule="evenodd"
-                              d="M10.632 17H4v6.13h13.25c-.197-3.418-3.085-6.13-6.618-6.13Zm7.242 0v6.506c0 3.466 2.766 6.3 6.25 6.494V17h-6.25Zm13.886 6.13c.2-3.418 3.087-6.13 6.62-6.13s6.42 2.712 6.62 6.13H31.76Zm-6.873 6.859h6.238v-6.114a6.32 6.32 0 0 0 .012-.375V17h-6.25v12.989Zm-14.255.01H4v-6.124h13.25C17.054 27.291 14.166 30 10.633 30ZM38.38 30c-3.533 0-6.42-2.709-6.62-6.125H45C44.801 27.291 41.913 30 38.38 30Z"
-                              fill="#77AF54"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          Duo Security
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Verify your identity using Duo Security.
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="duo"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-custom-factor MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="external_idp_9"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="external_idp_9"
-                            >
-                              Redirect to a third party MFA provider to sign in.
-                            </title>
-                            <path
-                              class="siwFillBg"
-                              clip-rule="evenodd"
-                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                              fill="#F5F5F6"
-                              fill-rule="evenodd"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="M15 29.5a5 5 0 1 1 4.78-6.5h1.03a6 6 0 1 0 0 3h-1.03A5.013 5.013 0 0 1 15 29.5Z"
-                              fill="#A7B5EC"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              d="M27.5 36a11.433 11.433 0 0 1-6.61-2.088l-.186-.134.592-.806.17.123a10.5 10.5 0 1 0-.166-17.066l-.592-.806A11.5 11.5 0 1 1 27.5 36Z"
-                              fill="#00297A"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              d="m29.354 19.646-.708.708L32.293 24H14.707l1.647-1.646-.708-.708-2.853 2.854 2.853 2.854.708-.708L14.707 25h17.586l-3.647 3.646.708.708 4.853-4.854-4.853-4.854Z"
-                              fill="#00297A"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          IDP Authenticator
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Redirect to verify with IDP Authenticator.
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="external_idp"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-hotp MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="custom_otp_10"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="custom_otp_10"
-                            >
-                              Enter a single-use code from an authenticator.
-                            </title>
-                            <path
-                              class="siwFillBg"
-                              clip-rule="evenodd"
-                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                              fill="#F5F5F6"
-                              fill-rule="evenodd"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="M28 23h-6v-6h1v5h5v1Z"
-                              fill="#A7B5EC"
-                            />
-                            <path
-                              class="siwFillSecondary"
-                              d="m29.39 14.32 1.46-1.47-.7-.7-1.6 1.59A11.323 11.323 0 0 0 23 12.03V10h2V9h-5v1h2v2.03c-1.967.078-3.88.667-5.55 1.71l-1.6-1.59-.7.7 1.46 1.47A11.459 11.459 0 0 0 13.79 31h1.37a10.5 10.5 0 1 1 14.68 0h1.37a11.459 11.459 0 0 0-1.82-16.68Z"
-                              fill="#A7B5EC"
-                            />
-                            <path
-                              class="siwFillPrimary"
-                              d="m21.257 33.929-.514-.858L19 34.117V32h-1v2.117l-1.743-1.046-.514.858L17.528 35l-1.785 1.071.514.858L18 35.883V38h1v-2.117l1.743 1.046.514-.858L19.472 35l1.785-1.071Zm8 0-.514-.858L27 34.117V32h-1v2.117l-1.743-1.046-.514.858L25.528 35l-1.785 1.071.514.858L26 35.883V38h1v-2.117l1.743 1.046.514-.858L27.472 35l1.785-1.071Zm8 0-.514-.858L35 34.117V32h-1v2.117l-1.743-1.046-.514.858L33.528 35l-1.785 1.071.514.858L34 35.883V38h1v-2.117l1.743 1.046.514-.858L35.472 35l1.785-1.071Z"
-                              fill="#00297A"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          Atko Custom OTP Authenticator
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Enter a temporary code generated from an authenticator device.
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="custom_otp"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-symantec MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="symantec_vip_11"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="symantec_vip_11"
-                            >
-                              Symantec VIP
-                            </title>
-                            <path
-                              class="siwFillBg"
-                              clip-rule="evenodd"
-                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                              fill="#F5F5F6"
-                              fill-rule="evenodd"
-                            />
-                            <path
-                              d="M40.92 5v1.046H42V5h-1.08Zm0 2.092v1.046H42V7.092h-1.08Zm-3.243 1.046v1.047h1.08V8.138h-1.08Zm-14.141.784C14.954 8.922 8 15.654 8 23.96 8 32.267 14.954 39 23.536 39c8.581 0 15.536-6.732 15.536-15.04 0-8.307-6.955-15.038-15.535-15.038h-.001Zm0 4.796c5.839 0 10.583 4.59 10.583 10.242 0 5.652-4.744 10.244-10.583 10.244-5.84 0-10.537-4.591-10.537-10.244 0-5.652 4.698-10.242 10.537-10.242Z"
-                              fill="#FDB511"
-                            />
-                            <path
-                              d="M39.839 6.046v1.046h1.08V6.046h-1.08Zm0 1.046h-2.162v1.046h2.162V7.092Zm-2.162 1.046h-1.08v2.093h1.08V8.138Zm0 2.093v1.046h1.08V10.23h-1.08Zm1.08 0h1.082V9.185h-1.081v1.046Zm-1.08 1.046h-1.08v1.046h-1.082v-1.046h-2.161v1.046h-1.08v1.046h1.08v1.046h-1.08V13.37h-1.082v1.046h-1.08v1.046H29.03v4.185h2.161V18.6h1.081v-1.046h1.08v-1.046h-1.08V15.46h1.08v1.047h1.082V15.46h1.08v-1.046h1.081V13.37h1.08v-2.092Zm-2.162 0h1.081V10.23h-1.08v1.046Zm0-1.046V9.185h-1.08v1.046h1.08Z"
-                              fill="#000"
-                            />
-                            <path
-                              d="M23.294 24.178c1.124-2.76 1.834-4.259 4.656-7.67l2.162-.002v4.185c-3.005 2.77-3.643 5.076-4.136 7.306-.304 1.36-.304 2.145-1.898 2.328-.298 0-1.076-.254-1.398-.828-.403-.724-1.602-3.501-2.566-5.188-.822-1.438-2.008-2.61-3.063-3.879-.402-.484-.608-.895-.27-1.352.337-.456.582-.385 1.08-.26 2.636 1.14 4.158 2.863 5.433 5.36Z"
-                              fill="#000"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          Symantec VIP
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Verify by entering a temporary code from the Symantec VIP app.
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="symantec_vip"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="authButton MuiBox-root emotion-20"
-                      data-se="authenticator-button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <div
-                        class="MuiBox-root emotion-7"
-                        data-se="authenticator-icon"
-                      >
-                        <div
-                          class="iconContainer mfa-yubikey MuiBox-root emotion-7"
-                        >
-                          <svg
-                            aria-labelledby="yubikey_token_12"
-                            fill="none"
-                            height="48"
-                            role="img"
-                            viewBox="0 0 48 48"
-                            width="48"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <title
-                              id="yubikey_token_12"
-                            >
-                              YubiKey
-                            </title>
-                            <path
-                              class="siwFillBg"
-                              clip-rule="evenodd"
-                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                              fill="#F5F5F6"
-                              fill-rule="evenodd"
-                            />
-                            <circle
-                              cx="24"
-                              cy="24"
-                              fill="#fff"
-                              r="18.5"
-                              stroke="#A3C753"
-                              stroke-width="3"
-                            />
-                            <path
-                              d="m24.406 23.977 1.416-3.996c.723-2.04 1.454-4.08 2.16-6.127.13-.382.328-.525.722-.52 1.466.014 2.933.004 4.4.006.7.001.748.064.49.701-.66 1.62-1.33 3.236-1.988 4.856-1.165 2.872-2.319 5.748-3.486 8.618-1.098 2.7-2.205 5.397-3.315 8.092-.396.961-.405.957-1.472.958-1.417.001-2.833.004-4.25 0-.605-.002-.646-.077-.407-.636.746-1.747 1.482-3.497 2.236-5.24.15-.345.16-.658.022-1.009-1.836-4.666-3.664-9.334-5.494-14.002-.23-.589-.468-1.176-.695-1.767-.164-.425-.084-.564.361-.567 1.6-.01 3.2 0 4.8-.01.38-.002.52.227.63.527.5 1.36 1.004 2.72 1.506 4.08l2.095 5.671c.045.122.101.241.151.361l.118.004Z"
-                              fill="#A3C753"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div
-                        class="infoSection MuiBox-root emotion-7"
-                      >
-                        <h3
-                          class="MuiTypography-root MuiTypography-h3 emotion-24"
-                          data-se="authenticator-button-label"
-                        >
-                          YubiKey Authenticator
-                        </h3>
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                          data-se="authenticator-button-description"
-                        >
-                          Verify your identity using YubiKey
-                        </p>
-                        <div
-                          class="cta-button actionName MuiBox-root emotion-7"
-                          data-se="yubikey_token"
-                        >
-                          <span
-                            class="MuiBox-root emotion-27"
-                            data-se="cta-button-label"
-                          >
-                            Set up
-                          </span>
-                          <mocksvgicon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-137"
-                      data-se="cancel"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
+                      Set up security methods
+                    </h2>
                   </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
+                      data-se="o-form-explain"
+                    >
+                      Security methods help protect your account by ensuring only you have access.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
+                      data-se="o-form-explain"
+                    >
+                      Set up required
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-okta-password MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="okta_password_0"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="okta_password_0"
+                          >
+                            Password
+                          </title>
+                          <circle
+                            class="siwFillBg"
+                            cx="24"
+                            cy="24"
+                            fill="#F5F5F6"
+                            r="24"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M11 17h-1V9h8v1h-7v7Zm28 0h-1v-7h-7V9h8v8ZM18 39h-8v-8h1v7h7v1Zm21 0h-8v-1h7v-7h1v8Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="m14.91 22.067-1.829 1.064V21h-1v2.131l-1.83-1.064-.502.866L11.585 24l-1.836 1.067.502.866 1.83-1.064V27h1v-2.131l1.829 1.064.503-.866L13.576 24l1.837-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L19.531 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L21.523 24l1.836-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L27.477 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L29.47 24l1.836-1.067-.503-.866Zm8.448.866-.501-.866-1.83 1.064V21h-1v2.131l-1.83-1.064-.502.866L35.424 24l-1.837 1.067.503.866 1.829-1.064V27h1v-2.131l1.83 1.064.502-.866L37.415 24l1.836-1.067Z"
+                            fill="#00297A"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        Password
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Choose a password for your account
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="okta_password"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-okta-phone MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="phone_number_1"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="phone_number_1"
+                          >
+                            Voice Call Authentication
+                          </title>
+                          <circle
+                            class="siwFillBg"
+                            cx="24"
+                            cy="24"
+                            fill="#F5F5F6"
+                            r="24"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
+                            fill="#00297A"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
+                            fill="#00297A"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M34.606 34.606 33.9 33.9a13.998 13.998 0 0 0 0-19.8l.707-.707a15 15 0 0 1 0 21.212l-.001.001Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="m31.071 31.071-.707-.707a9 9 0 0 0 0-12.728l.707-.707a10 10 0 0 1 0 14.142Zm-3.535-3.536-.707-.707a4 4 0 0 0 0-5.656l.707-.707a5 5 0 0 1 0 7.07Z"
+                            fill="#A7B5EC"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        Phone
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Verify with a code sent to your phone
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="phone_number"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-webauthn MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="webauthn_2"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="webauthn_2"
+                          >
+                            Security Key or Biometric Authenticator
+                          </title>
+                          <path
+                            class="siwFillBg"
+                            clip-rule="evenodd"
+                            d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                            fill="#F5F5F6"
+                            fill-rule="evenodd"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"
+                            fill="#00297A"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M19.5 25a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Zm0-4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"
+                            fill="#00297A"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M30 40a9 9 0 1 1 9-9 9.01 9.01 0 0 1-9 9Zm0-17a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M32.084 36.019a.472.472 0 0 1-.319-.112.501.501 0 0 1-.159-.532c.43-1.389 1.274-4.787-.119-6.352a1.962 1.962 0 0 0-1.946-.6 1.93 1.93 0 0 0-1.387 2.354c.007.024.666 2.823-.966 4.55a.5.5 0 1 1-.727-.685c1.24-1.314.728-3.6.723-3.622a2.933 2.933 0 0 1 2.106-3.566 2.977 2.977 0 0 1 2.944.906c1.67 1.875.922 5.386.328 7.312a.5.5 0 0 1-.478.347Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M28.63 37.25a.5.5 0 0 1-.359-.849c2.235-2.3 1.345-5.782 1.336-5.817a.5.5 0 0 1 .966-.259c.045.165 1.052 4.067-1.586 6.774a.5.5 0 0 1-.358.151Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M34.88 35.2a.5.5 0 0 1-.488-.612c.493-2.2.716-5.235-1.03-7.2a4.508 4.508 0 0 0-4.455-1.357 4.416 4.416 0 0 0-2.72 2.069 4.2 4.2 0 0 0-.468 3.2 3.1 3.1 0 0 1-.355 2.347.5.5 0 1 1-.728-.685 2.37 2.37 0 0 0 .11-1.434 5.174 5.174 0 0 1 .577-3.939 5.42 5.42 0 0 1 3.333-2.518 5.524 5.524 0 0 1 5.453 1.66c1.628 1.832 2.051 4.551 1.257 8.082a.5.5 0 0 1-.487.387Z"
+                            fill="#A7B5EC"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        Security Key or Biometric Authenticator
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Use a security key or a biometric authenticator to sign in
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="webauthn"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-okta-security-question MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="security_question_3"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="security_question_3"
+                          >
+                            Security Question
+                          </title>
+                          <circle
+                            class="siwFillBg"
+                            cx="24"
+                            cy="24"
+                            fill="#F5F5F6"
+                            r="24"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="m24.25 39.123-4.615-3.433a21.799 21.799 0 0 1-8.827-16.259l-.329-5.738 12.84-4.534a2.818 2.818 0 0 1 1.862 0l12.84 4.534-.329 5.738a21.8 21.8 0 0 1-8.827 16.259l-4.615 3.433ZM11.521 14.387l.285 4.987a20.811 20.811 0 0 0 8.425 15.514l4.019 2.989 4.019-2.989a20.81 20.81 0 0 0 8.425-15.514l.285-4.987L24.848 10.1a1.792 1.792 0 0 0-1.2 0l-12.127 4.287Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                            fill="#00297A"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        Security Question
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Choose a security question and answer that will be used for signing in
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="security_question"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-okta-verify MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="okta_verify_4"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="okta_verify_4"
+                          >
+                            Okta Verify
+                          </title>
+                          <circle
+                            class="siwFillBg"
+                            cx="24"
+                            cy="24"
+                            fill="#F5F5F6"
+                            r="24"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            clip-rule="evenodd"
+                            d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
+                            fill="#00297A"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        Okta Verify
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Okta Verify is an authenticator app, installed on your phone, used to prove your identity
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="okta_verify"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-google-auth MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="google_otp_5"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="google_otp_5"
+                          >
+                            Google Authenticator
+                          </title>
+                          <path
+                            class="siwFillBg"
+                            clip-rule="evenodd"
+                            d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                            fill="#F5F5F6"
+                            fill-rule="evenodd"
+                          />
+                          <path
+                            d="M24 40.001c8.838 0 16.001-7.163 16.001-16S32.838 8 24.001 8 8 15.164 8 24c0 8.838 7.164 16.001 16 16.001Z"
+                            fill="#616161"
+                          />
+                          <path
+                            d="M24 34.182c-5.623 0-10.181-4.557-10.181-10.181 0-5.624 4.558-10.182 10.182-10.182 2.81 0 5.355 1.14 7.2 2.982l4.114-4.114A15.952 15.952 0 0 0 24 8C15.163 8 8 15.164 8 24c0 8.838 7.164 16.001 16 16.001 4.42 0 8.419-1.79 11.316-4.685l-4.114-4.114A10.164 10.164 0 0 1 24 34.182Z"
+                            fill="#9E9E9E"
+                          />
+                          <path
+                            d="M34.183 24H29.09a5.09 5.09 0 1 0-8.76 3.528l-.004.004 6.304 6.304.001.001c4.348-1.16 7.55-5.124 7.55-9.836Z"
+                            fill="#424242"
+                          />
+                          <path
+                            d="M40 24h-5.82c0 4.713-3.204 8.676-7.549 9.837l4.493 4.493C36.385 35.71 40 30.277 40 24Z"
+                            fill="#616161"
+                          />
+                          <path
+                            d="M24 39.818c-8.806 0-15.948-7.114-15.999-15.909L8 24.001c0 8.837 7.164 16 16 16 8.838 0 16.001-7.163 16.001-16L40 23.909c-.05 8.795-7.194 15.91-16 15.91Z"
+                            fill="#212121"
+                            fill-opacity=".1"
+                          />
+                          <path
+                            d="m26.634 33.837.141.142c4.273-1.207 7.408-5.134 7.408-9.797v-.181c0 4.712-3.204 8.675-7.55 9.836Z"
+                            fill="#fff"
+                            fill-opacity=".05"
+                          />
+                          <path
+                            d="M37.092 22.546H24a1.454 1.454 0 1 0 0 2.908h13.09a1.454 1.454 0 0 0 .002-2.908Z"
+                            fill="#9E9E9E"
+                          />
+                          <path
+                            d="M37.092 22.546H24a1.454 1.454 0 1 0 0 2.908h13.09a1.454 1.454 0 0 0 .002-2.908Z"
+                            fill="#BDBDBD"
+                            opacity=".5"
+                          />
+                          <path
+                            d="M10.909 25.091a1.09 1.09 0 1 0 0-2.181 1.09 1.09 0 0 0 0 2.181ZM24 12a1.09 1.09 0 1 0 0-2.182A1.09 1.09 0 0 0 24 12Zm0 26.182a1.09 1.09 0 1 0 0-2.181 1.09 1.09 0 0 0 0 2.181Zm-9.272-22.348a1.09 1.09 0 1 0 0-2.182 1.09 1.09 0 0 0 0 2.182Zm0 18.53a1.09 1.09 0 1 0 0-2.181 1.09 1.09 0 0 0 0 2.181Z"
+                            fill="#BDBDBD"
+                          />
+                          <path
+                            d="M33.274 34.364a1.09 1.09 0 1 0 0-2.181 1.09 1.09 0 0 0 0 2.181Z"
+                            fill="#757575"
+                          />
+                          <path
+                            d="M24 22.728h13.091c.773 0 1.404.603 1.45 1.364 0-.03.005-.06.005-.091 0-.804-.651-1.455-1.455-1.455h-13.09a1.454 1.454 0 0 0-1.45 1.546 1.451 1.451 0 0 1 1.45-1.364Z"
+                            fill="#fff"
+                            fill-opacity=".2"
+                          />
+                          <path
+                            d="M38.54 24.09a1.456 1.456 0 0 1-1.449 1.365h-13.09a1.452 1.452 0 0 1-1.45-1.364 1.454 1.454 0 0 0 1.45 1.545h13.09a1.454 1.454 0 0 0 1.45-1.545Z"
+                            fill="#212121"
+                            fill-opacity=".2"
+                          />
+                          <path
+                            d="M24 14c2.811 0 5.357 1.14 7.2 2.983l4.204-4.206-.09-.092L31.2 16.8a10.154 10.154 0 0 0-7.2-2.982c-5.623 0-10.181 4.557-10.181 10.181l.001.092C13.87 18.509 18.408 14 24 14Z"
+                            fill="#212121"
+                            fill-opacity=".1"
+                          />
+                          <path
+                            d="M24 40.001c8.838 0 16.001-7.163 16.001-16S32.838 8 24.001 8 8 15.164 8 24c0 8.838 7.164 16.001 16 16.001Z"
+                            fill="url(#paint0_radial_5_581)"
+                          />
+                          <defs>
+                            <radialgradient
+                              cx="0"
+                              cy="0"
+                              gradientTransform="translate(12.692 12.656) scale(31.946)"
+                              gradientUnits="userSpaceOnUse"
+                              id="paint0_radial_5_581"
+                              r="1"
+                            >
+                              <stop
+                                stop-color="#fff"
+                                stop-opacity=".1"
+                              />
+                              <stop
+                                offset="1"
+                                stop-color="#fff"
+                                stop-opacity="0"
+                              />
+                            </radialgradient>
+                          </defs>
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        Google Authenticator
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Enter a temporary code generated from the Google Authenticator app.
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="google_otp"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-onprem MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="onprem_mfa_6"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="onprem_mfa_6"
+                          >
+                            Enter a single-use code from a hardware token.
+                          </title>
+                          <path
+                            class="siwFillBg"
+                            clip-rule="evenodd"
+                            d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                            fill="#F5F5F6"
+                            fill-rule="evenodd"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M39 20h-8v-3H16.5a7.5 7.5 0 0 0 0 15H31v-3h8v-9Zm-9 11H16.5a6.5 6.5 0 1 1 0-13H30v13Zm8-3h-7v-7h7v7Z"
+                            fill="#00297A"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M15.5 28a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0-6a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"
+                            fill="#A7B5EC"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        Atko Custom On-prem
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Verify by entering a code generated by Atko Custom On-prem.
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="onprem_mfa-otp"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-rsa MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="rsa_token_7"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="rsa_token_7"
+                          >
+                            RSA SecurID
+                          </title>
+                          <path
+                            class="siwFillBg"
+                            clip-rule="evenodd"
+                            d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                            fill="#F5F5F6"
+                            fill-rule="evenodd"
+                          />
+                          <path
+                            d="m40 29.725-4.93-11.438h.002-.002v-.002.001h-1.98L28.27 29.73h2.124l3.669-8.974 3.825 8.974L40 29.725Zm-25.757-4.897c1.547-.588 2.287-1.886 2.27-3.21-.028-2.009-1.579-3.41-3.771-3.41H8V29.71h1.727v-9.824h2.916c.978 0 2.028.517 2.045 1.755.014 1.104-.796 1.793-2.169 1.852l-.027.001-1.046.01 3.484 6.225 2.04-.005-2.727-4.898Zm4.61-3.65c0 2.29 2.237 2.937 3.976 3.435 1.812.52 2.443 1.107 2.443 1.997 0 1.484-1.481 1.715-2.397 1.715-1.257 0-2.295-.357-3.31-.994l-.867 1.492C19.98 29.626 21.307 30 22.875 30c2.62 0 4.36-1.38 4.36-3.514 0-2.385-2.117-3.045-3.897-3.556-1.813-.52-2.522-.961-2.522-1.851 0-1.348 1.623-1.479 2.204-1.479.915 0 2.077.311 2.766.672l.729-1.458c-.929-.488-2.353-.814-3.543-.814-2.533 0-4.119 1.172-4.119 3.178Z"
+                            fill="#D9222A"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        RSA SecurID
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Verify by entering a code generated by RSA SecurID
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="rsa_token-otp"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-duo MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="duo_8"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="duo_8"
+                          >
+                            Duo Security
+                          </title>
+                          <path
+                            class="siwFillBg"
+                            clip-rule="evenodd"
+                            d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                            fill="#F5F5F6"
+                            fill-rule="evenodd"
+                          />
+                          <path
+                            clip-rule="evenodd"
+                            d="M10.632 17H4v6.13h13.25c-.197-3.418-3.085-6.13-6.618-6.13Zm7.242 0v6.506c0 3.466 2.766 6.3 6.25 6.494V17h-6.25Zm13.886 6.13c.2-3.418 3.087-6.13 6.62-6.13s6.42 2.712 6.62 6.13H31.76Zm-6.873 6.859h6.238v-6.114a6.32 6.32 0 0 0 .012-.375V17h-6.25v12.989Zm-14.255.01H4v-6.124h13.25C17.054 27.291 14.166 30 10.633 30ZM38.38 30c-3.533 0-6.42-2.709-6.62-6.125H45C44.801 27.291 41.913 30 38.38 30Z"
+                            fill="#77AF54"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        Duo Security
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Verify your identity using Duo Security.
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="duo"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-custom-factor MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="external_idp_9"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="external_idp_9"
+                          >
+                            Redirect to a third party MFA provider to sign in.
+                          </title>
+                          <path
+                            class="siwFillBg"
+                            clip-rule="evenodd"
+                            d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                            fill="#F5F5F6"
+                            fill-rule="evenodd"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M15 29.5a5 5 0 1 1 4.78-6.5h1.03a6 6 0 1 0 0 3h-1.03A5.013 5.013 0 0 1 15 29.5Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="M27.5 36a11.433 11.433 0 0 1-6.61-2.088l-.186-.134.592-.806.17.123a10.5 10.5 0 1 0-.166-17.066l-.592-.806A11.5 11.5 0 1 1 27.5 36Z"
+                            fill="#00297A"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="m29.354 19.646-.708.708L32.293 24H14.707l1.647-1.646-.708-.708-2.853 2.854 2.853 2.854.708-.708L14.707 25h17.586l-3.647 3.646.708.708 4.853-4.854-4.853-4.854Z"
+                            fill="#00297A"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        IDP Authenticator
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Redirect to verify with IDP Authenticator.
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="external_idp"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-hotp MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="custom_otp_10"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="custom_otp_10"
+                          >
+                            Enter a single-use code from an authenticator.
+                          </title>
+                          <path
+                            class="siwFillBg"
+                            clip-rule="evenodd"
+                            d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                            fill="#F5F5F6"
+                            fill-rule="evenodd"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="M28 23h-6v-6h1v5h5v1Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillSecondary"
+                            d="m29.39 14.32 1.46-1.47-.7-.7-1.6 1.59A11.323 11.323 0 0 0 23 12.03V10h2V9h-5v1h2v2.03c-1.967.078-3.88.667-5.55 1.71l-1.6-1.59-.7.7 1.46 1.47A11.459 11.459 0 0 0 13.79 31h1.37a10.5 10.5 0 1 1 14.68 0h1.37a11.459 11.459 0 0 0-1.82-16.68Z"
+                            fill="#A7B5EC"
+                          />
+                          <path
+                            class="siwFillPrimary"
+                            d="m21.257 33.929-.514-.858L19 34.117V32h-1v2.117l-1.743-1.046-.514.858L17.528 35l-1.785 1.071.514.858L18 35.883V38h1v-2.117l1.743 1.046.514-.858L19.472 35l1.785-1.071Zm8 0-.514-.858L27 34.117V32h-1v2.117l-1.743-1.046-.514.858L25.528 35l-1.785 1.071.514.858L26 35.883V38h1v-2.117l1.743 1.046.514-.858L27.472 35l1.785-1.071Zm8 0-.514-.858L35 34.117V32h-1v2.117l-1.743-1.046-.514.858L33.528 35l-1.785 1.071.514.858L34 35.883V38h1v-2.117l1.743 1.046.514-.858L35.472 35l1.785-1.071Z"
+                            fill="#00297A"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        Atko Custom OTP Authenticator
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Enter a temporary code generated from an authenticator device.
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="custom_otp"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-symantec MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="symantec_vip_11"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="symantec_vip_11"
+                          >
+                            Symantec VIP
+                          </title>
+                          <path
+                            class="siwFillBg"
+                            clip-rule="evenodd"
+                            d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                            fill="#F5F5F6"
+                            fill-rule="evenodd"
+                          />
+                          <path
+                            d="M40.92 5v1.046H42V5h-1.08Zm0 2.092v1.046H42V7.092h-1.08Zm-3.243 1.046v1.047h1.08V8.138h-1.08Zm-14.141.784C14.954 8.922 8 15.654 8 23.96 8 32.267 14.954 39 23.536 39c8.581 0 15.536-6.732 15.536-15.04 0-8.307-6.955-15.038-15.535-15.038h-.001Zm0 4.796c5.839 0 10.583 4.59 10.583 10.242 0 5.652-4.744 10.244-10.583 10.244-5.84 0-10.537-4.591-10.537-10.244 0-5.652 4.698-10.242 10.537-10.242Z"
+                            fill="#FDB511"
+                          />
+                          <path
+                            d="M39.839 6.046v1.046h1.08V6.046h-1.08Zm0 1.046h-2.162v1.046h2.162V7.092Zm-2.162 1.046h-1.08v2.093h1.08V8.138Zm0 2.093v1.046h1.08V10.23h-1.08Zm1.08 0h1.082V9.185h-1.081v1.046Zm-1.08 1.046h-1.08v1.046h-1.082v-1.046h-2.161v1.046h-1.08v1.046h1.08v1.046h-1.08V13.37h-1.082v1.046h-1.08v1.046H29.03v4.185h2.161V18.6h1.081v-1.046h1.08v-1.046h-1.08V15.46h1.08v1.047h1.082V15.46h1.08v-1.046h1.081V13.37h1.08v-2.092Zm-2.162 0h1.081V10.23h-1.08v1.046Zm0-1.046V9.185h-1.08v1.046h1.08Z"
+                            fill="#000"
+                          />
+                          <path
+                            d="M23.294 24.178c1.124-2.76 1.834-4.259 4.656-7.67l2.162-.002v4.185c-3.005 2.77-3.643 5.076-4.136 7.306-.304 1.36-.304 2.145-1.898 2.328-.298 0-1.076-.254-1.398-.828-.403-.724-1.602-3.501-2.566-5.188-.822-1.438-2.008-2.61-3.063-3.879-.402-.484-.608-.895-.27-1.352.337-.456.582-.385 1.08-.26 2.636 1.14 4.158 2.863 5.433 5.36Z"
+                            fill="#000"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        Symantec VIP
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Verify by entering a temporary code from the Symantec VIP app.
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="symantec_vip"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <button
+                    class="authButton MuiBox-root emotion-20"
+                    data-se="authenticator-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                      data-se="authenticator-icon"
+                    >
+                      <div
+                        class="iconContainer mfa-yubikey MuiBox-root emotion-7"
+                      >
+                        <svg
+                          aria-labelledby="yubikey_token_12"
+                          fill="none"
+                          height="48"
+                          role="img"
+                          viewBox="0 0 48 48"
+                          width="48"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title
+                            id="yubikey_token_12"
+                          >
+                            YubiKey
+                          </title>
+                          <path
+                            class="siwFillBg"
+                            clip-rule="evenodd"
+                            d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                            fill="#F5F5F6"
+                            fill-rule="evenodd"
+                          />
+                          <circle
+                            cx="24"
+                            cy="24"
+                            fill="#fff"
+                            r="18.5"
+                            stroke="#A3C753"
+                            stroke-width="3"
+                          />
+                          <path
+                            d="m24.406 23.977 1.416-3.996c.723-2.04 1.454-4.08 2.16-6.127.13-.382.328-.525.722-.52 1.466.014 2.933.004 4.4.006.7.001.748.064.49.701-.66 1.62-1.33 3.236-1.988 4.856-1.165 2.872-2.319 5.748-3.486 8.618-1.098 2.7-2.205 5.397-3.315 8.092-.396.961-.405.957-1.472.958-1.417.001-2.833.004-4.25 0-.605-.002-.646-.077-.407-.636.746-1.747 1.482-3.497 2.236-5.24.15-.345.16-.658.022-1.009-1.836-4.666-3.664-9.334-5.494-14.002-.23-.589-.468-1.176-.695-1.767-.164-.425-.084-.564.361-.567 1.6-.01 3.2 0 4.8-.01.38-.002.52.227.63.527.5 1.36 1.004 2.72 1.506 4.08l2.095 5.671c.045.122.101.241.151.361l.118.004Z"
+                            fill="#A3C753"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div
+                      class="infoSection MuiBox-root emotion-7"
+                    >
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        data-se="authenticator-button-label"
+                      >
+                        YubiKey Authenticator
+                      </h3>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="authenticator-button-description"
+                      >
+                        Verify your identity using YubiKey
+                      </p>
+                      <div
+                        class="cta-button actionName MuiBox-root emotion-7"
+                        data-se="yubikey_token"
+                      >
+                        <span
+                          class="MuiBox-root emotion-27"
+                          data-se="cta-button-label"
+                        >
+                          Set up
+                        </span>
+                        <mocksvgicon />
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-137"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>

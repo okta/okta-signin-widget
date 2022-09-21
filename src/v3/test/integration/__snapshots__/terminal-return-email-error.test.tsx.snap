@@ -67,57 +67,55 @@ exports[`terminal-return-email-error should render form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <fieldset>
+              <div
+                class="MuiBox-root emotion-6"
+              >
                 <div
-                  class="MuiBox-root emotion-6"
+                  class="MuiBox-root emotion-7"
                 >
                   <div
-                    class="MuiBox-root emotion-7"
+                    class="MuiBox-root emotion-8"
+                    data-se="message"
                   >
                     <div
-                      class="MuiBox-root emotion-8"
-                      data-se="message"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-9"
+                      data-se="infobox-error"
+                      role="alert"
                     >
                       <div
-                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-9"
-                        data-se="infobox-error"
-                        role="alert"
+                        class="MuiAlert-icon emotion-10"
                       >
-                        <div
-                          class="MuiAlert-icon emotion-10"
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-11"
+                          data-testid="ErrorOutlineIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
                         >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-11"
-                            data-testid="ErrorOutlineIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                            />
-                          </svg>
-                        </div>
-                        <div
-                          class="MuiAlert-message emotion-12"
-                        >
-                          Could not process this email link. Return to the screen where you requested it.
-                        </div>
+                          <path
+                            d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        class="MuiAlert-message emotion-12"
+                      >
+                        Could not process this email link. Return to the screen where you requested it.
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-7"
-                  >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-14"
-                      href="javascript:void(0)"
-                    >
-                      Back to sign in
-                    </a>
-                  </div>
                 </div>
-              </fieldset>
+                <div
+                  class="MuiBox-root emotion-7"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-14"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
+                </div>
+              </div>
             </form>
           </div>
         </div>
