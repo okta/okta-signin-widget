@@ -99,94 +99,96 @@ exports[`email-challenge-consent should render form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-10"
-              >
+              <fieldset>
                 <div
-                  class="MuiBox-root emotion-11"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                      data-se="o-form-head"
-                    >
-                      Did you just try to sign in?
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-15"
-                    id="browser"
+                    class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-16"
+                      class="MuiBox-root emotion-12"
                     >
-                      <mocksvgicon />
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-4"
-                    >
-                      <span
-                        class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-13"
+                        data-se="o-form-head"
                       >
-                        CHROME
-                      </span>
+                        Did you just try to sign in?
+                      </h2>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
                   <div
-                    class="MuiBox-root emotion-15"
-                    id="appName"
+                    class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-16"
+                      class="MuiBox-root emotion-15"
+                      id="browser"
                     >
-                      <mocksvgicon />
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-4"
-                    >
-                      <span
-                        class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      <div
+                        class="MuiBox-root emotion-16"
                       >
-                        Okta Dashboard
-                      </span>
+                        <mocksvgicon />
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        <span
+                          class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        >
+                          CHROME
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <button
-                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
-                    data-type="cancel"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="MuiBox-root emotion-11"
                   >
-                    No, it's not me
-                  </button>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <button
-                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
-                    data-type="save"
-                    tabindex="0"
-                    type="button"
+                    <div
+                      class="MuiBox-root emotion-15"
+                      id="appName"
+                    >
+                      <div
+                        class="MuiBox-root emotion-16"
+                      >
+                        <mocksvgicon />
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        <span
+                          class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        >
+                          Okta Dashboard
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
                   >
-                    Yes, it's me
-                  </button>
+                    <button
+                      class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
+                      data-type="cancel"
+                      tabindex="0"
+                      type="button"
+                    >
+                      No, it's not me
+                    </button>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <button
+                      class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
+                      data-type="save"
+                      tabindex="0"
+                      type="button"
+                    >
+                      Yes, it's me
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>

@@ -38,4 +38,6 @@ export type IWidgetContext = {
   data: FormBag['data'];
   setData: StateUpdater<FormBag['data']>;
   dataSchemaRef: MutableRef<FormBag['dataSchema'] | undefined>;
+  loading: boolean;
+  setLoading: StateUpdater<boolean>;
 };

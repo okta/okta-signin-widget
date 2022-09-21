@@ -171,23 +171,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                      data-se="o-form-head"
-                    >
-                      Set up Google Authenticator
-                    </h2>
-                  </div>
-                </div>
+              <fieldset>
                 <div
                   class="MuiBox-root emotion-10"
                 >
@@ -197,73 +181,91 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     <div
                       class="MuiBox-root emotion-12"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
-                        data-se="o-form-explain"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-13"
+                        data-se="o-form-head"
                       >
-                        Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".
-                      </p>
+                        Set up Google Authenticator
+                      </h2>
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="qrContainer MuiBox-root emotion-4"
+                      class="MuiBox-root emotion-11"
                     >
-                      <img
-                        alt="QR code"
-                        class="qrImg"
-                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAE7ElEQVR42u3dwWrsMAwF0Pz/T7/uC29RYklXzrnQ1ZQh4/gEFDvK809E/pvHEIgAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIIL+/6Hla/04f718/rx6v0+Ndff5umx+AAAIIIIAAAggggOwDUj2h3k64r4N9O17pFxxAAAEEEEAAAQQQQAB5O+HSiubTYKrHo3p8TwNKmR+AAAIIIIAAAggggABS9f1vJ3BaEV+9sAcIIIAAAggggAACCCCK9FmQ1UX5NAhAAAEEEEAAAQQQQADZBqQbYPUJOl20Vx9/90Jn2vwABBBAAAEEEEAAAeR+INsnmM/vugAB4nNAADHBAAEEEEDuA5KW6QeQqv8/feHzmnkECCCAAAIIIIAAAkgskO4ivPsBpemisvqBp9Pjvb0RHSCAAAIIIIAAAggg+4CcPmGpA5gygbvHa/oCBwgggAACCCCAAAIIIGnNnKebXXc3jqsez+nvnwoggAACCCCAAAIIILlA0ovW9KKwu/n29E2PLYAAAQQQQAABBBBAANkDpLvIvA3k6QtO+gRO3bwICCCAAAIIIIAAAsgeILe9VLP7ga9tmz+rjx8QQAABBBBAAAEEEEC6i/juE5S22bD6psH0wlzq8QECCCCAAAIIIIAAkgvk600SqhuzpT+QdmtTDkAAAQQQQAABBBBA9hTp3UVz2kLWdLPn6c2ctwQQQAABBBBAAAEEkL1AtoPqPv7pInZ682XKTSJAAAEEEEAAAQQQQO4FUg3u9E2GbS+EmW5SseUBKUAAAQQQQAABBBBAvrNZcfoFL9MLidXjUX3BuqVJAyCAAAIIIIAAAggge4v00z94+qH+6SK9e/Nm98Le57uaAAIIIIAAAggggAASV7RPT5i0hbPuCT1dtFfPN0AAAQQQQAABBBBA9gNJW1iaLiKnP0/7vvRm2oAAAggggAACCCCA5ANJWzibLuKnx2/6pkk1uHVFOiCAAAIIIIAAAggg5UCqP59eiEt7QOj0+GxrXg0IIIAAAggggAACCCDbiuDu39+9+TCtacPp8wMIIIAAAggggAACCCDpRf40iNMLhbc1rrt+syIggAACCCCAAAIIIOVFW9qE6v593UVv9QVu200FQAABBBBAAAEEEEC+17RhWxFbfVOhewJ3j2faBQgQQAABBBBAAAEEkPuAfL2JQvdNhfTNgt1Ar+tqAggggAACCCCAAAJIeVHYXRSnvYAm7QJw++8HxATx+wEBBBBAAAHkfiDdAzLdTHv6gpIGcAsIQAABBBBAAAEEEEDuBTLdPLl74S6tyE1r/v35hUJAAAEEEEAAAQQQQNYlrXHa9AuBTt9ESbtJAwgggAACCCCAAAIIINMvkUwruqubeXcff1rTjPULhYAAAggggAACCCCAjBdp1QuRaQCmFxqrN4cq0gEBBBBAAAEEEEAAmQYy3Ugu/QU3ad/Xvfk0BQQggAACCCCAAAIIIIB0nfBuANtfINQ9X6ZuEgECCCCAAAIIIIAAAsiWonM6aUXv9E0WQAABBBBAAAEEEEC8H2S6qEsDPv3/08eX+kIfQAABBBBAAAEEEED2ANnezDh9IS/tb2oCry3SAQEEEEAAAQQQQAAREUBEABEBRAQQEUBEABEBRAQQEUBEBBARQEQAEQFEBBARQEQAEQFE5Ob8AIHb9L3GGLlfAAAAAElFTkSuQmCC"
-                      />
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                          data-se="o-form-explain"
+                        >
+                          Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <div
+                        class="qrContainer MuiBox-root emotion-4"
+                      >
+                        <img
+                          alt="QR code"
+                          class="qrImg"
+                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAE7ElEQVR42u3dwWrsMAwF0Pz/T7/uC29RYklXzrnQ1ZQh4/gEFDvK809E/pvHEIgAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIIL+/6Hla/04f718/rx6v0+Ndff5umx+AAAIIIIAAAggggOwDUj2h3k64r4N9O17pFxxAAAEEEEAAAQQQQAB5O+HSiubTYKrHo3p8TwNKmR+AAAIIIIAAAggggABS9f1vJ3BaEV+9sAcIIIAAAggggAACCCCK9FmQ1UX5NAhAAAEEEEAAAQQQQADZBqQbYPUJOl20Vx9/90Jn2vwABBBAAAEEEEAAAeR+INsnmM/vugAB4nNAADHBAAEEEEDuA5KW6QeQqv8/feHzmnkECCCAAAIIIIAAAkgskO4ivPsBpemisvqBp9Pjvb0RHSCAAAIIIIAAAggg+4CcPmGpA5gygbvHa/oCBwgggAACCCCAAAIIIGnNnKebXXc3jqsez+nvnwoggAACCCCAAAIIILlA0ovW9KKwu/n29E2PLYAAAQQQQAABBBBAANkDpLvIvA3k6QtO+gRO3bwICCCAAAIIIIAAAsgeILe9VLP7ga9tmz+rjx8QQAABBBBAAAEEEEC6i/juE5S22bD6psH0wlzq8QECCCCAAAIIIIAAkgvk600SqhuzpT+QdmtTDkAAAQQQQAABBBBA9hTp3UVz2kLWdLPn6c2ctwQQQAABBBBAAAEEkL1AtoPqPv7pInZ682XKTSJAAAEEEEAAAQQQQO4FUg3u9E2GbS+EmW5SseUBKUAAAQQQQAABBBBAvrNZcfoFL9MLidXjUX3BuqVJAyCAAAIIIIAAAggge4v00z94+qH+6SK9e/Nm98Le57uaAAIIIIAAAggggAASV7RPT5i0hbPuCT1dtFfPN0AAAQQQQAABBBBA9gNJW1iaLiKnP0/7vvRm2oAAAggggAACCCCA5ANJWzibLuKnx2/6pkk1uHVFOiCAAAIIIIAAAggg5UCqP59eiEt7QOj0+GxrXg0IIIAAAggggAACCCDbiuDu39+9+TCtacPp8wMIIIAAAggggAACCCDpRf40iNMLhbc1rrt+syIggAACCCCAAAIIIOVFW9qE6v593UVv9QVu200FQAABBBBAAAEEEEC+17RhWxFbfVOhewJ3j2faBQgQQAABBBBAAAEEkPuAfL2JQvdNhfTNgt1Ar+tqAggggAACCCCAAAJIeVHYXRSnvYAm7QJw++8HxATx+wEBBBBAAAHkfiDdAzLdTHv6gpIGcAsIQAABBBBAAAEEEEDuBTLdPLl74S6tyE1r/v35hUJAAAEEEEAAAQQQQNYlrXHa9AuBTt9ESbtJAwgggAACCCCAAAIIINMvkUwruqubeXcff1rTjPULhYAAAggggAACCCCAjBdp1QuRaQCmFxqrN4cq0gEBBBBAAAEEEEAAmQYy3Ugu/QU3ad/Xvfk0BQQggAACCCCAAAIIIIB0nfBuANtfINQ9X6ZuEgECCCCAAAIIIIAAAsiWonM6aUXv9E0WQAABBBBAAAEEEEC8H2S6qEsDPv3/08eX+kIfQAABBBBAAAEEEED2ANnezDh9IS/tb2oCry3SAQEEEEAAAQQQQAAREUBEABEBRAQQEUBEABEBRAQQEUBEBBARQEQAEQFEBBARQEQAEQFE5Ob8AIHb9L3GGLlfAAAAAElFTkSuQmCC"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <button
+                        class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
+                        tabindex="0"
+                        type="button"
+                      >
+                        Can't scan barcode?
+                      </button>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <button
+                        class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
+                        tabindex="0"
+                        type="button"
+                      >
+                        Next
+                      </button>
                     </div>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
-                      tabindex="0"
-                      type="button"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                      data-se="switchAuthenticator"
+                      href="javascript:void(0)"
                     >
-                      Can't scan barcode?
-                    </button>
+                      Return to authenticator list
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
-                      tabindex="0"
-                      type="button"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                      data-se="cancel"
+                      href="javascript:void(0)"
                     >
-                      Next
-                    </button>
+                      Back to sign in
+                    </a>
                   </div>
                 </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>
@@ -444,23 +446,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                      data-se="o-form-head"
-                    >
-                      Set up Google Authenticator
-                    </h2>
-                  </div>
-                </div>
+              <fieldset>
                 <div
                   class="MuiBox-root emotion-10"
                 >
@@ -470,91 +456,110 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     <div
                       class="MuiBox-root emotion-12"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
-                        data-se="o-form-explain"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-13"
+                        data-se="o-form-head"
                       >
-                        Enter code displayed from application
-                      </p>
+                        Set up Google Authenticator
+                      </h2>
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-4"
+                      class="MuiBox-root emotion-11"
                     >
-                      <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
-                        for="credentials.passcode"
-                      >
-                        Enter code
-                      </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
+                        class="MuiBox-root emotion-12"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
-                          data-se="credentials.passcode"
-                          id="credentials.passcode"
-                          name="credentials.passcode"
-                          type="text"
-                        />
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-23"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                          data-se="o-form-explain"
                         >
-                          <legend
-                            class="emotion-24"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
+                          Enter code displayed from application
+                        </p>
                       </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        <label
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                          for="credentials.passcode"
+                        >
+                          Enter code
+                        </label>
+                        <div
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
+                        >
+                          <input
+                            aria-invalid="false"
+                            autocomplete="off"
+                            class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                            data-se="credentials.passcode"
+                            id="credentials.passcode"
+                            inputmode="numeric"
+                            name="credentials.passcode"
+                            type="text"
+                          />
+                          <fieldset
+                            aria-hidden="true"
+                            class="MuiOutlinedInput-notchedOutline emotion-23"
+                          >
+                            <legend
+                              class="emotion-24"
+                            >
+                              <span
+                                class="notranslate"
+                              >
+                                ​
+                              </span>
+                            </legend>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <button
+                        class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
+                        data-type="save"
+                        tabindex="0"
+                        type="submit"
+                      >
+                        Verify
+                      </button>
                     </div>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
-                      data-type="save"
-                      tabindex="0"
-                      type="submit"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                      data-se="switchAuthenticator"
+                      href="javascript:void(0)"
                     >
-                      Verify
-                    </button>
+                      Return to authenticator list
+                    </a>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
                   </div>
                 </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>
@@ -735,23 +740,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                      data-se="o-form-head"
-                    >
-                      Set up Google Authenticator
-                    </h2>
-                  </div>
-                </div>
+              <fieldset>
                 <div
                   class="MuiBox-root emotion-10"
                 >
@@ -761,63 +750,81 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     <div
                       class="MuiBox-root emotion-12"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
-                        data-se="o-form-explain"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-13"
+                        data-se="o-form-head"
                       >
-                        To set up manually enter your Okta Account username and then input the following in the Secret Key Field
-                      </p>
+                        Set up Google Authenticator
+                      </h2>
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-11"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
-                        data-se="o-form-explain"
+                      <div
+                        class="MuiBox-root emotion-12"
                       >
-                        K A G W B I X A K O L P E F M Y
-                      </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                          data-se="o-form-explain"
+                        >
+                          To set up manually enter your Okta Account username and then input the following in the Secret Key Field
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <div
+                        class="MuiBox-root emotion-12"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                          data-se="o-form-explain"
+                        >
+                          K A G W B I X A K O L P E F M Y
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <button
+                        class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
+                        tabindex="0"
+                        type="button"
+                      >
+                        Next
+                      </button>
                     </div>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
-                      tabindex="0"
-                      type="button"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
+                      data-se="switchAuthenticator"
+                      href="javascript:void(0)"
                     >
-                      Next
-                    </button>
+                      Return to authenticator list
+                    </a>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
                   </div>
                 </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>
@@ -998,23 +1005,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-10"
-              >
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                      data-se="o-form-head"
-                    >
-                      Set up Google Authenticator
-                    </h2>
-                  </div>
-                </div>
+              <fieldset>
                 <div
                   class="MuiBox-root emotion-10"
                 >
@@ -1024,91 +1015,110 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     <div
                       class="MuiBox-root emotion-12"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
-                        data-se="o-form-explain"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-13"
+                        data-se="o-form-head"
                       >
-                        Enter code displayed from application
-                      </p>
+                        Set up Google Authenticator
+                      </h2>
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-4"
+                      class="MuiBox-root emotion-11"
                     >
-                      <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
-                        for="credentials.passcode"
-                      >
-                        Enter code
-                      </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
+                        class="MuiBox-root emotion-12"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
-                          data-se="credentials.passcode"
-                          id="credentials.passcode"
-                          name="credentials.passcode"
-                          type="text"
-                        />
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-23"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                          data-se="o-form-explain"
                         >
-                          <legend
-                            class="emotion-24"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
+                          Enter code displayed from application
+                        </p>
                       </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        <label
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                          for="credentials.passcode"
+                        >
+                          Enter code
+                        </label>
+                        <div
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
+                        >
+                          <input
+                            aria-invalid="false"
+                            autocomplete="off"
+                            class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                            data-se="credentials.passcode"
+                            id="credentials.passcode"
+                            inputmode="numeric"
+                            name="credentials.passcode"
+                            type="text"
+                          />
+                          <fieldset
+                            aria-hidden="true"
+                            class="MuiOutlinedInput-notchedOutline emotion-23"
+                          >
+                            <legend
+                              class="emotion-24"
+                            >
+                              <span
+                                class="notranslate"
+                              >
+                                ​
+                              </span>
+                            </legend>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <button
+                        class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
+                        data-type="save"
+                        tabindex="0"
+                        type="submit"
+                      >
+                        Verify
+                      </button>
                     </div>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
-                      data-type="save"
-                      tabindex="0"
-                      type="submit"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                      data-se="switchAuthenticator"
+                      href="javascript:void(0)"
                     >
-                      Verify
-                    </button>
+                      Return to authenticator list
+                    </a>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
                   </div>
                 </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Return to authenticator list
-                  </a>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>

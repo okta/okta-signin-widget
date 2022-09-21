@@ -63,55 +63,57 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-9"
-              >
+              <fieldset>
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-11"
-                    data-se="message"
+                    class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-12"
-                      data-se="infobox-error"
-                      role="alert"
+                      class="MuiBox-root emotion-11"
+                      data-se="message"
                     >
                       <div
-                        class="MuiAlert-icon emotion-13"
+                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-12"
+                        data-se="infobox-error"
+                        role="alert"
                       >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
-                          data-testid="ErrorOutlineIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
+                        <div
+                          class="MuiAlert-icon emotion-13"
                         >
-                          <path
-                            d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        class="MuiAlert-message emotion-15"
-                      >
-                        Authenticator enrollment is not allowed at this time. Please contact support for assistance.
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
+                            data-testid="ErrorOutlineIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="MuiAlert-message emotion-15"
+                        >
+                          Authenticator enrollment is not allowed at this time. Please contact support for assistance.
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-10"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
-                    href="javascript:void(0)"
+                  <div
+                    class="MuiBox-root emotion-10"
                   >
-                    Back to sign in
-                  </a>
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
+                  </div>
                 </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>

@@ -109,86 +109,88 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-10"
-              >
+              <fieldset>
                 <div
-                  class="MuiBox-root emotion-11"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-12"
+                    class="MuiBox-root emotion-11"
                   >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                      data-se="o-form-head"
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Verify with your phone
-                    </h2>
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-13"
+                        data-se="o-form-head"
+                      >
+                        Verify with your phone
+                      </h2>
+                    </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
                   <div
-                    class="MuiBox-root emotion-12"
+                    class="MuiBox-root emotion-11"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
-                      data-se="o-form-explain"
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Send a code via SMS to +1 XXX-XXX-4601
-                    </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                        data-se="o-form-explain"
+                      >
+                        Send a code via SMS to +1 XXX-XXX-4601
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
                   <div
-                    class="MuiBox-root emotion-12"
+                    class="MuiBox-root emotion-11"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
-                      data-se="o-form-explain"
+                    <div
+                      class="MuiBox-root emotion-12"
                     >
-                      Carrier messaging charges may apply
-                    </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                        data-se="o-form-explain"
+                      >
+                        Carrier messaging charges may apply
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <button
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
+                      data-type="save"
+                      tabindex="0"
+                      type="submit"
+                    >
+                      Receive a code via SMS
+                    </button>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                      data-se="switchAuthenticator"
+                      href="javascript:void(0)"
+                    >
+                      Verify with something else
+                    </a>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
                   </div>
                 </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
-                    data-type="save"
-                    tabindex="0"
-                    type="submit"
-                  >
-                    Receive a code via SMS
-                  </button>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Verify with something else
-                  </a>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>

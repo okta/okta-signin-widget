@@ -99,148 +99,150 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-10"
-              >
+              <fieldset>
                 <div
-                  class="MuiBox-root emotion-11"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                      data-se="o-form-head"
-                    >
-                      Your verification code
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
-                      data-se="o-form-explain"
-                    >
-                      Enter this code on the password reset page.
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-18"
-                  >
-                    <h3
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                    >
-                      123456
-                    </h3>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
-                      data-se="o-form-explain"
-                    >
-                      Request from:
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-24"
-                    id="browser"
+                    class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-25"
+                      class="MuiBox-root emotion-12"
                     >
-                      <mocksvgicon />
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-4"
-                    >
-                      <span
-                        class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-13"
+                        data-se="o-form-head"
                       >
-                        FIREFOX on Android
-                      </span>
+                        Your verification code
+                      </h2>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
                   <div
-                    class="MuiBox-root emotion-24"
-                    id="app"
+                    class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-25"
+                      class="MuiBox-root emotion-12"
                     >
-                      <mocksvgicon />
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-4"
-                    >
-                      <span
-                        class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                        data-se="o-form-explain"
                       >
-                        my 3rd magic link spa
-                      </span>
+                        Enter this code on the password reset page.
+                      </p>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
                   <div
-                    class="MuiBox-root emotion-24"
-                    id="location"
+                    class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-25"
+                      class="MuiBox-root emotion-18"
                     >
-                      <mocksvgicon />
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-4"
-                    >
-                      <span
-                        class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      <h3
+                        class="MuiTypography-root MuiTypography-h3 emotion-13"
                       >
-                        Toronto, Ontario, Canada
-                      </span>
+                        123456
+                      </h3>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                        data-se="o-form-explain"
+                      >
+                        Request from:
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-24"
+                      id="browser"
+                    >
+                      <div
+                        class="MuiBox-root emotion-25"
+                      >
+                        <mocksvgicon />
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        <span
+                          class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        >
+                          FIREFOX on Android
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-24"
+                      id="app"
+                    >
+                      <div
+                        class="MuiBox-root emotion-25"
+                      >
+                        <mocksvgicon />
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        <span
+                          class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        >
+                          my 3rd magic link spa
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-24"
+                      id="location"
+                    >
+                      <div
+                        class="MuiBox-root emotion-25"
+                      >
+                        <mocksvgicon />
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        <span
+                          class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        >
+                          Toronto, Ontario, Canada
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                        data-se="o-form-explain"
+                      >
+                        If you didn’t request this code, you can ignore this message. Your account is safe and can only be accessed with this code.
+                      </p>
                     </div>
                   </div>
                 </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
-                      data-se="o-form-explain"
-                    >
-                      If you didn’t request this code, you can ignore this message. Your account is safe and can only be accessed with this code.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>

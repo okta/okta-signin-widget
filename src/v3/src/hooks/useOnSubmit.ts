@@ -39,10 +39,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setIsClientTransaction,
     setMessage,
     setStepToRender,
+    setLoading,
     widgetProps: { events },
   } = useWidgetContext();
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
+    setLoading(true);
+
     const {
       params,
       includeData,
@@ -120,6 +123,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     } catch (error) {
       handleError(error);
     }
+    setLoading(false);
   }, [
     data,
     authClient,
@@ -129,6 +133,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setAuthApiError,
     setIdxTransaction,
     setIsClientTransaction,
+    setLoading,
     setMessage,
     setStepToRender,
   ]);

@@ -96,140 +96,142 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-10"
-              >
+              <fieldset>
                 <div
-                  class="MuiBox-root emotion-11"
-                />
-                <div
-                  class="MuiBox-root emotion-11"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-13"
+                    class="MuiBox-root emotion-11"
+                  />
+                  <div
+                    class="MuiBox-root emotion-11"
                   >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-14"
-                      data-se="o-form-head"
+                    <div
+                      class="MuiBox-root emotion-13"
                     >
-                      Push notification sent
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <label
-                    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-16"
-                  >
-                    <span
-                      class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-17"
-                    >
-                      <input
-                        class="PrivateSwitchBase-input emotion-18"
-                        data-se="autoChallenge"
-                        data-se-for-name="autoChallenge"
-                        id="autoChallenge"
-                        name="autoChallenge"
-                        type="checkbox"
-                      />
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
-                        data-testid="CheckBoxOutlineBlankIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        data-se="o-form-head"
                       >
-                        <path
-                          d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                        />
-                      </svg>
-                    </span>
-                    <span
-                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-20"
-                    >
-                      Send push automatically
-                    </span>
-                  </label>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-13"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
-                      data-se="o-form-explain"
-                    >
-                      On your mobile device, open the Okta Verify prompt, then tap 52 in Okta Verify to continue.
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-25"
-                    id="code"
-                  >
-                    <div
-                      class="MuiBox-root emotion-26"
-                    >
-                      <mocksvgicon />
+                        Push notification sent
+                      </h2>
                     </div>
-                    <div
-                      class="MuiBox-root emotion-4"
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <label
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-16"
                     >
                       <span
-                        class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-17"
                       >
-                        52
+                        <input
+                          class="PrivateSwitchBase-input emotion-18"
+                          data-se="autoChallenge"
+                          data-se-for-name="autoChallenge"
+                          id="autoChallenge"
+                          name="autoChallenge"
+                          type="checkbox"
+                        />
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
+                          data-testid="CheckBoxOutlineBlankIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-20"
+                      >
+                        Send push automatically
+                      </span>
+                    </label>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-13"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
+                        data-se="o-form-explain"
+                      >
+                        On your mobile device, open the Okta Verify prompt, then tap 52 in Okta Verify to continue.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-25"
+                      id="code"
+                    >
+                      <div
+                        class="MuiBox-root emotion-26"
+                      >
+                        <mocksvgicon />
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        <span
+                          class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6BF3N5 ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                        >
+                          52
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-29"
+                    >
+                      <span
+                        aria-label="Loading..."
+                        aria-valuetext="Loading..."
+                        class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-30"
+                        role="progressbar"
+                        style="width: 1.14285714rem; height: 1.14285714rem;"
+                      >
+                        <svg
+                          class="MuiCircularProgress-svg emotion-31"
+                          viewBox="22 22 44 44"
+                        >
+                          <circle
+                            class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-32"
+                            cx="44"
+                            cy="44"
+                            fill="none"
+                            r="18"
+                            stroke-width="8"
+                          />
+                        </svg>
                       </span>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
                   <div
-                    class="MuiBox-root emotion-29"
+                    class="MuiBox-root emotion-11"
                   >
-                    <span
-                      aria-label="Loading..."
-                      aria-valuetext="Loading..."
-                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-30"
-                      role="progressbar"
-                      style="width: 1.14285714rem; height: 1.14285714rem;"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
+                      data-se="switchAuthenticator"
+                      href="javascript:void(0)"
                     >
-                      <svg
-                        class="MuiCircularProgress-svg emotion-31"
-                        viewBox="22 22 44 44"
-                      >
-                        <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-32"
-                          cx="44"
-                          cy="44"
-                          fill="none"
-                          r="18"
-                          stroke-width="8"
-                        />
-                      </svg>
-                    </span>
+                      Verify with something else
+                    </a>
                   </div>
                 </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
-                  >
-                    Verify with something else
-                  </a>
-                </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>

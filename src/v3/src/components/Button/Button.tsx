@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Button as ButtonMui } from '@mui/material';
+import { Button as ButtonMui, CircularProgress } from '@mui/material';
 import { h } from 'preact';
 
+import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnSubmit } from '../../hooks';
 import {
   ButtonElement,
@@ -25,6 +26,9 @@ const Button: UISchemaElementComponent<{
 }> = ({
   uischema,
 }) => {
+  const {
+    loading,
+  } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const {
     label,
@@ -73,6 +77,8 @@ const Button: UISchemaElementComponent<{
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(ariaLabel && { 'aria-label': ariaLabel } )}
     >
+      {loading && <CircularProgress />}
+      {loading && ' '}
       {label}
     </ButtonMui>
   );

@@ -96,133 +96,136 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-10"
-              >
+              <fieldset>
                 <div
-                  class="MuiBox-root emotion-11"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-12"
+                    class="MuiBox-root emotion-11"
                   >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
-                      data-se="o-form-head"
-                    >
-                      Set up Okta Verify via email link
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-4"
-                  >
-                    <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
-                      for="email"
-                    >
-                      Email
-                    </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
+                      class="MuiBox-root emotion-12"
                     >
-                      <input
-                        aria-invalid="false"
-                        autocomplete="email"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
-                        data-se="email"
-                        id="email"
-                        name="email"
-                        type="text"
-                      />
-                      <fieldset
-                        aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-19"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-13"
+                        data-se="o-form-head"
                       >
-                        <legend
-                          class="emotion-20"
-                        >
-                          <span
-                            class="notranslate"
-                          >
-                            ​
-                          </span>
-                        </legend>
-                      </fieldset>
+                        Set up Okta Verify via email link
+                      </h2>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
                   <div
-                    class="MuiBox-root emotion-12"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
-                      data-se="o-form-explain"
-                    >
-                      Make sure you can access the email on your mobile device.
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
-                    data-type="save"
-                    tabindex="0"
-                    type="submit"
-                  >
-                    Send me the setup link
-                  </button>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <div
-                    class="MuiBox-root emotion-4"
+                    class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-4"
                     >
-                      Or 
-                      <a
-                        class="switch-channel-link"
-                        href="#"
+                      <label
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                        for="email"
                       >
-                        try a different way
-                      </a>
-                       to set up Okta Verify.
+                        Email
+                      </label>
+                      <div
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
+                      >
+                        <input
+                          aria-invalid="false"
+                          autocomplete="email"
+                          class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
+                          data-se="email"
+                          id="email"
+                          inputmode="email"
+                          name="email"
+                          type="text"
+                        />
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline emotion-19"
+                        >
+                          <legend
+                            class="emotion-20"
+                          >
+                            <span
+                              class="notranslate"
+                            >
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
-                    data-se="switchAuthenticator"
-                    href="javascript:void(0)"
+                  <div
+                    class="MuiBox-root emotion-11"
                   >
-                    Return to authenticator list
-                  </a>
-                </div>
-                <div
-                  class="MuiBox-root emotion-11"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
-                    data-se="cancel"
-                    href="javascript:void(0)"
+                    <div
+                      class="MuiBox-root emotion-12"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
+                        data-se="o-form-explain"
+                      >
+                        Make sure you can access the email on your mobile device.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
                   >
-                    Back to sign in
-                  </a>
+                    <button
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
+                      data-type="save"
+                      tabindex="0"
+                      type="submit"
+                    >
+                      Send me the setup link
+                    </button>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-4"
+                    >
+                      <div
+                        class="MuiBox-root emotion-4"
+                      >
+                        Or 
+                        <a
+                          class="switch-channel-link"
+                          href="#"
+                        >
+                          try a different way
+                        </a>
+                         to set up Okta Verify.
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                      data-se="switchAuthenticator"
+                      href="javascript:void(0)"
+                    >
+                      Return to authenticator list
+                    </a>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
+                  </div>
                 </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>

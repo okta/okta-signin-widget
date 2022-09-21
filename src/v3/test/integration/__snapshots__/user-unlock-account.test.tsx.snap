@@ -31,234 +31,236 @@ exports[`user-unlock-account renders form 1`] = `
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
-              <div
-                class="MuiBox-root emotion-5"
-              >
+              <fieldset>
                 <div
-                  class="MuiBox-root emotion-6"
+                  class="MuiBox-root emotion-5"
                 >
                   <div
-                    class="MuiBox-root emotion-7"
+                    class="MuiBox-root emotion-6"
                   >
-                    <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-8"
-                      data-se="o-form-head"
-                    >
-                      Unlock account?
-                    </h2>
-                  </div>
-                </div>
-                <div
-                  class="MuiBox-root emotion-6"
-                >
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
-                      for="identifier"
-                    >
-                      Username
-                    </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                      class="MuiBox-root emotion-7"
                     >
-                      <input
-                        aria-invalid="false"
-                        autocomplete="username"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
-                        data-se="identifier"
-                        id="identifier"
-                        name="identifier"
-                        type="text"
-                      />
-                      <fieldset
-                        aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-14"
+                      <h2
+                        class="MuiTypography-root MuiTypography-h3 emotion-8"
+                        data-se="o-form-head"
                       >
-                        <legend
-                          class="emotion-15"
+                        Unlock account?
+                      </h2>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <div
+                      class="MuiBox-root emotion-10"
+                    >
+                      <label
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
+                        for="identifier"
+                      >
+                        Username
+                      </label>
+                      <div
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                      >
+                        <input
+                          aria-invalid="false"
+                          autocomplete="username"
+                          class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
+                          data-se="identifier"
+                          id="identifier"
+                          name="identifier"
+                          type="text"
+                        />
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline emotion-14"
+                        >
+                          <legend
+                            class="emotion-15"
+                          >
+                            <span
+                              class="notranslate"
+                            >
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <button
+                      class="authButton MuiBox-root emotion-17"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="MuiBox-root emotion-10"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          class="iconContainer mfa-okta-email MuiBox-root emotion-10"
+                        >
+                          <svg
+                            aria-labelledby="okta_email_0"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="okta_email_0"
+                            >
+                              Email Authentication
+                            </title>
+                            <circle
+                              class="siwFillBg"
+                              cx="24"
+                              cy="24"
+                              fill="#F5F5F6"
+                              r="24"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M32 18v1h5.3L32 24.29v1.42l6-6.01v12.8a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5V31h-1v1.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V18h-7Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillPrimary"
+                              d="M9 13v14.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V13H9Zm20.293 1-8.81 8.81L10.794 14h18.499ZM28.5 29h-17a1.5 1.5 0 0 1-1.5-1.5V14.63l10.517 9.56L30 14.707V27.5a1.5 1.5 0 0 1-1.5 1.5Z"
+                              fill="#00297A"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="infoSection MuiBox-root emotion-10"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 emotion-21"
+                          data-se="authenticator-button-label"
+                        >
+                          Email
+                        </h3>
+                        <div
+                          class="cta-button actionName MuiBox-root emotion-10"
+                          data-se="okta_email"
                         >
                           <span
-                            class="notranslate"
+                            class="MuiBox-root emotion-23"
+                            data-se="cta-button-label"
                           >
-                            ​
+                            Select
                           </span>
-                        </legend>
-                      </fieldset>
-                    </div>
+                          <mocksvgicon />
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <button
+                      class="authButton MuiBox-root emotion-17"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="MuiBox-root emotion-10"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          class="iconContainer mfa-okta-phone MuiBox-root emotion-10"
+                        >
+                          <svg
+                            aria-labelledby="phone_number_1"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="phone_number_1"
+                            >
+                              Voice Call Authentication
+                            </title>
+                            <circle
+                              class="siwFillBg"
+                              cx="24"
+                              cy="24"
+                              fill="#F5F5F6"
+                              r="24"
+                            />
+                            <path
+                              class="siwFillPrimary"
+                              d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
+                              fill="#00297A"
+                            />
+                            <path
+                              class="siwFillPrimary"
+                              d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
+                              fill="#00297A"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M34.606 34.606 33.9 33.9a13.998 13.998 0 0 0 0-19.8l.707-.707a15 15 0 0 1 0 21.212l-.001.001Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="m31.071 31.071-.707-.707a9 9 0 0 0 0-12.728l.707-.707a10 10 0 0 1 0 14.142Zm-3.535-3.536-.707-.707a4 4 0 0 0 0-5.656l.707-.707a5 5 0 0 1 0 7.07Z"
+                              fill="#A7B5EC"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="infoSection MuiBox-root emotion-10"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 emotion-21"
+                          data-se="authenticator-button-label"
+                        >
+                          Phone
+                        </h3>
+                        <div
+                          class="cta-button actionName MuiBox-root emotion-10"
+                          data-se="phone_number"
+                        >
+                          <span
+                            class="MuiBox-root emotion-23"
+                            data-se="cta-button-label"
+                          >
+                            Select
+                          </span>
+                          <mocksvgicon />
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
+                      data-se="cancel"
+                      href="javascript:void(0)"
+                    >
+                      Back to sign in
+                    </a>
                   </div>
                 </div>
-                <div
-                  class="MuiBox-root emotion-6"
-                >
-                  <button
-                    class="authButton MuiBox-root emotion-17"
-                    data-se="authenticator-button"
-                    tabindex="0"
-                    type="button"
-                  >
-                    <div
-                      class="MuiBox-root emotion-10"
-                      data-se="authenticator-icon"
-                    >
-                      <div
-                        class="iconContainer mfa-okta-email MuiBox-root emotion-10"
-                      >
-                        <svg
-                          aria-labelledby="okta_email_0"
-                          fill="none"
-                          height="48"
-                          role="img"
-                          viewBox="0 0 48 48"
-                          width="48"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title
-                            id="okta_email_0"
-                          >
-                            Email Authentication
-                          </title>
-                          <circle
-                            class="siwFillBg"
-                            cx="24"
-                            cy="24"
-                            fill="#F5F5F6"
-                            r="24"
-                          />
-                          <path
-                            class="siwFillSecondary"
-                            d="M32 18v1h5.3L32 24.29v1.42l6-6.01v12.8a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5V31h-1v1.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V18h-7Z"
-                            fill="#A7B5EC"
-                          />
-                          <path
-                            class="siwFillPrimary"
-                            d="M9 13v14.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V13H9Zm20.293 1-8.81 8.81L10.794 14h18.499ZM28.5 29h-17a1.5 1.5 0 0 1-1.5-1.5V14.63l10.517 9.56L30 14.707V27.5a1.5 1.5 0 0 1-1.5 1.5Z"
-                            fill="#00297A"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      class="infoSection MuiBox-root emotion-10"
-                    >
-                      <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-21"
-                        data-se="authenticator-button-label"
-                      >
-                        Email
-                      </h3>
-                      <div
-                        class="cta-button actionName MuiBox-root emotion-10"
-                        data-se="okta_email"
-                      >
-                        <span
-                          class="MuiBox-root emotion-23"
-                          data-se="cta-button-label"
-                        >
-                          Select
-                        </span>
-                        <mocksvgicon />
-                      </div>
-                    </div>
-                  </button>
-                </div>
-                <div
-                  class="MuiBox-root emotion-6"
-                >
-                  <button
-                    class="authButton MuiBox-root emotion-17"
-                    data-se="authenticator-button"
-                    tabindex="0"
-                    type="button"
-                  >
-                    <div
-                      class="MuiBox-root emotion-10"
-                      data-se="authenticator-icon"
-                    >
-                      <div
-                        class="iconContainer mfa-okta-phone MuiBox-root emotion-10"
-                      >
-                        <svg
-                          aria-labelledby="phone_number_1"
-                          fill="none"
-                          height="48"
-                          role="img"
-                          viewBox="0 0 48 48"
-                          width="48"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title
-                            id="phone_number_1"
-                          >
-                            Voice Call Authentication
-                          </title>
-                          <circle
-                            class="siwFillBg"
-                            cx="24"
-                            cy="24"
-                            fill="#F5F5F6"
-                            r="24"
-                          />
-                          <path
-                            class="siwFillPrimary"
-                            d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
-                            fill="#00297A"
-                          />
-                          <path
-                            class="siwFillPrimary"
-                            d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
-                            fill="#00297A"
-                          />
-                          <path
-                            class="siwFillSecondary"
-                            d="M34.606 34.606 33.9 33.9a13.998 13.998 0 0 0 0-19.8l.707-.707a15 15 0 0 1 0 21.212l-.001.001Z"
-                            fill="#A7B5EC"
-                          />
-                          <path
-                            class="siwFillSecondary"
-                            d="m31.071 31.071-.707-.707a9 9 0 0 0 0-12.728l.707-.707a10 10 0 0 1 0 14.142Zm-3.535-3.536-.707-.707a4 4 0 0 0 0-5.656l.707-.707a5 5 0 0 1 0 7.07Z"
-                            fill="#A7B5EC"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      class="infoSection MuiBox-root emotion-10"
-                    >
-                      <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-21"
-                        data-se="authenticator-button-label"
-                      >
-                        Phone
-                      </h3>
-                      <div
-                        class="cta-button actionName MuiBox-root emotion-10"
-                        data-se="phone_number"
-                      >
-                        <span
-                          class="MuiBox-root emotion-23"
-                          data-se="cta-button-label"
-                        >
-                          Select
-                        </span>
-                        <mocksvgicon />
-                      </div>
-                    </div>
-                  </button>
-                </div>
-                <div
-                  class="MuiBox-root emotion-6"
-                >
-                  <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
-                    data-se="cancel"
-                    href="javascript:void(0)"
-                  >
-                    Back to sign in
-                  </a>
-                </div>
-              </div>
+              </fieldset>
             </form>
           </div>
         </div>
