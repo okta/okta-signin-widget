@@ -86,6 +86,7 @@ const Button: UISchemaElementComponent<{
             justifyContent="center"
             alignContent="space-between"
             gap="5px"
+            // compensate the offset from the CircularProgress component
             marginRight="23px"
           >
             <CircularProgress sx={{ color: 'white' }} />
