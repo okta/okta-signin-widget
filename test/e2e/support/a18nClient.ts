@@ -101,7 +101,7 @@ export default class A18nClient {
       --retryAttemptsRemaining;
     }
 
-    const match = response?.content?.match(/<a id="email-authentication-button" href="(?<url>\S+)"/) || response?.content?.match(/<a id="email-activation-button" href="(?<url>\S+)"/);
+    const match = response?.content?.match(/<a id="(?:email-authentication-button|email-activation-button|registration-activation-link)" href="(?<url>\S+)"/);
     const url = match?.groups?.url;
     if (!url) {
       throw new Error('Unable to retrieve magic link from email.');
