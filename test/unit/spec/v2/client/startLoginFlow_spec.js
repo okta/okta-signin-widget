@@ -215,4 +215,41 @@ describe('v2/client/startLoginFlow', () => {
     }
   });
 
+  describe('nonce', () => {
+    beforeEach(() => {
+      const { settings, ...ctx } = testContext;
+      const authClient = settings.getAuthClient();
+      const s = new Settings({
+        baseUrl: 'localhost:1234',
+        stateToken: 'a test state token from settings',
+        authParams: {
+          nonce: 'nonce upon a time'
+        }
+      });
+      s.authClient = authClient;
+      testContext = {
+        settings: s,
+        ...ctx
+      };
+    })
+
+    it('shall pass nonce to /interact when provided with authParams', async () => {
+      const { settings, start, proceed } = testContext;
+      settings.set('useInteractionCodeFlow', true);
+      const result = await startLoginFlow(settings);
+      expect(result).toEqual({
+        fake: 'fake start response'
+      });
+
+      expect(start).toHaveBeenCalledTimes(1);
+
+      expect(start).toHaveBeenCalledWith({
+        exchangeCodeForTokens: false,
+        shouldProceedWithEmailAuthenticator: false,
+        nonce: 'nonce upon a time'
+      });
+      expect(proceed).not.toHaveBeenCalled();
+    });
+  });
+
 });
