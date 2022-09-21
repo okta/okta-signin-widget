@@ -63,7 +63,7 @@
       "args": [
           "${workspaceRoot}/test/e2e/cucumber.wdio.conf.ts",
           "--spec",
-          "${workspaceRoot}/test/e2e/features/interaction-code-flow.feature"
+          "${relativeFile}"
       ],
       "autoAttachChildProcesses": true,
       "console": "integratedTerminal",
