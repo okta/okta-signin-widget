@@ -1535,7 +1535,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-44"
                               data-se="authenticator.phoneNumber"
                               id="authenticator.phoneNumber"
-                              inputmode="tel"
                               name="authenticator.phoneNumber"
                               type="tel"
                             />
@@ -1567,11 +1566,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                       tabindex="0"
                       type="submit"
                     >
-                      <div
-                        class="MuiBox-root emotion-49"
-                      >
-                        Receive a code via SMS
-                      </div>
+                      Receive a code via SMS
                     </button>
                   </div>
                 </div>
@@ -1579,7 +1574,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-51"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1590,7 +1585,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-51"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -3142,7 +3137,6 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-44"
                               data-se="authenticator.phoneNumber"
                               id="authenticator.phoneNumber"
-                              inputmode="tel"
                               name="authenticator.phoneNumber"
                               type="tel"
                             />
@@ -3210,11 +3204,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                       tabindex="0"
                       type="submit"
                     >
-                      <div
-                        class="MuiBox-root emotion-55"
-                      >
-                        Receive a code via voice call
-                      </div>
+                      Receive a code via voice call
                     </button>
                   </div>
                 </div>
@@ -3222,7 +3212,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -3233,7 +3223,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

@@ -200,11 +200,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                       tabindex="0"
                       type="button"
                     >
-                      <div
-                        class="MuiBox-root emotion-27"
-                      >
-                        Can't scan?
-                      </div>
+                      Can't scan?
                     </button>
                   </div>
                 </div>
@@ -212,7 +208,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -223,7 +219,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

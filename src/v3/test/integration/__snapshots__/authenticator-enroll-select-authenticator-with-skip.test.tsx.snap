@@ -387,18 +387,14 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     tabindex="0"
                     type="submit"
                   >
-                    <div
-                      class="MuiBox-root emotion-48"
-                    >
-                      Set up later
-                    </div>
+                    Set up later
                   </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-10"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-49"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

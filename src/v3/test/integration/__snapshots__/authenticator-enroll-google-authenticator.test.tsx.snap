@@ -495,11 +495,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                       >
                         <input
                           aria-invalid="false"
-                          autocomplete="off"
+                          autocomplete="one-time-code"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
-                          inputmode="numeric"
                           name="credentials.passcode"
                           type="text"
                         />
@@ -529,11 +528,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                       tabindex="0"
                       type="submit"
                     >
-                      <div
-                        class="MuiBox-root emotion-27"
-                      >
-                        Verify
-                      </div>
+                      Verify
                     </button>
                   </div>
                 </div>
@@ -541,7 +536,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -552,7 +547,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -1054,11 +1049,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                       >
                         <input
                           aria-invalid="false"
-                          autocomplete="off"
+                          autocomplete="one-time-code"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
-                          inputmode="numeric"
                           name="credentials.passcode"
                           type="text"
                         />
@@ -1088,11 +1082,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                       tabindex="0"
                       type="submit"
                     >
-                      <div
-                        class="MuiBox-root emotion-27"
-                      >
-                        Verify
-                      </div>
+                      Verify
                     </button>
                   </div>
                 </div>
@@ -1100,7 +1090,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1111,7 +1101,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

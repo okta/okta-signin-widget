@@ -158,18 +158,14 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                     tabindex="0"
                     type="submit"
                   >
-                    <div
-                      class="MuiBox-root emotion-22"
-                    >
-                      Send push
-                    </div>
+                    Send push
                   </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -180,7 +176,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

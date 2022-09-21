@@ -163,18 +163,14 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                     tabindex="0"
                     type="submit"
                   >
-                    <div
-                      class="MuiBox-root emotion-22"
-                    >
-                      Receive a code via SMS
-                    </div>
+                    Receive a code via SMS
                   </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -185,7 +181,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

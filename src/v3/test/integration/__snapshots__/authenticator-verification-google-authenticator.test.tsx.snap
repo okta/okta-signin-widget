@@ -219,11 +219,10 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                     >
                       <input
                         aria-invalid="false"
-                        autocomplete="off"
+                        autocomplete="one-time-code"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-21"
                         data-se="credentials.passcode"
                         id="credentials.passcode"
-                        inputmode="numeric"
                         name="credentials.passcode"
                         type="text"
                       />
@@ -253,18 +252,14 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                     tabindex="0"
                     type="submit"
                   >
-                    <div
-                      class="MuiBox-root emotion-26"
-                    >
-                      Verify
-                    </div>
+                    Verify
                   </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -275,7 +270,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

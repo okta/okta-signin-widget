@@ -78,16 +78,22 @@ const Button: UISchemaElementComponent<{
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(ariaLabel && { 'aria-label': ariaLabel } )}
     >
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        alignContent="space-between"
-        gap="5px"
-      >
-        {loading && <CircularProgress sx={{ color: 'white' }} />}
-        {label}
-      </Box>
+      {
+        loading ? (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            alignContent="space-between"
+            gap="5px"
+            marginRight="23px"
+          >
+            <CircularProgress sx={{ color: 'white' }} />
+            {label}
+          </Box>
+        ) : label
+      }
+
     </ButtonMui>
   );
 };

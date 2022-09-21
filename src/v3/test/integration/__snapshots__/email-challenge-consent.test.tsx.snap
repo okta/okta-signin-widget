@@ -171,11 +171,7 @@ exports[`email-challenge-consent should render form 1`] = `
                     tabindex="0"
                     type="button"
                   >
-                    <div
-                      class="MuiBox-root emotion-24"
-                    >
-                      No, it's not me
-                    </div>
+                    No, it's not me
                   </button>
                 </div>
                 <div
@@ -187,11 +183,7 @@ exports[`email-challenge-consent should render form 1`] = `
                     tabindex="0"
                     type="button"
                   >
-                    <div
-                      class="MuiBox-root emotion-24"
-                    >
-                      Yes, it's me
-                    </div>
+                    Yes, it's me
                   </button>
                 </div>
               </div>

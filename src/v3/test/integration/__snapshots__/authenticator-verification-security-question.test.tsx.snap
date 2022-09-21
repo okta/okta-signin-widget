@@ -136,7 +136,6 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                       >
                         <input
                           aria-invalid="false"
-                          autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-19"
                           data-se="credentials.answer"
                           id="credentials.answer"
@@ -193,18 +192,14 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                     tabindex="0"
                     type="submit"
                   >
-                    <div
-                      class="MuiBox-root emotion-27"
-                    >
-                      Verify
-                    </div>
+                    Verify
                   </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

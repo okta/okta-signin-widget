@@ -151,7 +151,6 @@ exports[`enroll-profile-new should render form 1`] = `
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
                         data-se="userProfile.email"
                         id="userProfile.email"
-                        inputmode="email"
                         name="userProfile.email"
                         type="text"
                       />
@@ -181,22 +180,18 @@ exports[`enroll-profile-new should render form 1`] = `
                     tabindex="0"
                     type="submit"
                   >
-                    <div
-                      class="MuiBox-root emotion-32"
-                    >
-                      Sign Up
-                    </div>
+                    Sign Up
                   </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-6"
                 >
                   <hr
-                    class="MuiDivider-root MuiDivider-fullWidth emotion-34"
+                    class="MuiDivider-root MuiDivider-fullWidth emotion-33"
                   />
                 </div>
                 <div
-                  class="MuiBox-root emotion-35"
+                  class="MuiBox-root emotion-34"
                 >
                   <div
                     class="MuiBox-root emotion-6"
@@ -205,7 +200,7 @@ exports[`enroll-profile-new should render form 1`] = `
                       class="MuiBox-root emotion-7"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-38"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-37"
                         data-se="o-form-explain"
                       >
                         Already have an account?
@@ -216,7 +211,7 @@ exports[`enroll-profile-new should render form 1`] = `
                     class="MuiBox-root emotion-6"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
                       data-se="back"
                       href="javascript:void(0)"
                     >

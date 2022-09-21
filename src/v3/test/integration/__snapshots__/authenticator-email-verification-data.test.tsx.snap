@@ -139,18 +139,14 @@ exports[`authenticator-email-verification-data should render form 1`] = `
                     tabindex="0"
                     type="submit"
                   >
-                    <div
-                      class="MuiBox-root emotion-19"
-                    >
-                      Send me an email
-                    </div>
+                    Send me an email
                   </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

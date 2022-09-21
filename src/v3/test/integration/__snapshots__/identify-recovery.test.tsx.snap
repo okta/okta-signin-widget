@@ -98,18 +98,14 @@ exports[`identify-recovery renders form 1`] = `
                     tabindex="0"
                     type="submit"
                   >
-                    <div
-                      class="MuiBox-root emotion-18"
-                    >
-                      Next
-                    </div>
+                    Next
                   </button>
                 </div>
                 <div
                   class="MuiBox-root emotion-6"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
