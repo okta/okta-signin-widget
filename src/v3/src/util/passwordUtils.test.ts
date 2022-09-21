@@ -205,9 +205,9 @@ describe('PasswordUtils Tests', () => {
     userInfo = { identifier: 'tester.user+123@okta.com' };
 
     expect(validatePassword('tester.user', userInfo, { complexity: { excludeUsername: true } })?.excludeUsername)
-      .toEqual(true);
+      .toEqual(false);
     expect(validatePassword('tester.user@okta.com', userInfo, { complexity: { excludeUsername: true } })?.excludeUsername)
-      .toEqual(true);
+      .toEqual(false);
     expect(validatePassword('tester.user+123@okta.com', userInfo, { complexity: { excludeUsername: true } })?.excludeUsername)
       .toEqual(false);
     expect(validatePassword('tester.user', userInfo, { complexity: { excludeUsername: false } })?.excludeUsername)
@@ -216,6 +216,13 @@ describe('PasswordUtils Tests', () => {
       .toEqual(true);
     expect(validatePassword('tester.user+123@okta.com', userInfo, { complexity: { excludeUsername: false } })?.excludeUsername)
       .toEqual(true);
+
+    userInfo = { identifier: 'testeruser@okta.com' };
+
+    expect(validatePassword('testeruser', userInfo, { complexity: { excludeUsername: true } })?.excludeUsername)
+      .toEqual(false);
+    expect(validatePassword('okta', userInfo, { complexity: { excludeUsername: true } })?.excludeUsername)
+      .toEqual(false);
   });
 
   it('should validate excludeFirstName', () => {

@@ -55,6 +55,37 @@ const minSymbolValidator = (password: string, limit: unknown): boolean => (
 
 const escapeRegExp = (input: string): string => input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+/**
+* Breaks apart a string based on a set of delimiters for (Copied from okta-core password validation logic)
+* @see {@link https://github.com/okta/okta-core/blob/master/components/framework/security/api/src/main/java/com/saasure/framework/security/password/PasswordUtil.java#L72-L97}
+*/
+const getParts = (attributeVal: string): string[] => {
+  const MIN_PARTS_LENGTH = 4;
+  const parts: string[] = [];
+  const delimiters = new Set<string>([',', '.', '-', '_', '#', '@']);
+  const characters = Array.from(attributeVal);
+  let combinedStringArr: string[] = [];
+
+  characters.forEach((character) => {
+    if (delimiters.has(character)) {
+      // Parts must be at least MinPartsLength long
+      if (combinedStringArr.length >= MIN_PARTS_LENGTH) {
+        parts.push(combinedStringArr.join(''));
+      }
+      // Start a new part
+      combinedStringArr = [];
+    } else {
+      combinedStringArr.push(character);
+    }
+  });
+
+  if (combinedStringArr.length >= MIN_PARTS_LENGTH) {
+    parts.push(combinedStringArr.join(''));
+  }
+
+  return parts;
+};
+
 const excludeAttributeValidator = (
   password: string,
   ruleEnabled: boolean,
@@ -66,15 +97,24 @@ const excludeAttributeValidator = (
   return true;
 };
 
+/**
+ * This mimics backend logic for validating if password contains username
+ * @see {@link https://github.com/okta/okta-core/blob/master/components/platform/policy/impl/src/main/java/com/saasure/core/services/auth/password/impl/PasswordPolicyVerificationHelperImpl.java#L241-L250}
+ */
 const excludeUsernameValidator = (
   password: string,
   ruleVal: unknown,
   userInfo: UserInfo,
-): boolean => (
-  !userInfo.identifier
-    ? true
-    : excludeAttributeValidator(password, ruleVal as boolean, userInfo.identifier)
-);
+): boolean => {
+  if (!userInfo.identifier) {
+    return true;
+  }
+  const usernameParts = getParts(userInfo.identifier);
+  // if any parts of username is included in password return false (meaning invalid)
+  return usernameParts.every(
+    (part) => excludeAttributeValidator(password, ruleVal as boolean, part),
+  );
+};
 
 const excludeFirstNameValidator = (
   password: string,
