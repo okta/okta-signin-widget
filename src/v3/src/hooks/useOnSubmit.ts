@@ -66,7 +66,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       return null;
     };
 
-    const { fieldsToExclude } = dataSchemaRef.current!;
+    const { fieldsToExclude, fieldsToTrim } = dataSchemaRef.current!;
 
     const immutableData = getImmutableData(currTransaction!, step);
 
@@ -74,6 +74,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
     let payload: IdxActionParams = {};
     if (includeData) {
+      Object.keys(data)
+        .filter((key) => fieldsToTrim.includes(key))
+        .forEach((key) => {
+          if (typeof data[key] === 'string') {
+            data[key] = (data[key] as string).trim();
+          }
+        });
       payload = merge(payload, omit(data, fieldsToExclude(data)));
     }
     if (params) {

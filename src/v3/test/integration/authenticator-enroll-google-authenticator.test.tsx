@@ -65,4 +65,76 @@ describe('authenticator-enroll-google-authenticator', () => {
       }),
     );
   });
+
+  it('should send correct payload when otp is padded with white spaces', async () => {
+    const {
+      authClient, user, findByText, findByTestId,
+    } = await setup({ mockResponse });
+    const nextButton = await findByText(/Next/);
+    await user.click(nextButton);
+    await findByText(/Enter code displayed from application/);
+
+    const codeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const otp = '123456';
+    const otpWithSpaces = `${otp}  `;
+    await user.type(codeEl, otpWithSpaces);
+    expect(codeEl.value).toEqual(otpWithSpaces);
+
+    const submitButton = await findByText('Verify', { selector: 'button' });
+    await user.click(submitButton);
+
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: { passcode: otp },
+      }),
+    );
+  });
+
+  it('should send correct payload when otp is padded with tab spaces', async () => {
+    const {
+      authClient, user, findByText, findByTestId,
+    } = await setup({ mockResponse });
+    const nextButton = await findByText(/Next/);
+    await user.click(nextButton);
+    await findByText(/Enter code displayed from application/);
+
+    const codeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const otp = '123456';
+    const otpWithTabSpaces = `\t${otp}\t\t`;
+    await user.type(codeEl, otpWithTabSpaces);
+    expect(codeEl.value).toEqual(otpWithTabSpaces);
+
+    const submitButton = await findByText('Verify', { selector: 'button' });
+    await user.click(submitButton);
+
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: { passcode: otp },
+      }),
+    );
+  });
+
+  it('should send correct payload when otp is padded with return characters', async () => {
+    const {
+      authClient, user, findByText, findByTestId,
+    } = await setup({ mockResponse });
+    const nextButton = await findByText(/Next/);
+    await user.click(nextButton);
+    await findByText(/Enter code displayed from application/);
+
+    const codeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const otp = '123456';
+    const otpWithReturnSpaces = `\r${otp}\r`;
+    await user.type(codeEl, otpWithReturnSpaces);
+    expect(codeEl.value).toEqual(otp);
+
+    const submitButton = await findByText('Verify', { selector: 'button' });
+    await user.click(submitButton);
+
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: { passcode: otp },
+      }),
+    );
+  });
 });

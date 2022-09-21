@@ -44,6 +44,30 @@ describe('authenticator-verification-okta-verify-totp', () => {
     );
   });
 
+  it('should send correct payload when totp is padded with non-breaking spaces', async () => {
+    const {
+      authClient, user, findByTestId, findByText,
+    } = await setup({ mockResponse });
+
+    await findByText(/Enter a code/);
+
+    const submitButton = await findByText('Verify', { selector: 'button' });
+    const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;
+
+    const totp = '123456';
+    const totpWithNonBreakingSpaces = `\u00A0${totp}\u00A0`;
+    await user.type(otpEle, totpWithNonBreakingSpaces);
+
+    expect(otpEle.value).toEqual(totpWithNonBreakingSpaces);
+
+    await user.click(submitButton);
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+        credentials: { totp },
+      }),
+    );
+  });
+
   it('should have autocomplete attribute on totp input element when in ios browser', async () => {
     const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
     navigatorCredentials.mockReturnValue(

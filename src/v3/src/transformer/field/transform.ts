@@ -101,6 +101,10 @@ export const transformStepInputs = (
           },
         };
         acc.dataSchema.fieldsToValidate.push(name);
+        // Of the required fields, trim appropriately
+        if (uischema.options.attributes?.inputmode === 'numeric') {
+          acc.dataSchema.fieldsToTrim.push(name);
+        }
       }
 
       return acc;
