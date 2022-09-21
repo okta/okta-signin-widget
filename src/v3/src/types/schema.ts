@@ -388,7 +388,7 @@ export interface RedirectElement extends UISchemaElement {
 
 export interface HiddenInputElement extends UISchemaElement {
   type: 'HiddenInput';
-  options: { name: string; value: string | number };
+  options: { name: string; value: string; };
 }
 
 type ValidateFunction = (data: FormBag['data']) => IdxMessageWithName[] | undefined;
