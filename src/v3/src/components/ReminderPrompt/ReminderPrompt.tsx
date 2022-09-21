@@ -111,6 +111,12 @@ const ReminderPrompt: UISchemaElementComponent<{
       <Alert
         severity="warning"
         variant="infobox"
+        sx={{
+          // Allows the focus outline to not be cut off
+          '& .MuiAlert-message': {
+            overflow: 'visible',
+          },
+        }}
       >
         {renderAlertContent()}
         {renderActionLink()}
