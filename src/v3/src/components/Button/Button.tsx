@@ -78,14 +78,14 @@ const Button: UISchemaElementComponent<{
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(ariaLabel && { 'aria-label': ariaLabel } )}
     >
-      <Box 
+      <Box
         display="flex"
         alignItems="center"
         justifyContent="center"
         alignContent="space-between"
         gap="5px"
       >
-        {loading && <CircularProgress sx={{color: "white"}} />}
+        {loading && <CircularProgress sx={{ color: 'white' }} />}
         {label}
       </Box>
     </ButtonMui>
