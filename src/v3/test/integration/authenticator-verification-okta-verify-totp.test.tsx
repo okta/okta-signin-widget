@@ -44,7 +44,7 @@ describe('authenticator-verification-okta-verify-totp', () => {
     );
   });
 
-  it('should send correct payload when totp is padded with spaces', async () => {
+  it('should send correct payload when totp is padded with non-breaking spaces', async () => {
     const {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
@@ -55,10 +55,10 @@ describe('authenticator-verification-okta-verify-totp', () => {
     const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;
 
     const totp = '123456';
-    const totpWithSpaces = `   ${totp}   `;
-    await user.type(otpEle, totpWithSpaces);
+    const totpWithNonBreakingSpaces = `\u00A0${totp}\u00A0`;
+    await user.type(otpEle, totpWithNonBreakingSpaces);
 
-    expect(otpEle.value).toEqual(totpWithSpaces);
+    expect(otpEle.value).toEqual(totpWithNonBreakingSpaces);
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(

@@ -238,7 +238,7 @@ describe('authenticator-verification-email', () => {
     );
   });
 
-  it('should send correct payload when otp is padded with spaces', async () => {
+  it('should send correct payload when otp is padded with new line breaks', async () => {
     const {
       authClient,
       user,
@@ -260,9 +260,9 @@ describe('authenticator-verification-email', () => {
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const otp = '123456';
-    const verificationCodewithSpaces = `  ${otp}`;
-    await user.type(codeEle, verificationCodewithSpaces);
-    expect(codeEle.value).toEqual(verificationCodewithSpaces);
+    const otpWithNewLineBreak = `\n${otp}\n\n\n`;
+    await user.type(codeEle, otpWithNewLineBreak);
+    expect(codeEle.value).toBe(otp);
     await user.click(submitButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
