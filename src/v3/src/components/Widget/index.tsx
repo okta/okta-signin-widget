@@ -286,7 +286,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     >
       {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}
       <MuiThemeProvider theme={mapMuiThemeFromBrand(brandColors)}>
-        <ScopedCssBaseline>
+        {/* the style is to allow the widget to inherit the parent's bg color */}
+        <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
           <ThemeProvider theme={mapThemeFromBrand(brandColors)}>
             <AuthContainer>
               <AuthHeader
