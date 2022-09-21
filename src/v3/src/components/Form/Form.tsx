@@ -30,7 +30,6 @@ const Form: FunctionComponent<{
     idxTransaction: currTransaction,
     setMessage,
     dataSchemaRef,
-    loading,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const onValidationHandler = useOnSubmitValidation();
@@ -81,9 +80,7 @@ const Form: FunctionComponent<{
       data-se="form"
       style={{ maxWidth: '100%', wordBreak: 'break-word' }}
     >
-      <fieldset disabled={loading}>
-        <Layout uischema={uischema} />
-      </fieldset>
+      <Layout uischema={uischema} />
     </form>
   );
 };
