@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Button as ButtonMui } from '@mui/material';
+import { Box, Button as ButtonMui, CircularProgress } from '@mui/material';
 import { h } from 'preact';
 
+import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnSubmit } from '../../hooks';
 import {
   ButtonElement,
@@ -25,6 +26,9 @@ const Button: UISchemaElementComponent<{
 }> = ({
   uischema,
 }) => {
+  const {
+    loading,
+  } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const {
     label,
@@ -64,6 +68,7 @@ const Button: UISchemaElementComponent<{
       fullWidth={wide ?? true}
       ref={focusRef}
       onMouseDown={onMouseDown}
+      disabled={loading}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(dataType && { 'data-type': dataType } )}
       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -73,7 +78,23 @@ const Button: UISchemaElementComponent<{
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(ariaLabel && { 'aria-label': ariaLabel } )}
     >
-      {label}
+      {
+        loading ? (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            alignContent="space-between"
+            gap="5px"
+            // compensate the offset from the CircularProgress component
+            marginRight="23px"
+          >
+            <CircularProgress sx={{ color: 'white' }} />
+            {label}
+          </Box>
+        ) : label
+      }
+
     </ButtonMui>
   );
 };
