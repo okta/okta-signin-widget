@@ -68,7 +68,7 @@ test
     const pageObject = await setup(t);
 
     await t.expect(pageObject.getPageTitle()).eql('Set up IDP Authenticator');
-    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in the IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
     await pageObject.submit();
 
     const pageUrl = await pageObject.getPageUrl();
@@ -81,7 +81,7 @@ test
     const pageObject = await setup(t);
 
     await t.expect(pageObject.getPageTitle()).eql('Set up IDP Authenticator');
-    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in the IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
     await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again.');
   });
 
