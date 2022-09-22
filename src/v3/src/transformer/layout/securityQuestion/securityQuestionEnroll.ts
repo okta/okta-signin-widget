@@ -79,7 +79,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     label: loc('oie.security.question.questionKey.label', 'login'),
     key: QUESTION_KEY_INPUT_NAME,
     options: {
-      format: 'dropdown',
+      format: 'autocomplete',
       inputMeta: {
         ...(predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'questionKey'),
         name: QUESTION_KEY_INPUT_NAME,

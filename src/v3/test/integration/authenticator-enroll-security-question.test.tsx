@@ -65,7 +65,7 @@ describe('authenticator-enroll-security-question', () => {
       const { container, findByText } = await setup({ mockResponse });
 
       await findByText(/Set up security question/);
-      await findByText(/What is the food you least liked/);
+      await findByText('Choose a security question', { selector: 'label' });
       expect(container).toMatchSnapshot();
     });
 
@@ -255,8 +255,8 @@ describe('authenticator-enroll-security-question', () => {
         .toEqual('The security question answer must be at least 4 characters in length');
 
       // switch to predefined question form
-      await user.click(await findByLabelText(/Choose a security question/));
-      await findByLabelText('Choose a security question', { selector: 'select' });
+      await user.click(await findByText('Choose a security question', { selector: 'span' }));
+      await findByText('Choose a security question', { selector: 'label' });
       const restoredAnswerEle = await findByTestId('credentials.answer') as HTMLInputElement;
 
       await user.type(restoredAnswerEle, answer);

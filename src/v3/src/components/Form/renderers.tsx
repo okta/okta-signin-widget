@@ -14,6 +14,7 @@ import { Input } from '@okta/okta-auth-js';
 
 import { FieldElement, Renderer } from '../../types';
 import AuthenticatorButton from '../AuthenticatorButton';
+import Autocomplete from '../Autocomplete';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
 import Divider from '../Divider';
@@ -176,6 +177,16 @@ export default [
       },
     }: FieldElement) => (Array.isArray(customOptions) || Array.isArray(options)) && format === 'dropdown',
     renderer: Select,
+  },
+  {
+    tester: ({
+      options: {
+        inputMeta: { options } = {} as Input,
+        format,
+        customOptions,
+      },
+    }: FieldElement) => (Array.isArray(customOptions) || Array.isArray(options)) && format === 'autocomplete',
+    renderer: Autocomplete,
   },
   {
     tester: ({ type }) => type === 'Button',
