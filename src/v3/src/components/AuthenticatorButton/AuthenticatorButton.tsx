@@ -53,7 +53,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     },
   } = uischema;
   const label = getTranslation(translations!, 'label');
-  const { dataSchemaRef, data } = useWidgetContext();
+  const { dataSchemaRef, data, loading } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const onValidationHandler = useOnSubmitValidation();
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
@@ -95,6 +95,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       onClick={onClick}
       onKeyPress={onClick}
       ref={focusRef}
+      disabled={loading}
     >
       { authenticationKey && (
         <Box data-se="authenticator-icon">
