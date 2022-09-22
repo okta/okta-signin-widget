@@ -2443,26 +2443,26 @@ exports[`authenticator-enroll-security-question predefined question should show 
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled  emotion-47"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled  emotion-57"
                       data-type="save"
                       disabled=""
                       tabindex="-1"
                       type="submit"
                     >
                       <div
-                        class="MuiBox-root emotion-48"
+                        class="MuiBox-root emotion-58"
                       >
                         <span
-                          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-49"
+                          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-59"
                           role="progressbar"
                           style="width: 1.14285714rem; height: 1.14285714rem;"
                         >
                           <svg
-                            class="MuiCircularProgress-svg emotion-50"
+                            class="MuiCircularProgress-svg emotion-60"
                             viewBox="22 22 44 44"
                           >
                             <circle
-                              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-51"
+                              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-61"
                               cx="44"
                               cy="44"
                               fill="none"
@@ -2480,7 +2480,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-63"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -2491,7 +2491,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-63"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
