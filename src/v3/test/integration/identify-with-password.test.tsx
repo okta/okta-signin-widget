@@ -327,4 +327,22 @@ describe('identify-with-password', () => {
       );
     });
   });
+
+  it('should only send one api request when submit button is double clicked', async () => {
+    const {
+      authClient, user, findByTestId, findByText,
+    } = await setup({ mockResponse });
+
+    const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+    const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const submitButton = await findByText('Sign in', { selector: 'button' });
+
+    await user.type(usernameEl, 'testuser@okta.com');
+    expect(usernameEl.value).toEqual('testuser@okta.com');
+    await user.type(passwordEl, 'fake-password');
+    expect(passwordEl.value).toEqual('fake-password');
+    await user.dblClick(submitButton);
+
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledTimes(1);
+  });
 });

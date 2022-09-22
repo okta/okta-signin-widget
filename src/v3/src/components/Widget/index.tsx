@@ -89,6 +89,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [authApiError, setAuthApiError] = useState<AuthApiError | null>(null);
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     // If we need to load a language (or apply custom i18n overrides), do
@@ -282,6 +283,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       data,
       setData,
       dataSchemaRef,
+      loading,
+      setLoading,
     }}
     >
       {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}
