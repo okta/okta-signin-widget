@@ -27,7 +27,7 @@ import {
   FieldElement, UISchemaElementComponent,
 } from '../../types';
 
-const AutoComplete: UISchemaElementComponent<{
+const Autocomplete: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
   const value = useValue(uischema);
@@ -103,4 +103,4 @@ const AutoComplete: UISchemaElementComponent<{
   );
 };
 
-export default AutoComplete;
+export default Autocomplete;
