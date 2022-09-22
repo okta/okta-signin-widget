@@ -341,8 +341,7 @@ describe('identify-with-password', () => {
     expect(usernameEl.value).toEqual('testuser@okta.com');
     await user.type(passwordEl, 'fake-password');
     expect(passwordEl.value).toEqual('fake-password');
-    await user.click(submitButton);
-    await user.click(submitButton);
+    await user.dblClick(submitButton);
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledTimes(1);
   });
