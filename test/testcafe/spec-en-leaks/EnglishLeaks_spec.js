@@ -26,11 +26,10 @@ const ignoredMocks = [
   'enroll-profile-all-base-attributes.json', // No english leaks on UI. Country and timezone dropdown values are not localized OKTA-454630
   'error-custom-access-denied-success-redirect.json', // custom message
   'error-identify-access-denied-custom-message.json', // custom message
-  'enroll-profile-new-boolean-fields', // custom registration fields
-  'identify-with-only-one-third-party-idp-app-user', // redirect-idp
+  'enroll-profile-new-boolean-fields.json', // custom registration fields
 
   // OKTA-535435 "Sign me out of all other devices." (enroll-authenticator.okta_password.credentials.revokeSessions) has no entry in login.properties
-  'authenticator-enroll-password',
+  'authenticator-enroll-password.json',
 ];
 
 const optionsForInteractionCodeFlow = {
@@ -52,7 +51,7 @@ const mocksWithAlert = [
 ];
 
 const mocksWithPreventRedirect = [
-  'identify-with-only-one-third-party-idp-app-use',
+  'identify-with-only-one-third-party-idp-app-user.json',
   'error-with-failure-redirect.json'
 ];
 const mocksWithoutInitialRender = [
