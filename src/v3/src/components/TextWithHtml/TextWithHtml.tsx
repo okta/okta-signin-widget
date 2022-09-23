@@ -25,7 +25,7 @@ const TextWithHtml: UISchemaElementComponent<{
   uischema: TextWithHtmlElement
 }> = ({ uischema }) => {
   const {
-    loading = false,
+    loading,
   } = useWidgetContext();
   const {
     content,

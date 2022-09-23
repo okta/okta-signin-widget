@@ -29,7 +29,7 @@ const ReminderPrompt: UISchemaElementComponent<{
   uischema: ReminderElement
 }> = ({ uischema }) => {
   const {
-    loading = false,
+    loading,
   } = useWidgetContext();
   const {
     content,
