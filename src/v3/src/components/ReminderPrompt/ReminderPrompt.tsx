@@ -18,6 +18,7 @@ import {
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
+import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import { ReminderElement, UISchemaElementComponent } from '../../types';
 import TextWithHtml from '../TextWithHtml';
@@ -27,6 +28,9 @@ export const DEFAULT_TIMEOUT_MS = 30_000;
 const ReminderPrompt: UISchemaElementComponent<{
   uischema: ReminderElement
 }> = ({ uischema }) => {
+  const {
+    loading,
+  } = useWidgetContext();
   const {
     content,
     step,
@@ -64,6 +68,9 @@ const ReminderPrompt: UISchemaElementComponent<{
   }, []);
 
   const resendHandler = async () => {
+    if (loading) {
+      return;
+    }
     startTimer();
 
     await onSubmitHandler({ step, isActionStep, params: actionParams });

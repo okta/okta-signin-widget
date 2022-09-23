@@ -29,6 +29,12 @@ jest.mock('../../hooks', () => ({
   useOnSubmit: () => mockSubmitHook,
 }));
 
+jest.mock('../../contexts', () => ({
+  useWidgetContext: () => ({
+    loading: jest.fn().mockReturnValue(false)(),
+  }),
+}));
+
 describe('ReminderPrompt', () => {
   beforeEach(() => {
     mockSubmitHook.mockRestore();
