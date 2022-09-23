@@ -21,13 +21,6 @@ import {
 import { ActionParams, AuthenticatorButtonElement, ButtonType } from '../../types';
 import { loc } from '../../util';
 
-const getAuthenticatorOption = (
-  options: IdxOption[],
-  authenticatorKey: string,
-): IdxOption | undefined => options?.find(
-  ({ relatesTo }) => relatesTo?.key === authenticatorKey,
-);
-
 export const getOptionValue = (
   inputs: Input[],
   key: string,
@@ -48,7 +41,7 @@ const buildOktaVerifyOptions = (
   step: string,
   isEnroll?: boolean,
 ): AuthenticatorButtonElement[] => {
-  const ovRemediation = getAuthenticatorOption(options, AUTHENTICATOR_KEY.OV);
+  const ovRemediation = options.find((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.OV);
   const id = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'id')?.value;
   const methodType = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'methodType');
   if (!methodType || !methodType.options?.length) {
@@ -87,7 +80,7 @@ const buildOktaVerifyOptions = (
 };
 
 const getAuthenticatorDescriptionParams = (
-  options: IdxOption[],
+  option: IdxOption,
   authenticatorKey: string,
   isEnroll?: boolean,
 ): string[] | undefined => {
@@ -103,31 +96,20 @@ const getAuthenticatorDescriptionParams = (
 
   switch (authenticatorKey) {
     case AUTHENTICATOR_KEY.ON_PREM: {
-      const vendorName = getAuthenticatorOption(
-        options,
-        authenticatorKey,
-      )?.relatesTo?.displayName || loc('oie.on_prem.authenticator.default.vendorName', 'login');
+      const vendorName = option.relatesTo?.displayName
+        || loc('oie.on_prem.authenticator.default.vendorName', 'login');
       return [vendorName];
     }
     case AUTHENTICATOR_KEY.IDP: {
-      const idpName = getAuthenticatorOption(
-        options,
-        authenticatorKey,
-      )?.relatesTo?.displayName || '';
+      const idpName = option.relatesTo?.displayName || '';
       return [idpName];
     }
     case AUTHENTICATOR_KEY.CUSTOM_APP: {
-      const customAppName = getAuthenticatorOption(
-        options,
-        authenticatorKey,
-      )?.label || '';
+      const customAppName = option.label || '';
       return [customAppName];
     }
     case AUTHENTICATOR_KEY.SYMANTEC_VIP: {
-      const appName = getAuthenticatorOption(
-        options,
-        authenticatorKey,
-      )?.relatesTo?.displayName || '';
+      const appName = option.relatesTo?.displayName || '';
       return [appName];
     }
     default:
@@ -136,7 +118,7 @@ const getAuthenticatorDescriptionParams = (
 };
 
 const getAuthenticatorDescription = (
-  options: IdxOption[],
+  option: IdxOption,
   authenticatorKey: string,
   isEnroll?: boolean,
 ): string | undefined => {
@@ -144,7 +126,7 @@ const getAuthenticatorDescription = (
     return undefined;
   }
   const descrParams = getAuthenticatorDescriptionParams(
-    options,
+    option,
     authenticatorKey,
     isEnroll,
   );
@@ -153,17 +135,11 @@ const getAuthenticatorDescription = (
   }
 
   if (authenticatorKey === AUTHENTICATOR_KEY.PHONE) {
-    return getAuthenticatorOption(
-      options,
-      authenticatorKey,
-    )?.relatesTo?.profile?.phoneNumber as string || undefined;
+    return option.relatesTo?.profile?.phoneNumber as string || undefined;
   }
 
   if (authenticatorKey === AUTHENTICATOR_KEY.CUSTOM_APP) {
-    return getAuthenticatorOption(
-      options,
-      authenticatorKey,
-    )?.relatesTo?.displayName as string || undefined;
+    return option.relatesTo?.displayName as string || undefined;
   }
 
   if (authenticatorKey === AUTHENTICATOR_KEY.OV) {
@@ -214,7 +190,7 @@ const formatAuthenticatorOptions = (
           ? loc('oie.enroll.authenticator.button.text', 'login')
           : loc('oie.verify.authenticator.button.text', 'login'),
         description: getAuthenticatorDescription(
-          options,
+          option,
           authenticatorKey,
           isEnroll,
         ),
