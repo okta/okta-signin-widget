@@ -41,13 +41,15 @@ const Link: UISchemaElementComponent<{
   const onClick: ClickHandler = async (e) => {
     e.preventDefault();
 
-    if (!loading) {
-      onSubmitHandler({
-        params: actionParams,
-        isActionStep,
-        step,
-      });
+    if (loading) {
+      return;
     }
+
+    onSubmitHandler({
+      params: actionParams,
+      isActionStep,
+      step,
+    });
   };
   const onMouseDown: ClickHandler = (e) => { e.preventDefault(); };
 

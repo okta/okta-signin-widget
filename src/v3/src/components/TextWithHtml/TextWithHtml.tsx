@@ -13,6 +13,7 @@
 import { Box } from '@mui/material';
 import { h } from 'preact';
 
+import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import {
   ClickHandler,
@@ -23,6 +24,9 @@ import {
 const TextWithHtml: UISchemaElementComponent<{
   uischema: TextWithHtmlElement
 }> = ({ uischema }) => {
+  const {
+    loading = false,
+  } = useWidgetContext();
   const {
     content,
     actionParams,
@@ -36,6 +40,10 @@ const TextWithHtml: UISchemaElementComponent<{
   const onMouseDown: ClickHandler = (e) => { e.preventDefault(); };
   const handleClick = async (e: Event) => {
     e.preventDefault();
+
+    if (loading) {
+      return;
+    }
 
     // only submit when className matches
     if ((e.target as HTMLElement).className.includes(contentClassname)) {
