@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { waitFor } from '@testing-library/preact';
+import { queryByText, waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
@@ -57,5 +57,19 @@ describe('error-session-expired', () => {
     await findByText(/You have been logged out due to inactivity. Refresh or return to the sign in screen./);
     const cancelLink = await findByText(/Back to sign in/);
     await waitFor(() => expect(cancelLink).toHaveFocus());
+  });
+
+  it('should not show "Back to sign in" link when hideSignOutLinkInMFA flag is true', async () => {
+    const { findByText, container } = await setup({
+      mockResponse,
+      widgetOptions: {
+        features: {
+          hideSignOutLinkInMFA: true,
+        },
+      },
+    });
+    await findByText(/You have been logged out due to inactivity. Refresh or return to the sign in screen./);
+    const cancelLink = queryByText(container as HTMLElement, /Back to sign in/);
+    expect(cancelLink).toBeNull();
   });
 });
