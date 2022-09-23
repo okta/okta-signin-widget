@@ -27,6 +27,10 @@ const ignoredMocks = [
   'error-custom-access-denied-success-redirect.json', // custom message
   'error-identify-access-denied-custom-message.json', // custom message
   'enroll-profile-new-boolean-fields', // custom registration fields
+  'identify-with-only-one-third-party-idp-app-user', // redirect-idp
+
+  // OKTA-535435 "Sign me out of all other devices." (enroll-authenticator.okta_password.credentials.revokeSessions) has no entry in login.properties
+  'authenticator-enroll-password',
 ];
 
 const optionsForInteractionCodeFlow = {
