@@ -42,6 +42,7 @@ import {
   loc,
   removeUsernameCookie,
   setUsernameCookie,
+  shouldShowCancelLink,
 } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { setFocusOnFirstElement } from '../uischema';
@@ -79,7 +80,8 @@ const appendViewLinks = (
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
 ): void => {
-  const { useInteractionCodeFlow } = widgetProps;
+  const { useInteractionCodeFlow, features } = widgetProps;
+  const isCancelAvailable = shouldShowCancelLink(features);
   const cancelStep = transaction?.availableSteps?.find(({ name }) => name === 'cancel');
   const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
   const cancelLink: LinkElement = {
@@ -97,14 +99,16 @@ const appendViewLinks = (
     cancelLink.options.step = skipStep.name;
     cancelLink.options.isActionStep = false;
     uischema.elements.push(cancelLink);
-  } else if (containsOneOfMessageKeys(DEVICE_CODE_ERROR_KEYS, transaction.messages)) {
+  } else if (containsOneOfMessageKeys(DEVICE_CODE_ERROR_KEYS, transaction.messages)
+      && isCancelAvailable) {
     cancelLink.options.label = loc('oie.try.again', 'login');
     cancelLink.options.href = window.location.href;
     uischema.elements.push(cancelLink);
-  } else if (cancelStep) {
+  } else if (cancelStep && isCancelAvailable) {
     uischema.elements.push(cancelLink);
   } else if (!transaction.actions?.cancel
-      && !containsOneOfMessageKeys(TERMINAL_KEYS_WITHOUT_CANCEL, transaction.messages)) {
+      && !containsOneOfMessageKeys(TERMINAL_KEYS_WITHOUT_CANCEL, transaction.messages)
+      && isCancelAvailable) {
     const backToSigninUri = getBackToSignInUri(widgetProps);
     if (backToSigninUri) {
       cancelLink.options.href = backToSigninUri;
