@@ -13,12 +13,16 @@
 import { Link as LinkMui } from '@mui/material';
 import { h } from 'preact';
 
+import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnSubmit } from '../../hooks';
 import { ClickHandler, LinkElement, UISchemaElementComponent } from '../../types';
 
 const Link: UISchemaElementComponent<{
   uischema: LinkElement
 }> = ({ uischema }) => {
+  const {
+    loading,
+  } = useWidgetContext();
   const {
     options: {
       label,
@@ -36,6 +40,10 @@ const Link: UISchemaElementComponent<{
 
   const onClick: ClickHandler = async (e) => {
     e.preventDefault();
+
+    if (loading) {
+      return;
+    }
 
     onSubmitHandler({
       params: actionParams,

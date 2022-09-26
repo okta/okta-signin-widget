@@ -322,4 +322,17 @@ describe('identify-with-password', () => {
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledTimes(1);
   });
+
+  it('should only send one api request when forgot password link is double clicked', async () => {
+    const {
+      findByText,
+      user,
+      authClient,
+    } = await setup({ mockResponse });
+
+    const cancelLink = await findByText(/Forgot password?/);
+
+    await user.dblClick(cancelLink);
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledTimes(1);
+  });
 });
