@@ -106,3 +106,19 @@ export const hasMinAuthenticatorOptions = (
 export const isAuthClientSet = (
   props: WidgetProps,
 ): props is RequiredKeys<WidgetProps, 'authClient'> => !!props.authClient;
+
+export const areTransactionsEqual = (
+  tx1: IdxTransaction | undefined,
+  tx2: IdxTransaction | undefined,
+): boolean => {
+  const tx1NextStepName = tx1?.nextStep?.name;
+  const tx2NextStepName = tx2?.nextStep?.name;
+  const tx1AuthKey = tx1 && getAuthenticatorKey(tx1);
+  const tx2AuthKey = tx2 && getAuthenticatorKey(tx2);
+  const tx1AuthId = tx1?.context.currentAuthenticator?.value?.id;
+  const tx2AuthId = tx2?.context.currentAuthenticator?.value?.id;
+
+  return tx1NextStepName === tx2NextStepName
+    && tx1AuthKey === tx2AuthKey
+    && tx1AuthId === tx2AuthId;
+};
