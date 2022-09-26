@@ -59,7 +59,6 @@ const Button: UISchemaElementComponent<{
       stepToRender,
     });
   };
-  const onMouseDown: ClickHandler = (e) => { e.preventDefault(); };
 
   return (
     <ButtonMui
@@ -67,7 +66,6 @@ const Button: UISchemaElementComponent<{
       variant={variant ?? 'primary'}
       fullWidth={wide ?? true}
       ref={focusRef}
-      onMouseDown={onMouseDown}
       disabled={loading}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(dataType && { 'data-type': dataType } )}

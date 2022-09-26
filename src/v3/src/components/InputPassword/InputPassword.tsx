@@ -58,10 +58,6 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         name={name}
         id={name}
         error={error !== undefined}
-        onBlur={() => {
-          setTouched?.(true);
-          onValidateHandler?.(setError);
-        }}
         onChange={handleChange}
         fullWidth
         inputProps={{

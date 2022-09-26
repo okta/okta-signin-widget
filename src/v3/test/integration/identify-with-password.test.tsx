@@ -115,33 +115,6 @@ describe('identify-with-password', () => {
       expect((await findByTestId('credentials.passcode-error')).textContent).toBe('This field cannot be left blank');
     });
 
-    it('should blur required fields to view field level errors', async () => {
-      const {
-        user,
-        findByTestId,
-        queryByTestId,
-        findByText,
-      } = await setup({ mockResponse });
-
-      const identifierEle = await findByTestId('identifier') as HTMLInputElement;
-      const passcodeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-      await findByText('Sign in', { selector: 'button' });
-
-      expect(queryByTestId('identifier-error')).toBeNull();
-      expect(queryByTestId('credentials.passcode-error')).toBeNull();
-
-      await user.tab();
-      expect(identifierEle).toHaveFocus();
-      await user.tab();
-      expect(passcodeEle).toHaveFocus();
-      await user.tab();
-
-      const identifierError = await findByTestId('identifier-error');
-      const passwordError = await findByTestId('credentials.passcode-error');
-      expect(identifierError.textContent).toEqual('This field cannot be left blank');
-      expect(passwordError.textContent).toEqual('This field cannot be left blank');
-    });
-
     it('should type in field, then clear field to view field level error', async () => {
       const {
         user,
