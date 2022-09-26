@@ -3255,6 +3255,29 @@
     webcrypto-shim "^0.1.5"
     xhr2 "0.1.3"
 
+"@okta/okta-auth-js@6.9.0":
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.9.0.tgz#2b568234f1c2ef203160faa4f4697bb02038ab83"
+  integrity sha512-IAh9mh2iGT4bsGeRMSSGBYoeEJ4f3ABTO+Jf9mYr0MbKgyU+X+7RwYAo/z8JHJ9AW0ynmjERTMOgDJ7/H/N+Dw==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    "@babel/runtime-corejs3" "^7.17.0"
+    "@peculiar/webcrypto" "^1.4.0"
+    Base64 "1.1.0"
+    atob "^2.1.2"
+    broadcast-channel "~4.17.0"
+    btoa "^1.2.1"
+    core-js "^3.6.5"
+    cross-fetch "^3.1.5"
+    js-cookie "^3.0.1"
+    jsonpath-plus "^6.0.1"
+    node-cache "^5.1.2"
+    p-cancelable "^2.0.0"
+    text-encoding "^0.7.0"
+    tiny-emitter "1.1.0"
+    webcrypto-shim "^0.1.5"
+    xhr2 "0.1.3"
+
 "@okta/okta-sdk-nodejs@^6.2.0":
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/@okta/okta-sdk-nodejs/-/okta-sdk-nodejs-6.2.0.tgz#081cb86b2ac9c875778aef53ed7b3f3f24772887"
@@ -3305,6 +3328,17 @@
     pvtsutils "^1.1.2"
     tslib "^2.1.0"
     webcrypto-core "^1.2.0"
+
+"@peculiar/webcrypto@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@peculiar/webcrypto/-/webcrypto-1.4.0.tgz#f941bd95285a0f8a3d2af39ccda5197b80cd32bf"
+  integrity sha512-U58N44b2m3OuTgpmKgf0LPDOmP3bhwNz01vAnj1mBwxBASRhptWYK+M3zG+HBkDqGQM+bFsoIihTW8MdmPXEqg==
+  dependencies:
+    "@peculiar/asn1-schema" "^2.1.6"
+    "@peculiar/json-schema" "^1.1.12"
+    pvtsutils "^1.3.2"
+    tslib "^2.4.0"
+    webcrypto-core "^1.7.4"
 
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.21"
@@ -5631,6 +5665,17 @@ broadcast-channel@4.13.0:
     "@babel/runtime" "^7.16.0"
     detect-node "^2.1.0"
     microtime "3.0.0"
+    oblivious-set "1.1.1"
+    p-queue "6.6.2"
+    rimraf "3.0.2"
+    unload "2.3.1"
+
+broadcast-channel@~4.17.0:
+  version "4.17.0"
+  resolved "https://registry.yarnpkg.com/broadcast-channel/-/broadcast-channel-4.17.0.tgz#599d44674b09a4e2e07af6da5d03b45ca8bffd11"
+  integrity sha512-r2GSQMNgZv7eAsbdsu9xofSjc3J2diCQTPkSuyVhLBfx8fylLCVhi5KheuhuAQBJNd4pxqUyz9U6rvdnt7GZng==
+  dependencies:
+    "@babel/runtime" "^7.16.0"
     oblivious-set "1.1.1"
     p-queue "6.6.2"
     rimraf "3.0.2"
@@ -18398,7 +18443,7 @@ webauth@^1.1.0:
   resolved "https://registry.yarnpkg.com/webauth/-/webauth-1.1.0.tgz#64704f6b8026986605bc3ca629952e6e26fdd100"
   integrity sha1-ZHBPa4AmmGYFvDymKZUubib90QA=
 
-webcrypto-core@^1.2.0:
+webcrypto-core@^1.2.0, webcrypto-core@^1.7.4:
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/webcrypto-core/-/webcrypto-core-1.7.5.tgz#c02104c953ca7107557f9c165d194c6316587ca4"
   integrity sha512-gaExY2/3EHQlRNNNVSrbG2Cg94Rutl7fAaKILS1w8ZDhGxdFOaw6EbCfHIxPy9vt/xwp5o0VQAx9aySPF6hU1A==
