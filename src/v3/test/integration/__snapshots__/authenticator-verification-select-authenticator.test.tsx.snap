@@ -593,7 +593,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-54"
                         data-se="authenticator-button-description"
                       >
-                        +1 XXX-XXX-5309
+                        +1 XXX-XXX-5310
                       </p>
                       <div
                         class="cta-button actionName MuiBox-root emotion-7"
