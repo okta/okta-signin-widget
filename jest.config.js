@@ -5,7 +5,7 @@ const LOCAL_PACKAGES = path.resolve(ROOT, 'packages');
 const COVERAGE_DIR = '<rootDir>/build2/reports/coverage/jest';
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
 /* eslint-disable-next-line @okta/okta/no-unlocalized-text-in-templates */
-const OktaSignin = '<rootDir>/src/widget/OktaSignIn';
+const OktaSignin = '<rootDir>/src/exports/default';
 const LEGACY_TESTS = require('./test/unit/legacy-tests');
 
 module.exports = {
@@ -29,9 +29,9 @@ module.exports = {
     // auth-js has a browser and server version. we want the browser version
     '^@okta/okta-auth-js$': [
       // When using yarn link
-      '<rootDir>/node_modules/@okta/okta-auth-js/build/dist/okta-auth-js.umd.js',
+      '<rootDir>/node_modules/@okta/okta-auth-js/build/umd/default.js',
       // When using installed module
-      '<rootDir>/node_modules/@okta/okta-auth-js/dist/okta-auth-js.umd.js',
+      '<rootDir>/node_modules/@okta/okta-auth-js/umd/default.js',
     ],
 
     // idx-js uses cross-fetch. Force it to use the browser version so our spies work

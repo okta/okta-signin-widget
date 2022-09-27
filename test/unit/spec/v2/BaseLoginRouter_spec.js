@@ -5,7 +5,7 @@ import FormController from 'v2/controllers/FormController';
 import { OAuthError, ConfiguredFlowError, ConfigError } from 'util/Errors';
 import { RecoverableError } from 'util/OAuthErrors';
 import $sandbox from 'sandbox';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import XHRInteract from '../../../../playground/mocks/data/oauth2/interact.json';
 import XHRIdentifyWithPassword
   from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';

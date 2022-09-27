@@ -1,11 +1,13 @@
+import { OktaAuth } from '@okta/okta-auth-js';
 import getAuthClient from 'widget/getAuthClient';
 import config from 'config/config.json';
 
 
 describe('widget/getAuthClient', () => {
   it('creates auth client if one is not passed through widget options', () => {
-    const authClient = getAuthClient({authParams: { issuer: 'https://foo.bar'}});
+    const authClient = getAuthClient(OktaAuth, {authParams: { issuer: 'https://foo.bar'}});
     expect(authClient.options.issuer).toEqual('https://foo.bar');
+    expect(authClient instanceof OktaAuth).toBe(true);
   });
 
   it('returns auth client passed via widget options', () => {
@@ -18,7 +20,7 @@ describe('widget/getAuthClient', () => {
       }
     };
 
-    const authClient = getAuthClient({
+    const authClient = getAuthClient(OktaAuth, {
       authParams: { issuer: 'https://foo.bar'},
       authClient: mockAuthClient
     });
@@ -32,13 +34,13 @@ describe('widget/getAuthClient', () => {
       }
     };
 
-    getAuthClient({
+    getAuthClient(OktaAuth, {
       authClient: mockAuthClient
     });
     expect(mockAuthClient._oktaUserAgent.addEnvironment).toHaveBeenCalledWith(`okta-signin-widget-${config.version}`);
   });
 
   it('throws an error when provided auth client doesn\'t have UA helper', () => {
-    expect(() => getAuthClient({ authClient: {} })).toThrowError('The passed in authClient should be version 5.4.0 or above.');
+    expect(() => getAuthClient(OktaAuth, { authClient: {} })).toThrowError('The passed in authClient should be version 5.4.0 or above.');
   });
 });

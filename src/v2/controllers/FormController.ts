@@ -152,7 +152,6 @@ export default Controller.extend({
     const { stateHandle } = idx.context;
     let invokeOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
-      shouldProceedWithEmailAuthenticator: false, // do not auto-select email authenticator
       stateHandle
     };
     let error;
@@ -255,7 +254,6 @@ export default Controller.extend({
     const authClient = this.options.settings.getAuthClient();
     const idxOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
-      shouldProceedWithEmailAuthenticator: false, // do not auto-select email authenticator
     };
     try {
       const idx = this.options.appState.get('idx');

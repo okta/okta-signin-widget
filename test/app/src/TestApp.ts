@@ -1,4 +1,4 @@
-import { AuthSdkError, OktaAuth, TokenResponse, Tokens } from '@okta/okta-auth-js';
+import { AuthSdkError, OAuthResponseMode, OktaAuth, TokenResponse, Tokens } from '@okta/okta-auth-js';
 import OktaSignIn, { RenderResult, RenderResultSuccess } from '@okta/okta-signin-widget';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -349,7 +349,7 @@ export default class TestApp {
     }
     if (responseMode) {
       config.authParams = config.authParams || {};
-      config.authParams.responseMode = responseMode;
+      config.authParams.responseMode = responseMode as OAuthResponseMode;
     }
 
     // get authClient

@@ -1,5 +1,5 @@
 import { _ } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import FormView from 'helpers/dom/Form';
