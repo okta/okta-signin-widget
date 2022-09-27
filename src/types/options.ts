@@ -1,23 +1,28 @@
 // Minimum TypeScript Version: 3.8
 
-import { OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
+import { OktaAuthOptions } from '@okta/okta-auth-js';
 import {
   SimpleCallback,
   RenderResult,
   RenderError,
 } from './results';
 import { RegistrationOptions } from './registration';
+import { WidgetOktaAuthInterface } from './authClient';
 
-export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
-  'issuer' | 
-  'clientId' | 
-  'redirectUri' |
-  'state' | 
-  'scopes' |
-  'codeChallenge' |
-  'codeChallengeMethod' |
-  'flow'
->> {
+export interface WidgetOptions
+  extends Partial<
+    Pick<OktaAuthOptions,
+      'issuer' | 
+      'clientId' | 
+      'redirectUri' |
+      'state' | 
+      'scopes' |
+      'codeChallenge' |
+      'codeChallengeMethod' |
+      'flow'
+    >
+  > 
+{
   el?: string;
   
   // OIDC
@@ -25,7 +30,7 @@ export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
 
   // Auth client
   authParams?: AuthParams;
-  authClient?: OktaAuth;
+  authClient?: WidgetOktaAuthInterface;
 
   // Basic config options
   baseUrl?: string;
@@ -102,7 +107,7 @@ export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
   /**
    * @deprecated since version 7.0
    */
-   useInteractionCodeFlow?: boolean;
+  useInteractionCodeFlow?: boolean;
 }
 
 // Auth params

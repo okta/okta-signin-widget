@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint camelcase: 0 */
 import { _, $, internal } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Duo from 'duo';
 import Beacon from 'helpers/dom/Beacon';

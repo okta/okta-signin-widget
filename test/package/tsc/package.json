@@ -5,8 +5,8 @@
   "type": "module",
   "main": "target/test-import.js",
   "scripts": {
-    "clean:output": "rimraf target",
-    "clean": "yarn clean:output && rimraf yarn* && rimraf node_modules",
+    "clean:output": "rm -rf target",
+    "clean": "yarn clean:output && rm -f yarn* && rm -rf node_modules",
     "build": "tsc",
     "test": "yarn clean:output && yarn build"
   },

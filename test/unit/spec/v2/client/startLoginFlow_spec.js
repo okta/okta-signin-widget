@@ -103,8 +103,7 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledTimes(1);
 
     expect(start).toHaveBeenCalledWith({
-      exchangeCodeForTokens: false,
-      shouldProceedWithEmailAuthenticator: false
+      exchangeCodeForTokens: false
     });
     expect(proceed).not.toHaveBeenCalled();
   });
@@ -121,7 +120,6 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledTimes(1);
     expect(start).toHaveBeenCalledWith({
       exchangeCodeForTokens: false,
-      shouldProceedWithEmailAuthenticator: false,
       stateHandle: 'a test state token from settings'
     });
     expect(settings.get('stateToken')).toBe('a test state token from settings');
@@ -141,7 +139,6 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledTimes(1);
     expect(start).toHaveBeenCalledWith({
       exchangeCodeForTokens: false,
-      shouldProceedWithEmailAuthenticator: false,
       stateHandle: 'a test state token from settings'
     });
     expect(settings.get('stateToken')).toBe('a test state token from settings');
@@ -160,7 +157,6 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledTimes(1);
     expect(start).toHaveBeenCalledWith({
       exchangeCodeForTokens: false,
-      shouldProceedWithEmailAuthenticator: false,
       stateHandle: 'fake state handle from session storage'
     });
     expect(settings.get('stateToken'))
@@ -190,13 +186,11 @@ describe('v2/client/startLoginFlow', () => {
     expect(start.mock.calls[0][0])
       .toEqual({
         exchangeCodeForTokens: false,
-        shouldProceedWithEmailAuthenticator: false,
         stateHandle: 'fake state handle from session storage'
       });
     expect(start.mock.calls[1][0])
       .toEqual({
         exchangeCodeForTokens: false,
-        shouldProceedWithEmailAuthenticator: false,
         stateHandle: 'a test state token from settings'
       });
 

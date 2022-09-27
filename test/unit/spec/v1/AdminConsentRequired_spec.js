@@ -1,5 +1,5 @@
 import { _ } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import LoginRouter from 'v1/LoginRouter';
 import AdminConsentRequiredForm from 'helpers/dom/AdminConsentRequiredForm';
 import Util from 'helpers/mocks/Util';

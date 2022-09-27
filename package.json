@@ -21,12 +21,33 @@
     "not IE_Mob 11"
   ],
   "engines": {
-    "node": ">=12.22",
+    "node": ">=14.18",
     "yarn": "^1.7.0"
   },
-  "types": "./types/src/index.d.ts",
+  "types": "./types/src/exports/default.d.ts",
   "main": "./target/js/okta-sign-in.js",
-  "module": "./target/esm/src/index.js",
+  "module": "./target/esm/src/exports/exports/default.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./types/src/exports/default.d.ts",
+      "import": "./target/esm/src/exports/exports/default.js",
+      "require": "./target/js/okta-sign-in.js",
+      "default": "./target/js/okta-sign-in.js"
+    },
+    "./classic": {
+      "types": "./types/src/exports/classic.d.ts",
+      "import": "./target/esm/src/exports/exports/classic.js",
+      "require": "./target/js/okta-sign-in.classic.js",
+      "default": "./target/js/okta-sign-in.classic.js"
+    },
+    "./oie": {
+      "types": "./types/src/exports/oie.d.ts",
+      "import": "./target/esm/src/exports/exports/oie.js",
+      "require": "./target/js/okta-sign-in.oie.js",
+      "default": "./target/js/okta-sign-in.oie.js"
+    }
+  },
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
     "clean:esm": "rimraf target/esm",
@@ -34,7 +55,7 @@
     "generate-phone-codes": "node scripts/buildtools generate-phone-codes",
     "generate-config": "node scripts/buildtools generate-language-config",
     "update-readme": "node scripts/buildtools update-readme",
-    "retirejs": "retire --jspath target/js --package",
+    "retirejs": "retire --js --jspath target/js --package",
     "lint:ci": "yarn codegen && yarn lint",
     "lint:esm": "eslint --no-ignore --no-eslintrc --no-inline-config --config scripts/buildtools/eslint/.eslintrc.esm.js `find target/esm -type f -name \"*.js\"`",
     "lint:cdn": "eslint --no-ignore --no-eslintrc --no-inline-config --config scripts/buildtools/eslint/.eslintrc.cdn.js dist/dist/js/okta-sign-in.min.js",
@@ -110,6 +131,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.5",
+    "babel-plugin-add-module-exports": "^1.0.4",
     "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-transform-amd-to-commonjs": "^1.5.0",
     "babel-plugin-tsconfig-paths-module-resolver": "^1.0.3",
@@ -120,7 +142,7 @@
     "dotenv": "^8.0.0",
     "dyson": "^4.1.0",
     "eslint": "^7.23.0",
-    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-import-resolver-typescript": "^3.5.0",
     "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-compat": "^4.0.2",
     "eslint-plugin-dirs": "^0.0.4",
@@ -175,6 +197,7 @@
     "rimraf": "^2.6.2",
     "rollup": "^2.70.2",
     "rollup-plugin-amd": "^4.0.0",
+    "rollup-plugin-multi-input": "^1.3.1",
     "rollup-plugin-visualizer": "^5.6.0",
     "sass": "^1.38.0",
     "shelljs": "^0.8.5",
@@ -187,7 +210,7 @@
     "time-grunt": "^2.0.0",
     "tsd": "^0.20.0",
     "ttypescript": "^1.5.13",
-    "typescript": "^4.2.2",
+    "typescript": "~4.2.2",
     "wait-on": "^6.0.1",
     "webdriver-manager": "^12.1.8",
     "webpack": "^5.51.1",
@@ -196,7 +219,7 @@
     "webpack-dev-server": "^4.8.1"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "6.5.4",
+    "@okta/okta-auth-js": "~7.0.0",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/jquery": "^3.5.14",
