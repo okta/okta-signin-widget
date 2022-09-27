@@ -5,8 +5,8 @@
   "type": "module",
   "main": "target/test-import.js",
   "scripts": {
-    "clean:output": "rimraf target && rimraf dist",
-    "clean": "yarn clean:output && rimraf node_modules",
+    "clean:output": "rm -rf target && rm -rf dist && rm -f package-lock.json",
+    "clean": "yarn clean:output && rm -rf node_modules",
     "build:ts": "tsc",
     "build:webpack": "webpack",
     "test": "yarn clean:output && yarn build:ts && yarn build:webpack"

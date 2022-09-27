@@ -1,7 +1,7 @@
 import './karma/karma-enforce-precompile';
 
 const karma = window.__karma__;
-const testsContext = require.context('./spec/', true, /.*_spec\.js$/);
+const testsContext = require.context('./spec/v1', true, /_spec\.js$/);
 const legacyTests = require('./legacy-tests');
 
 testsContext.keys().filter(key => {

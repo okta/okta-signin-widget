@@ -33,7 +33,6 @@ export async function startLoginFlow(settings) {
   const nonce = settings.get('nonce') || authParams?.nonce;
   const idxOptions: ProceedOptions = {
     exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
-    shouldProceedWithEmailAuthenticator: false, // do not auto-select email authenticator
     ...(nonce && { nonce })
   };
 
