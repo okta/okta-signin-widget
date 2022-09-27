@@ -17,11 +17,7 @@
 
 <body>
   <div id="app"></div>
-{{#if CROSS_BROWSER}}
-  <script src="js/okta-sign-in.min.js"></script>
-{{else}}
-  <script src="js/okta-sign-in.js"></script>
-{{/if}}
+  <script src="{{ WIDGET_JS }}"></script>
   <script src="main.bundle.js"></script>
 </body>
 

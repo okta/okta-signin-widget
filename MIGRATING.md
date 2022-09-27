@@ -22,6 +22,9 @@ Documentation for configuring the Okta Sign-in Widget using the [interaction cod
 
 Custom `montserrat` font is renamed to `monteserrat-okta`. Styles referencing it should be updated.
 
+### Minimum Node version
+
+To install the NPM module, Node version 14.18 or greater is required 
 
 ## Migrating from 5.x to 6.x
 

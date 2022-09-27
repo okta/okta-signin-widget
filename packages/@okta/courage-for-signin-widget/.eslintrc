@@ -92,11 +92,6 @@
       "rules": {
         "@okta/okta/no-unlocalized-text-in-templates": "off"
       }
-    },
-    {
-      "files": ["target/types/**/*"],
-      "rules": {
-      }
     }
   ]
 }
