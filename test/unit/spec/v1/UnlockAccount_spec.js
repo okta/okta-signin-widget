@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 16], max-statements: [2, 44] */
 import { _ } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import AccountRecoveryForm from 'helpers/dom/AccountRecoveryForm';
 import Beacon from 'helpers/dom/Beacon';

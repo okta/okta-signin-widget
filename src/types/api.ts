@@ -1,4 +1,4 @@
-import { OktaAuthInterface, Tokens } from '@okta/okta-auth-js';
+import { OktaAuthOAuthInterface, Tokens } from '@okta/okta-auth-js';
 import { RenderOptions, WidgetOptions } from './options';
 import { EventCallback, EventCallbackWithError, } from './events';
 import { RenderError, RenderResult } from './results'
@@ -20,7 +20,7 @@ export interface RouterEventsAPI {
 export type RenderSuccessCallback = (res: RenderResult) => void;
 export type RenderErrorCallback = (err: RenderError) => void;
 export interface OktaSignInAPI extends HooksAPI, RouterEventsAPI {
-  authClient: OktaAuthInterface;
+  authClient: OktaAuthOAuthInterface;
   show(): void;
   hide(): void;
   remove(): void;

@@ -133,7 +133,6 @@ async function setupInteractionCodeFlow(t) {
   await renderWidget({
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
-    useInteractionCodeFlow: true,
     authParams: {
       pkce: true,
       state: 'mock-state'

@@ -16,7 +16,7 @@ import xhrTerminalSuccessWithCancelAction from '../../../playground/mocks/data/i
 import 'jasmine-ajax';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
-import Widget from 'widget/OktaSignIn';
+import Widget from 'exports/default';
 
 const url = 'https://foo.com';
 const issuer = `${url}/oauth2/default`;
