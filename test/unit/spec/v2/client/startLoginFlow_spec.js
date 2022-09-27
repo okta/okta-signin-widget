@@ -231,7 +231,7 @@ describe('v2/client/startLoginFlow', () => {
         settings: s,
         ...ctx
       };
-    })
+    });
 
     it('shall pass nonce to /interact when provided with authParams', async () => {
       const { settings, start, proceed } = testContext;
