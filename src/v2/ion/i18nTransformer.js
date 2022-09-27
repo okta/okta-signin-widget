@@ -60,7 +60,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-unlock-account.identifier': 'primaryauth.username.placeholder',
   'identify.credentials.passcode': 'primaryauth.password.placeholder',
   'identify.rememberMe': 'oie.remember',
-
+  'enroll-profile.userProfile.rememberMe': 'oie.remember',
+  
   'identify-recovery.identifier': 'password.forgot.email.or.username.placeholder',
 
   'select-authenticator-enroll.authenticator.duo': 'factor.duo',
@@ -359,8 +360,10 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
         if (o.authenticatorKey === AUTHENTICATOR_KEY.OV && methodType) {
           i18nPathOption = `${i18nPathOption}.${methodType}`;
         }
-      } else if (o.value !== undefined) { // value could be string or number or undefined.
+      } else if (typeof o.value === 'string' || typeof o.value === 'number') { // value could be string, number, object or undefined.
         i18nPathOption = `${i18nPath}.${o.value}`;
+      } else {
+        i18nPathOption = i18nPath;
       }
       Logger.info('\t 4: ', i18nPathOption);
       o.label = getI18NValue(i18nPathOption, o.label);

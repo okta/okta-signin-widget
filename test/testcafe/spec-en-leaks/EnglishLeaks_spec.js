@@ -26,6 +26,10 @@ const ignoredMocks = [
   'enroll-profile-all-base-attributes.json', // No english leaks on UI. Country and timezone dropdown values are not localized OKTA-454630
   'error-custom-access-denied-success-redirect.json', // custom message
   'error-identify-access-denied-custom-message.json', // custom message
+  'enroll-profile-new-boolean-fields.json', // custom registration fields
+
+  // OKTA-535435 "Sign me out of all other devices." (enroll-authenticator.okta_password.credentials.revokeSessions) has no entry in login.properties
+  'authenticator-enroll-password.json',
 ];
 
 const optionsForInteractionCodeFlow = {
@@ -44,15 +48,6 @@ const mocksWithInteractionCodeFlow = [
 
 const mocksWithAlert = [
   'success-with-interaction-code.json'
-];
-
-const mocksWithPreventRedirect = [
-  'identify-with-only-one-third-party-idp-app-use',
-  'error-with-failure-redirect.json'
-];
-const mocksWithoutInitialRender = [
-  'success-with-interaction-code.json',
-  'error-with-failure-redirect.json'
 ];
 
 const parseMockData = () => {
@@ -133,28 +128,30 @@ const setUpResponse = (filePath) => {
 
 async function setup(t, locale, fileName) {
   const withInteractionCodeFlow = mocksWithInteractionCodeFlow.includes(fileName);
-  const preventInitialRender = mocksWithoutInitialRender.includes(fileName);
   const withAlert = mocksWithAlert.includes(fileName);
   const options = withInteractionCodeFlow ? optionsForInteractionCodeFlow : {};
-  const preventRedirect = mocksWithPreventRedirect.includes(fileName);
-  
   const widgetView = new PageObject(t);
-  if (preventInitialRender) {
-    await widgetView.navigateToPage({ render: false });
-  } else {
-    await widgetView.navigateToPage();
-  }
+  
+  // Navigate to the page but do not render the widget yet
+  await widgetView.navigateToPage({ render: false });
+
   if (withInteractionCodeFlow) {
     await widgetView.mockCrypto();
   }
+
   if (withAlert) {
     await t.setNativeDialogHandler(() => true);
   }
-  if (preventRedirect) {
-    await widgetView.preventRedirect([
-      'http://localhost:3000/error.html'
-    ]);
-  }
+
+  // Prevent redirects
+  await widgetView.preventRedirect([
+    // TODO: are there *any* allowed redirects?
+    'http://localhost:3000/error.html',
+    'http://localhost:3000/sso/idps/facebook-idp-id-123',
+    'https://okta.mtls.okta.com/sso/idps/mtlsidp',
+    'http://localhost:3000/app/UserHome'
+  ]);
+  
   await renderWidget({
     ...options,
     'language': locale

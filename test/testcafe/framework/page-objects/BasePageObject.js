@@ -58,7 +58,9 @@ export default class BasePageObject {
       window.addEventListener('submit', function(e) {
         if (!toUrls || toUrls.includes(e.target.action)) {
           e.preventDefault();
+          return;
         }
+        console.log('WARNING! allowing redirect:', e.target.action);
       });
     })(toUrls);
   }
