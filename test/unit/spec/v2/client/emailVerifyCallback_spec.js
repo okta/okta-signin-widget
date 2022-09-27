@@ -35,7 +35,6 @@ describe('email verify callback', () => {
       await emailVerifyCallback(settings);
       expect(authClient.idx.proceed).toHaveBeenCalledWith({
         exchangeCodeForTokens: false,
-        shouldProceedWithEmailAuthenticator: false,
         otp
       });
     });
@@ -46,7 +45,6 @@ describe('email verify callback', () => {
       const res = await emailVerifyCallback(settings);
       expect(authClient.idx.proceed).toHaveBeenCalledWith({
         exchangeCodeForTokens: false,
-        shouldProceedWithEmailAuthenticator: false,
         otp
       });
       expect(res).toBe(idxResponse);

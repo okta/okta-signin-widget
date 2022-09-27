@@ -4,12 +4,20 @@ import OktaSignIn, {
   RegistrationData,
   RegistrationSchemaCallback,
   RegistrationDataCallback,
-  RegistrationErrorCallback
+  RegistrationErrorCallback,
+  WidgetOktaAuthInterface
 } from '@okta/okta-signin-widget';
-import { APIError } from '@okta/okta-auth-js';
+import { APIError, OktaAuth } from '@okta/okta-auth-js';
 import { expectType, expectAssignable } from 'tsd';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+// Test passing authClient instance
+const authClient = new OktaAuth({ issuer: 'http://fake' });
+expectAssignable<WidgetOktaAuthInterface>(authClient);
+const signIn1 = new OktaSignIn({
+  authClient
+});
+expectType<OktaSignIn>(signIn1);
 
 // Test constructor with full config
 const signIn2 = new OktaSignIn({
