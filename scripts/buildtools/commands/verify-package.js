@@ -57,13 +57,13 @@ function verifyPackageContents() {
     'dist/js/okta-sign-in.entry.js',
     'dist/js/okta-sign-in.entry.js.map',
     'dist/js/okta-sign-in.min.js',
-    'dist/esm/src/index.js',
+    'dist/esm/src/exports/exports/default.js',
     'dist/labels/json/country_de.json',
     'dist/labels/json/login_ru.json',
     'dist/sass/_fonts.scss',
     'dist/font/okticon.ttf',
     'dist/font/okticon.woff',
-    'types/src/index.d.ts',
+    'types/src/exports/default.d.ts',
     'types/packages/@okta/courage-dist/types/courage/framework/Model.d.ts'
   ];
 
@@ -81,6 +81,12 @@ function verifyPackageContents() {
     if (!manifest.files.some(entry => entry.path === `dist/js/${bundleName}.map`)) {
       throw new Error(`Expected map file ${bundleName}.map was not found in the package dist/js folder`);
     }
+    const entry = manifest.files.find(entry => entry.path === `dist/js/${bundleName}`);
+    const size = Math.round((entry.size / ONE_MB) * 100) / 100;
+    console.log(`${bundleName}: ${size} MB`);
+  });
+
+  Object.keys(EXPECTED_BUNDLE_SIZES).forEach(bundleName => {
     const entry = manifest.files.find(entry => entry.path === `dist/js/${bundleName}`);
     const expectedSize = EXPECTED_BUNDLE_SIZES[bundleName];
     console.log(`Validating bundle size: ${bundleName}`);

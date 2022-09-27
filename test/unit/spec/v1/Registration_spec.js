@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 17], max-statements:[2, 70] */
 import { _, $, Backbone } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import RegForm from 'helpers/dom/RegistrationForm';

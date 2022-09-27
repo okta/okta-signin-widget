@@ -1,4 +1,5 @@
-import OktaSignIn, {
+import {
+  OktaSignIn,
   EventCallback,
   EventContext,
   RenderError,
@@ -7,7 +8,7 @@ import OktaSignIn, {
   EventCallbackWithError,
   EventErrorContext
 } from '@okta/okta-signin-widget';
-import { OktaAuth, Tokens } from '@okta/okta-auth-js';
+import { OktaAuthOAuthInterface, Tokens } from '@okta/okta-auth-js';
 import { expectType, expectError, expectAssignable } from 'tsd';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -25,7 +26,7 @@ expectAssignable<RouterEventsAPI>(signIn);
 expectError(new OktaSignIn());
 
 // Test authClient
-expectType<OktaAuth>(signIn.authClient);
+expectType<OktaAuthOAuthInterface>(signIn.authClient);
 expectType<Promise<boolean>>(signIn.authClient.session.exists());
 
 // Test show, hide, remove
