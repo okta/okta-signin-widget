@@ -109,7 +109,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                   class="identifier identifierSpan MuiBox-root emotion-4"
                   data-se="identifier"
                 >
-                  glen.fannin@okta.com
+                  tester@okta1.com
                 </span>
               </div>
             </div>

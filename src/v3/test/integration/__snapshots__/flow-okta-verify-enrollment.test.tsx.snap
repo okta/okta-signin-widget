@@ -806,7 +806,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="identifier identifierSpan MuiBox-root emotion-4"
                   data-se="identifier"
                 >
-                  glen.fannin@okta.com
+                  tester@okta1.com
                 </span>
               </div>
             </div>
@@ -893,7 +893,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="o-form-explain"
                       >
-                        We sent an email to glen.fannin@okta.com with an Okta Verify setup link. To continue, open the link on your mobile device.
+                        We sent an email to tester@okta1.com with an Okta Verify setup link. To continue, open the link on your mobile device.
                       </p>
                     </div>
                   </div>

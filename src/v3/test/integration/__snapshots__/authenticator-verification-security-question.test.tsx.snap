@@ -89,7 +89,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                   class="identifier identifierSpan MuiBox-root emotion-4"
                   data-se="identifier"
                 >
-                  shaw.yu
+                  tester@okta1.com
                 </span>
               </div>
             </div>

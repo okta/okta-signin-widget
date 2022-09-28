@@ -86,7 +86,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                   class="identifier identifierSpan MuiBox-root emotion-4"
                   data-se="identifier"
                 >
-                  glen.fannin@icloud.com
+                  tester@okta1.com
                 </span>
               </div>
             </div>
@@ -285,7 +285,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                   class="identifier identifierSpan MuiBox-root emotion-4"
                   data-se="identifier"
                 >
-                  glen.fannin@icloud.com
+                  tester@okta1.com
                 </span>
               </div>
             </div>

@@ -208,10 +208,10 @@
     "type": "object",
     "value": {
       "id": "00u2kk7x4ni8vYvuO1d7",
-      "identifier": "glen.fannin@okta.com",
+      "identifier": "tester@okta1.com",
       "profile": {
-        "firstName": "Okta Glen",
-        "lastName": "Fannin (Okta)",
+        "firstName": "Tester",
+        "lastName": "McTesterson",
         "timeZone": "America/Los_Angeles",
         "locale": "en_US"
       }

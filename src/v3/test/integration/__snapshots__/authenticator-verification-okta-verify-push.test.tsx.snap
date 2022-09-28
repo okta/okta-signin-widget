@@ -86,7 +86,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                   class="identifier identifierSpan MuiBox-root emotion-4"
                   data-se="identifier"
                 >
-                  glen.fannin@icloud.com
+                  tester@okta1.com
                 </span>
               </div>
             </div>
