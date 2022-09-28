@@ -135,7 +135,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     callback: (widgetContext, stepIndex) => {
       const { dataSchemaRef, setData } = widgetContext;
       dataSchemaRef.current!.submit = predefinedSubmitButton.options;
-      dataSchemaRef.current!.fieldsToValidate = ['credentials.answer'];
+      dataSchemaRef.current!.fieldsToValidate = ['credentials.answer', QUESTION_KEY_INPUT_NAME];
 
       // reset default selected question
       setData((prev) => ({
@@ -214,7 +214,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
 
   // update default dataSchema
   dataSchema.submit = predefinedSubmitButton.options;
-  dataSchema.fieldsToValidate = ['credentials.answer'];
+  dataSchema.fieldsToValidate = ['credentials.answer', QUESTION_KEY_INPUT_NAME];
   dataSchema.fieldsToExclude = (formData: FormBag['data']) => {
     if (formData[QUESTION_KEY_INPUT_NAME] === 'custom') {
       return [];

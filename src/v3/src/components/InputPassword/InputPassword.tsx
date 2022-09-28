@@ -14,6 +14,7 @@ import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
+import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent,
@@ -31,6 +32,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   onValidateHandler,
 }) => {
   const value = useValue(uischema);
+  const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const label = getTranslation(uischema.translations!);
   const { translations = [], focus } = uischema;
@@ -59,6 +61,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         id={name}
         error={error !== undefined}
         onChange={handleChange}
+        disabled={loading}
         fullWidth
         inputProps={{
           'data-se': name,

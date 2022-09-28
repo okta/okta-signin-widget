@@ -16,8 +16,9 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Select,
+  SelectChangeEvent,
 } from '@mui/material';
-import { NativeSelect } from '@okta/odyssey-react';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import {
@@ -45,7 +46,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   setError,
   onValidateHandler,
 }) => {
-  const { dataSchemaRef } = useWidgetContext();
+  const { data, dataSchemaRef, loading } = useWidgetContext();
   const {
     translations = [],
     focus,
@@ -62,7 +63,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const extensionLabel = getTranslation(translations!, 'extension');
   const countryLabel = getTranslation(translations!, 'country');
 
-  const { data } = useWidgetContext();
   const countries = CountryUtil.getCountries() as Record<string, string>;
   const [phone, setPhone] = useState<string>('');
   // Sets US as default code
@@ -122,6 +122,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
           type="text"
           name="extension"
           id="phoneExtension"
+          disabled={loading}
           onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setExtension(e.currentTarget.value);
           }}
@@ -136,27 +137,42 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
 
   const renderCountrySelect = () => (
     <Box marginBottom={4}>
-      <NativeSelect
+      <InputLabel
+        id="countryLabel"
+        htmlFor="countryList"
+      >
+        {countryLabel}
+      </InputLabel>
+      <Select
         id="countryList"
-        data-se="countryList"
-        label={countryLabel}
-        autocomplete="tel-country-code"
-        onChange={(e: ChangeEvent) => { setPhoneCode(`+${CountryUtil.getCallingCodeForCountry(e.currentTarget.value)}`); }}
-        ref={focusRef}
+        labelId="countryLabel"
+        disabled={loading}
+        native
+        onChange={(e: SelectChangeEvent<string>) => {
+          const selectTarget = (
+            e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
+          );
+          setPhoneCode(`+${CountryUtil.getCallingCodeForCountry(selectTarget.value)}`);
+        }}
+        inputRef={focusRef}
+        inputProps={{
+          'data-se': 'countryList',
+          autocomplete: 'tel-country-code',
+        }}
       >
         {
-            Object.entries(countries).map(([code, name]) => (
-              <NativeSelect.Option
-                key={code}
-                value={code}
-                // Sets US as default code
-                selected={code === 'US'}
-              >
-                {name}
-              </NativeSelect.Option>
-            ))
-          }
-      </NativeSelect>
+          Object.entries(countries).map(([code, name]) => (
+            <option
+              key={code}
+              value={code}
+              // Sets US as default code
+              selected={code === 'US'}
+            >
+              {name}
+            </option>
+          ))
+        }
+      </Select>
     </Box>
   );
 
@@ -177,6 +193,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             name={fieldName}
             id={fieldName}
             error={error !== undefined}
+            disabled={loading}
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);

@@ -34,7 +34,7 @@ const StepperRadio: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const { setStepIndex, stepIndex } = useStepperContext();
   const widgetContext = useWidgetContext();
-  const { setData, setMessage } = widgetContext;
+  const { setData, setMessage, loading } = widgetContext;
   const {
     label = '',
     focus,
@@ -83,6 +83,7 @@ const StepperRadio: UISchemaElementComponent<{
               key={item.value}
               value={item.value}
               label={item.label}
+              disabled={loading}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(index === 0 && { inputRef: focusRef } )}
             />

@@ -23,12 +23,14 @@ import { h } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
+import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 
 const Radio: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
   const value = useValue(uischema);
+  const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const {
     label,
@@ -70,6 +72,7 @@ const Radio: UISchemaElementComponent<{
               key={item.value}
               value={item.value}
               label={item.label}
+              disabled={loading}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(index === 0 && { inputRef: focusRef } )}
             />

@@ -55,9 +55,10 @@ jest.mock('../../../../v2/ion/i18nTransformer', () => ({
 
 let mockData: Record<string, unknown>;
 const mockDataSchemaRef = { current: { phoneNumber: { validate: jest.fn() } } };
+const mockLoading = jest.fn().mockReturnValue(false);
 jest.mock('../../contexts', () => ({
   useWidgetContext: jest.fn().mockImplementation(
-    () => ({ data: mockData, dataSchemaRef: mockDataSchemaRef }),
+    () => ({ data: mockData, dataSchemaRef: mockDataSchemaRef, loading: mockLoading() }),
   ),
 }));
 
@@ -73,6 +74,7 @@ describe('PhoneAuthenticator tests', () => {
 
   beforeEach(() => {
     mockHandleFunction = jest.fn();
+    mockLoading.mockReturnValue(false);
   });
 
   it('should format phoneNumber correctly when field is changed for SMS methodType', async () => {
@@ -94,6 +96,19 @@ describe('PhoneAuthenticator tests', () => {
     });
   });
 
+  it('should display disabled fields when there is a pending request for SMS methodType', async () => {
+    mockData = { 'authenticator.methodType': 'sms' };
+    mockLoading.mockReturnValue(true);
+    props = getComponentProps();
+    const { findByLabelText } = setup(<PhoneAuthenticatorControl {...props} />);
+
+    const countrySelect = await findByLabelText(/Country/) as HTMLSelectElement;
+    const phoneInput = await findByLabelText(/Phone number/) as HTMLInputElement;
+
+    expect(phoneInput.getAttribute('disabled')).toBe('');
+    expect(countrySelect.getAttribute('disabled')).toBe('');
+  });
+
   it('should format phoneNumber correctly when field is changed for voice methodType', async () => {
     mockData = { 'authenticator.methodType': 'voice' };
     props = getComponentProps();
@@ -113,6 +128,21 @@ describe('PhoneAuthenticator tests', () => {
     await waitFor(() => {
       expect(mockHandleFunction).lastCalledWith('+12165552211x4321');
     });
+  });
+
+  it('should display disabled fields when there is a pending request for voice methodType', async () => {
+    mockData = { 'authenticator.methodType': 'voice' };
+    mockLoading.mockReturnValue(true);
+    props = getComponentProps();
+    const { findByLabelText } = setup(<PhoneAuthenticatorControl {...props} />);
+
+    const countrySelect = await findByLabelText(/Country/) as HTMLSelectElement;
+    const phoneInput = await findByLabelText(/Phone number/) as HTMLInputElement;
+    const extInput = await findByLabelText(/Extension/) as HTMLInputElement;
+
+    expect(phoneInput.getAttribute('disabled')).toBe('');
+    expect(countrySelect.getAttribute('disabled')).toBe('');
+    expect(extInput.getAttribute('disabled')).toBe('');
   });
 
   it('should render input control with custom attributes when provided in uischema', async () => {

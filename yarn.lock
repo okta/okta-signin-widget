@@ -4917,10 +4917,10 @@
     "@babel/preset-typescript" "^7.15.0"
     "@okta/odyssey-babel-plugin" "^0.14.5"
 
-"@okta/odyssey-design-tokens@^0.14.5":
-  version "0.14.5"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-0.14.5.tgz#e5d322afbeeed1c80a0525d9d3cdcc59a6fa3879"
-  integrity sha512-+2YR0sDzVvBsWrd97jA4uTSmmSzl+2ehCsUIJGIc5z0uj59iV/f2VPLvxSj85WFDhE8+CrnuMJls5FjMbLJucw==
+"@okta/odyssey-design-tokens@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-0.15.0.tgz#142daf09fa438d75fba808facdf44ca74239b70f"
+  integrity sha512-9eL+gqZwUdtnqvLc5E+jz3makvdj65phQRMfgKMUoakPAz0tmGLXLoFfWODB2R01OWFcEmYXo0ECWlvEAfRZEA==
 
 "@okta/odyssey-postcss-preset@^0.14.5":
   version "0.14.5"
@@ -4939,27 +4939,27 @@
   resolved "https://registry.yarnpkg.com/@okta/odyssey-postcss-theme/-/odyssey-postcss-theme-0.14.5.tgz#c4a172c0a7563100aff5af9040546a04046bd96d"
   integrity sha512-fqPZwwSa4lQnWtyTj4uDnp+k49F4Gy1evQ/cvnzVldbAcX2HVSzUw7lWn5cxgniD9sPe9OcbAL+ucTMkKC4+7A==
 
-"@okta/odyssey-react-mui@^0.14.5":
-  version "0.14.5"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-mui/-/odyssey-react-mui-0.14.5.tgz#97ed710318afacbbe75bda4e0aaff653075d8a14"
-  integrity sha512-aRGa9eER9vgo2/5FVkCN8PIozwThA9S+i/jAAz8b7gKxOkq8XDsHHIkU3kmzs+AlFTMxTy21ZrPQB3ssWDexFg==
+"@okta/odyssey-react-mui@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-mui/-/odyssey-react-mui-0.15.0.tgz#aa93c0a0753c2f9b7b20d2e1d4623fe386ba2a0c"
+  integrity sha512-zR3gI3Ea/1ZrKF+vhGdSA8KYlINPhO/KfX3IRigbrSIQPejYLj6JkJByK8EIk9lGPdwsQTbR+Qb73ZllAn28uA==
   dependencies:
-    "@okta/odyssey-design-tokens" "^0.14.5"
+    "@okta/odyssey-design-tokens" "^0.15.0"
 
-"@okta/odyssey-react-theme@^0.14.5":
-  version "0.14.5"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-theme/-/odyssey-react-theme-0.14.5.tgz#787b35c6b755e25df355409a620d5e5399c286ef"
-  integrity sha512-TzdnsXS+haFyzdydGo3jjtt9F7cYH2TEtuVUyIr0bwlFQQJEfSm6BjrhE4CJnOa/UZd1JWP/yO8jMcoOiWb48A==
+"@okta/odyssey-react-theme@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-theme/-/odyssey-react-theme-0.15.0.tgz#41a9e0872564df31c920bba1c6d6e139a6fc7ac4"
+  integrity sha512-axbBbYz8+YX2mWX8BhBl2fhaxmNf9y7E09woDNzWi7XsvRdITG358vNbdaZUgdQp6/Ihw3ao8gWyOR4vghn1eQ==
   dependencies:
-    "@okta/odyssey-design-tokens" "^0.14.5"
+    "@okta/odyssey-design-tokens" "^0.15.0"
     hoist-non-react-statics "^3.3.2"
 
-"@okta/odyssey-react@^0.14.5":
-  version "0.14.5"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-react/-/odyssey-react-0.14.5.tgz#5edd61f8050fbd5c510439e26fc05e43e933ef8e"
-  integrity sha512-Sq3c2veIztaijx9KQkSXI4P16u+NudOv6ynJfIHLqKKcvfXU+pbzC+bjhi7XJai05xBTWvCfEsaCA/G1yQqGOQ==
+"@okta/odyssey-react@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-react/-/odyssey-react-0.15.0.tgz#96f6a795f1d1314a7e8bac2e56436b1adc3e2115"
+  integrity sha512-Nur1uXvZYyDeF3cITdTjNqlTO1DVl8sJh7BSHtMshoLpnedHgZ9szHvwd+XlbDTi5UOxidAhHT3D16Po2z3PhA==
   dependencies:
-    "@okta/odyssey-react-theme" "^0.14.5"
+    "@okta/odyssey-react-theme" "^0.15.0"
     "@react-aria/focus" "3.5.0"
     choices.js "^9.0.1"
 

@@ -87,7 +87,12 @@ const Button: UISchemaElementComponent<{
             // compensate the offset from the CircularProgress component
             marginRight="23px"
           >
-            <CircularProgress sx={{ color: 'white' }} />
+            <CircularProgress
+              // TODO: OKTA-518793 - replace english string with key once created
+              aria-label="Loading..."
+              aria-valuetext="Loading..."
+              sx={{ color: 'white' }}
+            />
             {label}
           </Box>
         ) : label
