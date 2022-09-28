@@ -110,7 +110,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     try {
       const newTransaction = await fn(payload);
       setIdxTransaction(newTransaction);
-      const transactionHasWarning = (newTransaction.messages || [])?.some(
+      const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
       );
       const isClientTransaction = !newTransaction.requestDidSucceed

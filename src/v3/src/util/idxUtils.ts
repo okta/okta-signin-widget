@@ -118,7 +118,17 @@ export const areTransactionsEqual = (
   const tx1AuthId = tx1?.context.currentAuthenticator?.value?.id;
   const tx2AuthId = tx2?.context.currentAuthenticator?.value?.id;
 
-  return tx1NextStepName === tx2NextStepName
-    && tx1AuthKey === tx2AuthKey
-    && tx1AuthId === tx2AuthId;
+  if (tx1NextStepName !== tx2NextStepName) {
+    return false;
+  }
+
+  if (tx1AuthKey !== tx2AuthKey) {
+    return false;
+  }
+
+  if (tx1AuthId !== tx2AuthId) {
+    return false;
+  }
+
+  return true;
 };
