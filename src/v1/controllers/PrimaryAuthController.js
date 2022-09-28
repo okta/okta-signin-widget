@@ -34,9 +34,14 @@ export default BaseLoginController.extend({
         multiOptionalFactorEnroll: options.settings.get('features.multiOptionalFactorEnroll'),
         settings: options.settings,
         appState: options.appState,
+        username: options.username,
       },
       { parse: true }
     );
+
+    if (options.username) {
+      options.appState.set('disableUsername', true);
+    }
 
     BaseLoginController.apply(this, arguments);
 
