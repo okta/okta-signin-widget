@@ -13,6 +13,7 @@
 import { Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
+import { ButtonType } from 'src/types';
 
 import {
   getAuthenticatorEnrollButtonElements,
@@ -41,6 +42,10 @@ describe('Select Authenticator Utility Tests', () => {
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
+            includeData: true,
+            includeImmutableData: false,
+            step: 'select-authenticator-enroll',
+            type: ButtonType.BUTTON,
             actionParams: {
               'authenticator.methodType': options[0].value,
             },
@@ -52,6 +57,10 @@ describe('Select Authenticator Utility Tests', () => {
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
+            includeData: true,
+            includeImmutableData: false,
+            step: 'select-authenticator-enroll',
+            type: ButtonType.BUTTON,
             actionParams: {
               'authenticator.methodType': options[1].value,
             },
@@ -151,6 +160,38 @@ describe('Select Authenticator Utility Tests', () => {
           .toBe('oie.verify.authenticator.button.text');
         expect(currentOption?.options.description)
           .toBe(option.relatesTo?.key === AUTHENTICATOR_KEY.PHONE ? mockPhoneNumber : undefined);
+      });
+    });
+
+    it('should return authenticator buttons with multiple enrolled phone number security methods with correct description', () => {
+      const options: IdxOption[] = [
+        { key: AUTHENTICATOR_KEY.PHONE, phoneNumber: '2XXXXXX123' },
+        { key: AUTHENTICATOR_KEY.PHONE, phoneNumber: '2XXXXXX321' },
+      ]
+        .map((obj) => {
+          const option = {
+            label: obj.key,
+            value: [{ name: 'methodType', value: obj.key }],
+            relatesTo: {
+              id: '',
+              type: '',
+              methods: [{ type: '' }],
+              displayName: '',
+              key: obj.key,
+              profile: { phoneNumber: obj.phoneNumber },
+            },
+          };
+          return option;
+        });
+      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
+
+      options.forEach((option, index) => {
+        const currentOption = authenticatorOptionValues[index];
+        expect(currentOption?.options.key).toBe(option.relatesTo?.key);
+        expect(currentOption?.label).toBe(option.label);
+        expect(currentOption?.options.ctaLabel)
+          .toBe('oie.verify.authenticator.button.text');
+        expect(currentOption?.options.description).toBe(option.relatesTo?.profile?.phoneNumber);
       });
     });
 
