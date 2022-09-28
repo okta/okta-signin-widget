@@ -63,6 +63,7 @@ export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
     custom?: Array<Link>;
   };
   signOutLink?: string;
+  backToSignInLink?: string;
   // Buttons
   customButtons?: Array<CustomButton>;
   // Registration
