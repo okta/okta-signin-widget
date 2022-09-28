@@ -19,10 +19,10 @@ const LATEST_EMAIL_URL = `https://api.a18n.help/v1/profile/:profileId/email/late
 const LATEST_SMS_URL = `https://api.a18n.help/v1/profile/:profileId/sms/latest`;
 
 export declare interface A18nProfile {
-  profileId: string;
+  profileId?: string;
   phoneNumber: string;
   emailAddress: string;
-  url: string;
+  url?: string;
   displayName?: string;
   errorDescription?: string;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /*!
  * Copyright (c) 2015-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -16,7 +17,11 @@ import ActionContext from '../../support/context';
 // eslint-disable-next-line no-unused-vars
 export default async function(this: ActionContext): Promise<void> {
     if (this.credentials) {
-        await this.a18nClient.deleteProfile(this.credentials.profileId);
+        if (process.env.LOCAL_MONOLITH) {
+            // TODO?
+        } else {
+            await this.a18nClient!.deleteProfile(this.credentials.profileId!);
+        }
     }
     if (this.user) {
         await deleteUser(this.user);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /*!
  * Copyright (c) 2015-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -19,12 +20,20 @@ import { waitForLoad } from '../util/waitUtil';
 import A18nClient from '../support/a18nClient';
 import createCredentials from '../support/management-api/createCredentials'
 import createUser from '../support/management-api/createUser'
+import { MonolithClient } from '../support/monolithClient';
+import { ApiClientConfig } from '@okta/dockolith';
 
 const {
   WIDGET_TEST_SERVER,
   WIDGET_SPA_CLIENT_ID,
-  WIDGET_WEB_CLIENT_ID
+  WIDGET_WEB_CLIENT_ID,
+  OKTA_CLIENT_TOKEN
 } = process.env;
+
+const apiClientConfig: ApiClientConfig = {
+  orgUrl: WIDGET_TEST_SERVER!,
+  token: OKTA_CLIENT_TOKEN!
+};
 
 const interactionCodeFlowconfig = {
   baseUrl: WIDGET_TEST_SERVER,
@@ -69,8 +78,13 @@ Given(
 Given(
   /^a User named "([^/w]+)" exists in the org$/,
   async function(this: ActionContext, firstName: string) {
-    this.a18nClient = new A18nClient();
-    this.credentials = await createCredentials(this.a18nClient, firstName);
+    if (process.env.LOCAL_MONOLITH) {
+      this.monolithClient = new MonolithClient(apiClientConfig);
+      this.credentials = await this.monolithClient.createCredentials(firstName);
+    } else {
+      this.a18nClient = new A18nClient();
+      this.credentials = await createCredentials(this.a18nClient, firstName);
+    }
     this.user = await createUser(this.credentials);
   }
 );
@@ -78,17 +92,27 @@ Given(
 Given(
   /^an a18n profile exists$/,
   async function() {
-    this.a18nClient = new A18nClient();
-    this.credentials = await createCredentials(this.a18nClient, "test");
+    if (process.env.LOCAL_MONOLITH) {
+      this.monolithClient = new MonolithClient(apiClientConfig);
+      this.credentials = await this.monolithClient.createCredentials('test');
+    } else {
+      this.a18nClient = new A18nClient();
+      this.credentials = await createCredentials(this.a18nClient, "test");
+    }
   }
 );
 
 Given(
   /^a User named "([^/w]+)" exists in the org and added to "([^/w]+)" group$/,
   async function(this: ActionContext, firstName: string, groupName: string) {
-    this.a18nClient = new A18nClient();
-    this.credentials = await createCredentials(this.a18nClient, firstName);
-    this.user = await createUser(this.credentials, [groupName]);
+    if (process.env.LOCAL_MONOLITH) {
+      this.monolithClient = new MonolithClient(apiClientConfig);
+      this.credentials = await this.monolithClient.createCredentials(firstName);
+    } else {
+      this.a18nClient = new A18nClient();
+      this.credentials = await createCredentials(this.a18nClient, firstName);
+    }
+    this.user = await createUser(this.credentials, [groupName] as never[]);
   }
 );
 

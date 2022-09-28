@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-DOCKOLITH_BRANCH=ag3
+DOCKOLITH_BRANCH=ag-OKTA-535068-email
 
 pushd ./scripts
 rm -rf dockolith

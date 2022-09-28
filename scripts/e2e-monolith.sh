@@ -3,6 +3,7 @@
 # Monolith version to test against
 export BUILDVERSION=2022.09.0-begin-289-g7f5834bbae22
 
+export LOCAL_MONOLITH=true
 export CI=true
 export TEST_SUITE_TYPE="junit"
 export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
@@ -48,15 +49,15 @@ finish_log_group $?
 
 # Feature tests are disabled - need to fix issue with email/a18n OKTA-533922
 # Run feature tests
-# export RUN_FEATURE_TESTS=true
-# create_log_group "Feature E2E"
-# get_vault_secret_key devex/auth-js-sdk-vars a18n_api_key A18N_API_KEY
-# if ! yarn test:e2e; then
-#   echo "e2e feature tests failed! Exiting..."
-#   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
-# fi
-# finish_log_group $?
-# export RUN_FEATURE_TESTS=false
+export RUN_FEATURE_TESTS=true
+create_log_group "Feature E2E"
+#get_vault_secret_key devex/auth-js-sdk-vars a18n_api_key A18N_API_KEY
+if ! yarn test:e2e; then
+  echo "e2e feature tests failed! Exiting..."
+  exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+fi
+finish_log_group $?
+export RUN_FEATURE_TESTS=false
 
 # Run spec tests on OIE
 create_log_group "Spec E2E OIE"

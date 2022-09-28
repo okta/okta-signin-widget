@@ -119,8 +119,11 @@ When(
   async function() {
     await VerifyEmailAuthenticatorPage.waitForPageLoad();
     let code = '';
-    code = await this.a18nClient.getEmailCode(this.credentials.profileId);
-
+    if (process.env.LOCAL_MONOLITH) {
+      code = await this.monolithClient.getEmailCode(this.credentials.emailAddress);
+    } else {
+      code = await this.a18nClient.getEmailCode(this.credentials.profileId);
+    }
     await VerifyEmailAuthenticatorPage.enterCode(code);
   }
 );
@@ -200,7 +203,12 @@ When(
 When(
   /^user clicks the password reset magic link$/,
   async function() {
-    const passwordResetMagicLink = await this.a18nClient.getPasswordResetMagicLink(this.credentials.profileId);
+    let passwordResetMagicLink;
+    if (process.env.LOCAL_MONOLITH) {
+      passwordResetMagicLink = await this.monolithClient.getPasswordResetMagicLink(this.credentials.emailAddress);
+    } else {
+      passwordResetMagicLink = await this.a18nClient.getPasswordResetMagicLink(this.credentials.profileId);
+    }
     await browser.url(passwordResetMagicLink);
   }
 );
@@ -208,8 +216,13 @@ When(
 When(
     /^user clicks the unlock account magic link$/,
     async function() {
-        const unlockAccountLink = await this.a18nClient.getUnlockAccountLink(this.credentials.profileId);
-        await browser.url(unlockAccountLink);
+      let unlockAccountLink;
+      if (process.env.LOCAL_MONOLITH) {
+        unlockAccountLink = await this.monolithClient.getUnlockAccountLink(this.credentials.emailAddress);
+      } else {
+        unlockAccountLink = await this.a18nClient.getUnlockAccountLink(this.credentials.profileId);
+      }
+      await browser.url(unlockAccountLink);
     }
 );
 
@@ -271,7 +284,11 @@ When(
   /^user enters the SMS code$/,
   async function() {
     let code = '';
-    code = await this.a18nClient.getSMSCode(this.credentials.profileId);
+    if (process.env.LOCAL_MONOLITH) {
+      code = await this.monolithClient.getSMSCode(this.credentials.phoneNumber);
+    } else {
+      code = await this.a18nClient.getSMSCode(this.credentials.profileId);
+    }
     await VerifyPhoneAuthenticatorPage.enterCode(code);
   }
 );
