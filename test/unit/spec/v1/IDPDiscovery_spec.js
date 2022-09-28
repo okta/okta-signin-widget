@@ -1484,7 +1484,7 @@ Expect.describe('IDPDiscovery', function() {
         })
         .then(function(test) {
           expect(test.router.appState.get('disableUsername')).toBe(true);
-          expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
+          expect(test.router.navigate).toHaveBeenCalledWith('signin/okta/testuser%40clouditude.net', { trigger: true });
         });
     });
     itp('renders primary auth when idp is okta with shortname', function() {
@@ -1498,7 +1498,7 @@ Expect.describe('IDPDiscovery', function() {
         })
         .then(function(test) {
           expect(test.router.appState.get('disableUsername')).toBe(true);
-          expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
+          expect(test.router.navigate).toHaveBeenCalledWith('signin/okta/testuser', { trigger: true });
         });
     });
     itp('disables username field if sign-in returns an error and username was previously disabled', function() {
