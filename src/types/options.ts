@@ -12,7 +12,7 @@ export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
   'issuer' | 
   'clientId' | 
   'redirectUri' |
-  'state' | 
+  'state' |
   'scopes' |
   'codeChallenge' |
   'codeChallengeMethod' |
@@ -21,6 +21,7 @@ export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
   el?: string;
   
   // OIDC
+  nonce?: string;     // nonce is not a member of OktaAuthOptions
   oAuthTimeout?: number;
 
   // Auth client
