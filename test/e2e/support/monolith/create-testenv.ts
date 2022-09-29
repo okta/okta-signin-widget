@@ -5,7 +5,8 @@ import {
   disableFeatureFlag,
   createApp,
   createUser,
-  enableOIE
+  enableOIE,
+  activateOrgFactor
 } from '@okta/dockolith';
 import { writeFileSync } from 'fs';
 import path from 'path';
@@ -33,6 +34,46 @@ async function bootstrap() {
   const { id: orgId } = await oktaClient.getOrgSettings();
 
   await enableOIE(orgId);
+  await activateOrgFactor(config, 'okta_email');
+  const mfaGroup = await oktaClient.createGroup({
+    profile: {
+      name: 'MFA Required'
+    }
+  });
+  const spaPolicy = await oktaClient.createPolicy({
+    name: 'Widget SPA Policy',
+    type: 'ACCESS_POLICY',
+    status : 'ACTIVE'
+  });
+  spaPolicy.createRule({
+    name: 'MFA Required',
+    type: 'ACCESS_POLICY',
+    conditions: {
+      people: {
+          groups: {
+              include: [
+                mfaGroup.id
+              ]
+          }
+      },
+    },
+    actions: {
+      appSignOn: {
+        access: 'ALLOW',
+        verificationMethod: {
+          factorMode: '2FA',
+          type: 'ASSURANCE',
+          reauthenticateIn: 'PT2H',
+          constraints: [{
+            knowledge: {
+              types: ['password'],
+              reauthenticateIn: 'PT2H'
+            }
+          }]
+        }
+      }
+    }
+  });
 
   const options = {
     enableFFs: [
