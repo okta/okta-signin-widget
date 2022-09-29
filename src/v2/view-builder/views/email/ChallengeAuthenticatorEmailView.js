@@ -54,7 +54,7 @@ const Body = BaseAuthenticatorEmailForm.extend(
       this.render();
 
       this.showCodeEntryField(true);
-      this.showEnterAuthCodeInsteadLink(false);
+      this.removeEnterAuthCodeInsteadLink();
     },
 
     showCodeEntryField(show = true) {
@@ -62,11 +62,8 @@ const Body = BaseAuthenticatorEmailForm.extend(
       $textField.toggle(show);
     },
 
-    showEnterAuthCodeInsteadLink(show = true) {
-      const $enterAuthCodeInsteadLink = this.$el.find(
-        '.enter-auth-code-instead-link'
-      );
-      $enterAuthCodeInsteadLink.toggle(show);
+    removeEnterAuthCodeInsteadLink() {
+      this.$el.find('.enter-auth-code-instead-link').remove();
     },
   })
 );
