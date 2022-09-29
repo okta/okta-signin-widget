@@ -91,7 +91,7 @@ describe('identify-with-password-error-flow', () => {
     // TODO: OKTA-526754 - Update this assertion once merged back into 0.1
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       'POST',
-      'https://oie-8425965.oktapreview.com/idp/idx/identify',
+      'http://localhost:3000/idp/idx/identify',
       {
         data: JSON.stringify({
           identifier: username,
