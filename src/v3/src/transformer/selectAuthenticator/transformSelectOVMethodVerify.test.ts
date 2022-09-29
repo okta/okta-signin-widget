@@ -12,16 +12,14 @@
 
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { IDX_STEP } from 'src/constants';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   AuthenticatorButtonElement,
   ButtonElement,
   ButtonType,
   DescriptionElement,
   FieldElement,
-  FormBag,
   TitleElement,
-  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
@@ -33,22 +31,26 @@ const getMockMethodTypes = (): AuthenticatorButtonElement[] => {
     type: 'AuthenticatorButton',
     label: 'Get a push notification',
     options: {
+      type: ButtonType.BUTTON,
       key: 'okta_verify',
       ctaLabel: 'Select',
       actionParams: {
         'authenticator.methodType': 'push',
       },
+      step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     },
   });
   authenticators.push({
     type: 'AuthenticatorButton',
     label: 'Enter a code',
     options: {
+      type: ButtonType.BUTTON,
       key: 'okta_verify',
       ctaLabel: 'Select',
       actionParams: {
         'authenticator.methodType': 'totp',
       },
+      step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     },
   });
   return authenticators;
@@ -66,29 +68,20 @@ jest.mock('./utils', () => ({
 
 describe('Transform Select OV Method Verify Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
   const widgetProps: WidgetProps = {};
 
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          {
-            type: 'Field',
-            name: 'authenticator.methodType',
-          } as FieldElement,
-          {
-            type: 'Field',
-            name: 'authenticator.autoChallenge',
-            options: { inputMeta: { name: 'authenticator.autoChallenge', value: 'true' } },
-          } as FieldElement,
-        ],
-      },
-      data: {},
-    };
+    formBag.uischema.elements = [
+      {
+        type: 'Field',
+        options: { inputMeta: { name: 'authenticator.methodType' } },
+      } as FieldElement,
+      {
+        type: 'Field',
+        options: { inputMeta: { name: 'authenticator.autoChallenge', value: 'true' } },
+      } as FieldElement,
+    ];
     transaction.nextStep = {
       name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
       inputs: [
@@ -119,7 +112,7 @@ describe('Transform Select OV Method Verify Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.okta_verify.push.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('authenticator.autoChallenge');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toBe('oie.okta_verify.sendPushButton');
@@ -133,7 +126,6 @@ describe('Transform Select OV Method Verify Tests', () => {
   it('should transform elements when transaction contains push and totp method types', () => {
     formBag.uischema.elements = [{
       type: 'Field',
-      name: 'authenticator.methodType',
       options: {
         inputMeta: {
           name: 'authenticator.methodType',

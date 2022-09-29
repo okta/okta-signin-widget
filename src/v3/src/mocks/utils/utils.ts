@@ -11,6 +11,8 @@
  */
 
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
+import { IDX_STEP } from 'src/constants';
+import { DataSchemaBag, FieldElement, FormBag, UISchemaLayoutType } from 'src/types';
 
 export const getStubTransaction = (status: IdxStatus = IdxStatus.PENDING): IdxTransaction => ({
   status,
@@ -70,6 +72,24 @@ export const getStubTransactionWithNextStep = (): IdxTransaction => {
 
   return { ...transaction, nextStep: { name: '' } };
 };
+
+export const getStubFormBag = (
+  step?: string,
+  orientation?: UISchemaLayoutType,
+): FormBag => ({
+  dataSchema: {
+    submit: { step: step || IDX_STEP.CHALLENGE_AUTHENTICATOR },
+    fieldsToTrim: [],
+    fieldsToValidate: [],
+    fieldsToExclude: () => ([]),
+  } as DataSchemaBag,
+  schema: {},
+  uischema: {
+    type: orientation || UISchemaLayoutType.VERTICAL,
+    elements: [],
+  },
+  data: {},
+});
 
 export const getMockCreateCredentialsResponse = (): PublicKeyCredential => (
   {

@@ -10,14 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
   FieldElement,
-  FormBag,
   ImageWithTextElement,
   TitleElement,
-  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
@@ -26,17 +24,12 @@ import { transformEmailChallengeConsent } from '.';
 describe('EmailChallengeConsentTransformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
-  let formBag: FormBag;
+  const formBag = getStubFormBag('email-challenge-consent');
+
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [{ type: 'Field', name: 'consent' } as FieldElement],
-      },
-      data: {},
-    };
+    formBag.uischema.elements = [
+      { type: 'Field', options: { inputMeta: { name: 'consent' } } } as FieldElement,
+    ];
     transaction.nextStep = {
       name: 'email-challenge-consent',
       action: jest.fn(),

@@ -11,12 +11,13 @@
  */
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
   DescriptionElement,
-  FieldElement, FormBag,
-  TitleElement, UISchemaLayoutType, WidgetProps,
+  FieldElement,
+  TitleElement,
+  WidgetProps,
 } from 'src/types';
 
 import { transformPhoneVerification } from '.';
@@ -24,28 +25,19 @@ import { transformPhoneVerification } from '.';
 describe('Phone verification Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          {
-            type: 'Field',
+    formBag.uischema.elements = [
+      {
+        type: 'Field',
+        options: {
+          inputMeta: {
             name: 'authenticator.methodType',
-            options: {
-              inputMeta: {
-                name: 'authenticator.methodType',
-                options: [{ value: 'sms', label: 'SMS' }, { value: 'voice', label: 'Voice call' }],
-              },
-            },
-          } as FieldElement,
-        ],
-      },
-      data: {},
-    };
+            options: [{ value: 'sms', label: 'SMS' }, { value: 'voice', label: 'Voice call' }],
+          },
+        },
+      } as FieldElement,
+    ];
   });
 
   it('should add correct UI elements to schema when multiple methodType choices exists'
@@ -75,7 +67,6 @@ describe('Phone verification Transformer Tests', () => {
     + ' and voice is the first methodType choice', () => {
     formBag.uischema.elements = [{
       type: 'Field',
-      name: 'authenticator.methodType',
       options: {
         inputMeta: {
           name: 'authenticator.methodType',
@@ -108,7 +99,6 @@ describe('Phone verification Transformer Tests', () => {
   it('should add correct UI elements to schema when only voice methodType choice exists', () => {
     formBag.uischema.elements = [{
       type: 'Field',
-      name: 'authenticator.methodType',
       options: {
         inputMeta: {
           name: 'authenticator.methodType',
@@ -136,7 +126,6 @@ describe('Phone verification Transformer Tests', () => {
   it('should add correct UI elements to schema when only sms methodType choice exists', () => {
     formBag.uischema.elements = [{
       type: 'Field',
-      name: 'authenticator.methodType',
       options: {
         inputMeta: {
           name: 'authenticator.methodType',
@@ -166,7 +155,6 @@ describe('Phone verification Transformer Tests', () => {
     const mockPhoneNumber = '+121xxxxx34';
     formBag.uischema.elements = [{
       type: 'Field',
-      name: 'authenticator.methodType',
       options: {
         inputMeta: {
           name: 'authenticator.methodType',
@@ -207,7 +195,6 @@ describe('Phone verification Transformer Tests', () => {
     const mockPhoneNumber = '+121xxxxx34';
     formBag.uischema.elements = [{
       type: 'Field',
-      name: 'authenticator.methodType',
       options: {
         inputMeta: {
           name: 'authenticator.methodType',
