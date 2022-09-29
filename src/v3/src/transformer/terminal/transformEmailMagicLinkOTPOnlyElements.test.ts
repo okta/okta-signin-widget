@@ -12,28 +12,20 @@
 
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 
-import { getStubTransaction } from '../../mocks/utils/utils';
+import { getStubFormBag, getStubTransaction } from '../../mocks/utils/utils';
 import {
-  DescriptionElement, FormBag, HeadingElement, ImageWithTextElement, UISchemaLayoutType,
+  DescriptionElement, HeadingElement, ImageWithTextElement,
 } from '../../types';
 import { transformEmailMagicLinkOTPOnly } from './transformEmailMagicLinkOTPOnlyElements';
 
 describe('Email Magic Link OTP Only Transformer Tests', () => {
   let transaction: IdxTransaction;
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
   const mockOTP = '123456';
   const mockAppName = 'My test app';
 
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [],
-      },
-      data: {},
-    };
+    formBag.uischema.elements = [];
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
     transaction.context = {

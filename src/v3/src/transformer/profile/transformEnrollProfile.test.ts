@@ -11,34 +11,24 @@
  */
 
 import { IDX_STEP, PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from 'src/constants';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
   ButtonType,
   FieldElement,
-  FormBag,
   PasswordRequirementsElement,
   TitleElement,
-  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
 import { transformEnrollProfile } from './transformEnrollProfile';
 
-describe('Enroll Profile Transformer Tests', () => {
+describe.skip('Enroll Profile Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
   let widgetProps: WidgetProps;
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [],
-      },
-      data: {},
-    };
+    formBag.uischema.elements = [];
     widgetProps = {};
   });
 

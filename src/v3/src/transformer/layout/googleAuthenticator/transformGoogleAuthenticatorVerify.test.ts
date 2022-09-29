@@ -10,14 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
-  FormBag,
+  FieldElement,
   TitleElement,
-  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
@@ -26,18 +25,12 @@ import { transformGoogleAuthenticatorVerify } from './transformGoogleAuthenticat
 describe('Google Authenticator Verify Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
 
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [],
-      },
-      data: {},
-    };
+    formBag.uischema.elements = [
+      { type: 'Field', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
+    ];
   });
 
   it('should add UI elements', () => {
@@ -45,14 +38,16 @@ describe('Google Authenticator Verify Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.verify.google_authenticator.otp.title');
     expect(updatedFormBag.uischema.elements[1]?.type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
       .toBe('oie.verify.google_authenticator.otp.description');
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
+      .toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
 });

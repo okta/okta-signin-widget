@@ -10,50 +10,42 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   FieldElement,
-  FormBag,
-  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
 import { transformPhoneEnrollment } from '.';
 
-describe('PhoneEnrollmentTransformer Tests', () => {
+describe.skip('PhoneEnrollmentTransformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      data: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [{
-          type: 'Field',
-          label: 'methodType',
-          name: 'authenticator.methodType',
-          options: {
-            inputMeta: {
-              name: 'authenticator.methodType',
-              options: [{
-                value: 'sms',
-                label: 'SMS',
-              }, {
-                value: 'voice',
-                label: 'Phone Call',
-              }],
-            },
+    formBag.uischema.elements = [
+      {
+        type: 'Field',
+        label: 'methodType',
+        options: {
+          inputMeta: {
+            name: 'authenticator.methodType',
+            options: [{
+              value: 'sms',
+              label: 'SMS',
+            }, {
+              value: 'voice',
+              label: 'Phone Call',
+            }],
           },
-        } as FieldElement, {
-          type: 'Field',
-          label: 'Phone number',
-          name: 'authenticator.phoneNumber',
-        } as FieldElement],
-      },
-    };
+        },
+      } as FieldElement,
+      {
+        type: 'Field',
+        label: 'Phone number',
+        options: { inputMeta: { name: 'authenticator.phoneNumber' } },
+      } as FieldElement,
+    ];
   });
 
   it('should create phone enrollment UI elements when multiple method types exist in transaction', () => {

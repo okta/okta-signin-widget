@@ -27,17 +27,19 @@ import { UserInfo } from './userInfo';
 
 type GeneralDataSchemaBag = Record<string, DataSchema>;
 
+export type DataSchemaBag = GeneralDataSchemaBag & {
+  submit: ActionOptions;
+  fieldsToTrim: string[];
+  fieldsToValidate: string[];
+  fieldsToExclude: (data: FormBag['data']) => string[];
+};
+
 export type FormBag = {
   schema: Record<string, unknown>;
   uischema: UISchemaLayout;
   data: Record<string, unknown>;
   // temp schema bag to handle client validation and form submission
-  dataSchema: GeneralDataSchemaBag & {
-    submit: ActionOptions;
-    fieldsToTrim: string[];
-    fieldsToValidate: string[];
-    fieldsToExclude: (data: FormBag['data']) => string[];
-  }
+  dataSchema: DataSchemaBag;
 };
 
 export type IdxMessageWithName = IdxMessage & { name?: string; };

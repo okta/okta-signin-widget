@@ -11,20 +11,21 @@
  */
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  DescriptionElement, FormBag, ImageWithTextElement,
-  ReminderElement, TitleElement, UISchemaLayoutType, WidgetProps,
+  DescriptionElement, ImageWithTextElement,
+  ReminderElement, TitleElement, WidgetProps,
 } from 'src/types';
 
 import { transformOktaVerifyChallengePoll } from './transformOktaVerifyChallengePoll';
 
 describe('Transform Okta Verify Challenge Poll Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
   const widgetProps: WidgetProps = {};
 
   beforeEach(() => {
+    formBag.uischema.elements = [];
     transaction.nextStep = {
       name: '',
       relatesTo: {
@@ -32,15 +33,6 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
           methods: [{ type: 'push' }],
         } as IdxAuthenticator,
       },
-    };
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [],
-      },
-      data: {},
     };
   });
 

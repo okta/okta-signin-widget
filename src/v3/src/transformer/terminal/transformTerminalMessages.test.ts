@@ -13,9 +13,9 @@
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 
 import { TERMINAL_KEY } from '../../constants';
-import { getStubTransaction } from '../../mocks/utils/utils';
+import { getStubFormBag, getStubTransaction } from '../../mocks/utils/utils';
 import {
-  DescriptionElement, FormBag, InfoboxElement, UISchemaLayoutType,
+  DescriptionElement, InfoboxElement,
 } from '../../types';
 import { transformTerminalMessages } from './transformTerminalMessages';
 
@@ -40,18 +40,10 @@ jest.mock('./transformEmailMagicLinkOTPOnlyElements', () => ({
 
 describe('Terminal Message Transformer Tests', () => {
   let transaction: IdxTransaction;
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
 
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [],
-      },
-      data: {},
-    };
+    formBag.uischema.elements = [];
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
   });
