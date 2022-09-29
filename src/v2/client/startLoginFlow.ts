@@ -28,9 +28,13 @@ const handleProxyIdxResponse = async (settings) => {
 // eslint-disable-next-line complexity, max-statements
 export async function startLoginFlow(settings) {
   const authClient = settings.getAuthClient();
+  // nonce is not a top-level auth-js option, must be passed in manually
+  const { authParams } = settings.toJSON({verbose: true});
+  const nonce = settings.get('nonce') || authParams?.nonce;
   const idxOptions: ProceedOptions = {
     exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
     shouldProceedWithEmailAuthenticator: false, // do not auto-select email authenticator
+    ...(nonce && { nonce })
   };
 
   // Return a preset response

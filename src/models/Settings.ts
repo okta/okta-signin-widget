@@ -127,6 +127,7 @@ const local: Record<string, ModelProperty> = {
   clientId: 'string',
   redirectUri: 'string',
   state: 'string',
+  nonce: 'string',
   scopes: 'array',
   codeChallenge: 'string',
   codeChallengeMethod: ['string', false],
