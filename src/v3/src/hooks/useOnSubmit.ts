@@ -17,7 +17,13 @@ import { useCallback } from 'preact/hooks';
 
 import { IDX_STEP } from '../constants';
 import { useWidgetContext } from '../contexts';
-import { getImmutableData, loc, toNestedObject } from '../util';
+import { MessageType } from '../types';
+import {
+  areTransactionsEqual,
+  getImmutableData,
+  loc,
+  toNestedObject,
+} from '../util';
 
 type OnSubmitHandlerOptions = {
   includeData?: boolean;
@@ -104,7 +110,11 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     try {
       const newTransaction = await fn(payload);
       setIdxTransaction(newTransaction);
-      const isClientTransaction = !newTransaction.requestDidSucceed;
+      const transactionHasWarning = (newTransaction.messages || []).some(
+        (message) => message.class === MessageType.WARNING.toString(),
+      );
+      const isClientTransaction = !newTransaction.requestDidSucceed
+        || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
       setIsClientTransaction(isClientTransaction);
       if (isClientTransaction
           && !newTransaction.messages?.length

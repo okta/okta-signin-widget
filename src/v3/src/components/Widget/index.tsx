@@ -43,8 +43,8 @@ import {
   WidgetProps,
 } from '../../types';
 import {
+  areTransactionsEqual,
   buildAuthCoinProps,
-  getAuthenticatorKey,
   getLanguageCode,
   isAndroidOrIOS,
   isAuthClientSet,
@@ -228,13 +228,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
      * But if for some reason the keys are the same between them, we perform a last ditch check
      * against the current authenticator's ID, which should always be unique between challenges
     */
-    const pollingTxAuthKey = getAuthenticatorKey(pollingTransaction);
-    const currentTxAuthKey = getAuthenticatorKey(idxTransaction);
-    const pollingTxAuthId = pollingTransaction.context.currentAuthenticator?.value?.id;
-    const currentTxAuthId = idxTransaction.context.currentAuthenticator?.value?.id;
-    if (pollingTransaction.nextStep?.name !== idxTransaction.nextStep?.name
-        || pollingTxAuthKey !== currentTxAuthKey
-        || pollingTxAuthId !== currentTxAuthId) {
+    if (!areTransactionsEqual(idxTransaction, pollingTransaction)) {
       setIdxTransaction(pollingTransaction);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
