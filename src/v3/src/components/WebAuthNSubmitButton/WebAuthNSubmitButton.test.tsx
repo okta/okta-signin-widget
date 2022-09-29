@@ -25,9 +25,11 @@ jest.mock('../../../../v2/ion/i18nTransformer', () => ({
 }));
 
 const setMessageMockFn = jest.fn();
+const mockLoading = jest.fn().mockReturnValue(false);
 jest.mock('../../contexts', () => ({
   useWidgetContext: () => ({
     setMessage: setMessageMockFn,
+    loading: mockLoading(),
   }),
 }));
 
@@ -40,6 +42,7 @@ describe('WebAuthNControlSubmitControl Tests', () => {
   let props: UISchemaElementComponentProps & { uischema: WebAuthNButtonElement; };
 
   beforeEach(() => {
+    mockLoading.mockReturnValue(false);
     props = {
       uischema: {
         type: 'WebAuthNSubmitButton',
@@ -65,6 +68,17 @@ describe('WebAuthNControlSubmitControl Tests', () => {
       expect(setMessageMockFn).toBeCalled();
       expect(mockSubmitHook).toBeCalled();
     });
+  });
+
+  it('should render loading spinner when there is a pending request', async () => {
+    mockLoading.mockReturnValue(true);
+    const { queryByTestId } = render(<WebAuthNSubmitButton {...props} />);
+
+    const button = queryByTestId('button');
+    const spinner = queryByTestId('okta-spinner');
+
+    expect(button).toBeNull();
+    expect(spinner).toBeInTheDocument();
   });
 
   it('should render webauthn verify button and handle click when known error occurs with retry label', async () => {

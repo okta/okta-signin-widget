@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { h } from 'preact';
 
+import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent, UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
@@ -34,6 +35,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   onValidateHandler,
 }) => {
   const value = useValue(uischema);
+  const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const { translations = [], focus } = uischema;
   const label = getTranslation(translations);
@@ -62,6 +64,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         name={name}
         error={error !== undefined}
         onChange={handleChange}
+        disabled={loading}
         fullWidth
         inputProps={{
           'data-se': dataSe,

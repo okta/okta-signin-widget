@@ -35,10 +35,12 @@ const WebAuthNSubmit: UISchemaElementComponent<{
   const btnLabel = getTranslation(translations);
   const btnRetryLabel = getTranslation(translations, 'retry-label');
 
-  const { setMessage } = useWidgetContext();
+  const { setMessage, loading } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const [waiting, setWaiting] = useState<boolean>(false);
   const [label, setLabel] = useState<string>(btnLabel!);
+
+  const showLoading = waiting || loading;
 
   const executeNextStep = () => {
     setWaiting(true);
@@ -84,14 +86,15 @@ const WebAuthNSubmit: UISchemaElementComponent<{
   return (
     <Box
       marginBottom={4}
-      display={waiting ? 'flex' : undefined}
-      justifyContent={waiting ? 'center' : undefined}
+      display={showLoading ? 'flex' : undefined}
+      justifyContent={showLoading ? 'center' : undefined}
     >
       {
-        waiting
+        showLoading
           ? (
             <CircularLoadIndicator
               id="okta-spinner"
+              data-se="okta-spinner"
               // TODO: OKTA-518793 - replace english string with key once created
               aria-label="Loading..."
               aria-valuetext="Loading..."

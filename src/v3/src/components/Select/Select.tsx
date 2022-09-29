@@ -10,68 +10,102 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { NativeSelect } from '@okta/odyssey-react';
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  Select as MuiSelect,
+  SelectChangeEvent,
+} from '@mui/material';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { h } from 'preact';
-import {
-  ChangeEvent, FieldElement, UISchemaElementComponent,
-} from 'src/types';
 
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
+import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnChange, useValue } from '../../hooks';
+import {
+  UISchemaElementComponent,
+  UISchemaElementComponentWithValidationProps,
+} from '../../types';
+import { withFormValidationState } from '../hocs';
 
-const Select: UISchemaElementComponent<{
-  uischema: FieldElement
-}> = ({ uischema }) => {
+const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
+  uischema,
+  setTouched,
+  error,
+  setError,
+  onValidateHandler,
+}) => {
   const value = useValue(uischema);
+  const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const { label, focus } = uischema;
   const {
+    attributes,
     inputMeta: {
-      // @ts-ignore expose type from auth-js
-      messages = {},
       name,
       options,
     },
     customOptions,
   } = uischema.options;
-  const error = messages?.value?.[0] && getMessage(messages.value[0]);
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChangeHandler(e.currentTarget.value);
+  const handleChange = (e: SelectChangeEvent<string>) => {
+    setTouched?.(true);
+    const selectTarget = (
+      e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
+    );
+    onChangeHandler(selectTarget.value);
+    onValidateHandler?.(setError, selectTarget.value);
   };
 
   return (
-    <Box>
-      <NativeSelect
-        error={error}
-        label={label!}
-        name={name}
-        id={name}
-        value={value}
+    <FormControl
+      disabled={loading}
+      error={error !== undefined}
+    >
+      <InputLabel htmlFor={name}>{label}</InputLabel>
+      <MuiSelect
+        native
         onChange={handleChange}
-        ref={focusRef}
+        inputRef={focusRef}
+        value={value as string}
+        inputProps={{
+          'data-se': name,
+          'aria-describedby': error && `${name}-error`,
+          name,
+          id: name,
+          ...attributes,
+        }}
       >
         {
-          [<NativeSelect.Option
+          [<option
+            aria-label="None"
             value=""
             key="empty"
           />].concat(
             (customOptions ?? options)?.map((option: IdxOption) => (
-              <NativeSelect.Option
+              <option
                 key={option.value}
-                value={option.value}
+                value={option.value as string}
               >
                 {option.label}
-              </NativeSelect.Option>
+              </option>
             )) || [],
           )
         }
-      </NativeSelect>
-    </Box>
+      </MuiSelect>
+      {error && (
+        <FormHelperText
+          id={`${name}-error`}
+          role="alert"
+          data-se={`${name}-error`}
+          error
+        >
+          {error}
+        </FormHelperText>
+      )}
+    </FormControl>
   );
 };
 
-export default Select;
+export default withFormValidationState(Select);
