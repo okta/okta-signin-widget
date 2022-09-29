@@ -262,7 +262,7 @@
   "user": {
     "type": "object",
     "value": {
-      "identifier": "glen.fannin@okta.com"
+      "identifier": "tester@okta1.com"
     }
   },
   "cancel": {

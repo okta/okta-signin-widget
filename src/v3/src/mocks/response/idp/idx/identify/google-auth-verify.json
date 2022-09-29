@@ -251,10 +251,10 @@
     "type": "object",
     "value": {
       "id": "00u2h3ffs5elyqiQU1d7",
-      "identifier": "glen.fannin@icloud.com",
+      "identifier": "tester@okta1.com",
       "profile": {
-        "firstName": "Glen",
-        "lastName": "Fannin",
+        "firstName": "Tester",
+        "lastName": "McTesterson",
         "timeZone": "America/Los_Angeles",
         "locale": "en_US"
       }
