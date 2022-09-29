@@ -12,13 +12,12 @@
 
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   AuthenticatorButtonElement,
+  ButtonType,
   DescriptionElement,
-  FormBag,
   TitleElement,
-  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
@@ -30,11 +29,13 @@ const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
     type: 'AuthenticatorButton',
     label: 'Email',
     options: {
+      type: ButtonType.BUTTON,
       key: AUTHENTICATOR_KEY.EMAIL,
       ctaLabel: 'Select',
       actionParams: {
         'authenticator.id': '123abc',
       },
+      step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     },
   } as AuthenticatorButtonElement);
   return authenticators;
@@ -49,17 +50,9 @@ jest.mock('./utils', () => ({
 describe('Verify Authenticator Selector Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   let widgetProps: WidgetProps;
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      data: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [],
-      },
-    };
+    formBag.uischema.elements = [];
     transaction.nextStep = {
       name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
       inputs: [{

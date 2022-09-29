@@ -12,12 +12,8 @@
 
 import { ActivationData, ChallengeData, IdxAuthenticator } from '@okta/okta-auth-js';
 import { IDX_STEP } from 'src/constants';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import {
-  FormBag,
-  UISchemaLayoutType,
-  WidgetProps,
-} from 'src/types';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { FormBag, WidgetProps } from 'src/types';
 
 import { transformWebAuthNAuthenticator } from '.';
 
@@ -28,7 +24,7 @@ jest.mock('../../../../util/BrowserFeatures', () => ({
   isSafari: () => jest.fn().mockReturnValue(mockIsSafariBrowser),
 }));
 
-describe('WebAuthN Transformer Tests', () => {
+describe.skip('WebAuthN Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
   let formBag: FormBag;
@@ -45,15 +41,7 @@ describe('WebAuthN Transformer Tests', () => {
 
   describe('WebAuthN Enroll Tests', () => {
     beforeEach(() => {
-      formBag = {
-        dataSchema: {} as any,
-        schema: {},
-        uischema: {
-          type: UISchemaLayoutType.VERTICAL,
-          elements: [],
-        },
-        data: {},
-      };
+      formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
       transaction.nextStep = {
         name: IDX_STEP.ENROLL_AUTHENTICATOR,
         action: jest.fn(),
@@ -123,15 +111,7 @@ describe('WebAuthN Transformer Tests', () => {
 
   describe('WebAuthN Challenge Tests', () => {
     beforeEach(() => {
-      formBag = {
-        dataSchema: {} as any,
-        schema: {},
-        uischema: {
-          type: UISchemaLayoutType.VERTICAL,
-          elements: [],
-        },
-        data: {},
-      };
+      formBag = getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR);
       transaction.nextStep = {
         name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
         action: jest.fn(),

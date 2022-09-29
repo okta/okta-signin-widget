@@ -11,10 +11,10 @@
  */
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement, ButtonType, DescriptionElement, FormBag,
-  TitleElement, UISchemaLayoutType, WidgetProps,
+  ButtonElement, ButtonType, DescriptionElement,
+  TitleElement, WidgetProps,
 } from 'src/types';
 
 import { transformPhoneCodeEnrollment } from '.';
@@ -22,17 +22,9 @@ import { transformPhoneCodeEnrollment } from '.';
 describe('PhoneEnrollmentCodeTransformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
   beforeEach(() => {
-    formBag = {
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [],
-      },
-      data: {},
-      dataSchema: {},
-    };
+    formBag.uischema.elements = [];
   });
 
   it('should create phone code enrollment UI elements with voice as the first method type', () => {

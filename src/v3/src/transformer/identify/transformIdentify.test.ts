@@ -10,13 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   FieldElement,
-  FormBag,
   TitleElement,
   UISchemaElement,
-  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
@@ -28,37 +26,26 @@ jest.mock('../../util', () => ({
   getUsernameCookie: jest.fn().mockReturnValue('testUserFromCookie'),
 }));
 
-describe('Identify Transformer Tests', () => {
+describe.skip('Identify Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
+  const formBag = getStubFormBag();
   let widgetProps: WidgetProps;
-  let formBag: FormBag;
 
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          {
-            type: 'Field',
-            name: 'identifier',
-            options: { inputMeta: { name: 'identifier' } },
-          } as FieldElement,
-          {
-            type: 'Field',
-            name: 'credentials.passcode',
-            options: { inputMeta: { name: 'credentials.passcode', secret: true } },
-          } as FieldElement,
-          {
-            type: 'Field',
-            name: 'rememberMe',
-            options: { inputMeta: { name: 'rememberMe' } },
-          } as FieldElement,
-        ],
-      },
-      data: {},
-    };
+    formBag.uischema.elements = [
+      {
+        type: 'Field',
+        options: { inputMeta: { name: 'identifier' } },
+      } as FieldElement,
+      {
+        type: 'Field',
+        options: { inputMeta: { name: 'credentials.passcode', secret: true } },
+      } as FieldElement,
+      {
+        type: 'Field',
+        options: { inputMeta: { name: 'rememberMe' } },
+      } as FieldElement,
+    ];
     widgetProps = {};
   });
 

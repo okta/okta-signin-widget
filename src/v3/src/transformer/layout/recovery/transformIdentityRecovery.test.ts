@@ -10,33 +10,26 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import {
-  FieldElement, FormBag, TitleElement,
-  UISchemaLayoutType, WidgetProps,
+  FieldElement, TitleElement, WidgetProps,
 } from '../../../types';
 import { transformIdentityRecovery } from './transformIdentityRecovery';
 
 describe('Identity Recovery Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
   let widgetProps: WidgetProps;
 
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      data: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [{
-          type: 'Field',
-          name: 'identifier',
-          label: 'Username',
-        } as FieldElement],
-      },
-    };
+    formBag.uischema.elements = [
+      {
+        type: 'Field',
+        label: 'Username',
+        options: { inputMeta: { name: 'identifier' } },
+      } as FieldElement,
+    ];
     widgetProps = {};
   });
 
@@ -48,7 +41,7 @@ describe('Identity Recovery Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('identifier');
   });
 
@@ -62,7 +55,7 @@ describe('Identity Recovery Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.specific');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('identifier');
   });
 });

@@ -11,10 +11,10 @@
  */
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement, DescriptionElement, FieldElement,
-  FormBag, TitleElement, UISchemaLayoutType, WidgetProps,
+  TitleElement, WidgetProps,
 } from 'src/types';
 
 import { transformEmailVerification } from '.';
@@ -22,28 +22,20 @@ import { transformEmailVerification } from '.';
 describe('Email Verification Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
+
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          {
-            type: 'Field',
+    formBag.uischema.elements = [
+      {
+        type: 'Field',
+        options: {
+          inputMeta: {
             name: 'authenticator.methodType',
-            options: {
-              inputMeta: {
-                name: 'authenticator.methodType',
-                options: [{ value: 'email', label: 'Email' }],
-              },
-            },
-          } as FieldElement,
-        ],
-      },
-      data: {},
-    };
+            options: [{ value: 'email', label: 'Email' }],
+          },
+        },
+      } as FieldElement,
+    ];
   });
 
   it('should update methodType element and add appropriate UI elements to schema'

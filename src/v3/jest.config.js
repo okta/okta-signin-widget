@@ -44,9 +44,6 @@ module.exports = {
   testMatch: [
     '**/__tests__/**/*.[jt]s?(x)',
     '**/?(*.)(test).[jt]s?(x)',
-    // TODO: remove when re-enable transformers tests - OKTA-516578
-    '!**/src/transformer/**/*.test.ts',
-    '**/src/transformer/main.test.ts',
   ],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/src/tests/__mocks__/fileMock.js',

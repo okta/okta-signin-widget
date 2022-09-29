@@ -10,32 +10,25 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
   ButtonType,
-  FormBag,
+  FieldElement,
   TitleElement,
-  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
 import { transformPasswordChallenge } from './transformPasswordChallenge';
 
-describe('Password Challenge Transformer Tests', () => {
+describe.skip('Password Challenge Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
   let widgetProps: WidgetProps;
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [],
-      },
-      data: {},
-    };
+    formBag.uischema.elements = [
+      { type: 'Field', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
+    ];
     widgetProps = {};
   });
 

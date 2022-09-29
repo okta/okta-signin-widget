@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  FormBag, InfoboxElement,
-  UISchemaLayoutType, WidgetProps,
+  InfoboxElement, WidgetProps,
 } from 'src/types';
 
 import { OV_OVERRIDE_MESSAGE_KEY, transformMessages } from './transform';
@@ -21,22 +20,14 @@ import { OV_OVERRIDE_MESSAGE_KEY, transformMessages } from './transform';
 describe('Enroll Authenticator Selector Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
-  let formBag: FormBag;
+  const formBag = getStubFormBag();
 
   beforeEach(() => {
-    formBag = {
-      dataSchema: {},
-      schema: {},
-      uischema: {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [],
-      },
-      data: {},
-    };
+    formBag.uischema.elements = [];
   });
 
   it('should not update formBag when no messages exist in the transaction', () => {
-    expect(transformMessages({ transaction, formBag, widgetProps })).toEqual(formBag);
+    expect(transformMessages({ transaction, widgetProps, step: '' })(formBag)).toEqual(formBag);
   });
 
   it('should not update formBag when messages in transaction are not to be customized', () => {
@@ -47,7 +38,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: 'some.standard.key' },
       },
     ];
-    expect(transformMessages({ transaction, formBag, widgetProps })).toEqual(formBag);
+    expect(transformMessages({ transaction, widgetProps, step: '' })(formBag)).toEqual(formBag);
   });
 
   it('should add title when fips compliance message key exists in transaction', () => {
@@ -58,7 +49,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: OV_OVERRIDE_MESSAGE_KEY.OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS },
       },
     ];
-    const updatedFormBag = transformMessages({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.contentType).toBe('string');
@@ -78,7 +69,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY },
       },
     ];
-    const updatedFormBag = transformMessages({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.contentType).toBe('string');
