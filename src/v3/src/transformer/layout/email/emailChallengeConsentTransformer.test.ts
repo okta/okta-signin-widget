@@ -12,10 +12,7 @@
 
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement,
   FieldElement,
-  ImageWithTextElement,
-  TitleElement,
   WidgetProps,
 } from 'src/types';
 
@@ -48,24 +45,6 @@ describe('EmailChallengeConsentTransformer Tests', () => {
     const updatedFormBag = transformEmailChallengeConsent({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.consent.enduser.title');
-    expect((updatedFormBag.uischema.elements[1] as ImageWithTextElement).type).toBe('ImageWithText');
-    expect((updatedFormBag.uischema.elements[1] as ImageWithTextElement).options.id).toBe('browser');
-    expect((updatedFormBag.uischema.elements[1] as ImageWithTextElement).options?.textContent).toBe('CHROME');
-
-    expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).type).toBe('ImageWithText');
-    expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options.id).toBe('appName');
-    expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options?.textContent).toBe('Okta Dashboard');
-
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.actionParams?.consent)
-      .toBe(false);
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.dataType).toBe('cancel');
-
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.actionParams?.consent)
-      .toBe(true);
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.dataType).toBe('save');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 });

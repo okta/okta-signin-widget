@@ -13,8 +13,8 @@
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement, DescriptionElement, FieldElement,
-  TitleElement, WidgetProps,
+  FieldElement,
+  WidgetProps,
 } from 'src/types';
 
 import { transformEmailVerification } from '.';
@@ -43,16 +43,7 @@ describe('Email Verification Transformer Tests', () => {
     const updatedFormBag = transformEmailVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-      .toBe('oie.email.mfa.title');
-    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.subtitleWithoutEmailAddress');
-    expect(((updatedFormBag.uischema.elements[2] as ButtonElement)
-      .options?.actionParams?.['authenticator.methodType'])).toBe('email');
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
-      .toBe('oie.email.verify.primaryButton');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should update methodType element and add appropriate UI elements to schema'
@@ -72,16 +63,6 @@ describe('Email Verification Transformer Tests', () => {
     const updatedFormBag = transformEmailVerification({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-      .toBe('oie.email.mfa.title');
-    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.subtitleWithEmailAddress');
-    expect(((updatedFormBag.uischema.elements[2] as ButtonElement)
-      .options?.actionParams?.['authenticator.methodType']))
-      .toBe('email');
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
-      .toBe('oie.email.verify.primaryButton');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 });

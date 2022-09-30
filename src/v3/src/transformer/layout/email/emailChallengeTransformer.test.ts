@@ -10,31 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxAuthenticator, OktaAuth } from '@okta/okta-auth-js';
+import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement,
-  ButtonType,
-  DescriptionElement,
   FieldElement,
-  StepperLayout,
-  UISchemaLayoutType,
+  FormBag,
   WidgetProps,
 } from 'src/types';
 
 import { transformEmailChallenge } from '.';
 
-describe.skip('EmailChallengeTransformer Tests', () => {
+describe('EmailChallengeTransformer Tests', () => {
   const redactedEmail = 'fxxxe@xxx.com';
   const transaction = getStubTransactionWithNextStep();
-  const widgetProps: WidgetProps = {
-    authClient: {
-      idx: { proceed: jest.fn() },
-    } as unknown as OktaAuth,
-  };
-  const formBag = getStubFormBag();
+  const widgetProps: WidgetProps = {};
+  let formBag: FormBag;
 
   beforeEach(() => {
+    formBag = getStubFormBag();
     formBag.uischema.elements = [
       { type: 'Field', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
     ];
@@ -58,33 +51,6 @@ describe.skip('EmailChallengeTransformer Tests', () => {
     });
 
     expect(updatedFormBag).toMatchSnapshot();
-
-    expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
-
-    const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
-
-    const layoutOne = stepperElements[0];
-
-    expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
-    expect(layoutOne.elements.length).toBe(4);
-
-    expect(layoutOne.elements[2].type).toBe('Description');
-    expect((layoutOne.elements[2] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
-
-    const layoutTwo = stepperElements[1];
-
-    expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
-    expect(layoutTwo.elements.length).toBe(5);
-    expect(layoutTwo.elements[2].type).toBe('Description');
-    expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
-
-    expect((layoutTwo.elements[3] as FieldElement).label).toBe('email.enroll.enterCode');
-
-    expect((layoutTwo.elements[4] as ButtonElement).type).toBe('Button');
-    expect((layoutTwo.elements[4] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
   });
 
   it('should create email challenge UI elements when profile email is NOT available', () => {
@@ -101,21 +67,6 @@ describe.skip('EmailChallengeTransformer Tests', () => {
     });
 
     expect(updatedFormBag).toMatchSnapshot();
-
-    const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
-
-    const layoutOne = stepperElements[0];
-
-    expect(layoutOne.elements.length).toBe(4);
-
-    expect((layoutOne.elements[2] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
-
-    const layoutTwo = stepperElements[1];
-
-    expect(layoutTwo.elements.length).toBe(5);
-    expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
   });
 
   it('should create email challenge UI elements when resend code is NOT available', () => {
@@ -135,32 +86,5 @@ describe.skip('EmailChallengeTransformer Tests', () => {
     });
 
     expect(updatedFormBag).toMatchSnapshot();
-
-    expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
-
-    const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
-
-    const layoutOne = stepperElements[0];
-
-    expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
-    expect(layoutOne.elements.length).toBe(3);
-
-    expect(layoutOne.elements[1].type).toBe('Description');
-    expect((layoutOne.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
-
-    const layoutTwo = stepperElements[1];
-
-    expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
-    expect(layoutTwo.elements.length).toBe(4);
-    expect(layoutTwo.elements[1].type).toBe('Description');
-    expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
-
-    expect((layoutTwo.elements[2] as FieldElement).label).toBe('email.enroll.enterCode');
-
-    expect((layoutTwo.elements[3] as ButtonElement).type).toBe('Button');
-    expect((layoutTwo.elements[3] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
   });
 });
