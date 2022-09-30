@@ -13,9 +13,6 @@
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 
 import { getStubFormBag, getStubTransaction } from '../../mocks/utils/utils';
-import {
-  DescriptionElement, HeadingElement, ImageWithTextElement,
-} from '../../types';
 import { transformEmailMagicLinkOTPOnly } from './transformEmailMagicLinkOTPOnlyElements';
 
 describe('Email Magic Link OTP Only Transformer Tests', () => {
@@ -69,16 +66,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Description');
-    expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options?.content)
-      .toBe('idx.enter.otp.in.original.tab');
-    expect(updatedFormBag.uischema.elements[1].type).toBe('Heading');
-    expect((updatedFormBag.uischema.elements[1] as HeadingElement).options?.level).toBe(3);
-    expect((updatedFormBag.uischema.elements[1] as HeadingElement).options?.visualLevel).toBe(3);
-    expect((updatedFormBag.uischema.elements[1] as HeadingElement).options?.content).toBe(mockOTP);
-    expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
-      .toBe('idx.return.link.otponly.warning.text');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add sign-in instructions (with auth intent), otp and warning text'
@@ -93,21 +81,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    const [
-      el1, el2, el3,
-    ] = updatedFormBag.uischema.elements as [
-      DescriptionElement, HeadingElement, DescriptionElement,
-    ];
-    expect(el1.type).toBe('Description');
-    expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
-    expect(el2.type).toBe('Heading');
-    expect(el2.options?.level).toBe(3);
-    expect(el2.options?.visualLevel).toBe(3);
-    expect(el2.options?.content).toBe(mockOTP);
-    expect(el3.type).toBe('Description');
-    expect(el3.options?.content)
-      .toBe('idx.return.link.otponly.warning.text');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add sign up instructions (with enroll intent), otp and warning text'
@@ -122,21 +96,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    const [
-      el1, el2, el3,
-    ] = updatedFormBag.uischema.elements as [
-      DescriptionElement, HeadingElement, DescriptionElement,
-    ];
-    expect(el1.type).toBe('Description');
-    expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
-    expect(el2.type).toBe('Heading');
-    expect(el2.options?.level).toBe(3);
-    expect(el2.options?.visualLevel).toBe(3);
-    expect(el2.options?.content).toBe(mockOTP);
-    expect(el3.type).toBe('Description');
-    expect(el3.options?.content)
-      .toBe('idx.return.link.otponly.warning.text');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add password reset instructions (with recovery intent), otp and warning text'
@@ -151,21 +111,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    const [
-      el1, el2, el3,
-    ] = updatedFormBag.uischema.elements as [
-      DescriptionElement, HeadingElement, DescriptionElement,
-    ];
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Description');
-    expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
-    expect(el2.type).toBe('Heading');
-    expect(el2.options?.level).toBe(3);
-    expect(el2.options?.visualLevel).toBe(3);
-    expect(el2.options?.content).toBe(mockOTP);
-    expect(el3.type).toBe('Description');
-    expect(el3.options?.content)
-      .toBe('idx.return.link.otponly.warning.text');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add unlock acct instructions (with unlock intent), otp and warning text'
@@ -180,21 +126,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    const [
-      el1, el2, el3,
-    ] = updatedFormBag.uischema.elements as [
-      DescriptionElement, HeadingElement, DescriptionElement,
-    ];
-    expect(el1.type).toBe('Description');
-    expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
-    expect(el2.type).toBe('Heading');
-    expect(el2.options?.level).toBe(3);
-    expect(el2.options?.visualLevel).toBe(3);
-    expect(el2.options?.content).toBe(mockOTP);
-    expect(el3.type).toBe('Description');
-    expect(el3.options?.content)
-      .toBe('idx.return.link.otponly.warning.text');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add sign-in instructions, otp, warning and app info only'
@@ -213,32 +145,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
-    const [
-      el1, el2, el3, el4, el5,
-    ] = updatedFormBag.uischema.elements as [
-      DescriptionElement,
-      HeadingElement,
-      DescriptionElement,
-      ImageWithTextElement,
-      DescriptionElement,
-    ];
-    expect(el1.type).toBe('Description');
-    expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
-    expect(el2.type).toBe('Heading');
-    expect(el2.options?.level).toBe(3);
-    expect(el2.options?.visualLevel).toBe(3);
-    expect(el2.options?.content).toBe(mockOTP);
-    expect(el3.type).toBe('Description');
-    expect(el3.options?.content)
-      .toBe('idx.return.link.otponly.request');
-    expect(el4.type).toBe('ImageWithText');
-    expect(el4.options?.textContent)
-      .toBe('idx.return.link.otponly.app');
-    expect(el4.options?.SVGIcon).not.toBeUndefined();
-    expect(el5.type).toBe('Description');
-    expect(el5.options?.content)
-      .toBe('idx.return.link.otponly.warning.text');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add sign-in instructions, otp, warning, app info, and browser info'
@@ -264,37 +171,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(6);
-    const [
-      el1, el2, el3, el4, el5, el6,
-    ] = updatedFormBag.uischema.elements as [
-      DescriptionElement,
-      HeadingElement,
-      DescriptionElement,
-      ImageWithTextElement,
-      ImageWithTextElement,
-      DescriptionElement,
-    ];
-    expect(el1.type).toBe('Description');
-    expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
-    expect(el2.type).toBe('Heading');
-    expect(el2.options?.level).toBe(3);
-    expect(el2.options?.visualLevel).toBe(3);
-    expect(el2.options?.content).toBe(mockOTP);
-    expect(el3.type).toBe('Description');
-    expect(el3.options?.content)
-      .toBe('idx.return.link.otponly.request');
-    expect(el4.type).toBe('ImageWithText');
-    expect(el4.options?.textContent)
-      .toBe('idx.return.link.otponly.browser.on.os');
-    expect(el4.options?.SVGIcon).not.toBeUndefined();
-    expect(el5.type).toBe('ImageWithText');
-    expect(el5.options?.textContent)
-      .toBe('idx.return.link.otponly.app');
-    expect(el5.options?.SVGIcon).not.toBeUndefined();
-    expect(el6.type).toBe('Description');
-    expect(el6.options?.content)
-      .toBe('idx.return.link.otponly.warning.text');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add sign-in instructions, otp, warning, app info, and browser info'
@@ -329,42 +206,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(7);
-    const [
-      el1, el2, el3, el4, el5, el6, el7,
-    ] = updatedFormBag.uischema.elements as [
-      DescriptionElement,
-      HeadingElement,
-      DescriptionElement,
-      ImageWithTextElement,
-      ImageWithTextElement,
-      ImageWithTextElement,
-      DescriptionElement,
-    ];
-    expect(el1.type).toBe('Description');
-    expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
-    expect(el2.type).toBe('Heading');
-    expect(el2.options?.level).toBe(3);
-    expect(el2.options?.visualLevel).toBe(3);
-    expect(el2.options?.content).toBe(mockOTP);
-    expect(el3.type).toBe('Description');
-    expect(el3.options?.content)
-      .toBe('idx.return.link.otponly.request');
-    expect(el4.type).toBe('ImageWithText');
-    expect(el4.options?.textContent)
-      .toBe('idx.return.link.otponly.browser.on.os');
-    expect(el4.options?.SVGIcon).not.toBeUndefined();
-    expect(el5.type).toBe('ImageWithText');
-    expect(el5.options?.textContent)
-      .toBe('idx.return.link.otponly.app');
-    expect(el5.options?.SVGIcon).not.toBeUndefined();
-    expect(el6.type).toBe('ImageWithText');
-    expect(el6.options?.textContent)
-      .toBe('geolocation.formatting.partial');
-    expect(el6.options?.SVGIcon).not.toBeUndefined();
-    expect(el7.type).toBe('Description');
-    expect(el7.options?.content)
-      .toBe('idx.return.link.otponly.warning.text');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add sign-in instructions, otp, warning, app info, browser info, and location'
@@ -372,41 +214,6 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(7);
-    const [
-      el1, el2, el3, el4, el5, el6, el7,
-    ] = updatedFormBag.uischema.elements as [
-      DescriptionElement,
-      HeadingElement,
-      DescriptionElement,
-      ImageWithTextElement,
-      ImageWithTextElement,
-      ImageWithTextElement,
-      DescriptionElement,
-    ];
-    expect(el1.type).toBe('Description');
-    expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
-    expect(el2.type).toBe('Heading');
-    expect(el2.options?.level).toBe(3);
-    expect(el2.options?.visualLevel).toBe(3);
-    expect(el2.options?.content).toBe(mockOTP);
-    expect(el3.type).toBe('Description');
-    expect(el3.options?.content)
-      .toBe('idx.return.link.otponly.request');
-    expect(el4.type).toBe('ImageWithText');
-    expect(el4.options?.textContent)
-      .toBe('idx.return.link.otponly.browser.on.os');
-    expect(el4.options?.SVGIcon).not.toBeUndefined();
-    expect(el5.type).toBe('ImageWithText');
-    expect(el5.options?.textContent)
-      .toBe('idx.return.link.otponly.app');
-    expect(el5.options?.SVGIcon).not.toBeUndefined();
-    expect(el6.type).toBe('ImageWithText');
-    expect(el6.options?.textContent)
-      .toBe('geolocation.formatting.all');
-    expect(el6.options?.SVGIcon).not.toBeUndefined();
-    expect(el7.type).toBe('Description');
-    expect(el7.options?.content)
-      .toBe('idx.return.link.otponly.warning.text');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 });

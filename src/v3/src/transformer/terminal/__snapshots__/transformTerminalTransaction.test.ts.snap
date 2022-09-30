@@ -1,0 +1,302 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Terminal Transaction Transformer Tests Interaction code flow & Redirection Tests should add successCallback renderer for interaction code flow 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "label": "Loading...",
+          "valueText": "Loading...",
+        },
+        "type": "Spinner",
+      },
+      Object {
+        "options": Object {
+          "data": Object {
+            "status": "SUCCESS",
+            "tokens": Object {
+              "accessToken": Object {
+                "accessToken": "abc123456",
+                "authorizeUrl": "acme.okta1.com",
+                "claims": Object {
+                  "sub": "",
+                  "user": true,
+                },
+                "expiresAt": 1234567,
+                "scopes": Array [
+                  "admin",
+                ],
+                "tokenType": "id",
+                "userinfoUrl": "acme.okta1.com/userinfo",
+              },
+              "idToken": Object {
+                "authorizeUrl": "acme.okta1.com",
+                "claims": Object {
+                  "sub": "",
+                  "user": true,
+                },
+                "clientId": "abcdefth",
+                "expiresAt": 1234567,
+                "idToken": "1234567asdfghj",
+                "issuer": "okta",
+                "scopes": Array [
+                  "admin",
+                ],
+              },
+            },
+          },
+        },
+        "type": "SuccessCallback",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests Interaction code flow & Redirection Tests should add successCallback renderer for interaction code flow in remediation mode 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "label": "Loading...",
+          "valueText": "Loading...",
+        },
+        "type": "Spinner",
+      },
+      Object {
+        "options": Object {
+          "data": Object {
+            "interaction_code": "123456789aabbcc",
+            "state": "abc123",
+            "status": "SUCCESS",
+          },
+        },
+        "type": "SuccessCallback",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should add back to sign in link with href when backToSigninUri is set in widget options 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "focus": true,
+        "options": Object {
+          "href": "/",
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should add back to signin element when transaction contains API error 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "focus": true,
+        "options": Object {
+          "href": undefined,
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should add back to signin link for tooManyRequests message key when baseUrl not provided 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "focus": true,
+        "options": Object {
+          "href": "http://localhost:3000/",
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should add title and back to signin elements for link expired message key 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.email.return.link.expired.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "focus": true,
+        "options": Object {
+          "href": undefined,
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should add title and skip setup link for idx.error.server.safe.mode.enrollment.unavailable message key 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.safe.mode.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "focus": true,
+        "options": Object {
+          "isActionStep": false,
+          "label": "oie.enroll.skip.setup",
+          "step": "skip",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should add title and try again link for idx.device.not.activated.consent.denied message key 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "device.code.activated.error.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "focus": true,
+        "options": Object {
+          "href": "http://localhost:8080/",
+          "isActionStep": true,
+          "label": "oie.try.again",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should add title element with message for oie.selfservice.unlock_user.success.message message key 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "account.unlock.unlocked.title",
+        },
+        "type": "Title",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should add title when terminal key indicates to return to orig tab 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.consent.enduser.email.allow.title",
+        },
+        "type": "Title",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

@@ -11,17 +11,9 @@
  */
 
 import { IdxContext, IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
-import {
-  ButtonElement,
-  FormBag,
-  LinkElement,
-  SpinnerElement,
-  SuccessCallback,
-  TitleElement,
-  WidgetProps,
-} from 'src/types';
+import { FormBag, WidgetProps } from 'src/types';
 
-import { TERMINAL_KEY, TERMINAL_TITLE_KEY } from '../../constants';
+import { TERMINAL_KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
 import { removeUsernameCookie, setUsernameCookie } from '../../util';
 import { transformTerminalTransaction } from '.';
@@ -51,7 +43,7 @@ jest.mock('../../util', () => {
   };
 });
 
-describe.skip('Terminal Transaction Transformer Tests', () => {
+describe('Terminal Transaction Transformer Tests', () => {
   let transaction: IdxTransaction;
   let mockAuthClient: any;
   let widgetProps: WidgetProps;
@@ -107,12 +99,8 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
       widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
-      expect(formBag.uischema.elements[0].type).toBe('Spinner');
-      expect((formBag.uischema.elements[0] as SpinnerElement).options?.label).toBe('Loading...');
-      expect((formBag.uischema.elements[0] as SpinnerElement).options?.valueText).toBe('Loading...');
-      expect(formBag.uischema.elements[1].type).toBe('SuccessCallback');
-      expect((formBag.uischema.elements[1] as SuccessCallback).options?.data)
-        .toEqual({ status: IdxStatus.SUCCESS, tokens: mockTokens });
+      expect(formBag.uischema.elements.length).toBe(2);
+      expect(formBag).toMatchSnapshot();
     });
 
     it('should add successCallback renderer for interaction code flow in remediation mode', () => {
@@ -121,16 +109,8 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
       widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true, codeChallenge: 'bbccdde' };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
-      expect(formBag.uischema.elements[0].type).toBe('Spinner');
-      expect((formBag.uischema.elements[0] as SpinnerElement).options?.label).toBe('Loading...');
-      expect((formBag.uischema.elements[0] as SpinnerElement).options?.valueText).toBe('Loading...');
-      expect(formBag.uischema.elements[1].type).toBe('SuccessCallback');
-      expect((formBag.uischema.elements[1] as SuccessCallback).options?.data)
-        .toEqual({
-          status: IdxStatus.SUCCESS,
-          interaction_code: transaction.interactionCode,
-          state: mockAuthClient.options.state,
-        });
+      expect(formBag.uischema.elements.length).toBe(2);
+      expect(formBag).toMatchSnapshot();
       expect(mockClearMetaFn).toHaveBeenCalled();
     });
 
@@ -203,8 +183,7 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag.uischema.elements.length).toBe(1);
-    expect(formBag.uischema.elements[0].type).toBe('Link');
-    expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
+    expect(formBag).toMatchSnapshot();
   });
 
   it('should add title when terminal key indicates to return to orig tab', () => {
@@ -217,9 +196,7 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag.uischema.elements.length).toBe(1);
-    expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect((formBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.RETURN_TO_ORIGINAL_TAB_KEY]);
+    expect(formBag).toMatchSnapshot();
   });
 
   it('should add title and back to signin elements for link expired message key', () => {
@@ -232,11 +209,7 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag.uischema.elements.length).toBe(2);
-    expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect((formBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.RETURN_LINK_EXPIRED_KEY]);
-    expect(formBag.uischema.elements[1].type).toBe('Link');
-    expect((formBag.uischema.elements[1] as LinkElement).options?.label).toBe('goback');
+    expect(formBag).toMatchSnapshot();
   });
 
   it('should add title and skip setup link for'
@@ -251,18 +224,11 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag.uischema.elements.length).toBe(2);
-    expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect((formBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.safe.mode.title');
-    expect(formBag.uischema.elements[1].type).toBe('Button');
-    expect((formBag.uischema.elements[1] as ButtonElement).label).toBe('oie.enroll.skip.setup');
-    expect((
-      formBag.uischema.elements[1] as ButtonElement
-    ).options?.step).toBe('skip');
+    expect(formBag).toMatchSnapshot();
   });
 
   it('should add title and try again link for'
-    + ' idx.device.not.activated.consent.denied message key when baseUrl is provided', () => {
-    widgetProps = { baseUrl: 'https://acme.okta1.com' };
+    + ' idx.device.not.activated.consent.denied message key', () => {
     const mockErrorMessage = 'Set up is temporarily unavailable due to server maintenance. Try again later.';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -272,12 +238,7 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag.uischema.elements.length).toBe(2);
-    expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect((formBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED]);
-    expect(formBag.uischema.elements[1].type).toBe('Link');
-    expect((formBag.uischema.elements[1] as LinkElement).options?.label).toBe('oie.try.again');
-    expect((formBag.uischema.elements[1] as LinkElement).options?.href).toBe('https://acme.okta1.com');
+    expect(formBag).toMatchSnapshot();
   });
 
   it('should add title element with message for'
@@ -291,12 +252,12 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag.uischema.elements.length).toBe(1);
-    expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect((formBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.UNLOCK_ACCOUNT_KEY]);
+    expect(formBag).toMatchSnapshot();
   });
 
   it('should add back to signin link for tooManyRequests message key when baseUrl not provided', () => {
+    mockAuthClient = { getIssuerOrigin: () => 'http://localhost:3000/' };
+    widgetProps = { authClient: mockAuthClient };
     const mockErrorMessage = 'Too many requests';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -306,9 +267,34 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag.uischema.elements.length).toBe(1);
-    expect(formBag.uischema.elements[0].type).toBe('Link');
-    expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
-    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe('/');
+    expect(formBag).toMatchSnapshot();
+  });
+
+  it('should not add back to sign in link when cancel is not available', () => {
+    widgetProps = { features: { hideSignOutLinkInMFA: true } };
+    const mockErrorMessage = 'Session expired';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'ERROR',
+      TERMINAL_KEY.SESSION_EXPIRED,
+    ));
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(formBag.uischema.elements.length).toBe(0);
+  });
+
+  it('should add back to sign in link with href when backToSigninUri is set in widget options', () => {
+    widgetProps = { backToSignInLink: '/' };
+    const mockErrorMessage = 'Session expired';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'ERROR',
+      TERMINAL_KEY.SESSION_EXPIRED,
+    ));
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(formBag.uischema.elements.length).toBe(1);
+    expect(formBag).toMatchSnapshot();
   });
 
   it('should set username cookie when successful authentication and rememberMyUsernameOnOIE feature is set', () => {
