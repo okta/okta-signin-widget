@@ -12,16 +12,13 @@
 
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement,
-  ButtonType,
   FieldElement,
-  TitleElement,
   WidgetProps,
 } from 'src/types';
 
 import { transformPasswordChallenge } from './transformPasswordChallenge';
 
-describe.skip('Password Challenge Transformer Tests', () => {
+describe('Password Challenge Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const formBag = getStubFormBag();
   let widgetProps: WidgetProps;
@@ -35,15 +32,7 @@ describe.skip('Password Challenge Transformer Tests', () => {
   it('should add title & submt button elements to ui schema when transforming password challenge step', () => {
     const updatedFormBag = transformPasswordChallenge({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(2);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe('oie.password.challenge.title');
-    expect((updatedFormBag.uischema.elements[1] as ButtonElement).label)
-      .toBe('mfa.challenge.verify');
-    expect((updatedFormBag.uischema.elements[1] as ButtonElement).type)
-      .toBe('Button');
-    expect((updatedFormBag.uischema.elements[1] as ButtonElement).options?.type)
-      .toBe(ButtonType.SUBMIT);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag).toMatchSnapshot();
   });
 });
