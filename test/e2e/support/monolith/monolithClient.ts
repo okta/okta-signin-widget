@@ -1,13 +1,25 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ApiClientConfig, getEmailMessages, getSMSMessages } from '@okta/dockolith';
 import crypto = require('crypto');
-import { UserCredentials } from "./management-api/createCredentials";
-import waitForOneSecond from './wait/waitForOneSecond';
+import { UserCredentials } from "../management-api/createCredentials";
+import waitForOneSecond from '../wait/waitForOneSecond';
 
 export class MonolithClient {
   config: ApiClientConfig;
 
-  constructor(config: ApiClientConfig) {
-    this.config = config;
+  constructor(config?: ApiClientConfig) {
+    if (config) {
+      this.config = config;
+    } else {
+      const {
+        WIDGET_TEST_SERVER,
+        OKTA_CLIENT_TOKEN
+      } = process.env;
+      this.config = {
+        orgUrl: WIDGET_TEST_SERVER!,
+        token: OKTA_CLIENT_TOKEN!
+      };
+    }
   }
 
   async createCredentials(firstName: string, lastName = ''): Promise<UserCredentials>  {

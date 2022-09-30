@@ -16,7 +16,6 @@ import { ITestCaseHookParameter } from '@cucumber/cucumber'
 import { UserCredentials } from '../support/management-api/createCredentials';
 import { A18nConfig } from './a18nClient';
 import A18nClient  from './a18nClient';
-import { MonolithClient } from './monolithClient';
 
 // eslint-disable-next-line no-unused-vars
 declare type SaveScreenshotFunction = (fileName?: string) => Promise<void>;
@@ -27,7 +26,7 @@ interface ActionContext {
   userName?: string;
   config: A18nConfig;
   a18nClient?: A18nClient;
-  monolithClient?: MonolithClient;
+  monolithClient?: any; // cannot use type from private module here
   scenario?: ITestCaseHookParameter;
   saveScreenshot: SaveScreenshotFunction;
 }

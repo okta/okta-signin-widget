@@ -20,20 +20,18 @@ import { waitForLoad } from '../util/waitUtil';
 import A18nClient from '../support/a18nClient';
 import createCredentials from '../support/management-api/createCredentials'
 import createUser from '../support/management-api/createUser'
-import { MonolithClient } from '../support/monolithClient';
-import { ApiClientConfig } from '@okta/dockolith';
+
+let MonolithClient: any;
+if (process.env.LOCAL_MONOLITH) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  MonolithClient = require('../support/monolithClient').MonolithClient;
+}
 
 const {
   WIDGET_TEST_SERVER,
   WIDGET_SPA_CLIENT_ID,
   WIDGET_WEB_CLIENT_ID,
-  OKTA_CLIENT_TOKEN
 } = process.env;
-
-const apiClientConfig: ApiClientConfig = {
-  orgUrl: WIDGET_TEST_SERVER!,
-  token: OKTA_CLIENT_TOKEN!
-};
 
 const interactionCodeFlowconfig = {
   baseUrl: WIDGET_TEST_SERVER,
@@ -79,8 +77,8 @@ Given(
   /^a User named "([^/w]+)" exists in the org$/,
   async function(this: ActionContext, firstName: string) {
     if (process.env.LOCAL_MONOLITH) {
-      this.monolithClient = new MonolithClient(apiClientConfig);
-      this.credentials = await this.monolithClient.createCredentials(firstName);
+      this.monolithClient = new MonolithClient();
+      this.credentials = await this.monolithClient!.createCredentials(firstName);
     } else {
       this.a18nClient = new A18nClient();
       this.credentials = await createCredentials(this.a18nClient, firstName);
@@ -93,7 +91,7 @@ Given(
   /^an a18n profile exists$/,
   async function() {
     if (process.env.LOCAL_MONOLITH) {
-      this.monolithClient = new MonolithClient(apiClientConfig);
+      this.monolithClient = new MonolithClient();
       this.credentials = await this.monolithClient.createCredentials('test');
     } else {
       this.a18nClient = new A18nClient();
@@ -106,8 +104,8 @@ Given(
   /^a User named "([^/w]+)" exists in the org and added to "([^/w]+)" group$/,
   async function(this: ActionContext, firstName: string, groupName: string) {
     if (process.env.LOCAL_MONOLITH) {
-      this.monolithClient = new MonolithClient(apiClientConfig);
-      this.credentials = await this.monolithClient.createCredentials(firstName);
+      this.monolithClient = new MonolithClient();
+      this.credentials = await this.monolithClient!.createCredentials(firstName);
     } else {
       this.a18nClient = new A18nClient();
       this.credentials = await createCredentials(this.a18nClient, firstName);
