@@ -11,7 +11,7 @@ export function routerClassFactory(options: WidgetOptions) {
   let Router: RouterConstructor;
 
   // V1 ("classic") flow will load under these conditions:
-  const v1DefaultFlow = (!options.stateToken && !options.clientId); // Default entry flow on okta-hosted login page
+  const v1DefaultFlow = (!options.stateToken && !options.clientId && !options.proxyIdxResponse); // Default entry flow on okta-hosted login page
   const v1StateTokenFlow = options.stateToken && Util.isV1StateToken(options.stateToken); // Resuming a flow on okta-hosted login page
   const v1OAuthFlow = (options.clientId && options.useClassicEngine === true); // Self hosted widget can set the `useClassicEngine` option to use V1Router
 

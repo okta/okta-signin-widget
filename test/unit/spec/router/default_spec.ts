@@ -25,6 +25,13 @@ describe('default router class factory', () => {
       });
       expect(Router).toBe(V2Router);
     });
+
+    it('proxyIdxResponse: creates a V2 router', () => {
+      const Router = routerClassFactory({
+        proxyIdxResponse: {}
+      });
+      expect(Router).toBe(V2Router);
+    });
   });
 
   describe('OAuth config', () => {

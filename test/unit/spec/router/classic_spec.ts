@@ -20,10 +20,21 @@ describe('classic router class factory', () => {
 
 
     it('V2 stateToken: throws an error', () => {
-      const expectedError = new ConfigError('This version of the Sign-in Widget does not support Identity Engine');
+      const expectedError = new ConfigError('This version of the Sign-in Widget only supports Classic Engine');
       const fn = () => {
         return routerClassFactory({
           stateToken: 'abc' // V2 tokens can be any string, not starting with "00"
+        });
+      };
+
+      expect(fn).toThrow(expectedError);
+    });
+
+    it('proxyIdxResponse: throws an error', () => {
+      const expectedError = new ConfigError('This version of the Sign-in Widget only supports Classic Engine');
+      const fn = () => {
+        return routerClassFactory({
+          proxyIdxResponse: {}
         });
       };
 
