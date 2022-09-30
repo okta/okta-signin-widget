@@ -9,6 +9,8 @@ Feature: Interaction Code Flow
       When user logs in with username and password
       Then user sees the tokens on the page
 
+    # https://oktainc.atlassian.net/browse/OKTA-537523
+    @skip(okta:monolith=true)
     Scenario: User logs in using 3rd party IdP
       Given user opens the login page using "renderEl"
       When user logs in using 3rd party IdP

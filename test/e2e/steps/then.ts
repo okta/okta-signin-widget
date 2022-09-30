@@ -81,6 +81,7 @@ Then(
 Then(
   /^user sees forgot password form$/,
   async function() {
+    this.saveScreenshot('user-sees-forgot-password-form');
     return await PrimaryAuthPage.waitForForgotPassword();
   }
 );

@@ -84,7 +84,7 @@ const conf = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     capabilities: [{
-    
+        
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
@@ -187,7 +187,7 @@ const conf = {
     // Options to be passed to Jasmine.
     jasmineOpts: {
         defaultTimeoutInterval: 60000
-    }
+    },
     //
     // =====
     // Hooks
@@ -201,8 +201,13 @@ const conf = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+      // Enable skipping certain tests when running against local monolith
+      // Can be removed when epic is complete: https://oktainc.atlassian.net/browse/OKTA-528454
+      capabilities.forEach(cap => {
+        cap['okta:monolith'] = !!process.env.LOCAL_MONOLITH;
+      });
+    },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
      * for that worker as well as modify runtime environments in an async fashion.

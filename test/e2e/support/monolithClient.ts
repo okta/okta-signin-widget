@@ -25,10 +25,40 @@ export class MonolithClient {
     return credentials;
   }
 
+  async getLatestEmail(emailAddress: string) {
+    let retryAttemptsRemaining = 5;
+    let content;
+    while (!content && retryAttemptsRemaining > 0) {
+      await waitForOneSecond();
+      const messages = await getEmailMessages(this.config, emailAddress);
+      content = messages[0].html;
+      --retryAttemptsRemaining;
+    }
+    if (!content) {
+      throw new Error('Unable to retrieve latest email');
+    }
+    //console.log('getLatestEmail', content);
+    return content;
+  }
+
+  async getLatestSMS(phoneNumber: string) {
+    let retryAttemptsRemaining = 5;
+    let content;
+    while (!content && retryAttemptsRemaining > 0) {
+      await waitForOneSecond();
+      const messages = await getSMSMessages(this.config, phoneNumber);
+      content = messages[0].text;
+      --retryAttemptsRemaining;
+    }
+    if (!content) {
+      throw new Error('Unable to retrieve latest SMS');
+    }
+    //console.log('getLatestSMS', content);
+    return content;
+  }
+
   async getEmailCode(emailAddress: string) {
-    const messages = await getEmailMessages(this.config, emailAddress);
-    console.error('getEmailCode messages: ', messages);
-    const content = messages[0].text;
+    const content = await this.getLatestEmail(emailAddress);
 
     const match = content.match(/Enter a code instead: (?<code>\d+)/) ||
       content.match(/enter this code: <b>(?<code>\d+)<\/b>/);
@@ -41,10 +71,7 @@ export class MonolithClient {
   }
 
   async getPasswordResetMagicLink(emailAddress: string) {
-    const messages = await getEmailMessages(this.config, emailAddress);
-    console.error('getPasswordResetMagicLink messages: ', messages);
-    const content = messages[0].text;
-
+    const content = await this.getLatestEmail(emailAddress);
     const match = content?.match(/<a id="reset-password-link" href="(?<url>\S+)"/);
     const url = match?.groups?.url;
     if (!url) {
@@ -55,10 +82,7 @@ export class MonolithClient {
   }
 
   async getUnlockAccountLink(emailAddress: string) {
-
-    const messages = await getEmailMessages(this.config, emailAddress);
-    console.error('getUnlockAccountLink messages: ', messages);
-    const content = messages[0].text;
+    const content = await this.getLatestEmail(emailAddress);
     const match = content?.match(/<a id="unlock-account-link" href="(?<url>\S+)"/);
     const url = match?.groups?.url;
     if (!url) {
@@ -69,10 +93,7 @@ export class MonolithClient {
   }
 
   async getSMSCode(phoneNumber: string) {
-    const messages = await getSMSMessages(this.config, phoneNumber);
-    console.error('getSMSCode messages: ', messages);
-    const content = messages[0].text;
-
+    const content = await this.getLatestSMS(phoneNumber);
     const match = content?.match(/Your verification code is (?<code>\d+)/);
     const code = match?.groups?.code;
     if (!code) {
@@ -83,22 +104,12 @@ export class MonolithClient {
   }
 
   async getEmailMagicLink(emailAddress: string) {
-    let retryAttemptsRemaining = 5;
-    let content;
-    while (!content && retryAttemptsRemaining > 0) {
-      await waitForOneSecond();
-      const messages = await getEmailMessages(this.config, emailAddress);
-      console.error('getEmailMagicLink messages: ', messages);
-      content = messages[0].html;
-      --retryAttemptsRemaining;
-    }
-
+    const content = await this.getLatestEmail(emailAddress);
     const match = content?.match(/<a id="(?:email-authentication-button|email-activation-button|registration-activation-link)" href="(?<url>\S+)"/);
     const url = match?.groups?.url;
     if (!url) {
       throw new Error('Unable to retrieve magic link from email.');
     }
-
     return url;
   }
 }

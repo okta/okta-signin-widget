@@ -9,6 +9,8 @@ Feature: Multi Tabs
       And user opens another instance in a new tab
       Then user sees primary signin form and not forgot password form
 
+    # https://oktainc.atlassian.net/browse/OKTA-537527
+    @skip(okta:monolith=true)
     Scenario: It will share transaction storage between tabs if state is set
       Given state parameter is set in the widget config
       And user opens the login page

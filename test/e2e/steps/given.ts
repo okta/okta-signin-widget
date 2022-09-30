@@ -126,7 +126,7 @@ Given(
 
 Given(
   /^user opens the login page using "(\w+)"$/,
-  async function(buttonName: string) {
+  async function(this: ActionContext, buttonName: string) {
     switch(buttonName) {
       case 'renderEl':
         await TestAppPage.startWithRenderEl.click();
@@ -144,6 +144,7 @@ Given(
         await TestAppPage.showSignInToGetTokens.click();
         break;
     }
+    this.saveScreenshot(`user-opens-login-page-using-${buttonName}`);
     return await waitForLoad(TestAppPage.widget);
   }
 );

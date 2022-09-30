@@ -1,3 +1,5 @@
+# https://oktainc.atlassian.net/browse/OKTA-537529
+@skip(okta:monolith=true)
 Feature: Self Service Unlock
 
   Background:
