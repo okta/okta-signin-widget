@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /*!
  * Copyright (c) 2015-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -152,14 +153,16 @@ When (
 
 When(
   /^user clicks the email magic link$/,
-  async function() {
+  // eslint-disable-next-line no-unused-vars
+  async function(this: ActionContext) {
     let emailMagicLink;
     if (process.env.LOCAL_MONOLITH) {
-      emailMagicLink = await this.monolithClient.getEmailMagicLink(this.credentials.emailAddress);
+      emailMagicLink = await this.monolithClient!.getEmailMagicLink(this.credentials.emailAddress);
     } else {
-      emailMagicLink = await this.a18nClient.getEmailMagicLink(this.credentials.profileId);
+      emailMagicLink = await this.a18nClient!.getEmailMagicLink(this.credentials.profileId!);
     }
     await browser.url(emailMagicLink);
+    this.saveScreenshot('click-magic-link');
   }
 );
 

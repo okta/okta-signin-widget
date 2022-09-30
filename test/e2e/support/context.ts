@@ -12,10 +12,14 @@
 
 
 import { User } from '@okta/okta-sdk-nodejs';
+import { ITestCaseHookParameter } from '@cucumber/cucumber'
 import { UserCredentials } from '../support/management-api/createCredentials';
 import { A18nConfig } from './a18nClient';
 import A18nClient  from './a18nClient';
 import { MonolithClient } from './monolithClient';
+
+// eslint-disable-next-line no-unused-vars
+declare type SaveScreenshotFunction = (fileName?: string) => Promise<void>;
 
 interface ActionContext {
   credentials: UserCredentials;
@@ -24,6 +28,8 @@ interface ActionContext {
   config: A18nConfig;
   a18nClient?: A18nClient;
   monolithClient?: MonolithClient;
+  scenario?: ITestCaseHookParameter;
+  saveScreenshot: SaveScreenshotFunction;
 }
 
 export default ActionContext;
