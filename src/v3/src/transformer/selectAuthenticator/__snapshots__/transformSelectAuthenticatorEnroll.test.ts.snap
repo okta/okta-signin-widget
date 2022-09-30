@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when step is not skippable 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.setup.required",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "Email",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.id": "123abc",
+          },
+          "ctaLabel": "Select",
+          "description": "Enroll in email authenticator",
+          "key": "okta_email",
+          "step": "select-authenticator-enroll",
+          "type": "button",
+        },
+        "type": "AuthenticatorButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when step is skippable 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.setup.optional",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "Email",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.id": "123abc",
+          },
+          "ctaLabel": "Select",
+          "description": "Enroll in email authenticator",
+          "key": "okta_email",
+          "step": "select-authenticator-enroll",
+          "type": "button",
+        },
+        "type": "AuthenticatorButton",
+      },
+      Object {
+        "label": "oie.optional.authenticator.button.title",
+        "options": Object {
+          "step": "skip",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when step is skippable and brandName is provided 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.subtitle.custom",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.setup.optional",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "Email",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.id": "123abc",
+          },
+          "ctaLabel": "Select",
+          "description": "Enroll in email authenticator",
+          "key": "okta_email",
+          "step": "select-authenticator-enroll",
+          "type": "button",
+        },
+        "type": "AuthenticatorButton",
+      },
+      Object {
+        "label": "oie.optional.authenticator.button.title",
+        "options": Object {
+          "step": "skip",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

@@ -41,8 +41,11 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   const { nextStep: { inputs, name: stepName } = {} as NextStep, availableSteps } = transaction;
 
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
+  if (!authenticator?.options?.length) {
+    return formBag;
+  }
   const authenticatorButtons = getAuthenticatorEnrollButtonElements(
-    authenticator!.options!,
+    authenticator.options,
     stepName,
   );
   const skipStep = availableSteps?.find(({ name }) => name === 'skip');
