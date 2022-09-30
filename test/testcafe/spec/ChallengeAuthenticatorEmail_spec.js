@@ -280,6 +280,8 @@ test
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -313,6 +315,8 @@ test
       authenticatorKey: 'okta_email',
       methodType: 'email',
     });
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
@@ -333,7 +337,10 @@ test
 test
   .requestHooks(validOTPmockNoProfile)('challenge email authenticator screen has right labels when profile is null', async t => {
     const challengeEmailPageObject = await setup(t);
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
+    await t.expect(challengeEmailPageObject.form.getElement('.enter-auth-code-instead-link').exists).eql(false);
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
@@ -360,6 +367,8 @@ test
 test
   .requestHooks(validOTPmockEmptyProfile)('challenge email authenticator screen has right labels when profile is empty', async t => {
     const challengeEmailPageObject = await setup(t);
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
