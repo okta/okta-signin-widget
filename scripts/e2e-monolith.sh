@@ -59,7 +59,7 @@ if ! yarn test:e2e; then
   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
 fi
 finish_log_group $?
-export RUN_FEATURE_TESTS=false
+export RUN_FEATURE_TESTS=""
 
 # Run spec tests on OIE
 create_log_group "Spec E2E OIE"
@@ -77,7 +77,7 @@ finish_log_group $?
 create_log_group "Spec E2E Classic"
 # Disable OIE
 source ./scripts/monolith/disable-oie.sh
-export ORG_OIE_ENABLED=false
+export ORG_OIE_ENABLED=""
 # Run spec tests
 if ! yarn test:e2e; then
   echo "e2e spec tests failed! Exiting..."
