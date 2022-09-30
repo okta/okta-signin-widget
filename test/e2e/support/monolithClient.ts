@@ -12,12 +12,16 @@ export class MonolithClient {
 
   async createCredentials(firstName: string, lastName = ''): Promise<UserCredentials>  {
     lastName = lastName.substring(0, 32);
-    const emailAddress = `${firstName}.${Date.now()}@okta1.com`;
+
+    const rand1 = crypto.randomBytes(16).toString('base64');
+    const rand2 = crypto.randomBytes(16).toString('base64');
+
+    const emailAddress = `${firstName}.${rand1}@okta1.com`;
     const phoneNumber = `+${Date.now().toString().substring(0, 10)}`;
     const credentials = {
       firstName,
       lastName: lastName || `Mc${firstName}face`,
-      password: crypto.randomBytes(16).toString('base64'),
+      password: `$Aa1${rand2}`,
       emailAddress,
       phoneNumber,
     };
