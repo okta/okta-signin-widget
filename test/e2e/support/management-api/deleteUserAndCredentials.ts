@@ -16,12 +16,14 @@ import ActionContext from '../../support/context';
 
 // eslint-disable-next-line no-unused-vars
 export default async function(this: ActionContext): Promise<void> {
+    if (process.env.LOCAL_MONOLITH) {
+        // keep users on local monolith to aid with local debugging
+        return;
+    }
+
+    // remove users in live production org
     if (this.credentials) {
-        if (process.env.LOCAL_MONOLITH) {
-            // TODO?
-        } else {
-            await this.a18nClient!.deleteProfile(this.credentials.profileId!);
-        }
+        await this.a18nClient!.deleteProfile(this.credentials.profileId!);
     }
     if (this.user) {
         await deleteUser(this.user);

@@ -153,7 +153,12 @@ When (
 When(
   /^user clicks the email magic link$/,
   async function() {
-    const emailMagicLink = await this.a18nClient.getEmailMagicLink(this.credentials.profileId);
+    let emailMagicLink;
+    if (process.env.LOCAL_MONOLITH) {
+      emailMagicLink = await this.monolithClient.getEmailMagicLink(this.credentials.emailAddress);
+    } else {
+      emailMagicLink = await this.a18nClient.getEmailMagicLink(this.credentials.profileId);
+    }
     await browser.url(emailMagicLink);
   }
 );

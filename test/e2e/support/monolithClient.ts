@@ -1,6 +1,7 @@
 import { ApiClientConfig, getEmailMessages, getSMSMessages } from '@okta/dockolith';
 import crypto = require('crypto');
 import { UserCredentials } from "./management-api/createCredentials";
+import waitForOneSecond from './wait/waitForOneSecond';
 
 export class MonolithClient {
   config: ApiClientConfig;
@@ -79,5 +80,25 @@ export class MonolithClient {
     }
     console.error('extracted code: ', code);
     return code;
+  }
+
+  async getEmailMagicLink(emailAddress: string) {
+    let retryAttemptsRemaining = 5;
+    let content;
+    while (!content && retryAttemptsRemaining > 0) {
+      await waitForOneSecond();
+      const messages = await getEmailMessages(this.config, emailAddress);
+      console.error('getEmailMagicLink messages: ', messages);
+      content = messages[0].html;
+      --retryAttemptsRemaining;
+    }
+
+    const match = content?.match(/<a id="(?:email-authentication-button|email-activation-button|registration-activation-link)" href="(?<url>\S+)"/);
+    const url = match?.groups?.url;
+    if (!url) {
+      throw new Error('Unable to retrieve magic link from email.');
+    }
+
+    return url;
   }
 }
