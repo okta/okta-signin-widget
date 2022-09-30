@@ -73,16 +73,17 @@ if ! yarn test:e2e; then
 fi
 finish_log_group $?
 
+# We are not currently running OIDC tests against classic backend
 # Run spec tests on Classic
-create_log_group "Spec E2E Classic"
-# Disable OIE
-source ./scripts/monolith/disable-oie.sh
-export ORG_OIE_ENABLED=""
-# Run spec tests
-if ! yarn test:e2e; then
-  echo "e2e spec tests failed! Exiting..."
-  exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
-fi
-finish_log_group $?
+# create_log_group "Spec E2E Classic"
+# # Disable OIE
+# source ./scripts/monolith/disable-oie.sh
+# export ORG_OIE_ENABLED=""
+# # Run spec tests
+# if ! yarn test:e2e; then
+#   echo "e2e spec tests failed! Exiting..."
+#   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+# fi
+# finish_log_group $?
 
 exit ${PUBLISH_TYPE_AND_RESULT_DIR};
