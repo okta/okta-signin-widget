@@ -10,29 +10,34 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ActivationData, ChallengeData, IdxAuthenticator } from '@okta/okta-auth-js';
+import {
+  ActivationData,
+  ChallengeData,
+  IdxAuthenticator,
+  IdxContext,
+} from '@okta/okta-auth-js';
 import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import { FormBag, WidgetProps } from 'src/types';
 
 import { transformWebAuthNAuthenticator } from '.';
 
-let mockIsEdgeBrowser = false;
-let mockIsSafariBrowser = false;
+const mockIsEdgeBrowser = jest.fn().mockReturnValue(false);
+const mockIsSafariBrowser = jest.fn().mockReturnValue(false);
 jest.mock('../../../../util/BrowserFeatures', () => ({
-  isEdge: () => jest.fn().mockReturnValue(mockIsEdgeBrowser),
-  isSafari: () => jest.fn().mockReturnValue(mockIsSafariBrowser),
+  isEdge: () => mockIsEdgeBrowser(),
+  isSafari: () => mockIsSafariBrowser(),
 }));
 
-describe.skip('WebAuthN Transformer Tests', () => {
+describe('WebAuthN Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
   let formBag: FormBag;
   let mockCredentialsContainer: CredentialsContainer;
 
   beforeEach(() => {
-    mockIsEdgeBrowser = false;
-    mockIsSafariBrowser = false;
+    mockIsEdgeBrowser.mockReturnValue(false);
+    mockIsSafariBrowser.mockReturnValue(false);
   });
 
   afterAll(() => {
@@ -46,6 +51,7 @@ describe.skip('WebAuthN Transformer Tests', () => {
         name: IDX_STEP.ENROLL_AUTHENTICATOR,
         action: jest.fn(),
       };
+      mockIsEdgeBrowser.mockReturnValue(false);
     });
 
     it('should only render title and description elements when WebAuthN API is not available', () => {
@@ -75,21 +81,46 @@ describe.skip('WebAuthN Transformer Tests', () => {
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
+      expect(updatedFormBag.uischema.elements.length).toBe(3);
+      expect(updatedFormBag).toMatchSnapshot();
+    });
+
+    it('should render title, description, button and userVerification required elements when WebAuthN API is available', () => {
+      mockCredentialsContainer = {
+        create: jest.fn().mockResolvedValue({}),
+        get: jest.fn().mockResolvedValue({}),
+        preventSilentAccess: jest.fn(),
+        store: jest.fn(),
+      };
+      const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+      navigatorCredentials.mockReturnValue(
+        { credentials: mockCredentialsContainer } as unknown as Navigator,
+      );
+      transaction.nextStep = {
+        name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        action: jest.fn(),
+        relatesTo: {
+          value: {
+            contextualData: {
+              activationData: {
+                authenticatorSelection: {
+                  userVerification: 'required',
+                },
+              } as unknown as ActivationData,
+            },
+          } as unknown as IdxAuthenticator,
+        },
+      };
+
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      // Verify added elements
       expect(updatedFormBag.uischema.elements.length).toBe(4);
       expect(updatedFormBag).toMatchSnapshot();
     });
 
     it('should render title, description, button, and callout elements when WebAuthN API is available on MS Edge browser', () => {
-      transaction.nextStep!.relatesTo = {
-        value: {
-          contextualData: {
-            activationData: {
-              authenticatorSelection: { userVerification: 'required' },
-            } as unknown as ActivationData,
-          },
-        } as unknown as IdxAuthenticator,
-      };
-      mockIsEdgeBrowser = true;
+      mockIsEdgeBrowser.mockReturnValue(true);
       mockCredentialsContainer = {
         create: jest.fn().mockResolvedValue({}),
         get: jest.fn().mockResolvedValue({}),
@@ -104,7 +135,7 @@ describe.skip('WebAuthN Transformer Tests', () => {
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
       expect(updatedFormBag).toMatchSnapshot();
     });
   });
@@ -147,7 +178,26 @@ describe.skip('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag).toMatchSnapshot();
     });
 
-    it('should render title, description, button, and callout elements when WebAuthN API is available in Safari Browser', () => {
+    it('should render title, description, button and can\'t verify link elements for appName = Okta_Authenticaotr when WebAuthN API is available', () => {
+      transaction.context.app = { value: { name: 'Okta_Authenticator' } } as unknown as IdxContext['app'];
+      mockCredentialsContainer = {
+        create: jest.fn().mockResolvedValue({}),
+        get: jest.fn().mockResolvedValue({}),
+        preventSilentAccess: jest.fn(),
+        store: jest.fn(),
+      };
+      const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+      navigatorCredentials.mockReturnValue(
+        { credentials: mockCredentialsContainer } as unknown as Navigator,
+      );
+      const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
+
+      // Verify added elements
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect(updatedFormBag).toMatchSnapshot();
+    });
+
+    it('should render title, description, button, and user verification elements when WebAuthN API is available in Safari Browser', () => {
       transaction.nextStep!.relatesTo = {
         value: {
           contextualData: {
@@ -157,7 +207,7 @@ describe.skip('WebAuthN Transformer Tests', () => {
           },
         } as unknown as IdxAuthenticator,
       };
-      mockIsSafariBrowser = true;
+      mockIsSafariBrowser.mockReturnValue(true);
       mockCredentialsContainer = {
         create: jest.fn().mockResolvedValue({}),
         get: jest.fn().mockResolvedValue({}),
