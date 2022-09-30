@@ -48,8 +48,8 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
       activate: true
     });
 
-    // Dump user info to help with local debugging
-    process.env.LOCAL_MONOLITH && console.log('Created user: ', user);
+    // Dump user ID to help with local debugging
+    process.env.LOCAL_MONOLITH && console.log('Created user: ', user.id);
 
     // Create the group if it doesn't exist
     let {value: testGroup} = await oktaClient.listGroups({
