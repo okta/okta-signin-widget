@@ -21,7 +21,7 @@ export class MonolithClient {
     const credentials = {
       firstName,
       lastName: lastName || `Mc${firstName}face`,
-      password: `$Aa1${rand2}`,
+      password: `Aa1${rand2}`,
       emailAddress,
       phoneNumber,
     };
