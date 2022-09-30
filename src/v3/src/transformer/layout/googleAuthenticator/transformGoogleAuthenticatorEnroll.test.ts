@@ -19,7 +19,7 @@ import {
 
 import { transformGoogleAuthenticatorEnroll } from '.';
 
-describe.skip('Google Authenticator Enroll Transformer Tests', () => {
+describe('Google Authenticator Enroll Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
   const formBag = getStubFormBag();

@@ -12,11 +12,7 @@
 
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement,
-  ButtonType,
-  DescriptionElement,
   FieldElement,
-  TitleElement,
   WidgetProps,
 } from 'src/types';
 
@@ -39,15 +35,6 @@ describe('Google Authenticator Verify Transformer Tests', () => {
     });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-      .toBe('oie.verify.google_authenticator.otp.title');
-    expect(updatedFormBag.uischema.elements[1]?.type).toBe('Description');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.verify.google_authenticator.otp.description');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
-      .toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
-      .toBe(ButtonType.SUBMIT);
+    expect(updatedFormBag).toMatchSnapshot();
   });
 });
