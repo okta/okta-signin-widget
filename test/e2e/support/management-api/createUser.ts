@@ -49,7 +49,11 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
     });
 
     // Dump user ID to help with local debugging
-    process.env.LOCAL_MONOLITH && console.log('Created user: ', user.id);
+    if (process.env.LOCAL_MONOLITH) {
+      const adminUrl = config.orgUrl?.replace('.okta1.com', '-admin.okta1.com');
+      const userUrl = `${adminUrl}/admin/user/profile/view/${user.id}`;
+      console.log('Created user: ', user.id, `${config.orgUrl}`, userUrl);
+    }
 
     // Create the group if it doesn't exist
     let {value: testGroup} = await oktaClient.listGroups({

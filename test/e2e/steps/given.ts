@@ -24,7 +24,7 @@ import createUser from '../support/management-api/createUser'
 let MonolithClient: any;
 if (process.env.LOCAL_MONOLITH) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  MonolithClient = require('../support/monolithClient').MonolithClient;
+  MonolithClient = require('../support/monolith/monolithClient').MonolithClient;
 }
 
 const {
