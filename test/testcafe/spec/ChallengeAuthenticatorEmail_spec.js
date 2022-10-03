@@ -280,6 +280,8 @@ test
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -313,6 +315,8 @@ test
       authenticatorKey: 'okta_email',
       methodType: 'email',
     });
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
@@ -321,10 +325,8 @@ test
     await t.expect(saveBtnText).eql('Verify');
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
-    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
-    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -335,17 +337,18 @@ test
 test
   .requestHooks(validOTPmockNoProfile)('challenge email authenticator screen has right labels when profile is null', async t => {
     const challengeEmailPageObject = await setup(t);
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
+    await t.expect(challengeEmailPageObject.form.getElement('.enter-auth-code-instead-link').exists).eql(false);
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
-    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
   });
 
 test
@@ -364,16 +367,16 @@ test
 test
   .requestHooks(validOTPmockEmptyProfile)('challenge email authenticator screen has right labels when profile is empty', async t => {
     const challengeEmailPageObject = await setup(t);
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
-    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
   });
 
 test
@@ -383,6 +386,18 @@ test
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
+    await challengeEmailPageObject.waitForErrorBox();
+    await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
+  });
+
+test
+  .requestHooks(invalidOTPMock)('challenge email authenticator with invalid OTP', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
+    await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
+    await challengeEmailPageObject.pressEnter();
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
