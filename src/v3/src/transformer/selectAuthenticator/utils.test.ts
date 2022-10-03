@@ -220,8 +220,16 @@ describe('Select Authenticator Utility Tests', () => {
 
       const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
 
-      expect(authenticatorOptionValues.length).toBe(2);
       expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(2);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[0].label).toBe('Code');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.actionParams!['authenticator.methodType']).toBe('totp');
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[1].label).toBe('Push');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.actionParams!['authenticator.methodType']).toBe('push');
     });
   });
 
@@ -283,8 +291,14 @@ describe('Select Authenticator Utility Tests', () => {
       }];
       const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options, stepName);
 
-      expect(authenticatorOptionValues.length).toBe(1);
       expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(1);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.ON_PREM);
+      expect(authenticatorOptionValues[0].label).toBe('On Prem');
+      expect(authenticatorOptionValues[0].options.ctaLabel)
+        .toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.description)
+        .toBe(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.ON_PREM]);
     });
 
     it('should return formatted Okta Verify method type options '
@@ -312,8 +326,15 @@ describe('Select Authenticator Utility Tests', () => {
 
       const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options, stepName);
 
-      expect(authenticatorOptionValues.length).toBe(2);
       expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(2);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[0].label).toBe('Code');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.actionParams!['authenticator.methodType']).toBe('totp');
+      expect(authenticatorOptionValues[1].label).toBe('Push');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.actionParams!['authenticator.methodType']).toBe('push');
     });
   });
 });

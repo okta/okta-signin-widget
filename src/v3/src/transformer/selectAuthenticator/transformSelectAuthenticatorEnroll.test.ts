@@ -15,7 +15,10 @@ import { AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   AuthenticatorButtonElement,
+  ButtonElement,
   ButtonType,
+  DescriptionElement,
+  TitleElement,
   WidgetProps,
 } from 'src/types';
 
@@ -92,8 +95,27 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.select.authenticators.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe('oie.select.authenticators.enroll.subtitle');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.setup.optional');
+    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
+      .options.actionParams?.['authenticator.id'])).toBe('123abc');
+
+    expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+      .toBe('oie.optional.authenticator.button.title');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.step)
+      .toBe('skip');
   });
 
   it('should transform authenticator elements when step is not skippable', () => {
@@ -101,8 +123,23 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.select.authenticators.enroll.title');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe('oie.select.authenticators.enroll.subtitle');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.setup.required');
+    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.step)
+      .toBe('select-authenticator-enroll');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.type)
+      .toBe(ButtonType.BUTTON);
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
+      .options.actionParams?.['authenticator.id'])).toBe('123abc');
   });
 
   it('should transform authenticator elements when step is skippable and brandName is provided', () => {
@@ -113,7 +150,27 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.select.authenticators.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe('oie.select.authenticators.enroll.subtitle.custom');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.setup.optional');
+    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
+      .options.actionParams?.['authenticator.id'])).toBe('123abc');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.step)
+      .toBe('select-authenticator-enroll');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.type)
+      .toBe(ButtonType.BUTTON);
+    expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+      .toBe('oie.optional.authenticator.button.title');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
   });
 });
