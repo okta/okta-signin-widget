@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform elements when method type is push and has enhanced security when resend is unavailable 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.numberchallenge.instruction",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "SVGIcon": "MockSVGIcon",
+          "id": "code",
+          "textContent": "42",
+        },
+        "type": "ImageWithText",
+      },
+      Object {
+        "options": Object {
+          "label": "Loading...",
+          "valueText": "Loading...",
+        },
+        "type": "Spinner",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform elements when method type is push and has enhanced security with resend avaialable 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "actionParams": Object {
+            "resend": true,
+          },
+          "buttonText": "email.button.resend",
+          "content": "oie.numberchallenge.warning",
+          "isActionStep": true,
+          "step": "resend",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.numberchallenge.instruction",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "SVGIcon": "MockSVGIcon",
+          "id": "code",
+          "textContent": "42",
+        },
+        "type": "ImageWithText",
+      },
+      Object {
+        "options": Object {
+          "label": "Loading...",
+          "valueText": "Loading...",
+        },
+        "type": "Spinner",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform elements when method type is standard push only 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oktaverify.warning",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "label": "Loading...",
+          "valueText": "Loading...",
+        },
+        "type": "Spinner",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
