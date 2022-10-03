@@ -11,7 +11,7 @@
  */
 
 import { AuthApiError } from '@okta/okta-auth-js';
-import { WidgetProps } from 'src/types';
+import { InfoboxElement, WidgetProps } from 'src/types';
 
 import { transformUnhandledErrors } from './transformUnhandledErrors';
 
@@ -32,8 +32,12 @@ describe('Unhandled Error Transformer Tests', () => {
   it('should add Infobox with unexpected error message when error is not provided', () => {
     const formBag = transformUnhandledErrors(widgetProps);
 
-    expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(1);
+    const el = formBag.uischema.elements[0] as InfoboxElement;
+    expect(el.type).toBe('InfoBox');
+    expect(el.options?.message).toBe('oform.error.unexpected');
+    expect(el.options?.class).toBe('ERROR');
   });
 
   it('should add info box when response is invalid recovery token error', () => {
@@ -45,8 +49,13 @@ describe('Unhandled Error Transformer Tests', () => {
     };
     const formBag = transformUnhandledErrors(widgetProps, apiError);
 
-    expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(1);
+    expect(formBag.uischema.elements[0].type).toBe('InfoBox');
+    expect((formBag.uischema.elements[0] as InfoboxElement).options?.message).toBe('oie.invalid.recovery.token');
+    expect((
+      formBag.uischema.elements[0] as InfoboxElement
+    ).options?.class).toBe('ERROR');
   });
 
   it('should add info box when oie is not enabled error', () => {
@@ -58,8 +67,12 @@ describe('Unhandled Error Transformer Tests', () => {
     };
     const formBag = transformUnhandledErrors(widgetProps, apiError);
 
-    expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(1);
+    const el = formBag.uischema.elements[0] as InfoboxElement;
+    expect(el.type).toBe('InfoBox');
+    expect(el.options?.message).toBe('oie.feature.disabled');
+    expect(el.options?.class).toBe('ERROR');
   });
 
   it('should add info box when oie configuration error', () => {
@@ -71,7 +84,11 @@ describe('Unhandled Error Transformer Tests', () => {
     };
     const formBag = transformUnhandledErrors(widgetProps, apiError);
 
-    expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(1);
+    const el = formBag.uischema.elements[0] as InfoboxElement;
+    expect(el.type).toBe('InfoBox');
+    expect(el.options?.message).toBe('oie.configuration.error');
+    expect(el.options?.class).toBe('ERROR');
   });
 });
