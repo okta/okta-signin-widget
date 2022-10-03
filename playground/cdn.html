@@ -14,7 +14,16 @@
       var config = {
         el: '#okta-login-container',
         baseUrl: 'http://localhost:3000',
-        stateToken: 'abc'
+
+        // OIE config
+        stateToken: 'abc',
+
+        // Classic config
+        // stateToken: '00abc',
+        // useClassicEngine: true,
+        // features: {
+        //   router: false
+        // }
       };
       var signIn = new OktaSignIn(config);
       signIn.renderEl();
