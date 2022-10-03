@@ -13,4 +13,8 @@ export default class BaseFormObjectV3 extends BaseFormObject {
   getErrorBoxText() {
     return this.el.find(FORM_INFOBOX_ERROR_SELECTOR).innerText;
   }
+
+  getAllErrorBoxTexts() {
+    return this.getInnerTexts(FORM_INFOBOX_ERROR_SELECTOR);
+  }
 }

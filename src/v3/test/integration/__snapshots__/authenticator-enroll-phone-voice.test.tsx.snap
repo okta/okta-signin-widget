@@ -23,6 +23,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
             />
             <div
               class="iconContainer mfa-okta-phone authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinPhoneAuthenticator"

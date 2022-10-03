@@ -123,6 +123,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-okta-password MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="okta_password_0"
@@ -203,6 +204,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-okta-phone MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="phone_number_1"
@@ -293,6 +295,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-webauthn MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="webauthn_2"
@@ -393,6 +396,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-okta-security-question MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="security_question_3"
@@ -473,6 +477,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-okta-verify MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="okta_verify_4"
@@ -550,6 +555,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-google-auth MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="google_otp_5"
@@ -702,6 +708,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-onprem MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="onprem_mfa_6"
@@ -782,6 +789,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-rsa MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="rsa_token_7"
@@ -856,6 +864,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-duo MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="duo_8"
@@ -932,6 +941,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-custom-factor MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="external_idp_9"
@@ -1017,6 +1027,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-hotp MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="custom_otp_10"
@@ -1102,6 +1113,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-symantec MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="symantec_vip_11"
@@ -1184,6 +1196,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-yubikey MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="yubikey_token_12"

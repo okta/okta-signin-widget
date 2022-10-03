@@ -23,6 +23,7 @@ exports[`webauthn-enroll should render form 1`] = `
             />
             <div
               class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinWebauthnAuthenticator"
@@ -223,6 +224,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
             />
             <div
               class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinWebauthnAuthenticator"
@@ -405,6 +407,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
             />
             <div
               class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinWebauthnAuthenticator"

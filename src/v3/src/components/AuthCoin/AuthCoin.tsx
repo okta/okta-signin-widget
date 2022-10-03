@@ -62,7 +62,10 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
   }
 
   return authCoinConfig && (
-    <Box className={containerClasses}>
+    <Box
+      className={containerClasses}
+      data-se="factor-beacon"
+    >
       { createAuthCoinIcon() }
     </Box>
   );

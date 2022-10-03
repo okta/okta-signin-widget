@@ -23,6 +23,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
             />
             <div
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinEmailAuthenticator"

@@ -69,6 +69,8 @@ const Link: UISchemaElementComponent<{
         <LinkMui
           href={href}
           ref={focusRef}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...(dataSe && { 'data-se': dataSe } )}
         >
           {label}
         </LinkMui>

@@ -123,6 +123,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-okta-password MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="okta_password_0"
@@ -203,6 +204,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-okta-phone MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="phone_number_1"
@@ -293,6 +295,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <div
                         class="iconContainer mfa-webauthn MuiBox-root emotion-7"
+                        data-se="factor-beacon"
                       >
                         <svg
                           aria-labelledby="webauthn_2"

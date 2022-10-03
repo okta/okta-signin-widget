@@ -23,6 +23,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -1346,7 +1347,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                         </select>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-20"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-20"
                           data-testid="ArrowDropDownIcon"
                           focusable="false"
                           viewBox="0 0 24 24"
