@@ -401,7 +401,7 @@ test
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
-});
+  });
 
 test
   .requestHooks(invalidOTPMockWithPoll)('challenge email authenticator - ensure poll does not clear invalid OTP error', async t => {
