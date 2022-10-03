@@ -147,7 +147,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root emotion-19"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-19"
                     >
                       
                       <div
@@ -1749,7 +1749,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root emotion-19"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-19"
                     >
                       
                       <div
