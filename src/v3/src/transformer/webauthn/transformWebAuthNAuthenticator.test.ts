@@ -15,10 +15,18 @@ import {
   ChallengeData,
   IdxAuthenticator,
   IdxContext,
+  IdxTransaction,
 } from '@okta/okta-auth-js';
 import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, WidgetProps } from 'src/types';
+import {
+  AccordionLayout,
+  DescriptionElement,
+  FormBag,
+  TitleElement,
+  WebAuthNButtonElement,
+  WidgetProps,
+} from 'src/types';
 
 import { transformWebAuthNAuthenticator } from '.';
 
@@ -30,8 +38,8 @@ jest.mock('../../../../util/BrowserFeatures', () => ({
 }));
 
 describe('WebAuthN Transformer Tests', () => {
-  const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
+  let transaction: IdxTransaction;
   let formBag: FormBag;
   let mockCredentialsContainer: CredentialsContainer;
 
@@ -46,6 +54,7 @@ describe('WebAuthN Transformer Tests', () => {
 
   describe('WebAuthN Enroll Tests', () => {
     beforeEach(() => {
+      transaction = getStubTransactionWithNextStep();
       formBag = getStubFormBag(IDX_STEP.ENROLL_AUTHENTICATOR);
       transaction.nextStep = {
         name: IDX_STEP.ENROLL_AUTHENTICATOR,
@@ -62,8 +71,12 @@ describe('WebAuthN Transformer Tests', () => {
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
-      expect(updatedFormBag.uischema.elements.length).toBe(2);
       expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(2);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.webauthn.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.webauthn.error.not.supported');
     });
 
     it('should render title, description and button elements when WebAuthN API is available', () => {
@@ -81,8 +94,17 @@ describe('WebAuthN Transformer Tests', () => {
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
-      expect(updatedFormBag.uischema.elements.length).toBe(3);
       expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(3);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.webauthn.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.enroll.webauthn.instructions');
+      expect(updatedFormBag.uischema.elements[2].type).toBe('WebAuthNSubmitButton');
+      expect((updatedFormBag.uischema.elements[2] as WebAuthNButtonElement).options.step)
+        .toBe('enroll-authenticator');
+      expect((updatedFormBag.uischema.elements[2] as WebAuthNButtonElement).options.submitOnLoad)
+        .toBe(false);
     });
 
     it('should render title, description, button and userVerification required elements when WebAuthN API is available', () => {
@@ -115,8 +137,19 @@ describe('WebAuthN Transformer Tests', () => {
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
       expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.webauthn.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.enroll.webauthn.instructions');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+        .toBe('oie.enroll.webauthn.uv.required.instructions');
+      expect(updatedFormBag.uischema.elements[3].type).toBe('WebAuthNSubmitButton');
+      expect((updatedFormBag.uischema.elements[3] as WebAuthNButtonElement).options.step)
+        .toBe('enroll-authenticator');
+      expect((updatedFormBag.uischema.elements[3] as WebAuthNButtonElement).options.submitOnLoad)
+        .toBe(false);
     });
 
     it('should render title, description, button, and callout elements when WebAuthN API is available on MS Edge browser', () => {
@@ -135,13 +168,25 @@ describe('WebAuthN Transformer Tests', () => {
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
       expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.webauthn.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.enroll.webauthn.instructions');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+        .toBe('oie.enroll.webauthn.instructions.edge');
+      expect(updatedFormBag.uischema.elements[3].type).toBe('WebAuthNSubmitButton');
+      expect((updatedFormBag.uischema.elements[3] as WebAuthNButtonElement).options.step)
+        .toBe('enroll-authenticator');
+      expect((updatedFormBag.uischema.elements[3] as WebAuthNButtonElement).options.submitOnLoad)
+        .toBe(false);
     });
   });
 
   describe('WebAuthN Challenge Tests', () => {
     beforeEach(() => {
+      transaction = getStubTransactionWithNextStep();
       formBag = getStubFormBag(IDX_STEP.CHALLENGE_AUTHENTICATOR);
       transaction.nextStep = {
         name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
@@ -156,8 +201,16 @@ describe('WebAuthN Transformer Tests', () => {
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
-      expect(updatedFormBag.uischema.elements.length).toBe(3);
       expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(3);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.verify.webauth.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.webauthn.error.not.supported');
+      expect(updatedFormBag.uischema.elements[2].type).toBe('Accordion');
+      expect((updatedFormBag.uischema.elements[2] as AccordionLayout).elements.length).toBe(1);
+      expect((updatedFormBag.uischema.elements[2] as AccordionLayout).elements[0].options.summary)
+        .toBe('oie.verify.webauthn.cant.verify');
     });
 
     it('should render title, description and button elements when WebAuthN API is available', () => {
@@ -174,8 +227,23 @@ describe('WebAuthN Transformer Tests', () => {
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
       expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.verify.webauth.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.verify.webauthn.instructions');
+      expect(updatedFormBag.uischema.elements[2].type).toBe('WebAuthNSubmitButton');
+      expect((updatedFormBag.uischema.elements[2] as WebAuthNButtonElement).options.step)
+        .toBe('challenge-authenticator');
+      expect((updatedFormBag.uischema.elements[2] as WebAuthNButtonElement).options.submitOnLoad)
+        .toBe(true);
+      expect(updatedFormBag.uischema.elements[3].type).toBe('Accordion');
+      expect((updatedFormBag.uischema.elements[3] as AccordionLayout).elements.length).toBe(1);
+      expect((updatedFormBag.uischema.elements[3] as AccordionLayout).elements[0].options.summary)
+        .toBe('oie.verify.webauthn.cant.verify');
+      expect((updatedFormBag.uischema.elements[3] as AccordionLayout)
+        .elements[0].options.content.elements.length).toBe(5);
     });
 
     it('should render title, description, button and can\'t verify link elements for appName = Okta_Authenticaotr when WebAuthN API is available', () => {
@@ -193,8 +261,23 @@ describe('WebAuthN Transformer Tests', () => {
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
       expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.verify.webauth.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.verify.webauthn.instructions');
+      expect(updatedFormBag.uischema.elements[2].type).toBe('WebAuthNSubmitButton');
+      expect((updatedFormBag.uischema.elements[2] as WebAuthNButtonElement).options.step)
+        .toBe('challenge-authenticator');
+      expect((updatedFormBag.uischema.elements[2] as WebAuthNButtonElement).options.submitOnLoad)
+        .toBe(true);
+      expect(updatedFormBag.uischema.elements[3].type).toBe('Accordion');
+      expect((updatedFormBag.uischema.elements[3] as AccordionLayout).elements.length).toBe(1);
+      expect((updatedFormBag.uischema.elements[3] as AccordionLayout).elements[0].options.summary)
+        .toBe('oie.verify.webauthn.cant.verify');
+      expect((updatedFormBag.uischema.elements[3] as AccordionLayout)
+        .elements[0].options.content.elements.length).toBe(1);
     });
 
     it('should render title, description, button, and user verification elements when WebAuthN API is available in Safari Browser', () => {
@@ -222,8 +305,25 @@ describe('WebAuthN Transformer Tests', () => {
       const updatedFormBag = transformWebAuthNAuthenticator({ transaction, formBag, widgetProps });
 
       // Verify added elements
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
       expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('oie.verify.webauth.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.verify.webauthn.instructions');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+        .toBe('oie.verify.webauthn.uv.required.instructions');
+      expect(updatedFormBag.uischema.elements[3].type).toBe('WebAuthNSubmitButton');
+      expect((updatedFormBag.uischema.elements[3] as WebAuthNButtonElement).options.step)
+        .toBe('challenge-authenticator');
+      expect((updatedFormBag.uischema.elements[3] as WebAuthNButtonElement).options.submitOnLoad)
+        .toBe(false);
+      expect(updatedFormBag.uischema.elements[4].type).toBe('Accordion');
+      expect((updatedFormBag.uischema.elements[4] as AccordionLayout).elements.length).toBe(1);
+      expect((updatedFormBag.uischema.elements[4] as AccordionLayout).elements[0].options.summary)
+        .toBe('oie.verify.webauthn.cant.verify');
+      expect((updatedFormBag.uischema.elements[4] as AccordionLayout)
+        .elements[0].options.content.elements.length).toBe(5);
     });
   });
 });

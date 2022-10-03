@@ -295,15 +295,37 @@ Object {
                 "elements": Array [
                   Object {
                     "options": Object {
-                      "items": Array [
-                        "oie.verify.webauthn.cant.verify.enrollment.step1",
-                        "oie.verify.webauthn.cant.verify.enrollment.step2",
-                        "oie.verify.webauthn.cant.verify.enrollment.step3",
-                        "oie.verify.webauthn.cant.verify.enrollment.step4",
-                      ],
-                      "type": "ordered",
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.title",
+                      "level": 6,
+                      "visualLevel": 3,
                     },
-                    "type": "List",
+                    "type": "Heading",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description1",
+                    },
+                    "type": "Description",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description2",
+                    },
+                    "type": "Description",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.security.key.title",
+                      "level": 6,
+                      "visualLevel": 3,
+                    },
+                    "type": "Heading",
+                  },
+                  Object {
+                    "options": Object {
+                      "content": "oie.verify.webauthn.cant.verify.security.key.description",
+                    },
+                    "type": "Description",
                   },
                 ],
                 "type": "VerticalLayout",
