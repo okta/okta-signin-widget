@@ -392,6 +392,18 @@ test
   });
 
 test
+.requestHooks(invalidOTPMock)('challenge email authenticator with invalid OTP', async t => {
+  const challengeEmailPageObject = await setup(t);
+  await challengeEmailPageObject.clickEnterCodeLink();
+
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
+  await challengeEmailPageObject.pressEnter();
+  await challengeEmailPageObject.waitForErrorBox();
+  await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+  await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
+});
+
+test
   .requestHooks(invalidOTPMockWithPoll)('challenge email authenticator - ensure poll does not clear invalid OTP error', async t => {
     const challengeEmailPageObject = await setup(t);
     await challengeEmailPageObject.clickEnterCodeLink();

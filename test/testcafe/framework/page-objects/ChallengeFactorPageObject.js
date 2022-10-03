@@ -30,6 +30,10 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.clickSaveButton();
   }
 
+  pressEnter() {
+    return this.t.pressKey('enter');
+  }
+
   /**
    * @deprecated {@see this.form.getTitle}
    */
