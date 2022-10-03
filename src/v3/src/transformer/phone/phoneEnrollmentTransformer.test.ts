@@ -18,7 +18,7 @@ import {
 
 import { transformPhoneEnrollment } from '.';
 
-describe.skip('PhoneEnrollmentTransformer Tests', () => {
+describe('PhoneEnrollmentTransformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
   const formBag = getStubFormBag();
@@ -49,6 +49,56 @@ describe.skip('PhoneEnrollmentTransformer Tests', () => {
   });
 
   it('should create phone enrollment UI elements when multiple method types exist in transaction', () => {
+    const updatedFormBag = transformPhoneEnrollment({ transaction, formBag, widgetProps });
+    expect(updatedFormBag).toMatchSnapshot();
+  });
+
+  it('should create phone enrollment UI elements when only sms method types exist in transaction', () => {
+    formBag.uischema.elements = [
+      {
+        type: 'Field',
+        label: 'methodType',
+        options: {
+          inputMeta: {
+            name: 'authenticator.methodType',
+            options: [{
+              value: 'sms',
+              label: 'SMS',
+            }],
+          },
+        },
+      } as FieldElement,
+      {
+        type: 'Field',
+        label: 'Phone number',
+        options: { inputMeta: { name: 'authenticator.phoneNumber' } },
+      } as FieldElement,
+    ];
+    const updatedFormBag = transformPhoneEnrollment({ transaction, formBag, widgetProps });
+    expect(updatedFormBag).toMatchSnapshot();
+  });
+
+  it('should create phone enrollment UI elements when only voice method types exist in transaction', () => {
+    formBag.uischema.elements = [
+      {
+        type: 'Field',
+        label: 'methodType',
+        options: {
+          inputMeta: {
+            name: 'authenticator.methodType',
+            options: [{
+              value: 'voice',
+              label: 'Phone Call',
+            }],
+          },
+        },
+      } as FieldElement,
+      {
+        type: 'Field',
+        label: 'Phone number',
+        options: { inputMeta: { name: 'authenticator.phoneNumber' } },
+      } as FieldElement,
+    ];
     const updatedFormBag = transformPhoneEnrollment({ transaction, formBag, widgetProps });
     expect(updatedFormBag).toMatchSnapshot();
   });

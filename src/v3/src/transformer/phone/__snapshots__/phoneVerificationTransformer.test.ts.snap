@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when phone number not available 1`] = `
+exports[`Phone verification Transformer Tests should add correct UI elements to schema when multiple methodType choices exists and sms is the first methodType choice 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -22,7 +22,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText",
+          "content": "oie.phone.verify.sms.sendText oie.phone.alternate.title",
         },
         "type": "Description",
       },
@@ -33,8 +33,133 @@ Object {
         "type": "Description",
       },
       Object {
-        "label": "mfa.challenge.verify",
+        "label": "oie.phone.sms.primaryButton",
         "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "sms",
+          },
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oie.phone.call.secondaryButton",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "voice",
+          },
+          "step": "",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Phone verification Transformer Tests should add correct UI elements to schema when multiple methodType choices exists and voice is the first methodType choice 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.call.sendText oie.phone.alternate.title",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.phone.call.primaryButton",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "voice",
+          },
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oie.phone.sms.secondaryButton",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "sms",
+          },
+          "step": "",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Phone verification Transformer Tests should add correct UI elements to schema when only sms methodType choice exists 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.sms.sendText oie.phone.alternate.title",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.phone.sms.primaryButton",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "sms",
+          },
           "step": "",
           "type": "submit",
         },
@@ -46,7 +171,7 @@ Object {
 }
 `;
 
-exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when resend code is NOT available 1`] = `
+exports[`Phone verification Transformer Tests should add correct UI elements to schema when only sms methodType choice exists and redacted phoneNumber exists in Idx response  1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -68,7 +193,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.phone.verify.sms.codeSentText +1 XXX-XXX-4601. oie.phone.verify.enterCodeText",
+          "content": "oie.phone.verify.sms.sendText +121xxxxx34",
         },
         "type": "Description",
       },
@@ -79,66 +204,11 @@ Object {
         "type": "Description",
       },
       Object {
-        "label": "mfa.challenge.verify",
-        "options": Object {
-          "step": "mock-step",
-          "type": "submit",
-        },
-        "type": "Button",
-      },
-    ],
-    "type": "VerticalLayout",
-  },
-}
-`;
-
-exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when resend code is available 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToExclude": [Function],
-    "fieldsToTrim": Array [],
-    "fieldsToValidate": Array [],
-    "submit": Object {
-      "step": "challenge-authenticator",
-    },
-  },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
+        "label": "oie.phone.sms.primaryButton",
         "options": Object {
           "actionParams": Object {
-            "resend": true,
+            "authenticator.methodType": "sms",
           },
-          "buttonText": "oie.phone.verify.sms.resendLinkText",
-          "content": "oie.phone.verify.sms.resendText",
-          "isActionStep": true,
-          "step": "resend",
-        },
-        "type": "Reminder",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.phone.verify.title",
-        },
-        "type": "Title",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.phone.verify.sms.codeSentText +1 XXX-XXX-4601. oie.phone.verify.enterCodeText",
-        },
-        "type": "Description",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.phone.carrier.charges",
-        },
-        "type": "Description",
-      },
-      Object {
-        "label": "mfa.challenge.verify",
-        "options": Object {
           "step": "mock-step",
           "type": "submit",
         },
@@ -150,7 +220,7 @@ Object {
 }
 `;
 
-exports[`PhoneChallengeTransformer Tests should create voice challenge UI elements when phoneNumber is available 1`] = `
+exports[`Phone verification Transformer Tests should add correct UI elements to schema when only voice methodType choice exists 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -172,7 +242,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "mfa.calling +1 XXX-XXX-4601. oie.phone.verify.enterCodeText",
+          "content": "oie.phone.verify.call.sendText oie.phone.alternate.title",
         },
         "type": "Description",
       },
@@ -183,9 +253,12 @@ Object {
         "type": "Description",
       },
       Object {
-        "label": "mfa.challenge.verify",
+        "label": "oie.phone.call.primaryButton",
         "options": Object {
-          "step": "mock-step",
+          "actionParams": Object {
+            "authenticator.methodType": "voice",
+          },
+          "step": "",
           "type": "submit",
         },
         "type": "Button",
@@ -196,7 +269,7 @@ Object {
 }
 `;
 
-exports[`PhoneChallengeTransformer Tests should create voice challenge UI elements when phoneNumber not available 1`] = `
+exports[`Phone verification Transformer Tests should add correct UI elements to schema when only voice methodType choice exists and redacted phoneNumber exists in Idx response  1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -218,7 +291,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText",
+          "content": "oie.phone.verify.call.sendText +121xxxxx34",
         },
         "type": "Description",
       },
@@ -229,8 +302,11 @@ Object {
         "type": "Description",
       },
       Object {
-        "label": "mfa.challenge.verify",
+        "label": "oie.phone.call.primaryButton",
         "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "voice",
+          },
           "step": "mock-step",
           "type": "submit",
         },
