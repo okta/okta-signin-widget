@@ -11,17 +11,10 @@
  */
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
-import { IDX_STEP, PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from 'src/constants';
+import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement,
-  ButtonType,
-  DescriptionElement,
   FieldElement,
-  LinkElement,
-  PasswordRequirementsElement,
-  TitleElement,
-  UISchemaLayout,
   WidgetProps,
 } from 'src/types';
 
@@ -47,22 +40,8 @@ describe('Enroll Profile Transformer Tests', () => {
     + 'and passcode element doesnt exist in schema', () => {
     const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe('oie.registration.form.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.firstName');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.lastName');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.email');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
-      .toBe('oie.registration.form.submit');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
-      .toBe(ButtonType.SUBMIT);
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add password requirements along with title, and submit button when passcode exists but password settings are empty', () => {
@@ -92,26 +71,8 @@ describe('Enroll Profile Transformer Tests', () => {
 
     const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(6);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe('oie.registration.form.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.firstName');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.lastName');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.email');
-    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
-      .toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.attributes?.autocomplete)
-      .toBe('new-password');
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
-      .toBe('oie.registration.form.submit');
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options?.type)
-      .toBe(ButtonType.SUBMIT);
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add password requirements along with title, and submit button when passcode and password settings exists', () => {
@@ -141,37 +102,8 @@ describe('Enroll Profile Transformer Tests', () => {
 
     const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(7);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe('oie.registration.form.title');
-    expect(updatedFormBag.uischema.elements[1].type).toBe('PasswordRequirements');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
-      .toBe('password-authenticator--list');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.header)
-      .toBe('password.complexity.requirements.header');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.userInfo)
-      .toEqual(mockUserInfo);
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
-      .toEqual({ complexity: { minNumber: 1, minSymbol: 1 } });
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
-      .options?.validationDelayMs).toBe(PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS);
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.firstName');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.lastName');
-    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.email');
-    expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.inputMeta.name)
-      .toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.attributes?.autocomplete)
-      .toBe('new-password');
-    expect((updatedFormBag.uischema.elements[6] as ButtonElement).label)
-      .toBe('oie.registration.form.submit');
-    expect((updatedFormBag.uischema.elements[6] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options?.type)
-      .toBe(ButtonType.SUBMIT);
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should add link to log in when select-identify step exists in remediation', () => {
@@ -182,26 +114,7 @@ describe('Enroll Profile Transformer Tests', () => {
 
     const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(7);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe('oie.registration.form.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.firstName');
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.lastName');
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.email');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
-      .toBe('oie.registration.form.submit');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
-      .toBe(ButtonType.SUBMIT);
-    expect(updatedFormBag.uischema.elements[5].type).toBe('Divider');
-    expect(updatedFormBag.uischema.elements[6].type).toBe('HorizontalLayout');
-    expect(((updatedFormBag.uischema.elements[6] as UISchemaLayout)
-      .elements[0] as DescriptionElement).options.content).toBe('haveaccount');
-    expect(((updatedFormBag.uischema.elements[6] as UISchemaLayout)
-      .elements[1] as LinkElement).options.label).toBe('signin');
+    expect(updatedFormBag).toMatchSnapshot();
   });
 });
