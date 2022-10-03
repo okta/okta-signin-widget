@@ -13,26 +13,22 @@
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement,
-  ButtonType,
   FieldElement,
   WidgetProps,
 } from 'src/types';
 
 import { transformSecurityQuestionVerify } from '.';
 
-describe.skip('SecurityQuestionVerify Tests', () => {
+describe('SecurityQuestionVerify Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
   const formBag = getStubFormBag();
 
   beforeEach(() => {
-    formBag.uischema.elements = [
-      {
-        type: 'Field',
-        options: { inputMeta: { name: 'credentials.answer', secret: true } },
-      } as FieldElement,
-    ];
+    formBag.uischema.elements = [{
+      type: 'Field',
+      options: { inputMeta: { name: 'credentials.answer', secret: true } },
+    } as FieldElement];
   });
 
   it('should create security question verify UI elements', () => {
@@ -44,31 +40,13 @@ describe.skip('SecurityQuestionVerify Tests', () => {
             question: 'What is love?',
             questionKey: 'eternal',
           },
-          id: '',
-          displayName: '',
-          key: '',
-          type: '',
-          methods: [],
         } as unknown as IdxAuthenticator,
       },
     };
     const updatedFormBag = transformSecurityQuestionVerify({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag).toMatchSnapshot();
-
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-
-    // answer element
-    expect(updatedFormBag.uischema.elements[1].type).toBe('Control');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.secret)
-      .toBe(true);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).label).toBe('What is love?');
-
-    // submit button
-    expect(updatedFormBag.uischema.elements[2].type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
-      .toBe(ButtonType.SUBMIT);
+    expect(updatedFormBag).toMatchSnapshot();
   });
 
   it('should create security question verify UI elements for custom question', () => {
@@ -80,30 +58,12 @@ describe.skip('SecurityQuestionVerify Tests', () => {
             question: 'What is love?',
             questionKey: 'custom',
           },
-          id: '',
-          displayName: '',
-          key: '',
-          type: '',
-          methods: [],
         } as unknown as IdxAuthenticator,
       },
     };
     const updatedFormBag = transformSecurityQuestionVerify({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag).toMatchSnapshot();
-
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-
-    // answer element
-    expect(updatedFormBag.uischema.elements[1].type).toBe('Control');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.secret)
-      .toBe(true);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).label).toBe('What is love?');
-
-    // submit button
-    expect(updatedFormBag.uischema.elements[2].type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
-      .toBe(ButtonType.SUBMIT);
+    expect(updatedFormBag).toMatchSnapshot();
   });
 });

@@ -14,21 +14,31 @@ import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   FieldElement,
+  FormBag,
   WidgetProps,
 } from 'src/types';
 
 import { transformSecurityQuestionEnroll } from '.';
 
-describe.skip('SecurityQuestionEnroll Tests', () => {
+describe('SecurityQuestionEnroll Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
-  const formBag = getStubFormBag();
+  let formBag: FormBag;
 
   beforeEach(() => {
+    formBag = getStubFormBag();
     formBag.uischema.elements = [
       {
         type: 'Field',
-        options: { inputMeta: { name: 'credentials' } },
+        options: { inputMeta: { name: 'credentials.questionKey' } },
+      } as FieldElement,
+      {
+        type: 'Field',
+        options: { inputMeta: { name: 'credentials.question' } },
+      } as FieldElement,
+      {
+        type: 'Field',
+        options: { inputMeta: { name: 'credentials.answer', secret: true } },
       } as FieldElement,
     ];
   });
@@ -42,7 +52,22 @@ describe.skip('SecurityQuestionEnroll Tests', () => {
           options: [
             {
               label: 'Select question',
-              value: [{ name: 'questionKey' }, { name: 'answer', label: 'Answer', secret: true }],
+              value: [
+                {
+                  name: 'questionKey',
+                  options: [
+                    {
+                      value: 'eternal',
+                      label: 'What is love?',
+                    },
+                    {
+                      value: 'fav_actor',
+                      label: 'Who is your favorite actor?',
+                    },
+                  ],
+                },
+                { name: 'answer', label: 'Answer', secret: true },
+              ],
             },
             {
               label: 'Enter question',
@@ -58,10 +83,16 @@ describe.skip('SecurityQuestionEnroll Tests', () => {
       relatesTo: {
         value: {
           contextualData: {
-            questions: [{
-              question: 'What is love?',
-              questionKey: 'eternal',
-            }],
+            questions: [
+              {
+                question: 'What is love?',
+                questionKey: 'eternal',
+              },
+              {
+                question: 'Who is your favorite actor?',
+                questionKey: 'fav_actor',
+              },
+            ],
           },
         } as unknown as IdxAuthenticator,
       },

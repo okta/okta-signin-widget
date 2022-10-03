@@ -3,7 +3,14 @@
 exports[`SecurityQuestionVerify Tests should create security question verify UI elements 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -14,15 +21,20 @@ Object {
         "type": "Title",
       },
       Object {
-        "label": "What is love?",
-        "name": "credentials.answer",
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.answer",
             "secret": true,
           },
         },
-        "type": "Control",
+        "translations": Array [
+          Object {
+            "i18nKey": "",
+            "name": "label",
+            "value": "What is love?",
+          },
+        ],
+        "type": "Field",
       },
       Object {
         "label": "oform.verify",
@@ -30,7 +42,6 @@ Object {
           "step": "mock-step",
           "type": "submit",
         },
-        "scope": "#/properties/submit",
         "type": "Button",
       },
     ],
@@ -42,7 +53,14 @@ Object {
 exports[`SecurityQuestionVerify Tests should create security question verify UI elements for custom question 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -53,15 +71,20 @@ Object {
         "type": "Title",
       },
       Object {
-        "label": "What is love?",
-        "name": "credentials.answer",
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.answer",
             "secret": true,
           },
         },
-        "type": "Control",
+        "translations": Array [
+          Object {
+            "i18nKey": "",
+            "name": "label",
+            "value": "What is love?",
+          },
+        ],
+        "type": "Field",
       },
       Object {
         "label": "oform.verify",
@@ -69,7 +92,6 @@ Object {
           "step": "mock-step",
           "type": "submit",
         },
-        "scope": "#/properties/submit",
         "type": "Button",
       },
     ],
