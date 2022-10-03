@@ -392,7 +392,7 @@ test
   });
 
 test
-.requestHooks(invalidOTPMock)('challenge email authenticator with invalid OTP', async t => {
+  .requestHooks(invalidOTPMock)('challenge email authenticator with invalid OTP', async t => {
   const challengeEmailPageObject = await setup(t);
   await challengeEmailPageObject.clickEnterCodeLink();
 
