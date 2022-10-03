@@ -13,6 +13,7 @@
 import { Alert, Box } from '@mui/material';
 import { h } from 'preact';
 
+import { useWidgetContext } from '../../contexts';
 import {
   InfoboxElement,
   MessageType,
@@ -24,6 +25,10 @@ const InfoBox: UISchemaElementComponent<{
   uischema: InfoboxElement
 }> = ({ uischema }) => {
   const {
+    loading,
+  } = useWidgetContext();
+
+  const {
     options: {
       message,
       title,
@@ -32,7 +37,7 @@ const InfoBox: UISchemaElementComponent<{
     },
   } = uischema;
 
-  return (
+  return !loading ? (
     <Box
       marginBottom={4}
       width={1}
@@ -48,7 +53,7 @@ const InfoBox: UISchemaElementComponent<{
         {message}
       </Alert>
     </Box>
-  );
+  ) : null;
 };
 
 export default InfoBox;
