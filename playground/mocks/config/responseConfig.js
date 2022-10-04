@@ -235,8 +235,15 @@ const authn = {
   '/api/v1/authn/introspect': [
     // 'mfa-required-email',
     // 'unauthenticated',
-    'admin-consent-required',
-    // 'device-code-activate'
+    // 'admin-consent-required',
+    // 'device-code-activate',
+    'mfa-enroll-sms'
+  ],
+  '/api/v1/authn/factors': [
+    'mfa-enroll-activate-sms'
+  ],
+  '/api/v1/authn/factors/:factorid/lifecycle/activate': [
+    'mfa-enroll-sms'
   ],
   '/api/v1/authn': [
     'error-authentication-failed',
