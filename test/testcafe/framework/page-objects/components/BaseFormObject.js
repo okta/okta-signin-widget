@@ -50,13 +50,25 @@ export default class BaseFormObject {
     return this.el.find(selector).innerText;
   }
 
-  getTextBoxValue(label) {
-    return within(this.el).getByLabelText(label).value;
-    // return this.el.find(`input[name="${name}"]`).value;
+  /**
+   * @param {string} name The name or label of the text box to get
+   * @param {boolean} findByLabel Find the text box by its label rather than name attribute
+   */
+  getTextBoxValue(name, findByLabel = false) {
+    return findByLabel ?
+      within(this.el).getByLabelText(name).value :
+      this.el.find(`input[name="${name}"]`).value;
   }
 
-  async setTextBoxValue(label, text) {
-    const element = within(this.el).getByLabelText(label);
+  /**
+   * @param {string} name The name or label of the text box to change
+   * @param {string} text The text to set
+   * @param {boolean} findByLabel Find the text box by its label rather than name attribute
+   */
+  async setTextBoxValue(name, text, findByLabel = false) {
+    const element = findByLabel ?
+      within(this.el).getByLabelText(name) :
+      this.el.find(`input[name="${name}"]`);
 
     // clear existing text
     await this.t

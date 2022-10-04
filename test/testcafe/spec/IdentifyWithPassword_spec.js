@@ -42,7 +42,6 @@ test.requestHooks(identifyWithPasswordMock)('should show errors if required fiel
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 
@@ -69,7 +68,6 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
 

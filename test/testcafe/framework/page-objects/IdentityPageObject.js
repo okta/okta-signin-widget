@@ -77,11 +77,11 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   fillIdentifierField(value) {
-    return this.form.setTextBoxValue('Username', value);
+    return this.form.setTextBoxValue('Username', value, true);
   }
 
   getIdentifierValue() {
-    return this.form.getTextBoxValue('Username');
+    return this.form.getTextBoxValue('Username', true);
   }
 
   fillPasswordField(value) {
@@ -118,14 +118,6 @@ export default class IdentityPageObject extends BasePageObject {
 
   waitForIdentifierError() {
     return this.form.waitForTextBoxError('identifier');
-  }
-
-  /**
-   * @deprecated
-   * @see hasIdentifierErrorMessage
-   */
-  hasIdentifierError() {
-    return this.form.hasTextBoxError('identifier');
   }
 
   hasIdentifierErrorMessage(message) {
