@@ -79,7 +79,7 @@ test.requestHooks(sessionExpiresDuringPasswordChallenge)('reloads into fresh sta
   await identityPage.refresh();
 
   // ensure SIW does not load with the SessionExpired error
-  await t.expect(identityPage.getPageTitle()).eql('Sign In');
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
   await t.expect(identityPage.getTotalGlobalErrors()).eql(0);
 });
 
@@ -99,7 +99,7 @@ test.requestHooks(sessionExpiresBackToSignIn)('back to sign loads identify after
   await identityPage.clickSignOutLink();
 
   // ensure SIW does not load with the SessionExpired error
-  await t.expect(identityPage.getPageTitle()).eql('Sign In');
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
   await t.expect(identityPage.getTotalGlobalErrors()).eql(0);
 });
 
@@ -120,7 +120,7 @@ test.requestHooks(interactionCodeFlowBaseMock)('Int. Code Flow: reloads into fre
   identityPage = await setupInteractionCodeFlow(t);
 
   // ensure SIW does not load with the SessionExpired error
-  await t.expect(identityPage.getPageTitle()).eql('Sign In');
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
   await t.expect(identityPage.getTotalGlobalErrors()).eql(0);
 });
 
@@ -140,6 +140,6 @@ test.requestHooks(interactionCodeFlowBaseMock)('Int. Code Flow: back to sign loa
   await identityPage.clickSignOutLink();
 
   // ensure SIW does not load with the SessionExpired error
-  await t.expect(identityPage.getPageTitle()).eql('Sign In');
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
   await t.expect(identityPage.getTotalGlobalErrors()).eql(0);
 });

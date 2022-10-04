@@ -22,13 +22,6 @@ export default class IdentityPageObject extends BasePageObject {
     super(t);
   }
 
-  getPageTitle() {
-    return screen.getByRole('heading', {
-      level: 2,
-    }).textContent;
-    // return this.form.getElement('.okta-form-title').textContent;
-  }
-
   getOktaVerifyButtonText() {
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
   }

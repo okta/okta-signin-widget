@@ -200,7 +200,7 @@ test.meta('v3', false).requestHooks(identifyMock)('should have correct display t
   // i18n values can be tested here.
   const identityPage = await setup(t);
 
-  const identityPageTitle = identityPage.getPageTitle();
+  const identityPageTitle = identityPage.getFormTitle();
   await t.expect(identityPageTitle).eql('Sign In');
 
   const rememberMeCheckbox = identityPage.getRememberMeCheckbox();

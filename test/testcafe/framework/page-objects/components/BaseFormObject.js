@@ -4,7 +4,6 @@ import { within } from '@testing-library/testcafe';
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 
-const SUBMIT_BUTTON_SELECTOR = '[data-type="save"]';
 const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
 
 const focusOnSubmitButton = () => {
@@ -87,11 +86,9 @@ export default class BaseFormObject {
 
   async setCheckbox(label, value) {
     const checkbox = within(this.el).getByLabelText(label);
-    // const checked = await this.el.find(`input[name="${name}"]`).checked;
     const checked = await checkbox.checked;
     if (value !== checked) {
       await this.t.click(checkbox);
-      // await this.t.click(this.el.find(`input[name="${name}"] + label`));
     }
   }
 
@@ -109,11 +106,10 @@ export default class BaseFormObject {
     await focus();
   }
 
-  async clickSaveButton() {
+  async clickSaveButton(name = 'Next') {
     await this.t.click(within(this.el).getByRole('button', {
-      value: 'Next',
+      value: name,
     }));
-    // await this.t.click(this.el.find(SUBMIT_BUTTON_SELECTOR));
   }
 
   async clickCancelButton() {
@@ -128,7 +124,6 @@ export default class BaseFormObject {
 
   getSaveButtonLabel() {
     return within(this.el).getByRole('button').value;
-    // return this.el.find(SUBMIT_BUTTON_SELECTOR).value;
   }
 
   // =====================================
@@ -140,7 +135,6 @@ export default class BaseFormObject {
     await within(this.el).findByRole('alert', {
       name: /We found some errors/,
     }).exists;
-    // await this.el.find(FORM_INFOBOX_ERROR).exists;
   }
 
   getErrorBoxCount() {
@@ -148,9 +142,11 @@ export default class BaseFormObject {
   }
 
   getErrorBoxText() {
-    const errorBox = within(this.el).getByRole('alert');
+    if (process.env.OKTA_SIW_V3) {
+      return within(this.el).getByRole('alert').innerText;
+    }
 
-    return errorBox.innerText;
+    return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
   getAllErrorBoxTexts() {
