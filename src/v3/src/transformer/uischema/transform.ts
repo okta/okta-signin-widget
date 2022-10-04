@@ -68,6 +68,7 @@ export const updateCustomFields: TransformStepFn = (formbag) => {
       if (Array.isArray(options) && options[0]?.value) {
         const [option] = options;
         if (option.label === 'display') {
+          // TODO: OKTA-538689 Missing type in interface, have to cast to any
           const input = (option.value as any)?.value;
           fieldElement.options.format = input.inputType;
           fieldElement.options.customOptions = input.options;

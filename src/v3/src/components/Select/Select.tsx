@@ -81,6 +81,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
               value=""
               key="empty"
             >
+              {/* TODO: OKTA-518793 - need translation key for this string */}
               Select an Option
             </option>,
           ].concat(

@@ -35,7 +35,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     context,
     neededToProceed,
   } = transaction;
-  // @ts-ignore uiDisplay missing from interface
+  // @ts-ignore OKTA-538692 uiDisplay missing from interface
   const { uiDisplay: { value: { label, buttonLabel } = {} } = {} } = context;
   const currentRemediation = neededToProceed.find((remediation) => remediation.name === stepName);
   const isAlternateView = currentRemediation?.href?.endsWith('idp/idx/enroll/update');
