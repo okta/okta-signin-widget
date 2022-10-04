@@ -1,0 +1,55 @@
+{
+  "stateToken": "00vr2lZLK8ciKcTVYS91pPFJ3RFS2BsgxtoNP5jWPS",
+  "expiresAt": "2022-10-03T17:31:51.000Z",
+  "status": "MFA_ENROLL_ACTIVATE",
+  "_embedded": {
+    "user": {
+      "id": "00u3sxoelNuhUf5sO9c5",
+      "passwordChanged": "2022-10-02T05:17:40.000Z",
+      "profile": {
+        "login": "test.user@test.com",
+        "firstName": "Test",
+        "lastName": "User",
+        "locale": "en_US",
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "factor": {
+      "id": "mbl3sxoxUXKoACWNZ9c5",
+      "factorType": "sms",
+      "provider": "OKTA",
+      "vendorName": "OKTA",
+      "profile": {
+        "phoneNumber": "+1 XXX-XXX-4586"
+      }
+    }
+  },
+  "_links": {
+    "next": {
+      "name": "activate",
+      "href": "http://localhost:3000/api/v1/authn/factors/mbl3sxoxUXKoACWNZ9c5/lifecycle/activate",
+      "hints": {
+        "allow": ["POST"]
+      }
+    },
+    "prev": {
+      "href": "http://localhost:3000/api/v1/authn/previous",
+      "hints": {
+        "allow": ["POST"]
+      }
+    },
+    "resend": [{
+      "name": "sms",
+      "href": "http://localhost:3000/api/v1/authn/factors/mbl3sxoxUXKoACWNZ9c5/lifecycle/resend",
+      "hints": {
+        "allow": ["POST"]
+      }
+    }],
+    "cancel": {
+      "href": "http://localhost:3000/api/v1/authn/cancel",
+      "hints": {
+        "allow": ["POST"]
+      }
+    }
+  }
+}

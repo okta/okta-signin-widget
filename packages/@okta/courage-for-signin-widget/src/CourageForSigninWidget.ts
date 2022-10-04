@@ -25,6 +25,7 @@ import Toolbar from './courage/views/forms/components/Toolbar';
 import FormUtil from './courage/views/forms/helpers/FormUtil';
 import InputRegistry from './courage/views/forms/helpers/InputRegistry';
 import SchemaFormFactory from './courage/views/forms/helpers/SchemaFormFactory';
+import BaseInput from './courage/views/forms/BaseInput';
 import CheckBox from './courage/views/forms/inputs/CheckBox';
 import PasswordBox from './courage/views/forms/inputs/PasswordBox';
 import Radio from './courage/views/forms/inputs/Radio';
@@ -47,6 +48,13 @@ const Controller = BaseController.extend({
     return this;
   }
 });
+
+Select.prototype.remove = function () {
+  // Patched to remove unneeded call to
+  // this.$select.trigger('remove');
+  // which causes error on IE11
+  return BaseInput.prototype.remove.apply(this, arguments);
+};
 
 // The string will be returned unchanged. All templates should be precompiled.
 FrameworkView.prototype.compileTemplate = function(str) {
