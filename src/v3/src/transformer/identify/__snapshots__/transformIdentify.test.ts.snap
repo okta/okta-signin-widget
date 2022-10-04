@@ -39,7 +39,7 @@ Object {
       Object {
         "label": "oform.next",
         "options": Object {
-          "step": "",
+          "step": "identify",
           "type": "submit",
         },
         "type": "Button",
@@ -100,7 +100,7 @@ Object {
       Object {
         "label": "oie.primaryauth.submit",
         "options": Object {
-          "step": "",
+          "step": "identify",
           "type": "submit",
         },
         "type": "Button",
@@ -161,7 +161,7 @@ Object {
       Object {
         "label": "oie.primaryauth.submit",
         "options": Object {
-          "step": "",
+          "step": "identify",
           "type": "submit",
         },
         "type": "Button",
@@ -220,7 +220,7 @@ Object {
       Object {
         "label": "oie.primaryauth.submit",
         "options": Object {
-          "step": "",
+          "step": "identify",
           "type": "submit",
         },
         "type": "Button",
@@ -271,7 +271,7 @@ Object {
       Object {
         "label": "oie.primaryauth.submit",
         "options": Object {
-          "step": "",
+          "step": "identify",
           "type": "submit",
         },
         "type": "Button",
