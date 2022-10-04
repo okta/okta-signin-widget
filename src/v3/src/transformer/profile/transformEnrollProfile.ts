@@ -29,7 +29,16 @@ import { buildPasswordRequirementListItems } from '../password';
 import { getUIElementWithName } from '../utils';
 
 export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { availableSteps, nextStep: { relatesTo } = {} } = transaction;
+  const {
+    availableSteps,
+    nextStep: { relatesTo, name: stepName } = {},
+    context,
+    neededToProceed,
+  } = transaction;
+  // @ts-ignore uiDisplay missing from interface
+  const { uiDisplay: { value: { label, buttonLabel } = {} } = {} } = context;
+  const currentRemediation = neededToProceed.find((remediation) => remediation.name === stepName);
+  const isAlternateView = currentRemediation?.href?.endsWith('idp/idx/enroll/update');
   const { uischema } = formBag;
 
   // If passcode exists in elements, add password requirements element to Ui
@@ -57,7 +66,9 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
         validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
       },
     };
-    uischema.elements.unshift(passwordRequirementsElement);
+    if (Object.keys(passwordSettings)?.length) {
+      uischema.elements.unshift(passwordRequirementsElement);
+    }
   }
 
   const titleElement: TitleElement = {
@@ -74,14 +85,26 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     },
   };
 
+  if (isAlternateView) {
+    if (label) {
+      titleElement.options.content = loc('oie.registration.form.customize.label', 'login', [label]);
+    } else {
+      titleElement.options.content = loc('oie.primaryauth.submit', 'login');
+    }
+
+    if (buttonLabel) {
+      submitBtnElement.label = loc('oie.registration.form.customize.buttonLabel', 'login', [buttonLabel]);
+    } else {
+      submitBtnElement.label = loc('oie.registration.form.update.submit', 'login');
+    }
+  }
+
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitBtnElement);
 
   const selectIdentifyStep = availableSteps?.find(({ name }) => name === IDX_STEP.SELECT_IDENTIFY);
   if (selectIdentifyStep) {
-    uischema.elements.push({
-      type: 'Divider',
-    });
+    uischema.elements.push({ type: 'Divider' });
     const { name: step } = selectIdentifyStep;
     const signinLink: LinkElement = {
       type: 'Link',

@@ -45,7 +45,7 @@ export const addTranslation = ({
 export const addLabelTranslationToFieldElement = (
   transaction: IdxTransaction,
   element: FieldElement,
-) => {
+): void => {
   const { nextStep } = transaction;
   const { relatesTo, name: stepName } = nextStep!;
   const authenticatorKey = relatesTo?.value?.key;
@@ -55,9 +55,9 @@ export const addLabelTranslationToFieldElement = (
     : `${stepName}.${fieldName}`;
   const i18nKey = getI18nKey(path);
   const params = getI18NParams(nextStep, authenticatorKey);
-  if (i18nKey) {
+  if (i18nKey || element.label) {
     addTranslation({
-      element, name: 'label', i18nKey, params,
+      element, name: 'label', i18nKey, params, defaultValue: element.label,
     });
   }
 };

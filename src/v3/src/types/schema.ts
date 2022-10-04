@@ -144,7 +144,7 @@ export interface FieldElement extends UISchemaElement {
   key: string;
   options: {
     inputMeta: Input;
-    format?: string;
+    format?: 'select' | 'radio';
     attributes?: InputAttributes;
     type?: string;
     customOptions?: IdxOption[],
