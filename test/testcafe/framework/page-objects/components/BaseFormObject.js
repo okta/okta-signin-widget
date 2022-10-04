@@ -1,4 +1,5 @@
 import { Selector, ClientFunction } from 'testcafe';
+import { within } from '@testing-library/testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
@@ -15,11 +16,13 @@ const focusOnSubmitButton = () => {
 export default class BaseFormObject {
   constructor(t, index) {
     this.t = t;
+    // this.el = screen.getByRole('form');
     this.el = new Selector('.o-form').nth(index || 0);
   }
 
   async setTextBoxValue(name, text) {
-    const element = this.el.find(`input[name="${name}"]`);
+    const element = within(this.el).getByLabelText(name);
+    // const element = this.el.find(`input[name="${name}"]`);
 
     // clear exists text
     await this.t
@@ -50,7 +53,10 @@ export default class BaseFormObject {
   }
 
   getTitle() {
-    return this.el.find('[data-se="o-form-head"]').innerText;
+    return within(this.el).getByRole('heading', {
+      level: 2,
+    }).innerText;
+    // return this.el.find('[data-se="o-form-head"]').innerText;
   }
 
   getSubtitle() {
@@ -64,14 +70,18 @@ export default class BaseFormObject {
   // =====================================
   // Checkbox
   // =====================================
-  getTextBoxValue(name) {
-    return this.el.find(`input[name="${name}"]`).value;
+  getTextBoxValue(label) {
+    return within(this.el).getByLabelText(label).value;
+    // return this.el.find(`input[name="${name}"]`).value;
   }
 
   async setCheckbox(name, value) {
-    const checked = await this.el.find(`input[name="${name}"]`).checked;
+    const checkbox = within(this.el).getByLabelText(name);
+    // const checked = await this.el.find(`input[name="${name}"]`).checked;
+    const checked = await checkbox.checked;
     if (value !== checked) {
-      await this.t.click(this.el.find(`input[name="${name}"] + label`));
+      await this.t.click(checkbox);
+      // await this.t.click(this.el.find(`input[name="${name}"] + label`));
     }
   }
 
@@ -90,15 +100,24 @@ export default class BaseFormObject {
   }
 
   async clickSaveButton() {
-    await this.t.click(this.el.find(SUBMIT_BUTTON_SELECTOR));
+    await this.t.click(within(this.el).getByRole('button', {
+      value: 'Next',
+    }));
+    // await this.t.click(this.el.find(SUBMIT_BUTTON_SELECTOR));
   }
 
   async clickCancelButton() {
     await this.t.click(this.el.find(CANCEL_BUTTON_SELECTOR));
   }
 
+  hasNextButton() {
+    return within(this.el).getByRole('button', {
+      value: 'Next',
+    }).exists;
+  }
   getSaveButtonLabel() {
-    return this.el.find(SUBMIT_BUTTON_SELECTOR).value;
+    return within(this.el).getByRole('button').value;
+    // return this.el.find(SUBMIT_BUTTON_SELECTOR).value;
   }
 
   // =====================================
@@ -107,7 +126,10 @@ export default class BaseFormObject {
 
   // Error banner
   async waitForErrorBox() {
-    await this.el.find(FORM_INFOBOX_ERROR).exists;
+    await within(this.el).findByRole('alert', {
+      name: /We found some errors/,
+    }).exists;
+    // await this.el.find(FORM_INFOBOX_ERROR).exists;
   }
 
   getErrorBoxCount() {
@@ -115,7 +137,10 @@ export default class BaseFormObject {
   }
 
   getErrorBoxText() {
-    return this.el.find(FORM_INFOBOX_ERROR).innerText;
+    // return this.el.find(FORM_INFOBOX_ERROR).innerText;
+    const errorBox = within(this.el).getByRole('alert');
+
+    return errorBox.innerText;
   }
 
   getAllErrorBoxTexts() {
@@ -135,9 +160,11 @@ export default class BaseFormObject {
     await this.hasTextBoxError(name);
   }
 
-  hasTextBoxErrorMessage(fieldName) {
-    const selectContainer = this.findFormFieldInput(fieldName)
-      .sibling('.o-form-input-error');
+  hasTextBoxErrorMessage(errorMessage) {
+    // const selectContainer = this.findFormFieldInput(fieldName)
+    //   .sibling('.o-form-input-error');
+    const selectContainer = within(this.el).getByText(errorMessage);
+
     return selectContainer.exists;
   }
 
