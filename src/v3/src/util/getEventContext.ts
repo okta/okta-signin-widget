@@ -39,7 +39,7 @@ export const getEventContext = (transaction: IdxTransaction): EventContext => {
 
   return {
     // TODO: Lester FIXME
-    controller: controller ?? '',
+    controller: controller ?? null,
     formName,
     authenticatorKey,
     methodType,
