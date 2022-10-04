@@ -12,7 +12,11 @@
 
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
+  ButtonElement,
+  ButtonType,
   FieldElement,
+  HiddenInputElement,
+  TitleElement,
   WidgetProps,
 } from 'src/types';
 
@@ -26,13 +30,35 @@ describe('Password Challenge Transformer Tests', () => {
     formBag.uischema.elements = [
       { type: 'Field', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
     ];
+    transaction.context = {
+      ...transaction.context,
+      user: {
+        type: 'string',
+        value: {
+          identifier: 'someuser@noemail.com',
+        },
+      },
+    };
     widgetProps = {};
   });
 
   it('should add title & submt button elements to ui schema when transforming password challenge step', () => {
     const updatedFormBag = transformPasswordChallenge({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.password.challenge.title');
+    expect((updatedFormBag.uischema.elements[1] as HiddenInputElement).options.value)
+      .toBe('someuser@noemail.com');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
+      .toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).type)
+      .toBe('Button');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
   });
 });
