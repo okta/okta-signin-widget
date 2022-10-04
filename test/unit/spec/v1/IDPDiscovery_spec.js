@@ -1514,6 +1514,9 @@ Expect.describe('IDPDiscovery', function() {
           expect(test.router.appState.get('disableUsername')).toBe(true);
           expect(test.form.isUsernameDisabled()).toBe(true);
           expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
+          // ensure 'Back to sign in' footer is there
+          expect(test.form.backLinkFooter().length).toBe(1);
+
           test.setNextResponse(resErrorUnauthorized);
           test.form.setPassword('dummyPassword');
           test.form.submit();
@@ -1523,8 +1526,6 @@ Expect.describe('IDPDiscovery', function() {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.router.appState.get('disableUsername')).toBe(true);
           expect(test.form.isUsernameDisabled()).toBe(true);
-          // ensure 'Back to sign in' footer is there
-          expect(test.form.backLinkFooter().length).toBe(1);
         });           
     });     
     itp('redirects to idp for SAML idps', function() {

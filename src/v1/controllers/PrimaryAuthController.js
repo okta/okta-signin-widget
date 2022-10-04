@@ -55,6 +55,9 @@ export default BaseLoginController.extend({
     }
 
     this.addFooter(options);
+    if (this.options.appState.get('disableUsername')) {
+      this.addFooterWithBackLink(this.options);
+    }
 
     this.setUsername();
   },
