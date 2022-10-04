@@ -10,16 +10,30 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Checkbox as CheckboxMui, FormControlLabel } from '@mui/material';
+import {
+  Checkbox as CheckboxMui,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+} from '@mui/material';
 import { h } from 'preact';
-import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
+import {
+  ChangeEvent,
+  UISchemaElementComponent,
+  UISchemaElementComponentWithValidationProps,
+} from 'src/types';
 
 import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import { getTranslation } from '../../util';
+import { withFormValidationState } from '../hocs';
 
-const Checkbox: UISchemaElementComponent<{
-  uischema: FieldElement
-}> = ({ uischema }) => {
+const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
+  uischema,
+  setTouched,
+  error,
+  setError,
+  onValidateHandler,
+}) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
 
@@ -28,28 +42,43 @@ const Checkbox: UISchemaElementComponent<{
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTouched?.(true);
     onChangeHandler(e.currentTarget.checked);
+    onValidateHandler?.(setError, e.currentTarget.checked);
   };
 
   return (
-    <FormControlLabel
-      control={(
-        <CheckboxMui
-          size="medium"
-          checked={value === true}
-          id={name}
-          name={name}
-          inputRef={focusRef}
-          onChange={handleChange}
-          inputProps={{
-            'data-se': name,
-            'data-se-for-name': name,
-          }}
-        />
-      )}
-      label={label as string}
-    />
+    <FormControl
+      component="fieldset"
+      error={!!error}
+    >
+      <FormControlLabel
+        control={(
+          <CheckboxMui
+            size="medium"
+            checked={value === true}
+            id={name}
+            name={name}
+            inputRef={focusRef}
+            onChange={handleChange}
+            inputProps={{
+              'data-se': name,
+              'data-se-for-name': name,
+            }}
+          />
+        )}
+        label={label as string}
+      />
+      <FormHelperText
+        id={`${name}-error`}
+        role="alert"
+        data-se={`${name}-error`}
+        error
+      >
+        {error}
+      </FormHelperText>
+    </FormControl>
   );
 };
 
-export default Checkbox;
+export default withFormValidationState(Checkbox);
