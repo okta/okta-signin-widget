@@ -28,6 +28,15 @@ if (!fs.existsSync(WIDGET_RC_JS)) {
   fs.copyFileSync('.widgetrc.sample.js', WIDGET_RC_JS);
 }
 
+const headers = {};
+
+if (!process.env.DISABLE_CSP) {
+  headers['Content-Security-Policy'] =
+    // Allow google domains for testing recaptcha
+    // eslint-disable-next-line max-len
+    `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`;
+}
+
 module.exports = {
   mode: 'development',
   target: 'web',
@@ -81,11 +90,7 @@ module.exports = {
       }
     ],
     historyApiFallback: true,
-    headers: {
-      // Allow google domains for testing recaptcha
-      // eslint-disable-next-line max-len
-      'Content-Security-Policy': `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`
-    },
+    headers,
     compress: true,
     port: DEV_SERVER_PORT,
     proxy: [{
