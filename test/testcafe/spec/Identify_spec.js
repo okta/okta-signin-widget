@@ -111,8 +111,7 @@ async function setup(t) {
 test.meta('v3', false).requestHooks(identifyRequestLogger, identifyMock)('should be able to submit identifier with rememberMe', async t => {
   const identityPage = await setup(t);
 
-  // await t.expect(await identityPage.getSaveButtonLabel()).eql('Next');
-  await t.expect(identityPage.hasNextButton()).ok();
+  await t.expect(identityPage.getNextButton().exists).eql(true);
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
 
@@ -232,7 +231,7 @@ test.meta('v3', false).requestHooks(identifyLockedUserMock)('should show global 
 
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
+  await t.expect(identityPage.getNextButton().exists).eql(true);
 
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });
@@ -365,7 +364,7 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, identifyMockWithFinge
 
   // Validate that there is an error message
   await identityPage.waitForErrorBox();
-  await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
+  await t.expect(identityPage.getNextButton().exists).eql(true);
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });
 

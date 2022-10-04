@@ -16,23 +16,7 @@ const focusOnSubmitButton = () => {
 export default class BaseFormObject {
   constructor(t, index) {
     this.t = t;
-    // this.el = screen.getByRole('form');
     this.el = new Selector('.o-form').nth(index || 0);
-  }
-
-  async setTextBoxValue(name, text) {
-    const element = within(this.el).getByLabelText(name);
-    // const element = this.el.find(`input[name="${name}"]`);
-
-    // clear exists text
-    await this.t
-      .selectText(element)
-      .pressKey('delete');
-
-    // type new text
-    if (text) {
-      await this.t.typeText(element, text);
-    }
   }
 
   async getFormFieldLabel(fieldName) {
@@ -56,7 +40,6 @@ export default class BaseFormObject {
     return within(this.el).getByRole('heading', {
       level: 2,
     }).innerText;
-    // return this.el.find('[data-se="o-form-head"]').innerText;
   }
 
   getSubtitle() {
@@ -67,16 +50,31 @@ export default class BaseFormObject {
     return this.el.find(selector).innerText;
   }
 
-  // =====================================
-  // Checkbox
-  // =====================================
   getTextBoxValue(label) {
     return within(this.el).getByLabelText(label).value;
     // return this.el.find(`input[name="${name}"]`).value;
   }
 
-  async setCheckbox(name, value) {
-    const checkbox = within(this.el).getByLabelText(name);
+  async setTextBoxValue(label, text) {
+    const element = within(this.el).getByLabelText(label);
+
+    // clear existing text
+    await this.t
+      .selectText(element)
+      .pressKey('delete');
+
+    // type new text
+    if (text) {
+      await this.t.typeText(element, text);
+    }
+  }
+
+  // =====================================
+  // Checkbox
+  // =====================================
+
+  async setCheckbox(label, value) {
+    const checkbox = within(this.el).getByLabelText(label);
     // const checked = await this.el.find(`input[name="${name}"]`).checked;
     const checked = await checkbox.checked;
     if (value !== checked) {
@@ -110,11 +108,12 @@ export default class BaseFormObject {
     await this.t.click(this.el.find(CANCEL_BUTTON_SELECTOR));
   }
 
-  hasNextButton() {
+  getNextButton() {
     return within(this.el).getByRole('button', {
       value: 'Next',
-    }).exists;
+    });
   }
+
   getSaveButtonLabel() {
     return within(this.el).getByRole('button').value;
     // return this.el.find(SUBMIT_BUTTON_SELECTOR).value;
@@ -137,7 +136,6 @@ export default class BaseFormObject {
   }
 
   getErrorBoxText() {
-    // return this.el.find(FORM_INFOBOX_ERROR).innerText;
     const errorBox = within(this.el).getByRole('alert');
 
     return errorBox.innerText;
@@ -161,8 +159,6 @@ export default class BaseFormObject {
   }
 
   hasTextBoxErrorMessage(errorMessage) {
-    // const selectContainer = this.findFormFieldInput(fieldName)
-    //   .sibling('.o-form-input-error');
     const selectContainer = within(this.el).getByText(errorMessage);
 
     return selectContainer.exists;

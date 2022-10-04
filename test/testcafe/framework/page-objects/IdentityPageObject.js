@@ -92,8 +92,8 @@ export default class IdentityPageObject extends BasePageObject {
     return await Selector('.password-toggle').count;
   }
 
-  hasNextButton() {
-    return this.form.hasNextButton();
+  getNextButton() {
+    return this.form.getNextButton();
   }
 
   getSaveButtonLabel() {
