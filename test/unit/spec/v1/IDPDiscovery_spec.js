@@ -1500,6 +1500,33 @@ Expect.describe('IDPDiscovery', function() {
           expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
         });
     });
+    itp('disables username field if sign-in returns an error and username was previously disabled', function() {
+      return setup()
+        .then(function(test) {
+          Util.mockRouterNavigate(test.router);
+          test.setNextWebfingerResponse(resSuccessOktaIDP);
+          test.setNextResponse(resErrorUnauthorized);
+          test.form.setUsername('testuser');
+          test.form.submit();
+          return Expect.waitForPrimaryAuth(test);
+        })
+        .then(function(test) {
+          expect(test.router.appState.get('disableUsername')).toBe(true);
+          expect(test.form.isUsernameDisabled()).toBe(true);
+          expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
+          test.setNextResponse(resErrorUnauthorized);
+          test.form.setPassword('dummyPassword');
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function(test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.router.appState.get('disableUsername')).toBe(true);
+          expect(test.form.isUsernameDisabled()).toBe(true);
+          // ensure 'Back to sign in' footer is there
+          expect(test.form.backLinkFooter().length).toBe(1);
+        });           
+    });     
     itp('redirects to idp for SAML idps', function() {
       spyOn(SharedUtil, 'redirect');
       return setup()
