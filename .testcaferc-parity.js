@@ -10,4 +10,7 @@ module.exports = {
   filter: (testName, fixtureName, fixturePath, testMeta, fixtureMeta) => {
     return fixtureMeta.v3 === true && testMeta.v3 !== false;
   },
+  userVariables: {
+    v3: true,
+  },
 };

@@ -1,4 +1,4 @@
-import { Selector, ClientFunction } from 'testcafe';
+import { Selector, ClientFunction, userVariables } from 'testcafe';
 import { screen, within } from '@testing-library/testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
@@ -166,7 +166,7 @@ export default class BaseFormObject {
   }
 
   getErrorBoxText() {
-    if (process.env.OKTA_SIW_V3) {
+    if (userVariables.v3) {
       return within(this.el).getByRole('alert').innerText;
     }
 
@@ -198,8 +198,8 @@ export default class BaseFormObject {
   }
 
   getTextBoxErrorMessage(fieldName) {
-    if (process.env.OKTA_SIW_V3) {
-      return this.el.find(`#${fieldName}-error`);
+    if (userVariables.v3) {
+      return this.el.find(`#${fieldName}-error`).innerText;
     }
 
     const selectContainer = this.findFormFieldInput(fieldName)
