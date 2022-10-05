@@ -16,12 +16,14 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  ReminderElement,
+  TitleElement,
   WidgetProps,
 } from 'src/types';
 
 import { transformPhoneChallenge } from '.';
 
-describe.skip('PhoneChallengeTransformer Tests', () => {
+describe('PhoneChallengeTransformer Tests', () => {
   const redactedPhone = '+1 XXX-XXX-4601';
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
@@ -48,9 +50,11 @@ describe.skip('PhoneChallengeTransformer Tests', () => {
     const updatedFormBag = transformPhoneChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-
     expect(updatedFormBag.uischema.elements.length).toBe(5);
-
+    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.content)
+      .toBe('oie.phone.verify.sms.resendText');
+    expect((updatedFormBag.uischema.elements[1] as TitleElement).options.content)
+      .toBe('oie.phone.verify.title');
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe(`oie.phone.verify.sms.codeSentText ${redactedPhone}. oie.phone.verify.enterCodeText`);
@@ -60,6 +64,8 @@ describe.skip('PhoneChallengeTransformer Tests', () => {
       .toBe('oie.phone.carrier.charges');
 
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
@@ -80,9 +86,9 @@ describe.skip('PhoneChallengeTransformer Tests', () => {
     const updatedFormBag = transformPhoneChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.phone.verify.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
       .toBe(`oie.phone.verify.sms.codeSentText ${redactedPhone}. oie.phone.verify.enterCodeText`);
@@ -92,6 +98,8 @@ describe.skip('PhoneChallengeTransformer Tests', () => {
       .toBe('oie.phone.carrier.charges');
 
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
@@ -104,18 +112,20 @@ describe.skip('PhoneChallengeTransformer Tests', () => {
     const updatedFormBag = transformPhoneChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.phone.verify.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.phone.verify.sms.codeSentText oie.phone.alternate.title. oie.phone.verify.enterCodeText');
+      .toBe('mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText');
 
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
 
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
@@ -133,9 +143,9 @@ describe.skip('PhoneChallengeTransformer Tests', () => {
     const updatedFormBag = transformPhoneChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.phone.verify.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
       .toBe('mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText');
@@ -145,6 +155,8 @@ describe.skip('PhoneChallengeTransformer Tests', () => {
       .toBe('oie.phone.carrier.charges');
 
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
@@ -165,9 +177,9 @@ describe.skip('PhoneChallengeTransformer Tests', () => {
     const updatedFormBag = transformPhoneChallenge({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.phone.verify.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
       .toBe(`mfa.calling ${redactedPhone}. oie.phone.verify.enterCodeText`);
@@ -177,6 +189,8 @@ describe.skip('PhoneChallengeTransformer Tests', () => {
       .toBe('oie.phone.carrier.charges');
 
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });

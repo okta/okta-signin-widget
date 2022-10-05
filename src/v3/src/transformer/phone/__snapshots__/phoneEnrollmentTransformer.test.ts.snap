@@ -2,10 +2,16 @@
 
 exports[`PhoneEnrollmentTransformer Tests should create phone enrollment UI elements when multiple method types exist in transaction 1`] = `
 Object {
-  "data": Object {
-    "authenticator.methodType": "sms",
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "",
+      "type": "submit",
+    },
   },
-  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -26,33 +32,32 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "methodType",
-                "name": "authenticator.methodType",
                 "options": Object {
-                  "format": "radio",
-                  "inputMeta": Object {
-                    "name": "authenticator.methodType",
-                    "options": Array [
-                      Object {
-                        "label": "SMS",
-                        "value": "sms",
-                      },
-                      Object {
-                        "label": "Phone Call",
-                        "value": "voice",
-                      },
-                    ],
-                  },
+                  "customOptions": Array [
+                    Object {
+                      "callback": [Function],
+                      "label": "SMS",
+                      "value": "sms",
+                    },
+                    Object {
+                      "callback": [Function],
+                      "label": "Phone Call",
+                      "value": "voice",
+                    },
+                  ],
+                  "defaultValue": [Function],
+                  "name": "authenticator.methodType",
                 },
-                "type": "Control",
+                "type": "StepperRadio",
               },
               Object {
                 "label": "mfa.phoneNumber.placeholder",
-                "name": "authenticator.phoneNumber",
                 "options": Object {
-                  "targetKey": "authenticator.methodType",
+                  "inputMeta": Object {
+                    "name": "authenticator.phoneNumber",
+                  },
                 },
-                "type": "Control",
+                "type": "Field",
               },
               Object {
                 "label": "oie.phone.sms.primaryButton",
@@ -60,7 +65,6 @@ Object {
                   "step": "",
                   "type": "submit",
                 },
-                "scope": "#/properties/submit",
                 "type": "Button",
               },
             ],
@@ -75,33 +79,32 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "methodType",
-                "name": "authenticator.methodType",
                 "options": Object {
-                  "format": "radio",
-                  "inputMeta": Object {
-                    "name": "authenticator.methodType",
-                    "options": Array [
-                      Object {
-                        "label": "SMS",
-                        "value": "sms",
-                      },
-                      Object {
-                        "label": "Phone Call",
-                        "value": "voice",
-                      },
-                    ],
-                  },
+                  "customOptions": Array [
+                    Object {
+                      "callback": [Function],
+                      "label": "SMS",
+                      "value": "sms",
+                    },
+                    Object {
+                      "callback": [Function],
+                      "label": "Phone Call",
+                      "value": "voice",
+                    },
+                  ],
+                  "defaultValue": [Function],
+                  "name": "authenticator.methodType",
                 },
-                "type": "Control",
+                "type": "StepperRadio",
               },
               Object {
                 "label": "mfa.phoneNumber.placeholder",
-                "name": "authenticator.phoneNumber",
                 "options": Object {
-                  "targetKey": "authenticator.methodType",
+                  "inputMeta": Object {
+                    "name": "authenticator.phoneNumber",
+                  },
                 },
-                "type": "Control",
+                "type": "Field",
               },
               Object {
                 "label": "oie.phone.call.primaryButton",
@@ -109,7 +112,6 @@ Object {
                   "step": "",
                   "type": "submit",
                 },
-                "scope": "#/properties/submit",
                 "type": "Button",
               },
             ],
@@ -117,6 +119,110 @@ Object {
           },
         ],
         "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneEnrollmentTransformer Tests should create phone enrollment UI elements when only sms method types exist in transaction 1`] = `
+Object {
+  "data": Object {
+    "authenticator.methodType": "sms",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "",
+      "type": "submit",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.sms.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.phoneNumber.placeholder",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "authenticator.phoneNumber",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.phone.sms.primaryButton",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneEnrollmentTransformer Tests should create phone enrollment UI elements when only voice method types exist in transaction 1`] = `
+Object {
+  "data": Object {
+    "authenticator.methodType": "voice",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "",
+      "type": "submit",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.call.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.phoneNumber.placeholder",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "authenticator.phoneNumber",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.phone.call.primaryButton",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
       },
     ],
     "type": "VerticalLayout",
