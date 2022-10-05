@@ -150,9 +150,7 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  // need to upgrade testcafe-testing-library with newer testcafe-dom ^8
-  await t.expect(identityPage.hasIdentifierErrorMessage('This field cannot be left blank')).eql(true);
-  // await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
+  await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 });
 
 test.meta('v3', false).requestHooks(identifyMockWithUnsupportedResponseError)('should show error if server response is unsupported', async t => {
@@ -176,8 +174,7 @@ test.requestHooks(identifyMock)('should show customized error if required field 
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasIdentifierErrorMessage('Username is required!')).eql(true);
-  // await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
+  await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
 });
 
 test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom error if password doesn\'t exist in remediation', async t => {
