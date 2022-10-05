@@ -12,11 +12,21 @@
 
 import { IdxContext } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { WidgetProps } from 'src/types';
+import {
+  ButtonElement,
+  DescriptionElement,
+  ListElement,
+  QRCodeElement,
+  ReminderElement,
+  StepperLayout,
+  TextWithHtmlElement,
+  TitleElement,
+  WidgetProps,
+} from 'src/types';
 
 import { transformOktaVerifyEnrollPoll } from './transformOktaVerifyEnrollPoll';
 
-describe.skip('TransformOktaVerifyEnrollPoll Tests', () => {
+describe('TransformOktaVerifyEnrollPoll Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const formBag = getStubFormBag();
   let widgetProps: WidgetProps;
@@ -44,6 +54,7 @@ describe.skip('TransformOktaVerifyEnrollPoll Tests', () => {
           contextualData: {
             selectedChannel: 'sms',
             phoneNumber: '+14215551262',
+            qrcode: { href: '#mockQrCode' },
           },
         },
       },
@@ -52,6 +63,93 @@ describe.skip('TransformOktaVerifyEnrollPoll Tests', () => {
     const updatedFormBag = transformOktaVerifyEnrollPoll({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
+    const [stepperLayout] = updatedFormBag.uischema.elements;
+    const [layoutOne, layoutTwo, layoutThree] = (stepperLayout as StepperLayout).elements;
+
+    expect(layoutOne.elements.length).toBe(5);
+    expect((layoutOne.elements[0] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.sms.notReceived');
+    expect((layoutOne.elements[0] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutOne.elements[0] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutOne.elements[0] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutOne.elements[0] as ReminderElement).options.step)
+      .toBe('resend');
+    expect((layoutOne.elements[1] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.sms.title');
+    expect(layoutOne.elements[2].type)
+      .toBe('List');
+    expect((layoutOne.elements[2] as ListElement).options.type)
+      .toBe('ordered');
+    expect((layoutOne.elements[2] as ListElement).options.items)
+      .toEqual([
+        'oie.enroll.okta_verify.qrcode.step1',
+        'oie.enroll.okta_verify.qrcode.step2',
+        'oie.enroll.okta_verify.qrcode.step3',
+      ]);
+    expect(layoutOne.elements[3].type).toBe('QRCode');
+    expect((layoutOne.elements[3] as QRCodeElement).options.data)
+      .toBe('#mockQrCode');
+    expect((layoutOne.elements[4] as ButtonElement).label)
+      .toBe('enroll.totp.cannotScan');
+    expect((layoutOne.elements[4] as ButtonElement).options.ariaLabel)
+      .toBe('enroll.totp.aria.cannotScan');
+    expect((layoutOne.elements[4] as ButtonElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((layoutOne.elements[4] as ButtonElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
+
+    expect(layoutTwo.elements.length).toBe(4);
+    expect((layoutTwo.elements[0] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.sms.notReceived');
+    expect((layoutTwo.elements[0] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutTwo.elements[0] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutTwo.elements[0] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutTwo.elements[0] as ReminderElement).options.step)
+      .toBe('resend');
+    expect((layoutTwo.elements[1] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.sms.title');
+    expect((layoutTwo.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.email.info');
+    expect(layoutTwo.elements[3].type).toBe('TextWithHtml');
+    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.content)
+      .toBe('oie.enroll.okta_verify.switch.channel.link.text');
+    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.contentClassname)
+      .toBe('switch-channel-link');
+    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
+
+    expect(layoutThree.elements.length).toBe(4);
+    expect((layoutThree.elements[0] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.sms.notReceived');
+    expect((layoutThree.elements[0] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutThree.elements[0] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutThree.elements[0] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutThree.elements[0] as ReminderElement).options.step)
+      .toBe('resend');
+    expect((layoutThree.elements[1] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.sms.title');
+    expect((layoutThree.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.sms.info');
+    expect(layoutThree.elements[3].type).toBe('TextWithHtml');
+    expect((layoutThree.elements[3] as TextWithHtmlElement).options.content)
+      .toBe('oie.enroll.okta_verify.switch.channel.link.text');
+    expect((layoutThree.elements[3] as TextWithHtmlElement).options.contentClassname)
+      .toBe('switch-channel-link');
+    expect((layoutThree.elements[3] as TextWithHtmlElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((layoutThree.elements[3] as TextWithHtmlElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
   });
 
   it('should return a channel selection formBag when email is selected channel and canResend = true', () => {
@@ -67,6 +165,7 @@ describe.skip('TransformOktaVerifyEnrollPoll Tests', () => {
           contextualData: {
             selectedChannel: 'email',
             email: 'noreply@noemail.com',
+            qrcode: { href: '#mockQrCode' },
           },
         },
       },
@@ -75,6 +174,93 @@ describe.skip('TransformOktaVerifyEnrollPoll Tests', () => {
     const updatedFormBag = transformOktaVerifyEnrollPoll({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
+    const [stepperLayout] = updatedFormBag.uischema.elements;
+    const [layoutOne, layoutTwo, layoutThree] = (stepperLayout as StepperLayout).elements;
+
+    expect(layoutOne.elements.length).toBe(5);
+    expect((layoutOne.elements[0] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.email.notReceived');
+    expect((layoutOne.elements[0] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutOne.elements[0] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutOne.elements[0] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutOne.elements[0] as ReminderElement).options.step)
+      .toBe('resend');
+    expect((layoutOne.elements[1] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.email.title');
+    expect(layoutOne.elements[2].type)
+      .toBe('List');
+    expect((layoutOne.elements[2] as ListElement).options.type)
+      .toBe('ordered');
+    expect((layoutOne.elements[2] as ListElement).options.items)
+      .toEqual([
+        'oie.enroll.okta_verify.qrcode.step1',
+        'oie.enroll.okta_verify.qrcode.step2',
+        'oie.enroll.okta_verify.qrcode.step3',
+      ]);
+    expect(layoutOne.elements[3].type).toBe('QRCode');
+    expect((layoutOne.elements[3] as QRCodeElement).options.data)
+      .toBe('#mockQrCode');
+    expect((layoutOne.elements[4] as ButtonElement).label)
+      .toBe('enroll.totp.cannotScan');
+    expect((layoutOne.elements[4] as ButtonElement).options.ariaLabel)
+      .toBe('enroll.totp.aria.cannotScan');
+    expect((layoutOne.elements[4] as ButtonElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((layoutOne.elements[4] as ButtonElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
+
+    expect(layoutTwo.elements.length).toBe(4);
+    expect((layoutTwo.elements[0] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.email.notReceived');
+    expect((layoutTwo.elements[0] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutTwo.elements[0] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutTwo.elements[0] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutTwo.elements[0] as ReminderElement).options.step)
+      .toBe('resend');
+    expect((layoutTwo.elements[1] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.email.title');
+    expect((layoutTwo.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.email.info');
+    expect(layoutTwo.elements[3].type).toBe('TextWithHtml');
+    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.content)
+      .toBe('oie.enroll.okta_verify.switch.channel.link.text');
+    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.contentClassname)
+      .toBe('switch-channel-link');
+    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
+
+    expect(layoutThree.elements.length).toBe(4);
+    expect((layoutThree.elements[0] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.email.notReceived');
+    expect((layoutThree.elements[0] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutThree.elements[0] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutThree.elements[0] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutThree.elements[0] as ReminderElement).options.step)
+      .toBe('resend');
+    expect((layoutThree.elements[1] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.email.title');
+    expect((layoutThree.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.sms.info');
+    expect(layoutThree.elements[3].type).toBe('TextWithHtml');
+    expect((layoutThree.elements[3] as TextWithHtmlElement).options.content)
+      .toBe('oie.enroll.okta_verify.switch.channel.link.text');
+    expect((layoutThree.elements[3] as TextWithHtmlElement).options.contentClassname)
+      .toBe('switch-channel-link');
+    expect((layoutThree.elements[3] as TextWithHtmlElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((layoutThree.elements[3] as TextWithHtmlElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
   });
 
   it('should add Stepper elements when selectedChannel is qrcode and canResend = true', () => {
@@ -89,7 +275,7 @@ describe.skip('TransformOktaVerifyEnrollPoll Tests', () => {
         value: {
           contextualData: {
             selectedChannel: 'qrcode',
-            qrcode: { href: '', method: '', type: '' },
+            qrcode: { href: '#mockQrCode', method: '', type: '' },
           },
         },
       },
@@ -98,5 +284,62 @@ describe.skip('TransformOktaVerifyEnrollPoll Tests', () => {
     const updatedFormBag = transformOktaVerifyEnrollPoll({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
+    const [stepperLayout] = updatedFormBag.uischema.elements;
+    const [layoutOne, layoutTwo, layoutThree] = (stepperLayout as StepperLayout).elements;
+
+    expect(layoutOne.elements.length).toBe(4);
+    expect((layoutOne.elements[0] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.title');
+    expect(layoutOne.elements[1].type)
+      .toBe('List');
+    expect((layoutOne.elements[1] as ListElement).options.type)
+      .toBe('ordered');
+    expect((layoutOne.elements[1] as ListElement).options.items)
+      .toEqual([
+        'oie.enroll.okta_verify.qrcode.step1',
+        'oie.enroll.okta_verify.qrcode.step2',
+        'oie.enroll.okta_verify.qrcode.step3',
+      ]);
+    expect(layoutOne.elements[2].type).toBe('QRCode');
+    expect((layoutOne.elements[2] as QRCodeElement).options.data)
+      .toBe('#mockQrCode');
+    expect((layoutOne.elements[3] as ButtonElement).label)
+      .toBe('enroll.totp.cannotScan');
+    expect((layoutOne.elements[3] as ButtonElement).options.ariaLabel)
+      .toBe('enroll.totp.aria.cannotScan');
+    expect((layoutOne.elements[3] as ButtonElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((layoutOne.elements[3] as ButtonElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
+
+    expect(layoutTwo.elements.length).toBe(3);
+    expect((layoutTwo.elements[0] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.title');
+    expect((layoutTwo.elements[1] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.email.info');
+    expect(layoutTwo.elements[2].type).toBe('TextWithHtml');
+    expect((layoutTwo.elements[2] as TextWithHtmlElement).options.content)
+      .toBe('oie.enroll.okta_verify.switch.channel.link.text');
+    expect((layoutTwo.elements[2] as TextWithHtmlElement).options.contentClassname)
+      .toBe('switch-channel-link');
+    expect((layoutTwo.elements[2] as TextWithHtmlElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((layoutTwo.elements[2] as TextWithHtmlElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
+
+    expect(layoutThree.elements.length).toBe(3);
+    expect((layoutThree.elements[0] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.title');
+    expect((layoutThree.elements[1] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.sms.info');
+    expect(layoutThree.elements[2].type).toBe('TextWithHtml');
+    expect((layoutThree.elements[2] as TextWithHtmlElement).options.content)
+      .toBe('oie.enroll.okta_verify.switch.channel.link.text');
+    expect((layoutThree.elements[2] as TextWithHtmlElement).options.contentClassname)
+      .toBe('switch-channel-link');
+    expect((layoutThree.elements[2] as TextWithHtmlElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((layoutThree.elements[2] as TextWithHtmlElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
   });
 });
