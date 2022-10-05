@@ -10,11 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
+  ButtonElement,
   FieldElement,
+  FormBag,
   TitleElement,
-  UISchemaElement,
   WidgetProps,
 } from 'src/types';
 
@@ -26,12 +28,17 @@ jest.mock('../../util', () => ({
   getUsernameCookie: jest.fn().mockReturnValue('testUserFromCookie'),
 }));
 
-describe.skip('Identify Transformer Tests', () => {
+describe('Identify Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const formBag = getStubFormBag();
+  let formBag: FormBag;
   let widgetProps: WidgetProps;
 
   beforeEach(() => {
+    transaction.nextStep = {
+      name: IDX_STEP.IDENTIFY,
+      action: jest.fn(),
+    };
+    formBag = getStubFormBag();
     formBag.uischema.elements = [
       {
         type: 'Field',
@@ -53,6 +60,7 @@ describe.skip('Identify Transformer Tests', () => {
     + 'features are provided', () => {
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -63,25 +71,27 @@ describe.skip('Identify Transformer Tests', () => {
       .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.name)
       .toBe('rememberMe');
-    expect((updatedFormBag.uischema.elements[4] as UISchemaElement).label)
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
       .toBe('oie.primaryauth.submit');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.step)
+      .toBe(IDX_STEP.IDENTIFY);
   });
 
   it('should add UI elements for identifier and rememberMe inputs when no '
     + 'features are provided', () => {
-    formBag.schema = {};
     formBag.uischema.elements = [
       {
         type: 'Field',
-        name: 'identifier',
-      } as UISchemaElement,
+        options: { inputMeta: { name: 'identifier' } },
+      } as FieldElement,
       {
         type: 'Field',
-        name: 'rememberMe',
-      } as UISchemaElement,
+        options: { inputMeta: { name: 'rememberMe' } },
+      } as FieldElement,
     ];
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -92,6 +102,8 @@ describe.skip('Identify Transformer Tests', () => {
       .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).label)
       .toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options.step)
+      .toBe(IDX_STEP.IDENTIFY);
   });
 
   it('should remove rememberMe element from formBag when showKeepMeSignedIn feature '
@@ -100,6 +112,7 @@ describe.skip('Identify Transformer Tests', () => {
 
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -110,6 +123,8 @@ describe.skip('Identify Transformer Tests', () => {
       .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).label)
       .toBe('oie.primaryauth.submit');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options.step)
+      .toBe(IDX_STEP.IDENTIFY);
   });
 
   it('should add UI elements for identifier, passcode & rememberMe with username default option '
@@ -117,6 +132,7 @@ describe.skip('Identify Transformer Tests', () => {
     widgetProps = { username: 'testUser' };
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.data.identifier).toBe('testUser');
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -130,6 +146,8 @@ describe.skip('Identify Transformer Tests', () => {
       .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).label)
       .toBe('oie.primaryauth.submit');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.step)
+      .toBe(IDX_STEP.IDENTIFY);
   });
 
   it('should add UI elements for identifier, passcode & rememberMe with username pulled from '
@@ -138,6 +156,7 @@ describe.skip('Identify Transformer Tests', () => {
     widgetProps = { features: { rememberMe: true, rememberMyUsernameOnOIE: true } };
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.data.identifier).toBe('testUserFromCookie');
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -151,5 +170,7 @@ describe.skip('Identify Transformer Tests', () => {
       .toBe('rememberMe');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).label)
       .toBe('oie.primaryauth.submit');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.step)
+      .toBe(IDX_STEP.IDENTIFY);
   });
 });
