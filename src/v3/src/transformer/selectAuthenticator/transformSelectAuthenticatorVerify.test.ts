@@ -88,6 +88,7 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.select.authenticators.verify.title');
@@ -96,6 +97,10 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.id'])).toBe('123abc');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.step)).toBe('select-authenticator-authenticate');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.type)).toBe(ButtonType.BUTTON);
   });
 
   it('should add UI elements for verification authenticator selector'
@@ -113,6 +118,7 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
@@ -121,6 +127,10 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.id'])).toBe('123abc');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.step)).toBe('select-authenticator-authenticate');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.type)).toBe(ButtonType.BUTTON);
   });
 
   it('should add UI elements for verification authenticator selector'
@@ -141,6 +151,7 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.specific');
@@ -149,5 +160,9 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.id'])).toBe('123abc');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.step)).toBe('select-authenticator-authenticate');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.type)).toBe(ButtonType.BUTTON);
   });
 });
