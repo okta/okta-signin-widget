@@ -32,6 +32,7 @@ describe('Unhandled Error Transformer Tests', () => {
   it('should add Infobox with unexpected error message when error is not provided', () => {
     const formBag = transformUnhandledErrors(widgetProps);
 
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     const el = formBag.uischema.elements[0] as InfoboxElement;
     expect(el.type).toBe('InfoBox');
@@ -48,6 +49,7 @@ describe('Unhandled Error Transformer Tests', () => {
     };
     const formBag = transformUnhandledErrors(widgetProps, apiError);
 
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('InfoBox');
     expect((formBag.uischema.elements[0] as InfoboxElement).options?.message).toBe('oie.invalid.recovery.token');
@@ -65,6 +67,7 @@ describe('Unhandled Error Transformer Tests', () => {
     };
     const formBag = transformUnhandledErrors(widgetProps, apiError);
 
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     const el = formBag.uischema.elements[0] as InfoboxElement;
     expect(el.type).toBe('InfoBox');
@@ -81,6 +84,7 @@ describe('Unhandled Error Transformer Tests', () => {
     };
     const formBag = transformUnhandledErrors(widgetProps, apiError);
 
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     const el = formBag.uischema.elements[0] as InfoboxElement;
     expect(el.type).toBe('InfoBox');
