@@ -13,8 +13,13 @@
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
+  ButtonElement,
+  ButtonType,
   FieldElement,
   FormBag,
+  StepperLayout,
+  StepperRadioElement,
+  TitleElement,
   WidgetProps,
 } from 'src/types';
 
@@ -100,5 +105,63 @@ describe('SecurityQuestionEnroll Tests', () => {
     const updatedFormBag = transformSecurityQuestionEnroll({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
+
+    const [stepperLayout] = updatedFormBag.uischema.elements;
+
+    const [layoutOne, layoutTwo] = (stepperLayout as StepperLayout).elements;
+
+    expect(layoutOne.elements.length).toBe(5);
+    expect((layoutOne.elements[0] as TitleElement).options.content)
+      .toBe('oie.security.question.enroll.title');
+    expect(layoutOne.elements[1].type).toBe('StepperRadio');
+    expect((layoutOne.elements[1] as StepperRadioElement).options.customOptions.length)
+      .toBe(2);
+    expect((layoutOne.elements[1] as StepperRadioElement).options.name)
+      .toBe('questionType');
+
+    expect((layoutOne.elements[2] as FieldElement).label)
+      .toBe('oie.security.question.questionKey.label');
+    expect((layoutOne.elements[2] as FieldElement).options.customOptions?.length)
+      .toBe(2);
+    expect((layoutOne.elements[2] as FieldElement).options.format)
+      .toBe('dropdown');
+    expect((layoutOne.elements[2] as FieldElement).options.inputMeta.name)
+      .toBe('credentials.questionKey');
+
+    expect((layoutOne.elements[3] as FieldElement).options.inputMeta.name)
+      .toBe('credentials.answer');
+    expect((layoutOne.elements[3] as FieldElement).options.inputMeta.secret)
+      .toBe(true);
+    expect((layoutOne.elements[4] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
+    expect((layoutOne.elements[4] as ButtonElement).options.includeImmutableData)
+      .toBe(false);
+    expect((layoutOne.elements[4] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
+
+    expect(layoutTwo.elements.length).toBe(5);
+    expect((layoutTwo.elements[0] as TitleElement).options.content)
+      .toBe('oie.security.question.enroll.title');
+    expect(layoutTwo.elements[1].type).toBe('StepperRadio');
+    expect((layoutTwo.elements[1] as StepperRadioElement).options.customOptions.length)
+      .toBe(2);
+    expect((layoutTwo.elements[1] as StepperRadioElement).options.name)
+      .toBe('questionType');
+
+    expect((layoutTwo.elements[2] as FieldElement).label)
+      .toBe('oie.security.question.createQuestion.label');
+    expect((layoutTwo.elements[2] as FieldElement).options.inputMeta.name)
+      .toBe('credentials.question');
+
+    expect((layoutTwo.elements[3] as FieldElement).options.inputMeta.name)
+      .toBe('credentials.answer');
+    expect((layoutTwo.elements[3] as FieldElement).options.inputMeta.secret)
+      .toBe(true);
+    expect((layoutTwo.elements[4] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
+    expect((layoutTwo.elements[4] as ButtonElement).options.actionParams)
+      .toEqual({ 'credentials.questionKey': 'custom' });
+    expect((layoutTwo.elements[4] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
   });
 });

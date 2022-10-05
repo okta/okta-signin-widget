@@ -13,7 +13,10 @@
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
+  ButtonElement,
+  ButtonType,
   FieldElement,
+  TitleElement,
   WidgetProps,
 } from 'src/types';
 
@@ -45,8 +48,28 @@ describe('SecurityQuestionVerify Tests', () => {
     };
     const updatedFormBag = transformSecurityQuestionVerify({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.security.question.challenge.title');
+
+    // answer element
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
+      .toBe('credentials.answer');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.secret)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).translations?.[0])
+      .toEqual({
+        i18nKey: '',
+        name: 'label',
+        value: 'What is love?',
+      });
+
+    // submit button
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe('oform.verify');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
   });
 
   it('should create security question verify UI elements for custom question', () => {
@@ -63,7 +86,27 @@ describe('SecurityQuestionVerify Tests', () => {
     };
     const updatedFormBag = transformSecurityQuestionVerify({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.security.question.challenge.title');
+
+    // answer element
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
+      .toBe('credentials.answer');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.secret)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).translations?.[0])
+      .toEqual({
+        i18nKey: '',
+        name: 'label',
+        value: 'What is love?',
+      });
+
+    // submit button
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe('oform.verify');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
   });
 });
