@@ -129,7 +129,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                         class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
                         for="credentials.answer"
                       >
-                        What is the food you least liked as a child?
+                        What is the food you least liked as a child? *
                       </label>
                       <div
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-18"

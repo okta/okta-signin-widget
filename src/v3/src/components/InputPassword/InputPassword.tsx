@@ -36,7 +36,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const { translations = [], focus } = uischema;
   const {
     attributes,
-    inputMeta: { name },
+    inputMeta: { name, required },
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
@@ -50,7 +50,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   return (
     <Box>
       <PasswordInput
-        label={label}
+        label={label + (required ? ' *' : '')}
         tooltipLabel={
           (isHidden: boolean) => (isHidden ? getTranslation(translations, 'show') : getTranslation(translations, 'hide'))
         }

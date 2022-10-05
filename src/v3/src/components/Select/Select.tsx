@@ -41,6 +41,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
     attributes,
     inputMeta: {
       name,
+      required,
       options,
     },
     customOptions,
@@ -58,6 +59,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
 
   return (
     <FormControl
+      required={required}
       error={error !== undefined}
     >
       <InputLabel htmlFor={name}>{label}</InputLabel>

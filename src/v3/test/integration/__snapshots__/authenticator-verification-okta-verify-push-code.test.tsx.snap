@@ -119,38 +119,48 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <label
-                    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-16"
+                  <fieldset
+                    class="MuiFormControl-root emotion-16"
                   >
-                    <span
-                      class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-17"
+                    <label
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-17"
                     >
-                      <input
-                        class="PrivateSwitchBase-input emotion-18"
-                        data-se="autoChallenge"
-                        data-se-for-name="autoChallenge"
-                        id="autoChallenge"
-                        name="autoChallenge"
-                        type="checkbox"
-                      />
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
-                        data-testid="CheckBoxOutlineBlankIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
+                      <span
+                        class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-18"
                       >
-                        <path
-                          d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                        <input
+                          class="PrivateSwitchBase-input emotion-19"
+                          data-se="autoChallenge"
+                          data-se-for-name="autoChallenge"
+                          id="autoChallenge"
+                          name="autoChallenge"
+                          type="checkbox"
                         />
-                      </svg>
-                    </span>
-                    <span
-                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-20"
-                    >
-                      Send push automatically
-                    </span>
-                  </label>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-20"
+                          data-testid="CheckBoxOutlineBlankIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-21"
+                      >
+                        Send push automatically
+                      </span>
+                    </label>
+                    <p
+                      class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-22"
+                      data-se="autoChallenge-error"
+                      id="autoChallenge-error"
+                      role="alert"
+                    />
+                  </fieldset>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
@@ -159,7 +169,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-13"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                       data-se="o-form-explain"
                     >
                       On your mobile device, open the Okta Verify prompt, then tap 52 in Okta Verify to continue.
@@ -170,11 +180,11 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-25"
+                    class="MuiBox-root emotion-27"
                     id="code"
                   >
                     <div
-                      class="MuiBox-root emotion-26"
+                      class="MuiBox-root emotion-28"
                     >
                       <mocksvgicon />
                     </div>
@@ -193,21 +203,21 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-29"
+                    class="MuiBox-root emotion-31"
                   >
                     <span
                       aria-label="Loading..."
                       aria-valuetext="Loading..."
-                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-30"
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-32"
                       role="progressbar"
                       style="width: 1.14285714rem; height: 1.14285714rem;"
                     >
                       <svg
-                        class="MuiCircularProgress-svg emotion-31"
+                        class="MuiCircularProgress-svg emotion-33"
                         viewBox="22 22 44 44"
                       >
                         <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-32"
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-34"
                           cx="44"
                           cy="44"
                           fill="none"
@@ -222,7 +232,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-36"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >

@@ -43,6 +43,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
     options: {
       inputMeta: {
         name,
+        required,
         options,
       },
       customOptions,
@@ -60,6 +61,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   return (
     <FormControl
       component="fieldset"
+      required={required}
       error={!!error}
     >
       {label && (<FormLabel>{label!}</FormLabel>)}

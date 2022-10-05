@@ -116,18 +116,25 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     class="MuiBox-root emotion-7"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-20"
                       for="userProfile.favoriteSport"
                     >
                       Favorite sport
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-21"
+                      >
+                         
+                        *
+                      </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-21"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-22"
                     >
                       <input
                         aria-describedby="userProfile.favoriteSport-error"
                         aria-invalid="true"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
                         data-se="userProfile.favoriteSport"
                         id="userProfile.favoriteSport"
                         name="userProfile.favoriteSport"
@@ -135,10 +142,10 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-23"
+                        class="MuiOutlinedInput-notchedOutline emotion-24"
                       >
                         <legend
-                          class="emotion-24"
+                          class="emotion-25"
                         >
                           <span
                             class="notranslate"
@@ -149,7 +156,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       </fieldset>
                     </div>
                     <p
-                      class="MuiFormHelperText-root Mui-error emotion-25"
+                      class="MuiFormHelperText-root Mui-error emotion-26"
                       data-se="userProfile.favoriteSport-error"
                       id="userProfile.favoriteSport-error"
                       role="alert"
@@ -165,18 +172,25 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     class="MuiBox-root emotion-7"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-20"
                       for="userProfile.newAttribute"
                     >
                       Custom attribute
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-21"
+                      >
+                         
+                        *
+                      </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-21"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-22"
                     >
                       <input
                         aria-describedby="userProfile.newAttribute-error"
                         aria-invalid="true"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
                         data-se="userProfile.newAttribute"
                         id="userProfile.newAttribute"
                         name="userProfile.newAttribute"
@@ -184,10 +198,10 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-23"
+                        class="MuiOutlinedInput-notchedOutline emotion-24"
                       >
                         <legend
-                          class="emotion-24"
+                          class="emotion-25"
                         >
                           <span
                             class="notranslate"
@@ -198,7 +212,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       </fieldset>
                     </div>
                     <p
-                      class="MuiFormHelperText-root Mui-error emotion-25"
+                      class="MuiFormHelperText-root Mui-error emotion-26"
                       data-se="userProfile.newAttribute-error"
                       id="userProfile.newAttribute-error"
                       role="alert"
@@ -211,7 +225,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                   class="MuiBox-root emotion-15"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-35"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-37"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -316,17 +330,24 @@ exports[`enroll-profile-update should render form 1`] = `
                     class="MuiBox-root emotion-7"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-15"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-15"
                       for="userProfile.favoriteSport"
                     >
                       Favorite sport
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-16"
+                      >
+                         
+                        *
+                      </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
                     >
                       <input
                         aria-invalid="false"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
                         data-se="userProfile.favoriteSport"
                         id="userProfile.favoriteSport"
                         name="userProfile.favoriteSport"
@@ -334,10 +355,10 @@ exports[`enroll-profile-update should render form 1`] = `
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-18"
+                        class="MuiOutlinedInput-notchedOutline emotion-19"
                       >
                         <legend
-                          class="emotion-19"
+                          class="emotion-20"
                         >
                           <span
                             class="notranslate"
@@ -356,17 +377,24 @@ exports[`enroll-profile-update should render form 1`] = `
                     class="MuiBox-root emotion-7"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-15"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-15"
                       for="userProfile.newAttribute"
                     >
                       Custom attribute
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-16"
+                      >
+                         
+                        *
+                      </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
                     >
                       <input
                         aria-invalid="false"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
                         data-se="userProfile.newAttribute"
                         id="userProfile.newAttribute"
                         name="userProfile.newAttribute"
@@ -374,10 +402,10 @@ exports[`enroll-profile-update should render form 1`] = `
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-18"
+                        class="MuiOutlinedInput-notchedOutline emotion-19"
                       >
                         <legend
-                          class="emotion-19"
+                          class="emotion-20"
                         >
                           <span
                             class="notranslate"
@@ -393,7 +421,7 @@ exports[`enroll-profile-update should render form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-28"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-30"
                     data-type="save"
                     tabindex="0"
                     type="submit"

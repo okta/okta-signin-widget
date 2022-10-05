@@ -328,7 +328,7 @@ describe('authenticator-enroll-security-question', () => {
 
       // switch to predefined question form
       await user.click(await findByLabelText(/Choose a security question/));
-      await findByLabelText('Choose a security question', { selector: 'select' });
+      await findByLabelText('Choose a security question *', { selector: 'select' });
       const restoredAnswerEle = await findByTestId('credentials.answer') as HTMLInputElement;
 
       await user.type(restoredAnswerEle, answer);

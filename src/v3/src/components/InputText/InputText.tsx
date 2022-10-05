@@ -40,7 +40,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const hint = getTranslation(translations, 'hint');
   const {
     attributes,
-    inputMeta: { name },
+    inputMeta: { name, required },
     dataSe,
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
@@ -53,7 +53,12 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
 
   return (
     <Box>
-      <InputLabel htmlFor={name}>{label}</InputLabel>
+      <InputLabel
+        htmlFor={name}
+        required={required}
+      >
+        {label}
+      </InputLabel>
       { hint && <FormHelperText data-se={`${name}-hint`}>{hint}</FormHelperText> }
       <OutlinedInput
         value={value}

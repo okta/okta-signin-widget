@@ -259,18 +259,25 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-39"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-39"
                         for="credentials.question"
                       >
                         Create my own security question
+                        <span
+                          aria-hidden="true"
+                          class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-40"
+                        >
+                           
+                          *
+                        </span>
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-40"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-41"
                       >
                         <input
                           aria-describedby="credentials.question-error"
                           aria-invalid="true"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-41"
+                          class="MuiOutlinedInput-input MuiInputBase-input emotion-42"
                           data-se="credentials.question"
                           id="credentials.question"
                           name="credentials.question"
@@ -278,10 +285,10 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                         />
                         <fieldset
                           aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-42"
+                          class="MuiOutlinedInput-notchedOutline emotion-43"
                         >
                           <legend
-                            class="emotion-43"
+                            class="emotion-44"
                           >
                             <span
                               class="notranslate"
@@ -292,7 +299,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                         </fieldset>
                       </div>
                       <p
-                        class="MuiFormHelperText-root Mui-error emotion-44"
+                        class="MuiFormHelperText-root Mui-error emotion-45"
                         data-se="credentials.question-error"
                         id="credentials.question-error"
                         role="alert"
@@ -314,32 +321,32 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-39"
                           for="credentials.answer"
                         >
-                          Answer
+                          Answer *
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-49"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-50"
                         >
                           <input
                             aria-invalid="false"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-50"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-51"
                             data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-51"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-52"
                           >
                             <button
                               aria-label="toggle password visibility"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-52"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-53"
                               data-mui-internal-clone-element="true"
                               tabindex="0"
                               type="button"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-53"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-54"
                                 data-testid="VisibilityIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -352,10 +359,10 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           </div>
                           <fieldset
                             aria-hidden="true"
-                            class="MuiOutlinedInput-notchedOutline emotion-42"
+                            class="MuiOutlinedInput-notchedOutline emotion-43"
                           >
                             <legend
-                              class="emotion-43"
+                              class="emotion-44"
                             >
                               <span
                                 class="notranslate"
@@ -372,7 +379,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                     class="MuiBox-root emotion-17"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-57"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-58"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -385,7 +392,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -396,7 +403,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -643,17 +650,24 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-34"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-34"
                         for="credentials.question"
                       >
                         Create my own security question
+                        <span
+                          aria-hidden="true"
+                          class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-35"
+                        >
+                           
+                          *
+                        </span>
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-35"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-36"
                       >
                         <input
                           aria-invalid="false"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-36"
+                          class="MuiOutlinedInput-input MuiInputBase-input emotion-37"
                           data-se="credentials.question"
                           id="credentials.question"
                           name="credentials.question"
@@ -661,10 +675,10 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                         />
                         <fieldset
                           aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-37"
+                          class="MuiOutlinedInput-notchedOutline emotion-38"
                         >
                           <legend
-                            class="emotion-38"
+                            class="emotion-39"
                           >
                             <span
                               class="notranslate"
@@ -689,32 +703,32 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-34"
                           for="credentials.answer"
                         >
-                          Answer
+                          Answer *
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-43"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-44"
                         >
                           <input
                             aria-invalid="false"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-44"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-45"
                             data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-45"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-46"
                           >
                             <button
                               aria-label="toggle password visibility"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-46"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-47"
                               data-mui-internal-clone-element="true"
                               tabindex="0"
                               type="button"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-47"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-48"
                                 data-testid="VisibilityIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -727,10 +741,10 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           </div>
                           <fieldset
                             aria-hidden="true"
-                            class="MuiOutlinedInput-notchedOutline emotion-37"
+                            class="MuiOutlinedInput-notchedOutline emotion-38"
                           >
                             <legend
-                              class="emotion-38"
+                              class="emotion-39"
                             >
                               <span
                                 class="notranslate"
@@ -747,7 +761,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-51"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-52"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -760,7 +774,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -771,7 +785,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -1047,17 +1061,24 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-39"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-39"
                         for="credentials.question"
                       >
                         Create my own security question
+                        <span
+                          aria-hidden="true"
+                          class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-40"
+                        >
+                           
+                          *
+                        </span>
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-40"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-41"
                       >
                         <input
                           aria-invalid="false"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-41"
+                          class="MuiOutlinedInput-input MuiInputBase-input emotion-42"
                           data-se="credentials.question"
                           id="credentials.question"
                           name="credentials.question"
@@ -1065,10 +1086,10 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                         />
                         <fieldset
                           aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-42"
+                          class="MuiOutlinedInput-notchedOutline emotion-43"
                         >
                           <legend
-                            class="emotion-43"
+                            class="emotion-44"
                           >
                             <span
                               class="notranslate"
@@ -1093,33 +1114,33 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                           class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-39"
                           for="credentials.answer"
                         >
-                          Answer
+                          Answer *
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-48"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-49"
                         >
                           <input
                             aria-describedby="credentials.answer-error"
                             aria-invalid="true"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-49"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-50"
                             data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-51"
                           >
                             <button
                               aria-label="toggle password visibility"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-51"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-52"
                               data-mui-internal-clone-element="true"
                               tabindex="0"
                               type="button"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-52"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-53"
                                 data-testid="VisibilityIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -1132,10 +1153,10 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                           </div>
                           <fieldset
                             aria-hidden="true"
-                            class="MuiOutlinedInput-notchedOutline emotion-42"
+                            class="MuiOutlinedInput-notchedOutline emotion-43"
                           >
                             <legend
-                              class="emotion-43"
+                              class="emotion-44"
                             >
                               <span
                                 class="notranslate"
@@ -1147,7 +1168,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                         </div>
                       </div>
                       <p
-                        class="MuiFormHelperText-root Mui-error emotion-55"
+                        class="MuiFormHelperText-root Mui-error emotion-56"
                         data-se="credentials.answer-error"
                         id="credentials.answer-error"
                         role="alert"
@@ -1160,7 +1181,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                     class="MuiBox-root emotion-17"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-57"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-58"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -1173,7 +1194,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1184,7 +1205,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -1428,147 +1449,159 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiBox-root emotion-12"
                   >
                     <div
-                      class="MuiBox-root emotion-4"
+                      class="MuiFormControl-root emotion-16"
                     >
-                      <div
-                        class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-4zKnH2"
+                      <label
+                        class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-34"
+                        for="credentials.questionKey"
                       >
-                        <label
-                          class="ods-4o5zYQ ods-76eppy ods-5VQ9Rl ods-7KS5Kt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-g8inGu"
-                          for="credentials.questionKey"
+                        Choose a security question
+                        <span
+                          aria-hidden="true"
+                          class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-35"
                         >
-                          <span
-                            class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6rDd3P ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
-                          >
-                            Choose a security question
-                          </span>
-                        </label>
-                        <div
-                          class="ods-mUkyrD"
+                           
+                          *
+                        </span>
+                      </label>
+                      <div
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-36"
+                      >
+                        <select
+                          aria-invalid="false"
+                          class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-37"
+                          data-se="credentials.questionKey"
+                          id="credentials.questionKey"
+                          name="credentials.questionKey"
+                          required=""
                         >
-                          <select
-                            class="ods-1B2Zfy"
-                            id="credentials.questionKey"
-                            name="credentials.questionKey"
+                          <option
+                            aria-label="Select an Option"
+                            value=""
                           >
-                            <option
-                              value=""
-                            />
-                            <option
-                              value="disliked_food"
-                            >
-                              What is the food you least liked as a child?
-                            </option>
-                            <option
-                              value="name_of_first_plush_toy"
-                            >
-                              What is the name of your first stuffed animal?
-                            </option>
-                            <option
-                              value="first_award"
-                            >
-                              What did you earn your first medal or award for?
-                            </option>
-                            <option
-                              value="favorite_security_question"
-                            >
-                              What is your favorite security question?
-                            </option>
-                            <option
-                              value="favorite_toy"
-                            >
-                              What is the toy/stuffed animal you liked the most as a kid?
-                            </option>
-                            <option
-                              value="first_computer_game"
-                            >
-                              What was the first computer game you played?
-                            </option>
-                            <option
-                              value="favorite_movie_quote"
-                            >
-                              What is your favorite movie quote?
-                            </option>
-                            <option
-                              value="first_sports_team_mascot"
-                            >
-                              What was the mascot of the first sports team you played on?
-                            </option>
-                            <option
-                              value="first_music_purchase"
-                            >
-                              What music album or song did you first purchase?
-                            </option>
-                            <option
-                              value="favorite_art_piece"
-                            >
-                              What is your favorite piece of art?
-                            </option>
-                            <option
-                              value="grandmother_favorite_desert"
-                            >
-                              What was your grandmother's favorite dessert?
-                            </option>
-                            <option
-                              value="first_thing_cooked"
-                            >
-                              What was the first thing you learned to cook?
-                            </option>
-                            <option
-                              value="childhood_dream_job"
-                            >
-                              What was your dream job as a child?
-                            </option>
-                            <option
-                              value="place_where_significant_other_was_met"
-                            >
-                              Where did you meet your spouse/significant other?
-                            </option>
-                            <option
-                              value="favorite_vacation_location"
-                            >
-                              Where did you go for your favorite vacation?
-                            </option>
-                            <option
-                              value="new_years_two_thousand"
-                            >
-                              Where were you on New Year's Eve in the year 2000?
-                            </option>
-                            <option
-                              value="favorite_speaker_actor"
-                            >
-                              Who is your favorite speaker/orator?
-                            </option>
-                            <option
-                              value="favorite_book_movie_character"
-                            >
-                              Who is your favorite book/movie character?
-                            </option>
-                            <option
-                              value="favorite_sports_player"
-                            >
-                              Who is your favorite sports player?
-                            </option>
-                          </select>
-                          <span
-                            class="ods-7mdg51"
+                            Select an Option
+                          </option>
+                          <option
+                            value="disliked_food"
                           >
-                            <svg
-                              class="ods-2icygl"
-                              fill="none"
-                              role="presentation"
-                              viewBox="0 0 16 16"
-                              xmlns="http://www.w3.org/2000/svg"
+                            What is the food you least liked as a child?
+                          </option>
+                          <option
+                            value="name_of_first_plush_toy"
+                          >
+                            What is the name of your first stuffed animal?
+                          </option>
+                          <option
+                            value="first_award"
+                          >
+                            What did you earn your first medal or award for?
+                          </option>
+                          <option
+                            value="favorite_security_question"
+                          >
+                            What is your favorite security question?
+                          </option>
+                          <option
+                            value="favorite_toy"
+                          >
+                            What is the toy/stuffed animal you liked the most as a kid?
+                          </option>
+                          <option
+                            value="first_computer_game"
+                          >
+                            What was the first computer game you played?
+                          </option>
+                          <option
+                            value="favorite_movie_quote"
+                          >
+                            What is your favorite movie quote?
+                          </option>
+                          <option
+                            value="first_sports_team_mascot"
+                          >
+                            What was the mascot of the first sports team you played on?
+                          </option>
+                          <option
+                            value="first_music_purchase"
+                          >
+                            What music album or song did you first purchase?
+                          </option>
+                          <option
+                            value="favorite_art_piece"
+                          >
+                            What is your favorite piece of art?
+                          </option>
+                          <option
+                            value="grandmother_favorite_desert"
+                          >
+                            What was your grandmother's favorite dessert?
+                          </option>
+                          <option
+                            value="first_thing_cooked"
+                          >
+                            What was the first thing you learned to cook?
+                          </option>
+                          <option
+                            value="childhood_dream_job"
+                          >
+                            What was your dream job as a child?
+                          </option>
+                          <option
+                            value="place_where_significant_other_was_met"
+                          >
+                            Where did you meet your spouse/significant other?
+                          </option>
+                          <option
+                            value="favorite_vacation_location"
+                          >
+                            Where did you go for your favorite vacation?
+                          </option>
+                          <option
+                            value="new_years_two_thousand"
+                          >
+                            Where were you on New Year's Eve in the year 2000?
+                          </option>
+                          <option
+                            value="favorite_speaker_actor"
+                          >
+                            Who is your favorite speaker/orator?
+                          </option>
+                          <option
+                            value="favorite_book_movie_character"
+                          >
+                            Who is your favorite book/movie character?
+                          </option>
+                          <option
+                            value="favorite_sports_player"
+                          >
+                            Who is your favorite sports player?
+                          </option>
+                        </select>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-38"
+                          data-testid="ArrowDropDownIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M7 10l5 5 5-5z"
+                          />
+                        </svg>
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline emotion-39"
+                        >
+                          <legend
+                            class="emotion-40"
+                          >
+                            <span
+                              class="notranslate"
                             >
-                              <path
-                                clip-rule="evenodd"
-                                d="M8 10.2929L12.6464 5.64645L13.3536 6.35355L8.35355 11.3536C8.15829 11.5488 7.84171 11.5488 7.64645 11.3536L2.64645 6.35355L3.35355 5.64645L8 10.2929Z"
-                                fill="currentColor"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                          </span>
-                        </div>
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
                       </div>
                     </div>
                   </div>
@@ -1582,35 +1615,35 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                         class="MuiBox-root emotion-4"
                       >
                         <label
-                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-37"
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-44"
                           for="credentials.answer"
                         >
-                          Answer
+                          Answer *
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-38"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-45"
                         >
                           <input
                             aria-invalid="false"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-39"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-46"
                             data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-40"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-47"
                           >
                             <button
                               aria-label="toggle password visibility"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-41"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-48"
                               data-mui-internal-clone-element="true"
                               tabindex="0"
                               type="button"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-42"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-49"
                                 data-testid="VisibilityIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -1623,10 +1656,10 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                           </div>
                           <fieldset
                             aria-hidden="true"
-                            class="MuiOutlinedInput-notchedOutline emotion-43"
+                            class="MuiOutlinedInput-notchedOutline emotion-39"
                           >
                             <legend
-                              class="emotion-44"
+                              class="emotion-40"
                             >
                               <span
                                 class="notranslate"
@@ -1643,7 +1676,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-46"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-53"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -1656,7 +1689,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1667,7 +1700,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -1940,147 +1973,159 @@ exports[`authenticator-enroll-security-question predefined question should send 
                     class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiBox-root emotion-4"
+                      class="MuiFormControl-root emotion-21"
                     >
-                      <div
-                        class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-4zKnH2"
+                      <label
+                        class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-required emotion-39"
+                        for="credentials.questionKey"
                       >
-                        <label
-                          class="ods-4o5zYQ ods-76eppy ods-5VQ9Rl ods-7KS5Kt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-g8inGu"
-                          for="credentials.questionKey"
+                        Choose a security question
+                        <span
+                          aria-hidden="true"
+                          class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-40"
                         >
-                          <span
-                            class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6rDd3P ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
-                          >
-                            Choose a security question
-                          </span>
-                        </label>
-                        <div
-                          class="ods-mUkyrD"
+                           
+                          *
+                        </span>
+                      </label>
+                      <div
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-41"
+                      >
+                        <select
+                          aria-invalid="false"
+                          class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-42"
+                          data-se="credentials.questionKey"
+                          id="credentials.questionKey"
+                          name="credentials.questionKey"
+                          required=""
                         >
-                          <select
-                            class="ods-1B2Zfy"
-                            id="credentials.questionKey"
-                            name="credentials.questionKey"
+                          <option
+                            aria-label="Select an Option"
+                            value=""
                           >
-                            <option
-                              value=""
-                            />
-                            <option
-                              value="disliked_food"
-                            >
-                              What is the food you least liked as a child?
-                            </option>
-                            <option
-                              value="name_of_first_plush_toy"
-                            >
-                              What is the name of your first stuffed animal?
-                            </option>
-                            <option
-                              value="first_award"
-                            >
-                              What did you earn your first medal or award for?
-                            </option>
-                            <option
-                              value="favorite_security_question"
-                            >
-                              What is your favorite security question?
-                            </option>
-                            <option
-                              value="favorite_toy"
-                            >
-                              What is the toy/stuffed animal you liked the most as a kid?
-                            </option>
-                            <option
-                              value="first_computer_game"
-                            >
-                              What was the first computer game you played?
-                            </option>
-                            <option
-                              value="favorite_movie_quote"
-                            >
-                              What is your favorite movie quote?
-                            </option>
-                            <option
-                              value="first_sports_team_mascot"
-                            >
-                              What was the mascot of the first sports team you played on?
-                            </option>
-                            <option
-                              value="first_music_purchase"
-                            >
-                              What music album or song did you first purchase?
-                            </option>
-                            <option
-                              value="favorite_art_piece"
-                            >
-                              What is your favorite piece of art?
-                            </option>
-                            <option
-                              value="grandmother_favorite_desert"
-                            >
-                              What was your grandmother's favorite dessert?
-                            </option>
-                            <option
-                              value="first_thing_cooked"
-                            >
-                              What was the first thing you learned to cook?
-                            </option>
-                            <option
-                              value="childhood_dream_job"
-                            >
-                              What was your dream job as a child?
-                            </option>
-                            <option
-                              value="place_where_significant_other_was_met"
-                            >
-                              Where did you meet your spouse/significant other?
-                            </option>
-                            <option
-                              value="favorite_vacation_location"
-                            >
-                              Where did you go for your favorite vacation?
-                            </option>
-                            <option
-                              value="new_years_two_thousand"
-                            >
-                              Where were you on New Year's Eve in the year 2000?
-                            </option>
-                            <option
-                              value="favorite_speaker_actor"
-                            >
-                              Who is your favorite speaker/orator?
-                            </option>
-                            <option
-                              value="favorite_book_movie_character"
-                            >
-                              Who is your favorite book/movie character?
-                            </option>
-                            <option
-                              value="favorite_sports_player"
-                            >
-                              Who is your favorite sports player?
-                            </option>
-                          </select>
-                          <span
-                            class="ods-7mdg51"
+                            Select an Option
+                          </option>
+                          <option
+                            value="disliked_food"
                           >
-                            <svg
-                              class="ods-2icygl"
-                              fill="none"
-                              role="presentation"
-                              viewBox="0 0 16 16"
-                              xmlns="http://www.w3.org/2000/svg"
+                            What is the food you least liked as a child?
+                          </option>
+                          <option
+                            value="name_of_first_plush_toy"
+                          >
+                            What is the name of your first stuffed animal?
+                          </option>
+                          <option
+                            value="first_award"
+                          >
+                            What did you earn your first medal or award for?
+                          </option>
+                          <option
+                            value="favorite_security_question"
+                          >
+                            What is your favorite security question?
+                          </option>
+                          <option
+                            value="favorite_toy"
+                          >
+                            What is the toy/stuffed animal you liked the most as a kid?
+                          </option>
+                          <option
+                            value="first_computer_game"
+                          >
+                            What was the first computer game you played?
+                          </option>
+                          <option
+                            value="favorite_movie_quote"
+                          >
+                            What is your favorite movie quote?
+                          </option>
+                          <option
+                            value="first_sports_team_mascot"
+                          >
+                            What was the mascot of the first sports team you played on?
+                          </option>
+                          <option
+                            value="first_music_purchase"
+                          >
+                            What music album or song did you first purchase?
+                          </option>
+                          <option
+                            value="favorite_art_piece"
+                          >
+                            What is your favorite piece of art?
+                          </option>
+                          <option
+                            value="grandmother_favorite_desert"
+                          >
+                            What was your grandmother's favorite dessert?
+                          </option>
+                          <option
+                            value="first_thing_cooked"
+                          >
+                            What was the first thing you learned to cook?
+                          </option>
+                          <option
+                            value="childhood_dream_job"
+                          >
+                            What was your dream job as a child?
+                          </option>
+                          <option
+                            value="place_where_significant_other_was_met"
+                          >
+                            Where did you meet your spouse/significant other?
+                          </option>
+                          <option
+                            value="favorite_vacation_location"
+                          >
+                            Where did you go for your favorite vacation?
+                          </option>
+                          <option
+                            value="new_years_two_thousand"
+                          >
+                            Where were you on New Year's Eve in the year 2000?
+                          </option>
+                          <option
+                            value="favorite_speaker_actor"
+                          >
+                            Who is your favorite speaker/orator?
+                          </option>
+                          <option
+                            value="favorite_book_movie_character"
+                          >
+                            Who is your favorite book/movie character?
+                          </option>
+                          <option
+                            value="favorite_sports_player"
+                          >
+                            Who is your favorite sports player?
+                          </option>
+                        </select>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-43"
+                          data-testid="ArrowDropDownIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M7 10l5 5 5-5z"
+                          />
+                        </svg>
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline emotion-44"
+                        >
+                          <legend
+                            class="emotion-45"
+                          >
+                            <span
+                              class="notranslate"
                             >
-                              <path
-                                clip-rule="evenodd"
-                                d="M8 10.2929L12.6464 5.64645L13.3536 6.35355L8.35355 11.3536C8.15829 11.5488 7.84171 11.5488 7.64645 11.3536L2.64645 6.35355L3.35355 5.64645L8 10.2929Z"
-                                fill="currentColor"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                          </span>
-                        </div>
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
                       </div>
                     </div>
                   </div>
@@ -2094,36 +2139,36 @@ exports[`authenticator-enroll-security-question predefined question should send 
                         class="MuiBox-root emotion-4"
                       >
                         <label
-                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-42"
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-49"
                           for="credentials.answer"
                         >
-                          Answer
+                          Answer *
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-43"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-50"
                         >
                           <input
                             aria-describedby="credentials.answer-error"
                             aria-invalid="true"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-44"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-51"
                             data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-45"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-52"
                           >
                             <button
                               aria-label="toggle password visibility"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-46"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-53"
                               data-mui-internal-clone-element="true"
                               tabindex="0"
                               type="button"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-47"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-54"
                                 data-testid="VisibilityIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -2136,10 +2181,10 @@ exports[`authenticator-enroll-security-question predefined question should send 
                           </div>
                           <fieldset
                             aria-hidden="true"
-                            class="MuiOutlinedInput-notchedOutline emotion-48"
+                            class="MuiOutlinedInput-notchedOutline emotion-44"
                           >
                             <legend
-                              class="emotion-49"
+                              class="emotion-45"
                             >
                               <span
                                 class="notranslate"
@@ -2151,7 +2196,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                         </div>
                       </div>
                       <p
-                        class="MuiFormHelperText-root Mui-error emotion-50"
+                        class="MuiFormHelperText-root Mui-error emotion-57"
                         data-se="credentials.answer-error"
                         id="credentials.answer-error"
                         role="alert"
@@ -2164,7 +2209,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                     class="MuiBox-root emotion-17"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-52"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-59"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -2177,7 +2222,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-61"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -2188,7 +2233,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-61"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -2432,147 +2477,159 @@ exports[`authenticator-enroll-security-question predefined question should show 
                     class="MuiBox-root emotion-12"
                   >
                     <div
-                      class="MuiBox-root emotion-4"
+                      class="MuiFormControl-root emotion-16"
                     >
-                      <div
-                        class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-4zKnH2"
+                      <label
+                        class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-34"
+                        for="credentials.questionKey"
                       >
-                        <label
-                          class="ods-4o5zYQ ods-76eppy ods-5VQ9Rl ods-7KS5Kt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-g8inGu"
-                          for="credentials.questionKey"
+                        Choose a security question
+                        <span
+                          aria-hidden="true"
+                          class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-35"
                         >
-                          <span
-                            class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6rDd3P ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
-                          >
-                            Choose a security question
-                          </span>
-                        </label>
-                        <div
-                          class="ods-mUkyrD"
+                           
+                          *
+                        </span>
+                      </label>
+                      <div
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-36"
+                      >
+                        <select
+                          aria-invalid="false"
+                          class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-37"
+                          data-se="credentials.questionKey"
+                          id="credentials.questionKey"
+                          name="credentials.questionKey"
+                          required=""
                         >
-                          <select
-                            class="ods-1B2Zfy"
-                            id="credentials.questionKey"
-                            name="credentials.questionKey"
+                          <option
+                            aria-label="Select an Option"
+                            value=""
                           >
-                            <option
-                              value=""
-                            />
-                            <option
-                              value="disliked_food"
-                            >
-                              What is the food you least liked as a child?
-                            </option>
-                            <option
-                              value="name_of_first_plush_toy"
-                            >
-                              What is the name of your first stuffed animal?
-                            </option>
-                            <option
-                              value="first_award"
-                            >
-                              What did you earn your first medal or award for?
-                            </option>
-                            <option
-                              value="favorite_security_question"
-                            >
-                              What is your favorite security question?
-                            </option>
-                            <option
-                              value="favorite_toy"
-                            >
-                              What is the toy/stuffed animal you liked the most as a kid?
-                            </option>
-                            <option
-                              value="first_computer_game"
-                            >
-                              What was the first computer game you played?
-                            </option>
-                            <option
-                              value="favorite_movie_quote"
-                            >
-                              What is your favorite movie quote?
-                            </option>
-                            <option
-                              value="first_sports_team_mascot"
-                            >
-                              What was the mascot of the first sports team you played on?
-                            </option>
-                            <option
-                              value="first_music_purchase"
-                            >
-                              What music album or song did you first purchase?
-                            </option>
-                            <option
-                              value="favorite_art_piece"
-                            >
-                              What is your favorite piece of art?
-                            </option>
-                            <option
-                              value="grandmother_favorite_desert"
-                            >
-                              What was your grandmother's favorite dessert?
-                            </option>
-                            <option
-                              value="first_thing_cooked"
-                            >
-                              What was the first thing you learned to cook?
-                            </option>
-                            <option
-                              value="childhood_dream_job"
-                            >
-                              What was your dream job as a child?
-                            </option>
-                            <option
-                              value="place_where_significant_other_was_met"
-                            >
-                              Where did you meet your spouse/significant other?
-                            </option>
-                            <option
-                              value="favorite_vacation_location"
-                            >
-                              Where did you go for your favorite vacation?
-                            </option>
-                            <option
-                              value="new_years_two_thousand"
-                            >
-                              Where were you on New Year's Eve in the year 2000?
-                            </option>
-                            <option
-                              value="favorite_speaker_actor"
-                            >
-                              Who is your favorite speaker/orator?
-                            </option>
-                            <option
-                              value="favorite_book_movie_character"
-                            >
-                              Who is your favorite book/movie character?
-                            </option>
-                            <option
-                              value="favorite_sports_player"
-                            >
-                              Who is your favorite sports player?
-                            </option>
-                          </select>
-                          <span
-                            class="ods-7mdg51"
+                            Select an Option
+                          </option>
+                          <option
+                            value="disliked_food"
                           >
-                            <svg
-                              class="ods-2icygl"
-                              fill="none"
-                              role="presentation"
-                              viewBox="0 0 16 16"
-                              xmlns="http://www.w3.org/2000/svg"
+                            What is the food you least liked as a child?
+                          </option>
+                          <option
+                            value="name_of_first_plush_toy"
+                          >
+                            What is the name of your first stuffed animal?
+                          </option>
+                          <option
+                            value="first_award"
+                          >
+                            What did you earn your first medal or award for?
+                          </option>
+                          <option
+                            value="favorite_security_question"
+                          >
+                            What is your favorite security question?
+                          </option>
+                          <option
+                            value="favorite_toy"
+                          >
+                            What is the toy/stuffed animal you liked the most as a kid?
+                          </option>
+                          <option
+                            value="first_computer_game"
+                          >
+                            What was the first computer game you played?
+                          </option>
+                          <option
+                            value="favorite_movie_quote"
+                          >
+                            What is your favorite movie quote?
+                          </option>
+                          <option
+                            value="first_sports_team_mascot"
+                          >
+                            What was the mascot of the first sports team you played on?
+                          </option>
+                          <option
+                            value="first_music_purchase"
+                          >
+                            What music album or song did you first purchase?
+                          </option>
+                          <option
+                            value="favorite_art_piece"
+                          >
+                            What is your favorite piece of art?
+                          </option>
+                          <option
+                            value="grandmother_favorite_desert"
+                          >
+                            What was your grandmother's favorite dessert?
+                          </option>
+                          <option
+                            value="first_thing_cooked"
+                          >
+                            What was the first thing you learned to cook?
+                          </option>
+                          <option
+                            value="childhood_dream_job"
+                          >
+                            What was your dream job as a child?
+                          </option>
+                          <option
+                            value="place_where_significant_other_was_met"
+                          >
+                            Where did you meet your spouse/significant other?
+                          </option>
+                          <option
+                            value="favorite_vacation_location"
+                          >
+                            Where did you go for your favorite vacation?
+                          </option>
+                          <option
+                            value="new_years_two_thousand"
+                          >
+                            Where were you on New Year's Eve in the year 2000?
+                          </option>
+                          <option
+                            value="favorite_speaker_actor"
+                          >
+                            Who is your favorite speaker/orator?
+                          </option>
+                          <option
+                            value="favorite_book_movie_character"
+                          >
+                            Who is your favorite book/movie character?
+                          </option>
+                          <option
+                            value="favorite_sports_player"
+                          >
+                            Who is your favorite sports player?
+                          </option>
+                        </select>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-38"
+                          data-testid="ArrowDropDownIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M7 10l5 5 5-5z"
+                          />
+                        </svg>
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline emotion-39"
+                        >
+                          <legend
+                            class="emotion-40"
+                          >
+                            <span
+                              class="notranslate"
                             >
-                              <path
-                                clip-rule="evenodd"
-                                d="M8 10.2929L12.6464 5.64645L13.3536 6.35355L8.35355 11.3536C8.15829 11.5488 7.84171 11.5488 7.64645 11.3536L2.64645 6.35355L3.35355 5.64645L8 10.2929Z"
-                                fill="currentColor"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                          </span>
-                        </div>
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
                       </div>
                     </div>
                   </div>
@@ -2586,36 +2643,36 @@ exports[`authenticator-enroll-security-question predefined question should show 
                         class="MuiBox-root emotion-4"
                       >
                         <label
-                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-37"
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-44"
                           for="credentials.answer"
                         >
-                          Answer
+                          Answer *
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-38"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-45"
                         >
                           <input
                             aria-describedby="credentials.answer-error"
                             aria-invalid="true"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-39"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-46"
                             data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-40"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-47"
                           >
                             <button
                               aria-label="toggle password visibility"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-41"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-48"
                               data-mui-internal-clone-element="true"
                               tabindex="0"
                               type="button"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-42"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-49"
                                 data-testid="VisibilityIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -2628,10 +2685,10 @@ exports[`authenticator-enroll-security-question predefined question should show 
                           </div>
                           <fieldset
                             aria-hidden="true"
-                            class="MuiOutlinedInput-notchedOutline emotion-43"
+                            class="MuiOutlinedInput-notchedOutline emotion-39"
                           >
                             <legend
-                              class="emotion-44"
+                              class="emotion-40"
                             >
                               <span
                                 class="notranslate"
@@ -2643,7 +2700,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                         </div>
                       </div>
                       <p
-                        class="MuiFormHelperText-root Mui-error emotion-45"
+                        class="MuiFormHelperText-root Mui-error emotion-52"
                         data-se="credentials.answer-error"
                         id="credentials.answer-error"
                         role="alert"
@@ -2656,26 +2713,26 @@ exports[`authenticator-enroll-security-question predefined question should show 
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled  emotion-47"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled  emotion-54"
                       data-type="save"
                       disabled=""
                       tabindex="-1"
                       type="submit"
                     >
                       <div
-                        class="MuiBox-root emotion-48"
+                        class="MuiBox-root emotion-55"
                       >
                         <span
-                          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-49"
+                          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-56"
                           role="progressbar"
                           style="width: 1.14285714rem; height: 1.14285714rem;"
                         >
                           <svg
-                            class="MuiCircularProgress-svg emotion-50"
+                            class="MuiCircularProgress-svg emotion-57"
                             viewBox="22 22 44 44"
                           >
                             <circle
-                              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-51"
+                              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-58"
                               cx="44"
                               cy="44"
                               fill="none"
@@ -2693,7 +2750,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -2704,7 +2761,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -2977,147 +3034,159 @@ exports[`authenticator-enroll-security-question predefined question should show 
                     class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiBox-root emotion-4"
+                      class="MuiFormControl-root emotion-21"
                     >
-                      <div
-                        class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-4zKnH2"
+                      <label
+                        class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-39"
+                        for="credentials.questionKey"
                       >
-                        <label
-                          class="ods-4o5zYQ ods-76eppy ods-5VQ9Rl ods-7KS5Kt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-g8inGu"
-                          for="credentials.questionKey"
+                        Choose a security question
+                        <span
+                          aria-hidden="true"
+                          class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-40"
                         >
-                          <span
-                            class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6rDd3P ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
-                          >
-                            Choose a security question
-                          </span>
-                        </label>
-                        <div
-                          class="ods-mUkyrD"
+                           
+                          *
+                        </span>
+                      </label>
+                      <div
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-41"
+                      >
+                        <select
+                          aria-invalid="false"
+                          class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-42"
+                          data-se="credentials.questionKey"
+                          id="credentials.questionKey"
+                          name="credentials.questionKey"
+                          required=""
                         >
-                          <select
-                            class="ods-1B2Zfy"
-                            id="credentials.questionKey"
-                            name="credentials.questionKey"
+                          <option
+                            aria-label="Select an Option"
+                            value=""
                           >
-                            <option
-                              value=""
-                            />
-                            <option
-                              value="disliked_food"
-                            >
-                              What is the food you least liked as a child?
-                            </option>
-                            <option
-                              value="name_of_first_plush_toy"
-                            >
-                              What is the name of your first stuffed animal?
-                            </option>
-                            <option
-                              value="first_award"
-                            >
-                              What did you earn your first medal or award for?
-                            </option>
-                            <option
-                              value="favorite_security_question"
-                            >
-                              What is your favorite security question?
-                            </option>
-                            <option
-                              value="favorite_toy"
-                            >
-                              What is the toy/stuffed animal you liked the most as a kid?
-                            </option>
-                            <option
-                              value="first_computer_game"
-                            >
-                              What was the first computer game you played?
-                            </option>
-                            <option
-                              value="favorite_movie_quote"
-                            >
-                              What is your favorite movie quote?
-                            </option>
-                            <option
-                              value="first_sports_team_mascot"
-                            >
-                              What was the mascot of the first sports team you played on?
-                            </option>
-                            <option
-                              value="first_music_purchase"
-                            >
-                              What music album or song did you first purchase?
-                            </option>
-                            <option
-                              value="favorite_art_piece"
-                            >
-                              What is your favorite piece of art?
-                            </option>
-                            <option
-                              value="grandmother_favorite_desert"
-                            >
-                              What was your grandmother's favorite dessert?
-                            </option>
-                            <option
-                              value="first_thing_cooked"
-                            >
-                              What was the first thing you learned to cook?
-                            </option>
-                            <option
-                              value="childhood_dream_job"
-                            >
-                              What was your dream job as a child?
-                            </option>
-                            <option
-                              value="place_where_significant_other_was_met"
-                            >
-                              Where did you meet your spouse/significant other?
-                            </option>
-                            <option
-                              value="favorite_vacation_location"
-                            >
-                              Where did you go for your favorite vacation?
-                            </option>
-                            <option
-                              value="new_years_two_thousand"
-                            >
-                              Where were you on New Year's Eve in the year 2000?
-                            </option>
-                            <option
-                              value="favorite_speaker_actor"
-                            >
-                              Who is your favorite speaker/orator?
-                            </option>
-                            <option
-                              value="favorite_book_movie_character"
-                            >
-                              Who is your favorite book/movie character?
-                            </option>
-                            <option
-                              value="favorite_sports_player"
-                            >
-                              Who is your favorite sports player?
-                            </option>
-                          </select>
-                          <span
-                            class="ods-7mdg51"
+                            Select an Option
+                          </option>
+                          <option
+                            value="disliked_food"
                           >
-                            <svg
-                              class="ods-2icygl"
-                              fill="none"
-                              role="presentation"
-                              viewBox="0 0 16 16"
-                              xmlns="http://www.w3.org/2000/svg"
+                            What is the food you least liked as a child?
+                          </option>
+                          <option
+                            value="name_of_first_plush_toy"
+                          >
+                            What is the name of your first stuffed animal?
+                          </option>
+                          <option
+                            value="first_award"
+                          >
+                            What did you earn your first medal or award for?
+                          </option>
+                          <option
+                            value="favorite_security_question"
+                          >
+                            What is your favorite security question?
+                          </option>
+                          <option
+                            value="favorite_toy"
+                          >
+                            What is the toy/stuffed animal you liked the most as a kid?
+                          </option>
+                          <option
+                            value="first_computer_game"
+                          >
+                            What was the first computer game you played?
+                          </option>
+                          <option
+                            value="favorite_movie_quote"
+                          >
+                            What is your favorite movie quote?
+                          </option>
+                          <option
+                            value="first_sports_team_mascot"
+                          >
+                            What was the mascot of the first sports team you played on?
+                          </option>
+                          <option
+                            value="first_music_purchase"
+                          >
+                            What music album or song did you first purchase?
+                          </option>
+                          <option
+                            value="favorite_art_piece"
+                          >
+                            What is your favorite piece of art?
+                          </option>
+                          <option
+                            value="grandmother_favorite_desert"
+                          >
+                            What was your grandmother's favorite dessert?
+                          </option>
+                          <option
+                            value="first_thing_cooked"
+                          >
+                            What was the first thing you learned to cook?
+                          </option>
+                          <option
+                            value="childhood_dream_job"
+                          >
+                            What was your dream job as a child?
+                          </option>
+                          <option
+                            value="place_where_significant_other_was_met"
+                          >
+                            Where did you meet your spouse/significant other?
+                          </option>
+                          <option
+                            value="favorite_vacation_location"
+                          >
+                            Where did you go for your favorite vacation?
+                          </option>
+                          <option
+                            value="new_years_two_thousand"
+                          >
+                            Where were you on New Year's Eve in the year 2000?
+                          </option>
+                          <option
+                            value="favorite_speaker_actor"
+                          >
+                            Who is your favorite speaker/orator?
+                          </option>
+                          <option
+                            value="favorite_book_movie_character"
+                          >
+                            Who is your favorite book/movie character?
+                          </option>
+                          <option
+                            value="favorite_sports_player"
+                          >
+                            Who is your favorite sports player?
+                          </option>
+                        </select>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-43"
+                          data-testid="ArrowDropDownIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M7 10l5 5 5-5z"
+                          />
+                        </svg>
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline emotion-44"
+                        >
+                          <legend
+                            class="emotion-45"
+                          >
+                            <span
+                              class="notranslate"
                             >
-                              <path
-                                clip-rule="evenodd"
-                                d="M8 10.2929L12.6464 5.64645L13.3536 6.35355L8.35355 11.3536C8.15829 11.5488 7.84171 11.5488 7.64645 11.3536L2.64645 6.35355L3.35355 5.64645L8 10.2929Z"
-                                fill="currentColor"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                          </span>
-                        </div>
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
                       </div>
                     </div>
                   </div>
@@ -3131,36 +3200,36 @@ exports[`authenticator-enroll-security-question predefined question should show 
                         class="MuiBox-root emotion-4"
                       >
                         <label
-                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-42"
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-49"
                           for="credentials.answer"
                         >
-                          Answer
+                          Answer *
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-43"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-50"
                         >
                           <input
                             aria-describedby="credentials.answer-error"
                             aria-invalid="true"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-44"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-51"
                             data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-45"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-52"
                           >
                             <button
                               aria-label="toggle password visibility"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-46"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-53"
                               data-mui-internal-clone-element="true"
                               tabindex="0"
                               type="button"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-47"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-54"
                                 data-testid="VisibilityIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -3173,10 +3242,10 @@ exports[`authenticator-enroll-security-question predefined question should show 
                           </div>
                           <fieldset
                             aria-hidden="true"
-                            class="MuiOutlinedInput-notchedOutline emotion-48"
+                            class="MuiOutlinedInput-notchedOutline emotion-44"
                           >
                             <legend
-                              class="emotion-49"
+                              class="emotion-45"
                             >
                               <span
                                 class="notranslate"
@@ -3188,7 +3257,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                         </div>
                       </div>
                       <p
-                        class="MuiFormHelperText-root Mui-error emotion-50"
+                        class="MuiFormHelperText-root Mui-error emotion-57"
                         data-se="credentials.answer-error"
                         id="credentials.answer-error"
                         role="alert"
@@ -3201,7 +3270,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                     class="MuiBox-root emotion-17"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-52"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-59"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -3214,7 +3283,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-61"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -3225,7 +3294,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-61"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

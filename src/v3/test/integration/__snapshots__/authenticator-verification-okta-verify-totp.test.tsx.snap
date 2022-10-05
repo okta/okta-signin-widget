@@ -120,18 +120,25 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     class="MuiBox-root emotion-4"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-16"
                       for="credentials.totp"
                     >
                       Enter code from Okta Verify app
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-17"
+                      >
+                         
+                        *
+                      </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-18"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="one-time-code"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-19"
                         data-se="credentials.totp"
                         id="credentials.totp"
                         name="credentials.totp"
@@ -139,10 +146,10 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-19"
+                        class="MuiOutlinedInput-notchedOutline emotion-20"
                       >
                         <legend
-                          class="emotion-20"
+                          class="emotion-21"
                         >
                           <span
                             class="notranslate"
@@ -158,7 +165,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -170,7 +177,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -181,7 +188,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

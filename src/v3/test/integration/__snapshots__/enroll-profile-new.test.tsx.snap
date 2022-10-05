@@ -55,18 +55,25 @@ exports[`enroll-profile-new should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-11"
                       for="userProfile.lastName"
                     >
                       Last name
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-12"
+                      >
+                         
+                        *
+                      </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="family-name"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
                         data-se="userProfile.lastName"
                         id="userProfile.lastName"
                         name="userProfile.lastName"
@@ -74,10 +81,10 @@ exports[`enroll-profile-new should render form 1`] = `
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-14"
+                        class="MuiOutlinedInput-notchedOutline emotion-15"
                       >
                         <legend
-                          class="emotion-15"
+                          class="emotion-16"
                         >
                           <span
                             class="notranslate"
@@ -96,18 +103,25 @@ exports[`enroll-profile-new should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-11"
                       for="userProfile.firstName"
                     >
                       First name
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-12"
+                      >
+                         
+                        *
+                      </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="given-name"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
                         data-se="userProfile.firstName"
                         id="userProfile.firstName"
                         name="userProfile.firstName"
@@ -115,10 +129,10 @@ exports[`enroll-profile-new should render form 1`] = `
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-14"
+                        class="MuiOutlinedInput-notchedOutline emotion-15"
                       >
                         <legend
-                          class="emotion-15"
+                          class="emotion-16"
                         >
                           <span
                             class="notranslate"
@@ -137,18 +151,25 @@ exports[`enroll-profile-new should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-11"
                       for="userProfile.email"
                     >
                       Email
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-12"
+                      >
+                         
+                        *
+                      </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="email"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
                         data-se="userProfile.email"
                         id="userProfile.email"
                         name="userProfile.email"
@@ -156,10 +177,10 @@ exports[`enroll-profile-new should render form 1`] = `
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-14"
+                        class="MuiOutlinedInput-notchedOutline emotion-15"
                       >
                         <legend
-                          class="emotion-15"
+                          class="emotion-16"
                         >
                           <span
                             class="notranslate"
@@ -175,7 +196,7 @@ exports[`enroll-profile-new should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-31"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-34"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -187,11 +208,11 @@ exports[`enroll-profile-new should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <hr
-                    class="MuiDivider-root MuiDivider-fullWidth emotion-33"
+                    class="MuiDivider-root MuiDivider-fullWidth emotion-36"
                   />
                 </div>
                 <div
-                  class="MuiBox-root emotion-34"
+                  class="MuiBox-root emotion-37"
                 >
                   <div
                     class="MuiBox-root emotion-6"
@@ -200,7 +221,7 @@ exports[`enroll-profile-new should render form 1`] = `
                       class="MuiBox-root emotion-7"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-37"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-40"
                         data-se="o-form-explain"
                       >
                         Already have an account?
@@ -211,7 +232,7 @@ exports[`enroll-profile-new should render form 1`] = `
                     class="MuiBox-root emotion-6"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                       data-se="back"
                       href="javascript:void(0)"
                     >
