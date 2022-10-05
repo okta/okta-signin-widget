@@ -3,7 +3,14 @@
 exports[`WebAuthN Transformer Tests WebAuthN Challenge Tests should only render title and description elements when WebAuthN API is not available 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -80,7 +87,14 @@ Object {
 exports[`WebAuthN Transformer Tests WebAuthN Challenge Tests should render title, description and button elements when WebAuthN API is available 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -100,7 +114,7 @@ Object {
         "options": Object {
           "onClick": [Function],
           "step": "challenge-authenticator",
-          "submitOnLoad": false,
+          "submitOnLoad": true,
         },
         "type": "WebAuthNSubmitButton",
       },
@@ -162,10 +176,87 @@ Object {
 }
 `;
 
-exports[`WebAuthN Transformer Tests WebAuthN Challenge Tests should render title, description, button, and callout elements when WebAuthN API is available in Safari Browser 1`] = `
+exports[`WebAuthN Transformer Tests WebAuthN Challenge Tests should render title, description, button and can't verify link elements for appName = Okta_Authenticaotr when WebAuthN API is available 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.verify.webauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.verify.webauthn.instructions",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "onClick": [Function],
+          "step": "challenge-authenticator",
+          "submitOnLoad": true,
+        },
+        "type": "WebAuthNSubmitButton",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "key": "cant-verify",
+            "options": Object {
+              "content": Object {
+                "elements": Array [
+                  Object {
+                    "options": Object {
+                      "items": Array [
+                        "oie.verify.webauthn.cant.verify.enrollment.step1",
+                        "oie.verify.webauthn.cant.verify.enrollment.step2",
+                        "oie.verify.webauthn.cant.verify.enrollment.step3",
+                        "oie.verify.webauthn.cant.verify.enrollment.step4",
+                      ],
+                      "type": "ordered",
+                    },
+                    "type": "List",
+                  },
+                ],
+                "type": "VerticalLayout",
+              },
+              "id": "cant-verify",
+              "summary": "oie.verify.webauthn.cant.verify",
+            },
+            "type": "AccordionPanel",
+          },
+        ],
+        "type": "Accordion",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`WebAuthN Transformer Tests WebAuthN Challenge Tests should render title, description, button, and user verification elements when WebAuthN API is available in Safari Browser 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -256,7 +347,14 @@ Object {
 exports[`WebAuthN Transformer Tests WebAuthN Enroll Tests should only render title and description elements when WebAuthN API is not available 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "enroll-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -281,7 +379,14 @@ Object {
 exports[`WebAuthN Transformer Tests WebAuthN Enroll Tests should render title, description and button elements when WebAuthN API is available 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "enroll-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -299,7 +404,47 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.enroll.webauthn.instructions.edge",
+          "onClick": [Function],
+          "step": "enroll-authenticator",
+          "submitOnLoad": false,
+        },
+        "type": "WebAuthNSubmitButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`WebAuthN Transformer Tests WebAuthN Enroll Tests should render title, description, button and userVerification required elements when WebAuthN API is available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "enroll-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.instructions",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.webauthn.uv.required.instructions",
         },
         "type": "Description",
       },
@@ -320,7 +465,14 @@ Object {
 exports[`WebAuthN Transformer Tests WebAuthN Enroll Tests should render title, description, button, and callout elements when WebAuthN API is available on MS Edge browser 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "enroll-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -339,12 +491,6 @@ Object {
       Object {
         "options": Object {
           "content": "oie.enroll.webauthn.instructions.edge",
-        },
-        "type": "Description",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.enroll.webauthn.uv.required.instructions",
         },
         "type": "Description",
       },
