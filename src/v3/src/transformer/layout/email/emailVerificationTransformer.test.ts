@@ -13,8 +13,11 @@
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement, DescriptionElement, FieldElement,
-  TitleElement, WidgetProps,
+  ButtonElement,
+  DescriptionElement,
+  FieldElement,
+  TitleElement,
+  WidgetProps,
 } from 'src/types';
 
 import { transformEmailVerification } from '.';
@@ -42,6 +45,7 @@ describe('Email Verification Transformer Tests', () => {
     + ' when redacted email does not exist in Idx response', () => {
     const updatedFormBag = transformEmailVerification({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
@@ -71,6 +75,7 @@ describe('Email Verification Transformer Tests', () => {
 
     const updatedFormBag = transformEmailVerification({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)

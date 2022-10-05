@@ -47,6 +47,7 @@ describe('EmailChallengeConsentTransformer Tests', () => {
   it('should create email consent ui elements with valid response', () => {
     const updatedFormBag = transformEmailChallengeConsent({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.consent.enduser.title');
@@ -61,11 +62,15 @@ describe('EmailChallengeConsentTransformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.actionParams?.consent)
       .toBe(false);
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('oie.consent.enduser.deny.label');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.dataType).toBe('cancel');
 
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.actionParams?.consent)
       .toBe(true);
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.dataType).toBe('save');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+      .toBe('oie.consent.enduser.accept.label');
   });
 });
