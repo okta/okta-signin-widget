@@ -16,23 +16,22 @@ import {
   ButtonElement,
   ButtonType,
   FieldElement,
+  TitleElement,
   WidgetProps,
 } from 'src/types';
 
 import { transformSecurityQuestionVerify } from '.';
 
-describe.skip('SecurityQuestionVerify Tests', () => {
+describe('SecurityQuestionVerify Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
   const formBag = getStubFormBag();
 
   beforeEach(() => {
-    formBag.uischema.elements = [
-      {
-        type: 'Field',
-        options: { inputMeta: { name: 'credentials.answer', secret: true } },
-      } as FieldElement,
-    ];
+    formBag.uischema.elements = [{
+      type: 'Field',
+      options: { inputMeta: { name: 'credentials.answer', secret: true } },
+    } as FieldElement];
   });
 
   it('should create security question verify UI elements', () => {
@@ -44,29 +43,31 @@ describe.skip('SecurityQuestionVerify Tests', () => {
             question: 'What is love?',
             questionKey: 'eternal',
           },
-          id: '',
-          displayName: '',
-          key: '',
-          type: '',
-          methods: [],
         } as unknown as IdxAuthenticator,
       },
     };
     const updatedFormBag = transformSecurityQuestionVerify({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.security.question.challenge.title');
 
     // answer element
-    expect(updatedFormBag.uischema.elements[1].type).toBe('Control');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
+      .toBe('credentials.answer');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.secret)
       .toBe(true);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).label).toBe('What is love?');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).translations?.[0])
+      .toEqual({
+        i18nKey: '',
+        name: 'label',
+        value: 'What is love?',
+      });
 
     // submit button
     expect(updatedFormBag.uischema.elements[2].type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe('oform.verify');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
@@ -80,29 +81,31 @@ describe.skip('SecurityQuestionVerify Tests', () => {
             question: 'What is love?',
             questionKey: 'custom',
           },
-          id: '',
-          displayName: '',
-          key: '',
-          type: '',
-          methods: [],
         } as unknown as IdxAuthenticator,
       },
     };
     const updatedFormBag = transformSecurityQuestionVerify({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.security.question.challenge.title');
 
     // answer element
-    expect(updatedFormBag.uischema.elements[1].type).toBe('Control');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
+      .toBe('credentials.answer');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.secret)
       .toBe(true);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).label).toBe('What is love?');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).translations?.[0])
+      .toEqual({
+        i18nKey: '',
+        name: 'label',
+        value: 'What is love?',
+      });
 
     // submit button
     expect(updatedFormBag.uischema.elements[2].type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe('oform.verify');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
