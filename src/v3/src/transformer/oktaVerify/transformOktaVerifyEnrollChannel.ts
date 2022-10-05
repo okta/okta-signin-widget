@@ -42,7 +42,7 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
   transaction,
   formBag,
 }) => {
-  const { context } = transaction;
+  const { context, nextStep: { name } = {} } = transaction;
   const authenticator = context.currentAuthenticator.value;
   const { uischema } = formBag;
   const selectedChannel = authenticator.contextualData?.selectedChannel;
@@ -81,7 +81,7 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
     label: loc('oie.enroll.okta_verify.setupLink', 'login'),
     options: {
       type: ButtonType.SUBMIT,
-      step: transaction.nextStep!.name,
+      step: name,
     },
   } as ButtonElement);
 

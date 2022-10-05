@@ -21,7 +21,7 @@ import {
 
 import { transformTOTPChallenge } from './transformTOTPChallenge';
 
-describe.skip('Transform Okta Verify Totp Challenge Tests', () => {
+describe('Transform Okta Verify Totp Challenge Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const formBag = getStubFormBag();
   const widgetProps: WidgetProps = {};
@@ -39,6 +39,7 @@ describe.skip('Transform Okta Verify Totp Challenge Tests', () => {
   it('should build UI elements for OV TOTP remediation', () => {
     const updatedFormBag = transformTOTPChallenge({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)

@@ -3,7 +3,14 @@
 exports[`TransformOktaVerifyEnrollPoll Tests should add Stepper elements when selectedChannel is qrcode and canResend = true 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -30,14 +37,14 @@ Object {
               },
               Object {
                 "options": Object {
-                  "data": "",
-                  "label": undefined,
+                  "data": "#mockQrCode",
                 },
                 "type": "QRCode",
               },
               Object {
                 "label": "enroll.totp.cannotScan",
                 "options": Object {
+                  "ariaLabel": "enroll.totp.aria.cannotScan",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
                   "type": "button",
@@ -63,14 +70,13 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "oie.enroll.okta_verify.switch.channel.link.text",
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.switch.channel.link.text",
+                  "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
-                  "type": "button",
-                  "variant": "secondary",
                 },
-                "type": "Button",
+                "type": "TextWithHtml",
               },
             ],
             "type": "VerticalLayout",
@@ -90,14 +96,13 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "oie.enroll.okta_verify.switch.channel.link.text",
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.switch.channel.link.text",
+                  "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
-                  "type": "button",
-                  "variant": "secondary",
                 },
-                "type": "Button",
+                "type": "TextWithHtml",
               },
             ],
             "type": "VerticalLayout",
@@ -117,7 +122,14 @@ Object {
 exports[`TransformOktaVerifyEnrollPoll Tests should return a channel selection formBag when email is selected channel and canResend = true 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -127,9 +139,14 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [Function],
-                  "ctaText": "oie.enroll.okta_verify.email.notReceived",
-                  "linkLabel": "email.button.resend",
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "content": "oie.enroll.okta_verify.email.notReceived",
+                  "contentClassname": "resend-link",
+                  "contentHasHtml": true,
+                  "isActionStep": true,
+                  "step": "resend",
                 },
                 "type": "Reminder",
               },
@@ -152,14 +169,14 @@ Object {
               },
               Object {
                 "options": Object {
-                  "data": undefined,
-                  "label": undefined,
+                  "data": "#mockQrCode",
                 },
                 "type": "QRCode",
               },
               Object {
                 "label": "enroll.totp.cannotScan",
                 "options": Object {
+                  "ariaLabel": "enroll.totp.aria.cannotScan",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
                   "type": "button",
@@ -174,9 +191,14 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [Function],
-                  "ctaText": "oie.enroll.okta_verify.email.notReceived",
-                  "linkLabel": "email.button.resend",
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "content": "oie.enroll.okta_verify.email.notReceived",
+                  "contentClassname": "resend-link",
+                  "contentHasHtml": true,
+                  "isActionStep": true,
+                  "step": "resend",
                 },
                 "type": "Reminder",
               },
@@ -193,14 +215,13 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "oie.enroll.okta_verify.switch.channel.link.text",
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.switch.channel.link.text",
+                  "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
-                  "type": "button",
-                  "variant": "secondary",
                 },
-                "type": "Button",
+                "type": "TextWithHtml",
               },
             ],
             "type": "VerticalLayout",
@@ -209,9 +230,14 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [Function],
-                  "ctaText": "oie.enroll.okta_verify.email.notReceived",
-                  "linkLabel": "email.button.resend",
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "content": "oie.enroll.okta_verify.email.notReceived",
+                  "contentClassname": "resend-link",
+                  "contentHasHtml": true,
+                  "isActionStep": true,
+                  "step": "resend",
                 },
                 "type": "Reminder",
               },
@@ -228,14 +254,13 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "oie.enroll.okta_verify.switch.channel.link.text",
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.switch.channel.link.text",
+                  "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
-                  "type": "button",
-                  "variant": "secondary",
                 },
-                "type": "Button",
+                "type": "TextWithHtml",
               },
             ],
             "type": "VerticalLayout",
@@ -255,7 +280,14 @@ Object {
 exports[`TransformOktaVerifyEnrollPoll Tests should return a channel selection formBag when sms is selected channel with canResend = true 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -265,9 +297,14 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [Function],
-                  "ctaText": "oie.enroll.okta_verify.sms.notReceived",
-                  "linkLabel": "email.button.resend",
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "content": "oie.enroll.okta_verify.sms.notReceived",
+                  "contentClassname": "resend-link",
+                  "contentHasHtml": true,
+                  "isActionStep": true,
+                  "step": "resend",
                 },
                 "type": "Reminder",
               },
@@ -290,14 +327,14 @@ Object {
               },
               Object {
                 "options": Object {
-                  "data": undefined,
-                  "label": undefined,
+                  "data": "#mockQrCode",
                 },
                 "type": "QRCode",
               },
               Object {
                 "label": "enroll.totp.cannotScan",
                 "options": Object {
+                  "ariaLabel": "enroll.totp.aria.cannotScan",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
                   "type": "button",
@@ -312,9 +349,14 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [Function],
-                  "ctaText": "oie.enroll.okta_verify.sms.notReceived",
-                  "linkLabel": "email.button.resend",
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "content": "oie.enroll.okta_verify.sms.notReceived",
+                  "contentClassname": "resend-link",
+                  "contentHasHtml": true,
+                  "isActionStep": true,
+                  "step": "resend",
                 },
                 "type": "Reminder",
               },
@@ -331,14 +373,13 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "oie.enroll.okta_verify.switch.channel.link.text",
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.switch.channel.link.text",
+                  "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
-                  "type": "button",
-                  "variant": "secondary",
                 },
-                "type": "Button",
+                "type": "TextWithHtml",
               },
             ],
             "type": "VerticalLayout",
@@ -347,9 +388,14 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [Function],
-                  "ctaText": "oie.enroll.okta_verify.sms.notReceived",
-                  "linkLabel": "email.button.resend",
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "content": "oie.enroll.okta_verify.sms.notReceived",
+                  "contentClassname": "resend-link",
+                  "contentHasHtml": true,
+                  "isActionStep": true,
+                  "step": "resend",
                 },
                 "type": "Reminder",
               },
@@ -366,14 +412,13 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "oie.enroll.okta_verify.switch.channel.link.text",
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.switch.channel.link.text",
+                  "contentClassname": "switch-channel-link",
                   "step": "select-enrollment-channel",
                   "stepToRender": "select-enrollment-channel",
-                  "type": "button",
-                  "variant": "secondary",
                 },
-                "type": "Button",
+                "type": "TextWithHtml",
               },
             ],
             "type": "VerticalLayout",

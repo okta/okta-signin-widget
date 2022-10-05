@@ -14,22 +14,22 @@ import { IdxContext } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
+  ButtonType,
   FieldElement,
+  TextWithHtmlElement,
   TitleElement,
   WidgetProps,
 } from 'src/types';
 
 import * as utils from '../../util/browserUtils';
-import * as transformerUtils from '../field/transform';
 import { transformOktaVerifyChannelSelection } from './transformOktaVerifyChannelSelection';
 
-describe.skip('TransformOktaVerifyChannelSelection Tests', () => {
+describe('TransformOktaVerifyChannelSelection Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const prevTransaction = getStubTransactionWithNextStep();
   const formBag = getStubFormBag();
   const widgetProps: WidgetProps = {};
   let mobileDeviceStub: jest.SpyInstance<boolean>;
-  let stepTransformerStub: jest.SpyInstance;
 
   beforeEach(() => {
     formBag.uischema.elements = [
@@ -49,15 +49,6 @@ describe.skip('TransformOktaVerifyChannelSelection Tests', () => {
     ];
 
     mobileDeviceStub = jest.spyOn(utils, 'isAndroidOrIOS');
-    stepTransformerStub = jest.spyOn(
-      transformerUtils,
-      'transformStepInputs',
-    ).mockReturnValue(formBag);
-  });
-
-  afterAll(() => {
-    stepTransformerStub.mockReset();
-    jest.restoreAllMocks();
   });
 
   it('should only append (sms/email) channel options when on mobile and qrcode is the selectedChannel', () => {
@@ -75,27 +66,35 @@ describe.skip('TransformOktaVerifyChannelSelection Tests', () => {
       transaction, prevTransaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.title');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
       .toBe('oie.enroll.okta_verify.select.channel.description');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
+      .toBe('radio');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
+      .toBe(2);
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('authenticator.channel');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions?.length)
-      .toBe(2);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions)
-      .toEqual([
-        { value: 'sms', label: 'oie.enroll.okta_verify.select.channel.sms.label' },
-        { value: 'email', label: 'oie.enroll.okta_verify.select.channel.email.label' },
-      ]);
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe('oform.next');
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.options?.length)
+      .toBe(3);
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[3] as TextWithHtmlElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
+    expect((updatedFormBag.uischema.elements[3] as TextWithHtmlElement).options.contentClassname)
+      .toBe('switch-channel-link');
+    expect((updatedFormBag.uischema.elements[3] as TextWithHtmlElement).options.step)
+      .toBe('select-enrollment-channel');
   });
 
-  // TODO: revist and test mobile view for OV enrollment and fix test if needed
-  it.skip('should only append (sms/email) channel options when on mobile and sms is the selectedChannel', () => {
+  it('should only append (sms/email) channel options when on mobile and sms is the selectedChannel', () => {
     prevTransaction.context = {
       // TODO: OKTA-503490 temporary sln access missing relatesTo obj
       currentAuthenticator: {
@@ -110,24 +109,29 @@ describe.skip('TransformOktaVerifyChannelSelection Tests', () => {
       transaction, prevTransaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.title');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
       .toBe('oie.enroll.okta_verify.select.channel.description');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
+      .toBe('radio');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
+      .toBe(2);
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('authenticator.channel');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions?.length)
-      .toBe(2);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions)
-      .toEqual([
-        { value: 'sms', label: 'oie.enroll.okta_verify.select.channel.sms.label' },
-        { value: 'email', label: 'oie.enroll.okta_verify.select.channel.email.label' },
-      ]);
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.options?.length)
+      .toBe(3);
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
   });
 
-  it.skip('should only append (sms/email) channel options when on mobile and email is the selectedChannel', () => {
+  it('should only append (sms/email) channel options when on mobile and email is the selectedChannel', () => {
     prevTransaction.context = {
       // TODO: OKTA-503490 temporary sln access missing relatesTo obj
       currentAuthenticator: {
@@ -142,21 +146,26 @@ describe.skip('TransformOktaVerifyChannelSelection Tests', () => {
       transaction, prevTransaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.title');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
       .toBe('oie.enroll.okta_verify.select.channel.description');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
+      .toBe('radio');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
+      .toBe(2);
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('authenticator.channel');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions?.length)
-      .toBe(2);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions)
-      .toEqual([
-        { value: 'sms', label: 'oie.enroll.okta_verify.select.channel.sms.label' },
-        { value: 'email', label: 'oie.enroll.okta_verify.select.channel.email.label' },
-      ]);
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.options?.length)
+      .toBe(3);
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
   });
 
   it('should only append (qrcode/email) channel options when NOT on mobile and sms is the selectedChannel', () => {
@@ -174,21 +183,26 @@ describe.skip('TransformOktaVerifyChannelSelection Tests', () => {
       transaction, prevTransaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.select.channel.title');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
       .toBe('oie.enroll.okta_verify.select.channel.description');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
+      .toBe('radio');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
+      .toBe(2);
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('authenticator.channel');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions?.length)
-      .toBe(2);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions)
-      .toEqual([
-        { value: 'qrcode', label: 'oie.enroll.okta_verify.select.channel.qrcode.label' },
-        { value: 'email', label: 'oie.enroll.okta_verify.select.channel.email.label' },
-      ]);
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.options?.length)
+      .toBe(3);
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
   });
 
   it('should only append (qrcode/sms) channel options when NOT on mobile and email is the selectedChannel', () => {
@@ -206,21 +220,26 @@ describe.skip('TransformOktaVerifyChannelSelection Tests', () => {
       transaction, prevTransaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.select.channel.title');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
       .toBe('oie.enroll.okta_verify.select.channel.description');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
+      .toBe('radio');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
+      .toBe(2);
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('authenticator.channel');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions?.length)
-      .toBe(2);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions)
-      .toEqual([
-        { value: 'qrcode', label: 'oie.enroll.okta_verify.select.channel.qrcode.label' },
-        { value: 'sms', label: 'oie.enroll.okta_verify.select.channel.sms.label' },
-      ]);
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.options?.length)
+      .toBe(3);
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
   });
 
   it('should only append (sms/email) channel options when NOT on mobile and qrcode is the selectedChannel', () => {
@@ -238,20 +257,31 @@ describe.skip('TransformOktaVerifyChannelSelection Tests', () => {
       transaction, prevTransaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.select.channel.title');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
+      .toBe('oie.enroll.okta_verify.select.channel.description');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
+      .toBe('radio');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
+      .toBe(2);
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('authenticator.channel');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions?.length)
-      .toBe(2);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.customOptions)
-      .toEqual([
-        { value: 'sms', label: 'oie.enroll.okta_verify.select.channel.sms.label' },
-        { value: 'email', label: 'oie.enroll.okta_verify.select.channel.email.label' },
-      ]);
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe('oform.next');
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.options?.length)
+      .toBe(3);
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[3] as TextWithHtmlElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
+    expect((updatedFormBag.uischema.elements[3] as TextWithHtmlElement).options.contentClassname)
+      .toBe('switch-channel-link');
+    expect((updatedFormBag.uischema.elements[3] as TextWithHtmlElement).options.step)
+      .toBe('select-enrollment-channel');
   });
 });
