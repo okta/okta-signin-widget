@@ -3,7 +3,14 @@
 exports[`TransformOktaVerifyEnrollChannel Tests should append email input field to elements list when email is the selectedChannel 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -14,8 +21,12 @@ Object {
         "type": "Title",
       },
       Object {
-        "name": "email",
-        "type": "Control",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "email",
+          },
+        },
+        "type": "Field",
       },
       Object {
         "options": Object {
@@ -29,18 +40,16 @@ Object {
           "step": "",
           "type": "submit",
         },
-        "scope": "#/properties/setupLink",
         "type": "Button",
       },
       Object {
-        "label": "oie.enroll.okta_verify.switch.channel.link.text",
         "options": Object {
+          "content": "oie.enroll.okta_verify.switch.channel.link.text",
+          "contentClassname": "switch-channel-link",
           "step": "select-enrollment-channel",
           "stepToRender": "select-enrollment-channel",
-          "type": "button",
-          "variant": "secondary",
         },
-        "type": "Button",
+        "type": "TextWithHtml",
       },
     ],
     "type": "VerticalLayout",
@@ -51,7 +60,14 @@ Object {
 exports[`TransformOktaVerifyEnrollChannel Tests should append phone input field to elements list when sms is the selectedChannel 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -62,8 +78,12 @@ Object {
         "type": "Title",
       },
       Object {
-        "name": "phoneNumber",
-        "type": "Control",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "phoneNumber",
+          },
+        },
+        "type": "Field",
       },
       Object {
         "options": Object {
@@ -77,18 +97,16 @@ Object {
           "step": "",
           "type": "submit",
         },
-        "scope": "#/properties/setupLink",
         "type": "Button",
       },
       Object {
-        "label": "oie.enroll.okta_verify.switch.channel.link.text",
         "options": Object {
+          "content": "oie.enroll.okta_verify.switch.channel.link.text",
+          "contentClassname": "switch-channel-link",
           "step": "select-enrollment-channel",
           "stepToRender": "select-enrollment-channel",
-          "type": "button",
-          "variant": "secondary",
         },
-        "type": "Button",
+        "type": "TextWithHtml",
       },
     ],
     "type": "VerticalLayout",

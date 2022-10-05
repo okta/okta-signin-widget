@@ -13,7 +13,10 @@
 import { IdxContext } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
+  ButtonElement,
+  ButtonType,
   FieldElement,
+  TextWithHtmlElement,
   TitleElement,
   WidgetProps,
 } from 'src/types';
@@ -21,7 +24,7 @@ import {
 import * as channelTransformer from './transformOktaVerifyChannelSelection';
 import { transformOktaVerifyEnrollChannel } from './transformOktaVerifyEnrollChannel';
 
-describe.skip('TransformOktaVerifyEnrollChannel Tests', () => {
+describe('TransformOktaVerifyEnrollChannel Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
   const formBag = getStubFormBag();
@@ -63,6 +66,25 @@ describe.skip('TransformOktaVerifyEnrollChannel Tests', () => {
     const updatedFormBag = transformOktaVerifyEnrollChannel({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.enroll.channel.email.title');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
+      .toBe('email');
+    expect((updatedFormBag.uischema.elements[2] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.channel.email.description');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('oie.enroll.okta_verify.setupLink');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.content)
+      .toBe('oie.enroll.okta_verify.switch.channel.link.text');
+    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.contentClassname)
+      .toBe('switch-channel-link');
+    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
   });
 
   it('should append phone input field to elements list when sms is the selectedChannel', () => {
@@ -79,5 +101,24 @@ describe.skip('TransformOktaVerifyEnrollChannel Tests', () => {
     const updatedFormBag = transformOktaVerifyEnrollChannel({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.enroll.channel.sms.title');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
+      .toBe('phoneNumber');
+    expect((updatedFormBag.uischema.elements[2] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.channel.sms.description');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('oie.enroll.okta_verify.setupLink');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.content)
+      .toBe('oie.enroll.okta_verify.switch.channel.link.text');
+    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.contentClassname)
+      .toBe('switch-channel-link');
+    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.stepToRender)
+      .toBe('select-enrollment-channel');
   });
 });
