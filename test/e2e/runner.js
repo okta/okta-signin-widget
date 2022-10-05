@@ -22,13 +22,18 @@ const getTask = ({ bundle }) => {
         ]
       }).then(() => {
         // 2. run webdriver based on if sauce is needed or not
-        let wdioConfig = path.resolve(__dirname, 'wdio.conf.js');
+        let wdioConfig;
         if (process.env.RUN_FEATURE_TESTS) {
+          console.log('RUN_FEATURE_TESTS is true, using configuration: cucumber.wdio.conf.ts');
           wdioConfig = path.resolve(__dirname, 'cucumber.wdio.conf.ts');  
-        }
-        if (process.env.RUN_SAUCE_TESTS) {
+        } else if (process.env.RUN_SAUCE_TESTS) {
+          console.log('RUN_SAUCE_TESTS is true, using configuration: sauce.wdio.conf.ts');
           wdioConfig = path.resolve(__dirname, 'sauce.wdio.conf.ts');
+        } else {
+          console.log('Using default wdio configuration: wdio.conf.js');
+          wdioConfig = path.resolve(__dirname, 'wdio.conf.js');
         }
+
         const runner = spawn(
           'npx', [
             'wdio',

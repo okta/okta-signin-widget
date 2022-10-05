@@ -16,6 +16,11 @@ import ActionContext from '../support/context';
 import deleteUserAndCredentials from '../support/management-api/deleteUserAndCredentials';
 import TestAppPage from '../page-objects/test-app.page';
 
+// eslint-disable-next-line no-unused-vars
+After(async function(this: ActionContext) {
+  this.saveScreenshot('after');
+});
+
 After(deleteUserAndCredentials);
 
 After(() => browser.deleteCookies());

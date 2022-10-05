@@ -1,3 +1,5 @@
+# https://oktainc.atlassian.net/browse/OKTA-537530
+@skip(okta:monolith=true)
 Feature: WebAuthn Login
 
   Background:

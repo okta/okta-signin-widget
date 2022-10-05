@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /*!
  * Copyright (c) 2015-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -119,8 +120,11 @@ When(
   async function() {
     await VerifyEmailAuthenticatorPage.waitForPageLoad();
     let code = '';
-    code = await this.a18nClient.getEmailCode(this.credentials.profileId);
-
+    if (process.env.LOCAL_MONOLITH) {
+      code = await this.monolithClient.getEmailCode(this.credentials.emailAddress);
+    } else {
+      code = await this.a18nClient.getEmailCode(this.credentials.profileId);
+    }
     await VerifyEmailAuthenticatorPage.enterCode(code);
   }
 );
@@ -149,9 +153,16 @@ When (
 
 When(
   /^user clicks the email magic link$/,
-  async function() {
-    const emailMagicLink = await this.a18nClient.getEmailMagicLink(this.credentials.profileId);
+  // eslint-disable-next-line no-unused-vars
+  async function(this: ActionContext) {
+    let emailMagicLink;
+    if (process.env.LOCAL_MONOLITH) {
+      emailMagicLink = await this.monolithClient!.getEmailMagicLink(this.credentials.emailAddress);
+    } else {
+      emailMagicLink = await this.a18nClient!.getEmailMagicLink(this.credentials.profileId!);
+    }
     await browser.url(emailMagicLink);
+    this.saveScreenshot('click-magic-link');
   }
 );
 
@@ -200,7 +211,12 @@ When(
 When(
   /^user clicks the password reset magic link$/,
   async function() {
-    const passwordResetMagicLink = await this.a18nClient.getPasswordResetMagicLink(this.credentials.profileId);
+    let passwordResetMagicLink;
+    if (process.env.LOCAL_MONOLITH) {
+      passwordResetMagicLink = await this.monolithClient.getPasswordResetMagicLink(this.credentials.emailAddress);
+    } else {
+      passwordResetMagicLink = await this.a18nClient.getPasswordResetMagicLink(this.credentials.profileId);
+    }
     await browser.url(passwordResetMagicLink);
   }
 );
@@ -208,8 +224,13 @@ When(
 When(
     /^user clicks the unlock account magic link$/,
     async function() {
-        const unlockAccountLink = await this.a18nClient.getUnlockAccountLink(this.credentials.profileId);
-        await browser.url(unlockAccountLink);
+      let unlockAccountLink;
+      if (process.env.LOCAL_MONOLITH) {
+        unlockAccountLink = await this.monolithClient.getUnlockAccountLink(this.credentials.emailAddress);
+      } else {
+        unlockAccountLink = await this.a18nClient.getUnlockAccountLink(this.credentials.profileId);
+      }
+      await browser.url(unlockAccountLink);
     }
 );
 
@@ -271,7 +292,11 @@ When(
   /^user enters the SMS code$/,
   async function() {
     let code = '';
-    code = await this.a18nClient.getSMSCode(this.credentials.profileId);
+    if (process.env.LOCAL_MONOLITH) {
+      code = await this.monolithClient.getSMSCode(this.credentials.phoneNumber);
+    } else {
+      code = await this.a18nClient.getSMSCode(this.credentials.profileId);
+    }
     await VerifyPhoneAuthenticatorPage.enterCode(code);
   }
 );

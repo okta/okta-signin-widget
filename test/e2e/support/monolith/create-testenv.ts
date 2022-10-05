@@ -5,12 +5,18 @@ import {
   disableFeatureFlag,
   createApp,
   createUser,
-  enableOIE
+  enableOIE,
+  activateOrgFactor,
+  setPolicyForApp,
+  disableStepUpForPasswordRecovery,
+  getCatchAllRule,
+  getDefaultAuthorizationServer
 } from '@okta/dockolith';
 import { writeFileSync } from 'fs';
 import path from 'path';
 
 // Bootstraps a local monolith instance
+// Match configuration of current test org
 async function bootstrap() {
   const subDomain = process.env.TEST_ORG_SUBDOMAIN || 'siw-test-' + Date.now();
   const outputFilePath = path.join(__dirname, '../../../../', 'testenv.local');
@@ -33,10 +39,100 @@ async function bootstrap() {
   const { id: orgId } = await oktaClient.getOrgSettings();
 
   await enableOIE(orgId);
+  await activateOrgFactor(config, 'okta_email');
+  await disableStepUpForPasswordRecovery(config);
+
+  // Enable interaction_code grant on the default authorization server
+  const authServer = await getDefaultAuthorizationServer(config);
+  await authServer.listPolicies().each(async (policy) => {
+    if (policy.name === 'Default Policy') {
+      await policy.listPolicyRules(authServer.id).each(async (rule) => {
+        if (rule.name === 'Default Policy Rule') {
+          rule.conditions.grantTypes = {
+            include: [
+              'implicit',
+              'client_credentials',
+              'password',
+              'authorization_code',
+              'interaction_code' // need to add interaction_code grant or user will see no_matching_policy error
+            ]
+          };
+          await rule.update(policy.id, authServer.id);
+        }
+      });
+    }
+  });
+
+  const mfaGroup = await oktaClient.createGroup({
+    profile: {
+      name: 'MFA Required'
+    }
+  });
+
+  const spaPolicy = await oktaClient.createPolicy({
+    name: 'Widget SPA Policy',
+    type: 'ACCESS_POLICY',
+    status : 'ACTIVE'
+  });
+
+  // Modify catch-all rule to enforce password only
+  const catchAll = await getCatchAllRule(config, spaPolicy.id);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  catchAll.actions.appSignOn = {
+    access: 'ALLOW',
+    verificationMethod: {
+        factorMode: '1FA',
+        type: 'ASSURANCE',
+        reauthenticateIn: 'PT12H',
+        constraints: [{
+          knowledge: {
+            types: [
+              'password'
+            ]
+          }
+        }]
+    }
+  };
+  catchAll.update(spaPolicy.id);
+
+  spaPolicy.createRule({
+    name: 'MFA Required',
+    type: 'ACCESS_POLICY',
+    conditions: {
+      people: {
+          groups: {
+              include: [
+                mfaGroup.id
+              ]
+          }
+      },
+    },
+    actions: {
+      appSignOn: {
+        access: 'ALLOW',
+        verificationMethod: {
+          factorMode: '2FA',
+          type: 'ASSURANCE',
+          reauthenticateIn: 'PT2H',
+          constraints: [{
+            knowledge: {
+              types: ['password'],
+              reauthenticateIn: 'PT2H'
+            }
+          }]
+        }
+      }
+    }
+  });
 
   const options = {
     enableFFs: [
-      'API_ACCESS_MANAGEMENT'
+      'API_ACCESS_MANAGEMENT',
+      'ENG_EMAIL_MAGIC_LINK_OOB_AUTHENTICATOR_FLOWS',
+      'ACCOUNT_LOCKOUT_USER_EMAIL',
+      'ENG_ENABLE_SSU_FOR_OIE',
+      'ENG_OIE_TERMINAL_SSPR_FOR_MAGIC_LINK'
     ],
     disableFFs: [
       'REQUIRE_PKCE_FOR_OIDC_APPS'
@@ -105,6 +201,16 @@ async function bootstrap() {
     });
   }
 
+  let everyoneGroup: any;
+  await oktaClient.listGroups().each(async (group) => {
+    if (group.profile.name === 'Everyone') {
+      everyoneGroup = group;
+    }
+  });
+  if (!everyoneGroup) {
+    throw new Error('Cannot find "Everyone" group');
+  }
+
   // Delete apps if they already exist
   await oktaClient.listApplications().each(async (app) => {
     for (const option of options.apps) {
@@ -120,17 +226,25 @@ async function bootstrap() {
   const createdApps = []
   for (const option of options.apps) {
     console.error(`Creating app "${option.label}"`);
-    const app = await createApp(oktaClient, {
+    const app = await createApp(config, {
       clientUri: 'http://localhost:3000',
       redirectUris: [
         'http://localhost:3000/done'
       ],
+      emailMagicLinkRedirectUri: 'http://localhost:3000/done',
       ...option
     });
+
+    // assign "Everyone" to this application
+    oktaClient.createApplicationGroupAssignment(app.id, everyoneGroup.id);
+
     createdApps.push(app);
   }
   const webApp = createdApps[0];
   const spaApp = createdApps[1];
+
+  // Assign sign-on policy to SPA app
+  setPolicyForApp(config, spaApp.id, spaPolicy.id);
 
   // Delete users if they exist
   await oktaClient.listUsers().each(async (user) => {

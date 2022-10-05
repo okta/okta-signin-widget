@@ -28,6 +28,7 @@ Then(
   /^user sees the tokens on the page$/,
   // eslint-disable-next-line no-unused-vars
   async function(this: ActionContext) {
+    await this.saveScreenshot('tokens');
     await TestAppPage.assertAccessToken();
     const fullName = this.credentials.firstName + " " + this.credentials.lastName
     return await TestAppPage.assertIDToken(fullName);
@@ -80,6 +81,7 @@ Then(
 Then(
   /^user sees forgot password form$/,
   async function() {
+    this.saveScreenshot('user-sees-forgot-password-form');
     return await PrimaryAuthPage.waitForForgotPassword();
   }
 );

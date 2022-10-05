@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /*!
  * Copyright (c) 2015-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -20,10 +21,16 @@ import A18nClient from '../support/a18nClient';
 import createCredentials from '../support/management-api/createCredentials'
 import createUser from '../support/management-api/createUser'
 
+let MonolithClient: any;
+if (process.env.LOCAL_MONOLITH) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  MonolithClient = require('../support/monolith/monolithClient').MonolithClient;
+}
+
 const {
   WIDGET_TEST_SERVER,
   WIDGET_SPA_CLIENT_ID,
-  WIDGET_WEB_CLIENT_ID
+  WIDGET_WEB_CLIENT_ID,
 } = process.env;
 
 const interactionCodeFlowconfig = {
@@ -69,8 +76,13 @@ Given(
 Given(
   /^a User named "([^/w]+)" exists in the org$/,
   async function(this: ActionContext, firstName: string) {
-    this.a18nClient = new A18nClient();
-    this.credentials = await createCredentials(this.a18nClient, firstName);
+    if (process.env.LOCAL_MONOLITH) {
+      this.monolithClient = new MonolithClient();
+      this.credentials = await this.monolithClient!.createCredentials(firstName);
+    } else {
+      this.a18nClient = new A18nClient();
+      this.credentials = await createCredentials(this.a18nClient, firstName);
+    }
     this.user = await createUser(this.credentials);
   }
 );
@@ -78,17 +90,27 @@ Given(
 Given(
   /^an a18n profile exists$/,
   async function() {
-    this.a18nClient = new A18nClient();
-    this.credentials = await createCredentials(this.a18nClient, "test");
+    if (process.env.LOCAL_MONOLITH) {
+      this.monolithClient = new MonolithClient();
+      this.credentials = await this.monolithClient.createCredentials('test');
+    } else {
+      this.a18nClient = new A18nClient();
+      this.credentials = await createCredentials(this.a18nClient, "test");
+    }
   }
 );
 
 Given(
   /^a User named "([^/w]+)" exists in the org and added to "([^/w]+)" group$/,
   async function(this: ActionContext, firstName: string, groupName: string) {
-    this.a18nClient = new A18nClient();
-    this.credentials = await createCredentials(this.a18nClient, firstName);
-    this.user = await createUser(this.credentials, [groupName]);
+    if (process.env.LOCAL_MONOLITH) {
+      this.monolithClient = new MonolithClient();
+      this.credentials = await this.monolithClient!.createCredentials(firstName);
+    } else {
+      this.a18nClient = new A18nClient();
+      this.credentials = await createCredentials(this.a18nClient, firstName);
+    }
+    this.user = await createUser(this.credentials, [groupName] as never[]);
   }
 );
 
@@ -102,7 +124,7 @@ Given(
 
 Given(
   /^user opens the login page using "(\w+)"$/,
-  async function(buttonName: string) {
+  async function(this: ActionContext, buttonName: string) {
     switch(buttonName) {
       case 'renderEl':
         await TestAppPage.startWithRenderEl.click();
@@ -120,6 +142,7 @@ Given(
         await TestAppPage.showSignInToGetTokens.click();
         break;
     }
+    this.saveScreenshot(`user-opens-login-page-using-${buttonName}`);
     return await waitForLoad(TestAppPage.widget);
   }
 );
