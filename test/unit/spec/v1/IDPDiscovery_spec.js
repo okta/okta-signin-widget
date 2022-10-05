@@ -1505,7 +1505,6 @@ Expect.describe('IDPDiscovery', function() {
         .then(function(test) {
           Util.mockRouterNavigate(test.router);
           test.setNextWebfingerResponse(resSuccessOktaIDP);
-          test.setNextResponse(resErrorUnauthorized);
           test.form.setUsername('testuser');
           test.form.submit();
           return Expect.waitForPrimaryAuth(test);
