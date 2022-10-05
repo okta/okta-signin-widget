@@ -38,6 +38,7 @@ describe('Google Authenticator Verify Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)

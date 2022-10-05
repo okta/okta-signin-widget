@@ -3,7 +3,14 @@
 exports[`Google Authenticator Enroll Transformer Tests should add Stepper layout to UI Schema elements when GA Enroll params exists in Idx response 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -26,7 +33,6 @@ Object {
               Object {
                 "options": Object {
                   "data": "#mockhref",
-                  "label": "google auth",
                 },
                 "type": "QRCode",
               },
@@ -86,8 +92,12 @@ Object {
                 "type": "Description",
               },
               Object {
-                "name": "credentials.passcode",
-                "type": "Control",
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.passcode",
+                  },
+                },
+                "type": "Field",
               },
               Object {
                 "label": "oform.verify",
@@ -95,7 +105,6 @@ Object {
                   "step": "enroll-authenticator",
                   "type": "submit",
                 },
-                "scope": "#/properties/submit",
                 "type": "Button",
               },
             ],
