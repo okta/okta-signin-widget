@@ -111,6 +111,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const newTransaction = await fn(payload);
       // TODO: OKTA-538791 this is a temp work around until the auth-js fix
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
+        // eslint-disable-next-line prefer-destructuring
         newTransaction.nextStep = newTransaction.availableSteps[0];
       }
       setIdxTransaction(newTransaction);

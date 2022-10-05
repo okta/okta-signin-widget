@@ -239,7 +239,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return;
     }
 
-    const { messages: newMessages = [], status } = idxTransaction;
+    const { messages: newMessages = [] } = idxTransaction;
 
     events?.afterRender?.(getEventContext(idxTransaction));
 
