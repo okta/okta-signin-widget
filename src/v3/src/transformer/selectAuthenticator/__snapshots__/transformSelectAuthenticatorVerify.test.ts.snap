@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Verify Authenticator Selector Transformer Tests should add UI elements for verification authenticator selector when in password recovery flow 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "password.reset.title.generic",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.password.reset.verification",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "Email",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.id": "123abc",
+          },
+          "ctaLabel": "Select",
+          "key": "okta_email",
+          "step": "select-authenticator-authenticate",
+          "type": "button",
+        },
+        "type": "AuthenticatorButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Verify Authenticator Selector Transformer Tests should add UI elements for verification authenticator selector when in password recovery flow and brand name is provided 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "password.reset.title.specific",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.password.reset.verification",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "Email",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.id": "123abc",
+          },
+          "ctaLabel": "Select",
+          "key": "okta_email",
+          "step": "select-authenticator-authenticate",
+          "type": "button",
+        },
+        "type": "AuthenticatorButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Verify Authenticator Selector Transformer Tests should add UI elements for verification authenticator selector when not in password recovery flow 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.verify.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "Email",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.id": "123abc",
+          },
+          "ctaLabel": "Select",
+          "key": "okta_email",
+          "step": "select-authenticator-authenticate",
+          "type": "button",
+        },
+        "type": "AuthenticatorButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

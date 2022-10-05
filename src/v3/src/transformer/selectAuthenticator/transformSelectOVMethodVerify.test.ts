@@ -108,6 +108,7 @@ describe('Transform Select OV Method Verify Tests', () => {
     isPushOnly = true;
     const updatedFormBag = transformSelectOVMethodVerify({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -119,6 +120,8 @@ describe('Transform Select OV Method Verify Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).type).toBe('Button');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.step)
+      .toBe('select-authenticator-authenticate');
     expect(updatedFormBag.data)
       .toEqual({ 'authenticator.autoChallenge': 'true', 'authenticator.methodType': 'push' });
   });
@@ -148,6 +151,7 @@ describe('Transform Select OV Method Verify Tests', () => {
     isPushOnly = false;
     const updatedFormBag = transformSelectOVMethodVerify({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -156,8 +160,13 @@ describe('Transform Select OV Method Verify Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.verify.subtitle');
     expect((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement).type).toBe('AuthenticatorButton');
+    expect((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.actionParams?.['authenticator.methodType']).toBe('push');
     expect((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement).label)
       .toBe('Get a push notification');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).type).toBe('AuthenticatorButton');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
+      .options.actionParams?.['authenticator.methodType']).toBe('totp');
     expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).label).toBe('Enter a code');
   });
 });

@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transform Select OV Method Verify Tests should transform elements when transaction contains push and totp method types 1`] = `
+Object {
+  "data": Object {
+    "authenticator.autoChallenge": "true",
+    "authenticator.methodType": "push",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.verify.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "Get a push notification",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "push",
+          },
+          "ctaLabel": "Select",
+          "key": "okta_verify",
+          "step": "select-authenticator-authenticate",
+          "type": "button",
+        },
+        "type": "AuthenticatorButton",
+      },
+      Object {
+        "label": "Enter a code",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "totp",
+          },
+          "ctaLabel": "Select",
+          "key": "okta_verify",
+          "step": "select-authenticator-authenticate",
+          "type": "button",
+        },
+        "type": "AuthenticatorButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Select OV Method Verify Tests should transform elements when transaction only contains push method type with autoChallenge option 1`] = `
+Object {
+  "data": Object {
+    "authenticator.autoChallenge": "true",
+    "authenticator.methodType": "push",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "authenticator.autoChallenge",
+            "value": "true",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.okta_verify.sendPushButton",
+        "options": Object {
+          "step": "select-authenticator-authenticate",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

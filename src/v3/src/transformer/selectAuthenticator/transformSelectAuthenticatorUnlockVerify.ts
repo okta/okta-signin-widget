@@ -29,8 +29,11 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   const { uischema } = formBag;
 
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
+  if (!authenticator?.options?.length) {
+    return formBag;
+  }
   const authenticatorButtons = getAuthenticatorVerifyButtonElements(
-    authenticator!.options!,
+    authenticator.options,
     stepName,
   );
 
