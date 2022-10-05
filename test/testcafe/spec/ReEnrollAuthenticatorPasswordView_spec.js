@@ -157,7 +157,7 @@ test
 
     await terminalPageObject.clickSignOutLink();
 
-    await t.expect(identityPage.getFormTitle()).eql('Sign In');
+    await t.expect(identityPage.getPageTitle()).eql('Sign In');
 
     await t.expect(logger.count(() => true)).eql(3); // introspect, answer, cancel
     await assertRequestMatches(logger.requests[0], 'http://localhost:3000/idp/idx/introspect');

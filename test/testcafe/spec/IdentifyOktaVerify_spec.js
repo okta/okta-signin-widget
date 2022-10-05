@@ -45,13 +45,13 @@ test('should show errors if required fields are empty', async t => {
 
 test('should the correct title', async t => {
   const identityPage = await setup(t);
-  const pageTitle = identityPage.getFormTitle();
+  const pageTitle = identityPage.getPageTitle();
   await t.expect(pageTitle).eql('Sign In');
 });
 
 test('should the correct content', async t => {
   const identityPage = await setup(t);
-  await t.expect(identityPage.getFormTitle()).eql('Sign In');
+  await t.expect(identityPage.getPageTitle()).eql('Sign In');
   await t.expect(identityPage.getOktaVerifyButtonText()).eql('Sign in with Okta FastPass');
   await t.expect(identityPage.getSeparationLineText()).eql('or');
   await identityPage.clickOktaVerifyButton();

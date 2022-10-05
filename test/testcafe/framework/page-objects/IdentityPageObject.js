@@ -20,6 +20,14 @@ export default class IdentityPageObject extends BasePageObject {
     super(t);
   }
 
+  /**
+   * @deprecated
+   * @see BasePageObject.getFormTitle
+   */
+  getPageTitle() {
+    return this.getFormTitle();
+  }
+
   getOktaVerifyButtonText() {
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
   }
