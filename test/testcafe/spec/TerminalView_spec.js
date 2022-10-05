@@ -14,6 +14,8 @@ import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/te
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 import errorTerminalMultipleErrors from '../../../playground/mocks/data/idp/idx/error-terminal-multiple-errors';
 
+import { userVariables } from 'testcafe';
+
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalTransferEmail);
@@ -65,7 +67,7 @@ const terminalUnlockAccountFailedPermissionsMock = RequestMock()
 fixture('Terminal view').meta('v3', true);
 
 async function setup(t) {
-  const terminalPageObject = process.env.OKTA_SIW_V3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
+  const terminalPageObject = userVariables.v3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
   return terminalPageObject;
 }
@@ -143,7 +145,7 @@ async function setup(t) {
       const terminalViewPage = await setup(t);
 
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
-      if(!process.env.OKTA_SIW_V3) {
+      if(!userVariables.v3) {
         await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
       }
     });
