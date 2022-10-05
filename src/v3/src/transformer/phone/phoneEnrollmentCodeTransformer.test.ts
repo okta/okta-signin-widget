@@ -12,7 +12,13 @@
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { WidgetProps } from 'src/types';
+import {
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  TitleElement,
+  WidgetProps,
+} from 'src/types';
 
 import { transformPhoneCodeEnrollment } from '.';
 
@@ -35,8 +41,21 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
     };
     const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.phone.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement)
+      .options?.content).toBe('mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
   });
 
   it('should create phone code enrollment UI elements with sms as the first method type', () => {
@@ -50,8 +69,21 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
     };
     const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.phone.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe('oie.phone.verify.sms.codeSentText oie.phone.alternate.title. oie.phone.verify.enterCodeText');
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
   });
 
   it('should create phone code enrollment UI elements with sms as the first method type and phoneNumber in profile', () => {
@@ -67,8 +99,21 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
     };
     const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.phone.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe(`oie.phone.verify.sms.codeSentText ${mockPhoneNumber}. oie.phone.verify.enterCodeText`);
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
   });
 
   it('should create phone code enrollment UI elements with voice as the first method type and phoneNumber in profile', () => {
@@ -84,7 +129,20 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
     };
     const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.phone.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement)
+      .options?.content).toBe(`mfa.calling ${mockPhoneNumber}. oie.phone.verify.enterCodeText`);
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
+      .toBe('mfa.challenge.verify');
   });
 });
