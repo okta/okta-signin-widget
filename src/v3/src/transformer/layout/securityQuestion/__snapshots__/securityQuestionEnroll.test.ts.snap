@@ -2,10 +2,20 @@
 
 exports[`SecurityQuestionEnroll Tests should create security question enrollment UI elements 1`] = `
 Object {
-  "data": Object {
-    "credentials.questionKey": "eternal",
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [
+      "credentials.answer",
+      "credentials.questionKey",
+    ],
+    "submit": Object {
+      "includeImmutableData": false,
+      "step": "",
+      "type": "submit",
+    },
   },
-  "dataSchema": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -23,57 +33,70 @@ Object {
                 "options": Object {
                   "customOptions": Array [
                     Object {
+                      "callback": [Function],
                       "label": "oie.security.question.questionKey.label",
                       "value": "predefined",
                     },
                     Object {
+                      "callback": [Function],
                       "key": "credentials.questionKey",
                       "label": "oie.security.question.createQuestion.label",
                       "value": "custom",
                     },
                   ],
-                  "defaultOption": "predefined",
+                  "defaultValue": [Function],
                   "name": "questionType",
                 },
                 "type": "StepperRadio",
               },
               Object {
+                "key": "credentials.questionKey",
                 "label": "oie.security.question.questionKey.label",
-                "name": "credentials.questionKey",
                 "options": Object {
                   "customOptions": Array [
                     Object {
                       "label": "What is love?",
                       "value": "eternal",
                     },
+                    Object {
+                      "label": "Who is your favorite actor?",
+                      "value": "fav_actor",
+                    },
                   ],
                   "format": "dropdown",
                   "inputMeta": Object {
                     "name": "credentials.questionKey",
+                    "options": Array [
+                      Object {
+                        "label": "What is love?",
+                        "value": "eternal",
+                      },
+                      Object {
+                        "label": "Who is your favorite actor?",
+                        "value": "fav_actor",
+                      },
+                    ],
                   },
                 },
-                "type": "Control",
+                "type": "Field",
               },
               Object {
-                "label": "Answer",
-                "name": "credentials.answer",
+                "key": "credentials.answer_predefined",
                 "options": Object {
                   "inputMeta": Object {
-                    "label": "Answer",
                     "name": "credentials.answer",
                     "secret": true,
                   },
                 },
-                "type": "Control",
+                "type": "Field",
               },
               Object {
                 "label": "mfa.challenge.verify",
                 "options": Object {
-                  "dataType": "save",
+                  "includeImmutableData": false,
                   "step": "",
                   "type": "submit",
                 },
-                "scope": "#/properties/submit",
                 "type": "Button",
               },
             ],
@@ -91,34 +114,34 @@ Object {
                 "options": Object {
                   "customOptions": Array [
                     Object {
+                      "callback": [Function],
                       "label": "oie.security.question.questionKey.label",
                       "value": "predefined",
                     },
                     Object {
+                      "callback": [Function],
                       "key": "credentials.questionKey",
                       "label": "oie.security.question.createQuestion.label",
                       "value": "custom",
                     },
                   ],
-                  "defaultOption": "predefined",
+                  "defaultValue": [Function],
                   "name": "questionType",
                 },
                 "type": "StepperRadio",
               },
               Object {
                 "label": "oie.security.question.createQuestion.label",
-                "name": "credentials.question",
                 "options": Object {
                   "inputMeta": Object {
                     "name": "credentials.question",
                   },
-                  "type": "string",
                 },
-                "type": "Control",
+                "type": "Field",
               },
               Object {
+                "key": "credentials.answer_custom",
                 "label": "Answer",
-                "name": "credentials.answer",
                 "options": Object {
                   "inputMeta": Object {
                     "label": "Answer",
@@ -126,7 +149,7 @@ Object {
                     "secret": true,
                   },
                 },
-                "type": "Control",
+                "type": "Field",
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -134,11 +157,9 @@ Object {
                   "actionParams": Object {
                     "credentials.questionKey": "custom",
                   },
-                  "dataType": "save",
                   "step": "",
                   "type": "submit",
                 },
-                "scope": "#/properties/submit",
                 "type": "Button",
               },
             ],
