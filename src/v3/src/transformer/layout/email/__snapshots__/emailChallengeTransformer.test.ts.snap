@@ -3,7 +3,14 @@
 exports[`EmailChallengeTransformer Tests should create email challenge UI elements when profile email is NOT available 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -13,9 +20,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [Function],
-                  "ctaText": "email.code.not.received",
-                  "linkLabel": "email.button.resend",
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "buttonText": "email.button.resend",
+                  "content": "email.code.not.received",
+                  "isActionStep": true,
+                  "step": "resend",
                 },
                 "type": "Reminder",
               },
@@ -47,9 +58,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [Function],
-                  "ctaText": "email.code.not.received",
-                  "linkLabel": "email.button.resend",
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "buttonText": "email.button.resend",
+                  "content": "email.code.not.received",
+                  "isActionStep": true,
+                  "step": "resend",
                 },
                 "type": "Reminder",
               },
@@ -66,8 +81,13 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "email.enroll.enterCode",
-                "name": "credentials.passcode",
+                "focus": true,
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.passcode",
+                  },
+                },
+                "type": "Field",
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -75,7 +95,6 @@ Object {
                   "step": "mock-step",
                   "type": "submit",
                 },
-                "scope": "#/properties/submit",
                 "type": "Button",
               },
             ],
@@ -93,7 +112,14 @@ Object {
 exports[`EmailChallengeTransformer Tests should create email challenge UI elements when resend code is NOT available 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -140,8 +166,13 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "email.enroll.enterCode",
-                "name": "credentials.passcode",
+                "focus": true,
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.passcode",
+                  },
+                },
+                "type": "Field",
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -149,7 +180,6 @@ Object {
                   "step": "mock-step",
                   "type": "submit",
                 },
-                "scope": "#/properties/submit",
                 "type": "Button",
               },
             ],
@@ -167,7 +197,14 @@ Object {
 exports[`EmailChallengeTransformer Tests should create email challenge UI elements when resend code is available 1`] = `
 Object {
   "data": Object {},
-  "dataSchema": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -177,9 +214,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [Function],
-                  "ctaText": "email.code.not.received",
-                  "linkLabel": "email.button.resend",
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "buttonText": "email.button.resend",
+                  "content": "email.code.not.received",
+                  "isActionStep": true,
+                  "step": "resend",
                 },
                 "type": "Reminder",
               },
@@ -211,9 +252,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [Function],
-                  "ctaText": "email.code.not.received",
-                  "linkLabel": "email.button.resend",
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "buttonText": "email.button.resend",
+                  "content": "email.code.not.received",
+                  "isActionStep": true,
+                  "step": "resend",
                 },
                 "type": "Reminder",
               },
@@ -230,8 +275,13 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "email.enroll.enterCode",
-                "name": "credentials.passcode",
+                "focus": true,
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.passcode",
+                  },
+                },
+                "type": "Field",
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -239,7 +289,6 @@ Object {
                   "step": "",
                   "type": "submit",
                 },
-                "scope": "#/properties/submit",
                 "type": "Button",
               },
             ],
