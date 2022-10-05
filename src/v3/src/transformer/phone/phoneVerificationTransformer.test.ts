@@ -44,6 +44,7 @@ describe('Phone verification Transformer Tests', () => {
     + ' and sms is the first methodType choice', () => {
     const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
@@ -76,6 +77,7 @@ describe('Phone verification Transformer Tests', () => {
     } as FieldElement];
     const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
@@ -108,6 +110,7 @@ describe('Phone verification Transformer Tests', () => {
     } as FieldElement];
     const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
@@ -135,6 +138,7 @@ describe('Phone verification Transformer Tests', () => {
     } as FieldElement];
     const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
@@ -175,6 +179,7 @@ describe('Phone verification Transformer Tests', () => {
     };
     const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
@@ -215,6 +220,7 @@ describe('Phone verification Transformer Tests', () => {
     };
     const updatedFormBag = transformPhoneVerification({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');

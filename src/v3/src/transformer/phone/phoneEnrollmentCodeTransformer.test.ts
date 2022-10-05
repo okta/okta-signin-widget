@@ -13,8 +13,11 @@
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement, ButtonType, DescriptionElement,
-  TitleElement, WidgetProps,
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  TitleElement,
+  WidgetProps,
 } from 'src/types';
 
 import { transformPhoneCodeEnrollment } from '.';
@@ -38,6 +41,7 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
     };
     const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
@@ -65,6 +69,7 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
     };
     const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
@@ -94,6 +99,7 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
     };
     const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
@@ -123,6 +129,7 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
     };
     const updatedFormBag = transformPhoneCodeEnrollment({ transaction, formBag, widgetProps });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
