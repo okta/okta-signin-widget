@@ -140,7 +140,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
 
     // cancelled transactions will be bootstrapped again, so we wait if that happens
-    if (idxTransaction === undefined || idxTransaction?.status === IdxStatus.CANCELED) {
+    if (idxTransaction === undefined) {
       return createForm();
     }
 
@@ -254,11 +254,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       }
     });
 
-    // clear idxTransaction to start loading state
-    if (status === IdxStatus.CANCELED) {
-      setIdxTransaction(undefined);
-      bootstrap();
-    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idxTransaction, bootstrap]);
 
