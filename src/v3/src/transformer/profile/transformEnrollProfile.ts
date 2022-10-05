@@ -57,7 +57,9 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
         validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
       },
     };
-    uischema.elements.unshift(passwordRequirementsElement);
+    if (Object.keys(passwordSettings)?.length) {
+      uischema.elements.unshift(passwordRequirementsElement);
+    }
   }
 
   const titleElement: TitleElement = {
@@ -79,9 +81,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
 
   const selectIdentifyStep = availableSteps?.find(({ name }) => name === IDX_STEP.SELECT_IDENTIFY);
   if (selectIdentifyStep) {
-    uischema.elements.push({
-      type: 'Divider',
-    });
+    uischema.elements.push({ type: 'Divider' });
     const { name: step } = selectIdentifyStep;
     const signinLink: LinkElement = {
       type: 'Link',
