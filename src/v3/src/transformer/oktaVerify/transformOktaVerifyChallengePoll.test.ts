@@ -12,7 +12,13 @@
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { WidgetProps } from 'src/types';
+import {
+  DescriptionElement,
+  ImageWithTextElement,
+  ReminderElement,
+  TitleElement,
+  WidgetProps,
+} from 'src/types';
 
 import { transformOktaVerifyChallengePoll } from './transformOktaVerifyChallengePoll';
 
@@ -62,8 +68,15 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
   it('should transform elements when method type is standard push only', () => {
     const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.okta_verify.push.title');
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
+      .toBe('oktaverify.warning');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.okta_verify.push.sent');
+    expect(updatedFormBag.uischema.elements[3].type).toBe('Spinner');
   });
 
   it('should transform elements when method type is push and '
@@ -85,8 +98,24 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     };
     const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.content)
+      .toBe('oie.numberchallenge.warning');
+    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.step)
+      .toBe('resend');
+    expect((updatedFormBag.uischema.elements[1] as TitleElement).options.content)
+      .toBe('oie.okta_verify.push.sent');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.numberchallenge.instruction');
+    expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).type)
+      .toBe('ImageWithText');
+    expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).options.textContent)
+      .toBe('42');
+    expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).options.id).toBe('code');
+    expect(updatedFormBag.uischema.elements[4].type).toBe('Spinner');
   });
 
   it('should transform elements when method type is push and '
@@ -107,7 +136,17 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     };
     const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.okta_verify.push.sent');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+      .toBe('oie.numberchallenge.instruction');
+    expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).type)
+      .toBe('ImageWithText');
+    expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options.textContent)
+      .toBe('42');
+    expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options.id).toBe('code');
+    expect(updatedFormBag.uischema.elements[3].type).toBe('Spinner');
   });
 });
