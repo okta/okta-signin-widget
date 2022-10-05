@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Unhandled Error Transformer Tests should add Infobox with unexpected error message when error is not provided 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "contentType": "string",
+          "message": "oform.error.unexpected",
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Unhandled Error Transformer Tests should add info box when oie configuration error 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "message": "oie.configuration.error",
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Unhandled Error Transformer Tests should add info box when oie is not enabled error 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "message": "oie.feature.disabled",
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Unhandled Error Transformer Tests should add info box when response is invalid recovery token error 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "message": "oie.invalid.recovery.token",
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

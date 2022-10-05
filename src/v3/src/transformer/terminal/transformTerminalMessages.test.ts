@@ -11,12 +11,10 @@
  */
 
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
+import { DescriptionElement, InfoboxElement } from 'src/types';
 
 import { TERMINAL_KEY } from '../../constants';
 import { getStubFormBag, getStubTransaction } from '../../mocks/utils/utils';
-import {
-  DescriptionElement, InfoboxElement,
-} from '../../types';
 import { transformTerminalMessages } from './transformTerminalMessages';
 
 const getMockMessage = (message: string, className: string, key: string) => ({
@@ -59,6 +57,7 @@ describe('Terminal Message Transformer Tests', () => {
     };
     const updatedFormBag = transformTerminalMessages(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message).toBe('oform.error.unexpected');
@@ -76,6 +75,7 @@ describe('Terminal Message Transformer Tests', () => {
     ));
     const updatedFormBag = transformTerminalMessages(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options?.content)
@@ -92,6 +92,7 @@ describe('Terminal Message Transformer Tests', () => {
     ));
     const updatedFormBag = transformTerminalMessages(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
@@ -111,6 +112,7 @@ describe('Terminal Message Transformer Tests', () => {
     ));
     const updatedFormBag = transformTerminalMessages(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
@@ -131,6 +133,7 @@ describe('Terminal Message Transformer Tests', () => {
     ));
     const updatedFormBag = transformTerminalMessages(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options?.content)
@@ -147,6 +150,7 @@ describe('Terminal Message Transformer Tests', () => {
     ));
     const updatedFormBag = transformTerminalMessages(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
@@ -168,6 +172,7 @@ describe('Terminal Message Transformer Tests', () => {
     ));
     const updatedFormBag = transformTerminalMessages(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
@@ -187,6 +192,7 @@ describe('Terminal Message Transformer Tests', () => {
     ));
     const updatedFormBag = transformTerminalMessages(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((

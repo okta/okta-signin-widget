@@ -11,11 +11,9 @@
  */
 
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
+import { DescriptionElement, HeadingElement, ImageWithTextElement } from 'src/types';
 
 import { getStubFormBag, getStubTransaction } from '../../mocks/utils/utils';
-import {
-  DescriptionElement, HeadingElement, ImageWithTextElement,
-} from '../../types';
 import { transformEmailMagicLinkOTPOnly } from './transformEmailMagicLinkOTPOnlyElements';
 
 describe('Email Magic Link OTP Only Transformer Tests', () => {
@@ -68,6 +66,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options?.content)
@@ -92,6 +91,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     const [
       el1, el2, el3,
@@ -121,6 +121,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     const [
       el1, el2, el3,
@@ -150,6 +151,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     const [
       el1, el2, el3,
@@ -179,6 +181,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     const [
       el1, el2, el3,
@@ -212,6 +215,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     const [
       el1, el2, el3, el4, el5,
@@ -263,6 +267,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(6);
     const [
       el1, el2, el3, el4, el5, el6,
@@ -328,6 +333,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     };
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(7);
     const [
       el1, el2, el3, el4, el5, el6, el7,
@@ -371,6 +377,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     + ' when all expected data exists in context', () => {
     const updatedFormBag = transformEmailMagicLinkOTPOnly(transaction, formBag);
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(7);
     const [
       el1, el2, el3, el4, el5, el6, el7,

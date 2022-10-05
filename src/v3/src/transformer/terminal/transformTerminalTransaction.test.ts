@@ -12,7 +12,6 @@
 
 import { IdxContext, IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 import {
-  ButtonElement,
   FormBag,
   LinkElement,
   SpinnerElement,
@@ -51,7 +50,7 @@ jest.mock('../../util', () => {
   };
 });
 
-describe.skip('Terminal Transaction Transformer Tests', () => {
+describe('Terminal Transaction Transformer Tests', () => {
   let transaction: IdxTransaction;
   let mockAuthClient: any;
   let widgetProps: WidgetProps;
@@ -107,6 +106,8 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
       widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
+      expect(formBag).toMatchSnapshot();
+      expect(formBag.uischema.elements.length).toBe(2);
       expect(formBag.uischema.elements[0].type).toBe('Spinner');
       expect((formBag.uischema.elements[0] as SpinnerElement).options?.label).toBe('Loading...');
       expect((formBag.uischema.elements[0] as SpinnerElement).options?.valueText).toBe('Loading...');
@@ -121,6 +122,8 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
       widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true, codeChallenge: 'bbccdde' };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
+      expect(formBag).toMatchSnapshot();
+      expect(formBag.uischema.elements.length).toBe(2);
       expect(formBag.uischema.elements[0].type).toBe('Spinner');
       expect((formBag.uischema.elements[0] as SpinnerElement).options?.label).toBe('Loading...');
       expect((formBag.uischema.elements[0] as SpinnerElement).options?.valueText).toBe('Loading...');
@@ -202,6 +205,7 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     };
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
     expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
@@ -216,6 +220,7 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     ));
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Title');
     expect((formBag.uischema.elements[0] as TitleElement).options?.content)
@@ -231,6 +236,7 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     ));
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Title');
     expect((formBag.uischema.elements[0] as TitleElement).options?.content)
@@ -250,34 +256,40 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Title');
     expect((formBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.safe.mode.title');
-    expect(formBag.uischema.elements[1].type).toBe('Button');
-    expect((formBag.uischema.elements[1] as ButtonElement).label).toBe('oie.enroll.skip.setup');
+    expect(formBag.uischema.elements[1].type).toBe('Link');
+    expect((formBag.uischema.elements[1] as LinkElement).options.label).toBe('oie.enroll.skip.setup');
     expect((
-      formBag.uischema.elements[1] as ButtonElement
+      formBag.uischema.elements[1] as LinkElement
     ).options?.step).toBe('skip');
   });
 
   it('should add title and try again link for'
-    + ' idx.device.not.activated.consent.denied message key when baseUrl is provided', () => {
-    widgetProps = { baseUrl: 'https://acme.okta1.com' };
+    + ' idx.device.not.activated.consent.denied message key', () => {
     const mockErrorMessage = 'Set up is temporarily unavailable due to server maintenance. Try again later.';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
       'ERROR',
       TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED,
     ));
+    const mockHref = 'http://localhost:3000/';
+    const mockLocation = jest.spyOn(global, 'location', 'get');
+    mockLocation.mockReturnValue(
+      { href: mockHref } as unknown as Location,
+    );
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Title');
     expect((formBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED]);
     expect(formBag.uischema.elements[1].type).toBe('Link');
     expect((formBag.uischema.elements[1] as LinkElement).options?.label).toBe('oie.try.again');
-    expect((formBag.uischema.elements[1] as LinkElement).options?.href).toBe('https://acme.okta1.com');
+    expect((formBag.uischema.elements[1] as LinkElement).options?.href).toBe(mockHref);
   });
 
   it('should add title element with message for'
@@ -290,6 +302,7 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     ));
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Title');
     expect((formBag.uischema.elements[0] as TitleElement).options?.content)
@@ -297,6 +310,9 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should add back to signin link for tooManyRequests message key when baseUrl not provided', () => {
+    const mockIssueOrigin = 'http://localhost:3000/';
+    mockAuthClient = { getIssuerOrigin: () => mockIssueOrigin };
+    widgetProps = { authClient: mockAuthClient };
     const mockErrorMessage = 'Too many requests';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -305,6 +321,37 @@ describe.skip('Terminal Transaction Transformer Tests', () => {
     ));
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
+    expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(1);
+    expect(formBag.uischema.elements[0].type).toBe('Link');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe(mockIssueOrigin);
+  });
+
+  it('should not add back to sign in link when cancel is not available', () => {
+    widgetProps = { features: { hideSignOutLinkInMFA: true } };
+    const mockErrorMessage = 'Session expired';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'ERROR',
+      TERMINAL_KEY.SESSION_EXPIRED,
+    ));
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(formBag.uischema.elements.length).toBe(0);
+  });
+
+  it('should add back to sign in link with href when backToSigninUri is set in widget options', () => {
+    widgetProps = { backToSignInLink: '/' };
+    const mockErrorMessage = 'Session expired';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'ERROR',
+      TERMINAL_KEY.SESSION_EXPIRED,
+    ));
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
     expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');

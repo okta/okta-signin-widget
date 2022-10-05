@@ -1,0 +1,238 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Terminal Message Transformer Tests should add Description element with message for oie.selfservice.unlock_user.success.message message key 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.selfservice.unlock_user.success.message",
+        },
+        "type": "Description",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Message Transformer Tests should add Info box element with message for tooManyRequests message key 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "contentType": "string",
+          "dataSe": "infobox-error",
+          "message": "oie.tooManyRequests",
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Message Transformer Tests should add an Info box and Description elements for idx.operation.cancelled.on.other.device message key 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "contentType": "string",
+          "dataSe": "infobox-error",
+          "message": "idx.operation.cancelled.on.other.device",
+        },
+        "type": "InfoBox",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.consent.enduser.deny.description",
+        },
+        "type": "Description",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Message Transformer Tests should add error Info box element for idx.session.expired message key 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "contentType": "string",
+          "dataSe": "infobox-error",
+          "message": "idx.session.expired",
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Message Transformer Tests should add info Box element for link expired message key 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "contentType": "string",
+          "dataSe": "infobox-error",
+          "message": "idx.return.link.expired",
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Message Transformer Tests should add info box & cancel elements when transaction contains API error 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "contentType": "string",
+          "message": "oform.error.unexpected",
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Message Transformer Tests should add info box element for generic terminal message key 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "contentType": "string",
+          "dataSe": "infobox-error",
+          "message": "Test error message",
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Message Transformer Tests should transform elements when terminal key indicates to return to orig tab 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.consent.enduser.email.allow.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.return.to.original.tab",
+        },
+        "type": "Description",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
