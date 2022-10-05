@@ -16,6 +16,7 @@ import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/
 import {
   AuthenticatorButtonElement,
   ButtonType,
+  FieldElement,
   TitleElement,
   WidgetProps,
 } from 'src/types';
@@ -46,23 +47,30 @@ jest.mock('./utils', () => ({
   ) => (options?.length ? getMockAuthenticatorButtons() : []),
 }));
 
-describe.skip('Unlock Verification Authenticator Selector Tests', () => {
+describe('Unlock Verification Authenticator Selector Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
   const formBag = getStubFormBag();
   beforeEach(() => {
-    formBag.uischema.elements = [];
+    formBag.uischema.elements = [{ type: 'Field', options: { inputMeta: { name: 'identifier' } } } as FieldElement];
     transaction.nextStep = {
       name: IDX_STEP.SELECT_AUTHENTICATOR_UNLOCK,
-      inputs: [{
-        name: 'authenticator',
-        options: [
-          {
-            label: 'Email',
-            value: 'okta_email',
-          } as IdxOption,
-        ],
-      }],
+      inputs: [
+        {
+          name: 'authenticator',
+          options: [
+            {
+              label: 'Email',
+              value: 'okta_email',
+            } as IdxOption,
+          ],
+        },
+        {
+          name: 'identifier',
+          label: 'Username',
+          required: true,
+        },
+      ],
     };
   });
 
@@ -87,12 +95,19 @@ describe.skip('Unlock Verification Authenticator Selector Tests', () => {
       widgetProps,
     });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(2);
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('unlockaccount');
-    expect(updatedFormBag.uischema.elements[1].type).toBe('AuthenticatorButton');
-    expect(((updatedFormBag.uischema.elements[1] as AuthenticatorButtonElement)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
+      .toBe('identifier');
+    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.id'])).toBe('123abc');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.step)).toBe('select-authenticator-unlock-account');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.type)).toBe(ButtonType.BUTTON);
   });
 });

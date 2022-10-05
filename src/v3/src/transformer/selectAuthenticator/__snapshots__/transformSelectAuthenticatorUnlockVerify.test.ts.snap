@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Unlock Verification Authenticator Selector Tests should add UI elements for unlock verification authenticator selector 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "unlockaccount",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "Email",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.id": "123abc",
+          },
+          "ctaLabel": "Select",
+          "key": "okta_email",
+          "step": "select-authenticator-unlock-account",
+          "type": "button",
+        },
+        "type": "AuthenticatorButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

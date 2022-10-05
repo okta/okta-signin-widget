@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests should format on_prem authenticator option when display name exists 1`] = `
+Array [
+  Object {
+    "label": "On Prem",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": undefined,
+        "authenticator.methodType": "onprem_mfa",
+      },
+      "authenticator": Object {
+        "displayName": "Some Company Name",
+        "id": "",
+        "key": "onprem_mfa",
+        "methods": Array [
+          Object {
+            "type": "",
+          },
+        ],
+        "type": "",
+      },
+      "ctaLabel": "oie.enroll.authenticator.button.text",
+      "dataSe": "onprem_mfa-onprem_mfa",
+      "description": "oie.on_prem.authenticator.description",
+      "iconName": "onprem_mfa_0",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "onprem_mfa",
+      "logoUri": undefined,
+      "step": "select-authenticator-enroll",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+]
+`;
+
+exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests should return formatted Okta Verify method type options when raw options are provided 1`] = `
+Array [
+  Object {
+    "label": "Code",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "totp",
+      },
+      "ctaLabel": "oie.enroll.authenticator.button.text",
+      "dataSe": "okta_verify-totp",
+      "description": "oie.okta_verify.authenticator.description",
+      "iconDescr": "factor.totpSoft.description",
+      "iconName": "oktaVerify",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "Push",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "push",
+      },
+      "ctaLabel": "oie.enroll.authenticator.button.text",
+      "dataSe": "okta_verify-push",
+      "description": "oie.okta_verify.authenticator.description",
+      "iconDescr": "factor.push.description",
+      "iconName": "oktaVerifyPush",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+]
+`;
+
+exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should return formatted Okta Verify method type options when raw options are provided 1`] = `
+Array [
+  Object {
+    "label": "Code",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "totp",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-totp",
+      "description": undefined,
+      "iconDescr": "factor.totpSoft.description",
+      "iconName": "oktaVerify",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "Push",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "push",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-push",
+      "description": undefined,
+      "iconDescr": "factor.push.description",
+      "iconName": "oktaVerifyPush",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+]
+`;

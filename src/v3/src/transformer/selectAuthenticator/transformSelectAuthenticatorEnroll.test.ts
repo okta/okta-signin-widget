@@ -49,7 +49,7 @@ jest.mock('./utils', () => ({
   ) => (options.length ? getMockAuthenticatorButtons() : []),
 }));
 
-describe.skip('Enroll Authenticator Selector Transformer Tests', () => {
+describe('Enroll Authenticator Selector Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const formBag = getStubFormBag();
   const isSkippable = jest.fn();
@@ -57,6 +57,7 @@ describe.skip('Enroll Authenticator Selector Transformer Tests', () => {
 
   beforeEach(() => {
     formBag.uischema.elements = [];
+    transaction.availableSteps = [];
     transaction.nextStep = {
       name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
       canSkip: isSkippable.mockReturnValue(false)(),
@@ -94,6 +95,7 @@ describe.skip('Enroll Authenticator Selector Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -110,6 +112,10 @@ describe.skip('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
       .toBe('oie.optional.authenticator.button.title');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.step)
+      .toBe('skip');
   });
 
   it('should transform authenticator elements when step is not skippable', () => {
@@ -117,6 +123,7 @@ describe.skip('Enroll Authenticator Selector Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -127,6 +134,10 @@ describe.skip('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.required');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.step)
+      .toBe('select-authenticator-enroll');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.type)
+      .toBe(ButtonType.BUTTON);
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.id'])).toBe('123abc');
   });
@@ -139,6 +150,7 @@ describe.skip('Enroll Authenticator Selector Transformer Tests', () => {
       transaction, formBag, widgetProps,
     });
 
+    expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
@@ -151,8 +163,14 @@ describe.skip('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.id'])).toBe('123abc');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.step)
+      .toBe('select-authenticator-enroll');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.type)
+      .toBe(ButtonType.BUTTON);
     expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
       .toBe('oie.optional.authenticator.button.title');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
   });
 });

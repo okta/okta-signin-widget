@@ -220,6 +220,7 @@ describe('Select Authenticator Utility Tests', () => {
 
       const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
 
+      expect(authenticatorOptionValues).toMatchSnapshot();
       expect(authenticatorOptionValues.length).toBe(2);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
       expect(authenticatorOptionValues[0].label).toBe('Code');
@@ -290,6 +291,7 @@ describe('Select Authenticator Utility Tests', () => {
       }];
       const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options, stepName);
 
+      expect(authenticatorOptionValues).toMatchSnapshot();
       expect(authenticatorOptionValues.length).toBe(1);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.ON_PREM);
       expect(authenticatorOptionValues[0].label).toBe('On Prem');
@@ -324,6 +326,7 @@ describe('Select Authenticator Utility Tests', () => {
 
       const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options, stepName);
 
+      expect(authenticatorOptionValues).toMatchSnapshot();
       expect(authenticatorOptionValues.length).toBe(2);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
       expect(authenticatorOptionValues[0].label).toBe('Code');
