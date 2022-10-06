@@ -58,9 +58,7 @@ usePolyfill(devConfig);
 // 6. plugins: a11y
 var a11yPluginConfig = config('okta-plugin-a11y.js', 'production');
 a11yPluginConfig.entry = [path.resolve(__dirname, 'src/plugins/OktaPluginA11y.ts')];
-a11yPluginConfig.output.filename = 'okta-plugin-a11y.js';
 a11yPluginConfig.output.library = 'OktaPluginA11y';
-useRuntime(a11yPluginConfig);
 
 module.exports = [
   entryConfig,
