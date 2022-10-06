@@ -16,10 +16,11 @@ import mockResponse from '../../src/mocks/response/idp/idx/challenge/answer/auth
 
 describe('authenticator-password-requirements-not-met', () => {
   it('should render form', async () => {
-    const { container, findByText, findByTestId } = await setup({ mockResponse });
-    await findByText(/Set up password/);
+    const { container, findByRole, findByTestId } = await setup({ mockResponse });
+    const heading = await findByRole('heading', { level: 2 });
     const passwordError = await findByTestId('credentials.passcode-error');
 
+    expect(heading.textContent).toBe('Set up password');
     expect(passwordError.textContent).toEqual('Password requirements were not met');
     expect(container).toMatchSnapshot();
   });
