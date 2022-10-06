@@ -255,13 +255,13 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiFormControl-root emotion-42"
                   >
                     <label
-                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error Mui-required emotion-43"
+                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-43"
                       for="userProfile.country"
                     >
                       Country
                       <span
                         aria-hidden="true"
-                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk Mui-error emotion-17"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-17"
                       >
                          
                         *

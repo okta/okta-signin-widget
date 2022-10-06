@@ -16,19 +16,21 @@ import { setup } from './util';
 
 describe('enroll-profile-update', () => {
   it('should render form', async () => {
-    const { container, findByText } = await setup({ mockResponse });
-    await findByText(/Sign in/);
+    const { container, findByRole } = await setup({ mockResponse });
+    const heading = await findByRole('heading', { level: 2 });
+    expect(heading.textContent).toBe('Sign in');
     expect(container).toMatchSnapshot();
   });
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByTestId, findByRole,
     } = await setup({ mockResponse });
 
-    await findByText(/Sign in/);
+    const heading = await findByRole('heading', { level: 2 });
+    expect(heading.textContent).toBe('Sign in');
 
-    const submitButton = await findByText('Submit', { selector: 'button' });
+    const submitButton = await findByRole('button', { name: 'Submit' });
     const favoriteSportEle = await findByTestId('userProfile.favoriteSport') as HTMLInputElement;
     const newAttributeEle = await findByTestId('userProfile.newAttribute') as HTMLInputElement;
 
@@ -66,10 +68,10 @@ describe('enroll-profile-update', () => {
 
   it('fails client side validation with empty required fields', async () => {
     const {
-      authClient, container, user, findByText, findByTestId,
+      authClient, container, user, findByRole, findByTestId,
     } = await setup({ mockResponse });
 
-    const submitButton = await findByText('Submit', { selector: 'button' });
+    const submitButton = await findByRole('button', { name: 'Submit' });
 
     await user.click(submitButton);
     const favoriteSportError = await findByTestId('userProfile.favoriteSport-error');
