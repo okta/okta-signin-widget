@@ -139,7 +139,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return transformUnhandledErrors(widgetProps, authApiError);
     }
 
-    // cancelled transactions will be bootstrapped again, so we wait if that happens
     if (idxTransaction === undefined) {
       return createForm();
     }
