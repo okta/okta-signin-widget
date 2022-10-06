@@ -52,7 +52,7 @@ export default class BasePageObject {
       }, '');
     }
     await this.t.navigateTo(`http://localhost:3000${this.url}${qs}`);
-    await Selector(FORM_SELECTOR);
+    await Selector(FORM_SELECTOR, {timeout: 20000});
   }
 
   async preventRedirect(toUrls) {
