@@ -156,7 +156,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-22"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
                               data-testid="VisibilityIcon"
                               focusable="false"
                               viewBox="0 0 24 24"
