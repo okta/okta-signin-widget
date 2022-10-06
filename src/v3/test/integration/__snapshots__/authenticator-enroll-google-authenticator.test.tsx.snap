@@ -168,7 +168,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -442,7 +442,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -735,7 +735,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -999,7 +999,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

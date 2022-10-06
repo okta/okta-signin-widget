@@ -116,7 +116,7 @@ exports[`webauthn-enroll should render form 1`] = `
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -317,7 +317,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -500,7 +500,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

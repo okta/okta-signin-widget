@@ -93,7 +93,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -293,7 +293,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

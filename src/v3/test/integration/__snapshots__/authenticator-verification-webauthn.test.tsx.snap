@@ -116,7 +116,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -421,7 +421,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -744,7 +744,7 @@ exports[`authenticator-verification-webauthn should render form with required us
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

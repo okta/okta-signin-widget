@@ -27,7 +27,7 @@ exports[`user-unlock-account renders form 1`] = `
           >
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

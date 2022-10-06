@@ -106,7 +106,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -148,7 +148,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-19"
+                      class="MuiFormControl-root emotion-19"
                     >
                       
                       <div
@@ -1481,7 +1481,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                           </select>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-41"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-41"
                             data-testid="ArrowDropDownIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -1710,7 +1710,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -1752,7 +1752,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-19"
+                      class="MuiFormControl-root emotion-19"
                     >
                       
                       <div
@@ -3085,7 +3085,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           </select>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-41"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-41"
                             data-testid="ArrowDropDownIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
