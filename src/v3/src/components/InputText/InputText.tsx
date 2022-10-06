@@ -35,12 +35,12 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
 }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const { translations = [], focus } = uischema;
+  const { translations = [], focus, required } = uischema;
   const label = getTranslation(translations);
   const hint = getTranslation(translations, 'hint');
   const {
     attributes,
-    inputMeta: { name, required },
+    inputMeta: { name },
     dataSe,
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);

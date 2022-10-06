@@ -485,25 +485,18 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-20"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                         for="credentials.passcode"
                       >
                         Enter code
-                        <span
-                          aria-hidden="true"
-                          class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-21"
-                        >
-                           
-                          *
-                        </span>
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
                       >
                         <input
                           aria-invalid="false"
                           autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
+                          class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
@@ -511,10 +504,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                         />
                         <fieldset
                           aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-24"
+                          class="MuiOutlinedInput-notchedOutline emotion-23"
                         >
                           <legend
-                            class="emotion-25"
+                            class="emotion-24"
                           >
                             <span
                               class="notranslate"
@@ -530,7 +523,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-27"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -543,7 +536,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -554,7 +547,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -1046,25 +1039,18 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                       class="MuiBox-root emotion-4"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-20"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                         for="credentials.passcode"
                       >
                         Enter code
-                        <span
-                          aria-hidden="true"
-                          class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-21"
-                        >
-                           
-                          *
-                        </span>
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
                       >
                         <input
                           aria-invalid="false"
                           autocomplete="one-time-code"
-                          class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
+                          class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
@@ -1072,10 +1058,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                         />
                         <fieldset
                           aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-24"
+                          class="MuiOutlinedInput-notchedOutline emotion-23"
                         >
                           <legend
-                            class="emotion-25"
+                            class="emotion-24"
                           >
                             <span
                               class="notranslate"
@@ -1091,7 +1077,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-27"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -1104,7 +1090,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1115,7 +1101,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

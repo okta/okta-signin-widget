@@ -164,25 +164,18 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                     class="MuiBox-root emotion-4"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-23"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
                       for="credentials.passcode"
                     >
                       Enter Code
-                      <span
-                        aria-hidden="true"
-                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-24"
-                      >
-                         
-                        *
-                      </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-25"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-24"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="one-time-code"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-26"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-25"
                         data-se="credentials.passcode"
                         id="credentials.passcode"
                         name="credentials.passcode"
@@ -190,10 +183,10 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-27"
+                        class="MuiOutlinedInput-notchedOutline emotion-26"
                       >
                         <legend
-                          class="emotion-28"
+                          class="emotion-27"
                         >
                           <span
                             class="notranslate"
@@ -209,7 +202,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-30"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-29"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -221,7 +214,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -232,7 +225,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

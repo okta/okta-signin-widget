@@ -55,25 +55,18 @@ exports[`identify-recovery renders form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-11"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
                       for="identifier"
                     >
                       Email or Username
-                      <span
-                        aria-hidden="true"
-                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-12"
-                      >
-                         
-                        *
-                      </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
                         aria-invalid="false"
                         autocomplete="username"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
                         data-se="identifier"
                         id="identifier"
                         name="identifier"
@@ -81,10 +74,10 @@ exports[`identify-recovery renders form 1`] = `
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-15"
+                        class="MuiOutlinedInput-notchedOutline emotion-14"
                       >
                         <legend
-                          class="emotion-16"
+                          class="emotion-15"
                         >
                           <span
                             class="notranslate"
@@ -100,7 +93,7 @@ exports[`identify-recovery renders form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-18"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-17"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -112,7 +105,7 @@ exports[`identify-recovery renders form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

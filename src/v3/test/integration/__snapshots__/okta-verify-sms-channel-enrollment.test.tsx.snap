@@ -123,25 +123,18 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                       class="MuiBox-root emotion-11"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-17"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
                         for="countryList"
                         id="countryLabel"
                       >
                         Country
-                        <span
-                          aria-hidden="true"
-                          class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-18"
-                        >
-                           
-                          *
-                        </span>
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-19"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-18"
                       >
                         <select
                           autocomplete="tel-country-code"
-                          class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-20"
+                          class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-19"
                           data-se="countryList"
                           id="countryList"
                         >
@@ -1353,7 +1346,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                         </select>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-21"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-20"
                           data-testid="ArrowDropDownIcon"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -1364,10 +1357,10 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                         </svg>
                         <fieldset
                           aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-22"
+                          class="MuiOutlinedInput-notchedOutline emotion-21"
                         >
                           <legend
-                            class="emotion-23"
+                            class="emotion-22"
                           >
                             <span
                               class="notranslate"
@@ -1379,32 +1372,25 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-24"
+                      class="MuiBox-root emotion-23"
                     >
                       <div
-                        class="MuiBox-root emotion-25"
+                        class="MuiBox-root emotion-24"
                       >
                         <label
-                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-17"
+                          class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
                           for="phoneNumber"
                         >
                           Phone number
-                          <span
-                            aria-hidden="true"
-                            class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-18"
-                          >
-                             
-                            *
-                          </span>
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-28"
+                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-26"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-29"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-27"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 emotion-30"
+                              class="MuiTypography-root MuiTypography-body1 emotion-28"
                             >
                               +1
                             </p>
@@ -1412,7 +1398,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                           <input
                             aria-invalid="false"
                             autocomplete="tel-national"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-31"
+                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-29"
                             data-se="phoneNumber"
                             id="phoneNumber"
                             name="phoneNumber"
@@ -1420,10 +1406,10 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                           />
                           <fieldset
                             aria-hidden="true"
-                            class="MuiOutlinedInput-notchedOutline emotion-22"
+                            class="MuiOutlinedInput-notchedOutline emotion-21"
                           >
                             <legend
-                              class="emotion-23"
+                              class="emotion-22"
                             >
                               <span
                                 class="notranslate"
@@ -1444,7 +1430,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-36"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-34"
                       data-se="o-form-explain"
                     >
                       Make sure you can access the text on your mobile device.
@@ -1455,7 +1441,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-38"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-36"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -1487,7 +1473,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1498,7 +1484,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

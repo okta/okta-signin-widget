@@ -14,6 +14,7 @@ import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { flow } from 'lodash';
 
 import CountryUtil from '../../../../util/CountryUtil';
+import { IDX_STEP } from '../../constants';
 import {
   FieldElement,
   TransformStepFn,
@@ -91,10 +92,30 @@ export const updateCustomFields: TransformStepFn = (formbag) => {
   return formbag;
 };
 
+export const updateRequiredFields: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
+  const { nextStep: { name } = {} } = transaction;
+  if (name !== IDX_STEP.ENROLL_PROFILE) {
+    return formbag;
+  }
+  traverseLayout({
+    layout: formbag.uischema,
+    predicate: (el) => (el.type === 'Field'),
+    callback: (el) => {
+      const fieldElement = (el as FieldElement);
+      const { options: { inputMeta: { required } } } = fieldElement;
+      if (required) {
+        fieldElement.required = required;
+      }
+    },
+  });
+  return formbag;
+};
+
 export const transformUISchema: TransformStepFnWithOptions = (
   options,
 ) => (formbag) => flow(
   addKeyToElement(options),
   updateCustomFields,
   setFocusOnFirstElement,
+  updateRequiredFields(options),
 )(formbag);

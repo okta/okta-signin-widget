@@ -50,10 +50,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const {
     translations = [],
     focus,
+    required,
     options: {
       inputMeta: {
         name: fieldName,
-        required,
         // @ts-ignore expose type from auth-js
         messages = {},
       },
@@ -139,7 +139,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     <Box marginBottom={4}>
       <InputLabel
         id="countryLabel"
-        required
+        required={required}
         htmlFor="countryList"
       >
         {countryLabel}

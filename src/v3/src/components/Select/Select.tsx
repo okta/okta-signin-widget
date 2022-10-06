@@ -36,12 +36,11 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
 }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const { label, focus } = uischema;
+  const { label, focus, required } = uischema;
   const {
     attributes,
     inputMeta: {
       name,
-      required,
       options,
     },
     customOptions,

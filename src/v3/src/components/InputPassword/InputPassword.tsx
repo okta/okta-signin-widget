@@ -33,10 +33,10 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const label = getTranslation(uischema.translations!);
-  const { translations = [], focus } = uischema;
+  const { translations = [], focus, required } = uischema;
   const {
     attributes,
-    inputMeta: { name, required },
+    inputMeta: { name },
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
 

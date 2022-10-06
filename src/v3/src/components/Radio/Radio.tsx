@@ -40,10 +40,10 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   const onChangeHandler = useOnChange(uischema);
   const {
     label,
+    required,
     options: {
       inputMeta: {
         name,
-        required,
         options,
       },
       customOptions,
