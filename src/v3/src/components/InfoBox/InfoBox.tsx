@@ -37,7 +37,7 @@ const InfoBox: UISchemaElementComponent<{
     },
   } = uischema;
 
-  return !loading ? (
+  return loading ? null : (
     <Box
       marginBottom={4}
       width={1}
@@ -53,7 +53,7 @@ const InfoBox: UISchemaElementComponent<{
         {message}
       </Alert>
     </Box>
-  ) : null;
+  );
 };
 
 export default InfoBox;
