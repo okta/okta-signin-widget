@@ -144,9 +144,9 @@ async function setup(t) {
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
       if(!userVariables.v3) {
-        await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+        await t.expect(await terminalViewPage.goBackLinkExists()).notOk({timeout: 10000});
       }
-      await t.expect(await terminalViewPage.signoutLinkExists()).ok();
+      await t.expect(await terminalViewPage.signoutLinkExists()).ok({timeout: 10000});
     });
 });
 
