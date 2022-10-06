@@ -109,6 +109,10 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setMessage(undefined);
     try {
       const newTransaction = await fn(payload);
+      // TODO: OKTA-538791 this is a temp work around until the auth-js fix
+      if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
+        [newTransaction.nextStep] = newTransaction.availableSteps;
+      }
       setIdxTransaction(newTransaction);
       const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
