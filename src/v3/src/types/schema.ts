@@ -142,8 +142,10 @@ export function isUISchemaLayoutType(type: string): boolean {
 export interface FieldElement extends UISchemaElement {
   type: 'Field';
   key: string;
-  // TODO: temporary solution for custom fields in profile enrollment
-  required?: boolean;
+  /**
+   * @description TODO: temporary solution for custom fields in profile enrollment
+   */
+  required?: boolean | undefined;
   options: {
     inputMeta: Input;
     format?: 'select' | 'radio';

@@ -92,6 +92,7 @@ export const updateCustomFields: TransformStepFn = (formbag) => {
   return formbag;
 };
 
+// TODO: temporary solution for custom fields in profile enrollment
 export const updateRequiredFields: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
   const { nextStep: { name } = {} } = transaction;
   if (name !== IDX_STEP.ENROLL_PROFILE) {
@@ -103,9 +104,7 @@ export const updateRequiredFields: TransformStepFnWithOptions = ({ transaction }
     callback: (el) => {
       const fieldElement = (el as FieldElement);
       const { options: { inputMeta: { required } } } = fieldElement;
-      if (required) {
-        fieldElement.required = required;
-      }
+      fieldElement.required = required;
     },
   });
   return formbag;

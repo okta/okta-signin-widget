@@ -59,7 +59,6 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   return (
     <FormControl
       required={required}
-      error={error !== undefined}
     >
       <InputLabel htmlFor={name}>{label}</InputLabel>
       <MuiSelect
@@ -67,6 +66,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         onChange={handleChange}
         inputRef={focusRef}
         value={value as string}
+        error={error !== undefined}
         inputProps={{
           'data-se': name,
           'aria-describedby': error && `${name}-error`,
