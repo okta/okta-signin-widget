@@ -84,8 +84,21 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       return message.name === newPwName || message.name === undefined;
     });
     if (newPasswordErrors?.length) {
+      const messages = newPasswordErrors.map((message: IdxMessageWithName) => {
+        if (message.i18n?.key === 'password.passwordRequirementsNotMet') {
+          return {
+            ...message,
+            i18n: {
+              key: 'registration.error.password.passwordRequirementsNotMet',
+              params: undefined,
+            },
+            message: loc('registration.error.password.passwordRequirementsNotMet', 'login'),
+          } as IdxMessageWithName;
+        }
+        return message;
+      });
       // @ts-ignore expose type from auth-js
-      passwordElement.options.inputMeta.messages.value = newPasswordErrors;
+      passwordElement.options.inputMeta.messages.value = messages;
     } else {
       // @ts-ignore expose type from auth-js
       passwordElement.options.inputMeta.messages.value = undefined;
