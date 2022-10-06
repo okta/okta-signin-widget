@@ -75,6 +75,7 @@ export default Form.extend({
     });
 
     this.stateEnableChange();
+    this.stateUsernameChange();
   },
 
   stateEnableChange: function() {
@@ -83,6 +84,16 @@ export default Form.extend({
         this.enable();
       } else {
         this.disable();
+      }
+    });
+  },
+
+  stateUsernameChange: function() {
+    this.listenTo(this.state, 'change:disableUsername', function(model, disable) {
+      if (disable) {
+        this.$el.find('#okta-signin-username').attr('disabled', true);
+      } else {
+        this.$el.find('#okta-signin-username').removeAttr('disabled');
       }
     });
   },
