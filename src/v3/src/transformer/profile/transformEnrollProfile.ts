@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxMessage } from '@okta/okta-auth-js';
+
 import { IDX_STEP, PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import {
   ButtonElement,
@@ -54,6 +56,26 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
         autocomplete: 'new-password',
       },
     };
+    // @ts-ignore expose type from auth-js
+    const passwordErrors = passwordElement.options.inputMeta.messages?.value;
+    if (passwordErrors?.length) {
+      // @ts-ignore expose type from auth-js
+      const messages = (passwordErrors as IdxMessage[]).map((message) => {
+        if (message.i18n?.key?.includes('password.passwordRequirementsNotMet')) {
+          return {
+            ...message,
+            i18n: {
+              key: 'registration.error.password.passwordRequirementsNotMet',
+              params: undefined,
+            },
+            message: loc('registration.error.password.passwordRequirementsNotMet', 'login'),
+          };
+        }
+        return message;
+      });
+      // @ts-ignore expose type from auth-js
+      passwordElement.options.inputMeta.messages.value = messages;
+    }
     const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordRequirementsData;
     const passwordRequirementsElement: PasswordRequirementsElement = {
       type: 'PasswordRequirements',
