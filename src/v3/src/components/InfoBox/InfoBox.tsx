@@ -43,7 +43,6 @@ const InfoBox: UISchemaElementComponent<{
       width={1}
       data-se="message"
     >
-      
       <Alert
         severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
         variant="infobox"
