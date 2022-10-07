@@ -12,4 +12,4 @@ import { disableOIE } from '@okta/dockolith';
     console.error('Caught exception: ', e);
     throw e;
   }
-})();
+})(); //
