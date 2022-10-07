@@ -18,15 +18,11 @@ export default class TerminalPageObjectV3 extends TerminalPageObject {
 
   async signoutLinkExists() {
     const cancelElement = await Selector(CANCEL_LINK);
-    console.log('Link element: ' , cancelElement);
-    console.log('Count: ' , cancelElement.exists);
     return cancelElement.exists;
   }
 
   async goBackLinkExists() {
     const cancelElement = await Selector(CANCEL_LINK);
-    console.log('Link element: ' , cancelElement);
-    console.log('Count: ' , cancelElement.exists);
     return cancelElement.exists;
   }
 }
