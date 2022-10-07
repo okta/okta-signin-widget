@@ -14,7 +14,7 @@ import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/te
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 import errorTerminalMultipleErrors from '../../../playground/mocks/data/idp/idx/error-terminal-multiple-errors';
 
-import { userVariables } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -69,6 +69,7 @@ fixture('Terminal view').meta('v3', true);
 async function setup(t) {
   const terminalPageObject = userVariables.v3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
+  await Selector('[data-se="cancel"]');
   return terminalPageObject;
 }
 
