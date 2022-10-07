@@ -30,6 +30,7 @@ if ! yarn build:release; then
 fi
 
 # Run spec tests
+export USE_MIN=1
 if ! yarn test:e2e:lang; then
   echo "e2e spec tests failed! Exiting..."
   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}

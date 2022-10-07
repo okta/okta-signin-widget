@@ -1,3 +1,11 @@
+// The dev webpack config exports configs to build developer bundles:
+
+// 1. default - okta-sign-in.js - full widget for developers. Supports both OIE and Classic engines.
+
+// 2. classic - okta-sign-in.classic.js - classic widget for developers. Does not support OIE (idx) engine.
+
+// 3. oie - okta-sign-in.oie.js - oie widget for developers. Does not support Classic (authn) engine
+
 var common    = require('./webpack.common.config');
 var plugins   = require('./scripts/buildtools/webpack/plugins');
 var usePolyfill = require('./scripts/buildtools/webpack/polyfill');
@@ -18,7 +26,10 @@ module.exports = (env = {}) => {
     'oie': {
       entry: './src/exports/cdn/oie.ts',
       engine: 'oie'
-    }
+    },
+    'polyfill': {
+      entry: './polyfill/polyfill.js'
+    },
   };
   
   // if ENTRY env var is passed, filter the entries to include only the named ENTRY

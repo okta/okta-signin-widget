@@ -3,7 +3,7 @@
     "baseUrl": "./",
     "outDir": "./target",
     "target": "ES6",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true

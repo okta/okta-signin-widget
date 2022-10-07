@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import OktaSignIn from '@okta/okta-signin-widget'; // default export
+import { OktaSignIn } from '@okta/okta-signin-widget'; // default export
 import { OktaSignInAPI } from '@okta/okta-signin-widget'; // type export
 import packageJSON from '@okta/okta-signin-widget/package.json';
-
+import polyfill from '@okta/okta-signin-widget/polyfill';
 
 const signinWidget: OktaSignInAPI = new OktaSignIn({
     issuer: 'http://fake',

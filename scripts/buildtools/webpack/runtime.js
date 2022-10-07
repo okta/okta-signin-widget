@@ -4,4 +4,5 @@ module.exports = function addRuntime(webpackConfig, runtimeOptions) {
   babelRule.options.plugins = babelRule.options.plugins.concat([
     [ '@babel/transform-runtime', runtimeOptions ]
   ]);
+  webpackConfig.entry.unshift('regenerator-runtime/runtime');
 };

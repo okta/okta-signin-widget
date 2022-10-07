@@ -16,6 +16,7 @@ export type UnknownFn = (args?: unknown) => unknown;
 export interface Config {
   bundle?: string;
   useMinBundle?: boolean;
+  usePolyfill?: boolean;
   useBundledWidget?: boolean;
   widgetOptions?: WidgetOptions
 }
