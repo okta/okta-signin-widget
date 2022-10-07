@@ -17,12 +17,16 @@ export default class TerminalPageObjectV3 extends TerminalPageObject {
   }
 
   async signoutLinkExists() {
-    const elCount = await Selector(CANCEL_LINK).count;
-    return elCount === 1;
+    const cancelElement = await Selector(CANCEL_LINK);
+    console.log('Link element: ' , cancelElement);
+    console.log('Count: ' , cancelElement.exists);
+    return cancelElement.exists;
   }
 
   async goBackLinkExists() {
-    const elCount = await Selector(CANCEL_LINK).count;
-    return elCount === 1;
+    const cancelElement = await Selector(CANCEL_LINK);
+    console.log('Link element: ' , cancelElement);
+    console.log('Count: ' , cancelElement.exists);
+    return cancelElement.exists;
   }
 }
