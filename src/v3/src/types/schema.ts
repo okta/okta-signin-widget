@@ -302,7 +302,7 @@ export interface AccordionPanelElement extends UISchemaElement {
   options: {
     id: string;
     summary: string;
-    content: UISchemaLayout;
+    content: Omit<UISchemaLayout, 'AccordionLayout'>;
   };
 }
 
@@ -356,7 +356,7 @@ export type StepperNavButtonConfigAttrs = {
 
 export interface StepperLayout {
   type: UISchemaLayoutType.STEPPER;
-  elements: UISchemaLayout[];
+  elements: Omit<UISchemaLayout, 'StepperLayout'>[];
   options?: {
     defaultStepIndex: () => number;
   }

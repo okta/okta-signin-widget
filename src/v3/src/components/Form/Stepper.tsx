@@ -15,8 +15,7 @@ import { useState } from 'preact/hooks';
 
 import { StepperContext } from '../../contexts';
 import { StepperLayout } from '../../types';
-// eslint-disable-next-line import/no-cycle
-import Layout from './Layout';
+import Layout from './SimpleLayout';
 
 type StepperProps = {
   uischema: StepperLayout;
