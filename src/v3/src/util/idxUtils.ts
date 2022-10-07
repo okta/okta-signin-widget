@@ -11,20 +11,22 @@
  */
 
 import { IdxMessage, IdxRemediation, IdxTransaction } from '@okta/okta-auth-js';
-import {
-  AuthCoinProps,
-  RequiredKeys,
-  UserInfo,
-  WidgetProps,
-} from 'src/types';
-import { AppInfo } from 'src/types/appInfo';
 
 import {
   AUTHENTICATOR_KEY,
   EMAIL_AUTHENTICATOR_TERMINAL_KEYS,
   IDX_STEP,
 } from '../constants';
+import {
+  AppInfo,
+  AuthCoinProps,
+  IdxMessageWithName,
+  RequiredKeys,
+  UserInfo,
+  WidgetProps,
+} from '../types';
 import { getAuthenticatorKey } from './getAuthenticatorKey';
+import { loc } from './locUtil';
 
 export const getUserInfo = (transaction: IdxTransaction): UserInfo => {
   const { context: { user } } = transaction;
@@ -58,6 +60,24 @@ export const containsOneOfMessageKeys = (
   keys: string[],
   messages?: IdxMessage[],
 ): boolean => keys.some((key) => containsMessageKey(key, messages));
+
+export const updatePasswordRequirementsNotMetMessage = (
+  messages: IdxMessageWithName[],
+): IdxMessage[] => (
+  messages.map((message) => {
+    if (message.i18n?.key?.includes('password.passwordRequirementsNotMet')) {
+      return {
+        ...message,
+        i18n: {
+          key: 'registration.error.password.passwordRequirementsNotMet',
+          params: undefined,
+        },
+        message: loc('registration.error.password.passwordRequirementsNotMet', 'login'),
+      };
+    }
+    return message;
+  })
+);
 
 export const buildAuthCoinProps = (
   transaction?: IdxTransaction | null,

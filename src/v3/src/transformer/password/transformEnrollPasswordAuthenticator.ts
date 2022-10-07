@@ -20,7 +20,7 @@ import {
   PasswordSettings,
   TitleElement,
 } from '../../types';
-import { getUserInfo, loc } from '../../util';
+import { getUserInfo, loc, updatePasswordRequirementsNotMetMessage } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
@@ -84,19 +84,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       return message.name === newPwName || message.name === undefined;
     });
     if (newPasswordErrors?.length) {
-      const messages = newPasswordErrors.map((message: IdxMessageWithName) => {
-        if (message.i18n?.key === 'password.passwordRequirementsNotMet') {
-          return {
-            ...message,
-            i18n: {
-              key: 'registration.error.password.passwordRequirementsNotMet',
-              params: undefined,
-            },
-            message: loc('registration.error.password.passwordRequirementsNotMet', 'login'),
-          } as IdxMessageWithName;
-        }
-        return message;
-      });
+      const messages = updatePasswordRequirementsNotMetMessage(newPasswordErrors);
       // @ts-ignore expose type from auth-js
       passwordElement.options.inputMeta.messages.value = messages;
     } else {

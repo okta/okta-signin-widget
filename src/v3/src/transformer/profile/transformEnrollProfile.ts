@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage } from '@okta/okta-auth-js';
-
 import { IDX_STEP, PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS } from '../../constants';
 import {
   ButtonElement,
@@ -26,7 +24,7 @@ import {
   UISchemaElement,
   UISchemaLayoutType,
 } from '../../types';
-import { getUserInfo, loc } from '../../util';
+import { getUserInfo, loc, updatePasswordRequirementsNotMetMessage } from '../../util';
 import { buildPasswordRequirementListItems } from '../password';
 import { getUIElementWithName } from '../utils';
 
@@ -59,20 +57,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     // @ts-ignore expose type from auth-js
     const passwordErrors = passwordElement.options.inputMeta.messages?.value;
     if (passwordErrors?.length) {
-      // @ts-ignore expose type from auth-js
-      const messages = (passwordErrors as IdxMessage[]).map((message) => {
-        if (message.i18n?.key?.includes('password.passwordRequirementsNotMet')) {
-          return {
-            ...message,
-            i18n: {
-              key: 'registration.error.password.passwordRequirementsNotMet',
-              params: undefined,
-            },
-            message: loc('registration.error.password.passwordRequirementsNotMet', 'login'),
-          };
-        }
-        return message;
-      });
+      const messages = updatePasswordRequirementsNotMetMessage(passwordErrors);
       // @ts-ignore expose type from auth-js
       passwordElement.options.inputMeta.messages.value = messages;
     }
