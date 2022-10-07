@@ -10,102 +10,77 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxAuthenticator, IdxMessage, IdxTransaction } from '@okta/okta-auth-js';
-import { getStubTransaction } from 'src/mocks/utils/utils';
-import { FieldElement, FormBag, UISchemaElement } from 'src/types';
+import { getStubFormBag } from 'src/mocks/utils/utils';
 
-import { createForm } from '../utils';
-import { transactionMessageTransformer } from './transactionMessageTransformer';
-import { transformField } from './transformField';
+import { TransformationOptions } from '../../types';
+import { transformI18n } from './transform';
 
-describe.skip('i18nTransformer Tests', () => {
-  let transaction: IdxTransaction;
-  let formBag: FormBag;
+jest.mock('./transformField', () => ({
+  transformField: () => () => ({}),
+}));
+jest.mock('./transformAuthenticatorButton', () => ({
+  transformAuthenticatorButton: () => () => ({}),
+}));
+jest.mock('./transformInputPassword', () => ({
+  transformInputPassword: () => ({}),
+}));
+jest.mock('./transformPhoneAuthenticator', () => ({
+  transformPhoneAuthenticator: () => ({}),
+}));
+jest.mock('./transformQRCode', () => ({
+  transformQRCode: () => ({}),
+}));
+jest.mock('./transformIdentifierHint', () => ({
+  transformIdentifierHint: () => () => ({}),
+}));
+jest.mock('./transformPasscodeHint', () => ({
+  transformPasscodeHint: () => () => ({}),
+}));
+jest.mock('./transformWebAuthNSubmitButton', () => ({
+  transformWebAuthNSubmitButton: () => () => ({}),
+}));
 
-  beforeEach(() => {
-    transaction = getStubTransaction();
-    formBag = createForm();
-  });
+/* eslint-disable global-require */
+const mocked = {
+  field: require('./transformField'),
+  button: require('./transformAuthenticatorButton'),
+  inputPassword: require('./transformInputPassword'),
+  phoneAuthenticator: require('./transformPhoneAuthenticator'),
+  qrCode: require('./transformQRCode'),
+  identifierHint: require('./transformIdentifierHint'),
+  passcodeHint: require('./transformPasscodeHint'),
+  webAuthN: require('./transformWebAuthNSubmitButton'),
+};
+/* eslint-enable global-require */
 
-  describe('uischemaLabelTransformer Tests', () => {
-    it('should not perform updates on elements when formbag doesnt contain elements with an applicable label field or options', () => {
-      const element: UISchemaElement = { type: 'Field' };
-      formBag.uischema.elements = [element];
+describe('i18n Transformer Tests', () => {
+  it('follows transformation steps', () => {
+    jest.spyOn(mocked.field, 'transformField');
+    jest.spyOn(mocked.button, 'transformAuthenticatorButton');
+    jest.spyOn(mocked.inputPassword, 'transformInputPassword');
+    jest.spyOn(mocked.phoneAuthenticator, 'transformPhoneAuthenticator');
+    jest.spyOn(mocked.qrCode, 'transformQRCode');
+    jest.spyOn(mocked.identifierHint, 'transformIdentifierHint');
+    jest.spyOn(mocked.passcodeHint, 'transformPasscodeHint');
+    jest.spyOn(mocked.webAuthN, 'transformWebAuthNSubmitButton');
 
-      transformField({ transaction, widgetProps: {}, step: '' })(formBag);
+    const formBag = getStubFormBag();
+    const mockOptions = {
+      transaction: {},
+      widgetProps: {},
+    } as TransformationOptions;
+    transformI18n(mockOptions)(formBag);
 
-      expect(formBag.uischema.elements).toEqual([element]);
-    });
+    expect(mocked.field.transformField)
+      .toHaveBeenCalledBefore(mocked.identifierHint.transformIdentifierHint);
 
-    it('should update label for control elements that does not contain options', () => {
-      transaction.nextStep = {
-        name: 'identify',
-      };
-      formBag.uischema.elements = [
-        {
-          type: 'Field', label: 'SomeFakeLabel1', options: { inputMeta: { name: 'identifier' } },
-        } as FieldElement,
-        {
-          type: 'Field', label: 'SomeFakeLabel2', options: { inputMeta: { name: 'credentials.passcode' } },
-        } as FieldElement,
-      ];
-
-      transformField({ transaction, widgetProps: {}, step: '' })(formBag);
-
-      expect((formBag.uischema.elements[0] as FieldElement).label).toBe('primaryauth.username.placeholder');
-      expect((formBag.uischema.elements[1] as FieldElement).label).toBe('primaryauth.password.placeholder');
-    });
-
-    it('should update label for control elements that contains options and authenticator key', () => {
-      transaction.nextStep = {
-        name: 'select-authenticator-enroll',
-        inputs: [{
-          name: 'authenticator',
-          options: [{
-            label: 'SomeFakeLabel',
-            relatesTo: { key: 'okta_password' } as unknown as IdxAuthenticator,
-            value: [{ name: 'methodType', value: 'password' }, { name: 'id', value: 'abc1234' }],
-          }],
-        }],
-      };
-      formBag.uischema.elements = [
-        {
-          type: 'Field',
-          options: {
-            inputMeta: {
-              name: 'authenticator',
-              options: [{
-                label: 'SomeFakeLabel',
-                value: [{ name: 'methodType', value: 'password' }, { name: 'id', value: 'abc123' }],
-                relatesTo: { key: 'okta_password' } as unknown as IdxAuthenticator,
-              }],
-            },
-          },
-        } as FieldElement,
-      ];
-
-      transformField({ transaction, widgetProps: {}, step: '' })(formBag);
-
-      expect((formBag.uischema.elements[0] as FieldElement)
-        .options.inputMeta.options?.[0].label).toBe('oie.password.label');
-    });
-  });
-
-  describe('transactionMessageTransformer Tests', () => {
-    it('should not perform any updates when transaction does not contain messages', () => {
-      transactionMessageTransformer(transaction);
-
-      expect(transaction.messages).toBeUndefined();
-    });
-
-    it('should update message property with translated key when transaction contains messages', () => {
-      transaction.messages = [{
-        message: 'Some incorrect message from server',
-        i18n: { key: 'oie.tooManyRequests' },
-      } as IdxMessage];
-      transactionMessageTransformer(transaction);
-
-      expect(transaction.messages[0].message).toBe('oie.tooManyRequests');
-    });
+    expect(mocked.field.transformField).toHaveBeenCalled();
+    expect(mocked.button.transformAuthenticatorButton).toHaveBeenCalled();
+    expect(mocked.inputPassword.transformInputPassword).toHaveBeenCalled();
+    expect(mocked.phoneAuthenticator.transformPhoneAuthenticator).toHaveBeenCalled();
+    expect(mocked.qrCode.transformQRCode).toHaveBeenCalled();
+    expect(mocked.identifierHint.transformIdentifierHint).toHaveBeenCalled();
+    expect(mocked.passcodeHint.transformPasscodeHint).toHaveBeenCalled();
+    expect(mocked.webAuthN.transformWebAuthNSubmitButton).toHaveBeenCalled();
   });
 });
