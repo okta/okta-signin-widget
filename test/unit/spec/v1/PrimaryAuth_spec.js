@@ -29,6 +29,7 @@ import Q from 'q';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';
+import SessionStorageHelper from 'v1/util/SessionStorageHelper';
 import { UnsupportedBrowserError } from 'util/Errors';
 import TypingUtil from 'v1/util/TypingUtil';
 import LoginUtil from 'util/Util';
@@ -80,7 +81,7 @@ const typingPattern =
   '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
           0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
 
-async function setup(settings, requests, refreshState, username) {
+async function setup(settings, requests, refreshState) {
   settings || (settings = {});
 
   // To speed up the test suite, calls to debounce are
@@ -146,7 +147,7 @@ async function setup(settings, requests, refreshState, username) {
       afterErrorHandler: afterErrorHandler,
     });
   } else {
-    router.primaryAuth(username);
+    router.primaryAuth();
     Util.mockJqueryCss();
     test = await Expect.waitForPrimaryAuth({
       router: router,
@@ -173,10 +174,6 @@ function setupPasswordlessAuth(requests, refreshState) {
     test.setNextResponse(resPasswordlessUnauthenticated);
     return Q(test);
   });
-}
-
-function setupWithUsername(username, settings) {
-  return setup(settings, undefined, false, username);
 }
 
 function setupSocial(settings) {
@@ -2650,8 +2647,11 @@ Expect.describe('PrimaryAuth', function() {
   });
 
   Expect.describe('Auth with IDP Okta', function() {
-    it('prefills username from URL and disables input', function() {
-      return setupWithUsername('testuser').then(function(test) {
+    it('prefills username saved to session storage on IDP Discovery and disables input when features.prefillUsernameFromIdpDiscovery is on', function() {
+      SessionStorageHelper.setUsername('testuser');
+      return setup({
+        'features.prefillUsernameFromIdpDiscovery': true
+      }).then(function(test) {
         const username = test.form.usernameField();
 
         expect(username.length).toBe(1);
@@ -2659,6 +2659,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(username.prop('required')).toEqual(true);
         expect(username.prop('disabled')).toEqual(true);
         expect(username.attr('value')).toEqual('testuser');
+        expect(SessionStorageHelper.getUsername()).toBe(null);
       });
     });
   });

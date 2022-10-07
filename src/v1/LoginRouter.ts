@@ -77,7 +77,6 @@ export default BaseLoginRouter.extend({
   routes: {
     '': 'defaultAuth',
     signin: 'primaryAuth',
-    'signin/okta/:username': 'primaryAuth',
     'signin/verify/duo/web': 'verifyDuo',
     'signin/verify/piv': 'verifyPIV',
     'signin/poll': 'poll',
@@ -181,11 +180,8 @@ export default BaseLoginRouter.extend({
     this.render(IDPDiscoveryController, { Beacon: SecurityBeacon });
   },
 
-  primaryAuth: function(username) {
-    this.render(PrimaryAuthController, {
-      Beacon: SecurityBeacon,
-      username
-    });
+  primaryAuth: function() {
+    this.render(PrimaryAuthController, { Beacon: SecurityBeacon });
   },
 
   verifyDuo: function() {
