@@ -148,6 +148,7 @@ async function setup(t) {
       }
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
     });
+    
 });
 
 test.requestHooks(terminalMultipleErrorsMock)('should render each error message when there are multiple', async t => {
