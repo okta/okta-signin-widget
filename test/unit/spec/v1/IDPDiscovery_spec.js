@@ -23,7 +23,6 @@ import Q from 'q';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';
-import SessionStorageHelper from 'v1/util/SessionStorageHelper';
 import { UnsupportedBrowserError } from 'util/Errors';
 import WidgetUtil from 'util/Util';
 const SharedUtil = internal.util.Util;
@@ -1485,23 +1484,7 @@ Expect.describe('IDPDiscovery', function() {
         })
         .then(function(test) {
           expect(test.router.appState.get('disableUsername')).toBe(true);
-          expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
-          expect(SessionStorageHelper.getUsername()).toBe(null);
-        });
-    });
-    itp('saves username to session storage when features.prefillUsernameFromIdpDiscovery is on', function() {
-      return setup({ 'features.prefillUsernameFromIdpDiscovery': true })
-        .then(function(test) {
-          Util.mockRouterNavigate(test.router);
-          test.setNextWebfingerResponse(resSuccessOktaIDP);
-          test.form.setUsername('testuser@clouditude.net');
-          test.form.submit();
-          return Expect.waitForPrimaryAuth(test);
-        })
-        .then(function(test) {
-          expect(test.router.appState.get('disableUsername')).toBe(true);
-          expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
-          expect(SessionStorageHelper.getUsername()).toBe('testuser@clouditude.net');
+          expect(test.router.navigate).toHaveBeenCalledWith('signin/okta/testuser%40clouditude.net', { trigger: true });
         });
     });
     itp('renders primary auth when idp is okta with shortname', function() {
@@ -1515,7 +1498,7 @@ Expect.describe('IDPDiscovery', function() {
         })
         .then(function(test) {
           expect(test.router.appState.get('disableUsername')).toBe(true);
-          expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
+          expect(test.router.navigate).toHaveBeenCalledWith('signin/okta/testuser', { trigger: true });
         });
     });
     itp('disables username field if sign-in returns an error and username was previously disabled', function() {

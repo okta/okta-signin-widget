@@ -1533,8 +1533,6 @@ features: {
 
 - **features.autoFocus** - Automatically focuses the first input field of any form when displayed. Defaults to `true`.
 
-- **features.prefillUsernameFromIdpDiscovery** - Prefill identifier entered on [IdP Discovery](#idp-discovery) page to username field on primary auth page if IdP is your Okta org. Defaults to `false`.
-
 ### Hooks
 
 > **Note**: Hooks are only supported when using the [Okta Identity Engine](#okta-identity-engine)

@@ -17,7 +17,7 @@ import BaseLoginController from 'v1/util/BaseLoginController';
 import IDPDiscoveryForm from 'v1/views/idp-discovery/IDPDiscoveryForm';
 import CustomButtons from 'v1/views/primary-auth/CustomButtons';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';
-import SessionStorageHelper from 'v1/util/SessionStorageHelper';
+import RouterUtil from 'v1/util/RouterUtil';
 import Util from 'util/Util';
 
 export default PrimaryAuthController.extend({
@@ -113,10 +113,10 @@ export default PrimaryAuthController.extend({
       primaryAuthModel.save();
     } else {
       this.options.appState.set('disableUsername', true);
-      this.options.appState.trigger('navigate', 'signin');
-      if (this.settings.get('features.prefillUsernameFromIdpDiscovery')) {
-        SessionStorageHelper.setUsername(this.model.get('username'));
-      }
+      const url = RouterUtil.createSigninUrl(
+        this.model.get('username')
+      );
+      this.options.appState.trigger('navigate', url);
     }
   },
 
