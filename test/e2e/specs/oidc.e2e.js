@@ -58,11 +58,6 @@ describe('OIDC flows', () => {
       });
 
       it('throws form error if auth client returns with OAuth error', async () => {
-        // TODO - Enable after https://oktainc.atlassian.net/browse/OKTA-375434
-        if (process.env.ORG_OIE_ENABLED) {
-          return;
-        }
-  
         config.clientId = clientId;
         config.authParams.responseType = 'id_token';
 
