@@ -32,9 +32,8 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
   }
 
-  // TODO sy- refactor
   getRememberMeCheckbox() {
-    return screen.queryByRole('checkbox');
+    return this.form.getCheckbox('Keep me signed in');
   }
 
   getRememberMeValue() {

@@ -84,6 +84,12 @@ export default class BaseFormObject {
   // Checkbox
   // =====================================
 
+  getCheckbox(label) {
+    return within(this.el).queryByRole('checkbox', {
+      name: label,
+    });
+  }
+
   /**
    * @param {string} name The name or label of the checkbox to change
    * @param {boolean} value The checkbox value to set
@@ -91,7 +97,7 @@ export default class BaseFormObject {
    */
   async setCheckbox(name, value, findByLabel = false) {
     const checkbox = findByLabel ?
-      within(this.el).getByLabelText(name) :
+      this.getCheckbox(name) :
       this.el.find(`input[name="${name}"]`);
 
     const checked = checkbox.checked;
