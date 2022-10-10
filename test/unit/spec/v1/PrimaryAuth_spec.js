@@ -2650,8 +2650,10 @@ Expect.describe('PrimaryAuth', function() {
   });
 
   Expect.describe('Auth with IDP Okta', function() {
-    it('prefills username from URL and disables input', function() {
-      return setupWithUsername('testuser').then(function(test) {
+    it('prefills username from URL and disables input if features.prefillUsernameFromIdpDiscovery is on', function() {
+      return setupWithUsername('testuser', {
+        'features.prefillUsernameFromIdpDiscovery': true
+      }).then(function(test) {
         const username = test.form.usernameField();
 
         expect(username.length).toBe(1);
