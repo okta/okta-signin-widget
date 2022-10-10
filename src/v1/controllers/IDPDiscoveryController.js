@@ -114,7 +114,7 @@ export default PrimaryAuthController.extend({
     } else {
       this.options.appState.set('disableUsername', true);
       const url = RouterUtil.createSigninUrl(
-        this.model.get('username')
+        this.settings.get('features.prefillUsernameFromIdpDiscovery') && this.model.get('username')
       );
       this.options.appState.trigger('navigate', url);
     }
