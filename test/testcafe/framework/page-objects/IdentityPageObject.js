@@ -1,5 +1,4 @@
 import { Selector } from 'testcafe';
-import { screen } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '[data-se="callout"]';
