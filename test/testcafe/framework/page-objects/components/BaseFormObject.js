@@ -121,12 +121,19 @@ export default class BaseFormObject {
   }
 
   /**
+   * @param {string} name the text of the button to return
+   */
+  getButton(name) {
+    return within(this.el).getByRole('button', {
+      value: name,
+    });
+  }
+
+  /**
    * @param {string} name the text of the button to click
    */
   async clickSaveButton(name = 'Next') {
-    const buttonToClick = within(this.el).getByRole('button', {
-      value: name,
-    });
+    const buttonToClick = this.getButton(name);
 
     await this.t.click(buttonToClick);
   }
@@ -144,12 +151,6 @@ export default class BaseFormObject {
 
   async clickCancelButton() {
     await this.t.click(this.el.find(CANCEL_BUTTON_SELECTOR));
-  }
-
-  getNextButton() {
-    return within(this.el).getByRole('button', {
-      value: 'Next',
-    });
   }
 
   getSaveButtonLabel() {

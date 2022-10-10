@@ -90,7 +90,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getNextButton() {
-    return this.form.getNextButton();
+    return this.form.getButton('Next');
   }
 
   getSaveButtonLabel() {
