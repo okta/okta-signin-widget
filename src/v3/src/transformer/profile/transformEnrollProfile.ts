@@ -54,11 +54,11 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
         autocomplete: 'new-password',
       },
     };
-    // @ts-ignore expose type from auth-js
+    // @ts-ignore TODO: OKTA-539834 - messages missing from type
     const passwordErrors = passwordElement.options.inputMeta.messages?.value;
     if (passwordErrors?.length) {
       const messages = updatePasswordRequirementsNotMetMessage(passwordErrors);
-      // @ts-ignore expose type from auth-js
+      // @ts-ignore TODO: OKTA-539834 - messages missing from type
       passwordElement.options.inputMeta.messages.value = messages;
     }
     const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordRequirementsData;

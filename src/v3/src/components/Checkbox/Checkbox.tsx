@@ -70,14 +70,16 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
         )}
         label={label as string}
       />
-      <FormHelperText
-        id={`${name}-error`}
-        role="alert"
-        data-se={`${name}-error`}
-        error
-      >
-        {error}
-      </FormHelperText>
+      {error && (
+        <FormHelperText
+          id={`${name}-error`}
+          role="alert"
+          data-se={`${name}-error`}
+          error
+        >
+          {error}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 };

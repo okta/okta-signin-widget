@@ -280,10 +280,15 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         required=""
                       >
                         <option
-                          aria-label="Select an Option"
+                          aria-labelledby="emptyLabel"
                           value=""
                         >
-                          Select an Option
+                          <span
+                            class="MuiBox-root emotion-15"
+                            id="emptyLabel"
+                          >
+                            Select an Option
+                          </span>
                         </option>
                         <option
                           value="AF"
@@ -1493,7 +1498,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </select>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-47"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-48"
                         data-testid="ArrowDropDownIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -1643,7 +1648,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-70"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-71"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -1655,11 +1660,11 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-11"
                 >
                   <hr
-                    class="MuiDivider-root MuiDivider-fullWidth emotion-72"
+                    class="MuiDivider-root MuiDivider-fullWidth emotion-73"
                   />
                 </div>
                 <div
-                  class="MuiBox-root emotion-73"
+                  class="MuiBox-root emotion-74"
                 >
                   <div
                     class="MuiBox-root emotion-11"
@@ -1668,7 +1673,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiBox-root emotion-12"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-76"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-77"
                         data-se="o-form-explain"
                       >
                         Already have an account?
@@ -1679,7 +1684,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-78"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-79"
                       data-se="back"
                       href="javascript:void(0)"
                     >
@@ -1920,10 +1925,15 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         required=""
                       >
                         <option
-                          aria-label="Select an Option"
+                          aria-labelledby="emptyLabel"
                           value=""
                         >
-                          Select an Option
+                          <span
+                            class="MuiBox-root emotion-10"
+                            id="emptyLabel"
+                          >
+                            Select an Option
+                          </span>
                         </option>
                         <option
                           value="AF"
@@ -3133,7 +3143,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       </select>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-39"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-40"
                         data-testid="ArrowDropDownIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -3257,7 +3267,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-59"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-60"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -3269,11 +3279,11 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <hr
-                    class="MuiDivider-root MuiDivider-fullWidth emotion-61"
+                    class="MuiDivider-root MuiDivider-fullWidth emotion-62"
                   />
                 </div>
                 <div
-                  class="MuiBox-root emotion-62"
+                  class="MuiBox-root emotion-63"
                 >
                   <div
                     class="MuiBox-root emotion-6"
@@ -3282,7 +3292,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       class="MuiBox-root emotion-7"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-65"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-66"
                         data-se="o-form-explain"
                       >
                         Already have an account?
@@ -3293,7 +3303,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     class="MuiBox-root emotion-6"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-67"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-68"
                       data-se="back"
                       href="javascript:void(0)"
                     >

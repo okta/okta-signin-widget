@@ -102,8 +102,10 @@ export const transformStepInputs = (
           validate(data) {
             // in the case of a required boolean input, just return true
             // if the backend requires the checbox val to be true, error will be displayed
-            const isValid = typeof data[name] === 'boolean' ? true : !!data[name];
-            return isValid ? undefined : getValidationMessages(name, widgetProps, step);
+            if (typeof data[name] === 'boolean' || !!data[name]) {
+              return undefined;
+            }
+            return getValidationMessages(name, widgetProps, step);
           },
         };
         acc.dataSchema.fieldsToValidate.push(name);

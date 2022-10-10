@@ -151,19 +151,13 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                         Send push automatically
                       </span>
                     </label>
-                    <p
-                      class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-21"
-                      data-se="authenticator.autoChallenge-error"
-                      id="authenticator.autoChallenge-error"
-                      role="alert"
-                    />
                   </fieldset>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -175,7 +169,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -186,7 +180,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >

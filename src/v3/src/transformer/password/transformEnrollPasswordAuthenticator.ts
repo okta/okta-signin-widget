@@ -67,38 +67,36 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       inputMeta: {
         name: 'confirmPassword',
         secret: true,
-        // @ts-ignore expose type from auth-js
+        // @ts-ignore TODO: OKTA-539834 - messages missing from type
         messages: { value: undefined },
       },
       attributes: { autocomplete: 'new-password' },
     },
   };
 
-  // @ts-ignore expose type from auth-js
+  // @ts-ignore TODO: OKTA-539834 - messages missing from type
   if (passwordElement.options.inputMeta.messages?.value?.length) {
-    // @ts-ignore expose type from auth-js
+    // @ts-ignore TODO: OKTA-539834 - messages missing from type
     const errorMessages = passwordElement.options.inputMeta.messages.value;
-    // @ts-ignore expose type from auth-js
     const newPasswordErrors = errorMessages.filter((message: IdxMessageWithName) => {
       const { name: newPwName } = passwordElement.options.inputMeta;
       return message.name === newPwName || message.name === undefined;
     });
     if (newPasswordErrors?.length) {
       const messages = updatePasswordRequirementsNotMetMessage(newPasswordErrors);
-      // @ts-ignore expose type from auth-js
+      // @ts-ignore TODO: OKTA-539834 - messages missing from type
       passwordElement.options.inputMeta.messages.value = messages;
     } else {
-      // @ts-ignore expose type from auth-js
+      // @ts-ignore TODO: OKTA-539834 - messages missing from type
       passwordElement.options.inputMeta.messages.value = undefined;
     }
 
-    // @ts-ignore expose type from auth-js
     const confirmPasswordError = errorMessages.find((message: IdxMessageWithName) => {
       const { name: confirmPwName } = confirmPasswordElement.options.inputMeta;
       return message.name === confirmPwName;
     });
     if (confirmPasswordError) {
-      // @ts-ignore expose type from auth-js
+      // @ts-ignore TODO: OKTA-539834 - messages missing from type
       confirmPasswordElement.options.inputMeta.messages.value = [confirmPasswordError];
     }
   }

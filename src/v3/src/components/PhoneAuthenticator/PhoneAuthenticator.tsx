@@ -54,7 +54,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     options: {
       inputMeta: {
         name: fieldName,
-        // @ts-ignore expose type from auth-js
+        // @ts-ignore TODO: OKTA-539834 - messages missing from type
         messages = {},
       },
       attributes,

@@ -11,6 +11,7 @@
  */
 
 import {
+  Box,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -78,12 +79,17 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         {
           [
             <option
-              aria-label="Select an Option"
+              aria-labelledby="emptyLabel"
               value=""
               key="empty"
             >
-              {/* TODO: OKTA-518793 - need translation key for this string */}
-              Select an Option
+              <Box
+                id="emptyLabel"
+                component="span"
+              >
+                {/* TODO: OKTA-518793 - need translation key for this string */}
+                Select an Option
+              </Box>
             </option>,
           ].concat(
             (customOptions ?? options)?.map((option: IdxOption) => (
