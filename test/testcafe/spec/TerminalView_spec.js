@@ -150,7 +150,6 @@ async function setup(t) {
     });
 });
 
-
 test.requestHooks(terminalMultipleErrorsMock)('should render each error message when there are multiple', async t => {
   const terminalViewPage = await setup(t);
 
