@@ -8,10 +8,17 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(success);
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(`
+        <h1 id="mock-user-dashboard-title">Mock User Dashboard</h1>
+        <h2>Query parameters</h2>
+        <a href="/">Back to Login</a>
+  `);
 
 fixture('Success Form')
-  .requestHooks(mock);
+  .requestHooks(mock)
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
