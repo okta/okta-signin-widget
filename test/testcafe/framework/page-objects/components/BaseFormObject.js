@@ -103,6 +103,10 @@ export default class BaseFormObject {
     return this.el.find(SUBMIT_BUTTON_SELECTOR).value;
   }
 
+  getCancelButtonLabel() {
+    return this.el.find(CANCEL_BUTTON_SELECTOR).value;
+  }
+
   // =====================================
   // Error
   // =====================================
