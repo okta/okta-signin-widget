@@ -23,6 +23,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
             />
             <div
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinEmailAuthenticator"
@@ -95,7 +96,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -192,6 +193,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
             />
             <div
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinEmailAuthenticator"
@@ -264,7 +266,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -405,6 +407,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
             />
             <div
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinEmailAuthenticator"
@@ -477,7 +480,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -617,6 +620,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
             />
             <div
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinEmailAuthenticator"
@@ -722,7 +726,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -882,6 +886,7 @@ exports[`authenticator-verification-email renders correct form should display re
             />
             <div
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinEmailAuthenticator"
@@ -987,7 +992,7 @@ exports[`authenticator-verification-email renders correct form should display re
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -1195,7 +1200,7 @@ exports[`authenticator-verification-email renders correct form should render ses
           >
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -1246,6 +1251,7 @@ exports[`authenticator-verification-email renders correct form should render ses
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-13"
+                    data-se="cancel"
                     href="javascript:void(0)"
                   >
                     Back to sign in
@@ -1284,6 +1290,7 @@ exports[`authenticator-verification-email should have autocomplete attribute on 
             />
             <div
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinEmailAuthenticator"
@@ -1356,7 +1363,7 @@ exports[`authenticator-verification-email should have autocomplete attribute on 
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

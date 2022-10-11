@@ -104,6 +104,7 @@ Object {
       Object {
         "focus": true,
         "options": Object {
+          "dataSe": "cancel",
           "href": "/",
           "isActionStep": true,
           "label": "goback",
@@ -129,6 +130,7 @@ Object {
       Object {
         "focus": true,
         "options": Object {
+          "dataSe": "cancel",
           "href": undefined,
           "isActionStep": true,
           "label": "goback",
@@ -154,6 +156,7 @@ Object {
       Object {
         "focus": true,
         "options": Object {
+          "dataSe": "cancel",
           "href": "http://localhost:3000/",
           "isActionStep": true,
           "label": "goback",
@@ -185,6 +188,7 @@ Object {
       Object {
         "focus": true,
         "options": Object {
+          "dataSe": "cancel",
           "href": undefined,
           "isActionStep": true,
           "label": "goback",
@@ -216,6 +220,7 @@ Object {
       Object {
         "focus": true,
         "options": Object {
+          "dataSe": "cancel",
           "isActionStep": false,
           "label": "oie.enroll.skip.setup",
           "step": "skip",
@@ -246,6 +251,7 @@ Object {
       Object {
         "focus": true,
         "options": Object {
+          "dataSe": "cancel",
           "href": "http://localhost:3000/",
           "isActionStep": true,
           "label": "oie.try.again",

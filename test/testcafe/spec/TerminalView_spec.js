@@ -1,10 +1,11 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock } from '../framework/shared';
 import terminalReturnEmail from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import terminalTransferEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
 import terminalReturnExpiredEmail from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import terminalRegistrationEmail from '../../../playground/mocks/data/idp/idx/terminal-registration';
 import terminalReturnEmailConsentDenied from '../../../playground/mocks/data/idp/idx/terminal-enduser-email-consent-denied';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import TerminalPageObjectV3 from '../framework/page-objects/TerminalPageObjectV3';
 import sessionExpired from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
 import noPermissionForAction from '../../../playground/mocks/data/idp/idx/error-403-security-access-denied';
 import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-polling-window-expired';
@@ -12,6 +13,8 @@ import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-ac
 import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 import errorTerminalMultipleErrors from '../../../playground/mocks/data/idp/idx/error-terminal-multiple-errors';
+
+import { userVariables } from 'testcafe';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -61,10 +64,10 @@ const terminalUnlockAccountFailedPermissionsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalUnlockAccountFailedPermissions);
 
-fixture('Terminal view');
+fixture('Terminal view').meta('v3', true);
 
 async function setup(t) {
-  const terminalPageObject = new TerminalPageObject(t);
+  const terminalPageObject = userVariables.v3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
   return terminalPageObject;
 }
@@ -140,7 +143,9 @@ async function setup(t) {
   test
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
-      await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+      if(!userVariables.v3) {
+        await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+      }
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
     });
 });

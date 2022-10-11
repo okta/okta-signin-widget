@@ -23,6 +23,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
             />
             <div
               class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinSecurityQuestionAuthenticator"
@@ -128,7 +129,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -441,6 +442,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
             />
             <div
               class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinSecurityQuestionAuthenticator"
@@ -513,7 +515,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -817,6 +819,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
             />
             <div
               class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinSecurityQuestionAuthenticator"
@@ -922,7 +925,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -1235,6 +1238,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
             />
             <div
               class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinSecurityQuestionAuthenticator"
@@ -1307,7 +1311,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -1721,6 +1725,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
             />
             <div
               class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinSecurityQuestionAuthenticator"
@@ -1826,7 +1831,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -2249,6 +2254,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
             />
             <div
               class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinSecurityQuestionAuthenticator"
@@ -2321,7 +2327,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -2778,6 +2784,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
             />
             <div
               class="iconContainer mfa-okta-security-question authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinSecurityQuestionAuthenticator"
@@ -2883,7 +2890,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

@@ -23,6 +23,7 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
             />
             <div
               class="iconContainer mfa-okta-email authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinEmailAuthenticator"
@@ -95,7 +96,7 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

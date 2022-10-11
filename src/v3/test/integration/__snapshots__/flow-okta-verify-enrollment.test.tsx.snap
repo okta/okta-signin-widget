@@ -23,6 +23,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -92,7 +93,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -224,6 +225,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -293,7 +295,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -510,6 +512,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -579,7 +582,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -743,6 +746,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -812,7 +816,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -977,6 +981,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -1046,7 +1051,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -1243,6 +1248,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -1312,7 +1318,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -1444,6 +1450,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -1513,7 +1520,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -1645,6 +1652,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -1714,7 +1722,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -1931,6 +1939,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -2000,7 +2009,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -3433,6 +3442,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -3502,7 +3512,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -3667,6 +3677,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -3736,7 +3747,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

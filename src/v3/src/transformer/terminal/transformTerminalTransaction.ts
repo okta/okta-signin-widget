@@ -90,6 +90,7 @@ const appendViewLinks = (
       label: loc('goback', 'login'),
       step: 'cancel',
       isActionStep: true,
+      dataSe: 'cancel',
     },
   };
 

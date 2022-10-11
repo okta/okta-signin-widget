@@ -23,6 +23,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
             />
             <div
               class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinWebauthnAuthenticator"
@@ -115,7 +116,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

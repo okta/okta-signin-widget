@@ -23,6 +23,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
             />
             <div
               class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
             >
               <svg
                 aria-labelledby="authCoinOktaVerifyAuthenticator"
@@ -92,7 +93,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >

@@ -59,7 +59,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
             </div>
             <form
               class="o-form"
-              data-se="form"
+              data-se="o-form"
               novalidate=""
               style="max-width: 100%; word-break: break-word;"
             >
@@ -110,6 +110,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                 >
                   <a
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+                    data-se="cancel"
                     href="javascript:void(0)"
                   >
                     Back to sign in
