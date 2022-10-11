@@ -20,9 +20,8 @@ export default class SwitchOVEnrollPageObject extends BasePageObject {
     await this.form.selectRadioButtonOption(channelOptionFieldName, index);
   }
 
-  async isFirstRadioButtonAutoSelected(ovFlowIsQrcode = true) {
-    const value = ovFlowIsQrcode ? 'sms' : 'qrcode';
-    return await this.form.elementExist(`input[value="${value}"] + .checked`);
+  isRadioButtonChecked(value) {
+    return this.form.elementExist(`input[value="${value}"] + .checked`);
   }
 
   clickNextButton() {

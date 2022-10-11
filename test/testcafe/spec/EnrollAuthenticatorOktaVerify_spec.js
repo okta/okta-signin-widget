@@ -226,7 +226,7 @@ test.requestHooks(mock)('should render switch channel view when Can\'t scan is c
     .eql('Text me a setup link');
   await t.expect(switchChannelPageObject.getOptionLabel(1))
     .eql('Email me a setup link');
-  await t.expect(await switchChannelPageObject.isFirstRadioButtonAutoSelected()).eql(true);
+  await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
 
   // Verify links
   await t.expect(await switchChannelPageObject.switchAuthenticatorLinkExists()).ok();
@@ -245,7 +245,7 @@ test.requestHooks(resendEmailMocks)('should render switch channel view when "try
     .eql('Scan a QR code');
   await t.expect(switchChannelPageObject.getOptionLabel(1))
     .eql('Text me a setup link');
-  await t.expect(await switchChannelPageObject.isFirstRadioButtonAutoSelected(false)).eql(true);
+  await t.expect(switchChannelPageObject.isRadioButtonChecked('qrcode')).eql(true);
 
   // Verify links
   await t.expect(await switchChannelPageObject.switchAuthenticatorLinkExists()).ok();
@@ -263,7 +263,7 @@ test.requestHooks(resendSmsMocks)('should render switch channel view when "try d
     .eql('Scan a QR code');
   await t.expect(switchChannelPageObject.getOptionLabel(1))
     .eql('Email me a setup link');
-  await t.expect(await switchChannelPageObject.isFirstRadioButtonAutoSelected(false)).eql(true);
+  await t.expect(switchChannelPageObject.isRadioButtonChecked('qrcode')).eql(true);
 });
 
 test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async t => {
@@ -272,7 +272,7 @@ test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async 
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
-  await t.expect(await switchChannelPageObject.isFirstRadioButtonAutoSelected()).eql(true);
+  await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.selectChannelOption(1);
   await switchChannelPageObject.clickNextButton();
   const enrollViaEmailPageObject = new EnrollOVViaEmailPageObject(t);
@@ -311,7 +311,7 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
-  await t.expect(await switchChannelPageObject.isFirstRadioButtonAutoSelected()).eql(true);
+  await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.clickNextButton();
   const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
@@ -355,7 +355,7 @@ const testSmsMsg = async (t, isIos) => {
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
-  await t.expect(await switchChannelPageObject.isFirstRadioButtonAutoSelected()).eql(true);
+  await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.clickNextButton();
   const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
@@ -397,7 +397,7 @@ const testEmailMsg = async (t, isIos) => {
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
-  await t.expect(await switchChannelPageObject.isFirstRadioButtonAutoSelected()).eql(true);
+  await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.selectChannelOption(1);
   await switchChannelPageObject.clickNextButton();
   const enrollViaEmailPageObject = new EnrollOVViaEmailPageObject(t);
@@ -467,7 +467,7 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack)('should not sho
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
-  await t.expect(await switchChannelPageObject.isFirstRadioButtonAutoSelected()).eql(true);
+  await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.clickNextButton();
   const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
@@ -522,7 +522,7 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks)('should see ov enable bio
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
-  await t.expect(await switchChannelPageObject.isFirstRadioButtonAutoSelected()).eql(true);
+  await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.selectChannelOption(1);
   await switchChannelPageObject.clickNextButton();
   const enrollViaEmailPageObject = new EnrollOVViaEmailPageObject(t);
@@ -552,7 +552,7 @@ test.requestHooks(logger, enrollViaSMSEnableBiometricsMocks)('should see ov enab
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
-  await t.expect(await switchChannelPageObject.isFirstRadioButtonAutoSelected()).eql(true);
+  await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.clickNextButton();
   const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
