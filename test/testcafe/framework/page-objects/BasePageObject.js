@@ -9,7 +9,7 @@ const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
 const ionMessagesSelector = '.ion-messages-container';
 const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
 const FACTOR_PAGE_HELP_LINK = '[data-se="factorPageHelpLink"]';
-const FORM_SELECTOR = '[data-se="o-form"]';
+const FORM_SELECTOR = 'form';
 
 export default class BasePageObject {
   constructor(t) {
