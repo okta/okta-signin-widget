@@ -1,9 +1,9 @@
-import { Selector, ClientFunction } from 'testcafe';
+import { Selector, ClientFunction, userVariables } from 'testcafe';
+import { screen, within } from '@testing-library/testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 
-const SUBMIT_BUTTON_SELECTOR = '[data-type="save"]';
 const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
 
 const focusOnSubmitButton = () => {
@@ -16,20 +16,6 @@ export default class BaseFormObject {
   constructor(t, index) {
     this.t = t;
     this.el = new Selector('.o-form').nth(index || 0);
-  }
-
-  async setTextBoxValue(name, text) {
-    const element = this.el.find(`input[name="${name}"]`);
-
-    // clear exists text
-    await this.t
-      .selectText(element)
-      .pressKey('delete');
-
-    // type new text
-    if (text) {
-      await this.t.typeText(element, text);
-    }
   }
 
   async getFormFieldLabel(fieldName) {
@@ -50,7 +36,9 @@ export default class BaseFormObject {
   }
 
   getTitle() {
-    return this.el.find('[data-se="o-form-head"]').innerText;
+    return screen.findByRole('heading', {
+      level: 2,
+    }).innerText;
   }
 
   getSubtitle() {
@@ -61,17 +49,60 @@ export default class BaseFormObject {
     return this.el.find(selector).innerText;
   }
 
+  /**
+   * @param {string} name The name or label of the text box to get
+   * @param {boolean} findByLabel Find the text box by its label rather than name attribute
+   */
+  getTextBoxValue(name, findByLabel = false) {
+    return findByLabel ?
+      within(this.el).getByLabelText(name).value :
+      this.el.find(`input[name="${name}"]`).value;
+  }
+
+  /**
+   * @param {string} name The name or label of the text box to change
+   * @param {string} text The text to set
+   * @param {boolean} findByLabel Find the text box by its label rather than name attribute
+   */
+  async setTextBoxValue(name, text, findByLabel = false) {
+    const element = findByLabel ?
+      within(this.el).getByLabelText(new RegExp(name)) :
+      this.el.find(`input[name="${name}"]`);
+
+    // clear existing text
+    await this.t
+      .selectText(element)
+      .pressKey('delete');
+
+    // type new text
+    if (text) {
+      await this.t.typeText(element, text);
+    }
+  }
+
   // =====================================
   // Checkbox
   // =====================================
-  getTextBoxValue(name) {
-    return this.el.find(`input[name="${name}"]`).value;
+
+  getCheckbox(label) {
+    return within(this.el).queryByRole('checkbox', {
+      name: label,
+    });
   }
 
-  async setCheckbox(name, value) {
-    const checked = await this.el.find(`input[name="${name}"]`).checked;
+  /**
+   * @param {string} name The name or label of the checkbox to change
+   * @param {boolean} value The checkbox value to set
+   * @param {boolean} findByLabel Find the checkbox by its label rather than name attribute
+   */
+  async setCheckbox(name, value, findByLabel = false) {
+    const checkbox = findByLabel ?
+      this.getCheckbox(name) :
+      this.el.find(`input[name="${name}"]`);
+
+    const checked = checkbox.checked;
     if (value !== checked) {
-      await this.t.click(this.el.find(`input[name="${name}"] + label`));
+      await this.t.click(checkbox);
     }
   }
 
@@ -89,8 +120,33 @@ export default class BaseFormObject {
     await focus();
   }
 
-  async clickSaveButton() {
-    await this.t.click(this.el.find(SUBMIT_BUTTON_SELECTOR));
+  /**
+   * @param {string} name the text of the button to return
+   */
+  getButton(name) {
+    return within(this.el).getByRole('button', {
+      value: name,
+    });
+  }
+
+  /**
+   * @param {string} name the text of the button to click
+   */
+  async clickSaveButton(name = 'Next') {
+    const buttonToClick = this.getButton(name);
+
+    await this.t.click(buttonToClick);
+  }
+
+  /**
+   * @deprecated
+   * @see clickSaveButton
+   * Clicks the button with type=save, regardless of the button value
+   */
+  async clickSaveButtonAsInput() {
+    const buttonToClick = this.el.find('[data-type="save"]');
+
+    await this.t.click(buttonToClick);
   }
 
   async clickCancelButton() {
@@ -98,7 +154,7 @@ export default class BaseFormObject {
   }
 
   getSaveButtonLabel() {
-    return this.el.find(SUBMIT_BUTTON_SELECTOR).value;
+    return within(this.el).getByRole('button').value;
   }
 
   // =====================================
@@ -107,7 +163,9 @@ export default class BaseFormObject {
 
   // Error banner
   async waitForErrorBox() {
-    await this.el.find(FORM_INFOBOX_ERROR).exists;
+    await within(this.el).findByRole('alert', {
+      name: /We found some errors/,
+    }).exists;
   }
 
   getErrorBoxCount() {
@@ -115,6 +173,10 @@ export default class BaseFormObject {
   }
 
   getErrorBoxText() {
+    if (userVariables.v3) {
+      return within(this.el).getByRole('alert').innerText;
+    }
+
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
@@ -138,10 +200,15 @@ export default class BaseFormObject {
   hasTextBoxErrorMessage(fieldName) {
     const selectContainer = this.findFormFieldInput(fieldName)
       .sibling('.o-form-input-error');
+
     return selectContainer.exists;
   }
 
   getTextBoxErrorMessage(fieldName) {
+    if (userVariables.v3) {
+      return this.el.find(`#${fieldName}-error`).innerText;
+    }
+
     const selectContainer = this.findFormFieldInput(fieldName)
       .sibling('.o-form-input-error');
     return selectContainer.innerText;

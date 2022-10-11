@@ -5,8 +5,6 @@ const CALLOUT_SELECTOR = '[data-se="callout"]';
 const ENROLL_SELECTOR = 'a[data-se="enroll"]';
 const NEEDHELP_SELECTOR = 'a[data-se="help"]';
 const FORGOT_PASSWORD_SELECTOR = 'a[data-se="forgot-password"]';
-const CUSTOM_CHECKBOX_SELECTOR = '.custom-checkbox';
-const REMEMBER_ME_FIELD_NAME = 'rememberMe';
 const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
 const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
@@ -21,24 +19,28 @@ export default class IdentityPageObject extends BasePageObject {
     super(t);
   }
 
+  /**
+   * @deprecated
+   * @see BasePageObject.getFormTitle
+   */
   getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
+    return this.getFormTitle();
   }
 
   getOktaVerifyButtonText() {
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
   }
 
-  getRememberMeText() {
-    return this.form.getElement(CUSTOM_CHECKBOX_SELECTOR).textContent;
+  getRememberMeCheckbox() {
+    return this.form.getCheckbox('Keep me signed in');
   }
 
   getRememberMeValue() {
-    return this.form.getCheckboxValue(REMEMBER_ME_FIELD_NAME);
+    return this.getRememberMeCheckbox().checked;
   }
 
   checkRememberMe() {
-    return this.form.setCheckbox(REMEMBER_ME_FIELD_NAME, true);
+    return this.form.setCheckbox('Keep me signed in', true, true);
   }
 
   getSignupLinkText() {
@@ -71,11 +73,11 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   fillIdentifierField(value) {
-    return this.form.setTextBoxValue('identifier', value);
+    return this.form.setTextBoxValue('Username', value, true);
   }
 
   getIdentifierValue() {
-    return this.form.getTextBoxValue('identifier');
+    return this.form.getTextBoxValue('Username', true);
   }
 
   fillPasswordField(value) {
@@ -84,6 +86,10 @@ export default class IdentityPageObject extends BasePageObject {
 
   async hasShowTogglePasswordIcon() {
     return await Selector('.password-toggle').count;
+  }
+
+  getNextButton() {
+    return this.form.getButton('Next');
   }
 
   getSaveButtonLabel() {
@@ -108,14 +114,6 @@ export default class IdentityPageObject extends BasePageObject {
 
   waitForIdentifierError() {
     return this.form.waitForTextBoxError('identifier');
-  }
-
-  /**
-   * @deprecated
-   * @see hasIdentifierErrorMessage
-   */
-  hasIdentifierError() {
-    return this.form.hasTextBoxError('identifier');
   }
 
   hasIdentifierErrorMessage() {

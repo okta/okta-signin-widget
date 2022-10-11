@@ -5367,7 +5367,7 @@
   dependencies:
     chalk "^2.4.1"
 
-"@testing-library/dom@^7.16.2":
+"@testing-library/dom@^7.16.2", "@testing-library/dom@^7.27.1":
   version "7.31.2"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-7.31.2.tgz#df361db38f5212b88555068ab8119f5d841a8c4a"
   integrity sha512-3UqjCpey6HiTZT92vODYLPxTBWlM8ZOOjr3LX5F37/VRipW2M1kX6I/Cm4VXzteZqfGfagg8yXywpcOgQBlNsQ==
@@ -5407,6 +5407,13 @@
   integrity sha512-79kwVOY+3caoLgaPbiPzikjgY0Aya7Fc7TvGtR1upCnz2wrtmPDnN2t9vO7I7vDP2zoA+feSwOH5Q0BFErhaaQ==
   dependencies:
     "@testing-library/dom" "^7.16.2"
+
+"@testing-library/testcafe@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/testcafe/-/testcafe-4.4.1.tgz#e78db77eef8800b862c77ee6cd2e30206df36cd8"
+  integrity sha512-TQ0XCoNXDc9ZGNBa9rkrkeyQkkmjfqNgiweBRmra1MVTzmfD5IXPouYkJjFu0vIc5zUtvUYppgaacK5dZwgLgA==
+  dependencies:
+    "@testing-library/dom" "^7.27.1"
 
 "@testing-library/user-event@^14.2.0":
   version "14.2.3"

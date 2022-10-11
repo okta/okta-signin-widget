@@ -69,9 +69,12 @@ export default class OktaSignIn {
     [key in OktaWidgetEventType]: OktaWidgetEventHandler
   } | Record<string, never>;
 
+  el: string | null;
+
   constructor(options: WidgetProps) {
     this.version = VERSION;
     this.options = options;
+    this.el = null;
 
     this.events = {};
 
@@ -139,6 +142,7 @@ export default class OktaSignIn {
     onError?: RenderErrorCallback,
   ): Promise<RenderResult> {
     const { el } = options;
+    this.el = el;
 
     return new Promise<RenderResult>((resolve, reject) => {
       const onSuccessWrapper = (data: JsonObject): void => {
@@ -150,9 +154,9 @@ export default class OktaSignIn {
         reject(err);
       };
       try {
-        const target = typeof el === 'string'
-          ? document.querySelector(el)
-          : el;
+        const target = typeof this.el === 'string'
+          ? document.querySelector(this.el)
+          : this.el;
 
         if (target) {
           // @ts-ignore OKTA-508744
@@ -214,8 +218,17 @@ export default class OktaSignIn {
   // eslint-disable-next-line class-methods-use-this
   show(): void {}
 
-  // eslint-disable-next-line class-methods-use-this
-  remove(): void {}
+  remove(): void {
+    const target = typeof this.el === 'string'
+      ? document.querySelector(this.el)
+      : this.el;
+
+    if (target) {
+      render(null, target);
+
+      this.el = null;
+    }
+  }
 
   // eslint-disable-next-line class-methods-use-this
   getUser(): void {}

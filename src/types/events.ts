@@ -7,7 +7,7 @@ export type EventName =
   'afterRender';
 
 export interface EventContext {
-  controller: string;
+  controller: string | null;
   formName?: string;
   authenticatorKey?: string;
   methodType?: string;

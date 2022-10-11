@@ -101,6 +101,7 @@
     "@rollup/plugin-node-resolve": "^13.2.1",
     "@rollup/plugin-replace": "^4.0.0",
     "@rollup/plugin-strip": "^2.1.0",
+    "@testing-library/testcafe": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "@zerollup/ts-transform-paths": "^1.7.18",
