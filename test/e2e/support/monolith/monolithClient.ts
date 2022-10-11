@@ -29,7 +29,7 @@ export class MonolithClient {
     const rand2 = crypto.randomBytes(16).toString('base64');
 
     const emailAddress = `${firstName}.${rand1}@okta1.com`;
-    const phoneNumber = `+${Date.now().toString().substring(0, 10)}`;
+    const phoneNumber = `+${Date.now().toString().substring(0, 11)}`;
     const credentials = {
       firstName,
       lastName: lastName || `Mc${firstName}face`,
