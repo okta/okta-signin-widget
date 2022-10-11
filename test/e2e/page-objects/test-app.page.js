@@ -1,7 +1,7 @@
 import { waitForLoad } from '../util/waitUtil';
 import PrimaryAuthPage  from './primary-auth.page';
 
-const { WIDGET_TEST_SERVER } = process.env;
+const { WIDGET_TEST_SERVER, BUNDLE, USE_MIN } = process.env;
 
 class TestAppPage {
   get widget() { return $('#okta-sign-in'); }
@@ -28,7 +28,19 @@ class TestAppPage {
 
   
   async open(path = '') {
-    return browser.url(`http://localhost:3000/${path}`);
+    const extraConfig = {};
+
+    if (BUNDLE) {
+      extraConfig.bundle = BUNDLE;
+    }
+    if (USE_MIN) {
+      extraConfig.useMinBundle = true;
+    }
+
+    const configStr = encodeURIComponent(JSON.stringify(extraConfig));
+    const url = `http://localhost:3000/${path}?config=${configStr}`;
+    console.log('URL', url);
+    return browser.url(url);
   }
 
   async openInNewTab(path = '') {
