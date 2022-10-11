@@ -203,11 +203,6 @@ export default class BaseFormObject {
     return radioOptionLabel;
   }
 
-  async isRadioButtonSelected(fieldName, value) {
-    return await this.findFormFieldInput(fieldName)
-      .find(`input[value="${value}"] + .checked`).exists;
-  }
-
   // =====================================
   // helper methods
   // =====================================
