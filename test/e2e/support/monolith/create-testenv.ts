@@ -139,7 +139,9 @@ async function bootstrap() {
       'ACCOUNT_LOCKOUT_USER_EMAIL',
       'ENG_ENABLE_SSU_FOR_OIE',
       'ENG_OIE_TERMINAL_SSPR_FOR_MAGIC_LINK',
-      'OKTA_MFA_POLICY'
+      'OKTA_MFA_POLICY',
+      'MULTIPLE_FACTOR_ENROLLMENTS',
+      'WEBAUTHN'
     ],
     disableFFs: [
       'REQUIRE_PKCE_FOR_OIDC_APPS'
@@ -305,6 +307,114 @@ async function bootstrap() {
       await oktaClient.deactivateAuthenticator(phoneAuthenticator.id);
       await oktaClient.activateAuthenticator(phoneAuthenticator.id);
     }
+  });
+
+  const getPasswordPolicy = (groupID : string) => {
+    return {
+      priority: 0,
+      type: 'PASSWORD',
+      conditions: {
+        people: {
+          groups: {
+            include: [groupID]
+          }
+        },
+        authProvider: {
+          provider: 'OKTA'
+        }
+      },
+      settings: {
+        password: {
+          complexity: {
+            minLength: 8,
+            minLowerCase: 0,
+            minUpperCase: 0,
+            minNumber: 0,
+            minSymbol: 0,
+            excludeUsername: true,
+            dictionary: { common: { exclude: true } },
+            excludeAttributes: []
+          },
+          age: {
+            maxAgeDays: 0,
+            expireWarnDays: 0,
+            minAgeMinutes: 0,
+            historyCount: 4
+          },
+          lockout:  {
+            maxAttempts: 5,
+            autoUnlockMinutes: 0,
+            userLockoutNotificationChannels: [],
+            showLockoutFailures: false
+          }
+        },
+        recovery: {
+          factors: {
+            ['okta_email']: {
+              status: 'ACTIVE',
+              properties: {
+                recoveryToken: {
+                  tokenLifetimeMinutes: 60
+                }
+              }
+            },
+            ['okta_sms']: {
+              status: 'ACTIVE'
+            },
+          }
+        },
+        delegation: {
+          options: { skipUnlock: false }
+        }
+      }
+    };
+  };
+
+  const getPasswordPolicyActions = () => {
+    return {
+        type: 'PASSWORD',
+        status: 'ACTIVE',
+        conditions: {
+          people: { users: { exclude: [] } },
+          network: { connection: 'ANYWHERE' }
+        },
+        actions: {
+          passwordChange: {
+            access: 'ALLOW'
+          },
+          selfServicePasswordReset: {
+            access: 'ALLOW',
+            requirement: {
+              stepUp: {
+                required: false
+              },
+              primary: {
+                methods: [
+                  'email'
+                ]
+              }
+            }
+          },
+          selfServiceUnlock: {
+            access: 'ALLOW',
+          }
+        }
+      };
+    };
+
+  // Add new password policy that allows unlock
+  const policyObject = getPasswordPolicy(everyoneGroup.id);
+
+  const passwordPolicy = await oktaClient.createPolicy({
+    ...policyObject,
+    name: 'Allow Unlock Policy'
+  });
+
+  const actions = getPasswordPolicyActions();
+
+  await oktaClient.createPolicyRule(passwordPolicy.id, {
+    name: 'Allow Unlock Rule',
+    ...actions
   });
 
   const output = {

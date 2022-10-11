@@ -39,4 +39,23 @@ Feature: Self Service Registration
       When user enters the SMS code
       And user skips enrollment of optional authenticators
       Then user sees the tokens on the page
+
+    @skip(okta:monolith=true)
+    Scenario: User signs up with email and password and optional webauthn authenticator
+      Given user opens the login page
+      When user clicks the signup link
+      Then user sees signup form
+      When user fills out their profile details
+      And user submits the form
+      When user selects email authenticator
+      And user clicks the email magic link
+      And user selects password authenticator
+      Then user sees the password enroll page
+      When user fills in new password
+      And user submits the form
+      When user selects biometric authenticator
+      And user sets up biometric authenticator
+      And user skips enrollment of optional authenticators
+      Then user sees the tokens on the page
+  
   
