@@ -28,7 +28,7 @@ module.exports = (env = {}) => {
       engine: 'oie'
     },
     'polyfill': {
-      entry: './polyfill/polyfill.js'
+      entry: './polyfill/index.js'
     },
   };
   

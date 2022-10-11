@@ -51,7 +51,7 @@ let entries = {
   },
   // 5. polyfill for IE11 (embedded widgets)
   'polyfill': {
-    entry: './polyfill/polyfill.js',
+    entry: './polyfill/index.js',
     outputFilename: 'okta-sign-in.polyfill.min.js',
     analyzerFile: 'okta-sign-in.polyfill.min.analyzer'
   },

@@ -142,6 +142,12 @@ module.exports = function(grunt) {
             // copy minified stylesheet and its sourcemap only
             src: ['*.css', '*.css.map', '!okta-sign-in.css', '!okta-sign-in.css.map'],
             dest: DIST + '/css',
+          },
+          {
+            expand: true,
+            cwd: 'polyfill',
+            src: ['*.js'],
+            dest: 'dist/polyfill'
           }
         ]
       },

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
+require('@okta/okta-signin-widget/polyfill');
 const OktaSignIn = require('@okta/okta-signin-widget'); // default export
 const packageJSON = require('@okta/okta-signin-widget/package.json');
-const polyfill = require('@okta/okta-signin-widget/polyfill');
 
 const signinWidget = new OktaSignIn({
   issuer: 'http://fake',
