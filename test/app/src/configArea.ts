@@ -1,12 +1,14 @@
+import type { WidgetOptions } from '@okta/okta-signin-widget';
 import {
   saveConfigToStorage,
   getConfig,
   resetConfig,
   updateConfigInUrl,
-  configToString
+  formatWidgetOptions,
 } from './config';
 import { ConfigForm, getConfigFromForm, updateFormFromConfig } from './configForm';
-import { makeClickHandler } from './util';
+import { Config } from './types';
+import { loadPolyfill, loadWidgetScript, makeClickHandler, removePolyfill } from './util';
 
 export const ConfigHeader = `
   <div class="header">
@@ -74,7 +76,7 @@ export default class ConfigArea {
   showButton: HTMLElement;
   resetButton: HTMLElement;
 
-  bootstrap(rootElem?: HTMLElement): void {
+  bootstrap(rootElem?: HTMLElement): Config {
     // if no rootElem is passed, bootstrap should be called after ConfigTemplate is in the DOM
     if (rootElem) {
       rootElem.innerHTML = ConfigTemplate;
@@ -89,20 +91,43 @@ export default class ConfigArea {
     this.resetButton = document.querySelector('#config-container button[name="resetConfig"]');
 
     const config = getConfig();
-    this.updateConfigPreview(configToString(config));
+    this.updateConfigPreview(formatWidgetOptions(config.widgetOptions));
+    this.updateConfigEditor(config.widgetOptions);
+    this.persistConfig(config);
 
     this.addEventListeners();
+    return config;
   }
 
   addEventListeners(): void {
     this.configForm.addEventListener('change', () => {
-        const config = getConfigFromForm();
-        const str = configToString(config);
+        const formConfig = getConfigFromForm();
+        const currentConfig = getConfig();
+        const widgetOptions = {
+          ...currentConfig.widgetOptions,
+          ...formConfig.widgetOptions,
+        };
+        const config = {
+          ...formConfig,
+          widgetOptions
+        };
+        loadWidgetScript(config.bundle, config.useMinBundle);
+        const str = formatWidgetOptions(config.widgetOptions);
         this.updateConfigPreview(str);
+        this.updateConfigEditor(config.widgetOptions);
+        this.persistConfig(config);
     })
     this.configEditor.addEventListener('input', (event: InputEvent) => {
       const { value } = event.target as HTMLInputElement;
-      this.updateConfigPreview(value);
+      const widgetOptions = this.updateConfigPreview(value);
+      if (widgetOptions) {
+        const currentConfig = getConfig();
+        const config = {
+          ...currentConfig,
+          widgetOptions,
+        }
+        this.persistConfig(config);
+      }
     });
 
     this.hideButton.addEventListener('click', () => {
@@ -116,16 +141,28 @@ export default class ConfigArea {
     });
   }
 
-  updateConfigPreview(value: string): void {
+  updateConfigPreview(value: string): WidgetOptions | undefined {
     try {
-      const parsedConfig = JSON.parse(value);
-      this.configPreview.innerHTML = configToString(parsedConfig);
-      saveConfigToStorage(parsedConfig);
-      updateFormFromConfig(parsedConfig);
-      updateConfigInUrl(parsedConfig);
+      const parsedOptions = JSON.parse(value) as WidgetOptions;
+      this.configPreview.innerHTML = formatWidgetOptions(parsedOptions);
+      return parsedOptions;
     } catch (e) {
       // do nothing, only render preview when config is ready as JSON format
     }
   }
   
+  updateConfigEditor(options: WidgetOptions) {
+    const str = formatWidgetOptions(options);
+    this.configEditor.innerHTML = str;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    this.configEditor.value = str;
+  }
+
+  persistConfig(config: Config) {
+    saveConfigToStorage(config);
+    updateFormFromConfig(config);
+    updateConfigInUrl(config);
+  }
 }

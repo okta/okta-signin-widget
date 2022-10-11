@@ -1,8 +1,7 @@
-import OktaSignIn from '@okta/okta-signin-widget';
-import { Config } from './types';
+import { OktaSignIn, WidgetOptions } from '@okta/okta-signin-widget';
 
-const getOktaSignIn = (config: Config): OktaSignIn => {
-  return new OktaSignIn(config);
+const getOktaSignIn = (options: WidgetOptions): OktaSignIn => {
+  return new OktaSignIn(options);
 };
 
 export default getOktaSignIn;
