@@ -97,7 +97,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   clickNextButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButton('Next');
   }
 
   waitForErrorBox() {
