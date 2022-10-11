@@ -5,6 +5,7 @@ import {
   resetConfig,
   updateConfigInUrl,
   formatWidgetOptions,
+  extendConfig,
 } from './config';
 import { ConfigForm, getConfigFromForm, updateFormFromConfig } from './configForm';
 import { Config } from './types';
@@ -103,14 +104,7 @@ export default class ConfigArea {
     this.configForm.addEventListener('change', () => {
         const formConfig = getConfigFromForm();
         const currentConfig = getConfig();
-        const widgetOptions = {
-          ...currentConfig.widgetOptions,
-          ...formConfig.widgetOptions,
-        };
-        const config = {
-          ...formConfig,
-          widgetOptions
-        };
+        const config = extendConfig(currentConfig, formConfig);
         loadWidgetScript(config.bundle, config.useMinBundle);
         const str = formatWidgetOptions(config.widgetOptions);
         this.updateConfigPreview(str);

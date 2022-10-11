@@ -98,26 +98,3 @@ export async function loadWidgetScript(bundle: string, minified: boolean) {
     await loadScript('widget-bundle', url);
   }
 }
-
-export async function loadPolyfill(minified: boolean) {
-  const existingEl = document.getElementById('widget-polyfill') as HTMLScriptElement;
-
-  let url = `${window.location.origin}/js/okta-sign-in.polyfill`;
-  if (minified) {
-    url += '.min';
-  }
-  url += '.js';
-
-  if (!existingEl || existingEl.src !== url) {
-    existingEl && existingEl.parentElement.removeChild(existingEl);
-    await loadScript('widget-polyfill', url);
-  }
-}
-
-// This will probably not remove the side effects of the polyfill
-export function removePolyfill() {
-  const existingEl = document.getElementById('widget-polyfill') as HTMLScriptElement;
-  if (existingEl) {
-    existingEl.parentElement.removeChild(existingEl);
-  }
-}

@@ -37,9 +37,12 @@ class TestAppPage {
       extraConfig.useMinBundle = true;
     }
 
-    const configStr = encodeURIComponent(JSON.stringify(extraConfig));
-    const url = `http://localhost:3000/${path}?config=${configStr}`;
-    console.log('URL', url);
+    let queryStr = '';
+    if (Object.keys(extraConfig).length > 0) {
+      const configStr = encodeURIComponent(JSON.stringify(extraConfig));
+      queryStr = `?config=${configStr}`;
+    }
+    const url = `http://localhost:3000/${path}${queryStr}`;
     return browser.url(url);
   }
 

@@ -32,6 +32,7 @@ fi
 export CDN_ONLY=1
 export USE_MIN=1
 export BUNDLE="no-polyfill"
+echo "Testing no-polyfill bundle"
 if ! yarn test:e2e; then
   echo "e2e bundle tests failed! Exiting..."
   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
