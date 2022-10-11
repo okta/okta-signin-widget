@@ -1,5 +1,3 @@
-# https://oktainc.atlassian.net/browse/OKTA-537528
-@skip(okta:monolith=true)
 Feature: Self Service Registration
 
   Background:
