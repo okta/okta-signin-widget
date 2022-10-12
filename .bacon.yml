@@ -63,7 +63,7 @@ test_suites:
       sort_order: '9'
       timeout: '30'
       script_name: testcafe
-      criteria: MAINLINE
+      criteria: MERGE
       queue_name: small
     - name: e2e
       script_path: /root/okta/okta-signin-widget/scripts
