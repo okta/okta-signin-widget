@@ -237,7 +237,7 @@ You can embed the Sign-In Widget in your app by either including a script tag th
 
 Loading our assets directly from the CDN is a good choice if you want an easy way to get started with the widget, don't already have an existing build process that leverages [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) for external dependencies, or for any other reason don't want to bundle the Sign-in Widget into your application. 
 
-The standard bundle (`okta-sign-in.min.js`) includes support for both [Classic Engine][] and the [Identity Engine][]. It also includes a [polyfill][] to ensure compatibility with older browsers such as IE11. If your application does not need to support IE11, you can include the `no-polyfill` bundle instead to decrease the loading time for first-time users.
+The standard bundle (`okta-sign-in.min.js`) includes support for both [Classic Engine][] and the [Identity Engine][]. It also includes a [polyfill][] to ensure compatibility with older browsers such as IE11. If your application doesn't need to support IE11, you can include the `no-polyfill` bundle instead to decrease the loading time for first-time users.
 
 | Bundle     | File Name                       | Approx. Size | Polyfill           | Notes                                      |
 |------------|---------------------------------|--------------|--------------------|--------------------------------------------|
