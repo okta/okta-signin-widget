@@ -33,6 +33,7 @@
 [okta-auth-js]: https://github.com/okta/okta-auth-js
 [Email Magic Link/OTP]: https://developer.okta.com/docs/guides/authenticators-okta-email/-/main/
 [Classic Engine]: https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md
+[polyfill]: https://github.com/okta/okta-signin-widget/blob/master/scripts/buildtools/webpack/polyfill.js
 <!-- end links -->
 
 <!-- omit in toc -->
@@ -234,7 +235,15 @@ You can embed the Sign-In Widget in your app by either including a script tag th
 
 #### Using the Okta CDN
 
-Loading our assets directly from the CDN is a good choice if you want an easy way to get started with the widget or don't already have an existing build process that leverages [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) for external dependencies.
+Loading our assets directly from the CDN is a good choice if you want an easy way to get started with the Widget, don't already have an existing build process that leverages [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) for external dependencies, or any other reason where you don't want to bundle the Sign-in Widget into your application. 
+
+The standard bundle (`okta-sign-in.min.js`) includes support for both [Classic Engine][] and the [Identity Engine][]. It also includes a [polyfill][] to ensure compatibility with older browsers such as IE11. If your application doesn't need to support IE11, you can include the `no-polyfill` bundle instead to decrease the loading time for first-time users.
+
+| Bundle     | File Name                       | Approx. Size | Polyfill           | Notes                                      |
+|------------|---------------------------------|--------------|--------------------|--------------------------------------------|
+| standard   | okta-sign-in.min.js             | 1.8 MB       | :white_check_mark: | Standard bundle which includes everything  |
+| no-polyfill| okta-sign-in.no-polyfill.min.js | 1.5 MB       |                    | Standard bundle without polyfill           |
+
 
 To embed the Sign-in Widget via CDN, include links to the JS and CSS files in your HTML:
 
@@ -245,14 +254,8 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 <link href="https://global.oktacdn.com/okta-signin-widget/6.8.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
-The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases).
+**NOTE:** The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases). We recommend using the latest widget version.
 
-The standard JS asset served from our CDN includes polyfills via [`core-js`](https://github.com/zloirock/core-js) and [`regenerator-runtime`](https://www.npmjs.com/package/regenerator-runtime) to ensure compatibility with older browsers.
-
-```html
-<!-- Latest CDN production Javascript without polyfills -->
-<script src="https://global.oktacdn.com/okta-signin-widget/6.8.1/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
-```
 
 #### Using the npm module
 
