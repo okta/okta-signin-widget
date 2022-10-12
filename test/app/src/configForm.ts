@@ -67,7 +67,7 @@ export const ConfigForm = `
 
 export function getConfigFromForm(): Config {
   const bundle = (document.querySelector('#f_bundle') as HTMLSelectElement).value;
-  let useMinBundle = (document.getElementById('f_useMinBundle-on') as HTMLInputElement).checked;
+  const useMinBundle = (document.getElementById('f_useMinBundle-on') as HTMLInputElement).checked;
   const usePolyfill = (document.getElementById('f_usePolyfill-on') as HTMLInputElement).checked;
 
   // Widget options
