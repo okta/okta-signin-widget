@@ -1,3 +1,5 @@
+import { Selector } from 'testcafe';
+
 import { RequestMock } from '../framework/shared';
 import terminalReturnEmail from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import terminalTransferEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
@@ -69,6 +71,8 @@ fixture('Terminal view').meta('v3', true);
 async function setup(t) {
   const terminalPageObject = userVariables.v3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
+  // ensure form has loaded
+  await t.expect(Selector('form').exists).eql(true);
   return terminalPageObject;
 }
 
