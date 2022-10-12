@@ -46,7 +46,7 @@ describe('OIDC flows', () => {
     });
 
     clientIds.forEach(clientId => {
-      it('can login and exchange a sessionToken for an id_token', async () => {
+      xit('can login and exchange a sessionToken for an id_token', async () => {
         config.clientId = clientId;
         config.authParams.responseType = 'id_token';
 
@@ -68,7 +68,7 @@ describe('OIDC flows', () => {
         await PrimaryAuthPage.assertErrorMessage('User is not assigned to the client application.');
       });
 
-      it('can login and get a token and id_token', async () => {
+      xit('can login and get a token and id_token', async () => {
         config.clientId = clientId;
         config.authParams.responseType = ['id_token', 'token'];
 
@@ -83,7 +83,7 @@ describe('OIDC flows', () => {
 
     });
 
-    it('logs in and uses the redirect flow for responseType "code"', async () => {
+    xit('logs in and uses the redirect flow for responseType "code"', async () => {
       config.clientId = WIDGET_WEB_CLIENT_ID;
       config.authParams.responseType = 'code';
 
@@ -94,7 +94,7 @@ describe('OIDC flows', () => {
       await TestAppPage.assertCode();
     });
 
-    describe('PKCE flows', () => {
+    xdescribe('PKCE flows', () => {
       beforeEach(() => {
         config = {
           baseUrl: WIDGET_TEST_SERVER,

@@ -54,7 +54,7 @@ const conf = {
     // will be called from there.
     //
     specs: [
-        path.resolve(__dirname, 'specs/**/*.e2e.js')
+        path.resolve(__dirname, 'specs/**/oidc.e2e.js')
     ],
     // Patterns to exclude.
     exclude: [
