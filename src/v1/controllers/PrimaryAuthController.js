@@ -93,11 +93,10 @@ export default BaseLoginController.extend({
   },
 
   setUsernameFromIdpDiscovery: function() {
-    const username = SessionStorageHelper.getUsername();
+    const username = this.options.username;
     if (username) {
       this.model.set('username', username);
       this.options.appState.set('disableUsername', true);
-      SessionStorageHelper.removeUsername();
     }
   },
 
