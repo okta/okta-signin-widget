@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, Selector } from 'testcafe';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
@@ -54,6 +54,8 @@ fixture('Select Authenticator for enrollment Form')
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
   await selectFactorPageObject.navigateToPage();
+  // ensure form has loaded
+  await t.expect(Selector('form').exists).eql(true);
   return selectFactorPageObject;
 }
 
