@@ -52,7 +52,10 @@ export default class BasePageObject {
       }, '');
     }
     await this.t.navigateTo(`http://localhost:3000${this.url}${qs}`);
-    await this.t.expect(Selector(FORM_SELECTOR).exists).eql(true);
+
+    if (queryParams?.render !== false) {
+      await this.t.expect(Selector(FORM_SELECTOR).exists).eql(true);
+    }
   }
 
   async preventRedirect(toUrls) {
