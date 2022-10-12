@@ -1,7 +1,7 @@
 Feature: Classic auth + OIDC Flow
   Background:
-    Given an App configured to use authorization code flow
-    And a group "OIDC App Users" is assigned to this app
+    Given an App "Test OIDC SPA" configured to use v1 authn flow$/,
+    And a group "OIDC Test App Users" is assigned to this app
 
     Scenario: User gets an error message when they are not assigned to the application
       Given a User named "testuser" exists in the org and added to "No Assignments Group" group

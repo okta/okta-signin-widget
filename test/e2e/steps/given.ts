@@ -67,7 +67,7 @@ Given(
 );
 
 Given(
-  /^an App ("\w+"\s)?\s? configured to use v1 authn flow$/,
+  /^an App ("[\w\s]+")?\s? configured to use v1 authn flow$/,
   // eslint-disable-next-line no-unused-vars
   async function (this: ActionContext, appName?: string) {
     const config = { ...basicConfig };
@@ -87,7 +87,7 @@ Given(
 );
 
 Given(
-  /^a group ("\w+"\s) is assigned to this app$/,
+  /^a group ("[\w\s]+") is assigned to this app$/,
   // eslint-disable-next-line no-unused-vars
   async function (this: ActionContext, groupName: string) {
     if (process.env.LOCAL_MONOLITH) {
