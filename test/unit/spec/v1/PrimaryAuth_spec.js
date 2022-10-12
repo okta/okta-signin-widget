@@ -2663,6 +2663,18 @@ Expect.describe('PrimaryAuth', function() {
         expect(username.attr('value')).toEqual('testuser');
       });
     });
+
+    it('does NOT prefill username from URL and does NOT disable input if features.prefillUsernameFromIdpDiscovery is off', function() {
+      return setupWithUsername('testuser').then(function(test) {
+        const username = test.form.usernameField();
+
+        expect(username.length).toBe(1);
+        expect(username.attr('type')).toEqual('text');
+        expect(username.prop('required')).toEqual(true);
+        expect(username.prop('disabled')).toEqual(false);
+        expect(username.attr('value')).toEqual(undefined);
+      });
+    });
   });
 
   Expect.describe('Social Auth', function() {
