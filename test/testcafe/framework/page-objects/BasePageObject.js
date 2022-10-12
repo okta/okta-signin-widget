@@ -9,7 +9,6 @@ const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
 const ionMessagesSelector = '.ion-messages-container';
 const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
 const FACTOR_PAGE_HELP_LINK = '[data-se="factorPageHelpLink"]';
-const FORM_SELECTOR = 'form';
 
 export default class BasePageObject {
   constructor(t) {
@@ -52,10 +51,6 @@ export default class BasePageObject {
       }, '');
     }
     await this.t.navigateTo(`http://localhost:3000${this.url}${qs}`);
-
-    if (queryParams?.render !== false) {
-      await this.t.expect(Selector(FORM_SELECTOR).exists).eql(true);
-    }
   }
 
   async preventRedirect(toUrls) {
