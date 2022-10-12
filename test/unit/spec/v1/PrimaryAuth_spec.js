@@ -2672,7 +2672,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(username.attr('type')).toEqual('text');
         expect(username.prop('required')).toEqual(true);
         expect(username.prop('disabled')).toEqual(false);
-        expect(username.attr('value')).toEqual(undefined);
+        expect(username.attr('value')).toEqual('');
       });
     });
   });
