@@ -83,7 +83,9 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Interact');
+fixture('Interact')
+  .only
+  .meta('v3', true);
 
 function decodeUrlEncodedRequestBody(body) {
   const params = {};
