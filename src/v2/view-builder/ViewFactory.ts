@@ -228,6 +228,9 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyResendPushView,
     [AUTHENTICATOR_KEY.CUSTOM_APP]: ChallengeCustomAppResendPushView,
   },
+  [RemediationForms.AUTHENTICATOR_PRE_ENROLLMENT_DATA]: {
+    [AUTHENTICATOR_KEY.EMAIL]: ChallengeAuthenticatorDataEmailView,
+  },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     [AUTHENTICATOR_KEY.PHONE]: ChallengeAuthenticatorDataPhoneView,
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyCustomAppDataView,

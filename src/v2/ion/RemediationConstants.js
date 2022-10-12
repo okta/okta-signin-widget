@@ -41,6 +41,7 @@ const FORMS = {
   SELECT_AUTHENTICATOR_ENROLL: 'select-authenticator-enroll',
   SELECT_AUTHENTICATOR_ENROLL_DATA: 'select-authenticator-enroll-data',
   AUTHENTICATOR_ENROLLMENT_DATA: 'authenticator-enrollment-data',
+  AUTHENTICATOR_PRE_ENROLLMENT_DATA: 'authenticator-pre-enrollment-data',
   ENROLL_AUTHENTICATOR: 'enroll-authenticator',
   SELECT_ENROLLMENT_CHANNEL: 'select-enrollment-channel',
   ENROLLMENT_CHANNEL_DATA: 'enrollment-channel-data',
