@@ -97,7 +97,7 @@ export function getConfigFromForm(): Config {
 
 export function updateFormFromConfig(config: Config): void {
   const { bundle, useBundledWidget, widgetOptions } = config;
-  const { useMinBundle } = config;
+  const { useMinBundle, usePolyfill } = config;
 
   // Widget options
   const baseUrl = getBaseUrl(widgetOptions);
