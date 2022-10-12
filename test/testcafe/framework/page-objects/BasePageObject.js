@@ -5,7 +5,7 @@ const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
 const SKIP_LINK = '.auth-footer .js-skip';
 const SKIP_SET_UP_LINK = '.auth-footer .js-skip-setup';
-const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
+const SWITCH_AUTHENTICATOR_LINK = '[data-se="switchAuthenticator"]';
 const ionMessagesSelector = '.ion-messages-container';
 const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
 const FACTOR_PAGE_HELP_LINK = '[data-se="factorPageHelpLink"]';

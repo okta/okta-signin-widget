@@ -3,6 +3,7 @@ import { screen, within } from '@testing-library/testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
+const FORM_INFOBOX_ERROR_SELECTOR = '[data-se="message"] .infobox-error';
 
 const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
 
@@ -211,7 +212,8 @@ export default class BaseFormObject {
   }
 
   getAllErrorBoxTexts() {
-    return this.getInnerTexts(FORM_INFOBOX_ERROR);
+    const selector  = userVariables.v3 ? FORM_INFOBOX_ERROR_SELECTOR : FORM_INFOBOX_ERROR;
+    return this.getInnerTexts(selector);
   }
 
   // Field error

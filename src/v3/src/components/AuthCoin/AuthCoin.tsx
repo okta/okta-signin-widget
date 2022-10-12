@@ -36,6 +36,10 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     authCoinConfig?.iconClassName,
     customClasses,
   );
+  const customLogoClasses = classNames(
+    style.customAuthImage,
+    'custom-logo',
+  );
 
   function createAuthCoinIcon() {
     // TODO: OKTA-467022 - Add warning when attempted to customize non-customizeable authenticator
@@ -46,7 +50,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
         <img
           src={url}
           alt={authCoinConfig.description}
-          className={style.customAuthImage}
+          className={customLogoClasses}
         />
       );
     }
