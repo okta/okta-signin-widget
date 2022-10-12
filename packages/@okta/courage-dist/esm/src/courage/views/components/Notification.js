@@ -1,10 +1,10 @@
 import _Handlebars2 from '../../../../lib/handlebars/dist/cjs/handlebars.runtime.js';
 import oktaUnderscore from '../../util/underscore-wrapper.js';
 import BaseView from '../BaseView.js';
+import StringUtil from '../../util/StringUtil.js';
 
 const defaults = {
   level: 'success',
-  message: 'Great Success!',
   hide: true,
   fade: 400,
   delay: 3000,
@@ -156,6 +156,23 @@ var Notification = BaseView.extend({
   }),
   initialize: function () {
     this.options = oktaUnderscore.defaults({}, this.options, defaults);
+
+    if (!this.options.message) {
+      switch (this.options.level) {
+        case 'success':
+          this.options.message = StringUtil.localize('notification.default.message.success', 'courage');
+          break;
+
+        case 'error':
+          this.options.message = StringUtil.localize('notification.default.message.error', 'courage');
+          break;
+
+        case 'warning':
+          this.options.message = StringUtil.localize('notification.default.message.warning', 'courage');
+          break;
+      }
+    }
+
     this.$el.addClass('infobox-' + this.options.level);
 
     if (this.options.width) {
