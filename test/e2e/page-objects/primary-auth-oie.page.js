@@ -13,7 +13,7 @@ class PrimaryAuthOIEPage {
   get signupLink() { return $('a[data-se="enroll"]'); }
   get unlockAccountForm() { return $('.siw-main-view.select-authenticator-unlock-account'); }
   get primaryAuthForm() { return $('.siw-main-view.primary-auth'); }
-  get identifierField() { return $(this.identifierField); }
+  get identifierField() { return $(this.identifierFieldSelector); }
   get passwordField() { return $('input[name="credentials.passcode"]'); }
   get submitButton() { return $('input[data-type="save"]'); }
   get formTitle() { return $('[data-se="o-form-head"]'); }
