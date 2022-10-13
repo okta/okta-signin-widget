@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, Selector } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
@@ -28,7 +28,13 @@ const mockOptionalAuthenticatorEnrollment = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsWithSkip)
   .onRequestTo('http://localhost:3000/idp/idx/skip')
-  .respond(success);
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(`
+        <h1 id="mock-user-dashboard-title">Mock User Dashboard</h1>
+        <h2>Query parameters</h2>
+        <a href="/">Back to Login</a>
+  `);
 
 const mockEnrollAuthenticatorCustomOTP = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -54,8 +60,6 @@ fixture('Select Authenticator for enrollment Form')
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
   await selectFactorPageObject.navigateToPage();
-  // ensure form has loaded
-  await t.expect(Selector('form').exists).eql(true);
   return selectFactorPageObject;
 }
 
