@@ -14,6 +14,7 @@
 
 import { When } from '@cucumber/cucumber';
 import PrimaryAuthPage from '../page-objects/primary-auth-oie.page';
+import PrimaryAuthClassicPage from '../page-objects/primary-auth.page';
 import ActionContext from '../support/context';
 import TestAppPage from '../page-objects/test-app.page';
 import { waitForLoad } from '../util/waitUtil';
@@ -25,12 +26,17 @@ import RegistrationPage from '../page-objects/registration.page';
 import EnrollPhonePage from '../page-objects/enroll-phone-authenticator.page';
 import VerifyPhoneAuthenticatorPage from '../page-objects/verify-phone-authenticator.page';
 import UnlockPage from '../page-objects/unlock.page.js'
+import elementExists from '../util/elementExists';
 
 When(
   /^user logs in with username and password$/,
   // eslint-disable-next-line no-unused-vars
-  async function(this: ActionContext) {
-    return await PrimaryAuthPage.login(this.credentials.emailAddress, this.credentials.password);
+  async function (this: ActionContext) {
+    if (await elementExists(PrimaryAuthPage.identifierFieldSelector)) {
+      await PrimaryAuthPage.login(this.credentials.emailAddress, this.credentials.password);
+    } else {
+      await PrimaryAuthClassicPage.login(this.credentials.emailAddress, this.credentials.password);
+    }
   }
 );
 

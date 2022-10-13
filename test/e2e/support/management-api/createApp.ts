@@ -26,13 +26,13 @@ export default async function (options: Options) {
     },
     'settings': {
       'oauthClient': {
-        'client_uri': 'http://localhost:8080',
+        'client_uri': 'http://localhost:3000',
         'logo_uri': 'http://developer.okta.com/assets/images/logo-new.png',
         'redirect_uris': [
-          'http://localhost:8080/login/callback'
+          'http://localhost:3000/done'
         ],
         'post_logout_redirect_uris': [
-          'http://localhost:8080'
+          'http://localhost:3000'
         ],
         'response_types': [
           'token',

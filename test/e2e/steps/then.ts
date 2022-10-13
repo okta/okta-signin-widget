@@ -102,15 +102,15 @@ Then(
 Then(
   /^user is locked out$/,
   async function() {
-      return await TestAppPage.assertWidgetUnableToSignin();
+    return await TestAppPage.assertWidgetUnableToSignin();
   }
 );
 
 Then(
-    /^user account is unlocked$/,
-    async function() {
-        return await UnlockPage.assertUnlockMessage();
-    }
+  /^user account is unlocked$/,
+  async function() {
+    return await UnlockPage.assertUnlockMessage();
+  }
 );
 
 Then(
@@ -176,6 +176,11 @@ Then(
     await TestAppPage.assertCSPError('eval blocked due to CSP rule script-src from script-src http://localhost:3000 https://global.oktacdn.com');
   }
 );
+
+Then(
+  /^user sees an error message "([\w\s.]+)"$/, async (errorMessage: string) => {
+    await TestAppPage.assertWidgetSigninError(errorMessage);
+  });
 
 Then(
   /^user sees the password reset page$/,

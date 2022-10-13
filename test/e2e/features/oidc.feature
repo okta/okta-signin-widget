@@ -1,6 +1,6 @@
 Feature: Classic auth + OIDC Flow
   Background:
-    Given an App "Test OIDC SPA" configured to use v1 authn flow$/,
+    Given an App "Test OIDC SPA" configured to use v1 authn flow
     And a group "OIDC Test App Users" is assigned to this app
 
     Scenario: User gets an error message when they are not assigned to the application

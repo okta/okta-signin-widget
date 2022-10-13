@@ -3,7 +3,7 @@ import { Client } from '@okta/okta-sdk-nodejs';
 import { getConfig } from '../../util/configUtil';
 
 
-export default async (groupName: string) => {
+export default async (groupName?: string) => {
   const config = getConfig();
   const oktaClient = new Client({
     orgUrl: config.orgUrl,
