@@ -14,8 +14,6 @@ const {
   WIDGET_BASIC_NAME_2,
   WIDGET_BASIC_USER_4,
   WIDGET_BASIC_PASSWORD_4,
-  WIDGET_BASIC_USER_5, 
-  WIDGET_BASIC_PASSWORD_5,
 } = process.env;
 
 const clientIds = [
@@ -46,7 +44,7 @@ describe('OIDC flows', () => {
     });
 
     clientIds.forEach(clientId => {
-      xit('can login and exchange a sessionToken for an id_token', async () => {
+      it('can login and exchange a sessionToken for an id_token', async () => {
         config.clientId = clientId;
         config.authParams.responseType = 'id_token';
 
@@ -57,18 +55,7 @@ describe('OIDC flows', () => {
         await TestAppPage.assertIDToken(WIDGET_BASIC_NAME);
       });
 
-      it('throws form error if auth client returns with OAuth error', async () => {
-        config.clientId = clientId;
-        config.authParams.responseType = 'id_token';
-
-        await TestAppPage.setConfig(config);
-        await TestAppPage.startWithRenderEl.click();
-        await waitForLoad(TestAppPage.widget);
-        await PrimaryAuthPage.login(WIDGET_BASIC_USER_5, WIDGET_BASIC_PASSWORD_5);
-        await PrimaryAuthPage.assertErrorMessage('User is not assigned to the client application.');
-      });
-
-      xit('can login and get a token and id_token', async () => {
+      it('can login and get a token and id_token', async () => {
         config.clientId = clientId;
         config.authParams.responseType = ['id_token', 'token'];
 
@@ -80,10 +67,9 @@ describe('OIDC flows', () => {
         await TestAppPage.assertIDToken(WIDGET_BASIC_NAME_2);
         await TestAppPage.assertAccessToken();
       });
-
     });
 
-    xit('logs in and uses the redirect flow for responseType "code"', async () => {
+    it('logs in and uses the redirect flow for responseType "code"', async () => {
       config.clientId = WIDGET_WEB_CLIENT_ID;
       config.authParams.responseType = 'code';
 
@@ -94,7 +80,7 @@ describe('OIDC flows', () => {
       await TestAppPage.assertCode();
     });
 
-    xdescribe('PKCE flows', () => {
+    describe('PKCE flows', () => {
       beforeEach(() => {
         config = {
           baseUrl: WIDGET_TEST_SERVER,

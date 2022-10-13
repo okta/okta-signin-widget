@@ -24,7 +24,7 @@ After(async function (this: ActionContext) {
 After(deleteUserAndCredentials);
 
 // eslint-disable-next-line no-unused-vars
-After(async function (this: ActionContext) {
+After(async function(this: ActionContext) {
   if (this.app) {
     await this.app.deactivate();
     await this.app.delete();
@@ -37,7 +37,7 @@ After(async function (this: ActionContext) {
 After(() => browser.deleteCookies());
 
 // eslint-disable-next-line no-unused-vars
-After(async function (this: ActionContext) {
+After(async function(this: ActionContext) {
   await TestAppPage.ssoLogout();
 });
 

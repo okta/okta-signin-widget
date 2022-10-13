@@ -50,7 +50,7 @@ const basicConfig = {
   baseUrl: WIDGET_TEST_SERVER,
   redirectUri: 'http://localhost:3000/done',
   el: '#okta-login-container',
-  authParams: { pkce: false },
+  authParams: { pkce:false },
   clientId: WIDGET_WEB_CLIENT_ID,
   scopes: ['openid', 'email', 'profile']
 };
@@ -58,7 +58,7 @@ const basicConfig = {
 Given(
   /^an App configured to use interaction code flow$/,
   // eslint-disable-next-line no-unused-vars
-  async function (this: ActionContext) {
+  async function(this: ActionContext) {
     // eslint-disable-next-line max-len
     console.log(JSON.stringify(interactionCodeFlowconfig)); // for manual testing in browser
     await TestAppPage.open();
@@ -82,7 +82,7 @@ Given(
       }
     }
     await TestAppPage.open();
-    await TestAppPage.setConfig(config);
+    return await TestAppPage.setConfig(config);
   }
 );
 
@@ -116,7 +116,7 @@ Given(
 
 Given(
   /^an a18n profile exists$/,
-  async function () {
+  async function() {
     if (process.env.LOCAL_MONOLITH) {
       this.monolithClient = new MonolithClient();
       this.credentials = await this.monolithClient.createCredentials('test');
@@ -143,7 +143,7 @@ Given(
 
 Given(
   /^user opens the login page$/,
-  async function () {
+  async function() {
     await TestAppPage.startButton.click();
     return await waitForLoad(TestAppPage.widget);
   }
@@ -151,8 +151,8 @@ Given(
 
 Given(
   /^user opens the login page using "(\w+)"$/,
-  async function (this: ActionContext, buttonName: string) {
-    switch (buttonName) {
+  async function(this: ActionContext, buttonName: string) {
+    switch(buttonName) {
       case 'renderEl':
         await TestAppPage.startWithRenderEl.click();
         break;
@@ -177,7 +177,7 @@ Given(
 Given(
   /^state parameter is set in the widget config$/,
   // eslint-disable-next-line no-unused-vars
-  async function (this: ActionContext) {
+  async function(this: ActionContext) {
     const config = {
       baseUrl: WIDGET_TEST_SERVER,
       redirectUri: 'http://localhost:3000/done',
@@ -193,7 +193,7 @@ Given(
 
 Given(
   /^user opens the widget in "(\w+)" flow config$/,
-  async function (flow: string) {
+  async function(flow: string) {
     await TestAppPage.flowDropdown.selectByVisibleText(flow);
     return await TestAppPage.startButton.click();
   }
@@ -201,7 +201,7 @@ Given(
 
 Given(
   /^widget config is updated with colors and i18n$/,
-  async function () {
+  async function() {
     const config = {
       ...interactionCodeFlowconfig,
       colors: {
@@ -219,8 +219,3 @@ Given(
     await waitForLoad(TestAppPage.widget);
   }
 );
-
-
-
-
-
