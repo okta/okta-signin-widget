@@ -49,11 +49,13 @@ export function getDefaultConfig(): Config {
     WIDGET_SPA_CLIENT_ID,
     BUNDLE, USE_MIN,
     ISSUER, CLIENT_ID,
+    USE_POLYFILL,
     DIST_ESM
   } = process.env;
 
   const bundle = BUNDLE || 'default';
   const useMinBundle = !!USE_MIN;
+  const usePolyfill = !!USE_POLYFILL;
   const useBundledWidget = !!DIST_ESM;
   const issuer = ISSUER || WIDGET_TEST_SERVER + '/oauth2/default';
   const clientId = CLIENT_ID || WIDGET_SPA_CLIENT_ID;
@@ -62,6 +64,7 @@ export function getDefaultConfig(): Config {
   const config: Config = {
     bundle,
     useMinBundle,
+    usePolyfill,
     useBundledWidget,
     widgetOptions: {
       issuer,

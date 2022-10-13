@@ -2,7 +2,6 @@
 var path          = require('path');
 var commonConfig  = require('./webpack.common.config');
 var createPlugins = require('./scripts/buildtools/webpack/plugins');
-var useRuntime = require('./scripts/buildtools/webpack/runtime');
 var testConfig    = commonConfig({
   entry: {},
   outputFilename: 'main-tests.js'
@@ -29,7 +28,5 @@ Object.assign(testConfig.resolve.alias, {
   'sandbox': `${rootDir}/test/unit/helpers/sandbox`,
   'helpers': `${rootDir}/test/unit/helpers`
 });
-
-useRuntime(testConfig);
 
 module.exports = testConfig;
