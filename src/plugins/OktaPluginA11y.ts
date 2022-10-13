@@ -183,26 +183,10 @@ const isEqual = (a,b) => [...Object.keys(a)].every((k) => a[k] === b[k]);
  * @param widget instance of OktaSignIn
  * @param options options for a11y plugin
  */
-export const OktaPluginA11y = (widget: OktaSignInAPI, options?: OktaPluginA11yOptions): void => {
+export const init = (widget: OktaSignInAPI, options?: OktaPluginA11yOptions): void => {
   // parse options
   const { companyName, onTitleChange } = options ?? {};
   
-  // Load a11y CSS
-  // NOTE: some styles use the "!important" rule with hard-coded colors to
-  // override failing (WCAG2.1AA) color-contrast checks
-  const cssId = 'okta-plugin-a11y';
-  // if-condition prevents double-loading
-  if (!document.getElementById(cssId)) {
-    const head  = document.getElementsByTagName('head')[0];
-    const link  = document.createElement('link');
-    link.id   = cssId;
-    link.rel  = 'stylesheet';
-    link.type = 'text/css';
-    link.href = '/css/okta-plugin-a11y.css';
-    link.media = 'all';
-    head.appendChild(link);
-  }
-
   /**
    * Register a new afterRender event callback, see
    * https://github.com/okta/okta-signin-widget#afterrender
