@@ -44,7 +44,7 @@ Object {
         "options": Object {
           "class": "ERROR",
           "contentType": "string",
-          "dataSe": "infobox-error",
+          "dataSe": "callout",
           "message": "oie.tooManyRequests",
         },
         "type": "InfoBox",
@@ -73,7 +73,7 @@ Object {
         "options": Object {
           "class": "ERROR",
           "contentType": "string",
-          "dataSe": "infobox-error",
+          "dataSe": "callout",
           "message": "idx.operation.cancelled.on.other.device",
         },
         "type": "InfoBox",
@@ -108,7 +108,7 @@ Object {
         "options": Object {
           "class": "ERROR",
           "contentType": "string",
-          "dataSe": "infobox-error",
+          "dataSe": "callout",
           "message": "idx.session.expired",
         },
         "type": "InfoBox",
@@ -137,7 +137,7 @@ Object {
         "options": Object {
           "class": "ERROR",
           "contentType": "string",
-          "dataSe": "infobox-error",
+          "dataSe": "callout",
           "message": "idx.return.link.expired",
         },
         "type": "InfoBox",
@@ -194,7 +194,7 @@ Object {
         "options": Object {
           "class": "ERROR",
           "contentType": "string",
-          "dataSe": "infobox-error",
+          "dataSe": "callout",
           "message": "Test error message",
         },
         "type": "InfoBox",

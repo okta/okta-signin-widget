@@ -75,6 +75,7 @@ export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) =
       message: getErrorMessage(error, widgetProps),
       class: 'ERROR',
       contentType: 'string',
+      dataSe: 'callout',
     },
   } as InfoboxElement];
 

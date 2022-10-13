@@ -37,7 +37,6 @@ import { transformTerminalTransaction, transformUnhandledErrors } from '../../tr
 import { createForm } from '../../transformer/utils';
 import {
   FormBag,
-  MessageType,
   UISchemaLayout,
   UISchemaLayoutType,
   WidgetProps,
@@ -235,21 +234,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (!idxTransaction) {
       return;
     }
-
-    const { messages: newMessages = [] } = idxTransaction;
-
     events?.afterRender?.(getEventContext(idxTransaction));
-
-    // for multiple error messages
-    newMessages?.forEach((newMessage) => {
-      const { class: type, message: msg } = newMessage;
-      if (type === MessageType.ERROR) {
-        // error event
-        events?.afterError?.({
-          stepName: idxTransaction?.nextStep?.name,
-        }, { message: msg });
-      }
-    });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idxTransaction, bootstrap]);

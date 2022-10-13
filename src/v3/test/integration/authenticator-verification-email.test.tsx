@@ -198,7 +198,7 @@ describe('authenticator-verification-email', () => {
       // allow polling request to be triggered
       jest.advanceTimersByTime(5000 /* refresh: 4000 */);
 
-      const errorAlert = await findByTestId('infobox-error');
+      const errorAlert = await findByTestId('callout');
       await within(errorAlert).findByText(/You have been logged out due to inactivity/);
 
       expect(container).toMatchSnapshot();

@@ -48,7 +48,7 @@ const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[])
           message: message.message,
           class: messageClass,
           contentType: 'string',
-          dataSe: `infobox-${messageClass.toLowerCase()}`,
+          dataSe: 'callout',
         },
       };
       uischema.elements.push(infoBoxElement);

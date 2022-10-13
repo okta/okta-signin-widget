@@ -67,6 +67,7 @@ const transformCustomMessages = (formBag: FormBag, messages: IdxMessage[]): Form
       class: message.class ?? 'INFO',
       message: message.message,
       title: message.title && loc(message.title, 'login'),
+      dataSe: 'callout',
     },
   } as InfoboxElement));
 
@@ -98,7 +99,7 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
         contentType: 'string',
         class: messageClass,
         message: message.message,
-        dataSe: `infobox-${messageClass.toLowerCase()}`,
+        dataSe: 'callout',
       },
     } as InfoboxElement);
   });
