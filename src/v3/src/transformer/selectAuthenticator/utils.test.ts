@@ -282,7 +282,7 @@ describe('Select Authenticator Utility Tests', () => {
             methods: [{ type: '' }],
             displayName: '',
             key: AUTHENTICATOR_KEY.OV,
-            // @ts-ignore deviceKnown missing from type
+            // @ts-ignore OKTA-541266 - deviceKnown missing from type
             deviceKnown: true,
           },
         },

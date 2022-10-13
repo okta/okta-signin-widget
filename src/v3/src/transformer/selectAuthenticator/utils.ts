@@ -62,7 +62,7 @@ const reorderAuthenticatorButtons = (
   // Re-arrange fastpass in options based on deviceKnown
   // If deviceKnown is set, set fastpass as the first option in the list
   // otherwise, place it as the last item in the list of OV options
-  // @ts-ignore deviceKnown missing from type
+  // @ts-ignore OKTA-541266 - deviceKnown missing from type
   if (ovRemediation?.relatesTo?.deviceKnown) {
     updatedAuthenticatorBtns.unshift(fastpassAuthenticator);
   } else {
