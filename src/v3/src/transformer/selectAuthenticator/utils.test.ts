@@ -225,11 +225,265 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
       expect(authenticatorOptionValues[0].label).toBe('Code');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
-      expect(authenticatorOptionValues[0].options.actionParams!['authenticator.methodType']).toBe('totp');
+      expect(authenticatorOptionValues[0].options.actionParams?.['authenticator.methodType']).toBe('totp');
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
       expect(authenticatorOptionValues[1].label).toBe('Push');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
-      expect(authenticatorOptionValues[1].options.actionParams!['authenticator.methodType']).toBe('push');
+      expect(authenticatorOptionValues[1].options.actionParams?.['authenticator.methodType']).toBe('push');
+    });
+
+    it('should only create one webauthn and custom_app Authenticator buttons when duplicate options exists in IDX response', () => {
+      const options: IdxOption[] = [
+        { key: AUTHENTICATOR_KEY.WEBAUTHN, id: 'abc123' },
+        { key: AUTHENTICATOR_KEY.WEBAUTHN, id: 'abc123' },
+        { key: AUTHENTICATOR_KEY.CUSTOM_APP, id: '123abc456' },
+        { key: AUTHENTICATOR_KEY.CUSTOM_APP, id: '123abc456' },
+      ]
+        .map((obj) => {
+          const option = {
+            label: obj.key,
+            value: [{ name: 'methodType', value: obj.key }, { name: 'id', value: obj.id }],
+            relatesTo: {
+              id: '',
+              type: '',
+              methods: [{ type: '' }],
+              displayName: '',
+              key: obj.key,
+              profile: {},
+            },
+          };
+          return option;
+        });
+      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
+
+      expect(authenticatorOptionValues.length).toBe(2);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.WEBAUTHN);
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.CUSTOM_APP);
+    });
+
+    it('should set fastpass at beginning of array when deviceKnown = true with multiple OV method types', () => {
+      const options: IdxOption[] = [
+        {
+          label: 'Okta Verify',
+          value: [
+            {
+              name: 'methodType',
+              options: [
+                { label: 'Code', value: 'totp' },
+                { label: 'Push', value: 'push' },
+                { label: 'Fastpass', value: 'signed_nonce' },
+              ],
+            },
+            { name: 'id', value: '1234abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: '',
+            methods: [{ type: '' }],
+            displayName: '',
+            key: AUTHENTICATOR_KEY.OV,
+            // @ts-ignore deviceKnown missing from type
+            deviceKnown: true,
+          },
+        },
+        {
+          label: AUTHENTICATOR_KEY.PHONE,
+          value: [{ name: 'methodType', value: AUTHENTICATOR_KEY.PHONE }],
+          relatesTo: {
+            id: '',
+            type: '',
+            methods: [{ type: '' }],
+            displayName: '',
+            key: AUTHENTICATOR_KEY.PHONE,
+            profile: { phoneNumber: '216XXXXX43' },
+          },
+        },
+      ];
+
+      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
+
+      expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(4);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[0].label).toBe('Fastpass');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.actionParams?.['authenticator.methodType']).toBe('signed_nonce');
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[1].label).toBe('Code');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.actionParams?.['authenticator.methodType']).toBe('totp');
+      expect(authenticatorOptionValues[2].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[2].label).toBe('Push');
+      expect(authenticatorOptionValues[2].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[2].options.actionParams?.['authenticator.methodType']).toBe('push');
+
+      expect(authenticatorOptionValues[3].options.key).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[3].label).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[3].options.ctaLabel)
+        .toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[3].options.description).toBe('216XXXXX43');
+    });
+
+    it('should set fastpass at end of array when deviceKnown is not set with multiple OV method types', () => {
+      const options: IdxOption[] = [
+        {
+          label: 'Okta Verify',
+          value: [
+            {
+              name: 'methodType',
+              options: [
+                { label: 'Code', value: 'totp' },
+                { label: 'Push', value: 'push' },
+                { label: 'Fastpass', value: 'signed_nonce' },
+              ],
+            },
+            { name: 'id', value: '1234abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: '',
+            methods: [{ type: '' }],
+            displayName: '',
+            key: AUTHENTICATOR_KEY.OV,
+          },
+        },
+        {
+          label: AUTHENTICATOR_KEY.PHONE,
+          value: [{ name: 'methodType', value: AUTHENTICATOR_KEY.PHONE }],
+          relatesTo: {
+            id: '',
+            type: '',
+            methods: [{ type: '' }],
+            displayName: '',
+            key: AUTHENTICATOR_KEY.PHONE,
+            profile: { phoneNumber: '216XXXXX43' },
+          },
+        },
+      ];
+
+      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
+
+      expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(4);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[0].label).toBe('Code');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.actionParams?.['authenticator.methodType']).toBe('totp');
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[1].label).toBe('Push');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.actionParams?.['authenticator.methodType']).toBe('push');
+
+      expect(authenticatorOptionValues[2].options.key).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[2].label).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[2].options.ctaLabel)
+        .toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[2].options.description).toBe('216XXXXX43');
+      expect(authenticatorOptionValues[3].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[3].label).toBe('Fastpass');
+      expect(authenticatorOptionValues[3].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[3].options.actionParams?.['authenticator.methodType']).toBe('signed_nonce');
+    });
+
+    it('should not reorder OV option when method types are not set in IDX response', () => {
+      const options: IdxOption[] = [
+        {
+          label: 'Okta Verify',
+          value: [
+            { name: 'id', value: 'abc234' },
+            { name: 'methodType', value: 'signed_nonce' },
+          ],
+          relatesTo: {
+            id: '',
+            type: '',
+            methods: [{ type: '' }],
+            displayName: '',
+            key: AUTHENTICATOR_KEY.OV,
+          },
+        },
+        {
+          label: AUTHENTICATOR_KEY.PHONE,
+          value: [{ name: 'methodType', value: AUTHENTICATOR_KEY.PHONE }],
+          relatesTo: {
+            id: '',
+            type: '',
+            methods: [{ type: '' }],
+            displayName: '',
+            key: AUTHENTICATOR_KEY.PHONE,
+            profile: { phoneNumber: '216XXXXX43' },
+          },
+        },
+      ];
+
+      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
+
+      expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(2);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[0].label).toBe('Okta Verify');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.actionParams?.['authenticator.methodType']).toBe('signed_nonce');
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[1].label).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[1].options.ctaLabel)
+        .toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.description).toBe('216XXXXX43');
+    });
+
+    it('should not reorder OV option when fastpass is not an option', () => {
+      const options: IdxOption[] = [
+        {
+          label: 'Okta Verify',
+          value: [
+            {
+              name: 'methodType',
+              options: [
+                { label: 'Code', value: 'totp' },
+                { label: 'Push', value: 'push' },
+              ],
+            },
+            { name: 'id', value: '1234abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: '',
+            methods: [{ type: '' }],
+            displayName: '',
+            key: AUTHENTICATOR_KEY.OV,
+          },
+        },
+        {
+          label: AUTHENTICATOR_KEY.PHONE,
+          value: [{ name: 'methodType', value: AUTHENTICATOR_KEY.PHONE }],
+          relatesTo: {
+            id: '',
+            type: '',
+            methods: [{ type: '' }],
+            displayName: '',
+            key: AUTHENTICATOR_KEY.PHONE,
+            profile: { phoneNumber: '216XXXXX43' },
+          },
+        },
+      ];
+
+      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
+
+      expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(3);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[0].label).toBe('Code');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.actionParams?.['authenticator.methodType']).toBe('totp');
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[1].label).toBe('Push');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.actionParams?.['authenticator.methodType']).toBe('push');
+
+      expect(authenticatorOptionValues[2].options.key).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[2].label).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[2].options.ctaLabel)
+        .toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[2].options.description).toBe('216XXXXX43');
     });
   });
 

@@ -204,7 +204,7 @@ const formatAuthenticatorOptions = (
   step: string,
   isEnroll?: boolean,
 ): AuthenticatorButtonElement[] => {
-  const authenticatorOptionSet = new Set();
+  const authenticatorOptionSet = new Set<string>();
   return options
     .filter((option: IdxOption) => {
       if (isEnroll) {
@@ -220,7 +220,7 @@ const formatAuthenticatorOptions = (
         isDup = authenticatorOptionSet.has(authenticatorKey);
         authenticatorOptionSet.add(authenticatorKey);
       } else if (authenticatorKey === AUTHENTICATOR_KEY.CUSTOM_APP) {
-        const id = getOptionValue(option.value as Input[], 'id')?.value;
+        const id = getOptionValue(option.value as Input[], 'id')?.value as string;
         isDup = authenticatorOptionSet.has(id);
         authenticatorOptionSet.add(id);
       }
