@@ -8,6 +8,27 @@ This is a test harness app for widget E2E testing. This app provides UI componen
 
 ## Run test app
 
+By default it will run using the "dev" bundle
 ```sh
 yarn start:test:app
 ```
+
+To run against "release" bundle 
+```sh
+MIN_BUNDLE=1 yarn start:test:app
+```
+
+To run against the ESM output
+
+```sh
+DIST_ESM=1 yarn start:test:app
+```
+
+By default the test app runs in modern browsers that support Promise and async/await.
+To build test app with support for older browsers without Promise (such as IE11)
+
+```sh
+TARGET=CROSS_BROWSER yarn start:test:app
+```
+
+Many other options can be controlled through environment vars. See getDefaultConfig()

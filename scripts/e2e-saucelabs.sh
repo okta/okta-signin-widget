@@ -31,6 +31,7 @@ fi
 
 export CDN_ONLY=1
 export TARGET="CROSS_BROWSER"
+export USE_MIN=1
 if ! yarn test:e2e; then
   echo "e2e saucelabs test failed! Exiting..."
   exit ${TEST_FAILURE}

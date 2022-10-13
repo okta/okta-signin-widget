@@ -3,7 +3,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 const config = {
   mode: 'development',
   entry: {
-    main: './target/test-import.js'
+    main: './test-import.js'
   },
   devtool: 'source-map', // will cause failure if sourcemaps are invalid
   module: {

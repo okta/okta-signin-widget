@@ -33,7 +33,7 @@
 [okta-auth-js]: https://github.com/okta/okta-auth-js
 [Email Magic Link/OTP]: https://developer.okta.com/docs/guides/authenticators-okta-email/-/main/
 [Classic Engine]: https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md
-[polyfill]: https://github.com/okta/okta-signin-widget/blob/master/scripts/buildtools/webpack/polyfill.js
+[polyfill]: https://github.com/okta/okta-signin-widget/blob/master/polyfill/index.js
 <!-- end links -->
 
 <!-- omit in toc -->
@@ -237,24 +237,43 @@ You can embed the Sign-In Widget in your app by either including a script tag th
 
 Loading our assets directly from the CDN is a good choice if you want an easy way to get started with the Widget, don't already have an existing build process that leverages [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) for external dependencies, or any other reason where you don't want to bundle the Sign-in Widget into your application. 
 
-The standard bundle (`okta-sign-in.min.js`) includes support for both [Classic Engine][] and the [Identity Engine][]. It also includes a [polyfill][] to ensure compatibility with older browsers such as IE11. If your application doesn't need to support IE11, you can include the `no-polyfill` bundle instead to decrease the loading time for first-time users.
+The standard bundle (`okta-sign-in.min.js`) includes support for both [Classic Engine][] and the [Identity Engine][]. It also includes a [polyfill][] to ensure compatibility with older browsers such as IE11. If your application doesn't need to support IE11, you can include the `no-polyfill` bundle instead to decrease the loading time for first-time users. The standalone `polyfill` bundle can be conditionally included on pages to add support for older browsers only when necessary.
 
-| Bundle     | File Name                       | Approx. Size | Polyfill           | Notes                                      |
-|------------|---------------------------------|--------------|--------------------|--------------------------------------------|
-| standard   | okta-sign-in.min.js             | 1.8 MB       | :white_check_mark: | Standard bundle which includes everything  |
-| no-polyfill| okta-sign-in.no-polyfill.min.js | 1.5 MB       |                    | Standard bundle without polyfill           |
+If your organization has upgraded to [Identity Engine][], the smaller `oie` bundle can be used.
+
+| Bundle     | File Name                       | Approx. Size | Classic Engine | Identity Engine | Polyfill | Notes |
+|------------|---------------------------------|--------------|--------------------|--------------------|--------------------|-------------------------------------------|
+| standard   | okta-sign-in.min.js             | 1.6 MB       | :white_check_mark: | :white_check_mark: | :white_check_mark: | Standard bundle which includes everything |
+| no-polyfill| okta-sign-in.no-polyfill.min.js | 1.5 MB       | :white_check_mark: | :white_check_mark: |                    | Standard bundle without polyfill          |
+| oie        | okta-sign-in.oie.min.js         | 1.2 MB       |                    | :white_check_mark: |                    | Smaller bundle for OIE enabled orgs       |
+| classic    | okta-sign-in.classic.min.js     | 1.1 MB       | :white_check_mark: |                    |                    | Smaller bundle for Classic Engine only    |
+| polyfill   | okta-sign-in.polyfill.min.js    | 80KB         |                    |                    | :white_check_mark: | Standalone polyfill bundle. Can be used along with a widget bundle that does not include the polyfill. |
 
 
 To embed the Sign-in Widget via CDN, include links to the JS and CSS files in your HTML:
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/6.8.2/js/okta-sign-in.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.0.0/js/okta-sign-in.min.js" type="text/javascript"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/6.8.2/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/7.0.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
 **NOTE:** The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases). We recommend using the latest widget version.
+
+When using one of the bundles without the polyfill included, you may want to conditionally load the standalone polyfill bundle. The polyfill should be loaded before the widget bundle:
+
+
+```html
+<!-- Polyfill for older browsers -->
+<script src="https://global.oktacdn.com/okta-signin-widget/7.0.0/js/okta-sign-in.polyfill.min.js" type="text/javascript"></script>
+
+<!-- Widget bundle for Okta Identity Engine -->
+<script src="https://global.oktacdn.com/okta-signin-widget/7.0.0/js/okta-sign-in.oie.min.js" type="text/javascript"></script>
+
+<!-- CSS for widget -->
+<link href="https://global.oktacdn.com/okta-signin-widget/7.0.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+```
 
 
 #### Using the npm module
@@ -324,12 +343,6 @@ node_modules/@okta/okta-signin-widget/dist/
 │   │   # CDN JS file bundled without polyfills.
 │   ├── okta-sign-in.no-polyfill.min.js
 │   │
-│   │   # Main entry file that is used in the npm require(@okta/okta-signin-widget)
-│   │   # flow. This does not package 3rd party dependencies - these are pulled
-│   │   # down through `npm install` (which allows you to use your own version of
-│   │   # jquery, etc).
-│   ├── okta-sign-in.entry.js
-│   │
 │   │   # Development version of okta-sign-in.min.js. Equipped with helpful
 │   │   # console warning messages for common configuration errors.
 │   └── okta-sign-in.js
@@ -367,7 +380,17 @@ After installing:
     --outfile=bundle.js
     ```
 
-3. Make sure you include ES6 polyfills with your bundler if you need the broadest browser support.
+3. Make sure you include ES6 polyfills with your bundler if you need to support IE11. The widget provides all needed polyfills through an export:
+
+```
+const polyfill = require('@okta/okta-signin-widget/polyfill');
+```
+
+or
+
+```
+import polyfill from '@okta/okta-signin-widget/polyfill';
+```
 
 #### Examples
 
