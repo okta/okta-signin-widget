@@ -21,6 +21,7 @@ export WIDGET_SPA_CLIENT_ID=0oa8lrg7ojTsbJgRQ696
 export WIDGET_WEB_CLIENT_ID=0oa8ls36zUZj7oFJ2696
 
 export ORG_OIE_ENABLED=true
+export USE_MIN=1
 
 # Build
 if ! yarn build:release; then

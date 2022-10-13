@@ -18,6 +18,11 @@ if ! yarn build:release; then
   exit ${TEST_FAILURE}
 fi
 
+if ! yarn lint:cdn; then
+  echo "lint failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+
 mkdir -p "test-reports/verify-package"
 
 pushd dist

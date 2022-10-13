@@ -46,7 +46,8 @@
       "import": "./target/esm/src/exports/exports/oie.js",
       "require": "./target/js/okta-sign-in.oie.js",
       "default": "./target/js/okta-sign-in.oie.js"
-    }
+    },
+    "./polyfill": "./target/js/okta-sign-in.polyfill.js"
   },
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
@@ -85,7 +86,7 @@
     "test:tsd:ci": "yarn codegen && yarn test:tsd",
     "build:esm": "yarn clean:esm && yarn build:rollup-release && yarn lint:esm",
     "build:dev": "grunt build:dev",
-    "build:release": "grunt build:release && yarn lint:cdn",
+    "build:release": "grunt build:release",
     "build:rollup-dev": "rollup -c",
     "build:rollup-release": "rollup -c rollup.release.config.js",
     "build:webpack-dev": "webpack --config webpack.dev.config.js",
@@ -215,7 +216,7 @@
     "webpack": "^5.51.1",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.8.1"
+    "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
     "@okta/okta-auth-js": "~7.0.0",
