@@ -11,7 +11,7 @@ const noMessagesErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(noMessageResponse, 403);
 
-fixture('GenericErrors');
+fixture('GenericErrors').meta('v3', true);
 
 async function setup(t) {
   const terminalPage = new TerminalPageObject(t);
@@ -23,11 +23,11 @@ async function setup(t) {
 test.requestHooks(noMessagesErrorMock)('should be able generic error when request does not have messages', async t => {
   const terminalPage = await setup(t);
   await terminalPage.waitForErrorBox();
-  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('There was an unexpected internal error. Please try again.');
+  await t.expect(terminalPage.getErrorBoxText()).eql('There was an unexpected internal error. Please try again.');
 });
 
 test.requestHooks(securityAccessDeniedMock)('should be able display error when request failed ith 403 with no stateToken', async t => {
   const terminalPage = await setup(t);
   await terminalPage.waitForErrorBox();
-  await t.expect(terminalPage.getErrorMessages().getTextContent()).contains('You do not have permission to perform the requested action');
+  await t.expect(terminalPage.getErrorBoxText()).contains('You do not have permission to perform the requested action');
 });
