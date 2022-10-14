@@ -101,7 +101,7 @@ Given(
 );
 
 Given(
-  /^a User named "([^\w\s]+)" exists in the org$/,
+  /^a User named "([\w\s]+)" exists in the org$/,
   async function (this: ActionContext, firstName: string) {
     if (process.env.LOCAL_MONOLITH) {
       this.monolithClient = new MonolithClient();
