@@ -1,8 +1,7 @@
 import BaseFormObject from './components/BaseFormObject';
 import { Selector, ClientFunction } from 'testcafe';
 
-const SIGNOUT_LINK = '.auth-footer .js-cancel';
-const GO_BACK_LINK = '.auth-footer .js-go-back';
+const CANCEL_LINK_TEXT = 'Back to sign in';
 const SKIP_LINK = '.auth-footer .js-skip';
 const SKIP_SET_UP_LINK = '.auth-footer .js-skip-setup';
 const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
@@ -100,30 +99,32 @@ export default class BasePageObject {
     return this.form.getElement(ionMessagesSelector).innerText;
   }
 
-  async signoutLinkExists() {
-    const elCount = await Selector(SIGNOUT_LINK).count;
-    return elCount === 1;
+  getCancelLink() {
+    return this.form.getLink(CANCEL_LINK_TEXT);
+  }
+
+  signoutLinkExists() {
+    return this.getCancelLink().exists;
   }
 
   getSignoutLinkText() {
-    return Selector(SIGNOUT_LINK).textContent;
+    return this.getCancelLink().textContent;
   }
 
   async clickSignOutLink() {
-    await this.t.click(Selector(SIGNOUT_LINK));
+    await this.t.click(this.getCancelLink());
   }
 
-  async goBackLinkExists() {
-    const elCount = await Selector(GO_BACK_LINK).count;
-    return elCount === 1;
+  goBackLinkExists() {
+    return this.getCancelLink().exists;
   }
 
   getGoBackLinkText() {
-    return Selector(GO_BACK_LINK).textContent;
+    return this.getCancelLink().textContent;
   }
 
   async clickGoBackLink() {
-    await this.t.click(Selector(GO_BACK_LINK));
+    await this.t.click(this.getCancelLink());
   }
 
   async skipLinkExists() {
