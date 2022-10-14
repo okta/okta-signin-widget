@@ -30,7 +30,7 @@ describe('Unhandled Error Transformer Tests', () => {
   });
 
   it('should add Infobox with unexpected error message when error is not provided', () => {
-    const formBag = transformUnhandledErrors(widgetProps);
+    const formBag = transformUnhandledErrors(widgetProps, undefined);
 
     expect(formBag).toMatchSnapshot();
     expect(formBag.uischema.elements.length).toBe(1);

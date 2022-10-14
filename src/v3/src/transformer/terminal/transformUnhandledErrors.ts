@@ -21,15 +21,15 @@ import {
 import { loc } from '../../util';
 import { createForm } from '../utils';
 
-type ErrorTransformer = (widgetProps: WidgetProps, error: AuthApiError) => FormBag;
+type ErrorTransformer = (widgetProps: WidgetProps, error: AuthApiError | undefined) => FormBag;
 
-const getErrorMessage = (error: AuthApiError, widgetProps?: WidgetProps) : string => {
+const getErrorMessage = (error: AuthApiError | undefined, widgetProps?: WidgetProps) : string => {
   const errorChecks = [
     // error message comes from server response
     {
-      tester: (err: AuthApiError) => err && err.xhr && !err.errorSummary && err.xhr.responseText?.includes('messages'),
-      message: (err: AuthApiError) => {
-        const errorResponse = JSON.parse(err.xhr!.responseText);
+      tester: (err: AuthApiError | undefined) => err && err.xhr && !err.errorSummary && err.xhr.responseText?.includes('messages'),
+      message: (err: AuthApiError | undefined) => {
+        const errorResponse = JSON.parse(err!.xhr!.responseText);
         const { messages: { value: [message] } } = errorResponse;
 
         // TODO: re-visit, handle side effects in hooks
@@ -44,15 +44,15 @@ const getErrorMessage = (error: AuthApiError, widgetProps?: WidgetProps) : strin
     },
     // special error messages
     {
-      tester: (err: AuthApiError) => err?.errorCode === 'invalid_request' && err?.errorSummary === 'The recovery token is invalid',
+      tester: (err: AuthApiError | undefined) => err?.errorCode === 'invalid_request' && err?.errorSummary === 'The recovery token is invalid',
       message: () => loc('oie.invalid.recovery.token', 'login'),
     },
     {
-      tester: (err: AuthApiError) => err?.errorCode === 'access_denied' && !!err?.errorSummary,
+      tester: (err: AuthApiError | undefined) => err?.errorCode === 'access_denied' && !!err?.errorSummary,
       message: () => loc('oie.feature.disabled', 'login'),
     },
     {
-      tester: (err: AuthApiError) => err?.errorCode && !!err?.errorSummary,
+      tester: (err: AuthApiError | undefined) => err?.errorCode && !!err?.errorSummary,
       message: () => loc('oie.configuration.error', 'login'),
     },
     // default fall back for unknown errors
