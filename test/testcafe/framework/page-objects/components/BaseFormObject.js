@@ -154,7 +154,7 @@ export default class BaseFormObject {
   }
 
   getSaveButtonLabel() {
-    return within(this.el).getByRole('button').value;
+    return within(this.el).getByRole('button').innerText;
   }
 
   // =====================================
