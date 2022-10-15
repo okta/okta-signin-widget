@@ -1,9 +1,9 @@
 #!/bin/bash -xe
 
 # Set this to a development branch to try new features
-export DOCKOLITH_BRANCH=
+export DOCKOLITH_BRANCH="ag-OKTA-529066-local"
 if [[ -n ${DOCKOLITH_BRANCH} ]]; then
-  DOCKOLITH_BRANCH=master
+  DOCKOLITH_BRANCH="ag-OKTA-529066-local"
 fi
 
 pushd ./scripts
