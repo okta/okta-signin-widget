@@ -1,14 +1,12 @@
 #!/bin/bash -xe
 
-# Set this to a development branch to try new features
-export DOCKOLITH_BRANCH=
 if [[ -n ${DOCKOLITH_BRANCH} ]]; then
-  DOCKOLITH_BRANCH=master
+  export DOCKOLITH_BRANCH=master
 fi
 
 pushd ./scripts
 rm -rf dockolith
-echo "Cloning dockolith from branch ${DOCKOLITH_BRANCH}"
+echo "Cloning dockolith from branch: ${DOCKOLITH_BRANCH}"
 git clone --depth 1 -b $DOCKOLITH_BRANCH https://github.com/okta/dockolith.git
 popd
 
