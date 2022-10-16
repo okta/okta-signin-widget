@@ -134,7 +134,7 @@ export default class BaseFormObject {
    */
   getButton(name) {
     return within(this.el).getByRole('button', {
-      name,
+      value: name,
     });
   }
 
