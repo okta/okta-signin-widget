@@ -53,7 +53,7 @@ export default class BaseFormObject {
     * @param {string} name the text of the link to return
     */
   getLink(name) {
-    return screen.getByRole('link', {
+    return screen.queryByRole('link', {
       name,
     });
   }
