@@ -92,6 +92,14 @@ export default BaseLoginController.extend({
     }
   },
 
+  setUsernameFromIdpDiscovery: function() {
+    const username = this.options.username;
+    if (username) {
+      this.model.set('username', username);
+      this.options.appState.set('disableUsername', true);
+    }
+  },
+
   events: {
     'focusout input[name=username]': function() {
       if (this.shouldComputeDeviceFingerprint() && this.model.get('username')) {
@@ -127,6 +135,9 @@ export default BaseLoginController.extend({
   // done editing (on blur) or deletes the username (see below).
   initialize: function() {
     this.options.appState.unset('deviceFingerprint');
+    if (this.settings.get('features.prefillUsernameFromIdpDiscovery')) {
+      this.setUsernameFromIdpDiscovery();
+    }
     this.listenTo(this.model, 'change:username', function(model, value) {
       if (!value) {
         // reset AppState to an undefined user.
