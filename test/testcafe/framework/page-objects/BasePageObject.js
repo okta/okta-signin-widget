@@ -101,10 +101,12 @@ export default class BasePageObject {
     return this.form.getElement(ionMessagesSelector).innerText;
   }
 
+
   getCancelLink() {
     return this.form.getLink(CANCEL_LINK_TEXT);
   }
-
+  
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
   async signoutLinkExists() {
     if(userVariables.v3){
       return this.getCancelLink().exists;
