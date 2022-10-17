@@ -1,0 +1,94 @@
+{
+  "status": "CONSENT_REQUIRED",
+  "expiresAt": "2017-07-20T00:06:25.000Z",
+  "stateToken": "testStateToken",
+  "_embedded": {
+    "target": {
+      "type": "APP",
+      "name": "oidc_client",
+      "label": "Janky App",
+      "clientId": "8WUqrTzUG9RyJt2C6Gmm",
+      "_links": {
+        "about": {
+          "href": "http://localhost:3000/about.html",
+          "type": "text/html"
+        },
+        "terms-of-service": {
+          "href": "http://localhost:3000/tos.html",
+          "type": "text/html"
+        },
+        "privacy-policy": {
+          "href": "http://localhost:3000/policy.html",
+          "type": "text/html"
+        },
+        "client-uri": {
+          "href": "http://localhost:3000/client-uri.html",
+          "type": "text/html"
+        }
+      }
+    },
+    "scopes": [
+      {
+        "name": "openid",
+        "optional": false
+      },
+      {
+        "name": "custom1",
+        "displayName": "View your mobile phone data plan.",
+        "description": "This allows the app to view your mobile phone data plan.",
+        "optional": true
+      },
+      {
+        "name": "custom2",
+        "displayName": "View your internet search history.",
+        "optional": true
+      },
+      {
+        "name": "email",
+        "displayName": "View your email address.",
+        "description": "This allows the app to view your email address.",
+        "consent": "REQUIRED",
+        "optional": true,
+        "_links": {}
+      },
+      {
+        "name": "profile",
+        "displayName": "View your profile information.",
+        "description": "The exact data varies based on what profile information you have provided, such as: name, time zone, picture, or birthday.",
+        "consent": "REQUIRED",
+        "optional": false,
+        "_links": {}
+      }
+    ],
+    "user": {
+      "id": "00uo9lKo7Ea265DZq0g3",
+      "passwordChanged": "2017-03-21T11:07:32.000Z",
+      "profile": {
+        "login": "administrator1@clouditude.net",
+        "firstName": "Add-Min",
+        "lastName": "O'Cloudy Tud",
+        "locale": "en_US",
+        "timeZone": "America\/Los_Angeles"
+      }
+    }
+  },
+  "_links": {
+    "next": {
+      "name": "consent",
+      "href": "http://localhost:3000/api/v1/authn/consent",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    },
+    "cancel": {
+      "href": "http://localhost:3000/api/v1/authn/cancel",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    }
+  }
+}
