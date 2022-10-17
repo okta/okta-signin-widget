@@ -9,11 +9,6 @@ const DEV_SERVER_PORT = 3000;
 const WORKSPACE_ROOT = path.resolve(__dirname, '../..');
 const { DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET } = process.env;
 
-let WIDGET_JS = BUNDLE === 'default' ? 'js/okta-sign-in.js' : `js/okta-sign-in.${BUNDLE}.js`;
-if (CROSS_BROWSER) {
-  WIDGET_JS = 'js/okta-sign-in.min.js'; // cross browser: use full default bundle, w/ polyfill
-}
-
 const webpackConfig = {
   mode: 'development',
   entry: [
