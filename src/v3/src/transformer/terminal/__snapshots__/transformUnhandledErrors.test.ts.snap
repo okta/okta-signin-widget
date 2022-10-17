@@ -35,6 +35,7 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
+          "contentType": "string",
           "message": "oie.configuration.error",
         },
         "type": "InfoBox",
@@ -57,6 +58,7 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
+          "contentType": "string",
           "message": "oie.feature.disabled",
         },
         "type": "InfoBox",
@@ -79,6 +81,7 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
+          "contentType": "string",
           "message": "oie.invalid.recovery.token",
         },
         "type": "InfoBox",

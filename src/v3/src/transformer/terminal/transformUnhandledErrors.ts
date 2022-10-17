@@ -16,7 +16,6 @@ import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
   FormBag,
   InfoboxElement,
-  UISchemaElement,
   WidgetProps,
 } from '../../types';
 import { loc } from '../../util';
@@ -24,70 +23,60 @@ import { createForm } from '../utils';
 
 type ErrorTransformer = (widgetProps: WidgetProps, error?: AuthApiError) => FormBag;
 
-const appendSpecialErrorMessages = (
-  elements: UISchemaElement[],
-  errorDescription: string,
-  error?: string,
-) => {
-  let message;
-  if (error === 'invalid_request' && errorDescription === 'The recovery token is invalid') {
-    message = 'oie.invalid.recovery.token';
-  } else if (error === 'access_denied' && !!errorDescription) {
-    message = 'oie.feature.disabled';
-  } else {
-    message = 'oie.configuration.error';
-  }
+const getErrorMessage = (error?: AuthApiError, widgetProps?: WidgetProps) : string => {
+  const errorChecks = [
+    // error message comes from server response
+    {
+      tester: (err?: AuthApiError) => err && err.xhr && !err.errorSummary && err.xhr.responseText?.includes('messages'),
+      message: (err?: AuthApiError) => {
+        const errorResponse = JSON.parse(err!.xhr!.responseText);
+        const { messages: { value: [message] } } = errorResponse;
 
-  elements.push({
-    type: 'InfoBox',
-    options: {
-      message: loc(message, 'login'),
-      class: 'ERROR',
+        // TODO: re-visit, handle side effects in hooks
+        // If the session expired, this clears session to allow new transaction bootstrap
+        if (widgetProps && message.i18n.key === 'idx.session.expired') {
+          const { authClient } = widgetProps;
+          authClient?.transactionManager.clear();
+        }
+
+        return getMessage(message);
+      },
     },
-  } as InfoboxElement);
+    // special error messages
+    {
+      tester: (err?: AuthApiError) => err?.errorCode === 'invalid_request' && err?.errorSummary === 'The recovery token is invalid',
+      message: () => loc('oie.invalid.recovery.token', 'login'),
+    },
+    {
+      tester: (err?: AuthApiError) => err?.errorCode === 'access_denied' && !!err?.errorSummary,
+      message: () => loc('oie.feature.disabled', 'login'),
+    },
+    {
+      tester: (err?: AuthApiError) => err?.errorCode && !!err?.errorSummary,
+      message: () => loc('oie.configuration.error', 'login'),
+    },
+    // default fall back for unknown errors
+    {
+      tester: () => true,
+      message: () => loc('oform.error.unexpected', 'login'),
+    },
+  ];
+
+  // find the message that meets the tester condition
+  return errorChecks.find(({ tester }) => tester(error))?.message(error);
 };
 
 export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) => {
   const formBag: FormBag = createForm();
 
-  if (!error) {
-    formBag.uischema.elements.push({
-      type: 'InfoBox',
-      options: {
-        message: loc('oform.error.unexpected', 'login'),
-        class: 'ERROR',
-        contentType: 'string',
-      },
-    } as InfoboxElement);
-    return formBag;
-  }
-
-  if (error && error.xhr && !error.errorSummary) {
-    const { xhr } = error;
-    if (xhr && xhr.responseText?.includes('messages')) {
-      const errorResponse = JSON.parse(xhr.responseText);
-      const { messages: { value: [message] } } = errorResponse;
-      formBag.uischema.elements.push({
-        type: 'InfoBox',
-        options: {
-          message: getMessage(message),
-          class: 'ERROR',
-          contentType: 'string',
-        },
-      } as InfoboxElement);
-
-      // TODO: re-visit, handle side effects in hooks
-      // If the session expired, this clears session to allow new transaction bootstrap
-      if (message.i18n.key === 'idx.session.expired') {
-        const { authClient } = widgetProps;
-        authClient?.transactionManager.clear();
-      }
-
-      return formBag;
-    }
-  }
-
-  appendSpecialErrorMessages(formBag.uischema.elements, error.errorSummary, error.errorCode);
+  formBag.uischema.elements = [{
+    type: 'InfoBox',
+    options: {
+      message: getErrorMessage(error, widgetProps),
+      class: 'ERROR',
+      contentType: 'string',
+    },
+  } as InfoboxElement];
 
   return formBag;
 };
