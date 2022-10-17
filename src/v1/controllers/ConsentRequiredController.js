@@ -17,8 +17,78 @@ import Enums from 'util/Enums';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';
 import ScopeList from 'v1/views/consent/ScopeList';
+import ScopeCheckBox from 'v1/views/consent/ScopeCheckBox';
 import SkipLink from 'v1/views/shared/SkipLink';
 import consentLogoHeaderTemplate from 'v1/views/shared/templates/consentLogoHeaderTemplate';
+
+const granularConsentHeaderTemplate = hbs`
+  {{#if clientURI}}
+    <a href="{{clientURI}}" class="client-logo-link" target="_blank">
+  {{/if}}
+  {{#if customLogo}}
+    <img class="client-logo custom-logo" src="{{customLogo}}" alt="{{i18n code="common.logo.alt" bundle="login"}}" aria-hidden="true" />
+  {{else}}
+    <img class="client-logo default-logo" src="{{defaultLogo}}" alt="{{i18n code="common.logo.alt" bundle="login"}}" aria-hidden="true" />
+  {{/if}}
+  {{#if clientURI}}
+    </a>
+  {{/if}}
+  <h1>
+    <span class="title-text">
+        <b class="no-translate">{{appName}}</b><p>{{{i18n code="granular.consent.scopes.title" bundle="login"}}}</p>
+    </span>
+    {{#if issuer}}
+      <div class="issuer"><span>{{issuer}}</span></div>
+    {{/if}}
+  </h1>`;
+
+const getConsentHeader = (template) => FormType.View({
+  View: View.extend({
+    className: 'consent-title detail-row',
+    template,
+    getTemplateData: function() {
+      const appState = this.options.appState;
+      return {
+        appName: appState.escape('targetLabel'),
+        customLogo: appState.get('targetLogo') && appState.get('targetLogo').href,
+        defaultLogo: appState.get('defaultAppLogo'),
+        clientURI: appState.get('targetClientURI') && appState.get('targetClientURI').href,
+      };
+    },
+  }),
+});
+
+const consentRequiredDescription = FormType.View({
+  View: View.extend({
+    className: 'consent-description detail-row',
+    template: hbs`<p>{{i18n code="consent.required.description" bundle="login"}}</p>`,
+  }),
+});
+
+const granularConsentDescription = FormType.View({
+  View: View.extend({
+    className: 'consent-description',
+    template: hbs`<p>{{i18n code="granular.consent.scopes.description" bundle="login"}}</p>`,
+  }),
+});
+
+const getScopeCheckBoxes = (scopes) => {
+  const sortedScopes = scopes.slice().sort((scope1, scope2) => scope2.optional - scope1.optional);
+  return _.map(sortedScopes, ({name, displayName, description, optional, isCustomized}) => FormType.Input({
+    name: name,
+    input: ScopeCheckBox,
+    placeholder: displayName,
+    label: false,
+    modelType: 'boolean',
+    required: true,
+    options:
+        {
+          description,
+          optional,
+          isCustomized
+        }
+  }));
+};
 
 export default FormController.extend({
   className: 'consent-required',
@@ -30,6 +100,15 @@ export default FormController.extend({
     // add Skip to main content link
     const skipLink = new SkipLink();
     $(`#${Enums.WIDGET_LOGIN_CONTAINER_ID}`).prepend(skipLink.render().$el);
+
+    // granular consent
+    if ('optional' in this.options.appState.get('scopes')[0]) {
+      this.$el.addClass('granular-consent').removeClass('consent-required');
+      this.form.cancel = _.partial(loc, 'oform.cancel', 'login');
+      _.forEach(this.options.appState.get('scopes'), scope => {
+        this.model.set(scope.name, true);
+      });
+    }
   },
   postRender: function() {
     FormController.prototype.postRender.apply(this, arguments);
@@ -44,12 +123,14 @@ export default FormController.extend({
     },
     save: function() {
       return this.doTransaction(function(transaction) {
-        return transaction.consent({
-          consent: {
-            expiresAt: this.get('expiresAt'),
-            scopes: _.pluck(this.get('scopes'), 'name'),
-          },
-        });
+        let scopeNames = _.pluck(this.get('scopes'), 'name');
+        let consent = { expiresAt: this.get('expiresAt') };
+        if ('optional' in this.get('scopes')[0]) {
+          consent['optedScopes'] =  _.reduce(scopeNames, (optedScopes, scope) => { optedScopes[scope] = this.get(scope); return optedScopes; }, {});
+        } else {
+          consent['scopes'] = scopeNames;
+        }
+        return transaction.consent({ consent });
       });
     },
     cancel: function() {
@@ -73,37 +154,20 @@ export default FormController.extend({
     save: _.partial(loc, 'consent.required.consentButton', 'login'),
     cancel: _.partial(loc, 'consent.required.cancelButton', 'login'),
     formChildren: function() {
-      return [
-        FormType.View({
-          View: View.extend({
-            className: 'consent-title detail-row',
-            template: consentLogoHeaderTemplate,
-            getTemplateData: function() {
-              const appState = this.options.appState;
-
-              return {
-                appName: appState.escape('targetLabel'),
-                customLogo: appState.get('targetLogo') && appState.get('targetLogo').href,
-                defaultLogo: appState.get('defaultAppLogo'),
-                clientURI: appState.get('targetClientURI') && appState.get('targetClientURI').href,
-              };
-            },
+      if ('optional' in this.options.appState.get('scopes')[0]) {
+        return [
+          getConsentHeader(granularConsentHeaderTemplate),
+          granularConsentDescription,
+        ].concat(getScopeCheckBoxes(this.options.appState.get('scopes')));
+      } else {
+        return [
+          getConsentHeader(consentLogoHeaderTemplate),
+          FormType.View({
+            View: new ScopeList({ model: this.model }),
           }),
-        }),
-        FormType.View({
-          View: new ScopeList({ model: this.model }),
-        }),
-        FormType.View({
-          View: View.extend({
-            className: 'consent-description detail-row',
-            template: hbs(
-              '\
-                <p>{{i18n code="consent.required.description" bundle="login"}}</p>\
-              '
-            ),
-          }),
-        }),
-      ];
+          consentRequiredDescription
+        ];
+      }
     },
   },
   Footer: View.extend({
