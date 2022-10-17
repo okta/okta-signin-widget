@@ -163,6 +163,7 @@ export default class BaseFormObject {
   }
 
   getSaveButtonLabel() {
+    // in v3 buttons dont have a value prop
     if (userVariables.v3) {
       return within(this.el).getByRole('button').textContent;
     }

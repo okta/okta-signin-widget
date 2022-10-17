@@ -3,7 +3,6 @@ import { Selector, ClientFunction, userVariables } from 'testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
-const CANCEL_LINK_TEXT = 'Back to sign in';
 const SKIP_LINK = '.auth-footer .js-skip';
 const SKIP_SET_UP_LINK = '.auth-footer .js-skip-setup';
 const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
@@ -101,12 +100,13 @@ export default class BasePageObject {
     return this.form.getElement(ionMessagesSelector).innerText;
   }
 
-
+  // in v3 all Cancel links use the same wording
   getCancelLink() {
-    return this.form.getLink(CANCEL_LINK_TEXT);
+    return this.form.getLink('Back to sign in');
   }
-  
+
   // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   async signoutLinkExists() {
     if(userVariables.v3){
       return this.getCancelLink().exists;
@@ -115,14 +115,20 @@ export default class BasePageObject {
     return elCount === 1;
   }
 
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   getSignoutLinkText() {
     return this.getCancelLink().textContent;
   }
 
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   async clickSignOutLink() {
     await this.t.click(this.getCancelLink());
   }
 
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   async goBackLinkExists() {
     if(userVariables.v3) {
       return this.getCancelLink().exists;
@@ -131,10 +137,14 @@ export default class BasePageObject {
     return elCount === 1;
   }
 
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   getGoBackLinkText() {
     return this.getCancelLink().textContent;
   }
 
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   async clickGoBackLink() {
     await this.t.click(this.getCancelLink());
   }
