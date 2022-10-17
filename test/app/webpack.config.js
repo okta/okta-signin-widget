@@ -7,8 +7,7 @@ ENV.config();
 const DEV_SERVER_PORT = 3000;
 
 const WORKSPACE_ROOT = path.resolve(__dirname, '../..');
-const CROSS_BROWSER = process.env.TARGET === 'CROSS_BROWSER';
-const BUNDLE = process.env.BUNDLE || 'default';
+const { DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET } = process.env;
 
 let WIDGET_JS = BUNDLE === 'default' ? 'js/okta-sign-in.js' : `js/okta-sign-in.${BUNDLE}.js`;
 if (CROSS_BROWSER) {
@@ -17,7 +16,9 @@ if (CROSS_BROWSER) {
 
 const webpackConfig = {
   mode: 'development',
-  entry: path.resolve(__dirname, 'src/index.ts'),
+  entry: [
+    path.resolve(__dirname, 'src/index.ts')
+  ],
   output: {
     filename: '[name].bundle.js',
     path: path.join(__dirname, 'dist'),
@@ -62,14 +63,21 @@ const webpackConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       template: `!!handlebars-loader!${path.resolve(__dirname, 'index.hbs')}`,
-      templateParameters: {
-        CROSS_BROWSER: process.env.TARGET === 'CROSS_BROWSER',
-        WIDGET_JS
-      },
+      templateParameters: {},
       inject: false,
     }),
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(ENV.getValues())
+      // Replaces "process.env" with an object literal
+      'process.env': JSON.stringify({
+        // includes values in env.defaults
+        ...ENV.getValues(), 
+
+        // additional env vars recognized
+        DIST_ESM,
+        BUNDLE,
+        USE_MIN,
+        USE_POLYFILL
+      })
     }),
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
@@ -81,9 +89,16 @@ const webpackConfig = {
 
 // By default it serves the dev bundle from target directory
 // With env var set, run against built ESM module in dist folder
-if (process.env.DIST_ESM) {
+if (DIST_ESM) {
   webpackConfig.resolve.alias['./getOktaSignIn'] = './getOktaSignInFromNPM';
   webpackConfig.resolve.alias['@okta/okta-signin-widget'] = path.resolve(WORKSPACE_ROOT, 'dist/');
+}
+
+if (TARGET === 'CROSS_BROWSER') {
+  // Promise is used by this test app
+  // include Promise polyfill for IE
+  // the widget has its own polyfill for the features it uses
+  webpackConfig.entry.unshift('core-js/es/promise');
 }
 
 module.exports = webpackConfig;

@@ -10,17 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OktaAuthOptions } from '@okta/okta-auth-js';
+import type { WidgetOptions } from '@okta/okta-signin-widget';
 
 export type UnknownFn = (args?: unknown) => unknown;
 export interface Config {
-  issuer?: string;
-  baseUrl?: string;
-  clientId?: string;
-  redirectUri?: string;
-  authParams?: OktaAuthOptions;
-  flow?: string;
-  useClassicEngine?: boolean;
+  bundle?: string;
+  useMinBundle?: boolean;
+  usePolyfill?: boolean;
+  useBundledWidget?: boolean;
+  widgetOptions?: WidgetOptions
 }
 
 // https://github.com/microsoft/TypeScript/issues/36217

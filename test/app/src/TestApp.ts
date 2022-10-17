@@ -1,5 +1,5 @@
-import { AuthSdkError, OAuthResponseMode, OktaAuth, TokenResponse, Tokens } from '@okta/okta-auth-js';
-import OktaSignIn, { RenderResult, RenderResultSuccess } from '@okta/okta-signin-widget';
+import type { AuthSdkError, OAuthResponseMode, OktaAuth, TokenResponse, Tokens } from '@okta/okta-auth-js';
+import type { OktaSignIn, RenderResult, RenderResultSuccess, WidgetOptions } from '@okta/okta-signin-widget';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import getOktaSignIn from './getOktaSignIn';
@@ -9,8 +9,7 @@ import {
   getConfigFromStorage,
   getDefaultConfig
 } from './config';
-import { Config } from './types';
-
+import { loadPolyfill, loadWidgetScript } from './util';
 
 const ActionsTemplate = `
   <div id="actions-container" class="pure-menu">
@@ -148,7 +147,7 @@ export default class TestApp {
   cspErrorsContainer: HTMLElement;
   oidcErrorContainer: HTMLElement;
 
-  bootstrap(rootElem: Element): void {
+  async bootstrap(rootElem: Element): Promise<void> {
     rootElem.innerHTML = LayoutTemplate;
 
     // set elements
@@ -183,7 +182,13 @@ export default class TestApp {
     }
 
     this.configArea = new ConfigArea();
-    this.configArea.bootstrap();
+    const config = this.configArea.bootstrap();
+    if (config.usePolyfill) {
+      await loadPolyfill(config.useMinBundle);
+    }
+    if (!config.useBundledWidget) {
+      await loadWidgetScript(config.bundle, config.useMinBundle);
+    }
   }
 
   renderError(err?: Error): void {
@@ -212,8 +217,8 @@ export default class TestApp {
 
     // actions
     this.startButton.addEventListener('click', async () => {
-      const config = this.getConfig();
-      this.oktaSignIn = await getOktaSignIn(config);
+      const options = this.getWidgetOptions();
+      this.oktaSignIn = await getOktaSignIn(options);
       this.oktaSignIn.renderEl({
         el: '#okta-login-container'
       }, (res: RenderResult) => {
@@ -222,7 +227,7 @@ export default class TestApp {
             this.setTokens(res.tokens);
             this.oktaSignIn.remove();
           } else if (res.session) {
-            const baseUrl = getBaseUrl(config);
+            const baseUrl = getBaseUrl(options);
             res.session.setCookieAndRedirect(baseUrl + '/app/UserHome');
           }
         }
@@ -239,8 +244,8 @@ export default class TestApp {
       this.oktaSignIn = null;
     });
     this.showSignInButton.addEventListener('click', async () => {
-      const config = this.getConfig();
-      this.oktaSignIn = await getOktaSignIn(config);
+      const options = this.getWidgetOptions();
+      this.oktaSignIn = await getOktaSignIn(options);
       this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: RenderResultSuccess) => {
         if (res.tokens) {
           this.setTokens(res.tokens);
@@ -249,12 +254,12 @@ export default class TestApp {
       });
     });
     this.showSignInAndRedirectButton.addEventListener('click', async () => {
-      const config = this.getConfig();
-      this.oktaSignIn = await getOktaSignIn(config);
+      const options = this.getWidgetOptions();
+      this.oktaSignIn = await getOktaSignIn(options);
       this.oktaSignIn.showSignInAndRedirect({ el: '#okta-login-container' });
     });
     this.showSignInToGetTokensButton.addEventListener('click', async () => {
-      const config = this.getConfig();
+      const config = this.getWidgetOptions();
       this.oktaSignIn = await getOktaSignIn(config);
       this.oktaSignIn.showSignInToGetTokens({ el: '#okta-login-container' }).then((tokens: Tokens) => {
         this.setTokens(tokens);
@@ -262,8 +267,8 @@ export default class TestApp {
       });
     });
     this.renderElButton.addEventListener('click', async () => {
-      const config = this.getConfig();
-      this.oktaSignIn = await getOktaSignIn(config);
+      const options = this.getWidgetOptions();
+      this.oktaSignIn = await getOktaSignIn(options);
       this.oktaSignIn.renderEl(
         { el: '#okta-login-container' },
         (res: RenderResult) => {
@@ -291,32 +296,32 @@ export default class TestApp {
     });
     this.clearTransaction.addEventListener('click', async () => {
       if (!this.oktaSignIn) {
-        const config = this.getConfig();
-        this.oktaSignIn = await getOktaSignIn(config);
+        const options = this.getWidgetOptions();
+        this.oktaSignIn = await getOktaSignIn(options);
       }
       this.oktaSignIn.authClient.transactionManager.clear();
     });
     this.signOutButton.addEventListener('click', async () => {
       if (!this.oktaSignIn) {
-        const config = this.getConfig();
-        this.oktaSignIn = await getOktaSignIn(config);
+        const options = this.getWidgetOptions();
+        this.oktaSignIn = await getOktaSignIn(options);
       }
       this.oktaSignIn.authClient.signOut();
     });
   }
 
-  getConfig(): Config {
-    let config;
+  getWidgetOptions(): WidgetOptions {
+    let options: WidgetOptions;
     try {
-      config = JSON.parse(this.configPreview.innerHTML);
+      options = JSON.parse(this.configPreview.innerHTML);
     } catch (err) {
       throw new Error('Config need to be set in config editor before rendering the widget');
     }
     // loading assets from CDN will fail when running tests on an unpublished (to npm) siw version
-    config.assets = {
+    options.assets = {
       baseUrl: '/'
     };
-    return config;
+    return options;
   }
 
   setTokens(tokens: Tokens): void {
@@ -339,6 +344,14 @@ export default class TestApp {
     });
 
     const config = getConfigFromStorage() || getDefaultConfig();
+    if (config.usePolyfill) {
+      await loadPolyfill(config.useMinBundle);
+    }
+    if (!config.useBundledWidget) {
+      await loadWidgetScript(config.bundle, config.useMinBundle);
+    }
+
+    const widgetOptions = config.widgetOptions;
 
     // auto-detect responseMode
     let responseMode;
@@ -348,18 +361,18 @@ export default class TestApp {
       responseMode = 'fragment';
     }
     if (responseMode) {
-      config.authParams = config.authParams || {};
-      config.authParams.responseMode = responseMode as OAuthResponseMode;
+      widgetOptions.authParams = widgetOptions.authParams || {};
+      widgetOptions.authParams.responseMode = responseMode as OAuthResponseMode;
     }
 
     // get authClient
-    const oktaSign = getOktaSignIn(config);
+    const oktaSign = getOktaSignIn(widgetOptions);
     const authClient = oktaSign.authClient;
 
     // email verify callback
     if (authClient.idx.isEmailVerifyCallback(window.location.search)) {
       const { state, otp } = authClient.idx.parseEmailVerifyCallback(window.location.search);
-      this.oktaSignIn = await getOktaSignIn({ ...config, state, otp });
+      this.oktaSignIn = await getOktaSignIn({ ...config.widgetOptions, state, otp });
       this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: RenderResultSuccess) => {
         if (res.tokens) {
           this.setTokens(res.tokens);

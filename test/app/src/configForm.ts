@@ -10,13 +10,33 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { removeNils } from '@okta/okta-auth-js';
+import type { FlowIdentifier } from '@okta/okta-auth-js';
+import { removeNils } from './util'
 import { getBaseUrl, getIssuer } from './config';
 import { Config } from './types';
 
 const id = 'config-form';
 export const ConfigForm = `
   <div id="${id}" class="pure-form pure-form-aligned">
+    <div class="pure-control-group">
+      <label for="bundle">Bundle</label>
+      <select id="f_bundle" name="bundle">
+        <option value="default">default</option>
+        <option value="classic">classic</option>
+        <option value="oie">oie</option>
+        <option value="no-polyfill">no-polyfill</option>
+      </select>
+    </div>
+    <div class="pure-control-group">
+      <label for="useMinBundle">Use minified bundle</label>
+      <input id="f_useMinBundle-on" name="useMinBundle" type="radio" value="true"/>YES
+      <input id="f_useMinBundle-off" name="useMinBundle" type="radio" value="false"/>NO
+    </div>
+    <div class="pure-control-group">
+      <label for="usePolyfill">Use polyfill</label>
+      <input id="f_usePolyfill-on" name="usePolyfill" type="radio" value="true"/>YES
+      <input id="f_usePolyfill-off" name="usePolyfill" type="radio" value="false"/>NO
+    </div>
     <div class="pure-control-group">
       <label for="issuer">Issuer</label><input id="f_issuer" name="issuer" type="text" />
     </div>
@@ -46,31 +66,66 @@ export const ConfigForm = `
 `;
 
 export function getConfigFromForm(): Config {
+  const bundle = (document.querySelector('#f_bundle') as HTMLSelectElement).value;
+  const useMinBundle = (document.getElementById('f_useMinBundle-on') as HTMLInputElement).checked;
+  const usePolyfill = (document.getElementById('f_usePolyfill-on') as HTMLInputElement).checked;
+
+  // Widget options
   const issuer = (document.getElementById('f_issuer') as HTMLInputElement).value;
   const redirectUri = (document.getElementById('f_redirectUri') as HTMLInputElement).value;
   const clientId = (document.getElementById('f_clientId') as HTMLInputElement).value;
   const useClassicEngine = (document.getElementById('f_useClassicEngine-on') as HTMLInputElement).checked;
-  const flow = (document.querySelector('#f_flow') as HTMLSelectElement).value;
-  const config: Config = {
+  const flow = (document.querySelector('#f_flow') as HTMLSelectElement).value as FlowIdentifier;
+
+  const widgetOptions = {
     issuer,
     clientId,
     redirectUri,
     useClassicEngine,
     flow
   }
+
+  const config: Config = {
+    bundle,
+    useMinBundle,
+    usePolyfill,
+    widgetOptions
+  };
+
   return removeNils(config) as Config;
 }
 
 export function updateFormFromConfig(config: Config): void {
-  const baseUrl = getBaseUrl(config);
-  const issuer = getIssuer(config);
-  const flow = config.flow || 'default';
+  const { bundle, useBundledWidget, widgetOptions } = config;
+  const { useMinBundle, usePolyfill } = config;
 
+  // Widget options
+  const baseUrl = getBaseUrl(widgetOptions);
+  const issuer = getIssuer(widgetOptions);
+  const flow = widgetOptions.flow || 'default';
+
+  (document.querySelector(`#f_bundle`) as HTMLOptionElement).value = bundle;
+  
+  if (useMinBundle) {
+    (document.getElementById('f_useMinBundle-on') as HTMLInputElement).checked = true;
+  } else {
+    (document.getElementById('f_useMinBundle-off') as HTMLInputElement).checked = true;
+  }
+  if (usePolyfill) {
+    (document.getElementById('f_usePolyfill-on') as HTMLInputElement).checked = true;
+  } else {
+    (document.getElementById('f_usePolyfill-off') as HTMLInputElement).checked = true;
+  }
+  if (useBundledWidget) {
+    (document.querySelector(`#f_bundle`) as HTMLOptionElement).disabled = true;
+    (document.getElementById('f_useMinBundle-on') as HTMLInputElement).disabled = true;
+    (document.getElementById('f_useMinBundle-off') as HTMLInputElement).disabled = true;
+  }
   (document.getElementById('f_issuer') as HTMLInputElement).value = issuer || (baseUrl ? baseUrl + '/oauth2/default' : '');
-  (document.getElementById('f_redirectUri') as HTMLInputElement).value = config.redirectUri;
-  (document.getElementById('f_clientId') as HTMLInputElement).value = config.clientId;
+  (document.getElementById('f_redirectUri') as HTMLInputElement).value = widgetOptions.redirectUri;
+  (document.getElementById('f_clientId') as HTMLInputElement).value = widgetOptions.clientId;
  
-  if (config.useClassicEngine) {
+  if (widgetOptions.useClassicEngine) {
     (document.getElementById('f_useClassicEngine-on') as HTMLInputElement).checked = true;
   } else {
     (document.getElementById('f_useClassicEngine-off') as HTMLInputElement).checked = true;

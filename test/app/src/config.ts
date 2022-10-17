@@ -11,64 +11,102 @@
  */
 
 
-import { removeNils, toQueryString } from '@okta/okta-auth-js';
-import { Config } from './types';
+import { parseUrlParams, removeNils, toQueryString } from './util';
 import { CALLBACK_PATH, STORAGE_KEY, MOUNT_PATH } from './constants';
+import type { WidgetOptions } from '@okta/okta-signin-widget';
+import { Config } from './types';
 const HOST = window.location.host;
 const PROTO = window.location.protocol;
 const REDIRECT_URI = `${PROTO}//${HOST}${CALLBACK_PATH}`;
 
 
-export function configToString(config: Config): string{
-  return JSON.stringify(config, null, 2);
+export function formatWidgetOptions(options: WidgetOptions): string{
+  return JSON.stringify(options, null, 2);
 }
 
 export function getIssuerOrigin(issuer: string): string {
   return issuer?.split('/oauth2/')[0];
 }
 
-export function getBaseUrl(config: Config): string {
-  const baseUrl = config.baseUrl;
+export function getBaseUrl(options: WidgetOptions): string {
+  const baseUrl = options.baseUrl;
   if (baseUrl) {
     return baseUrl;
   }
-  const issuer = config.issuer || config.authParams?.issuer;
+  const issuer = options.issuer || options.authParams?.issuer;
   if (issuer) {
     return getIssuerOrigin(issuer);
   }
 }
 
-export function getIssuer(config: Config): string {
-  return config.issuer || config.authParams?.issuer;
+export function getIssuer(options: WidgetOptions): string {
+  return options.issuer || options.authParams?.issuer;
 }
 
 export function getDefaultConfig(): Config {
-  const ISSUER = process.env.ISSUER || process.env.WIDGET_TEST_SERVER + '/oauth2/default';
-  const CLIENT_ID = process.env.CLIENT_ID || process.env.WIDGET_SPA_CLIENT_ID;
+  const {
+    WIDGET_TEST_SERVER,
+    WIDGET_SPA_CLIENT_ID,
+    BUNDLE, USE_MIN,
+    ISSUER, CLIENT_ID,
+    USE_POLYFILL,
+    DIST_ESM
+  } = process.env;
+
+  const bundle = BUNDLE || 'default';
+  const useMinBundle = !!USE_MIN;
+  const usePolyfill = !!USE_POLYFILL;
+  const useBundledWidget = !!DIST_ESM;
+  const issuer = ISSUER || WIDGET_TEST_SERVER + '/oauth2/default';
+  const clientId = CLIENT_ID || WIDGET_SPA_CLIENT_ID;
+  const redirectUri = REDIRECT_URI;
 
   const config: Config = {
-    issuer: ISSUER,
-    clientId: CLIENT_ID,
-    redirectUri: REDIRECT_URI,
-    useClassicEngine: false
+    bundle,
+    useMinBundle,
+    usePolyfill,
+    useBundledWidget,
+    widgetOptions: {
+      issuer,
+      clientId,
+      redirectUri,
+      useClassicEngine: false
+    }
   };
   return removeNils(config) as Config;
 }
 
+export function extendConfig(baseConfig: Config, extraConfig: Config): Config {
+  const widgetOptions = {
+    ...baseConfig.widgetOptions,
+    ...extraConfig.widgetOptions,
+  };
+  const config = {
+    ...baseConfig,
+    ...extraConfig,
+    widgetOptions
+  };
+  return config;
+}
+
 // eslint-disable-next-line complexity
 export function getConfigFromUrl(): Config {
-  const url = new URL(window.location.href);
-  const configJSON = url.searchParams.get('config');
+  const params = parseUrlParams(window.location.href);
+
+  if (!params.config) {
+    return;
+  }
+
   let config;
   try {
-    config = JSON.parse(configJSON);
+    config = JSON.parse(params.config);
   } catch (e) { /* ignore errors */ }
 
-  if (!config || !config.baseUrl) {
+  if (!config || Object.keys(config).length === 0) {
     return null;
   }
 
-  return config as Config;
+  return extendConfig(getDefaultConfig(), config as Config);
 }
 
 export function updateConfigInUrl(config: Config): void {

@@ -11,6 +11,16 @@
  */
 import { UnknownFn } from './types';
 
+export function parseUrlParams(url: string): Record<string, string> {
+  // new URL is not supported in IE11
+  const params: Record<string, string> = {};
+  url.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+    function(_, key, value) {
+        return params[key] = decodeURIComponent(value);
+    });
+  return params;
+}
+
 export function htmlString(obj: Record<string, string>): string {
   return JSON.stringify(obj, null, 2).replace(/\n/g, '<br/>').replace(/ /g, '&nbsp;');
 }
@@ -34,10 +44,80 @@ export function toQueryString(obj: Record<string, string>): string {
   }
 }
 
+export function removeNils(obj: any) {
+  const cleaned = {} as any;
+  for (const prop in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+      const value = obj[prop];
+      if (value !== null && value !== undefined) {
+        cleaned[prop] = value;
+      }
+    }
+  }
+  return cleaned;
+}
 
 export function makeClickHandler(fn: UnknownFn): UnknownFn {
   return function(event: Event) {
     event && event.preventDefault(); // prevent navigation / page reload
     return fn();
   };
+}
+
+export async function loadScript(id: string, url: string) {
+  return new Promise((resolve, reject) => {
+    const scriptTag = document.createElement('script');
+    scriptTag.src = url;
+    scriptTag.id = 'widget-bundle';
+    scriptTag.async = true;
+    scriptTag.addEventListener('load', () => {
+      resolve(scriptTag);
+    });
+    scriptTag.addEventListener('error', (err) => {
+      reject(err);
+    });
+    document.body.appendChild(scriptTag);
+  });
+}
+
+export async function loadWidgetScript(bundle: string, minified: boolean) {
+  const existingEl = document.getElementById('widget-bundle') as HTMLScriptElement;
+
+  let url = `${window.location.origin}/js/okta-sign-in`;
+  if (bundle !== 'default') {
+    url += `.${bundle}`;
+  }
+  if (minified) {
+    url += '.min';
+  }
+  url += '.js';
+
+  if (!existingEl || existingEl.src !== url) {
+    existingEl && existingEl.parentElement.removeChild(existingEl);
+
+    await loadScript('widget-bundle', url);
+  }
+}
+
+export async function loadPolyfill(minified: boolean) {
+  const existingEl = document.getElementById('widget-polyfill') as HTMLScriptElement;
+
+  let url = `${window.location.origin}/js/okta-sign-in.polyfill`;
+  if (minified) {
+    url += '.min';
+  }
+  url += '.js';
+
+  if (!existingEl || existingEl.src !== url) {
+    existingEl && existingEl.parentElement.removeChild(existingEl);
+    await loadScript('widget-polyfill', url);
+  }
+}
+
+// This will probably not remove the side effects of the polyfill
+export function removePolyfill() {
+  const existingEl = document.getElementById('widget-polyfill') as HTMLScriptElement;
+  if (existingEl) {
+    existingEl.parentElement.removeChild(existingEl);
+  }
 }

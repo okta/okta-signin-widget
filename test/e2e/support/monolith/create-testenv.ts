@@ -75,6 +75,12 @@ async function bootstrap() {
     status : 'ACTIVE'
   });
 
+  const spaProfileEnrollmentPolicy = await oktaClient.createPolicy({
+    name: 'Widget SPA Profile Enrollment Policy',
+    type: 'PROFILE_ENROLLMENT',
+    status : 'ACTIVE'
+  });
+
   // Modify catch-all rule to enforce password only
   const catchAll = await getCatchAllRule(config, spaPolicy.id);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -132,7 +138,8 @@ async function bootstrap() {
       'ENG_EMAIL_MAGIC_LINK_OOB_AUTHENTICATOR_FLOWS',
       'ACCOUNT_LOCKOUT_USER_EMAIL',
       'ENG_ENABLE_SSU_FOR_OIE',
-      'ENG_OIE_TERMINAL_SSPR_FOR_MAGIC_LINK'
+      'ENG_OIE_TERMINAL_SSPR_FOR_MAGIC_LINK',
+      'OKTA_MFA_POLICY'
     ],
     disableFFs: [
       'REQUIRE_PKCE_FOR_OIDC_APPS'
@@ -246,6 +253,9 @@ async function bootstrap() {
   // Assign sign-on policy to SPA app
   setPolicyForApp(config, spaApp.id, spaPolicy.id);
 
+  // Assign profile enrollment policy to SPA app
+  setPolicyForApp(config, spaApp.id, spaProfileEnrollmentPolicy.id);
+
   // Delete users if they exist
   await oktaClient.listUsers().each(async (user) => {
     for (const option of options.users) {
@@ -274,6 +284,28 @@ async function bootstrap() {
     });
   }
   // User 2 not assigned to app
+
+
+  // Activate phone authenticator
+  const authenticators = await oktaClient.listAuthenticators();
+
+  await authenticators.each(async (item) => {
+    if (item.type === 'phone') {
+      let phoneAuthenticator = item;
+      phoneAuthenticator = await oktaClient.activateAuthenticator(phoneAuthenticator.id);
+
+      phoneAuthenticator = await oktaClient.updateAuthenticator(phoneAuthenticator.id, {
+        name: phoneAuthenticator.name,
+        settings: {
+          allowedFor: 'any'
+        }
+      });
+
+      // For some reason, deactivating and activating again makes phone "OPTIONAL" (If not, it's "DISABLED")
+      await oktaClient.deactivateAuthenticator(phoneAuthenticator.id);
+      await oktaClient.activateAuthenticator(phoneAuthenticator.id);
+    }
+  });
 
   const output = {
     OKTA_CLIENT_TOKEN: config.token,

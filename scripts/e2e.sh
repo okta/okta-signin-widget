@@ -21,12 +21,26 @@ export WIDGET_SPA_CLIENT_ID=0oa8lrg7ojTsbJgRQ696
 export WIDGET_WEB_CLIENT_ID=0oa8ls36zUZj7oFJ2696
 
 export ORG_OIE_ENABLED=true
+export USE_MIN=1
 
 # Build
 if ! yarn build:release; then
   echo "build failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
+
+# Sanity check bundles
+export CDN_ONLY=1
+export USE_MIN=1
+export BUNDLE="no-polyfill"
+echo "Testing no-polyfill bundle"
+if ! yarn test:e2e; then
+  echo "e2e bundle tests failed! Exiting..."
+  exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+fi
+unset CDN_ONLY
+unset USE_MIN
+unset BUNDLE
 
 # Run spec tests
 if ! yarn test:e2e; then
