@@ -20,6 +20,10 @@ import { waitForLoad } from '../util/waitUtil';
 import A18nClient from '../support/a18nClient';
 import createCredentials from '../support/management-api/createCredentials'
 import createUser from '../support/management-api/createUser'
+import createApp from '../support/management-api/createApp'
+import createGroup from '../support/management-api/createGroup';
+import assignAppToGroup from '../support/management-api/assignAppToGroup';
+
 
 let MonolithClient: any;
 if (process.env.LOCAL_MONOLITH) {
@@ -63,19 +67,42 @@ Given(
 );
 
 Given(
-  /^an App configured to use v1 authn flow$/,
+  /^an App ("[\w\s]+")?\s?configured to use v1 authn flow$/,
   // eslint-disable-next-line no-unused-vars
-  async function(this: ActionContext) {
-    // eslint-disable-next-line max-len
-    console.log(JSON.stringify(basicConfig)); // for manual testing in browser
+  async function (this: ActionContext, appName?: string) {
+    const config = { ...basicConfig };
+    console.log(JSON.stringify(config)); // for manual testing in browser
+    if (appName) {
+      if (process.env.LOCAL_MONOLITH) {
+        // this.monolithClient = new MonolithClient();
+        // this.app = await this.monolithClient!.createApplication();
+      } else {
+        this.app = await createApp({ appType: 'browser' });
+        config.clientId = this.app.id;
+      }
+    }
     await TestAppPage.open();
-    return await TestAppPage.setConfig(basicConfig);
+    return await TestAppPage.setConfig(config);
   }
 );
 
 Given(
-  /^a User named "([^/w]+)" exists in the org$/,
-  async function(this: ActionContext, firstName: string) {
+  /^a group ("[\w\s]+") is assigned to this app$/,
+  // eslint-disable-next-line no-unused-vars
+  async function (this: ActionContext, groupName?: string) {
+    if (process.env.LOCAL_MONOLITH) {
+      // this.monolithClient = new MonolithClient();
+      // this.app = await this.monolithClient!.createGroup();
+    } else {
+      this.group = await createGroup(groupName);
+      assignAppToGroup(this.app.id, this.group.id)
+    }
+  }
+);
+
+Given(
+  /^a User named "([\w\s]+)" exists in the org$/,
+  async function (this: ActionContext, firstName: string) {
     if (process.env.LOCAL_MONOLITH) {
       this.monolithClient = new MonolithClient();
       this.credentials = await this.monolithClient!.createCredentials(firstName);
@@ -102,7 +129,7 @@ Given(
 
 Given(
   /^a User named "([^/w]+)" exists in the org and added to "([^/w]+)" group$/,
-  async function(this: ActionContext, firstName: string, groupName: string) {
+  async function (this: ActionContext, firstName: string, groupName: string) {
     if (process.env.LOCAL_MONOLITH) {
       this.monolithClient = new MonolithClient();
       this.credentials = await this.monolithClient!.createCredentials(firstName);
@@ -147,7 +174,6 @@ Given(
   }
 );
 
-
 Given(
   /^state parameter is set in the widget config$/,
   // eslint-disable-next-line no-unused-vars
@@ -180,7 +206,7 @@ Given(
       ...interactionCodeFlowconfig,
       colors: {
         brand: '#008000'
-      }, 
+      },
       i18n: {
         en: {
           'primaryauth.title': 'Sign In to Acme'
@@ -193,8 +219,3 @@ Given(
     await waitForLoad(TestAppPage.widget);
   }
 );
-
-
-
-
-

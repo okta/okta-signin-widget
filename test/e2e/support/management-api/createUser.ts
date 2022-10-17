@@ -42,7 +42,7 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
         login: credentials.emailAddress
       },
       credentials: {
-        password : { value: credentials.password }
+        password: { value: credentials.password }
       }
     }, {
       activate: true
@@ -56,7 +56,7 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
     }
 
     // Create the group if it doesn't exist
-    let {value: testGroup} = await oktaClient.listGroups({
+    let { value: testGroup } = await oktaClient.listGroups({
       q: userGroup
     }).next();
 
@@ -65,10 +65,10 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
     }
 
     await oktaClient.addUserToGroup((testGroup as Group).id, user.id);
-    
+
     for (const groupName of assignToGroups) {
       // TODO: create test group and attach password recovery policy during test run when API supports it
-      let {value: testGroup} = await oktaClient.listGroups({
+      let { value: testGroup } = await oktaClient.listGroups({
         q: groupName
       }).next();
 

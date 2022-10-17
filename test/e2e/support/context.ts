@@ -11,11 +11,11 @@
  */
 
 
-import { User } from '@okta/okta-sdk-nodejs';
+import { Application, Group, User } from '@okta/okta-sdk-nodejs';
 import { ITestCaseHookParameter } from '@cucumber/cucumber'
 import { UserCredentials } from '../support/management-api/createCredentials';
 import { A18nConfig } from './a18nClient';
-import A18nClient  from './a18nClient';
+import A18nClient from './a18nClient';
 
 // eslint-disable-next-line no-unused-vars
 declare type SaveScreenshotFunction = (fileName?: string) => Promise<void>;
@@ -23,6 +23,8 @@ declare type SaveScreenshotFunction = (fileName?: string) => Promise<void>;
 interface ActionContext {
   credentials: UserCredentials;
   user: User;
+  app: Application;
+  group: Group;
   userName?: string;
   config: A18nConfig;
   a18nClient?: A18nClient;

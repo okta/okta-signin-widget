@@ -137,6 +137,12 @@ class TestAppPage {
     });
   }
 
+  async assertWidgetSigninError(errorMessage) {
+    await PrimaryAuthPage.errorBox.then(el => el.getText()).then(txt => {
+      expect(txt).toBe(errorMessage);
+    });
+  }
+
 }
 
 export default new TestAppPage();
