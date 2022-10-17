@@ -14,7 +14,7 @@ import {
   AuthApiError,
   IdxActionParams,
   IdxMessage,
-  IdxTransaction 
+  IdxTransaction,
 } from '@okta/okta-auth-js';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
