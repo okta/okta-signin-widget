@@ -1,6 +1,8 @@
 import BaseFormObject from './components/BaseFormObject';
-import { Selector, ClientFunction } from 'testcafe';
+import { Selector, ClientFunction, userVariables } from 'testcafe';
 
+const SIGNOUT_LINK = '.auth-footer .js-cancel';
+const GO_BACK_LINK = '.auth-footer .js-go-back';
 const CANCEL_LINK_TEXT = 'Back to sign in';
 const SKIP_LINK = '.auth-footer .js-skip';
 const SKIP_SET_UP_LINK = '.auth-footer .js-skip-setup';
@@ -103,8 +105,12 @@ export default class BasePageObject {
     return this.form.getLink(CANCEL_LINK_TEXT);
   }
 
-  signoutLinkExists() {
-    return this.getCancelLink().exists;
+  async signoutLinkExists() {
+    if(userVariables.v3){
+      return this.getCancelLink().exists;
+    }
+    const elCount = await Selector(SIGNOUT_LINK).count;
+    return elCount === 1;
   }
 
   getSignoutLinkText() {
@@ -115,8 +121,12 @@ export default class BasePageObject {
     await this.t.click(this.getCancelLink());
   }
 
-  goBackLinkExists() {
-    return this.getCancelLink().exists;
+  async goBackLinkExists() {
+    if(userVariables.v3) {
+      return this.getCancelLink().exists;
+    }
+    const elCount = await Selector(GO_BACK_LINK).count;
+    return elCount === 1;
   }
 
   getGoBackLinkText() {
