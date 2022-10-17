@@ -92,7 +92,7 @@ export const transformStepInputs = (
       acc.uischema.elements = [...acc.uischema.elements, uischema];
 
       if (type === 'boolean' && required) {
-        acc.data[name] = Boolean(input.value);
+        acc.data[name] = (input.value as unknown as boolean) === true;
       }
 
       // add client validation for "required" field

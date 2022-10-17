@@ -143,7 +143,7 @@ export interface FieldElement extends UISchemaElement {
   type: 'Field';
   key: string;
   /**
-   * @description TODO: temporary solution for custom fields in profile enrollment
+   * @description TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
    */
   required?: boolean | undefined;
   options: {

@@ -92,7 +92,7 @@ export const updateCustomFields: TransformStepFn = (formbag) => {
   return formbag;
 };
 
-// TODO: temporary solution for custom fields in profile enrollment
+// TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
 export const updateRequiredFields: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
   const { nextStep: { name } = {} } = transaction;
   if (name !== IDX_STEP.ENROLL_PROFILE) {
