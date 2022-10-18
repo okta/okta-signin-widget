@@ -66,6 +66,7 @@ const updateRegularButtons: TransformStepFn = (formbag) => {
     'currentAuthenticatorEnrollment-recover': 'forgot-password',
     'unlock-account': 'unlock',
     cancel: 'cancel',
+    skip: 'skip',
     'select-identify': 'back',
     'select-authenticator-authenticate': 'switchAuthenticator',
     'select-authenticator-enroll': 'switchAuthenticator',

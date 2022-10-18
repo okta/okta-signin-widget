@@ -21,6 +21,7 @@ import {
   FieldElement,
   FormBag,
   HiddenInputElement,
+  LinkElement,
   PasswordRequirementsElement,
   TitleElement,
   WidgetProps,
@@ -380,13 +381,9 @@ describe('Expired Password Warning Authenticator Transformer Tests', () => {
       .toBe(ButtonType.SUBMIT);
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).options.step)
       .toBe('reenroll-authenticator-warning');
-    expect((updatedFormBag.uischema.elements[6] as ButtonElement).label)
+    expect((updatedFormBag.uischema.elements[6] as LinkElement).options.label)
       .toBe('password.expiring.later');
-    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options.step)
+    expect((updatedFormBag.uischema.elements[6] as LinkElement).options.step)
       .toBe('skip');
-    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options.type)
-      .toBe(ButtonType.BUTTON);
-    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options.variant)
-      .toBe('floating');
   });
 });

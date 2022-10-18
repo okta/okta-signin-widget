@@ -16,6 +16,7 @@ import {
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
+  LinkElement,
   PasswordSettings,
   TitleElement,
 } from '../../types';
@@ -85,17 +86,15 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
   const skipStep = availableSteps?.find(({ name }) => name === 'skip' );
   if (skipStep) {
     const { name: step } = skipStep;
-    const skipBtnElement: ButtonElement = {
-      type: 'Button',
-      label: loc('password.expiring.later', 'login'),
+    const skipLinkEle: LinkElement = {
+      type: 'Link',
       options: {
-        type: ButtonType.BUTTON,
-        variant: 'floating',
-        wide: false,
+        label: loc('password.expiring.later', 'login'),
         step,
+        isActionStep: false,
       },
     };
-    uischema.elements.push(skipBtnElement);
+    uischema.elements.push(skipLinkEle);
   }
 
   return baseFormBag;
