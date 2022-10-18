@@ -194,6 +194,10 @@ export default class BaseFormObject {
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
+  hasErrorBox() {
+    return within(this.el).getByRole('alert').exists;
+  }
+
   getAllErrorBoxTexts() {
     return this.getInnerTexts(FORM_INFOBOX_ERROR);
   }

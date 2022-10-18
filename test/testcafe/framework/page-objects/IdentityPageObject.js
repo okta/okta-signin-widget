@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '[data-se="callout"]';
@@ -145,11 +145,14 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   hasUnknownUserErrorCallout() {
+    if(userVariables.v3) {
+      return this.form.hasErrorBox();
+    }
     return this.form.getCallout(CALLOUT_SELECTOR).hasClass('infobox-error');
   }
 
   getUnknownUserCalloutContent() {
-    return this.form.getCallout(CALLOUT_SELECTOR).textContent;
+    return this.form.getErrorBoxText();
   }
 
   getIdpButton(selector) {
