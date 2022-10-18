@@ -93,17 +93,19 @@ exports[`user-unlock-account renders form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-17"
+                    aria-describedby="okta_email_0-ctaLabel"
+                    aria-labelledby="okta_email_0-label"
+                    class="authenticator-row authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-10"
+                      class="authenticator-icon-container MuiBox-root emotion-10"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-okta-email MuiBox-root emotion-10"
+                        class="iconContainer mfa-okta-email authenticator-icon MuiBox-root emotion-10"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -141,21 +143,23 @@ exports[`user-unlock-account renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-10"
+                      class="authenticator-description infoSection MuiBox-root emotion-10"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-21"
                         data-se="authenticator-button-label"
+                        id="okta_email_0-label"
                       >
                         Email
                       </h3>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-10"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-10"
                         data-se="okta_email"
                       >
                         <span
-                          class="MuiBox-root emotion-23"
+                          class="button select-factor link-button MuiBox-root emotion-23"
                           data-se="cta-button-label"
+                          id="okta_email_0-ctaLabel"
                         >
                           Select
                         </span>
@@ -168,17 +172,19 @@ exports[`user-unlock-account renders form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-17"
+                    aria-describedby="phone_number_1-ctaLabel"
+                    aria-labelledby="phone_number_1-label"
+                    class="authenticator-row authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-10"
+                      class="authenticator-icon-container MuiBox-root emotion-10"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-okta-phone MuiBox-root emotion-10"
+                        class="iconContainer mfa-okta-phone authenticator-icon MuiBox-root emotion-10"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -226,21 +232,23 @@ exports[`user-unlock-account renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-10"
+                      class="authenticator-description infoSection MuiBox-root emotion-10"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-21"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-21"
                         data-se="authenticator-button-label"
+                        id="phone_number_1-label"
                       >
                         Phone
                       </h3>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-10"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-10"
                         data-se="phone_number"
                       >
                         <span
-                          class="MuiBox-root emotion-23"
+                          class="button select-factor link-button MuiBox-root emotion-23"
                           data-se="cta-button-label"
+                          id="phone_number_1-ctaLabel"
                         >
                           Select
                         </span>

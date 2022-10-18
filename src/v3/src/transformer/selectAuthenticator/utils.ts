@@ -84,7 +84,7 @@ const buildOktaVerifyOptions = (
     return [];
   }
 
-  return methodType.options.map((option) => {
+  return methodType.options.map((option: IdxOption, index: number) => {
     const authenticatorButton: AuthenticatorButtonElement = {
       type: 'AuthenticatorButton',
       label: option.label,
@@ -105,7 +105,7 @@ const buildOktaVerifyOptions = (
         includeData: true,
         includeImmutableData: false,
         dataSe: getAuthenticatorDataSeVal(AUTHENTICATOR_KEY.OV, option.value as string),
-        iconName: option.value === 'totp' ? 'oktaVerify' : 'oktaVerifyPush',
+        iconName: option.value === 'totp' ? `oktaVerify_${index}` : `oktaVerifyPush_${index}`,
         iconDescr: option.value === 'totp'
           ? loc('factor.totpSoft.description', 'login')
           : loc('factor.push.description', 'login'),

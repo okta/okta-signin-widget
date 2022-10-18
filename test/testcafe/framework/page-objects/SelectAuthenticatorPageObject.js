@@ -1,17 +1,7 @@
 import { Selector, userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
-const AUTHENTICATOR_BUTTON_SELECTOR = '[data-se="authenticator-button"]';
-const AUTHENTICATOR_BUTTON_LABEL_SELECTOR = '[data-se="authenticator-button-label"]';
-const AUTHENTICATOR_BUTTON_ICON_SELECTOR = '[data-se="authenticator-icon"] div';
-const AUTHENTICATOR_BUTTON_CTA_BUTTON_LABEL_SELECTOR = `${AUTHENTICATOR_BUTTON_SELECTOR} [data-se="cta-button-label"]`;
-const AUTHENTICATOR_BUTTON_CTA_BUTTON_SELECTOR = `${AUTHENTICATOR_BUTTON_SELECTOR} .cta-button`;
-const AUTHENTICATOR_BUTTON_DESCRIPTION_SELECTOR = '[data-se="authenticator-button-description"]';
-const AUTHENTICATOR_BUTTON_USAGE_TEXT_SELECTOR = '[data-se="authenticator-button-usage-text"]';
-const V3_CUSTOM_OTP_BUTTON_SELECTOR = `${AUTHENTICATOR_BUTTON_SELECTOR} [data-se="custom_otp"]`;
-const SKIP_OPTIONAL_ENROLLMENT_SELECTOR = '[data-type="save"]';
-
-const factorListRowSelector = '.authenticator-list .authenticator-row';
+const factorListRowSelector = userVariables.v3 ? '.authenticator-row' : '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
 const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
@@ -19,7 +9,6 @@ const factorCustomLogoSelector = `${factorListRowSelector} .authenticator-icon-c
 const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
 const factorUsageTextSelector = `${factorListRowSelector} .authenticator-usage-text`;
-const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
 const IDENTIFIER_FIELD = 'identifier';
@@ -31,8 +20,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorButton() {
-    const selector = userVariables.v3 ? AUTHENTICATOR_BUTTON_SELECTOR : factorListRowSelector;
-    return this.form.getElement(selector);
+    return this.form.getElement(factorListRowSelector);
   }
 
   getFactorsCount() {
@@ -40,13 +28,11 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorLabelByIndex(index) {
-    const selector = userVariables.v3 ? AUTHENTICATOR_BUTTON_LABEL_SELECTOR : factorLabelSelector;
-    return this.form.getElement(selector).nth(index).textContent;
+    return this.form.getElement(factorLabelSelector).nth(index).textContent;
   }
 
   getFactorDescriptionElementByIndex(index) {
-    const selector = userVariables.v3 ? AUTHENTICATOR_BUTTON_DESCRIPTION_SELECTOR : factorDescriptionSelector;
-    return this.getFactorButton().nth(index).find(selector);
+    return this.getFactorButton().nth(index).find(factorDescriptionSelector);
   }
 
   getFactorDescriptionByIndex(index) {
@@ -59,19 +45,16 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorIconClassByIndex(index) {
-    const selector = userVariables.v3 ? AUTHENTICATOR_BUTTON_ICON_SELECTOR : factorIconSelector;
-    return this.form.getElement(selector).nth(index).getAttribute('class');
+    return this.form.getElement(factorIconSelector).nth(index).getAttribute('class');
   }
 
   async factorCustomLogoExist(index) {
-    const selector = userVariables.v3 ? AUTHENTICATOR_BUTTON_ICON_SELECTOR : factorCustomLogoSelector;
-    const elCount = await this.form.getElement(selector).nth(index).find(CUSTOM_LOGO_SELECTOR).count;
+    const elCount = await this.form.getElement(factorCustomLogoSelector).nth(index).find(CUSTOM_LOGO_SELECTOR).count;
     return elCount === 1;
   }
 
   getFactorCTAButtonByIndex(index) {
-    const selector = userVariables.v3 ? AUTHENTICATOR_BUTTON_CTA_BUTTON_LABEL_SELECTOR : factorSelectButtonSelector;
-    return this.form.getElement(selector).nth(index);
+    return this.form.getElement(factorSelectButtonSelector).nth(index);
   }
 
   getFactorSelectButtonByIndex(index) {
@@ -79,8 +62,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorSelectButtonDataSeByIndex(index) {
-    const selector = userVariables.v3 ? AUTHENTICATOR_BUTTON_CTA_BUTTON_SELECTOR : factorSelectButtonDiv;
-    return this.form.getElement(selector).nth(index).getAttribute('data-se');
+    return this.form.getElement(factorSelectButtonDiv).nth(index).getAttribute('data-se');
   }
 
   async selectFactorByIndex(index) {
@@ -88,8 +70,8 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async skipOptionalEnrollment() {
-    const selector = userVariables.v3 ? SKIP_OPTIONAL_ENROLLMENT_SELECTOR : skipOptionalEnrollmentSelector;
-    await this.t.click(this.form.getElement(selector));
+    const button = this.form.getButtonByName('Set up later');
+    await this.t.click(button);
   }
 
   getCustomSignOutLink() {
@@ -97,8 +79,12 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async clickCustomOTP() {
-    const selector = userVariables.v3 ? V3_CUSTOM_OTP_BUTTON_SELECTOR : CUSTOM_OTP_BUTTON_SELECTOR;
-    await this.t.click(this.form.getElement(selector));
+    if (userVariables.v3) {
+      const button = this.form.getButtonByName('Atko Custom OTP Authenticator');
+      await this.t.click(button);
+    } else {
+      await this.t.click(this.form.getElement(CUSTOM_OTP_BUTTON_SELECTOR));
+    }
   }
 
   async getErrorFromErrorBox() {
@@ -114,8 +100,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorUsageTextElementByIndex(index) {
-    const selector = userVariables.v3 ? AUTHENTICATOR_BUTTON_USAGE_TEXT_SELECTOR : factorUsageTextSelector;
-    return this.getFactorButton().nth(index).find(selector);
+    return this.getFactorButton().nth(index).find(factorUsageTextSelector);
   }
 
   getFactorUsageTextByIndex(index) {

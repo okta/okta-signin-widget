@@ -1,5 +1,6 @@
 import BaseFormObject from './components/BaseFormObject';
 import { Selector, ClientFunction, userVariables } from 'testcafe';
+import { within } from '@testing-library/testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
@@ -179,14 +180,47 @@ export default class BasePageObject {
     await this.t.click(Selector(SKIP_SET_UP_LINK));
   }
 
-  async clickSwitchAuthenticatorButton() {
-    await this.t.click(Selector(SWITCH_AUTHENTICATOR_LINK));
+  async getSwitchAuthenticatorLink(name) {
+    return await within(this.el).findByRole('link', {
+      name,
+    });
   }
 
-  getSwitchAuthenticatorLinkText() {
+  async getReturnToAuthenticatorListLink() {
+    return await this.getSwitchAuthenticatorLink('Return to authenticator list');
+  }
+
+  async getVerifyWithSomethingElseLink() {
+    return await this.getSwitchAuthenticatorLink('Verify with something else');
+  }
+
+  async clickVerifyWithSomethingElseLink() {
+    return await this.t.click(this.getVerifyWithSomethingElseLink());
+  }
+
+  async clickReturnToAuthenticatorListLink() {
+    return await this.t.click(this.getReturnToAuthenticatorListLink());
+  }
+
+  getSwitchAuthenticatorLinkText() {  
     return Selector(SWITCH_AUTHENTICATOR_LINK).textContent;
   }
 
+  async verifyWithSomethingElseLinkExists() {
+    return await this.getVerifyWithSomethingElseLink().exists;
+  }
+
+  async returnToAuthenticatorListLinkExists() {
+    return await this.getReturnToAuthenticatorListLink().exists;
+  }
+
+  /**
+   * @deprecated
+   * @see verifyWithSomethingElseLinkExists
+   * @see returnToAuthenticatorListLinkExists
+   * Depending on the test (Challenge vs Enroll) use one of the new functions
+   * to check if the switch authenticator link exists
+   */
   async switchAuthenticatorLinkExists() {
     const elCount = await Selector(SWITCH_AUTHENTICATOR_LINK).count;
     return elCount === 1;

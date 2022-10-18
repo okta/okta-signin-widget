@@ -26,7 +26,7 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinEmailAuthenticator"
+                aria-labelledby="mfa-okta-email"
                 fill="none"
                 height="48"
                 role="img"
@@ -35,7 +35,7 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinEmailAuthenticator"
+                  id="mfa-okta-email"
                 >
                   Email Authentication
                 </title>

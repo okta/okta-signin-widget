@@ -245,8 +245,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(15)).eql('custom_app');
 
   // signout link at enroll page
-  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
-  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
+  await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
 });
 
 test.requestHooks(mockChallengePassword)('should load select authenticator list with no sign-out link', async t => {
@@ -257,7 +256,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list 
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   // signout link is not visible
-  await t.expect(await selectFactorPage.signoutLinkExists()).notOk();
+  await t.expect(await selectFactorPage.signoutLinkExists()).eql(false);
 });
 
 test.requestHooks(mockAuthenticatorListNoNumber)('should not display phone number in description if not available', async t => {
@@ -288,8 +287,7 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)('should load select authen
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
 
   // signout link at enroll page
-  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
-  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
+  await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
 });
 
 test.requestHooks(mockChallengePassword)('should navigate to password challenge page', async t => {
@@ -310,7 +308,7 @@ test.meta('v3', false).requestHooks(requestLogger, mockChallengePassword)('selec
   selectFactorPage.selectFactorByIndex(0);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with your password');
-  await challengeFactorPage.clickSwitchAuthenticatorButton();
+  await challengeFactorPage.clickVerifyWithSomethingElseLink();
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   // re-select password
   selectFactorPage.selectFactorByIndex(0);
@@ -385,8 +383,7 @@ test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when 
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(3)).eql('okta_verify-signed_nonce');
 
   // signout link at enroll page
-  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
-  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
+  await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
 });
 
 test.requestHooks(mockSelectAuthenticatorKnownDevice)('should load signed_nonce at top when device is known', async t => {
@@ -421,8 +418,7 @@ test.requestHooks(mockSelectAuthenticatorKnownDevice)('should load signed_nonce 
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(3)).eql('okta_password');
 
   // signout link at enroll page
-  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
-  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
+  await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
 });
 
 test.requestHooks(mockSelectAuthenticatorNoSignedNonce)('should not display signed_nonce when signed_nonce method is not in OV remediation', async t => {
@@ -455,8 +451,7 @@ test.requestHooks(mockSelectAuthenticatorNoSignedNonce)('should not display sign
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_password');
 
   // signout link at enroll page
-  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
-  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
+  await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
 });
 
 test.requestHooks(requestLogger, mockChallengeOVTotp)('should navigate to okta verify totp page', async t => {

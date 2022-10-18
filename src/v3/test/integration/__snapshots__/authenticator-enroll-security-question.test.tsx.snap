@@ -26,7 +26,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinSecurityQuestionAuthenticator"
+                aria-labelledby="mfa-okta-security-question"
                 fill="none"
                 height="48"
                 role="img"
@@ -35,7 +35,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinSecurityQuestionAuthenticator"
+                  id="mfa-okta-security-question"
                 >
                   Security Question
                 </title>
@@ -445,7 +445,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinSecurityQuestionAuthenticator"
+                aria-labelledby="mfa-okta-security-question"
                 fill="none"
                 height="48"
                 role="img"
@@ -454,7 +454,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinSecurityQuestionAuthenticator"
+                  id="mfa-okta-security-question"
                 >
                   Security Question
                 </title>
@@ -822,7 +822,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinSecurityQuestionAuthenticator"
+                aria-labelledby="mfa-okta-security-question"
                 fill="none"
                 height="48"
                 role="img"
@@ -831,7 +831,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinSecurityQuestionAuthenticator"
+                  id="mfa-okta-security-question"
                 >
                   Security Question
                 </title>
@@ -1241,7 +1241,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinSecurityQuestionAuthenticator"
+                aria-labelledby="mfa-okta-security-question"
                 fill="none"
                 height="48"
                 role="img"
@@ -1250,7 +1250,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinSecurityQuestionAuthenticator"
+                  id="mfa-okta-security-question"
                 >
                   Security Question
                 </title>
@@ -1729,7 +1729,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinSecurityQuestionAuthenticator"
+                aria-labelledby="mfa-okta-security-question"
                 fill="none"
                 height="48"
                 role="img"
@@ -1738,7 +1738,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinSecurityQuestionAuthenticator"
+                  id="mfa-okta-security-question"
                 >
                   Security Question
                 </title>
@@ -2259,7 +2259,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinSecurityQuestionAuthenticator"
+                aria-labelledby="mfa-okta-security-question"
                 fill="none"
                 height="48"
                 role="img"
@@ -2268,7 +2268,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinSecurityQuestionAuthenticator"
+                  id="mfa-okta-security-question"
                 >
                   Security Question
                 </title>
@@ -2790,7 +2790,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinSecurityQuestionAuthenticator"
+                aria-labelledby="mfa-okta-security-question"
                 fill="none"
                 height="48"
                 role="img"
@@ -2799,7 +2799,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinSecurityQuestionAuthenticator"
+                  id="mfa-okta-security-question"
                 >
                   Security Question
                 </title>

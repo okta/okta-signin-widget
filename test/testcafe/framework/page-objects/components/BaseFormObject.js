@@ -148,6 +148,15 @@ export default class BaseFormObject {
   }
 
   /**
+   * @param {string} name the text of the button to return
+   */
+  getButtonByName(name) {
+    return within(this.el).getByRole('button', {
+      name,
+    });
+  }
+
+  /**
    * @param {string} name the text of the button to click
    */
   async clickSaveButton(name = 'Next') {

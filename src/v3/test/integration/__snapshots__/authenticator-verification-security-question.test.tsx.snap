@@ -26,7 +26,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinSecurityQuestionAuthenticator"
+                aria-labelledby="mfa-okta-security-question"
                 fill="none"
                 height="48"
                 role="img"
@@ -35,7 +35,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinSecurityQuestionAuthenticator"
+                  id="mfa-okta-security-question"
                 >
                   Security Question
                 </title>

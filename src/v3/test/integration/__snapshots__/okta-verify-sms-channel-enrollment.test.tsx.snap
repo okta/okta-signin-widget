@@ -26,7 +26,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinOktaVerifyAuthenticator"
+                aria-labelledby="mfa-okta-verify"
                 fill="none"
                 height="48"
                 role="img"
@@ -35,7 +35,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinOktaVerifyAuthenticator"
+                  id="mfa-okta-verify"
                 >
                   Okta Verify
                 </title>

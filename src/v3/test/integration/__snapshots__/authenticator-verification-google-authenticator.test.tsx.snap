@@ -26,7 +26,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinGoogleOtpAuthenticator"
+                aria-labelledby="mfa-google-auth"
                 fill="none"
                 height="48"
                 role="img"
@@ -35,7 +35,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinGoogleOtpAuthenticator"
+                  id="mfa-google-auth"
                 >
                   Google Authenticator
                 </title>
