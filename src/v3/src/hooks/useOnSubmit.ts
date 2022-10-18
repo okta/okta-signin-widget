@@ -10,7 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { AuthApiError, IdxActionParams, IdxMessage } from '@okta/okta-auth-js';
+import {
+  AuthApiError,
+  IdxActionParams,
+  IdxMessage,
+  IdxTransaction,
+} from '@okta/okta-auth-js';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import { useCallback } from 'preact/hooks';
@@ -24,6 +29,7 @@ import {
   loc,
   toNestedObject,
 } from '../util';
+import { getEventContext } from '../util/getEventContext';
 
 type OnSubmitHandlerOptions = {
   includeData?: boolean;
@@ -62,16 +68,14 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     } = options;
 
     // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
-    const handleError = (error: unknown) => {
+    const handleError = (transaction: IdxTransaction | undefined, error: unknown) => {
       // TODO: handle error based on types
       // AuthApiError is one of the potential error that can be thrown here
       // We will want to expose development stage errors from auth-js and file jiras against it
       setAuthApiError(error as AuthApiError);
       console.error(error);
       // error event
-      events?.afterError?.({
-        stepName: currTransaction?.nextStep?.name,
-      }, error);
+      events?.afterError?.(transaction ? getEventContext(transaction) : {}, error);
       return null;
     };
 
@@ -116,6 +120,14 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setMessage(undefined);
     try {
       const newTransaction = await fn(payload);
+      // for multiple error messages
+      newTransaction.messages?.forEach((newMessage) => {
+        const { class: type, message: msg } = newMessage;
+        if (type === MessageType.ERROR) {
+          // error event
+          events?.afterError?.(getEventContext(newTransaction), { message: msg });
+        }
+      });
       // TODO: OKTA-538791 this is a temp work around until the auth-js fix
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
         [newTransaction.nextStep] = newTransaction.availableSteps;
@@ -142,7 +154,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       }
       setStepToRender(stepToRender);
     } catch (error) {
-      handleError(error);
+      handleError(currTransaction, error);
     }
     setLoading(false);
   }, [

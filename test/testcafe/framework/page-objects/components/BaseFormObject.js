@@ -50,6 +50,15 @@ export default class BaseFormObject {
   }
 
   /**
+    * @param {string} name the text of the link to return
+    */
+  getLink(name) {
+    return screen.queryByRole('link', {
+      name,
+    });
+  }
+
+  /**
    * @param {string} name The name or label of the text box to get
    * @param {boolean} findByLabel Find the text box by its label rather than name attribute
    */
@@ -154,6 +163,11 @@ export default class BaseFormObject {
   }
 
   getSaveButtonLabel() {
+    // in v3 buttons dont have a value prop
+    if (userVariables.v3) {
+      return within(this.el).getByRole('button').textContent;
+    }
+
     return within(this.el).getByRole('button').value;
   }
 
@@ -198,6 +212,10 @@ export default class BaseFormObject {
   }
 
   hasTextBoxErrorMessage(fieldName) {
+    if (userVariables.v3) {
+      return this.el.find(`#${fieldName}-error`).exists;
+    }
+
     const selectContainer = this.findFormFieldInput(fieldName)
       .sibling('.o-form-input-error');
 

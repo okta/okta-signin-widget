@@ -25,7 +25,7 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-fixture('Identify Recovery - reset flow');
+fixture('Identify Recovery - reset flow').meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

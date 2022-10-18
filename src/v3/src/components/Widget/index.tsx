@@ -102,16 +102,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleError = (error: unknown) => {
+  const handleError = (transaction: IdxTransaction | undefined, error: unknown) => {
     // TODO: handle error based on types
     // AuthApiError is one of the potential error that can be thrown here
     // We will want to expose development stage errors from auth-js and file jiras against it
     setAuthApiError(error as AuthApiError);
     console.error(error);
     // error event
-    events?.afterError?.({
-      stepName: idxTransaction?.nextStep?.name,
-    }, error);
+    events?.afterError?.(transaction ? getEventContext(transaction) : {}, error);
     return null;
   };
 
@@ -128,7 +126,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         stepName: transaction.nextStep?.name,
       });
     } catch (error) {
-      handleError(error);
+      handleError(idxTransaction, error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, stateToken, setIdxTransaction, setAuthApiError]);
@@ -199,7 +197,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
       setIdxTransaction(transaction);
     } catch (error) {
-      handleError(error);
+      handleError(idxTransaction, error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, setIdxTransaction, setAuthApiError]);
