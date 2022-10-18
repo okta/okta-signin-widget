@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 
 const DATA_SE_CALLOUT = '[data-se="callout"]';
 
@@ -18,11 +18,18 @@ export default class CalloutObject {
   }
 
   isError() {
-    return this.el.hasClass('infobox-error') &&
+    const hasInfoBoxErrorClass = this.el.hasClass('infobox-error');
+    if (userVariables.v3) {
+      return hasInfoBoxErrorClass;
+    }
+    return  hasInfoBoxErrorClass &&
       this.el.child('[data-se="icon"]').hasClass('error-16');
   }
 
   getTextContent() {
+    if (userVariables.v3) {
+      return this.el.innerText;
+    }
     return this.el.child('div').textContent;
   }
 

@@ -1215,8 +1215,8 @@ exports[`authenticator-verification-email renders correct form should render ses
                     data-se="message"
                   >
                     <div
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-8"
-                      data-se="infobox-error"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-8"
+                      data-se="callout"
                       role="alert"
                     >
                       <div

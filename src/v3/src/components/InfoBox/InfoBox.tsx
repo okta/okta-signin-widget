@@ -48,7 +48,8 @@ const InfoBox: UISchemaElementComponent<{
         variant="infobox"
         title={title}
         // eslint-disable-next-line react/jsx-props-no-spreading
-        {...(dataSe && { 'data-se': dataSe })}
+        {...({ 'data-se': dataSe })}
+        className={`infobox-${messageClass.toLowerCase()}`}
       >
         {message}
       </Alert>
