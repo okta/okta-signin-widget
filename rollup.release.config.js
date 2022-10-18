@@ -1,8 +1,15 @@
 
 import strip from '@rollup/plugin-strip';
-import baseRollupConfig from './rollup.config';
+import replace from '@rollup/plugin-replace';
+import baseRollupConfig from './rollup.common';
 
 const plugins = [
+  replace({
+    values: {
+      DEBUG: false
+    },
+    preventAssignment: true
+  }),
   ...baseRollupConfig.plugins,
   strip({
     debugger: true,

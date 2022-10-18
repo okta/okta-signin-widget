@@ -4,6 +4,7 @@
 import Backbone, { _Result } from 'backbone';
 import { SettingsModelClass } from '../util/SettingsModel';
 import { StateMachineClass } from '../util/StateMachine';
+import { FrameworkModelClass } from './Model';
 declare class BackboneViewExt extends Backbone.EventsMixin implements Backbone.Events {
     static extend(properties: any, classProperties?: any): any;
     /**
@@ -20,7 +21,7 @@ declare class BackboneViewExt extends Backbone.EventsMixin implements Backbone.E
     * That works only if you set it in the constructor or the initialize method.
     */
     events(): Backbone.EventsHash;
-    model: Backbone.Model;
+    model: FrameworkModelClass;
     collection: Backbone.Collection<Backbone.Model>;
     setElement(element: HTMLElement | JQuery): this;
     id?: string;
@@ -73,6 +74,7 @@ export declare class FrameworkViewClass extends BackboneViewExt {
     rendered(): boolean;
     preRender(): any;
     postRender(): any;
+    enable(): any;
     getTemplateData(): Record<string, string>;
     compileTemplate(template: string): CompiledTemplate;
     renderTemplate(template: string | CompiledTemplate): any;
@@ -82,6 +84,7 @@ export declare class FrameworkViewClass extends BackboneViewExt {
     at(index: number): this;
     invoke(methodName: string): this;
     __original_initialize__: (options: FrameworkViewOptions) => void;
+    __children__: FrameworkViewClass[];
     each(fn: any): any;
     map(fn: any): any;
     reduce(fn: any, initValue: any): any;

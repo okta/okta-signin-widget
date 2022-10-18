@@ -194,6 +194,10 @@ const getResendTimestamp = ClientFunction(() => {
   return window.sessionStorage.getItem('osw-oie-resend-timestamp');
 });
 
+const getVerificationEmailTitle = 'Get a verification email';
+const saveBtnLabelText = 'Send me an email';
+const enterVerificationCode = 'Enter a verification code instead';
+
 fixture('Challenge Email Authenticator Form');
 
 async function setup(t) {
@@ -214,12 +218,12 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).eql('Verify with your email');
-    await t.expect(saveBtnText).eql('Send me an email');
+    await t.expect(pageTitle).eql(getVerificationEmailTitle);
+    await t.expect(saveBtnText).eql(saveBtnLabelText);
 
     const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`Verify with an email link or enter a code sent to ${emailAddress}.`);
+      .eql(`Send a verification email to ${emailAddress} by clicking on "Send me an email".`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -233,8 +237,8 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).eql('Verify with your email');
-    await t.expect(saveBtnText).eql('Send me an email');
+    await t.expect(pageTitle).eql(getVerificationEmailTitle);
+    await t.expect(saveBtnText).eql(saveBtnLabelText);
 
     await t.wait(31000);
     await t.expect(challengeEmailPageObject.resendEmailViewExists()).notOk();
@@ -246,11 +250,11 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).contains('Verify with your email');
-    await t.expect(saveBtnText).eql('Send me an email');
+    await t.expect(pageTitle).contains(getVerificationEmailTitle);
+    await t.expect(saveBtnText).eql(saveBtnLabelText);
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql('Verify with an email link or enter a code sent to your email.');
+      .eql('Send a verification email by clicking on "Send me an email".');
   });
 
 test
@@ -259,11 +263,11 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).contains('Verify with your email');
-    await t.expect(saveBtnText).eql('Send me an email');
+    await t.expect(pageTitle).contains(getVerificationEmailTitle);
+    await t.expect(saveBtnText).eql(saveBtnLabelText);
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql('Verify with an email link or enter a code sent to your email.');
+      .eql('Send a verification email by clicking on "Send me an email".');
   });
 
 test
@@ -276,6 +280,8 @@ test
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -309,6 +315,8 @@ test
       authenticatorKey: 'okta_email',
       methodType: 'email',
     });
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
@@ -329,7 +337,10 @@ test
 test
   .requestHooks(validOTPmockNoProfile)('challenge email authenticator screen has right labels when profile is null', async t => {
     const challengeEmailPageObject = await setup(t);
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
+    await t.expect(challengeEmailPageObject.form.getElement('.enter-auth-code-instead-link').exists).eql(false);
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
@@ -356,6 +367,8 @@ test
 test
   .requestHooks(validOTPmockEmptyProfile)('challenge email authenticator screen has right labels when profile is empty', async t => {
     const challengeEmailPageObject = await setup(t);
+    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
+    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
@@ -373,6 +386,18 @@ test
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
+    await challengeEmailPageObject.waitForErrorBox();
+    await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
+  });
+
+test
+  .requestHooks(invalidOTPMock)('challenge email authenticator with invalid OTP', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
+    await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
+    await challengeEmailPageObject.pressEnter();
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');

@@ -15,7 +15,7 @@ import { _, loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import Q from 'q';
 import 'u2f-api-polyfill';
-import Errors from 'util/Errors';
+import { U2FError } from 'util/Errors';
 import FactorUtil from 'util/FactorUtil';
 import FidoUtil from 'util/FidoUtil';
 import FormController from 'v1/util/FormController';
@@ -96,7 +96,7 @@ export default FormController.extend({
               const isOneFactor = self.options.appState.get('factors').length === 1;
 
               deferred.reject(
-                new Errors.U2FError({
+                new U2FError({
                   xhr: {
                     responseJSON: {
                       errorSummary: FidoUtil.getU2fVerifyErrorMessageByCode(data.errorCode, isOneFactor),

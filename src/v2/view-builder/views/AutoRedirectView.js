@@ -1,6 +1,10 @@
-import { _, loc } from 'okta';
+import { _, loc, createCallout } from 'okta';
 import { BaseForm, BaseView } from '../internals';
 import { INTERSTITIAL_REDIRECT_VIEW } from '../../ion/RemediationConstants';
+import CustomAccessDeniedErrorMessage from '../views/shared/CustomAccessDeniedErrorMessage';
+
+const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
+const UNLOCK_USER_SUCCESS_MESSAGE = 'oie.selfservice.unlock_user.landing.to.app.success.message';
 
 const Body = BaseForm.extend({
   title() {
@@ -33,6 +37,26 @@ const Body = BaseForm.extend({
     }
 
     return titleString;
+  },
+  showMessages() {
+    if (this.isUnlockSuccess()) {
+      const container = '.o-form-error-container';
+      const text = loc('oie.selfservice.unlock_user.landing.to.app.signing.in.message', 'login');
+      this.add(`<div class="ion-messages-container"><p>${text}</p></div>`, container);
+      return;
+    } else if (this.options.appState.containsMessageStartingWithI18nKey(CUSTOM_ACCESS_DENIED_KEY)) {
+      const { message, links } = this.options.appState.get('messages').value.find(
+        msg => msg.i18n.key === CUSTOM_ACCESS_DENIED_KEY);
+      this.add(createCallout({
+        type: 'error',
+        content: new CustomAccessDeniedErrorMessage({ message, links })
+      }));
+      return;
+    }
+    BaseForm.prototype.showMessages.call(this);
+  },
+  isUnlockSuccess() {
+    return this.options.appState.containsMessageWithI18nKey(UNLOCK_USER_SUCCESS_MESSAGE);
   },
   noButtonBar: true,
   initialize() {

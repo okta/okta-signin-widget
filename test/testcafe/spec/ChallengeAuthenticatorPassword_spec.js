@@ -7,6 +7,7 @@ import xhrForgotPasswordError from '../../../playground/mocks/data/idp/idx/error
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengePasswordPageObject from '../framework/page-objects/ChallengePasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import sessionExpired from '../../../playground/mocks/data/idp/idx/error-pre-versioning-ff-session-expired';
 
 const mockChallengeAuthenticatorPassword = RequestMock()
@@ -132,9 +133,16 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickNextButton();
-  await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
-  await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
-  await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
+  
+  const terminalPageObject = new TerminalPageObject(t);
+  // show terminal view with expected error
+  const errors = terminalPageObject.getErrorMessages();
+  await t.expect(errors.isError()).ok();
+  await t.expect(errors.getTextContent()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  // confirm they can get out of terminal state (restarts the flow)
+  await t.expect(terminalPageObject.getGoBackLinkText()).eql('Back to sign in');
+  await terminalPageObject.clickGoBackLink();
+  await challengePasswordPage.switchAuthenticatorExists();
 });
 
 test.requestHooks(resetPasswordSuccess)('password changed successfully', async t => {

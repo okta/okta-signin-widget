@@ -1,6 +1,7 @@
 import { waitForLoad } from '../util/waitUtil';
+import PrimaryAuthPage  from './primary-auth.page';
 
-const { WIDGET_TEST_SERVER } = process.env;
+const { WIDGET_TEST_SERVER, BUNDLE, USE_MIN } = process.env;
 
 class TestAppPage {
   get widget() { return $('#okta-sign-in'); }
@@ -9,7 +10,6 @@ class TestAppPage {
   get code() { return $('#code-container'); }
   get cspErrors() { return $('#csp-errors-container'); }
   get oidcError() { return $('#oidc-error-container'); }
-
   // widget general elements
   get widgetTitle() { return $('[data-se="o-form-head"]'); }
   get submit() { return $('[data-type="save"]'); }
@@ -28,7 +28,22 @@ class TestAppPage {
 
   
   async open(path = '') {
-    return browser.url(`http://localhost:3000/${path}`);
+    const extraConfig = {};
+
+    if (BUNDLE) {
+      extraConfig.bundle = BUNDLE;
+    }
+    if (USE_MIN) {
+      extraConfig.useMinBundle = true;
+    }
+
+    let queryStr = '';
+    if (Object.keys(extraConfig).length > 0) {
+      const configStr = encodeURIComponent(JSON.stringify(extraConfig));
+      queryStr = `?config=${configStr}`;
+    }
+    const url = `http://localhost:3000/${path}${queryStr}`;
+    return browser.url(url);
   }
 
   async openInNewTab(path = '') {
@@ -80,6 +95,54 @@ class TestAppPage {
       expect(txt.length).toBeGreaterThan(0);
     });
   }
+
+  async assertWidget(displayed) {
+    if (displayed) {
+      await waitForLoad(this.widget);
+    }
+    await this.widget.then(el => el.isDisplayed()).then(isDisplayed => {
+      expect(isDisplayed).toBe(displayed);
+    });
+  }
+
+  async assertWidgetRemoved() {
+    await this.widget.then(el => el.isExisting()).then(isExisting => {
+      expect(isExisting).toBeFalsy();
+    });
+  }
+
+  async assertWidgetCustomTitle() {
+    await this.widgetTitle.then(el => el.getText()).then(txt => {
+      expect(txt).toBe('Sign In to Acme');
+    });
+  }
+
+  async assertWidgetBackgroundColor() {
+    await this.submit.scrollIntoView();
+    await this.submit.then(el => el.getCSSProperty('background-color')).then(background => {
+      expect(background.value).toContain('rgba(0,128,0,1)');
+    });
+  }
+
+  async assertCSPError(expectedError) {
+    await waitForLoad(this.cspErrors);
+    await this.cspErrors.then(el => el.getText()).then(txt => {
+      expect(txt).toEqual(expectedError);
+    });
+  }
+
+  async assertWidgetUnableToSignin() {
+    await PrimaryAuthPage.errorBox.then(el => el.getText()).then(txt => {
+      expect(txt).toBe('Unable to sign in');
+    });
+  }
+
+  async assertWidgetSigninError(errorMessage) {
+    await PrimaryAuthPage.errorBox.then(el => el.getText()).then(txt => {
+      expect(txt).toBe(errorMessage);
+    });
+  }
+
 }
 
 export default new TestAppPage();

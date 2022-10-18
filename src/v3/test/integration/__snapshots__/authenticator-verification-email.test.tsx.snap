@@ -145,7 +145,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                       tabindex="0"
                       type="button"
                     >
-                      Enter a code from the email instead
+                      Enter a verification code instead
                     </button>
                   </div>
                 </div>
@@ -359,7 +359,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                       tabindex="0"
                       type="button"
                     >
-                      Enter a code from the email instead
+                      Enter a verification code instead
                     </button>
                   </div>
                 </div>

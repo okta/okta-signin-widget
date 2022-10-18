@@ -17,11 +17,17 @@ import {
   FORMS_WITH_STATIC_BACK_LINK,
   FORMS_FOR_VERIFICATION,
   AUTHENTICATOR_KEY,
+  FORMS,
 } from '../ion/RemediationConstants';
 import { createOVOptions } from '../ion/ui-schema/ion-object-handler';
 import { _ } from '../mixins/mixins';
 import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
+import Settings from 'models/Settings';
+import Hooks from 'models/Hooks';
+import { RecoverableError } from 'util/OAuthErrors';
 
+
+const UNKNOWN_USER_I8N_KEY = "idx.unknown.user";
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
  */
@@ -72,6 +78,14 @@ const derived: Record<string, ModelProperty> = {
 export type AppStateProps = typeof local & typeof derived;
 
 export default class AppState extends Model {
+  settings: Settings;
+  hooks: Hooks;
+  
+  constructor(attributes, options) {
+    super(attributes, options);
+    this.settings = options.settings;
+    this.hooks = options.hooks;
+  }
 
   get<A extends Backbone._StringKey<AppStateProps>>(attributeName: A): any {
     return Model.prototype.get.call(this, attributeName);
@@ -252,7 +266,7 @@ export default class AppState extends Model {
     this.trigger('cache:clear');
   }
 
-  async setIonResponse(transformedResponse, hooks) {
+  async setIonResponse(transformedResponse) {
     const doRerender = this.shouldReRenderView(transformedResponse);
     this.clearAppStateCache();
     // set new app state properties
@@ -270,7 +284,7 @@ export default class AppState extends Model {
         Logger.error(JSON.stringify(transformedResponse, null, 2));
       }
 
-      const hook = hooks?.getHook(currentFormName); // may be undefined
+      const hook = this.hooks?.getHook(currentFormName); // may be undefined
       await executeHooksBefore(hook);
   
       this.unset('currentFormName', { silent: true });
@@ -283,6 +297,17 @@ export default class AppState extends Model {
 
       await executeHooksAfter(hook);
     }
+  }
+
+  setNonIdxError(error: RecoverableError<any>) {
+    this.set('remediations', [{ name: FORMS.TERMINAL }]);
+    this.set('messages', { value: [
+      {
+        message: error.errorDetails.errorSummary,
+        class: 'ERROR'
+      }
+    ]})
+    this.set('currentFormName', FORMS.TERMINAL);
   }
 
   getUser() {
@@ -304,26 +329,31 @@ export default class AppState extends Model {
        * expiresAt will be different for each response, hence compare objects without that property
        */
       reRender = false;
+      if (this.get('currentFormName') === 'poll') {
+        /**
+         * returns true: We want to force reRender when currentForm is poll because request has to reinitiate
+         * based on new refresh and UI has to reflect new timer.
+         * We dont technical poll here we just make a request after the specified refresh time each time
+         * we get a new response.
+         */
+        reRender = true;
+      } else if (FORMS_WITH_STATIC_BACK_LINK.includes(this.get('currentFormName'))) {
+        /**
+         * returns true: We want to force reRender if you go back to selection screen from challenge or enroll screen
+         * and re-select the same authenticator for challenge. In this case also new response will be identical
+         * to the old response.
+         */
+        reRender = true;
+      } else if (this.containsMessageWithI18nKey(UNKNOWN_USER_I8N_KEY)) {
+        /**
+         * Need to re-render or else form will be stuck in saving mode.
+         * This message is a form warning that can result in identical responses if the user enters the same
+         * username as the one in the last message warning.
+         */
+        reRender = true;
+      }
     }
 
-    if (identicalResponse && this.get('currentFormName') === 'poll') {
-      /**
-       * returns true: We want to force reRender when currentForm is poll because request has to reinitiate
-       * based on new refresh and UI has to reflect new timer.
-       * We dont technical poll here we just make a request after the specified refresh time each time
-       * we get a new response.
-       */
-      reRender = true;
-    }
-
-    if (identicalResponse && FORMS_WITH_STATIC_BACK_LINK.includes(this.get('currentFormName'))) {
-      /**
-       * returns true: We want to force reRender if you go back to selection screen from challenge or enroll screen
-       * and re-select the same authenticator for challenge. In this case also new response will be identical
-       * to the old response.
-       */
-      reRender = true;
-    }
     return reRender;
   }
 

@@ -3,7 +3,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const signinWidgetOptions = require('../.widgetrc.js'); // commonJS module
 
-// import OktaSignIn from '../src/widget/OktaSignIn';
 import {
   OktaSignInConstructor,
   OktaSignInAPI,
@@ -12,10 +11,14 @@ import {
   RenderResultSuccessNonOIDCSession,
 } from '../src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
+
 declare global {
   interface Window {
     // added by widget CDN bundle
     OktaSignIn: OktaSignInConstructor;
+    
+    // from <script src="/js/okta-plugin-a11y.js">
+    OktaPluginA11y: (widget: OktaSignInAPI, options: Record<string, unknown>) => void;
 
     // added in this file
     getWidgetInstance: () => OktaSignInAPI;
@@ -24,6 +27,7 @@ declare global {
     additionalOptions?: Partial<WidgetOptions>;
   }
 }
+
 
 function isSuccessNonOIDC(res: RenderResult): res is RenderResultSuccessNonOIDCSession {
   return (res as RenderResultSuccessNonOIDCSession).session !== undefined;
@@ -49,6 +53,12 @@ if (typeof window.OktaSignIn === 'undefined') {
 }
 const renderPlaygroundWidget = (options = {}) => {
   createWidgetInstance(options);
+
+  if (window.OktaPluginA11y) {
+    window.OktaPluginA11y(signIn, {
+      companyName: 'Widgico'
+    });
+  }
 
   signIn.renderEl(
     { el: '#okta-login-container' },

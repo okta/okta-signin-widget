@@ -16,7 +16,7 @@ src/config/config.json
 /dist
 .yalc
 .env
-testenv
+testenv*
 packages/@okta/courage-dist/esm.visualizer.html
 packages/@okta/i18n/src/json/
 packages/@okta/i18n/src/properties/*_in.*
@@ -30,4 +30,5 @@ types/
 # Test dist package
 node_modules2
 /test/package/**/yarn.lock
-
+/test/package/**/dist/
+scripts/dockolith

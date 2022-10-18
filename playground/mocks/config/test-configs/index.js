@@ -21,4 +21,5 @@ module.exports = {
   SessionStorage: require('./SessionStorage'),
   WidgetCustomization: require('./WidgetCustomization'),
   EnrollAuthenticatorEmail: require('./EnrollAuthenticatorEmail'),
+  UserUnlockAccountLandingApp: require('./UserUnlockAccountLandingApp'),
 };

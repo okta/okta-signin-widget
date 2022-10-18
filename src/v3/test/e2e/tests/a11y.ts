@@ -59,7 +59,7 @@ test.page(
   await takeScreenshot(t, 'authenticator-verification-email-step1');
 
   await t
-    .click(Selector('button').withExactText('Enter a code from the email instead'));
+    .click(Selector('button').withExactText('Enter a verification code instead'));
 
   await checkA11y(t);
   await takeScreenshot(t, 'authenticator-verification-email-step2');
@@ -69,7 +69,7 @@ test.page(
   'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/challenge/error-401-invalid-otp-passcode',
 )('error-401-invalid-otp-passcode', async (t) => {
   await t
-    .click(Selector('button').withExactText('Enter a code from the email instead'));
+    .click(Selector('button').withExactText('Enter a verification code instead'));
 
   await checkA11y(t);
   await takeScreenshot(t, 'error-401-invalid-otp-passcode');

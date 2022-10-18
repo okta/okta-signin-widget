@@ -110,6 +110,7 @@ const idx = {
     'enroll-profile-new',
     // 'enroll-profile-with-password',
     // 'error-enroll-regisration-unavailable',
+    // 'enroll-profile-with-idps'
   ],
   '/idp/idx/credential/enroll': [
     // 'authenticator-enroll-ov-via-sms',
@@ -124,6 +125,7 @@ const idx = {
     // 'authenticator-verification-email-without-emailmagiclink',
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
+    // 'error-identify-access-denied-custom-message',
     // 'error-identify-user-locked-unable-challenge',
     // 'error-unable-to-authenticate-user',
     // 'terminal-device-activated',
@@ -247,6 +249,12 @@ const authn = {
     // 'terminal-device-not-activated-consent-denied',
     // 'terminal-device-not-activated-internal-error'
     // 'error-invalid-device-code'
+  ],
+  '/api/v1/authn/recovery/token': [
+    'recovery-password'
+  ],
+  '/api/v1/authn/cancel': [
+    'cancel'
   ],
   '/.well-known/webfinger': [
     'forced-idp-discovery-okta-idp'
@@ -906,7 +914,8 @@ const userUnlockAccount = {
     'authenticator-verification-email'
   ],
   '/idp/idx/challenge/answer': [
-    'user-account-unlock-success'
+    'user-account-unlock-success',
+    //'user-account-unlock-success-land-on-app'
   ]
 };
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Errors from 'util/Errors';
+import { ConfiguredFlowError, ConfigError } from 'util/Errors';
 import { emailVerifyCallback } from './emailVerifyCallback';
 import sessionStorageHelper from './sessionStorageHelper';
 import { CONFIGURED_FLOW } from './constants';
@@ -28,9 +28,13 @@ const handleProxyIdxResponse = async (settings) => {
 // eslint-disable-next-line complexity, max-statements
 export async function startLoginFlow(settings) {
   const authClient = settings.getAuthClient();
+  // nonce is not a top-level auth-js option, must be passed in manually
+  const { authParams } = settings.toJSON({verbose: true});
+  const nonce = settings.get('nonce') || authParams?.nonce;
   const idxOptions: ProceedOptions = {
     exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
     shouldProceedWithEmailAuthenticator: false, // do not auto-select email authenticator
+    ...(nonce && { nonce })
   };
 
   // Return a preset response
@@ -54,7 +58,7 @@ export async function startLoginFlow(settings) {
       // if the SIW loads from a fresh state (there is no current transaction), throw an error
       const flow = authClient.idx.getFlow();
       if (flow && flow === CONFIGURED_FLOW.PROCEED) {
-        throw new Errors.ConfiguredFlowError(
+        throw new ConfiguredFlowError(
           'Unable to proceed: saved transaction could not be loaded', flow
         );
       }
@@ -101,6 +105,6 @@ export async function startLoginFlow(settings) {
     });
   }
 
-  throw new Errors.ConfigError('Set "useInteractionCodeFlow" to true in configuration to enable the ' +
+  throw new ConfigError('Set "useInteractionCodeFlow" to true in configuration to enable the ' +
     'interaction_code" flow for self-hosted widget.');
 }

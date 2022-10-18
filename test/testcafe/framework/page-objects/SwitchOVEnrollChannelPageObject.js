@@ -20,6 +20,10 @@ export default class SwitchOVEnrollPageObject extends BasePageObject {
     await this.form.selectRadioButtonOption(channelOptionFieldName, index);
   }
 
+  isRadioButtonChecked(value) {
+    return this.form.elementExist(`input[value="${value}"] + .checked`);
+  }
+
   clickNextButton() {
     return this.form.clickSaveButton();
   }

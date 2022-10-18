@@ -50,6 +50,7 @@ const cucumberOpts: WebdriverIO.CucumberOpts = {
   require: [
       // './steps/given.ts',
       // './steps/when.ts',
+      path.resolve(__dirname, 'steps/before.ts'),
       path.resolve(__dirname, 'steps/given.ts'),
       path.resolve(__dirname, 'steps/when.ts'),
       path.resolve(__dirname, 'steps/then.ts'),
@@ -81,6 +82,8 @@ export const config: WebdriverIO.Config = {
   specs: [
     path.resolve(__dirname, 'features/**/*.feature')
   ],
+  // Patterns to exclude.
+  exclude: [],
   baseUrl: 'http://localhost:8080',
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,

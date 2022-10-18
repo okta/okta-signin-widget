@@ -86,7 +86,7 @@ describe('authenticator-verification-email', () => {
         },
       });
       await findByText(/Verify with your email/);
-      await user.click(await findByText(/Enter a code from the email instead/));
+      await user.click(await findByText(/Enter a verification code instead/));
       await findByText(/Enter Code/);
 
       act(() => {
@@ -140,7 +140,7 @@ describe('authenticator-verification-email', () => {
       await findByText(/Verify with your email/);
 
       // render otp challenge form
-      const nextPageBtn = await findByText(/Enter a code from the email instead/);
+      const nextPageBtn = await findByText(/Enter a verification code instead/);
       await user.click(nextPageBtn);
       await findByText(/Enter Code/);
       expect(container).toMatchSnapshot();
@@ -218,7 +218,7 @@ describe('authenticator-verification-email', () => {
     await findByText(/Verify with your email/);
     await findByText(/We sent an email to/);
 
-    const nextPageBtn = await findByText(/Enter a code from the email instead/);
+    const nextPageBtn = await findByText(/Enter a verification code instead/);
 
     await user.click(nextPageBtn);
     await findByText(/Enter Code/);
@@ -251,7 +251,7 @@ describe('authenticator-verification-email', () => {
     await findByText(/Verify with your email/);
     await findByText(/We sent an email to/);
 
-    const nextPageBtn = await findByText(/Enter a code from the email instead/);
+    const nextPageBtn = await findByText(/Enter a verification code instead/);
 
     await user.click(nextPageBtn);
     await findByText(/Enter Code/);
@@ -289,7 +289,7 @@ describe('authenticator-verification-email', () => {
     await findByText(/Verify with your email/);
     await findByText(/We sent an email to/);
 
-    const nextPageBtn = await findByText(/Enter a code from the email instead/);
+    const nextPageBtn = await findByText(/Enter a verification code instead/);
 
     await user.click(nextPageBtn);
     await findByText(/Enter Code/);

@@ -17,12 +17,13 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       currentAuthenticator = ChallengeWebauthnResponse.currentAuthenticator.value,
       authenticatorEnrollments = [],
       app = {},
+      residentKeySetting = {},
     ) => {
       const appState = new AppState({
         currentAuthenticator,
         authenticatorEnrollments,
         app,
-      });
+      }, {});
       jest.spyOn(appState, 'getRemediationAuthenticationOptions').mockReturnValue(formName => {
         if (formName === 'select-authenticator-authenticate') {
           return [ { label: 'some authenticator '} ];
@@ -30,6 +31,8 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
         return [];
       });
       jest.spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').mockReturnValue(false);
+      jest.spyOn(appState, 'hasRemediationObject').mockReturnValue(residentKeySetting.canEnrollResidentKey ?? false);
+      jest.spyOn(appState, 'getSchemaByName').mockReturnValue(residentKeySetting.hasUserHandleSchema ?? false);
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       const currentViewState = {
         name: 'challenge-authenticator',
@@ -45,6 +48,8 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       });
       testContext.view.render();
     };
+    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
+    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
   });
 
   afterEach(function() {
@@ -52,8 +57,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows verify instructions and spinner when webauthn is supported and browser is not safari', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
-    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
       'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
@@ -64,7 +67,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows verify instructions and button when browser supports webauthn on safari', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(true);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
@@ -76,7 +78,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('updated button text to "Retry" on click on safari', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(true);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
@@ -90,7 +91,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows verify instructions if there are existing enrollments', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(true);
     testContext.init(
       ChallengeWebauthnResponse.currentAuthenticator.value,
@@ -117,7 +117,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows UV required callout when userVerification is "required"', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     const currentAuthenticator = JSON.parse(
       JSON.stringify(ChallengeWebauthnResponse.currentAuthenticator.value)
     );
@@ -130,7 +129,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('does not show UV required callout when userVerification is "discouraged"', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     const currentAuthenticator = JSON.parse(
       JSON.stringify(ChallengeWebauthnResponse.currentAuthenticator.value)
     );
@@ -140,7 +138,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('saveForm is called with model when credentials.get succeeds', function(done) {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     const assertion = {
       response: {
         clientDataJSON: 123,
@@ -197,7 +194,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('error with a name that not supported on login bundle is displayed when credentials.create fails', function(done) {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.reject({ message: 'error from browser' }));
 
     testContext.init();
@@ -212,7 +208,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('error with a name that supported on login bundle is displayed when credentials.create fails', function(done) {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
     jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.reject({
       message: 'error from browser',
       name: 'NotAllowedError',
@@ -230,8 +225,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows correct text when Can\'t verify? is clicked', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
-    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toMatchInlineSnapshot(
       '"You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification."'
@@ -262,8 +255,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   });
 
   it('shows additional text when Can\'t verify? is clicked from Okta_Authenticator', function() {
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
-    jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
     const app = { name: 'Okta_Authenticator' };
     testContext.init(
       ChallengeWebauthnResponse.currentAuthenticator.value,
@@ -296,5 +287,96 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       expect(testContext.view.$('.js-help-description').css('display')).toBe('none');
       expect(testContext.view.$('.js-cant-verify').attr('aria-expanded')).toBe('false');
     });
+  });
+
+  it('saveForm is called with model having userHandle when credentials.get succeeds', function(done) {
+    const assertion = {
+      response: {
+        clientDataJSON: 123,
+        authenticatorData: 234,
+        signature: 'magizh',
+        userHandle: 'userId',
+      },
+    };
+
+    jest.spyOn(BaseForm.prototype, 'saveForm');
+    jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.resolve(assertion));
+
+    testContext.init(
+      ChallengeWebauthnResponse.currentAuthenticator.value,
+      [],
+      {},
+      { hasUserHandleSchema : true }
+    );
+
+    Expect.wait(() => {
+      return BaseForm.prototype.saveForm.mock.calls.length > 0;
+    }).then(() => {
+      expect(navigator.credentials.get).toHaveBeenCalledWith({
+        publicKey: {
+          allowCredentials: [],
+          extensions: {
+            appid: 'https://localhost:3000',
+          },
+          userVerification: 'required',
+          challenge: CryptoUtil.strToBin(
+            ChallengeWebauthnResponse.currentAuthenticator.value.contextualData.challengeData.challenge
+          ),
+        },
+        signal: jasmine.any(Object),
+      });
+      expect(testContext.view.form.model.get('credentials')).toEqual({
+        clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
+        authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
+        signatureData: CryptoUtil.binToStr(assertion.response.signature),
+        userHandle: CryptoUtil.binToStr(assertion.response.userHandle),
+      });
+      expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
+      expect(testContext.view.form.webauthnAbortController).toBe(null);
+      done();
+    })
+      .catch(done.fail);
+  });
+
+  it('should not have "setup webauthn residentKey text" when enroll-webauthn-residentkey remediation does not exist', function() {
+    testContext.init();
+    expect(testContext.view.$('.setup-webauthn-residentkey-text').length).toBe(0);
+  });
+
+  it('should hide "setup webauthn residentKey text" when enroll-webauthn-residentkey remediation exist', function() {
+    const assertion = {
+      response: {
+        clientDataJSON: 123,
+        authenticatorData: 234,
+        signature: 'magizh',
+        userHandle: 'userId',
+      },
+    };
+    jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.resolve(assertion));
+    testContext.init(
+      ChallengeWebauthnResponse.currentAuthenticator.value,
+      [],
+      {},
+      { canEnrollResidentKey : true });
+    expect(testContext.view.$('.setup-webauthn-residentkey-text').length).toBe(1);
+    expect(testContext.view.$('.setup-webauthn-residentkey-text').css('display')).toBe('none');
+  });
+
+  it('should show "setup webauthn residentKey text" when enroll-webauthn-residentkey remediation exist and webauthn errors', function(done) {
+    jest.spyOn(navigator.credentials, 'get').mockReturnValue(Promise.reject({
+      message: 'error from browser',
+      name: 'NotAllowedError',
+    }));
+    testContext.init(
+      ChallengeWebauthnResponse.currentAuthenticator.value,
+      [],
+      {},
+      { canEnrollResidentKey : true });
+    Expect.waitForCss('.infobox-error')
+      .then(() => {
+        expect(testContext.view.$('.setup-webauthn-residentkey-text').css('display')).toBe('block');
+        done();
+      })
+      .catch(done.fail);
   });
 });

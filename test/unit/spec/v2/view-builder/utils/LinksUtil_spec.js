@@ -5,7 +5,7 @@ import Settings from '../../../../../../src/models/Settings';
 
 describe('v2/utils/LinksUtil', function() {
   const mockAppState = ({ remediationFormName, authenticatorCount, isPasswordRecovery }) => {
-    const appState = new AppState();
+    const appState = new AppState({}, {});
     jest.spyOn(appState, 'getRemediationAuthenticationOptions').mockImplementation(formName => {
       if (formName === remediationFormName) {
         if (authenticatorCount === 'many') {

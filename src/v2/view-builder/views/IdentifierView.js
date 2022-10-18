@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc, createCallout } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
 import DeviceFingerprinting from '../utils/DeviceFingerprinting';
@@ -7,9 +7,14 @@ import Link from '../components/Link';
 import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
+import signInWithWebAuthn from './signin/SignInWithWebAuthn';
 import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
+import CustomAccessDeniedErrorMessage from './shared/CustomAccessDeniedErrorMessage';
+
+const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
+
 
 const Body = BaseForm.extend({
 
@@ -75,6 +80,10 @@ const Body = BaseForm.extend({
     // Launch Device Authenticator
     if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_AUTHENTICATOR)) {
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true, { isRequired: false });
+    }
+
+    if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_WEBAUTHN_AUTHENTICATOR)) {
+      this.add(signInWithWebAuthn, '.o-form-fieldset-container', false, true, { isRequired: false });
     }
 
     // add forgot password link and external idps buttons if needed
@@ -158,6 +167,30 @@ const Body = BaseForm.extend({
     }
 
     return newSchemas;
+  },
+
+  showCustomFormErrorCallout(error, messages) {
+    if (!error?.responseJSON?.errorSummaryKeys?.includes(CUSTOM_ACCESS_DENIED_KEY)) {
+      return false;
+    }
+
+    const message = messages.find(message => message.i18n.key === CUSTOM_ACCESS_DENIED_KEY);
+    if (!message) {
+      return false;
+    }
+
+    const { errorSummary } = error.responseJSON;
+
+    const options = {
+      type: 'error',
+      content: new CustomAccessDeniedErrorMessage({
+        message: errorSummary,
+        links: message.links,
+      }),
+    };
+
+    this.showMessages(createCallout(options));
+    return true;
   },
 
   _addForgotPasswordView() {

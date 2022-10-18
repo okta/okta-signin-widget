@@ -60,7 +60,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-unlock-account.identifier': 'primaryauth.username.placeholder',
   'identify.credentials.passcode': 'primaryauth.password.placeholder',
   'identify.rememberMe': 'oie.remember',
-
+  'enroll-profile.userProfile.rememberMe': 'oie.remember',
+  
   'identify-recovery.identifier': 'password.forgot.email.or.username.placeholder',
 
   'select-authenticator-enroll.authenticator.duo': 'factor.duo',
@@ -179,9 +180,10 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-poll.okta_verify.autoChallenge': 'autoPush', // authenticator-verification-okta-verify-push-autoChallenge-on
   'authenticator-verification-data.authenticator.autoChallenge': 'autoPush', // authenticator-verification-data-okta-verify-push-autoChallenge-off.json
   'authenticator-verification-data.okta_verify.authenticator.autoChallenge': 'autoPush',
+  'authenticator-verification-data.custom_app.authenticator.autoChallenge': 'autoPush',
 
   // Existing overrides
-  ...I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS, //enroll-profile strings
+  ...I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS, // enroll-profile strings
 };
 
 const I18N_PARAMS_MAPPING = {
@@ -363,8 +365,10 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
         if (o.authenticatorKey === AUTHENTICATOR_KEY.OV && methodType) {
           i18nPathOption = `${i18nPathOption}.${methodType}`;
         }
-      } else if (o.value !== undefined) { // value could be string or number or undefined.
+      } else if (typeof o.value === 'string' || typeof o.value === 'number') { // value could be string, number, object or undefined.
         i18nPathOption = `${i18nPath}.${o.value}`;
+      } else {
+        i18nPathOption = i18nPath;
       }
       Logger.info('\t 4: ', i18nPathOption);
       o.label = getI18NValue(i18nPathOption, o.label);

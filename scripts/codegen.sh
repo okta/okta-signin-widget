@@ -32,19 +32,19 @@ update-cache () {
 	dir-sum src/types >> $CACHE_FILE
 }
 
-if [ $(get-sum src/types | first) != $(dir-sum src/types | first) ]; then
-	echo '[codegen]: changes detected in src/types'
-	yarn build:types
-else
-	echo '[codegen]: no changes detected in src/types'
-fi
-
 if [ $(get-sum packages/@okta/i18n | first) != $(dir-sum packages/@okta/i18n | first) ]; then
 	echo '[codegen]: changes detected in packages/@okta/i18n'
 	yarn grunt propertiesToJSON && \
 	yarn generate-config
 else
 	echo '[codegen]: no changes detected in packages/@okta/i18n'
+fi
+
+if [ $(get-sum src/types | first) != $(dir-sum src/types | first) ]; then
+	echo '[codegen]: changes detected in src/types'
+	yarn build:types
+else
+	echo '[codegen]: no changes detected in src/types'
 fi
 
 update-cache

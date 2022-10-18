@@ -83,7 +83,7 @@ describe('EmailChallengeTransformer Tests', () => {
       .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
     expect(layoutOne.elements[3].type).toBe('StepperButton');
     expect((layoutOne.elements[3] as StepperButtonElement).label)
-      .toBe('oie.email.verify.alternate.showCodeTextField');
+      .toBe('oie.email.verify.alternate.show.verificationCode.text');
 
     const layoutTwo = stepperElements[1];
 
@@ -147,7 +147,7 @@ describe('EmailChallengeTransformer Tests', () => {
       .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
     expect(layoutOne.elements[3].type).toBe('StepperButton');
     expect((layoutOne.elements[3] as StepperButtonElement).label)
-      .toBe('oie.email.verify.alternate.showCodeTextField');
+      .toBe('oie.email.verify.alternate.show.verificationCode.text');
 
     const layoutTwo = stepperElements[1];
 
@@ -209,7 +209,7 @@ describe('EmailChallengeTransformer Tests', () => {
       .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
     expect(layoutOne.elements[2].type).toBe('StepperButton');
     expect((layoutOne.elements[2] as StepperButtonElement).label)
-      .toBe('oie.email.verify.alternate.showCodeTextField');
+      .toBe('oie.email.verify.alternate.show.verificationCode.text');
 
     const layoutTwo = stepperElements[1];
 

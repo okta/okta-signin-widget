@@ -23,7 +23,7 @@ import Q from 'q';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';
-import Errors from 'util/Errors';
+import { UnsupportedBrowserError } from 'util/Errors';
 import WidgetUtil from 'util/Util';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
@@ -1248,7 +1248,7 @@ Expect.describe('IDPDiscovery', function() {
           expect(test.router.settings.callGlobalError.calls.count()).toBe(1);
           const err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
 
-          expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
+          expect(err instanceof UnsupportedBrowserError).toBe(true);
           expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
           expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
         });
@@ -1500,6 +1500,33 @@ Expect.describe('IDPDiscovery', function() {
           expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
         });
     });
+    itp('disables username field if sign-in returns an error and username was previously disabled', function() {
+      return setup()
+        .then(function(test) {
+          Util.mockRouterNavigate(test.router);
+          test.setNextWebfingerResponse(resSuccessOktaIDP);
+          test.form.setUsername('testuser');
+          test.form.submit();
+          return Expect.waitForPrimaryAuth(test);
+        })
+        .then(function(test) {
+          expect(test.router.appState.get('disableUsername')).toBe(true);
+          expect(test.form.isUsernameDisabled()).toBe(true);
+          expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
+          // ensure 'Back to sign in' footer is there
+          expect(test.form.backLinkFooter().length).toBe(1);
+
+          test.setNextResponse(resErrorUnauthorized);
+          test.form.setPassword('dummyPassword');
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function(test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.router.appState.get('disableUsername')).toBe(true);
+          expect(test.form.isUsernameDisabled()).toBe(true);
+        });           
+    });     
     itp('redirects to idp for SAML idps', function() {
       spyOn(SharedUtil, 'redirect');
       return setup()

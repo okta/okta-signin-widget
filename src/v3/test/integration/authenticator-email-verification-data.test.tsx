@@ -18,7 +18,7 @@ describe('authenticator-email-verification-data', () => {
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Verify with your email/);
-    await findByText(/Verify with an email link or enter a code sent to your email./);
+    await findByText(/Send a verification email by clicking on "Send me an email"/);
     expect(container).toMatchSnapshot();
   });
 
@@ -28,7 +28,7 @@ describe('authenticator-email-verification-data', () => {
     } = await setup({ mockResponse });
 
     await findByText(/Verify with your email/);
-    await findByText(/Verify with an email link or enter a code sent to your email./);
+    await findByText(/Send a verification email by clicking on "Send me an email"/);
 
     const submitButton = await findByText('Send me an email', { selector: 'button' });
 

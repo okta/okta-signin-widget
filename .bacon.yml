@@ -72,19 +72,28 @@ test_suites:
       script_name: e2e
       criteria: OPTIONAL
       queue_name: small
+    # FIXME: revert criteria to "MERGE" when merging 0.0 to master
     - name: e2e-lang
       script_path: /root/okta/okta-signin-widget/scripts
-      sort_order: '11'
+      sort_order: '6'
       timeout: '20'
       script_name: e2e-lang
       criteria: OPTIONAL
       queue_name: small
-      # FIXME: revert criteria to "MERGE" when merging 0.0 to master
+    # FIXME: revert criteria to "MERGE" when merging 0.0 to master
     - name: e2e-saucelabs
       script_path: /root/okta/okta-signin-widget/scripts
-      sort_order: '12'
+      sort_order: '6'
       timeout: '20'
       script_name: e2e-saucelabs
+      criteria: OPTIONAL
+      queue_name: small
+    # Optional test suite until Android is enabled
+    - name: e2e-saucelabs-mobile
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '6'
+      timeout: '20'
+      script_name: e2e-saucelabs-mobile
       criteria: OPTIONAL
       queue_name: small
     - name: tsd
@@ -110,3 +119,20 @@ test_suites:
       script_name: unit-karma
       criteria: OPTIONAL
       queue_name: small
+    - name: verify-registry-install
+      prereq_test_suite_name: publish
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '10'
+      timeout: '20'
+      script_name: verify-registry-install
+      criteria: MERGE
+      queue_name: small
+    # E2E tests using dockerized monolith - optional (for now)
+    - name: e2e-monolith
+      script_path: ../okta-signin-widget/scripts
+      sort_order: '1'
+      timeout: '30'
+      script_name: e2e-monolith
+      criteria: OPTIONAL
+      queue_name: ci-queue-prodJenga-Monolith-Build
+

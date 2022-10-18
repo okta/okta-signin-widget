@@ -52,7 +52,7 @@ describe('Email Verification Transformer Tests', () => {
       .toBe('oie.email.mfa.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.subtitleWithoutEmailAddress');
+      .toBe('oie.email.verify.subtitle.text.without.email');
     expect(((updatedFormBag.uischema.elements[2] as ButtonElement)
       .options?.actionParams?.['authenticator.methodType'])).toBe('email');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
@@ -82,7 +82,7 @@ describe('Email Verification Transformer Tests', () => {
       .toBe('oie.email.mfa.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.subtitleWithEmailAddress');
+      .toBe('oie.email.verify.subtitle.text.with.email');
     expect(((updatedFormBag.uischema.elements[2] as ButtonElement)
       .options?.actionParams?.['authenticator.methodType']))
       .toBe('email');

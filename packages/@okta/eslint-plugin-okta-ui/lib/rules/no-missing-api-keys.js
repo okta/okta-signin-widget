@@ -29,6 +29,7 @@ module.exports = {
       'api.factors.error.sms.invalid_phone', // mapped to oie.phone.invalid in i18nTransformer
       'E0000009', // mapped to errors.E0000009 in i18nTransformer
       'oie.selfservice.unlock_user.challenge.failed.permissions', // mapped to errors.E0000006 in i18nTransformer
+      'security.access_denied_custom_message', // user-provided string
     ];
     return {
       'Program': function (node) {

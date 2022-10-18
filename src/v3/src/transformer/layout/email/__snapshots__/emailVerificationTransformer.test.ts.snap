@@ -22,7 +22,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.email.verify.subtitleWithoutEmailAddress",
+          "content": "oie.email.verify.subtitle.text.without.email",
         },
         "type": "Description",
       },
@@ -65,7 +65,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.email.verify.subtitleWithEmailAddress",
+          "content": "oie.email.verify.subtitle.text.with.email",
         },
         "type": "Description",
       },

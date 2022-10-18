@@ -30,6 +30,10 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.clickSaveButton();
   }
 
+  pressEnter() {
+    return this.t.pressKey('enter');
+  }
+
   /**
    * @deprecated
    * @see getTitle
@@ -72,5 +76,9 @@ export default class ChallengeFactorPageObject extends BasePageObject {
 
   getSaveButtonLabel() {
     return this.form.getElement('.button-primary').value;
+  }
+
+  getEnterVerificationCodeText() {
+    return this.form.getElement('.enter-auth-code-instead-link').textContent;
   }
 }

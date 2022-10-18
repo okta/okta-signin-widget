@@ -9,14 +9,14 @@ const SubtitleView = View.extend({
     <div class="okta-form-subtitle" data-se="o-form-explain">
       {{#if email}}
         {{i18n
-          code="oie.email.verify.subtitleWithEmailAddress"
+          code="oie.email.verify.subtitle.text.with.email"
           bundle="login"
           arguments="email"
           $1="<span class='strong no-translate'>$1</span>"
         }}
       {{else}}
         {{i18n
-          code="oie.email.verify.subtitleWithoutEmailAddress"
+          code="oie.email.verify.subtitle.text.without.email"
           bundle="login"
         }}
       {{/if}}
@@ -34,7 +34,7 @@ const SubtitleView = View.extend({
 const Body = BaseAuthenticatorEmailForm.extend(
   {
     title() {
-      return loc('oie.email.mfa.title', 'login');
+      return loc('oie.email.challenge.mfa.title', 'login');
     },
 
     save() {

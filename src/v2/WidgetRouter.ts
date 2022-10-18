@@ -26,5 +26,4 @@ export default class WidgetRouter extends BaseLoginRouter {
   defaultAuth() {
     this.render(FormController);
   }
-
 }

@@ -16,12 +16,28 @@ import ActionContext from '../support/context';
 import deleteUserAndCredentials from '../support/management-api/deleteUserAndCredentials';
 import TestAppPage from '../page-objects/test-app.page';
 
+// eslint-disable-next-line no-unused-vars
+After(async function (this: ActionContext) {
+  this.saveScreenshot('after');
+});
+
 After(deleteUserAndCredentials);
+
+// eslint-disable-next-line no-unused-vars
+After(async function(this: ActionContext) {
+  if (this.app) {
+    await this.app.deactivate();
+    await this.app.delete();
+  }
+  if (this.group) {
+    await this.group.delete();
+  }
+});
 
 After(() => browser.deleteCookies());
 
 // eslint-disable-next-line no-unused-vars
-After(async function (this: ActionContext) {
+After(async function(this: ActionContext) {
   await TestAppPage.ssoLogout();
 });
 

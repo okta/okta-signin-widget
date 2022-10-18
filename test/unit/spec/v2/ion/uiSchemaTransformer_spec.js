@@ -5,6 +5,7 @@ import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';
 import MockUtil from '../../../helpers/v2/MockUtil';
 
 import XHREnrollProfile from '../../../../../playground/mocks/data/idp/idx/enroll-profile.json';
+import XHREnrollProfileWithBooleanAttribute from '../../../../../playground/mocks/data/idp/idx/enroll-profile-new-checkbox.json';
 import XHRAuthenticatorRequiredEmail  from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-email.json';
 import XHRAuthenticatorEnrollSelectAuthenticators  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator.json';
 import XHRAuthenticatorEnrollDataPhone  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
@@ -134,7 +135,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
     const mock = XHRAuthenticatorRequiredEmail;
     MockUtil.mockIntrospect(done, mock, idxResp => {
       const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
-      
+
       // Check top-level obhects
       expect(result.app).toEqual(mock.app.value);
       expect(result.user).toEqual(mock.user.value);
@@ -143,7 +144,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
         ...mock.authenticatorEnrollments,
         type: undefined, // type is removed by transformer
       });
-      
+
       expect(result.idx).toEqual(idxResp); // raw IDX response is also added at top-level
 
       // UI schema is added to remediations
@@ -1607,7 +1608,6 @@ describe('v2/ion/uiSchemaTransformer', function() {
               'required': true,
               'type': 'object',
             },
-
             {
               name: 'rememberMe',
               label: 'Keep me signed in',
@@ -1656,6 +1656,152 @@ describe('v2/ion/uiSchemaTransformer', function() {
           ],
         },
       );
+    });
+  });
+
+  it('converts response with boolean fields as form for ENROLL_PROFILE', done => {
+    MockUtil.mockIntrospect(done, XHREnrollProfileWithBooleanAttribute, idxResp => {
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
+      expect(result).toEqual({
+        remediations: [
+          {
+            href: 'http://localhost:3000/idp/idx/enroll/new',
+            name: 'enroll-profile',
+            method: 'POST',
+            rel: ['create-form'],
+            accepts: 'application/vnd.okta.v1+json',
+            action: expect.any(Function),
+            value: [
+              {
+                name: 'userProfile',
+                form: {
+                  value: [
+                    {
+                      name: 'lastName',
+                      label: 'Last name',
+                      required: true,
+                    },
+                    {
+                      name: 'firstName',
+                      label: 'First name',
+                      required: true,
+                    },
+                    {
+                      name: 'email',
+                      label: 'Email',
+                      required: true,
+                    },
+                    {
+                      name: 'rememberMe',
+                      label: 'Keep me signed in',
+                      type: 'boolean',
+                      options:[
+                        {
+                          label:'display',
+                          value:{
+                            type:'object',
+                            value:{
+                              inputType:'checkbox'
+                            }
+                          }
+                        }
+                      ],
+                      required: true,
+                    },
+                  ],
+                },
+              },
+              {
+                name: 'stateHandle',
+                value: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+                visible: false,
+              },
+            ],
+            uiSchema: [
+              {
+                name: 'userProfile.lastName',
+                label: 'Last name',
+                required: true,
+                'label-top': true,
+                'multirowError': true,
+                'data-se': 'o-form-fieldset-userProfile.lastName',
+                type: 'text',
+              },
+              {
+                name: 'userProfile.firstName',
+                label: 'First name',
+                'label-top': true,
+                'multirowError': true,
+                'data-se': 'o-form-fieldset-userProfile.firstName',
+                required: true,
+                type: 'text',
+              },
+              {
+                name: 'userProfile.email',
+                label: 'Email',
+                'label-top': true,
+                'multirowError': true,
+                'data-se': 'o-form-fieldset-userProfile.email',
+                required: true,
+                type: 'text',
+              },
+              {
+                name: 'userProfile.rememberMe',
+                label: false,
+                type: 'checkbox',
+                placeholder: 'Keep me signed in',
+                modelType: 'boolean',
+                required: true,
+                value: false,
+                options:[
+                  {
+                    label:'display',
+                    value:{
+                      type:'object',
+                      value:{
+                        inputType:'checkbox'
+                      }
+                    }
+                  }
+                ],
+                'label-top': true,
+                'multirowError': true,
+                'data-se': 'o-form-fieldset-userProfile.rememberMe',
+              },
+            ],
+          },
+          {
+            href: 'http://localhost:3000/idp/idx/identify',
+            name: 'select-identify',
+            rel: ['create-form'],
+            accepts: 'application/vnd.okta.v1+json',
+            method: 'POST',
+            action: expect.any(Function),
+            value: [
+              {
+                name: 'identifier',
+                label: 'identifier',
+              },
+              {
+                name: 'stateHandle',
+                value: '01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB',
+                visible: false,
+              },
+            ],
+            uiSchema: [
+              {
+                name: 'identifier',
+                label: 'identifier',
+                'label-top': true,
+                'multirowError': true,
+                'data-se': 'o-form-fieldset-identifier',
+                type: 'text',
+              },
+            ],
+          },
+        ],
+        idx: idxResp,
+      });
     });
   });
 });

@@ -215,4 +215,60 @@ describe('v2/client/startLoginFlow', () => {
     }
   });
 
+  describe('nonce', () => {
+    it('shall pass nonce to /interact when provided with authParams', async () => {
+      let { settings } = testContext;
+      const authClient = settings.getAuthClient();
+      const { start, proceed } = testContext;
+      settings = new Settings({
+        baseUrl: 'localhost:1234',
+        stateToken: 'a test state token from settings',
+        authParams: {
+          nonce: 'nonce upon a time'
+        }
+      });
+      settings.authClient = authClient;
+      settings.set('useInteractionCodeFlow', true);
+      const result = await startLoginFlow(settings);
+      expect(result).toEqual({
+        fake: 'fake start response'
+      });
+
+      expect(start).toHaveBeenCalledTimes(1);
+
+      expect(start).toHaveBeenCalledWith({
+        exchangeCodeForTokens: false,
+        shouldProceedWithEmailAuthenticator: false,
+        nonce: 'nonce upon a time'
+      });
+      expect(proceed).not.toHaveBeenCalled();
+    });
+
+    it('shall pass nonce to /interact when provided on top-level config', async () => {
+      let { settings } = testContext;
+      const authClient = settings.getAuthClient();
+      const { start, proceed } = testContext;
+      settings = new Settings({
+        baseUrl: 'localhost:1234',
+        stateToken: 'a test state token from settings',
+        nonce: 'nonce upon a time'
+      });
+      settings.authClient = authClient;
+      settings.set('useInteractionCodeFlow', true);
+      const result = await startLoginFlow(settings);
+      expect(result).toEqual({
+        fake: 'fake start response'
+      });
+
+      expect(start).toHaveBeenCalledTimes(1);
+
+      expect(start).toHaveBeenCalledWith({
+        exchangeCodeForTokens: false,
+        shouldProceedWithEmailAuthenticator: false,
+        nonce: 'nonce upon a time'
+      });
+      expect(proceed).not.toHaveBeenCalled();
+    });
+  });
+
 });

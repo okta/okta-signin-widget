@@ -8,7 +8,7 @@
     "test:lang": "node ./runner.langtests.js"
   },
   "dependencies": {
-    "@okta/okta-sdk-nodejs": "^6.2.0",
+    "@okta/okta-sdk-nodejs": "^6.5.0",
     "@okta/okta-signin-widget": "*"
   },
   "devDependencies": {

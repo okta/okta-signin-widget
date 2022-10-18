@@ -20,8 +20,8 @@ const INPUT_OPTIONS = ['model', 'name', 'inputId', 'type', // base options
 'inlineValidation', // control inline validating against the model on focus lost
 'validateOnlyIfDirty', // check if field has been interacted with and then validate
 'ariaLabel', // 508 compliance for inputs that do not have label associated with them
-'params', 'autoComplete' // autocomplete attribute
-];
+'params', 'autoComplete', // autocomplete attribute
+'sortByKey'];
 const OTHER_OPTIONS = ['errorField' // widgets params - for input specific widgets
 ];
 

@@ -1,20 +1,22 @@
 import { waitForLoad } from '../util/waitUtil';
 
 class PrimaryAuthOIEPage {
+  identifierFieldSelector = 'input[name="identifier"]';
+
   get enrollProfileButton() { return $('[data-se=enroll]'); }
 
   get forgotPassword() { return $('.siw-main-view.identify-recovery.forgot-password'); }
   get forgotPasswordButton() { return $('[data-se="forgot-password"]'); }
+  get unlockButton() {return $('[data-se="unlock"]');}
   get nextButton() { return $('[value="Next"]'); }
   get signupForm() { return $('.siw-main-view.enroll-profile.registration'); }
+  get signupLink() { return $('a[data-se="enroll"]'); }
   get unlockAccountForm() { return $('.siw-main-view.select-authenticator-unlock-account'); }
-
   get primaryAuthForm() { return $('.siw-main-view.primary-auth'); }
-  get identifierField() { return $('input[name="identifier"]'); }
+  get identifierField() { return $(this.identifierFieldSelector); }
   get passwordField() { return $('input[name="credentials.passcode"]'); }
   get submitButton() { return $('input[data-type="save"]'); }
   get formTitle() { return $('[data-se="o-form-head"]'); }
-
   get oktaOidcIdPButton() { return $('[data-se="social-auth-general-idp-button"]'); }
 
   async waitForForgotPassword() {
@@ -29,13 +31,20 @@ class PrimaryAuthOIEPage {
     await waitForLoad(this.primaryAuthForm);
   }
 
-
   async clickEnrollProfileButton() {
     await this.enrollProfileButton.click();
   }
 
   async clickForgotPasswordButton() {
     await this.forgotPasswordButton.click();
+  }
+
+  async clickUnlockButton() {
+    await this.unlockButton.click();
+  }
+
+  async clickSignUpLink() {
+    await this.signupLink.click();
   }
 
   async login(username, password) {
@@ -48,6 +57,11 @@ class PrimaryAuthOIEPage {
     await this.oktaOidcIdPButton.click();
     await this.identifierField.setValue(username);
     await this.passwordField.setValue(password);
+    await this.submitButton.click();
+  }
+
+  async enterUsername(username) {
+    await this.identifierField.setValue(username);
     await this.submitButton.click();
   }
 

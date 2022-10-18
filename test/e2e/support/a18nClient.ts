@@ -19,15 +19,19 @@ const LATEST_EMAIL_URL = `https://api.a18n.help/v1/profile/:profileId/email/late
 const LATEST_SMS_URL = `https://api.a18n.help/v1/profile/:profileId/sms/latest`;
 
 export declare interface A18nProfile {
-  profileId: string;
+  profileId?: string;
   phoneNumber: string;
   emailAddress: string;
-  url: string;
+  url?: string;
   displayName?: string;
   errorDescription?: string;
 }
 
-class A18nClient {
+export type A18nConfig = {
+  a18nAPIKey?: string;
+}
+
+export default class A18nClient {
   apiKey: string | undefined;
 
   constructor() {
@@ -66,13 +70,15 @@ class A18nClient {
 
     const match = response?.content?.match(/Your verification code is (?<code>\d+)/);
     const code = match?.groups?.code;
+    if (!code) {
+      throw new Error('Unable to retrieve code from SMS.');
+    }
     return code;
   }
 
   async createProfile(profileName?: string): Promise<A18nProfile|never> {
-    const { orgUrl } = getConfig();
     const profile = await this.postToURL(PROFILE_URL, {
-      displayName: profileName || `${orgUrl}`
+      displayName: profileName || 'okta-signin-widget'
     }, true) as unknown as A18nProfile;
 
     if (profile.errorDescription) {
@@ -84,6 +90,58 @@ class A18nClient {
 
   async deleteProfile(profileId: string): Promise<string> {
     return await this.deleteOnProtectedURL(`${PROFILE_URL}/${profileId}`);
+  }
+
+  async getEmailMagicLink(profileId: string) {
+    let retryAttemptsRemaining = 5;
+    let response;
+    while (!response?.content && retryAttemptsRemaining > 0) {
+      await waitForOneSecond();
+      response = await this.getOnURL(LATEST_EMAIL_URL.replace(':profileId', profileId)) as Record<string, string>;
+      --retryAttemptsRemaining;
+    }
+
+    const match = response?.content?.match(/<a id="(?:email-authentication-button|email-activation-button|registration-activation-link)" href="(?<url>\S+)"/);
+    const url = match?.groups?.url;
+    if (!url) {
+      throw new Error('Unable to retrieve magic link from email.');
+    }
+
+    return url;
+  }
+
+  async getPasswordResetMagicLink(profileId: string) {
+    let retryAttemptsRemaining = 5;
+    let response;
+    while (!response?.content && retryAttemptsRemaining > 0) {
+      await waitForOneSecond();
+      response = await this.getOnURL(LATEST_EMAIL_URL.replace(':profileId', profileId)) as Record<string, string>;
+      --retryAttemptsRemaining;
+    }
+
+    const match = response?.content?.match(/<a id="reset-password-link" href="(?<url>\S+)"/);
+    const url = match?.groups?.url;
+    if (!url) {
+      throw new Error('Unable to retrieve magic link from email.');
+    }
+
+    return url;
+  }
+
+  async getUnlockAccountLink(profileId: string) {
+    let retryAttemptsRemaining = 5;
+    let response;
+    while (!response?.content && retryAttemptsRemaining > 0) {
+      await waitForOneSecond();
+      response = await this.getOnURL(LATEST_EMAIL_URL.replace(':profileId', profileId)) as Record<string, string>;
+      --retryAttemptsRemaining;
+    }
+    const match = response?.content?.match(/<a id="unlock-account-link" href="(?<url>\S+)"/);
+    const url = match?.groups?.url;
+    if (!url) {
+      throw new Error('Unable to retrieve unlock account link from email.');
+    }
+    return url;
   }
 
   private async deleteOnProtectedURL(url: string): Promise<string|never>{
@@ -136,4 +194,3 @@ class A18nClient {
   }
 }
 
-export default new A18nClient();

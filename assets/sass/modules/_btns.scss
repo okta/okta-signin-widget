@@ -121,7 +121,8 @@ $od-secondary-button-action-text-color: #124a94;
 }
 
 .button {
-  .okta-verify-authenticator {
+  .okta-verify-authenticator,
+  .okta-webauthn-authenticator {
     height: 20px;
     width: 20px;
     background-repeat: no-repeat;
@@ -212,20 +213,6 @@ $od-secondary-button-action-text-color: #124a94;
   }
 }
 
-@mixin social-auth-button-template($bg-image, $icon-bg-color, $label-bg-color, $border-color) {
-  background-color: $label-bg-color;
-  background: $bg-image no-repeat 10px,
-    linear-gradient(90deg, $icon-bg-color 50px, $label-bg-color 50px);
-  border: 1px solid $border-color;
-
-  &:active,
-  &:focus,
-  &:hover {
-    background: $bg-image no-repeat 10px,
-      linear-gradient(90deg, lighten($icon-bg-color, 3%) 50px, lighten($label-bg-color, 3%) 50px);
-  }
-}
-
 @mixin social-auth-button-colorless-template($bg-image) {
   background-color: $other-label-bg-color;
   background: $bg-image no-repeat 12px/24px,
@@ -270,60 +257,27 @@ $od-secondary-button-action-text-color: #124a94;
 }
 
 .social-auth-facebook-button {
-  @include social-auth-button-template(url('../img/icons/login/facebook_logo.png'),
-  $facebook-icon-bg-color, $facebook-label-bg-color, $facebook-border-color);
+  @include social-auth-button-colorless-template(url('../img/icons/login/facebook_logo.png'));
 }
 
 .social-auth-google-button {
-  @include social-auth-button-template(url('../img/icons/login/google_logo.png'),
-  $google-icon-bg-color, $google-label-bg-color, $google-border-color);
-
-  background-position: 15px 50%, 0% 0%;
-
-  &:active,
-  &:focus,
-  &:hover {
-    background-position: 15px 50%, 0% 0%;
-  }
-}
-
-.social-auth-google-button.link-button {
-  color: $dark-text-color;
+  @include social-auth-button-colorless-template(url('../img/icons/login/google_logo.png'));
 }
 
 .social-auth-apple-button {
-  @include social-auth-button-template(url('../img/icons/login/apple_logo.png'),
-  $apple-icon-bg-color, $apple-label-bg-color, $apple-border-color);
-
-  background-position: 15px 50%, 0% 0%;
-
-  &:active,
-  &:focus,
-  &:hover {
-    background-position: 15px 50%, 0% 0%;
-  }
-}
-.social-auth-apple-button.link-button {
-  color: $dark-text-color;
+  @include social-auth-button-colorless-template(url('../img/icons/login/apple_logo.png'));
 }
 
 .social-auth-linkedin-button {
-  @include social-auth-button-template(url('../img/icons/login/linkedin_logo.png'),
-  $linkedin-icon-bg-color, $linkedin-label-bg-color, $linkedin-border-color);
+  @include social-auth-button-colorless-template(url('../img/icons/login/linkedin_logo.png'));
 }
 
 .social-auth-microsoft-button {
-  @include social-auth-button-template(url('../img/icons/login/microsoft_logo.png'),
-  $microsoft-icon-bg-color, $microsoft-label-bg-color, $microsoft-border-color);
+  @include social-auth-button-colorless-template(url('../img/icons/login/microsoft_logo.png'));
 }
 
 .social-auth-general-idp-button {
-  @include social-auth-button-template(url('../img/icons/login/default_logo.png'),
-  darken($button-bg-color, 5%), $button-bg-color, darken($button-bg-color, 22%));
-  color: $dark-text-color;
-}
-.social-auth-general-idp-button.link-button {
-  color: $dark-text-color;
+  @include social-auth-button-colorless-template(url('../img/icons/login/default_logo.png'));
 }
 
 .default-custom-button {

@@ -13,7 +13,7 @@
 function getConfig() {
   const orgUrl = process.env.WIDGET_TEST_SERVER;
   const a18nAPIKey = process.env.A18N_API_KEY;
-  const oktaAPIKey = process.env.OKTA_API_KEY;
+  const oktaAPIKey = process.env.OKTA_CLIENT_TOKEN;
   
   const config = {
     orgUrl,

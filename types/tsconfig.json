@@ -2,7 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "backbone": ["../node_modules/@types/backbone/index.d.ts"]
+      "backbone": ["../node_modules/@types/backbone/index.d.ts"],
+      "okta": ["./packages/@okta/courage-dist/types/index.d.ts"]
     }
   }
 }

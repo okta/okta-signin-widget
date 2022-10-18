@@ -18,6 +18,7 @@ import CustomButtons from 'v1/views/primary-auth/CustomButtons';
 import PrimaryAuthForm from 'v1/views/primary-auth/PrimaryAuthForm';
 import Footer from 'v1/views/shared/Footer';
 import FooterRegistration from 'v1/views/shared/FooterRegistration';
+import FooterWithBackLink from 'v1/views/shared/FooterWithBackLink';
 export default BaseLoginController.extend({
   className: 'primary-auth',
 
@@ -54,6 +55,9 @@ export default BaseLoginController.extend({
     }
 
     this.addFooter(options);
+    if (this.options.appState.get('disableUsername')) {
+      this.addFooterWithBackLink(this.options);
+    }
 
     this.setUsername();
   },
@@ -68,6 +72,15 @@ export default BaseLoginController.extend({
           appState: options.appState,
         })
       );
+    }
+  },
+
+  addFooterWithBackLink: function(options) {
+    if (!this.$el.find('.footer-back-link').length) {
+      this.add(new FooterWithBackLink(this.toJSON({ 
+        appState: options.appState,
+        className: 'auth-footer footer-back-link',
+      })));
     }
   },
 
@@ -125,6 +138,10 @@ export default BaseLoginController.extend({
     });
     this.listenTo(this.model, 'error', function() {
       this.state.set('enabled', true);
+      if (this.options.appState.get('disableUsername')) {
+        this.state.set('disableUsername', true);
+        this.addFooterWithBackLink(this.options);
+      }
     });
     this.listenTo(this.state, 'togglePrimaryAuthButton', function(buttonState) {
       this.toggleButtonState(buttonState);

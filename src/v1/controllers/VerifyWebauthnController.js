@@ -15,7 +15,7 @@ import { _, loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import Q from 'q';
 import CryptoUtil from 'util/CryptoUtil';
-import Errors from 'util/Errors';
+import { WebauthnAbortError, WebAuthnError } from 'util/Errors';
 import FactorUtil from 'util/FactorUtil';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';
@@ -100,14 +100,15 @@ export default FormController.extend({
           });
 
           // AbortController is not supported in IE11
-          // eslint-disable-next-line compat/compat
-          self.webauthnAbortController = new AbortController();
+          if (typeof AbortController !== 'undefined') {
+            self.webauthnAbortController = new AbortController();
+          }
           return new Q(
             // navigator.credentials is not supported in IE11
             // eslint-disable-next-line compat/compat
             navigator.credentials.get({
               publicKey: options,
-              signal: self.webauthnAbortController.signal,
+              signal: self.webauthnAbortController && self.webauthnAbortController.signal,
             })
           )
             .then(function(assertion) {
@@ -125,9 +126,9 @@ export default FormController.extend({
               // Do not display if it is abort error triggered by code when switching.
               // self.webauthnAbortController would be null if abort was triggered by code.
               if (!self.webauthnAbortController) {
-                throw new Errors.WebauthnAbortError();
+                throw new WebauthnAbortError();
               } else {
-                throw new Errors.WebAuthnError({
+                throw new WebAuthnError({
                   xhr: { responseJSON: { errorSummary: error.message } },
                 });
               }

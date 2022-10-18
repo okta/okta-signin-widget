@@ -31,5 +31,5 @@ export default View.extend({
   back: function() {
     this.state.set('navigateDir', Enums.DIRECTION_BACK);
     this.options.appState.trigger('navigate', '');
-  },
+  }
 });

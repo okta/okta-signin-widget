@@ -19,17 +19,14 @@ import sessionStorageHelper from '../client/sessionStorageHelper';
 import { HttpResponse, IdxStatus, ProceedOptions } from '@okta/okta-auth-js';
 import { EventErrorContext } from 'types/events';
 import { CONFIGURED_FLOW } from '../client/constants';
-import Errors from 'util/Errors';
+import { ConfigError } from 'util/Errors';
+import { updateAppState } from 'v2/client';
+
 export interface ContextData {
   controller: string;
   formName: string;
   authenticatorKey?: string;
   methodType?: string;
-}
-
-export interface ErrorContextData {
-  xhr: HttpResponse;
-  errorSummary?: string;
 }
 
 export default Controller.extend({
@@ -149,7 +146,7 @@ export default Controller.extend({
   },
 
   // eslint-disable-next-line max-statements
-  handleInvokeAction(actionPath = '', actionParams = {}) {
+  async handleInvokeAction(actionPath = '', actionParams = {}) {
     const { appState, settings } = this.options;
     const idx = appState.get('idx');
     const { stateHandle } = idx.context;
@@ -187,14 +184,14 @@ export default Controller.extend({
         }]
       };
     } else {
-      error = new Errors.ConfigError(`Invalid action selected: ${actionPath}`);
+      error = new ConfigError(`Invalid action selected: ${actionPath}`);
       this.options.settings.callGlobalError(error);
-      this.showFormErrors(this.formView.model, error, this.formView.form);
+      await this.showFormErrors(this.formView.model, error, this.formView.form);
       return;
     }
 
     // action will be executed asynchronously
-    this.invokeAction(invokeOptions);
+    await this.invokeAction(invokeOptions);
   },
 
   async invokeAction(invokeOptions) {
@@ -212,12 +209,12 @@ export default Controller.extend({
 
     // if request did not succeed, show error on the current form
     if (error) {
-      this.showFormErrors(this.formView.model, error, this.formView.form);
+      await this.showFormErrors(this.formView.model, error, this.formView.form);
       return;
     }
 
     // process response, may render a new form
-    this.handleIdxResponse(resp);
+    await this.handleIdxResponse(resp);
   },
 
   // eslint-disable-next-line max-statements, complexity
@@ -245,7 +242,7 @@ export default Controller.extend({
     // Error out when this is not a remediation form. Unexpected Exception.
     if (!this.options.appState.hasRemediationObject(formName)) {
       this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
-      this.showFormErrors(this.formView.model, 'Cannot find action to proceed.', this.formView.form);
+      await this.showFormErrors(this.formView.model, 'Cannot find action to proceed.', this.formView.form);
       return;
     }
 
@@ -273,6 +270,13 @@ export default Controller.extend({
       if (resp.status === IdxStatus.FAILURE) {
         throw resp.error; // caught and handled in this function
       }
+      // follow idx transaction to render terminal view for session expired error
+      if (IonResponseHelper.isIdxSessionExpiredError(resp)) {
+        const authClient = this.settings.getAuthClient();
+        authClient.transactionManager.clear();
+        await this.handleIdxResponse(resp);
+        return;
+      }
       // If the last request did not succeed, show errors on the current form
       // Special case: Okta server responds 401 status code with WWW-Authenticate header and new remediation
       // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
@@ -280,7 +284,7 @@ export default Controller.extend({
       // we need to return an idx object so that
       // the SIW can proceed to the next step without showing error
       if (resp.requestDidSucceed === false && !resp.stepUp) {
-        this.showFormErrors(model, resp, this.formView.form);
+        await this.showFormErrors(model, resp, this.formView.form);
         return;
       }
       const onSuccess = this.handleIdxResponse.bind(this, resp);
@@ -292,10 +296,14 @@ export default Controller.extend({
           });
         });
       } else {
-        onSuccess();
+        await onSuccess();
       }
     } catch(error) {
-      this.showFormErrors(model, error, this.formView.form);
+      if (error.is?.('terminal')) {
+        this.options.appState.setNonIdxError(error);
+      } else {
+        await this.showFormErrors(model, error, this.formView.form);
+      }
     } finally {
       this.toggleFormButtonState(false);
     }
@@ -323,8 +331,8 @@ export default Controller.extend({
    * Handle errors that get displayed right after any user action. After such form errors widget doesn't
    * reload or re-render, but updates the AppSate with latest remediation.
    */
-  showFormErrors(model, error, form) {
-    /* eslint max-statements: [2, 30] */
+  async showFormErrors(model, error, form) {
+    /* eslint max-statements: [2, 24] */
     let errorObj;
     let idxStateError;
     let showErrorBanner = true;
@@ -350,7 +358,7 @@ export default Controller.extend({
     }
 
     if(_.isFunction(form?.showCustomFormErrorCallout)) {
-      showErrorBanner = !form.showCustomFormErrorCallout(errorObj);
+      showErrorBanner = !form.showCustomFormErrorCallout(errorObj, idxStateError.messages);
     }
 
     // show error before updating app state.
@@ -360,18 +368,12 @@ export default Controller.extend({
     // TODO OKTA-408410: Widget should update the state on every new response. It should NOT do selective update.
     // For eg 429 rate-limit errors, we have to skip updating idx state, because error response is not an idx response.
     if (Array.isArray(idxStateError?.neededToProceed) && idxStateError?.neededToProceed.length) {
-      this.handleIdxResponse(idxStateError);
-    }
-
-    // 'idx.session.expired' requires special handling, otherwise the widget can lock up into an unrecoverable state
-    if (IonResponseHelper.isIdxSessionExpiredError(idxStateError)) {
-      const authClient = this.settings.getAuthClient();
-      authClient.transactionManager.clear();
+      await this.handleIdxResponse(idxStateError);
     }
   },
 
-  handleIdxResponse: function(idxResp) {
-    this.options.appState.trigger('updateAppState', idxResp);
+  async handleIdxResponse(idxResp) {
+    await updateAppState(this.options.appState, idxResp);
   },
 
   /**

@@ -6,8 +6,11 @@ import XHRIdentifyWithPassword
   from '../../../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import XHRIdentifyWithThirdPartyIdps
   from '../../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
+import XHRIdentifyWithWebAuthn
+  from '../../../../../../playground/mocks/data/idp/idx/identify-with-webauthn-launch-authenticator.json';
 import CookieUtil from 'util/CookieUtil';
 import Bundles from 'util/Bundles';
+import { FORMS } from 'v2/ion/RemediationConstants';
 
 describe('v2/view-builder/views/IdentifierView', function() {
   let originalLoginEnBundle;
@@ -28,7 +31,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
   beforeEach(function() { 
     testContext = {};
     testContext.init = (remediations = XHRIdentifyWithThirdPartyIdps.remediation.value) => {
-      const appState = new AppState();
+      const appState = new AppState({}, {});
       appState.set('remediations', remediations);
       testContext.view = new IdentifierView({
         appState,
@@ -294,5 +297,16 @@ describe('v2/view-builder/views/IdentifierView', function() {
     const $psswordError = testContext.view.$el.find('[data-se="o-form-fieldset-credentials.passcode"] .o-form-input-error');
     expect($usernameError.text()).toEqual('Username is required!');
     expect($psswordError.text()).toEqual('Password is required!');
+  });
+
+  it('should show "signin with biometric" button when launch-webauthn-authenticator remediation exist', function() {
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
+      return remediation === FORMS.LAUNCH_WEBAUTHN_AUTHENTICATOR;
+    });
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
+    testContext.init(XHRIdentifyWithWebAuthn.remediation.value);
+    
+    expect(testContext.view.$el.find('.sign-in-with-webauthn-option').length).toEqual(1);
   });
 });

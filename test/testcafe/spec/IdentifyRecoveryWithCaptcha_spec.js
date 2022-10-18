@@ -64,7 +64,7 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyRecover
 });
 
 // TODO: enable this test OKTA-504996
-test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock).skip('should be able to submit identifier with hCaptcha enabled', async t => {
+test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock)('should be able to submit identifier with hCaptcha enabled', async t => {
   const identityPage = await setup(t);
 
   // Wait for the hCaptcha container to appear in the DOM and become visible.

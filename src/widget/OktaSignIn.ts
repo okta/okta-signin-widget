@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Errors from 'util/Errors';
+import { ConfigError } from 'util/Errors';
 import Util from 'util/Util';
 import Logger from 'util/Logger';
 import getAuthClient from 'widget/getAuthClient';
@@ -46,7 +46,7 @@ export default class OktaSignIn implements OktaSignInAPI {
 
     // validate authClient configuration against widget options
     if (options.useInteractionCodeFlow  && this.authClient.isPKCE() === false) {
-      throw new Errors.ConfigError(
+      throw new ConfigError(
         'The "useInteractionCodeFlow" option requires PKCE to be enabled on the authClient.'
       );
     }
@@ -126,7 +126,7 @@ export default class OktaSignIn implements OktaSignInAPI {
     });
     const authClient = this.router.settings.getAuthClient();
     if (authClient.isAuthorizationCodeFlow() && !authClient.isPKCE()) {
-      throw new Errors.ConfigError('"showSignInToGetTokens()" should not be used for authorization_code flow. ' + 
+      throw new ConfigError('"showSignInToGetTokens()" should not be used for authorization_code flow. ' + 
         'Use "showSignInAndRedirect()" instead');
     }
     return promise;

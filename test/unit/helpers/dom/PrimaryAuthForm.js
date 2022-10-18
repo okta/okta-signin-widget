@@ -136,6 +136,10 @@ export default Form.extend({
     return this.helpFooter().text();
   },
 
+  backLinkFooter: function() {
+    return this.$('.footer-back-link');
+  },
+
   helpLink: function() {
     return this.$('.js-help-link');
   },
@@ -238,6 +242,10 @@ export default Form.extend({
 
   isDisabled: function() {
     return this.inputsDisabled() && this.linksAppearDisabled();
+  },
+
+  isUsernameDisabled: function() {
+    return this.usernameField().is(':disabled');
   },
 
   additionalAuthButton: function() {

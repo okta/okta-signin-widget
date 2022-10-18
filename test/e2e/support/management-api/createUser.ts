@@ -18,7 +18,7 @@ import { UserCredentials } from './createCredentials';
 
 const userGroup = 'Basic Auth Web';
 
-export default async (credentials: UserCredentials, assignToGroups = [userGroup]): Promise<User> => {
+export default async (credentials: UserCredentials, assignToGroups = []): Promise<User> => {
   const config = getConfig();
   const oktaClient = new Client({
     orgUrl: config.orgUrl,
@@ -34,15 +34,6 @@ export default async (credentials: UserCredentials, assignToGroups = [userGroup]
   };
 
   try {
-    // Create basic auth group if it doesn't exist
-    let {value: testGroup} = await oktaClient.listGroups({
-      q: userGroup
-    }).next();
-
-    if (!testGroup) {
-      testGroup = await oktaClient.createGroup(basicAuthGroup);
-    }
-
     user = await oktaClient.createUser({
       profile: {
         firstName: credentials.firstName,
@@ -51,15 +42,33 @@ export default async (credentials: UserCredentials, assignToGroups = [userGroup]
         login: credentials.emailAddress
       },
       credentials: {
-        password : { value: credentials.password }
+        password: { value: credentials.password }
       }
     }, {
       activate: true
     });
-    
+
+    // Dump user ID to help with local debugging
+    if (process.env.LOCAL_MONOLITH) {
+      const adminUrl = config.orgUrl?.replace('.okta1.com', '-admin.okta1.com');
+      const userUrl = `${adminUrl}/admin/user/profile/view/${user.id}`;
+      console.log('Created user: ', user.id, `${config.orgUrl}`, userUrl);
+    }
+
+    // Create the group if it doesn't exist
+    let { value: testGroup } = await oktaClient.listGroups({
+      q: userGroup
+    }).next();
+
+    if (!testGroup) {
+      testGroup = await oktaClient.createGroup(basicAuthGroup);
+    }
+
+    await oktaClient.addUserToGroup((testGroup as Group).id, user.id);
+
     for (const groupName of assignToGroups) {
       // TODO: create test group and attach password recovery policy during test run when API supports it
-      let {value: testGroup} = await oktaClient.listGroups({
+      let { value: testGroup } = await oktaClient.listGroups({
         q: groupName
       }).next();
 

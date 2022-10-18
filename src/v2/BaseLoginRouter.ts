@@ -20,7 +20,7 @@ import Bundles from 'util/Bundles';
 import BrowserFeatures from 'util/BrowserFeatures';
 import ColorsUtil from 'util/ColorsUtil';
 import Enums from 'util/Enums';
-import Errors from 'util/Errors';
+import { ConfigError } from 'util/Errors';
 import Logger from 'util/Logger';
 import LanguageUtil from 'util/LanguageUtil';
 import AuthContainer from 'v1/views/shared/AuthContainer';
@@ -29,12 +29,10 @@ import AppState from './models/AppState';
 import sessionStorageHelper from './client/sessionStorageHelper';
 import {
   startLoginFlow,
-  interactionCodeFlow,
   handleConfiguredFlow,
+  updateAppState
 } from './client';
 
-import transformIdxResponse from './ion/transformIdxResponse';
-import { FORMS } from './ion/RemediationConstants';
 import CookieUtil from 'util/CookieUtil';
 import { formatError, LegacyIdxError, StandardApiError } from './client/formatError';
 import { RenderError, RenderResult } from 'types';
@@ -75,7 +73,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     this.settings.setAuthClient(options.authClient);
 
     if (!options.el) {
-      this.settings.callGlobalError(new Errors.ConfigError(loc('error.required.el')));
+      this.settings.callGlobalError(new ConfigError(loc('error.required.el')));
     }
 
     $('body > div').on('click', function() {
@@ -87,7 +85,10 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     });
 
     this.hooks = options.hooks;
-    this.appState = new AppState();
+    this.appState = new AppState({}, {
+      settings: this.settings,
+      hooks: this.hooks
+    });
 
     const wrapper = new AuthContainer({ appState: this.appState });
 
@@ -103,9 +104,6 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     this.hide();
 
     this.listenTo(this.appState, 'change:deviceFingerprint', this.updateDeviceFingerprint);
-    this.listenTo(this.appState, 'error', this.handleError);
-    this.listenTo(this.appState, 'updateAppState', this.handleUpdateAppState);
-    this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
     this.listenTo(this.appState, 'restartLoginFlow', this.restartLoginFlow);
   }
 
@@ -117,76 +115,19 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     }
   }
 
-  async handleUpdateAppState(idxResponse: IdxResponse): Promise<IdxResponse> {
-    // Only update the cookie when the user has successfully authenticated themselves 
-    // to avoid incorrect/unnecessary updates.
-    if (this.hasAuthenticationSucceeded(idxResponse) 
-      && this.settings.get('features.rememberMyUsernameOnOIE')) {
-      this.updateIdentifierCookie(idxResponse);
-    }    
-
-    const lastResponse = this.appState.get('idx');
-    const useInteractionCodeFlow = this.settings.get('useInteractionCodeFlow');
-    if (useInteractionCodeFlow) {
-      if (idxResponse.interactionCode) {
-        // Although session.stateHandle isn't used by interation flow,
-        // it's better to clean up at the end of the flow.
-        sessionStorageHelper.removeStateHandle();
-        // This is the end of the IDX flow, now entering OAuth
-        return interactionCodeFlow(this.settings, idxResponse);
-      }  
-    } else {
-      // Do not save state handle for the first page loads.
-      // Because there shall be no difference between following behavior
-      // 1. bootstrap widget
-      //    -> save state handle to session storage
-      //    -> refresh page
-      //    -> introspect using sessionStorage.stateHandle
-      // 2. bootstrap widget
-      //    -> do not save state handle to session storage
-      //    -> refresh page
-      //    -> introspect using options.stateHandle
-      if (lastResponse) {
-        sessionStorageHelper.setStateHandle(idxResponse?.context?.stateHandle);
-      }
-      // Login flows that mimic step up (moving forward in login pipeline) via internal api calls,
-      // need to clear stored stateHandles.
-      // This way the flow can maintain the latest state handle. For eg. Device probe calls
-      if (this.appState.get('currentFormName') === FORMS.CANCEL_TRANSACTION) {
-        sessionStorageHelper.removeStateHandle();
-      }
-    }
-
-    // transform response
-    const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
-
-    await this.appState.setIonResponse(ionResponse, this.hooks);
-  }
-
-  handleIdxResponseFailure(error: LegacyIdxError = { error: 'unknown', details: undefined }) {
+  async handleIdxResponseFailure(error: LegacyIdxError = { error: 'unknown', details: undefined }) {
     // IDX errors will not call the global error handler
     error = formatError(error);
-    this.handleUpdateAppState(error.details);
+    await updateAppState(this.appState, error.details);
   }
 
   // Generic error handler for all exceptions
-  handleError(error: LegacyIdxError | StandardApiError | Error = { error: 'unknown', details: undefined }) {
-    // Show error message and notify listeners
-    const originalError = error;
+  async handleError(error: LegacyIdxError | StandardApiError | Error = { error: 'unknown', details: undefined }) {
     const formattedError = formatError({...error}); // format the error to resemble an IDX response
-    this.handleUpdateAppState(formattedError.details);
-    this.settings.callGlobalError(originalError);
-
-    // -- TODO: OKTA-244631 How to surface up the CORS error in IDX?
-    // -- The `err` object from idx.js doesn't have XHR object
-    // Global error handling for CORS enabled errors
-    // if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
-    //   this.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
-    //   return;
-    // }
+    await updateAppState(this.appState, formattedError.details);
   }
 
-  /* eslint max-statements: [2, 30], complexity: [2, 13] */
+  /* eslint max-statements: [2, 36], complexity: [2, 16] */
   async render(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
@@ -209,11 +150,12 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     // introspect stateToken when widget is bootstrap with state token
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
+    let error;
     if (this.settings.get('oieEnabled')) {
       try {
         let idxResp = await startLoginFlow(this.settings);
         if (idxResp.error) {
-          this.appState.trigger('remediationError', idxResp.error);
+          await this.handleIdxResponseFailure(idxResp.error);
         } else {
           if (this.settings.get('flow') && !this.hasControllerRendered) {
             idxResp = await handleConfiguredFlow(idxResp, this.settings);
@@ -226,10 +168,15 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
             authClient.transactionManager.clear();
           }
 
-          this.appState.trigger('updateAppState', idxResp);
+          await updateAppState(this.appState, idxResp);
         }
       } catch (exception) {
-        this.appState.trigger('error', exception);
+        if (exception.is?.('terminal')) {
+          this.appState.setNonIdxError(exception);
+        } else {
+          error = exception;
+          await this.handleError(exception);
+        }
       } finally {
         // These settings should only be used one time, for initial render
         this.settings.unset('stateToken');
@@ -264,6 +211,19 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     this.controller.render();
 
     this.hasControllerRendered = true;
+
+    // This will reject the promise returned from renderEl
+    if (error) {
+      this.settings.callGlobalError(error);
+    }
+
+    // -- TODO: OKTA-244631 How to surface up the CORS error in IDX?
+    // -- The `err` object from idx.js doesn't have XHR object
+    // Global error handling for CORS enabled errors
+    // if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
+    //   this.settings.callGlobalError(new UnsupportedBrowserError(loc('error.enabled.cors')));
+    //   return;
+    // }
   }
 
   /**
@@ -302,6 +262,9 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     this.settings.unset('recoveryToken');
     // clear otp (email magic link), if any
     this.settings.unset('otp');
+
+    // remove all event listeners from current controller instance. A new instance will be created in render().
+    this.controller.stopListening();
 
     // Re-render the widget
     this.render(this.controller.constructor);
