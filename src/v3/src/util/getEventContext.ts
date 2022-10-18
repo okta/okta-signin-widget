@@ -37,7 +37,7 @@ export const getFormNameForTransaction = (transaction: IdxTransaction): string |
     }
     // no remediation or only skip remediation with messages for device enrollment state
     // and the state is meant to be terminal state with different UI than the regular terminal view
-    // @ts-ignore deviceEnrollment missing from type
+    // @ts-ignore OKTA-542514 - deviceEnrollment missing from type
     if (rawIdxState.deviceEnrollment) {
       return IDX_STEP.DEVICE_ENROLLMENT_TERMINAL;
     }
