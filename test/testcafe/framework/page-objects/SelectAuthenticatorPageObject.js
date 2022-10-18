@@ -1,4 +1,5 @@
 import { Selector, userVariables } from 'testcafe';
+import { within } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
 const factorListRowSelector = userVariables.v3 ? '.authenticator-row' : '.authenticator-list .authenticator-row';
@@ -20,6 +21,9 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorButton() {
+    if (userVariables.v3) {
+      return this.form.getAllButtons().withAttribute('data-se', 'authenticator-button');
+    }
     return this.form.getElement(factorListRowSelector);
   }
 
@@ -28,6 +32,10 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorLabelByIndex(index) {
+    if (userVariables.v3) {
+      const factorButton = this.getFactorButton().nth(index);
+      return within(factorButton).findByRole('heading', { level: 3 }).textContent;
+    }
     return this.form.getElement(factorLabelSelector).nth(index).textContent;
   }
 
@@ -70,7 +78,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async skipOptionalEnrollment() {
-    const button = this.form.getButtonByName('Set up later');
+    const button = this.form.getButton('Set up later');
     await this.t.click(button);
   }
 
@@ -80,7 +88,7 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   async clickCustomOTP() {
     if (userVariables.v3) {
-      const button = this.form.getButtonByName('Atko Custom OTP Authenticator');
+      const button = this.form.getButton('Atko Custom OTP Authenticator');
       await this.t.click(button);
     } else {
       await this.t.click(this.form.getElement(CUSTOM_OTP_BUTTON_SELECTOR));

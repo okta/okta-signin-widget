@@ -147,13 +147,8 @@ export default class BaseFormObject {
     await this.t.click(buttonToClick);
   }
 
-  /**
-   * @param {string} name the text of the button to return
-   */
-  getButtonByName(name) {
-    return within(this.el).getByRole('button', {
-      name,
-    });
+  getAllButtons() {
+    return within(this.el).getAllByRole('button');
   }
 
   /**
