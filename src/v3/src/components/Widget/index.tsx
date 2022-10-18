@@ -235,6 +235,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return;
     }
     events?.afterRender?.(getEventContext(idxTransaction));
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idxTransaction, bootstrap]);
 
