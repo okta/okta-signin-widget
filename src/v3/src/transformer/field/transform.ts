@@ -91,13 +91,21 @@ export const transformStepInputs = (
       const uischema = mapUiElement(input);
       acc.uischema.elements = [...acc.uischema.elements, uischema];
 
+      if (type === 'boolean' && required) {
+        acc.data[name] = (input.value as unknown) === true;
+      }
+
       // add client validation for "required" field
       // do not validate immutable fields, they will always be added to payload programatically
       if (required && mutable !== false && type !== 'object') {
         acc.dataSchema[name] = {
           validate(data) {
-            const isValid = !!data[name];
-            return isValid ? undefined : getValidationMessages(name, widgetProps, step);
+            // in the case of a required boolean input, just return true
+            // if the backend requires the checbox val to be true, error will be displayed
+            if (typeof data[name] === 'boolean' || !!data[name]) {
+              return undefined;
+            }
+            return getValidationMessages(name, widgetProps, step);
           },
         };
         acc.dataSchema.fieldsToValidate.push(name);

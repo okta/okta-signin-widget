@@ -169,7 +169,7 @@ export default [
         format,
         customOptions,
       },
-    }: FieldElement) => (Array.isArray(customOptions) || Array.isArray(options)) && format === 'dropdown',
+    }: FieldElement) => (Array.isArray(customOptions) || Array.isArray(options)) && format === 'select',
     renderer: Select,
   },
   {

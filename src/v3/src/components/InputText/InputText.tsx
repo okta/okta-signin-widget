@@ -35,7 +35,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
 }) => {
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
-  const { translations = [], focus } = uischema;
+  const { translations = [], focus, required } = uischema;
   const label = getTranslation(translations);
   const hint = getTranslation(translations, 'hint');
   const {
@@ -53,7 +53,12 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
 
   return (
     <Box>
-      <InputLabel htmlFor={name}>{label}</InputLabel>
+      <InputLabel
+        htmlFor={name}
+        required={required}
+      >
+        {label}
+      </InputLabel>
       { hint && <FormHelperText data-se={`${name}-hint`}>{hint}</FormHelperText> }
       <OutlinedInput
         value={value}

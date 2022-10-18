@@ -119,38 +119,42 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                 <div
                   class="MuiBox-root emotion-11"
                 >
-                  <label
-                    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-16"
+                  <fieldset
+                    class="MuiFormControl-root emotion-16"
                   >
-                    <span
-                      class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-17"
+                    <label
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-17"
                     >
-                      <input
-                        class="PrivateSwitchBase-input emotion-18"
-                        data-se="autoChallenge"
-                        data-se-for-name="autoChallenge"
-                        id="autoChallenge"
-                        name="autoChallenge"
-                        type="checkbox"
-                      />
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
-                        data-testid="CheckBoxOutlineBlankIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
+                      <span
+                        class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-18"
                       >
-                        <path
-                          d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                        <input
+                          class="PrivateSwitchBase-input emotion-19"
+                          data-se="autoChallenge"
+                          data-se-for-name="autoChallenge"
+                          id="autoChallenge"
+                          name="autoChallenge"
+                          type="checkbox"
                         />
-                      </svg>
-                    </span>
-                    <span
-                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-20"
-                    >
-                      Send push automatically
-                    </span>
-                  </label>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-20"
+                          data-testid="CheckBoxOutlineBlankIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-21"
+                      >
+                        Send push automatically
+                      </span>
+                    </label>
+                  </fieldset>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
@@ -159,7 +163,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                     class="MuiBox-root emotion-12"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-24"
                       data-se="o-form-explain"
                     >
                       Push notification sent
@@ -170,21 +174,21 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-25"
+                    class="MuiBox-root emotion-26"
                   >
                     <span
                       aria-label="Loading..."
                       aria-valuetext="Loading..."
-                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-26"
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-27"
                       role="progressbar"
                       style="width: 1.14285714rem; height: 1.14285714rem;"
                     >
                       <svg
-                        class="MuiCircularProgress-svg emotion-27"
+                        class="MuiCircularProgress-svg emotion-28"
                         viewBox="22 22 44 44"
                       >
                         <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-28"
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-29"
                           cx="44"
                           cy="44"
                           fill="none"
@@ -199,7 +203,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >

@@ -142,9 +142,13 @@ export function isUISchemaLayoutType(type: string): boolean {
 export interface FieldElement extends UISchemaElement {
   type: 'Field';
   key: string;
+  /**
+   * @description TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
+   */
+  required?: boolean | undefined;
   options: {
     inputMeta: Input;
-    format?: string;
+    format?: 'select' | 'radio';
     attributes?: InputAttributes;
     type?: string;
     customOptions?: IdxOption[],
