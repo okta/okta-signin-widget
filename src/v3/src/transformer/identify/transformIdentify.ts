@@ -37,6 +37,8 @@ export const transformIdentify: IdxStepTransformer = ({
     // add username/identifier from config if provided
     if (username) {
       data.identifier = username;
+    } else if (typeof identifierElement.options.inputMeta.value === 'string') {
+      data.identifier = identifierElement.options.inputMeta.value;
     // TODO: OKTA-508744 - to use rememberMe in features once Default values are added widgetProps.
     // (i.e. rememberMe is default = true in v2)
     } else if (features?.rememberMe !== false && features?.rememberMyUsernameOnOIE) {

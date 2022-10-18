@@ -1,3 +1,4 @@
+import { userVariables } from 'testcafe';
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 
 const RESEND_EMAIL_VIEW_SELECTOR = '.resend-email-view';
@@ -20,6 +21,10 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
   }
 
   async clickEnterCodeLink() {
-    await this.form.clickElement('.enter-auth-code-instead-link');
+    if (userVariables.v3) {
+      await this.t.click(this.form.getButton('Enter a code from the email instead'));
+    } else {
+      await this.form.clickElement('.enter-auth-code-instead-link');
+    }
   }
 }
