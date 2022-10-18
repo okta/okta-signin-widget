@@ -12,7 +12,6 @@ module.exports = function(grunt) {
       postcssAutoprefixer = require('autoprefixer')({remove: false}),
       cssnano     = require('cssnano')({safe: true}),      
       sass        = require('sass'),
-      Fiber       = require('fibers'),
       path        = require('path');
 
   var JS                    = 'target/js',
@@ -270,7 +269,6 @@ module.exports = function(grunt) {
     sass: {
       options: {
         implementation: sass,
-        fiber: Fiber,
         sourceMap: true,
         outputStyle: 'expanded',
         includePaths: [SASS]
