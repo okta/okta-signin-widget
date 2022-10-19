@@ -124,7 +124,7 @@ describe('SecurityQuestionEnroll Tests', () => {
     expect((layoutOne.elements[2] as FieldElement).options.customOptions?.length)
       .toBe(2);
     expect((layoutOne.elements[2] as FieldElement).options.format)
-      .toBe('dropdown');
+      .toBe('select');
     expect((layoutOne.elements[2] as FieldElement).options.inputMeta.name)
       .toBe('credentials.questionKey');
 

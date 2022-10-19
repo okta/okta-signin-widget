@@ -50,10 +50,11 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const {
     translations = [],
     focus,
+    required,
     options: {
       inputMeta: {
         name: fieldName,
-        // @ts-ignore expose type from auth-js
+        // @ts-ignore TODO: OKTA-539834 - messages missing from type
         messages = {},
       },
       attributes,
@@ -139,6 +140,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     <Box marginBottom={4}>
       <InputLabel
         id="countryLabel"
+        required={required}
         htmlFor="countryList"
       >
         {countryLabel}
@@ -187,7 +189,12 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
           width={showExtension ? 0.7 : 1}
           marginRight={showExtension ? 2 : 0}
         >
-          <InputLabel htmlFor={fieldName}>{mainLabel}</InputLabel>
+          <InputLabel
+            htmlFor={fieldName}
+            required={required}
+          >
+            {mainLabel}
+          </InputLabel>
           <OutlinedInput
             type="tel"
             name={fieldName}

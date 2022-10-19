@@ -1462,9 +1462,10 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                           name="credentials.questionKey"
                         >
                           <option
-                            aria-label="None"
                             value=""
-                          />
+                          >
+                            Select an Option
+                          </option>
                           <option
                             value="disliked_food"
                           >
@@ -1982,9 +1983,10 @@ exports[`authenticator-enroll-security-question predefined question should send 
                           name="credentials.questionKey"
                         >
                           <option
-                            aria-label="None"
                             value=""
-                          />
+                          >
+                            Select an Option
+                          </option>
                           <option
                             value="disliked_food"
                           >
@@ -2485,9 +2487,10 @@ exports[`authenticator-enroll-security-question predefined question should show 
                           name="credentials.questionKey"
                         >
                           <option
-                            aria-label="None"
                             value=""
-                          />
+                          >
+                            Select an Option
+                          </option>
                           <option
                             value="disliked_food"
                           >
@@ -3041,9 +3044,10 @@ exports[`authenticator-enroll-security-question predefined question should show 
                           name="credentials.questionKey"
                         >
                           <option
-                            aria-label="None"
                             value=""
-                          />
+                          >
+                            Select an Option
+                          </option>
                           <option
                             value="disliked_food"
                           >

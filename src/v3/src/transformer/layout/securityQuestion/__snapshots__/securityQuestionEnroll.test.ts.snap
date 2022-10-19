@@ -63,7 +63,7 @@ Object {
                       "value": "fav_actor",
                     },
                   ],
-                  "format": "dropdown",
+                  "format": "select",
                   "inputMeta": Object {
                     "name": "credentials.questionKey",
                     "options": Array [

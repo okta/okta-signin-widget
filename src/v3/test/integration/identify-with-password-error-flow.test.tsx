@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { setup } from './util';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 import * as cookieUtils from '../../src/util/cookieUtils';
 import invalidUsernameMockResponse from '../../src/mocks/response/idp/idx/identify/error-invalid-username.json';
@@ -88,25 +88,13 @@ describe('identify-with-password-error-flow', () => {
     expect((await findByTestId('credentials.passcode') as HTMLInputElement).value).toBe(password);
 
     await user.click(await findByText('Sign in', { selector: 'button' }));
-    // TODO: OKTA-526754 - Update this assertion once merged back into 0.1
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      'POST',
-      'http://localhost:3000/idp/idx/identify',
-      {
-        data: JSON.stringify({
-          identifier: username,
-          credentials: {
-            passcode: password,
-          },
-          stateHandle: 'fake-stateHandle',
-        }),
-        headers: {
-          Accept: 'application/json; okta-version=1.0.0',
-          'Content-Type': 'application/json',
-          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/identify', {
+        identifier: username,
+        credentials: {
+          passcode: password,
         },
-        withCredentials: true,
-      },
+      }),
     );
   });
 });

@@ -38,7 +38,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
-  const { label, focus } = uischema;
+  const { label, focus, required } = uischema;
   const {
     attributes,
     inputMeta: {
@@ -62,6 +62,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
     <FormControl
       disabled={loading}
       error={error !== undefined}
+      required={required}
     >
       <InputLabel htmlFor={name}>{label}</InputLabel>
       <MuiSelect
@@ -78,11 +79,15 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         }}
       >
         {
-          [<option
-            aria-label="None"
-            value=""
-            key="empty"
-          />].concat(
+          [
+            <option
+              value=""
+              key="empty"
+            >
+              {/* TODO: OKTA-518793 - need translation key for this string */}
+              Select an Option
+            </option>,
+          ].concat(
             (customOptions ?? options)?.map((option: IdxOption) => (
               <option
                 key={option.value}

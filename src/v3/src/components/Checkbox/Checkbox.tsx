@@ -10,49 +10,81 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Checkbox as CheckboxMui, FormControlLabel } from '@mui/material';
+import {
+  Checkbox as CheckboxMui,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+} from '@mui/material';
 import { h } from 'preact';
-import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
+import {
+  ChangeEvent,
+  UISchemaElementComponent,
+  UISchemaElementComponentWithValidationProps,
+} from 'src/types';
 
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import { getTranslation } from '../../util';
+import { withFormValidationState } from '../hocs';
 
-const Checkbox: UISchemaElementComponent<{
-  uischema: FieldElement
-}> = ({ uischema }) => {
+const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
+  uischema,
+  setTouched,
+  error,
+  setError,
+  onValidateHandler,
+}) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
 
-  const { options: { inputMeta: { name } }, focus } = uischema;
+  const { options: { inputMeta: { name } }, focus, required } = uischema;
   const label = getTranslation(uischema.translations!);
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTouched?.(true);
     onChangeHandler(e.currentTarget.checked);
+    onValidateHandler?.(setError, e.currentTarget.checked);
   };
 
   return (
-    <FormControlLabel
-      control={(
-        <CheckboxMui
-          size="medium"
-          checked={value === true}
-          id={name}
-          name={name}
-          inputRef={focusRef}
-          onChange={handleChange}
-          disabled={loading}
-          inputProps={{
-            'data-se': name,
-            'data-se-for-name': name,
-          }}
-        />
+    <FormControl
+      component="fieldset"
+      required={required}
+      error={!!error}
+    >
+      <FormControlLabel
+        control={(
+          <CheckboxMui
+            size="medium"
+            checked={value === true}
+            id={name}
+            name={name}
+            inputRef={focusRef}
+            onChange={handleChange}
+            disabled={loading}
+            inputProps={{
+              'data-se': name,
+              'data-se-for-name': name,
+            }}
+          />
+        )}
+        label={label as string}
+      />
+      {error && (
+        <FormHelperText
+          id={`${name}-error`}
+          role="alert"
+          data-se={`${name}-error`}
+          error
+        >
+          {error}
+        </FormHelperText>
       )}
-      label={label as string}
-    />
+    </FormControl>
   );
 };
 
-export default Checkbox;
+export default withFormValidationState(Checkbox);

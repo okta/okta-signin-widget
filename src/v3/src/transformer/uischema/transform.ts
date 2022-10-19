@@ -10,9 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { flow } from 'lodash';
 
+import CountryUtil from '../../../../util/CountryUtil';
+import { IDX_STEP } from '../../constants';
 import {
+  FieldElement,
   TransformStepFn,
   TransformStepFnWithOptions,
   UISchemaElement,
@@ -55,9 +59,62 @@ export const setFocusOnFirstElement: TransformStepFn = (formbag) => {
   return formbag;
 };
 
+export const updateCustomFields: TransformStepFn = (formbag) => {
+  traverseLayout({
+    layout: formbag.uischema,
+    predicate: (el) => (el.type === 'Field'),
+    callback: (el) => {
+      const fieldElement = (el as FieldElement);
+      const { options: { inputMeta: { options } } } = fieldElement;
+      if (Array.isArray(options) && options[0]?.value) {
+        const [option] = options;
+        if (option.label === 'display') {
+          // TODO: OKTA-538689 Missing type in interface, have to cast to any
+          const input = (option.value as any)?.value;
+          fieldElement.options.format = input.inputType;
+          fieldElement.options.customOptions = input.options;
+          if (input.inputType === 'select' && input.format === 'country-code') {
+            const countryCodeObj = CountryUtil.getCountryCode();
+            const countryOptions = Object.entries(countryCodeObj).map(([code, label]) => ({
+              label,
+              value: code,
+            } as IdxOption));
+            fieldElement.options.customOptions = countryOptions;
+          } else if (input.inputType === 'text') {
+            // Text type that has options must remove options for renderers.tsx
+            // to map to correct element
+            fieldElement.options.inputMeta.options = undefined;
+          }
+        }
+      }
+    },
+  });
+  return formbag;
+};
+
+// TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
+export const updateRequiredFields: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
+  const { nextStep: { name } = {} } = transaction;
+  if (name !== IDX_STEP.ENROLL_PROFILE) {
+    return formbag;
+  }
+  traverseLayout({
+    layout: formbag.uischema,
+    predicate: (el) => (el.type === 'Field'),
+    callback: (el) => {
+      const fieldElement = (el as FieldElement);
+      const { options: { inputMeta: { required } } } = fieldElement;
+      fieldElement.required = required;
+    },
+  });
+  return formbag;
+};
+
 export const transformUISchema: TransformStepFnWithOptions = (
   options,
 ) => (formbag) => flow(
   addKeyToElement(options),
+  updateCustomFields,
   setFocusOnFirstElement,
+  updateRequiredFields(options),
 )(formbag);

@@ -20,24 +20,31 @@ import {
 } from '@mui/material';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { h } from 'preact';
-import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnChange, useValue } from '../../hooks';
+import {
+  ChangeEvent,
+  UISchemaElementComponent,
+  UISchemaElementComponentWithValidationProps,
+} from '../../types';
+import { withFormValidationState } from '../hocs';
 
-const Radio: UISchemaElementComponent<{
-  uischema: FieldElement
-}> = ({ uischema }) => {
+const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
+  uischema,
+  setTouched,
+  error,
+  setError,
+  onValidateHandler,
+}) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const {
     label,
+    required,
     options: {
       inputMeta: {
-        // @ts-ignore expose type from auth-js
-        messages = {},
         name,
         options,
       },
@@ -45,16 +52,18 @@ const Radio: UISchemaElementComponent<{
     },
     focus,
   } = uischema;
-  const error = messages?.value?.[0] && getMessage(messages.value[0]);
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTouched?.(true);
     onChangeHandler(e.currentTarget.value);
+    onValidateHandler?.(setError, e.currentTarget.value);
   };
 
   return (
     <FormControl
       component="fieldset"
+      required={required}
       error={!!error}
     >
       {label && (<FormLabel>{label!}</FormLabel>)}
@@ -66,7 +75,7 @@ const Radio: UISchemaElementComponent<{
         onChange={handleChange}
       >
         {
-          (customOptions ?? options)?.map((item: IdxOption, index) => (
+          (customOptions ?? options)?.map((item: IdxOption, index: number) => (
             <FormControlLabel
               control={<RadioMui />}
               key={item.value}
@@ -93,4 +102,4 @@ const Radio: UISchemaElementComponent<{
   );
 };
 
-export default Radio;
+export default withFormValidationState(Radio);

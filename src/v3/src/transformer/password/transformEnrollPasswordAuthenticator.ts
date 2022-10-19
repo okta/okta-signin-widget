@@ -21,7 +21,7 @@ import {
   PasswordSettings,
   TitleElement,
 } from '../../types';
-import { getUserInfo, loc } from '../../util';
+import { getUserInfo, loc, updatePasswordRequirementsNotMetMessage } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
@@ -68,50 +68,36 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       inputMeta: {
         name: 'confirmPassword',
         secret: true,
-        // @ts-ignore expose type from auth-js
+        // @ts-ignore TODO: OKTA-539834 - messages missing from type
         messages: { value: undefined },
       },
       attributes: { autocomplete: 'new-password' },
     },
   };
 
-  // @ts-ignore expose type from auth-js
+  // @ts-ignore TODO: OKTA-539834 - messages missing from type
   if (passwordElement.options.inputMeta.messages?.value?.length) {
-    // @ts-ignore expose type from auth-js
+    // @ts-ignore TODO: OKTA-539834 - messages missing from type
     const errorMessages = passwordElement.options.inputMeta.messages.value;
-    // @ts-ignore expose type from auth-js
     const newPasswordErrors = errorMessages.filter((message: IdxMessageWithName) => {
       const { name: newPwName } = passwordElement.options.inputMeta;
       return message.name === newPwName || message.name === undefined;
     });
     if (newPasswordErrors?.length) {
-      const messages = newPasswordErrors.map((message: IdxMessageWithName) => {
-        if (message.i18n?.key === 'password.passwordRequirementsNotMet') {
-          return {
-            ...message,
-            i18n: {
-              key: 'registration.error.password.passwordRequirementsNotMet',
-              params: undefined,
-            },
-            message: loc('registration.error.password.passwordRequirementsNotMet', 'login'),
-          } as IdxMessageWithName;
-        }
-        return message;
-      });
-      // @ts-ignore expose type from auth-js
+      const messages = updatePasswordRequirementsNotMetMessage(newPasswordErrors);
+      // @ts-ignore TODO: OKTA-539834 - messages missing from type
       passwordElement.options.inputMeta.messages.value = messages;
     } else {
-      // @ts-ignore expose type from auth-js
+      // @ts-ignore TODO: OKTA-539834 - messages missing from type
       passwordElement.options.inputMeta.messages.value = undefined;
     }
 
-    // @ts-ignore expose type from auth-js
     const confirmPasswordError = errorMessages.find((message: IdxMessageWithName) => {
       const { name: confirmPwName } = confirmPasswordElement.options.inputMeta;
       return message.name === confirmPwName;
     });
     if (confirmPasswordError) {
-      // @ts-ignore expose type from auth-js
+      // @ts-ignore TODO: OKTA-539834 - messages missing from type
       confirmPasswordElement.options.inputMeta.messages.value = [confirmPasswordError];
     }
   }
