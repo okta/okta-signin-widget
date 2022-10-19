@@ -487,10 +487,10 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@okta/courage@4.5.0-7125-g8b4aada":
-  version "4.5.0-7125-g8b4aada"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-7125-g8b4aada.tgz#03122fc52401de76ce6c87cdc5a5bfe99d2c0a69"
-  integrity sha1-AxIvxSQB3nbObIfNxaW/6Z0sCmk=
+"@okta/courage@4.5.0-7361-g7533d49":
+  version "4.5.0-7361-g7533d49"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-7361-g7533d49.tgz#2b00efdfb3c57ec4bb26ed79718e7bc28b82b076"
+  integrity sha1-KwDv37PFfsS7Ju15cY57wouCsHY=
   dependencies:
     "@okta/jquery.simplemodal" "1.4.19-g8b711ea"
     "@types/backbone" "^1.4.10"
@@ -3537,9 +3537,9 @@ typescript@^4.6.2:
   integrity sha1-/hLScntwj07vQPUVmLM5i6qWEdQ=
 
 uglify-js@^3.1.4:
-  version "3.14.5"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/uglify-js/-/uglify-js-3.14.5.tgz#cdabb7d4954231d80cb4a927654c4655e51f4859"
-  integrity sha1-zau31JVCMdgMtKknZUxGVeUfSFk=
+  version "3.17.3"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/uglify-js/-/uglify-js-3.17.3.tgz#f0feedf019c4510f164099e8d7e72ff2d7304377"
+  integrity sha1-8P7t8BnEUQ8WQJno1+cv8tcwQ3c=
 
 underscore@1.13.1:
   version "1.13.1"
