@@ -2,6 +2,6 @@
   {
     "component": "jquery",
     "version": "1.12.4",
-    "justification": "This CVE (CVE-2019-11358) deals with pollution of prototype. We are mitigating this by using a patched version of jQuery (packages/@okta/courage-dist/jquery.js) The patch begins at line 213"
+    "justification": "CVE issues (CVE-2019-11358, CVE-2020-11023) have been mitigated with a patched version of jQuery (packages/@okta/courage-dist/esm/src/courage/vendor/lib/jquery-1.12.4.js)"
   }
 ]

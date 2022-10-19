@@ -3919,7 +3919,13 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
     // Support: IE6-IE11+
 
     div.innerHTML = "<textarea>x</textarea>";
-    support.noCloneChecked = !!div.cloneNode(true).lastChild.defaultValue; // #11217 - WebKit loses check when the name is after the checked attribute
+    support.noCloneChecked = !!div.cloneNode(true).lastChild.defaultValue; // Patch for CVE-2020-11023 vuln
+    // Support: IE <=9 only
+    // IE <=9 replaces <option> tags with their contents when inserted outside of
+    // the select element.
+
+    div.innerHTML = "<option></option>";
+    support.option = !!div.lastChild; // #11217 - WebKit loses check when the name is after the checked attribute
 
     fragment.appendChild(div); // Support: Windows Web Apps (WWA)
     // `name` and `type` must use .setAttribute for WWA (#14901)
@@ -3944,7 +3950,6 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
 
 
   var wrapMap = {
-    option: [1, "<select multiple='multiple'>", "</select>"],
     legend: [1, "<fieldset>", "</fieldset>"],
     area: [1, "<map>", "</map>"],
     // Support: IE8
@@ -3956,11 +3961,14 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
     // IE6-8 can't serialize link, script, style, or any html5 (NoScope) tags,
     // unless wrapped in a div with non-breaking characters in front of it.
     _default: support.htmlSerialize ? [0, "", ""] : [1, "X<div>", "</div>"]
-  }; // Support: IE8-IE9
-
-  wrapMap.optgroup = wrapMap.option;
+  };
   wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
-  wrapMap.th = wrapMap.td;
+  wrapMap.th = wrapMap.td; // Patch for CVE-2020-11023 vuln
+  // Support: IE <=9 only
+
+  if (!support.option) {
+    wrapMap.optgroup = wrapMap.option = [1, "<select multiple='multiple'>", "</select>"];
+  }
 
   function getAll(context, tag) {
     var elems,
@@ -5394,6 +5402,7 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
 
   jQuery.extend({
     htmlPrefilter: function (html) {
+      // Patch for CVE-2020-11022 vuln
       // OKTA-293330: Support patched jQuery prefilter to avoid possible XSS
       return html;
     },
@@ -9122,6 +9131,7 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
       return new window.ActiveXObject("Microsoft.XMLHTTP");
     } catch (e) {}
   } // Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
+  // Patch for NVD - CVE-2015-9251 vuln
   // https://oktainc.atlassian.net/browse/OKTA-131142
 
 
