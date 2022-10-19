@@ -55,10 +55,6 @@ export default class IdentityPageObject extends BasePageObject {
     return Selector(FORGOT_PASSWORD_SELECTOR).textContent;
   }
 
-  getUnlockAccountLinkText() {
-    return Selector(UNLOCK_ACCOUNT).textContent;
-  }
-
   async hasForgotPasswordLinkText() {
     const elCount = await Selector(FORGOT_PASSWORD_SELECTOR).count;
     return elCount === 1;
@@ -207,12 +203,23 @@ export default class IdentityPageObject extends BasePageObject {
     await this.t.click(Selector(ENROLL_SELECTOR));
   }
 
+  getUnlockAccountLink() {
+    if(userVariables.v3) {
+      return this.form.getLink('Unlock account?');
+    }
+    return Selector(UNLOCK_ACCOUNT);
+  }
+
+  getUnlockAccountLinkText() {
+    return this.getUnlockAccountLink().textContent;
+  }
+
   async clickUnlockAccountLink() {
-    await this.t.click(Selector(UNLOCK_ACCOUNT));
+    await this.t.click(this.getUnlockAccountLink());
   }
 
   getCustomUnlockAccountLink() {
-    return Selector(UNLOCK_ACCOUNT).getAttribute('href');
+    return this.getUnlockAccountLink().getAttribute('href');
   }
 
   getIdentifierSubLabelValue() {

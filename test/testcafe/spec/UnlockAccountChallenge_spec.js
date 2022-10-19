@@ -1,4 +1,4 @@
-import { RequestMock, ClientFunction } from 'testcafe';
+import { RequestMock, ClientFunction, userVariables } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -34,7 +34,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Unlock Account');
+fixture('Unlock Account').meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -48,7 +48,7 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account link', asy
 });
 
 
-test.requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
+test.meta('v3', false).requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
   const identityPage = await setup(t);
 
   await rerenderWidget({
@@ -84,9 +84,11 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
 
   const successPage = new TerminalPageObject(t);
   await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
-  await t.expect(successPage.getMessages()).eql('You can log in using your existing username and password.');
-  const gobackLinkExists = await successPage.goBackLinkExists();
-  await t.expect(gobackLinkExists).eql(false);
+  await t.expect(successPage.doesTextExist('You can log in using your existing username and password.')).eql(true);
+  if(!userVariables.v3) {
+    const gobackLinkExists = await successPage.goBackLinkExists();
+    await t.expect(gobackLinkExists).eql(false);
+  }
   const signoutLinkExists = await successPage.signoutLinkExists();
   await t.expect(signoutLinkExists).eql(true);
 });

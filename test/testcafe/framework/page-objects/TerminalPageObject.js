@@ -27,4 +27,8 @@ export default class TerminalPageObject extends BasePageObject {
   waitForErrorBox() {
     return this.form.waitForErrorBox();
   }
+
+  doesTextExist(content) {
+    return this.form.getTextElement(content).exists;
+  }
 }
