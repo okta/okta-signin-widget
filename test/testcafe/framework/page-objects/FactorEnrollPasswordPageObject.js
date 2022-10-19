@@ -43,7 +43,7 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   }
 
   hasPasswordError() {
-    return this.form.hasTextBoxError(passwordFieldName);
+    return this.form.hasTextBoxErrorMessage(passwordFieldName);
   }
 
   getPasswordError() {
@@ -89,5 +89,9 @@ export default class EnrollPasswordPageObject extends BasePageObject {
 
   doesTextExist(content) {
     return this.form.getTextElement(content).exists;
+  }
+
+  getSaveButtonLabel() {
+    return this.form.getButton('Change Password').textContent;
   }
 }
