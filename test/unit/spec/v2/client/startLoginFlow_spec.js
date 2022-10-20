@@ -26,20 +26,24 @@ describe('v2/client/startLoginFlow', () => {
     const introspect = jest.fn().mockResolvedValue({
       fake: 'fake introspect response'
     });
-    const settings = new Settings({
-      baseUrl: 'localhost:1234',
-      stateToken: 'a test state token from settings',
-    });
     const authClient = {
+      options: {},
       idx: {
         start,
         proceed,
         introspect,
         getFlow: () => {},
         getSavedTransactionMeta: () => {}
+      },
+      http: {
+        setRequestHeader: () => {}
       }
     };
-    settings.authClient = authClient;
+    const settings = new Settings({
+      baseUrl: 'localhost:1234',
+      stateToken: 'a test state token from settings',
+      authClient
+    });
     testContext = {
       start,
       proceed,
@@ -78,7 +82,6 @@ describe('v2/client/startLoginFlow', () => {
 
   it('shall do email verify callback when "otp" is defined', async () => {
     const { settings, start, proceed } = testContext;
-    settings.set('useInteractionCodeFlow', true);
     settings.set('otp', 'abc');
     const result = await startLoginFlow(testContext.settings);
     expect(result).toEqual('fake emailVerifyCallback response');
@@ -89,9 +92,9 @@ describe('v2/client/startLoginFlow', () => {
     expect(proceed).not.toHaveBeenCalled();
   });
 
-  it('shall run interaction flow when "useInteractionCodeFlow" is on', async () => {
+  it('shall run interaction flow when OAuth configuration is set', async () => {
     const { settings, start, proceed } = testContext;
-    settings.set('useInteractionCodeFlow', true);
+    settings.set('clientId', 'abc');
     const result = await startLoginFlow(settings);
     expect(result).toEqual({
       fake: 'fake start response'
@@ -100,8 +103,7 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledTimes(1);
 
     expect(start).toHaveBeenCalledWith({
-      exchangeCodeForTokens: false,
-      shouldProceedWithEmailAuthenticator: false
+      exchangeCodeForTokens: false
     });
     expect(proceed).not.toHaveBeenCalled();
   });
@@ -118,7 +120,6 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledTimes(1);
     expect(start).toHaveBeenCalledWith({
       exchangeCodeForTokens: false,
-      shouldProceedWithEmailAuthenticator: false,
       stateHandle: 'a test state token from settings'
     });
     expect(settings.get('stateToken')).toBe('a test state token from settings');
@@ -138,7 +139,6 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledTimes(1);
     expect(start).toHaveBeenCalledWith({
       exchangeCodeForTokens: false,
-      shouldProceedWithEmailAuthenticator: false,
       stateHandle: 'a test state token from settings'
     });
     expect(settings.get('stateToken')).toBe('a test state token from settings');
@@ -157,7 +157,6 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledTimes(1);
     expect(start).toHaveBeenCalledWith({
       exchangeCodeForTokens: false,
-      shouldProceedWithEmailAuthenticator: false,
       stateHandle: 'fake state handle from session storage'
     });
     expect(settings.get('stateToken'))
@@ -187,13 +186,11 @@ describe('v2/client/startLoginFlow', () => {
     expect(start.mock.calls[0][0])
       .toEqual({
         exchangeCodeForTokens: false,
-        shouldProceedWithEmailAuthenticator: false,
         stateHandle: 'fake state handle from session storage'
       });
     expect(start.mock.calls[1][0])
       .toEqual({
         exchangeCodeForTokens: false,
-        shouldProceedWithEmailAuthenticator: false,
         stateHandle: 'a test state token from settings'
       });
 
@@ -210,25 +207,22 @@ describe('v2/client/startLoginFlow', () => {
     } catch (e) {
       expect(e.name).toBe('CONFIG_ERROR');
       expect(e.message).toBe(
-        'Set "useInteractionCodeFlow" to true in configuration to enable the ' +
-        'interaction_code" flow for self-hosted widget.');
+        'Invalid OIDC configuration. Set "clientId" and "redirectUri" in the widget options.');
     }
   });
 
-  describe('nonce', () => {
+  describe('nonce (interaction code flow)', () => {
     it('shall pass nonce to /interact when provided with authParams', async () => {
-      let { settings } = testContext;
-      const authClient = settings.getAuthClient();
+      let { authClient } = testContext;
       const { start, proceed } = testContext;
-      settings = new Settings({
+      const settings = new Settings({
         baseUrl: 'localhost:1234',
-        stateToken: 'a test state token from settings',
+        clientId: 'abc',
         authParams: {
           nonce: 'nonce upon a time'
-        }
+        },
+        authClient
       });
-      settings.authClient = authClient;
-      settings.set('useInteractionCodeFlow', true);
       const result = await startLoginFlow(settings);
       expect(result).toEqual({
         fake: 'fake start response'
@@ -238,23 +232,20 @@ describe('v2/client/startLoginFlow', () => {
 
       expect(start).toHaveBeenCalledWith({
         exchangeCodeForTokens: false,
-        shouldProceedWithEmailAuthenticator: false,
         nonce: 'nonce upon a time'
       });
       expect(proceed).not.toHaveBeenCalled();
     });
 
     it('shall pass nonce to /interact when provided on top-level config', async () => {
-      let { settings } = testContext;
-      const authClient = settings.getAuthClient();
+      let { authClient } = testContext;
       const { start, proceed } = testContext;
-      settings = new Settings({
+      const settings = new Settings({
         baseUrl: 'localhost:1234',
-        stateToken: 'a test state token from settings',
-        nonce: 'nonce upon a time'
+        clientId: 'abc',
+        nonce: 'nonce upon a time',
+        authClient
       });
-      settings.authClient = authClient;
-      settings.set('useInteractionCodeFlow', true);
       const result = await startLoginFlow(settings);
       expect(result).toEqual({
         fake: 'fake start response'
@@ -264,7 +255,6 @@ describe('v2/client/startLoginFlow', () => {
 
       expect(start).toHaveBeenCalledWith({
         exchangeCodeForTokens: false,
-        shouldProceedWithEmailAuthenticator: false,
         nonce: 'nonce upon a time'
       });
       expect(proceed).not.toHaveBeenCalled();

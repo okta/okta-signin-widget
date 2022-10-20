@@ -106,6 +106,11 @@ export default class ConfigArea {
         const currentConfig = getConfig();
         const config = extendConfig(currentConfig, formConfig);
         loadWidgetScript(config.bundle, config.useMinBundle);
+        if (config.usePolyfill) {
+          loadPolyfill(config.useMinBundle);
+        } else {
+          removePolyfill();
+        }
         const str = formatWidgetOptions(config.widgetOptions);
         this.updateConfigPreview(str);
         this.updateConfigEditor(config.widgetOptions);

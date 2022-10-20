@@ -5,18 +5,16 @@
   "type": "module",
   "main": "target/test-import.js",
   "scripts": {
-    "clean:output": "rimraf target && rimraf dist",
-    "clean": "yarn clean:output && rimraf node_modules",
-    "build:ts": "tsc",
-    "build:webpack": "webpack",
-    "test": "yarn clean:output && yarn build:ts && yarn build:webpack"
+    "clean:output": "rm -rf target && rm -rf dist && rm -f package-lock.json",
+    "clean": "yarn clean:output && rm -rf node_modules",
+    "build": "webpack",
+    "test": "yarn clean:output && yarn build"
   },
   "dependencies": {
     "@okta/okta-signin-widget": "file:../../../dist"
   },
   "devDependencies": {
     "source-map-loader": "^2.0.2",
-    "typescript": "^4.2.2",
     "webpack": "^5.51.1",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.8.0"

@@ -44,7 +44,12 @@ fn.mockSetCookie = function() {
 fn.mockSDKCookie = function(authClient, key, value) {
   key = key || 'oktaStateToken';
   value = value || 'testStateToken';
-  spyOn(authClient.tx.exists, '_get').and.returnValue(value);
+  spyOn(authClient.options.storageUtil.storage, 'get').and.callFake((requestedKey) => {
+    if (requestedKey !== key) {
+      throw new Error(`Unexpected request for cookie: "${requestedKey}`);
+    }
+    return value;
+  });
 };
 
 fn.mockRemoveCookie = function() {

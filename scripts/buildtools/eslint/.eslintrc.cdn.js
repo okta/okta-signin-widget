@@ -5,7 +5,7 @@ module.exports = {
   },
   settings: {
     polyfills: [
-      // API availability is checked at runtime
+      'DOMQuad',
       'navigator.credentials',
       // API availability is checked at runtime
       'AbortController',

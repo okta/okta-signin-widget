@@ -25,6 +25,7 @@ import Toolbar from './courage/views/forms/components/Toolbar';
 import FormUtil from './courage/views/forms/helpers/FormUtil';
 import InputRegistry from './courage/views/forms/helpers/InputRegistry';
 import SchemaFormFactory from './courage/views/forms/helpers/SchemaFormFactory';
+import BaseInput from './courage/views/forms/BaseInput';
 import CheckBox from './courage/views/forms/inputs/CheckBox';
 import PasswordBox from './courage/views/forms/inputs/PasswordBox';
 import Radio from './courage/views/forms/inputs/Radio';
@@ -34,9 +35,26 @@ import TextBox from './courage/views/forms/inputs/TextBox';
 import Callout from './courage/views/components/Callout';
 import Backbone from 'backbone';
 
-import FrameworkView from './courage/framework/View';
-
+import FrameworkView, { FrameworkViewClass } from './courage/framework/View';
 import './util/scrollParent';
+
+const Controller = BaseController.extend({
+  // The courage BaseController renders asynchronously in current versions of jQuery
+  // https://github.com/okta/okta-ui/blob/master/packages/courage/src/util/BaseController.ts#L117-L119
+  // https://api.jquery.com/jquery/#jQuery-callback
+  // Override so that render is synchronous
+  render: function(...args) {
+    BaseView.prototype.render.apply(this, args);
+    return this;
+  }
+});
+
+Select.prototype.remove = function () {
+  // Patched to remove unneeded call to
+  // this.$select.trigger('remove');
+  // which causes error on IE11
+  return BaseInput.prototype.remove.apply(this, arguments);
+};
 
 // The string will be returned unchanged. All templates should be precompiled.
 FrameworkView.prototype.compileTemplate = function(str) {
@@ -79,7 +97,6 @@ const registerInput = InputRegistry.register;
 const Collection = BaseCollection;
 const View = BaseView;
 const Router = BaseRouter;
-const Controller = BaseController;
 
 export interface Internal {
   util: any;

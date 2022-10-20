@@ -2,7 +2,7 @@
 import { loc } from 'okta';
 import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Settings from 'models/Settings';
 import Enums from 'util/Enums';
 import { AuthSdkError, OAuthError as OAuthSdkError } from '@okta/okta-auth-js';
@@ -39,9 +39,9 @@ describe('util/OAuth2Util', function() {
         authParams: { issuer: 'https://foo/default' }
       });
       settings = new Settings({
-        baseUrl: 'https://foo'
+        baseUrl: 'https://foo',
+        authClient
       });
-      settings.setAuthClient(authClient);
     });
 
     it('exists', () => {
@@ -163,11 +163,11 @@ describe('util/OAuth2Util', function() {
       const settingsWithAdditionalParams = new Settings({
         baseUrl: 'https://foo',
         clientId: 'foobar',
-        authOptions: {
+        authClient,
+        authParams: {
           responseMode: 'token'
         }
       });
-      settingsWithAdditionalParams.setAuthClient(authClient);
 
       return new Promise(function(resolve) {
         spyOn(authClient.token, 'getWithPopup').and.callFake(resolve);
@@ -186,8 +186,8 @@ describe('util/OAuth2Util', function() {
       const settingsWithRemediationMode = new Settings({
         baseUrl: 'https://foo',
         redirect: 'always',
+        authClient
       });
-      settingsWithRemediationMode.setAuthClient(authClient);
 
       return new Promise(function(resolve) {
         spyOn(authClient.token, 'getWithRedirect').and.callFake(resolve);

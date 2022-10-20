@@ -23,6 +23,7 @@ module.exports = function(grunt) {
       DEFAULT_SERVER_PORT   = 3000;
 
   var mockDuo = grunt.option('env.mockDuo');
+  var buildAllBundles = grunt.option('buildAllBundles');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -140,6 +141,12 @@ module.exports = function(grunt) {
             // copy minified stylesheet and its sourcemap only
             src: ['*.css', '*.css.map', '!okta-sign-in.css', '!okta-sign-in.css.map'],
             dest: DIST + '/css',
+          },
+          {
+            expand: true,
+            cwd: 'polyfill',
+            src: ['*.js'],
+            dest: 'dist/polyfill'
           }
         ]
       },
@@ -255,9 +262,10 @@ module.exports = function(grunt) {
       'clean': 'yarn clean',
       'retirejs': 'yarn retirejs',
       'build-dev': 'yarn build:webpack-dev' + (mockDuo ? ' --env mockDuo=true' : ''),
+      'build-esm': 'yarn build:esm',
       'build-dev-watch':
         'yarn build:webpack-dev --watch --env skipAnalyzer=true' + (mockDuo ? ' --env mockDuo=true' : ''),
-      'build-release': 'yarn build:webpack-release && yarn build:esm',
+      'build-release': 'yarn build:webpack-release',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',
       'run-protractor': 'yarn protractor',
@@ -437,19 +445,28 @@ module.exports = function(grunt) {
     const buildTasks = [];
     const postBuildTasks = [];
 
-    if (prodBuild) {
+    if (buildAllBundles || prodBuild) {
+      buildTasks.push('exec:build-dev');
+      buildTasks.push('exec:build-esm');
       buildTasks.push('exec:build-release');
-      postBuildTasks.push('copy:target-to-dist');
-      postBuildTasks.push('exec:prepack');
-    } else {
+    } else { // devBuild
       const devTask = mode === 'watch' ? 'exec:build-dev-watch' : 'exec:build-dev';
       buildTasks.push(devTask);
+      buildTasks.push('exec:build-esm');
     }
+
+    if (prodBuild) {
+      buildTasks.push('exec:retirejs');
+    }
+
+    // Both dev and prod builds will update dist folder and package.json
+    postBuildTasks.push('copy:target-to-dist');
+    postBuildTasks.push('exec:prepack');
+
     grunt.task.run([
       'exec:clean',
       `assets:${target}`,
       ...buildTasks,
-      'exec:retirejs',
       ...postBuildTasks,
     ]);
   });

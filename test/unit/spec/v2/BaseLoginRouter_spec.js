@@ -5,9 +5,8 @@ import FormController from 'v2/controllers/FormController';
 import { OAuthError, ConfiguredFlowError, ConfigError } from 'util/Errors';
 import { RecoverableError } from 'util/OAuthErrors';
 import $sandbox from 'sandbox';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import XHRInteract from '../../../../playground/mocks/data/oauth2/interact.json';
-import XHRWellKnown from '../../../../playground/mocks/data/oauth2/well-known-openid-configuration.json';
 import XHRIdentifyWithPassword
   from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import XHRIdentify from '../../../../playground/mocks/data/idp/idx/identify.json';
@@ -85,8 +84,8 @@ describe('v2/BaseLoginRouter', function() {
     const baseUrl = 'http://localhost:3000';
     const authParams = {
       issuer: baseUrl,
-      pkce: settings?.useInteractionCodeFlow || false,
-      clientId: 'somestring',
+      pkce: settings?.pkce || false,
+      clientId: settings?.clientId,
       flow: settings?.flow,
       codeChallenge: settings?.codeChallenge,
       transactionManager: {
@@ -125,7 +124,23 @@ describe('v2/BaseLoginRouter', function() {
       render: () => {
         return router.render(FakeController);
       },
+      ...testContext
     };
+  }
+
+  function setupOAuth(settings = {}) {
+    const clientId = 'someClientId';
+    const codeChallenge = 'someCodeChallenge'; // prevent calculating PKCE values / calling getWellKnown
+    testContext = {
+      clientId,
+      codeChallenge,
+      ...testContext
+    };
+    return setup({
+      clientId,
+      codeChallenge,
+      ...settings
+    });
   }
 
   afterEach(function() {
@@ -137,9 +152,7 @@ describe('v2/BaseLoginRouter', function() {
 
   describe('restartLoginFlow', () => {
     it('re-renders', () => {
-      setup({
-        useInteractionCodeFlow: true
-      });
+      setup();
       const { router } = testContext;
       router.controller = new FakeController();
       jest.spyOn(router, 'render').mockImplementation();
@@ -149,7 +162,7 @@ describe('v2/BaseLoginRouter', function() {
     it('clears the recoveryToken (before render)', () => {
       const recoveryToken = 'abc';
       setup({
-        useInteractionCodeFlow: true,
+        pkce: true,
         recoveryToken
       });
       const { router, authClient } = testContext;
@@ -171,7 +184,7 @@ describe('v2/BaseLoginRouter', function() {
     it('clears the otp (before render)', () => {
       const otp = '123456';
       setup({
-        useInteractionCodeFlow: true,
+        pkce: true,
         otp
       });
       const { router } = testContext;
@@ -217,7 +230,7 @@ describe('v2/BaseLoginRouter', function() {
       const globalErrorFn = jest.fn();
       setup({
         globalErrorFn,
-        useInteractionCodeFlow: true,
+        pkce: true,
         stateToken: 'foo',
         proxyIdxResponse: false,
       });
@@ -243,14 +256,11 @@ describe('v2/BaseLoginRouter', function() {
       jest.spyOn(TestRouter.prototype, 'handleError');
       const globalErrorFn = jest.fn();  // prevents error from being logged to test console as well
 
-      setup({
-        useInteractionCodeFlow: true,
+      setupOAuth({
         globalErrorFn,
-        codeChallenge: 'fake' // avoid calculating PKCE values
       });
 
       Util.mockAjax([
-        mockXhr(XHRWellKnown),
         mockXhr(FakeIdxClientError, 400)
       ]);
 
@@ -270,14 +280,11 @@ describe('v2/BaseLoginRouter', function() {
       jest.spyOn(TestRouter.prototype, 'handleError');
       const globalErrorFn = jest.fn();  // prevents error from being logged to test console as well
 
-      setup({
-        useInteractionCodeFlow: true,
+      setupOAuth({
         globalErrorFn,
-        codeChallenge: 'fake' // avoid calculating PKCE values
       });
 
       Util.mockAjax([
-        mockXhr(XHRWellKnown),
         mockXhr(UnauthorizedClientError, 400)
       ]);
 
@@ -293,9 +300,7 @@ describe('v2/BaseLoginRouter', function() {
     });
 
     it('should set current view to \'terminal\' when encountering termminal non-idx errors', async () => {
-      setup({
-        useInteractionCodeFlow: true,
-      });
+      setupOAuth();
 
       const successfulAuthResponse = {
         rawIdxState: JSON.parse(JSON.stringify(SuccessWithInteractionCode)),
@@ -329,11 +334,9 @@ describe('v2/BaseLoginRouter', function() {
 
         jest.spyOn(mocked.startLoginFlow, 'startLoginFlow').mockResolvedValue(mockIdxState);
         jest.spyOn(mocked.updateAppState, 'updateAppState');
-
-        setup({
-          useInteractionCodeFlow: true,
+  
+        setupOAuth({
           flow: 'default',
-          codeChallenge: 'fake'
         });
   
         const { router, render, authClient } = testContext;
@@ -359,10 +362,8 @@ describe('v2/BaseLoginRouter', function() {
         jest.spyOn(mocked.startLoginFlow, 'startLoginFlow').mockResolvedValue(mockIdxState);
         jest.spyOn(mocked.updateAppState, 'updateAppState');
   
-        setup({
-          useInteractionCodeFlow: true,
+        setupOAuth({
           flow: 'default',
-          codeChallenge: 'fake'
         });
   
         const { router, render, authClient } = testContext;
@@ -416,247 +417,225 @@ describe('v2/BaseLoginRouter', function() {
     expect(afterErrorHandler).toHaveBeenCalledTimes(0);
     expect(afterRenderHandler).toHaveBeenCalledTimes(1);
     expect(router.appState.getCurrentViewState().name).toBe('identify');
+
+  });
+  
+  describe('stateToken flow', () => {
+    it('should render without error when flow not provided', async function() {
+      setup({stateToken: 'foo'});
+  
+      const { afterErrorHandler, afterRenderHandler, router, render} = testContext;
+      Util.mockAjax([
+        mockXhr(XHRIdentify)
+      ]);
+  
+      await render();
+      expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(afterRenderHandler).toHaveBeenCalledTimes(1);
+      expect(router.appState.getCurrentViewState().name).toBe('identify');
+    });
+    it('should render identify page (flow="default")', async function() {
+      setup({
+        flow: 'default',
+        stateToken: 'fake-token'
+      });
+  
+      const { afterErrorHandler, afterRenderHandler, router, render } = testContext;
+      Util.mockAjax([
+        mockXhr(RAW_IDX_RESPONSE)
+      ]);
+      await render();
+      expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(afterRenderHandler).toHaveBeenCalled();
+      expect(router.appState.getCurrentViewState().name).toBe('identify');
+    });
   });
 
-  it('should render identify page (stateToken=null, useInteractionCodeFlow=true)', async function() {
-    setup({
-      useInteractionCodeFlow: true,
-      flow: 'default',
-      codeChallenge: 'fake' // avoid calculating PKCE values
+  describe('OAuth', () => {
+    it('should render identify page (flow=default)', async function() {
+      setupOAuth({
+        flow: 'default'
+      });
+      
+      const { afterErrorHandler, afterRenderHandler, router, render } = testContext;
+      Util.mockAjax([
+        mockXhr(XHRInteract), 
+        mockXhr(XHRIdentifyWithPassword)
+      ]);
+  
+      await render();
+      expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(afterRenderHandler).toHaveBeenCalled();
+      expect(router.appState.getCurrentViewState().name).toBe('identify');
     });
-    
-    const { afterErrorHandler, afterRenderHandler, router, render } = testContext;
-    Util.mockAjax([
-      mockXhr(XHRWellKnown),
-      mockXhr(XHRInteract), 
-      mockXhr(XHRIdentifyWithPassword)
-    ]);
+    it('should render identify page (flow="login")', async function() {
+      setupOAuth({
+        flow: 'login'
+      });
+      const { afterErrorHandler, afterRenderHandler, router, render } = testContext;
+      Util.mockAjax([
+        mockXhr(XHRInteract), 
+        mockXhr(RAW_IDX_RESPONSE), // introspect
+      ]);
+      await render();
+      expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(afterRenderHandler).toHaveBeenCalled();
+      expect(router.appState.getCurrentViewState().name).toBe('identify');
+    });
+  
+    it('should result with `enroll-profile` render (flow="signup")', async function() {
+      setupOAuth({
+        flow: 'signup'
+      });
+  
+      const { afterErrorHandler, afterRenderHandler, router, render  } = testContext;
+      Util.mockAjax([
+        mockXhr(XHRInteract), 
+        mockXhr(RAW_IDX_RESPONSE), // introspect
+        mockXhr(EnrollProfile) // enroll
+      ]);
+  
+      await render();
+      expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(afterRenderHandler).toHaveBeenCalled();
+      expect(router.appState.getCurrentViewState().name).toBe('enroll-profile');
+    });
 
-    await render();
-    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalled();
-    expect(router.appState.getCurrentViewState().name).toBe('identify');
+    it('should result with `reset-authenticator` (password) render (flow="resetPassword")', async function() {
+      setupOAuth({
+        flow: 'resetPassword',
+      });
+  
+      const { afterErrorHandler, afterRenderHandler, router, render  } = testContext;
+  
+      Util.mockAjax([
+        mockXhr(XHRInteract), 
+        mockXhr(RAW_IDX_RESPONSE), // introspect
+        mockXhr(ResetPassword) // currentAuthenticator-recover
+      ]);
+  
+      await render();
+      expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(afterRenderHandler).toHaveBeenCalled();
+      expect(router.appState.getCurrentViewState().name).toBe('reset-authenticator');
+    });
+    it('should result with `select-authenticator-unlock-account` render (flow="unlockAccount")', async function() {
+      setupOAuth({
+        flow: 'unlockAccount',
+      });
+  
+      const { afterErrorHandler, afterRenderHandler, router, render  } = testContext;
+  
+      Util.mockAjax([
+        mockXhr(XHRInteract), 
+        mockXhr(RAW_IDX_RESPONSE), // introspect
+        mockXhr(UserUnlockAccount) // user unlock
+      ]);
+  
+      await render();
+      expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(afterRenderHandler).toHaveBeenCalled();
+      expect(router.appState.getCurrentViewState().name).toBe('select-authenticator-unlock-account');
+    });
+
+    it('can continue a saved flow', async function() {
+      setupOAuth({
+        flow: 'signup'
+      });
+  
+      const { authClient, afterErrorHandler, afterRenderHandler, router, render, codeChallenge } = testContext;
+      Util.mockAjax([
+        mockXhr(EnrollProfile) // introspect
+      ]);
+
+      const meta = await authClient.idx.createTransactionMeta();
+      meta.interactionHandle = 'fake';
+      meta.codeChallenge = codeChallenge;
+      
+      authClient.idx.saveTransactionMeta(meta);
+      expect(authClient.idx.getSavedTransactionMeta()).toEqual(meta);
+  
+      await render();
+      expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(afterRenderHandler).toHaveBeenCalled();
+      expect(router.appState.getCurrentViewState().name).toBe('enroll-profile');
+    });
+
+    it('should abandon meta flow if it does not match configured flow', async function() {
+      setupOAuth({
+        flow: 'signup'
+      });
+  
+      Util.mockAjax([
+        mockXhr(XHRInteract), 
+        mockXhr(RAW_IDX_RESPONSE), // introspect
+        mockXhr(EnrollProfile) // enroll
+      ]);
+  
+      const { authClient, afterErrorHandler, afterRenderHandler, router, render, codeChallenge  } = testContext;
+      const meta = await authClient.idx.createTransactionMeta();
+      meta.interactionHandle = 'fake';
+      meta.codeChallenge = codeChallenge;
+      authClient.idx.saveTransactionMeta(meta);
+      expect(authClient.idx.getSavedTransactionMeta()).toEqual(meta);
+      meta.flow = 'login';
+      authClient.idx.saveTransactionMeta(meta);
+      expect(authClient.idx.getSavedTransactionMeta()).toBe(undefined); // fails flow check
+  
+      await render();
+      expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(afterRenderHandler).toHaveBeenCalled();
+      expect(router.appState.getCurrentViewState().name).toBe('enroll-profile');
+    });
+
+
+    it('should throw FlowError when there is no transaction on flow=PROCEED', async function() {
+      let globalErr = null;
+      const globalErrorFn = jest.fn(err => {
+        globalErr = err;
+      });
+
+      setupOAuth({
+        flow: 'proceed',
+        globalErrorFn
+      });
+
+      const { authClient, router } = testContext;
+      jest.spyOn(authClient.idx, 'getSavedTransactionMeta').mockResolvedValue(null);
+
+      await router.render(FormController);
+      expect(authClient.idx.getSavedTransactionMeta).toHaveBeenCalled();
+      expect(globalErrorFn).toHaveBeenCalled();
+      expect(globalErr).toBeInstanceOf(ConfiguredFlowError);
+    });
+
+    it('should throw ConfigError when invalid flow is configured', async function() {
+
+      let globalErr = null;
+      const globalErrorFn = jest.fn(err => {
+        globalErr = err;
+      });
+  
+      setupOAuth({
+        flow: 'notarealflow',
+        globalErrorFn
+      });
+  
+      const { afterErrorHandler, afterRenderHandler, router  } = testContext;
+  
+      Util.mockAjax([
+        mockXhr(XHRInteract), 
+        mockXhr(RAW_IDX_RESPONSE), // introspect
+        mockXhr(EnrollProfile) // enroll
+      ]);
+  
+      await router.render(FormController);
+      expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(afterRenderHandler).toHaveBeenCalledTimes(1); // generic message is displayed
+      expect(globalErrorFn).toHaveBeenCalled();
+      expect(globalErr).toBeInstanceOf(ConfigError);
+    });
+
   });
 
-  it('should render identify page (stateToken="fake-token", useInteractionCodeFlow=false)', async function() {
-    setup({
-      flow: 'default',
-      stateToken: 'fake-token'
-    });
-
-    const { afterErrorHandler, afterRenderHandler, router, render } = testContext;
-    Util.mockAjax([
-      mockXhr(RAW_IDX_RESPONSE)
-    ]);
-    await render();
-    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalled();
-    expect(router.appState.getCurrentViewState().name).toBe('identify');
-  });
-
-  it('should render identify page (stateToken="fake-token", useInteractionCodeFlow=true)', async function() {
-    setup({
-      useInteractionCodeFlow: true,
-      flow: 'default',
-      codeChallenge: 'fake',
-      stateToken: 'fake-token' // will ignore stateToken
-    });
-
-    const { afterErrorHandler, afterRenderHandler, router, render } = testContext;
-    Util.mockAjax([
-      mockXhr(XHRWellKnown),
-      mockXhr(XHRInteract), 
-      mockXhr(RAW_IDX_RESPONSE), // introspect
-    ]);
-    await render();
-    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalled();
-    expect(router.appState.getCurrentViewState().name).toBe('identify');
-  });
-
-  it('should render identify page (flow="login")', async function() {
-    setup({
-      useInteractionCodeFlow: true,
-      flow: 'login',
-      codeChallenge: 'fake'
-    });
-    const { afterErrorHandler, afterRenderHandler, router, render } = testContext;
-    Util.mockAjax([
-      mockXhr(XHRWellKnown),
-      mockXhr(XHRInteract), 
-      mockXhr(RAW_IDX_RESPONSE), // introspect
-    ]);
-    await render();
-    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalled();
-    expect(router.appState.getCurrentViewState().name).toBe('identify');
-  });
-
-  it('should result with `enroll-profile` render (flow="signup")', async function() {
-    setup({
-      useInteractionCodeFlow: true,
-      flow: 'signup',
-      codeChallenge: 'fake'
-    });
-
-    const { afterErrorHandler, afterRenderHandler, router, render  } = testContext;
-    Util.mockAjax([
-      mockXhr(XHRWellKnown),
-      mockXhr(XHRInteract), 
-      mockXhr(RAW_IDX_RESPONSE), // introspect
-      mockXhr(EnrollProfile) // enroll
-    ]);
-
-    await render();
-    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalled();
-    expect(router.appState.getCurrentViewState().name).toBe('enroll-profile');
-  });
-
-  it('should result with `reset-authenticator` (password) render (flow="resetPassword")', async function() {
-    setup({
-      useInteractionCodeFlow: true,
-      flow: 'resetPassword',
-      codeChallenge: 'fake'
-    });
-
-    const { afterErrorHandler, afterRenderHandler, router, render  } = testContext;
-
-    Util.mockAjax([
-      mockXhr(XHRWellKnown),
-      mockXhr(XHRInteract), 
-      mockXhr(RAW_IDX_RESPONSE), // introspect
-      mockXhr(ResetPassword) // currentAuthenticator-recover
-    ]);
-
-    await render();
-    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalled();
-    expect(router.appState.getCurrentViewState().name).toBe('reset-authenticator');
-  });
-
-  it('should result with `select-authenticator-unlock-account` render (flow="unlockAccount")', async function() {
-    setup({
-      useInteractionCodeFlow: true,
-      flow: 'unlockAccount',
-      codeChallenge: 'fake'
-    });
-
-    const { afterErrorHandler, afterRenderHandler, router, render  } = testContext;
-
-    Util.mockAjax([
-      mockXhr(XHRWellKnown),
-      mockXhr(XHRInteract), 
-      mockXhr(RAW_IDX_RESPONSE), // introspect
-      mockXhr(UserUnlockAccount) // user unlock
-    ]);
-
-    await render();
-    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalled();
-    expect(router.appState.getCurrentViewState().name).toBe('select-authenticator-unlock-account');
-  });
-
-  it('can continue a saved flow', async function() {
-    setup({
-      useInteractionCodeFlow: true,
-      flow: 'signup',
-      codeChallenge: 'fake'
-    });
-
-    const { authClient, afterErrorHandler, afterRenderHandler, router, render  } = testContext;
-    Util.mockAjax([
-      mockXhr(XHRWellKnown), // validate code challenge method
-      mockXhr(EnrollProfile) // introspect
-    ]);
-    const meta = await authClient.idx.createTransactionMeta();
-    meta.interactionHandle = 'fake';
-    authClient.idx.saveTransactionMeta(meta);
-    expect(authClient.idx.getSavedTransactionMeta()).toEqual(meta);
-
-    await render();
-    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalled();
-    expect(router.appState.getCurrentViewState().name).toBe('enroll-profile');
-  });
-
-  it('should abandon meta flow if it does not match configured flow', async function() {
-    setup({
-      useInteractionCodeFlow: true,
-      flow: 'signup',
-      codeChallenge: 'fake'
-    });
-
-    Util.mockAjax([
-      mockXhr(XHRWellKnown),
-      mockXhr(XHRInteract), 
-      mockXhr(RAW_IDX_RESPONSE), // introspect
-      mockXhr(EnrollProfile) // enroll
-    ]);
-
-    const { authClient, afterErrorHandler, afterRenderHandler, router, render  } = testContext;
-    const meta = await authClient.idx.createTransactionMeta();
-    meta.interactionHandle = 'fake';
-    authClient.idx.saveTransactionMeta(meta);
-    expect(authClient.idx.getSavedTransactionMeta()).toEqual(meta);
-    meta.flow = 'login';
-    authClient.idx.saveTransactionMeta(meta);
-    expect(authClient.idx.getSavedTransactionMeta()).toBe(undefined); // fails flow check
-
-    await render();
-    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalled();
-    expect(router.appState.getCurrentViewState().name).toBe('enroll-profile');
-  });
-
-  it('should throw FlowError when there is no transaction on flow=PROCEED', async function() {
-    let globalErr = null;
-    const globalErrorFn = jest.fn(err => {
-      globalErr = err;
-    });
-
-    setup({
-      useInteractionCodeFlow: true,
-      flow: 'proceed',
-      globalErrorFn
-    });
-
-    const { authClient, router } = testContext;
-    jest.spyOn(authClient.idx, 'getSavedTransactionMeta').mockResolvedValue(null);
-
-    await router.render(FakeController);
-    expect(authClient.idx.getSavedTransactionMeta).toHaveBeenCalled();
-    expect(globalErrorFn).toHaveBeenCalled();
-    expect(globalErr).toBeInstanceOf(ConfiguredFlowError);
-  });
-
-  it('should throw ConfigError when invalid flow is configured', async function() {
-
-    let globalErr = null;
-    const globalErrorFn = jest.fn(err => {
-      globalErr = err;
-    });
-
-    setup({
-      useInteractionCodeFlow: true,
-      flow: 'notarealflow',
-      codeChallenge: 'fake',
-      globalErrorFn
-    });
-
-    const { afterErrorHandler, afterRenderHandler, router  } = testContext;
-
-    Util.mockAjax([
-      mockXhr(XHRWellKnown),
-      mockXhr(XHRInteract), 
-      mockXhr(RAW_IDX_RESPONSE), // introspect
-      mockXhr(EnrollProfile) // enroll
-    ]);
-
-    await router.render(FakeController);
-    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalledTimes(1); // generic message is displayed
-    expect(globalErrorFn).toHaveBeenCalled();
-    expect(globalErr).toBeInstanceOf(ConfigError);
-  });
 });

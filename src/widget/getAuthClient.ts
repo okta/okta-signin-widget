@@ -1,9 +1,13 @@
-import { OktaAuth } from '@okta/okta-auth-js';
+import { ConfigError } from 'util/Errors';
 import Util from 'util/Util';
 import config from 'config/config.json';
-import { WidgetOptions } from 'types';
+import { WidgetOptions, WidgetOktaAuthConstructor, WidgetOktaAuthInterface } from 'types';
 
-export default function(options: WidgetOptions = {}): OktaAuth {
+export default function getAuthClientInstance(
+  OktaAuth: WidgetOktaAuthConstructor,
+  options: WidgetOptions = {}
+): WidgetOktaAuthInterface
+{
   // if authClient is set, authParams are disregarded
   let { authClient, authParams } = options;
 
@@ -43,10 +47,7 @@ export default function(options: WidgetOptions = {}): OktaAuth {
 
   // Add widget version to extended user agent header
   if (!authClient._oktaUserAgent) {
-    // TODO: this block handles OKTA UA for passed in authClient, error should be thrown in the next major version
-    // For now, do nothing here to preserve the current behavior
-    // JIRA: https://oktainc.atlassian.net/browse/OKTA-433378
-    // throw new ConfigError('The passed in authClient should be version 5.4.0 or above.');
+    throw new ConfigError('The passed in authClient should be version 5.4.0 or above.');
   } else {
     authClient._oktaUserAgent.addEnvironment(`okta-signin-widget-${config.version}`);
   }
