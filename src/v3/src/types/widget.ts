@@ -14,9 +14,10 @@ import { FlowIdentifier, OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
 import {
   RawIdxResponse,
 } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-import { InterstitialRedirectView } from 'src/constants';
 
 import { LanguageCallback, LanguageCode } from '../../../types';
+import { RegistrationOptions as RegOptions } from '../../../types/registration';
+import { InterstitialRedirectView } from '../constants';
 import { JsonObject } from './json';
 import { FormBag } from './schema';
 
@@ -152,6 +153,7 @@ export type WidgetOptions = {
     className?: string;
   };
   customButtons?: CustomButton[];
+  registration?: RegOptions;
   features?: OktaWidgetFeatures;
   language?: LanguageCode | LanguageCallback | string;
   helpSupportNumber?: string;

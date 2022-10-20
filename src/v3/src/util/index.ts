@@ -14,6 +14,7 @@ export * from './browserUtils';
 export * from './cookieUtils';
 export * from './environmentUtils';
 export * from './flattenInputs';
+export * from './formatError';
 export * from './formUtils';
 export * from './generateRandomString';
 export * from './getAuthenticatorKey';

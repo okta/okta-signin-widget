@@ -187,8 +187,12 @@ export default class BaseFormObject {
     return within(this.el).getByRole('button').value;
   }
 
-  getTextElement(content) {
-    return within(this.el).getByText(content);
+  getByLabelText(text, options = undefined) {
+    return within(this.el).getByLabelText(new RegExp(text), options);
+  }
+
+  getByText(text, options = undefined) {
+    return within(this.el).getByText(text, options);
   }
 
   // =====================================
@@ -240,7 +244,7 @@ export default class BaseFormObject {
   }
 
   async waitForTextBoxError(name) {
-    await this.hasTextBoxError(name);
+    await this.hasTextBoxErrorMessage(name);
   }
 
   hasTextBoxErrorMessage(fieldName) {

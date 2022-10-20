@@ -20,7 +20,7 @@ const InformationalText: UISchemaElementComponent<{
 }> = ({
   uischema,
 }) => {
-  const { content } = uischema.options;
+  const { content, dataSe } = uischema.options;
 
   return (
     <Box
@@ -29,7 +29,7 @@ const InformationalText: UISchemaElementComponent<{
     >
       <Typography
         paragraph
-        data-se="o-form-explain"
+        data-se={dataSe || 'o-form-explain'}
       >
         {content}
       </Typography>

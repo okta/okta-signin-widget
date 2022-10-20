@@ -93,7 +93,7 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   }
 
   doesTextExist(content) {
-    return this.form.getTextElement(content).exists;
+    return this.form.getByText(content).exists;
   }
 
   resetPasswordButtonExists() {

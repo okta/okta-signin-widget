@@ -1,11 +1,9 @@
 import BasePageObject from './BasePageObject';
-import { Selector } from 'testcafe';
+import { userVariables } from 'testcafe';
 
 const FIRSTNAME_FIELD = 'userProfile\\.firstName';
 const LASTNAME_FIELD = 'userProfile\\.lastName';
 const EMAIL_FIELD = 'userProfile\\.email';
-
-const BACK = 'a[data-se="back"]';
 export default class RegistrationPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -48,7 +46,7 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   clickRegisterButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButton('Sign Up');
   }
 
   waitForErrorBox() {
@@ -60,7 +58,7 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   hasFirstNameError() {
-    return this.form.hasTextBoxError(FIRSTNAME_FIELD);
+    return this.form.hasTextBoxErrorMessage(FIRSTNAME_FIELD);
   }
 
   hasFirstNameErrorMessage() {
@@ -68,7 +66,7 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   hasLastNameError() {
-    return this.form.hasTextBoxError(LASTNAME_FIELD);
+    return this.form.hasTextBoxErrorMessage(LASTNAME_FIELD);
   }
 
   hasLastNameErrorMessage() {
@@ -76,7 +74,7 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   hasEmailError() {
-    return this.form.hasTextBoxError(EMAIL_FIELD);
+    return this.form.hasTextBoxErrorMessage(EMAIL_FIELD);
   }
 
   hasEmailErrorMessage() {
@@ -99,11 +97,19 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.getNthErrorMessage(EMAIL_FIELD, value);
   }
 
-  getHaveAccountLabel() {
-    return Selector(BACK).textContent;
+  alreadyHaveAccountExists() {
+    const text = 'Already have an account?';
+    if (userVariables.v3) {
+      return this.form.getByText(text).exists;
+    }
+    return this.form.getByText(text, { selector: 'a' }).exists;
   }
 
-  getTerminalContent() {
-    return this.form.getTerminalContent();
+  formFieldExistsByLabel(label) {
+    return this.form.getByLabelText(label).exists;
+  }
+
+  terminalMessageExist(message) {
+    return this.form.getByText(message).exists;
   }
 }

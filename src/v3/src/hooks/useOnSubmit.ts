@@ -12,9 +12,11 @@
 
 import {
   AuthApiError,
+  HttpResponse,
   IdxActionParams,
   IdxMessage,
   IdxTransaction,
+  RawIdxResponse,
 } from '@okta/okta-auth-js';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
@@ -22,9 +24,10 @@ import { useCallback } from 'preact/hooks';
 
 import { IDX_STEP } from '../constants';
 import { useWidgetContext } from '../contexts';
-import { MessageType } from '../types';
+import { ErrorXHR, EventErrorContext, MessageType } from '../types';
 import {
   areTransactionsEqual,
+  formatError,
   getImmutableData,
   loc,
   toNestedObject,
@@ -67,6 +70,16 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       stepToRender,
     } = options;
 
+    const getErrorEventContext = (
+      resp: RawIdxResponse | HttpResponse['responseJSON'],
+    ): EventErrorContext => {
+      const error = formatError(resp);
+      return {
+        xhr: error as unknown as ErrorXHR,
+        errorSummary: error.responseJSON && error.responseJSON.errorSummary,
+      };
+    };
+
     // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
     const handleError = (transaction: IdxTransaction | undefined, error: unknown) => {
       // TODO: handle error based on types
@@ -75,7 +88,10 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       setAuthApiError(error as AuthApiError);
       console.error(error);
       // error event
-      events?.afterError?.(transaction ? getEventContext(transaction) : {}, error);
+      events?.afterError?.(
+        transaction ? getEventContext(transaction) : {},
+        getErrorEventContext(error as AuthApiError),
+      );
       return null;
     };
 
@@ -120,14 +136,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setMessage(undefined);
     try {
       const newTransaction = await fn(payload);
-      // for multiple error messages
-      newTransaction.messages?.forEach((newMessage) => {
-        const { class: type, message: msg } = newMessage;
-        if (type === MessageType.ERROR) {
-          // error event
-          events?.afterError?.(getEventContext(newTransaction), { message: msg });
-        }
-      });
       // TODO: OKTA-538791 this is a temp work around until the auth-js fix
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
         [newTransaction.nextStep] = newTransaction.availableSteps;
@@ -136,16 +144,24 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
       );
+      // TODO: OKTA-521014 below logic only needed because of this bug, remove once fixed
+      const isSwitchAuthenticator = newTransaction.nextStep?.name
+        && [
+          IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+          IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+        ].includes(newTransaction.nextStep.name);
+      if (newTransaction.requestDidSucceed === false && !isSwitchAuthenticator) {
+        events?.afterError?.(
+          getEventContext(newTransaction),
+          getErrorEventContext(newTransaction.rawIdxState),
+        );
+      }
       const isClientTransaction = !newTransaction.requestDidSucceed
         || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
       setIsClientTransaction(isClientTransaction);
       if (isClientTransaction
           && !newTransaction.messages?.length
-          // TODO: OKTA-521014 below logic only needed because of this bug, remove once fixed
-          && newTransaction.nextStep?.name
-          && ![IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
-            IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
-          ].includes(newTransaction.nextStep.name)) {
+          && !isSwitchAuthenticator) {
         setMessage({
           message: loc('oform.errorbanner.title', 'login'),
           class: 'ERROR',

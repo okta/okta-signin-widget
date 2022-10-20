@@ -124,6 +124,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
       type: 'Description',
       options: {
         content: loc('haveaccount', 'login'),
+        dataSe: 'haveaccount',
       },
     };
     const loginEntryLayout = {

@@ -236,6 +236,7 @@ export interface DescriptionElement extends UISchemaElement {
   type: 'Description';
   options: {
     content: string;
+    dataSe?: string;
   };
 }
 
