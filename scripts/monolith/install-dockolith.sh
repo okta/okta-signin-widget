@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-if [[ -n ${DOCKOLITH_BRANCH} ]]; then
+if [[ -z ${DOCKOLITH_BRANCH} ]]; then
   export DOCKOLITH_BRANCH=master
 fi
 
