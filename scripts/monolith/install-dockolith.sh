@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 if [[ -z ${DOCKOLITH_BRANCH} ]]; then
-  export DOCKOLITH_BRANCH=master
+  export DOCKOLITH_BRANCH="ag-OKTA-529066-local"
 fi
 
 pushd ./scripts
