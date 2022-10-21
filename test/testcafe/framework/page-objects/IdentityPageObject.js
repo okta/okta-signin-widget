@@ -218,7 +218,7 @@ export default class IdentityPageObject extends BasePageObject {
     await this.t.click(this.getUnlockAccountLink());
   }
 
-  getCustomUnlockAccountLink() {
+  getCustomUnlockAccountLinkUrl() {
     return this.getUnlockAccountLink().getAttribute('href');
   }
 

@@ -296,7 +296,7 @@ test.meta('v3', false).requestHooks(identifyMock)('should render custom Unlock a
   });
 
   await t.expect(identityPage.getUnlockAccountLinkText()).eql('HELP I\'M LOCKED OUT');
-  await t.expect(identityPage.getCustomUnlockAccountLink()).eql('http://unlockaccount');
+  await t.expect(identityPage.getCustomUnlockAccountLinkUrl()).eql('http://unlockaccount');
 });
 
 test.meta('v3', false).requestHooks(identifyMock)('should not render custom forgot password link', async t => {

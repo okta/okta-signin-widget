@@ -63,7 +63,7 @@ test.meta('v3', false).requestHooks(identifyLockedUserMock)('should render custo
   });
 
   await t.expect(identityPage.getUnlockAccountLinkText()).eql('HELP I\'M LOCKED OUT');
-  await t.expect(identityPage.getCustomUnlockAccountLink()).eql('http://unlockaccount');
+  await t.expect(identityPage.getCustomUnlockAccountLinkUrl()).eql('http://unlockaccount');
 });
 
 test.requestHooks(identifyLockedUserMock)('should show unlock account authenticator selection list', async t => {
