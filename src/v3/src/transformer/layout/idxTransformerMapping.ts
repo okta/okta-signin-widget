@@ -51,7 +51,10 @@ import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
 } from './googleAuthenticator';
-import { transformIdentityRecovery } from './recovery';
+import {
+  transformIdentityRecovery,
+  transformRequestActivation,
+} from './recovery';
 import {
   transformSecurityQuestionEnroll,
   transformSecurityQuestionVerify,
@@ -262,6 +265,16 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformSelectAuthenticatorUnlockVerify,
       buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.REQUEST_ACTIVATION]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformRequestActivation,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showForgotPassword: false,
+      },
     },
   },
 };
