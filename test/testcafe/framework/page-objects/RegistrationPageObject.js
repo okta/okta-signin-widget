@@ -1,9 +1,11 @@
 import BasePageObject from './BasePageObject';
-import { userVariables } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 
 const FIRSTNAME_FIELD = 'userProfile\\.firstName';
 const LASTNAME_FIELD = 'userProfile\\.lastName';
 const EMAIL_FIELD = 'userProfile\\.email';
+
+const BACK = 'a[data-se="back"]';
 export default class RegistrationPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -102,7 +104,7 @@ export default class RegistrationPageObject extends BasePageObject {
     if (userVariables.v3) {
       return this.form.getByText(text).exists;
     }
-    return this.form.getByText(text, { selector: 'a' }).exists;
+    return Selector(BACK).exists;
   }
 
   formFieldExistsByLabel(label) {
