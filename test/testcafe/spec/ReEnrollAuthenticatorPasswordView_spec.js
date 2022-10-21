@@ -63,7 +63,7 @@ test.meta('v3', false)
   .requestHooks(logger, mock)('Should have the correct labels', async t => {
     const expiredPasswordPage = await setup(t);
     await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
-    await t.expect(expiredPasswordPage.getSaveButtonLabel()).eql('Change Password');
+    await t.expect(expiredPasswordPage.changePasswordButtonExists()).eql(true);
     await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');
     await t.expect(expiredPasswordPage.getRequirements()).contains('At least 8 characters');
     await t.expect(expiredPasswordPage.getRequirements()).contains('An uppercase letter');
@@ -86,7 +86,7 @@ test
   .requestHooks(logger, complexityInEnrollmentAuthenticatorMock)('Should show password requirements as per enrollmentAuthenticator object', async t => {
     const expiredPasswordPage = await setup(t);
     await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
-    await t.expect(expiredPasswordPage.getSaveButtonLabel()).eql('Change Password');
+    await t.expect(expiredPasswordPage.changePasswordButtonExists()).eql(true);
     await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');
     await t.expect(expiredPasswordPage.getRequirements()).contains('At least 8 characters');
     await t.expect(expiredPasswordPage.getRequirements()).contains('An uppercase letter');
