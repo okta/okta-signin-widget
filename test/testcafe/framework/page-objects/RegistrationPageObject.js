@@ -73,12 +73,12 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.hasTextBoxErrorMessage(LASTNAME_FIELD);
   }
 
-  hasEmailError() {
-    return this.form.hasTextBoxErrorMessage(EMAIL_FIELD);
+  hasEmailError(index = undefined) {
+    return this.form.hasTextBoxErrorMessage(EMAIL_FIELD, index);
   }
 
-  hasEmailErrorMessage() {
-    return this.form.hasTextBoxErrorMessage(EMAIL_FIELD);
+  hasEmailErrorMessage(index = undefined) {
+    return this.form.hasTextBoxErrorMessage(EMAIL_FIELD, index);
   }
 
   waitForLastNameError() {
@@ -89,8 +89,8 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.waitForTextBoxError(EMAIL_FIELD);
   }
 
-  getEmailErrorMessage() {
-    return this.form.getTextBoxErrorMessage(EMAIL_FIELD);
+  getEmailErrorMessage(index = undefined) {
+    return this.form.getTextBoxErrorMessage(EMAIL_FIELD, index);
   }
 
   getNthEmailErrorMessage(value) {

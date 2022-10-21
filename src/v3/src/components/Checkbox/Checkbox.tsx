@@ -14,7 +14,6 @@ import {
   Checkbox as CheckboxMui,
   FormControl,
   FormControlLabel,
-  FormHelperText,
 } from '@mui/material';
 import { h } from 'preact';
 import {
@@ -26,14 +25,16 @@ import {
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import { getTranslation } from '../../util';
+import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
 const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
   setTouched,
-  error,
-  setError,
+  errors,
+  setErrors,
   onValidateHandler,
+  describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -46,14 +47,15 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTouched?.(true);
     onChangeHandler(e.currentTarget.checked);
-    onValidateHandler?.(setError, e.currentTarget.checked);
+    onValidateHandler?.(setErrors, e.currentTarget.checked);
   };
 
   return (
     <FormControl
       component="fieldset"
       required={required}
-      error={!!error}
+      error={errors !== undefined}
+      aria-describedby={describedByIds}
     >
       <FormControlLabel
         control={(
@@ -73,15 +75,11 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
         )}
         label={label as string}
       />
-      {error && (
-        <FormHelperText
-          id={`${name}-error`}
-          role="alert"
-          data-se={`${name}-error`}
-          error
-        >
-          {error}
-        </FormHelperText>
+      {errors !== undefined && (
+        <FieldErrorContainer
+          errors={errors}
+          fieldName={name}
+        />
       )}
     </FormControl>
   );

@@ -247,9 +247,9 @@ export default class BaseFormObject {
     await this.hasTextBoxErrorMessage(name);
   }
 
-  hasTextBoxErrorMessage(fieldName) {
+  hasTextBoxErrorMessage(fieldName, index = undefined) {
     if (userVariables.v3) {
-      return this.el.find(`#${fieldName}-error`).exists;
+      return this.el.find(`#${fieldName}-error${index !== undefined ? '-' + index : ''}`).exists;
     }
 
     const selectContainer = this.findFormFieldInput(fieldName)
@@ -258,9 +258,9 @@ export default class BaseFormObject {
     return selectContainer.exists;
   }
 
-  getTextBoxErrorMessage(fieldName) {
+  getTextBoxErrorMessage(fieldName, index = undefined) {
     if (userVariables.v3) {
-      return this.el.find(`#${fieldName}-error`).innerText;
+      return this.el.find(`#${fieldName}-error${index !== undefined ? '-' + index : ''}`).innerText;
     }
 
     const selectContainer = this.findFormFieldInput(fieldName)
@@ -269,6 +269,9 @@ export default class BaseFormObject {
   }
 
   getNthErrorMessage(fieldName, value) {
+    if (userVariables.v3) {
+      return this.el.find(`#${fieldName}-error-${value}`).innerText;
+    }
     const selectContainer = this.findFormFieldInput(fieldName).sibling('.o-form-input-error').nth(value);
     return selectContainer.innerText;
   }

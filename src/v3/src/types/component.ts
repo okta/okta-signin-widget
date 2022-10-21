@@ -27,12 +27,13 @@ export type UISchemaElementComponentWithValidationProps = {
   uischema: FieldElement;
   type?: string;
   setTouched?: StateUpdater<boolean>,
-  error?: string,
-  setError?: StateUpdater<string | undefined>,
+  errors?: string[],
+  setErrors?: StateUpdater<string[] | undefined>,
   onValidateHandler?: (
-    setError?: StateUpdater<string | undefined>,
+    setErrors?: StateUpdater<string[] | undefined>,
     value?: string | boolean | number,
   ) => void,
+  describedByIds?: string;
 };
 
 export type UISchemaElementComponentProps = {

@@ -13,7 +13,6 @@
 import {
   FormControl,
   FormControlLabel,
-  FormHelperText,
   FormLabel,
   Radio as RadioMui,
   RadioGroup,
@@ -28,14 +27,16 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
+import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
 const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
   setTouched,
-  error,
-  setError,
+  errors,
+  setErrors,
   onValidateHandler,
+  describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -57,21 +58,21 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTouched?.(true);
     onChangeHandler(e.currentTarget.value);
-    onValidateHandler?.(setError, e.currentTarget.value);
+    onValidateHandler?.(setErrors, e.currentTarget.value);
   };
 
   return (
     <FormControl
       component="fieldset"
       required={required}
-      error={!!error}
+      error={errors !== undefined}
     >
       {label && (<FormLabel>{label!}</FormLabel>)}
       <RadioGroup
         name={name}
         id={name}
         data-se={name}
-        aria-describedby={error && `${name}-error`}
+        aria-describedby={describedByIds}
         value={value as string ?? ''}
         onChange={handleChange}
       >
@@ -89,15 +90,11 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
           ))
         }
       </RadioGroup>
-      {error && (
-        <FormHelperText
-          id={`${name}-error`}
-          role="alert"
-          data-se={`${name}-error`}
-          error
-        >
-          {error}
-        </FormHelperText>
+      {errors !== undefined && (
+        <FieldErrorContainer
+          errors={errors}
+          fieldName={name}
+        />
       )}
     </FormControl>
   );

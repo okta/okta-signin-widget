@@ -60,6 +60,7 @@ Object {
           Object {
             "options": Object {
               "content": "haveaccount",
+              "dataSe": "haveaccount",
             },
             "type": "Description",
           },

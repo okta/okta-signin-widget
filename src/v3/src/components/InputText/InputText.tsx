@@ -24,15 +24,17 @@ import {
   ChangeEvent, UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
+import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
 const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   type,
   uischema,
   setTouched,
-  error,
-  setError,
+  errors,
+  setErrors,
   onValidateHandler,
+  describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -50,7 +52,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched?.(true);
     onChangeHandler(e.currentTarget.value);
-    onValidateHandler?.(setError, e.currentTarget.value);
+    onValidateHandler?.(setErrors, e.currentTarget.value);
   };
 
   return (
@@ -67,26 +69,22 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         type={type || 'text'}
         id={name}
         name={name}
-        error={error !== undefined}
+        error={errors !== undefined}
         onChange={handleChange}
         disabled={loading}
         fullWidth
         inputProps={{
           'data-se': dataSe,
-          'aria-describedby': error && `${name}-error`,
+          'aria-describedby': describedByIds,
           ...attributes,
         }}
         inputRef={focusRef}
       />
-      {error && (
-        <FormHelperText
-          id={`${name}-error`}
-          role="alert"
-          data-se={`${dataSe}-error`}
-          error
-        >
-          {error}
-        </FormHelperText>
+      {errors !== undefined && (
+        <FieldErrorContainer
+          errors={errors}
+          fieldName={name}
+        />
       )}
     </Box>
   );

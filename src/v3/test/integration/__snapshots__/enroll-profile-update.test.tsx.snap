@@ -159,14 +159,18 @@ exports[`enroll-profile-update fails client side validation with empty required 
                         </legend>
                       </fieldset>
                     </div>
-                    <p
-                      class="MuiFormHelperText-root Mui-error emotion-26"
-                      data-se="userProfile.favoriteSport-error"
-                      id="userProfile.favoriteSport-error"
-                      role="alert"
+                    <div
+                      class="MuiBox-root emotion-7"
                     >
-                      This field cannot be left blank
-                    </p>
+                      <p
+                        class="MuiFormHelperText-root Mui-error emotion-27"
+                        data-se="userProfile.favoriteSport-error"
+                        id="userProfile.favoriteSport-error"
+                        role="alert"
+                      >
+                        This field cannot be left blank
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -215,21 +219,25 @@ exports[`enroll-profile-update fails client side validation with empty required 
                         </legend>
                       </fieldset>
                     </div>
-                    <p
-                      class="MuiFormHelperText-root Mui-error emotion-26"
-                      data-se="userProfile.newAttribute-error"
-                      id="userProfile.newAttribute-error"
-                      role="alert"
+                    <div
+                      class="MuiBox-root emotion-7"
                     >
-                      This field cannot be left blank
-                    </p>
+                      <p
+                        class="MuiFormHelperText-root Mui-error emotion-27"
+                        data-se="userProfile.newAttribute-error"
+                        id="userProfile.newAttribute-error"
+                        role="alert"
+                      >
+                        This field cannot be left blank
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-15"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-37"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-39"
                     data-type="save"
                     tabindex="0"
                     type="submit"

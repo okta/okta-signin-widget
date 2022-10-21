@@ -129,7 +129,7 @@ test.meta('v3', false).requestHooks(mock)('should show errors after empty requir
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
 });
 
-test.meta('v3', false).requestHooks(enrollProfileErrorMock)('should show email field validation errors', async t => {
+test.requestHooks(enrollProfileErrorMock)('should show email field validation errors', async t => {
   const registrationPage = await setup(t);
   await verifyRegistrationPageEvent();
 
@@ -141,9 +141,9 @@ test.meta('v3', false).requestHooks(enrollProfileErrorMock)('should show email f
 
   await registrationPage.waitForEmailError();
 
-  await t.expect(registrationPage.hasEmailError()).eql(true);
-  await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
-  await t.expect(registrationPage.getEmailErrorMessage()).contains('\'Email\' must be in the form of an email address');
+  await t.expect(registrationPage.hasEmailError(0)).eql(true);
+  await t.expect(registrationPage.hasEmailErrorMessage(0)).eql(true);
+  await t.expect(registrationPage.getEmailErrorMessage(0)).contains('\'Email\' must be in the form of an email address');
 
   const { log } = await t.getBrowserConsoleMessages();
   await t.expect(log.length).eql(8);

@@ -10,12 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useFormFieldValidation } from '../../hooks';
 import { FieldElement, UISchemaElementComponent } from '../../types';
+import { buildErrorMessageIds } from '../../util';
 import { getDisplayName } from './getDisplayName';
 
 export type RendererComponent<T> = {
@@ -36,14 +38,17 @@ export const withFormValidationState: WrappedFunctionComponent<
     const {
       options: {
         inputMeta: {
+          name,
           // @ts-ignore TODO: OKTA-539834 - messages missing from type
           messages = {},
         },
       },
     } = uischema;
-    const errorFromSchema = messages?.value?.[0] && getMessage(messages.value[0]);
+    const errorsFromSchema = messages?.value?.length
+      // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
+      && messages.value.map((message: IdxMessage) => getMessage(message));
     const [touched, setTouched] = useState<boolean>(false);
-    const [error, setError] = useState<string | undefined>();
+    const [errors, setErrors] = useState<string[] | undefined>();
     const onValidateHandler = useFormFieldValidation(uischema);
 
     // For server side errors, need to reset the touched value
@@ -51,13 +56,15 @@ export const withFormValidationState: WrappedFunctionComponent<
       setTouched(false);
     }, [messages?.value]);
 
+    const fieldErrors = touched ? errors : errorsFromSchema;
     const combinedProps = {
       ...props,
       touched,
       setTouched,
-      error: touched ? error : errorFromSchema,
-      setError,
+      errors: fieldErrors,
+      setErrors,
       onValidateHandler,
+      describedByIds: !fieldErrors ? undefined : buildErrorMessageIds(fieldErrors, name),
     };
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component {...combinedProps} />;
