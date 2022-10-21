@@ -1,6 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 
-import { OktaDashboardContent } from '../framework/shared';
+import { oktaDashboardContent } from '../framework/shared';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
@@ -32,7 +32,7 @@ const mockOptionalAuthenticatorEnrollment = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/skip')
   .respond(success)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(OktaDashboardContent);
+  .respond(oktaDashboardContent);
 
 const mockEnrollAuthenticatorCustomOTP = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -251,7 +251,7 @@ test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enr
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 
-  selectFactorPage.skipOptionalEnrollment();
+  selectFactorPage.clickSetUpLaterButton();
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)

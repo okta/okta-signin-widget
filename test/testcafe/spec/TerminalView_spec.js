@@ -157,10 +157,9 @@ async function setup(t) {
 test.requestHooks(terminalMultipleErrorsMock)('should render each error message when there are multiple', async t => {
   const terminalViewPage = await setup(t);
 
-  const errors = terminalViewPage.form.getAllErrorBoxTexts();
-  await t.expect(errors).eql([
-    'Please enter a username',
-    'Please enter a password',
-    'Your session has expired. Please try to sign in again.'
-  ]);
+  const errors = await terminalViewPage.form.getAllErrorBoxTexts();
+  await t.expect(await errors.count).eql(3);
+  await t.expect(errors.nth(0).innerText).eql('Please enter a username');
+  await t.expect(errors.nth(1).innerText).eql('Please enter a password');
+  await t.expect(errors.nth(2).innerText).eql('Your session has expired. Please try to sign in again.');
 });

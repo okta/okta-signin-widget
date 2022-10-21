@@ -20,7 +20,7 @@ export default class SelectFactorPageObject extends BasePageObject {
     super(t);
   }
 
-  getFactorButton() {
+  getFactorButtons() {
     if (userVariables.v3) {
       return this.form.getAllButtons().withAttribute('data-se', 'authenticator-button');
     }
@@ -28,19 +28,19 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorsCount() {
-    return this.getFactorButton().count;
+    return this.getFactorButtons().count;
   }
 
   getFactorLabelByIndex(index) {
     if (userVariables.v3) {
-      const factorButton = this.getFactorButton().nth(index);
+      const factorButton = this.getFactorButtons().nth(index);
       return within(factorButton).findByRole('heading', { level: 3 }).textContent;
     }
     return this.form.getElement(factorLabelSelector).nth(index).textContent;
   }
 
   getFactorDescriptionElementByIndex(index) {
-    return this.getFactorButton().nth(index).find(factorDescriptionSelector);
+    return this.getFactorButtons().nth(index).find(factorDescriptionSelector);
   }
 
   getFactorDescriptionByIndex(index) {
@@ -77,7 +77,7 @@ export default class SelectFactorPageObject extends BasePageObject {
     await this.t.click(this.getFactorCTAButtonByIndex(index));
   }
 
-  async skipOptionalEnrollment() {
+  async clickSetUpLaterButton() {
     const button = this.form.getButton('Set up later');
     await this.t.click(button);
   }
@@ -108,7 +108,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorUsageTextElementByIndex(index) {
-    return this.getFactorButton().nth(index).find(factorUsageTextSelector);
+    return this.getFactorButtons().nth(index).find(factorUsageTextSelector);
   }
 
   getFactorUsageTextByIndex(index) {
