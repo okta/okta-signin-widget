@@ -25,6 +25,7 @@ function setup(errorResponse, pivConfig) {
   const defaultConfig = {
     certAuthUrl: 'https://foo.com',
     isCustomDomain: true,
+    customDomain: 'bar.com',
   };
   const router = new Router(
     _.extend({
@@ -112,6 +113,7 @@ Expect.describe('PIV', function() {
           expect(JSON.parse(argsForPost.params)).toEqual({
             fromURI: '%2Fapp%2FUserHome',
             isCustomDomain: true,
+            customDomain: 'bar.com',
           });
         });
     });
@@ -135,10 +137,93 @@ Expect.describe('PIV', function() {
           });
         });
     });
+    itp('makes post call with correct data when isCustomDomain is false and customDomain is set', function() {
+      const config = {
+        certAuthUrl: 'https://foo.com',
+        isCustomDomain: false,
+        customDomain: 'bar.com',
+      };
+
+      return setup(null, config)
+        .then(function() {
+          return Expect.waitForSpyCall(SharedUtil.redirect);
+        })
+        .then(function() {
+          expect(Util.numAjaxRequests()).toBe(2);
+          const argsForPost = Util.getAjaxRequest(1);
+
+          expect(JSON.parse(argsForPost.params)).toEqual({
+            fromURI: '%2Fapp%2FUserHome',
+            isCustomDomain: false,
+            customDomain: 'bar.com',
+          });
+        });
+    });
+    itp('makes post call with correct data when isCustomDomain is false and customDomain is undefined', function() {
+      const config = {
+        certAuthUrl: 'https://foo.com',
+        isCustomDomain: false,
+        customDomain: undefined,
+      };
+
+      return setup(null, config)
+        .then(function() {
+          return Expect.waitForSpyCall(SharedUtil.redirect);
+        })
+        .then(function() {
+          expect(Util.numAjaxRequests()).toBe(2);
+          const argsForPost = Util.getAjaxRequest(1);
+
+          expect(JSON.parse(argsForPost.params)).toEqual({
+            fromURI: '%2Fapp%2FUserHome',
+            isCustomDomain: false,
+          });
+        });
+    });
     itp('makes post call with correct data when isCustomDomain is undefined', function() {
       const config = {
         certAuthUrl: 'https://foo.com',
         isCustomDomain: undefined,
+      };
+
+      return setup(null, config)
+        .then(function() {
+          return Expect.waitForSpyCall(SharedUtil.redirect);
+        })
+        .then(function() {
+          expect(Util.numAjaxRequests()).toBe(2);
+          const argsForPost = Util.getAjaxRequest(1);
+
+          expect(JSON.parse(argsForPost.params)).toEqual({
+            fromURI: '%2Fapp%2FUserHome',
+          });
+        });
+    });
+    itp('makes post call with correct data when isCustomDomain is undefined and customDomain is set', function() {
+      const config = {
+        certAuthUrl: 'https://foo.com',
+        isCustomDomain: undefined,
+        customDomain: 'bar.com',
+      };
+
+      return setup(null, config)
+        .then(function() {
+          return Expect.waitForSpyCall(SharedUtil.redirect);
+        })
+        .then(function() {
+          expect(Util.numAjaxRequests()).toBe(2);
+          const argsForPost = Util.getAjaxRequest(1);
+
+          expect(JSON.parse(argsForPost.params)).toEqual({
+            fromURI: '%2Fapp%2FUserHome',
+            customDomain: 'bar.com',
+          });
+        });
+    });
+    itp('makes post call with correct data when customDomain is undefined', function() {
+      const config = {
+        certAuthUrl: 'https://foo.com',
+        customDomain: undefined,
       };
 
       return setup(null, config)

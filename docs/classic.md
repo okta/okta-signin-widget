@@ -1472,14 +1472,16 @@ Settings for authentication with a Smart Card `X509` type IdP.
 
 - `className` *(optional)* - Class that can be added to the Smart Card IdP button.
 
-- `isCustomDomain` *(optional)* - Boolean that indicates if the request is coming from a [custom domain](https://developer.okta.com/docs/guides/custom-url-domain/overview). If omitted, it will indicate that the request is not coming from a custom domain.
+- `isCustomDomain` *(optional)* - Boolean that indicates if the request is coming from a [custom domain](https://developer.okta.com/docs/guides/custom-url-domain/overview). This is now deprecated, use `customDomain` instead to specify the hostname.
+
+- `customDomain` *(optional)* - The [custom domain](https://developer.okta.com/docs/guides/custom-url-domain/overview) from where the request is originating. This is used to correctly redirect back to the originating domain after PIV authentication completes.
 
     ```javascript
     piv: {
       certAuthUrl: '/your/cert/validation/endpoint',
       text: 'Authenticate with a Smart Card',
       className: 'custom-style',
-      isCustomDomain: true,
+      customDomain: 'example.com',
     }
     ```
 
