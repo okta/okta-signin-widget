@@ -241,7 +241,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return;
     }
     if (authApiError !== null) {
-      // TODO sy- refactor: special case for API error terminal states
       events?.afterRender?.({
         controller: null,
         formName: 'terminal',
