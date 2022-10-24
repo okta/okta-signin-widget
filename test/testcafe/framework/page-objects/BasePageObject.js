@@ -217,8 +217,4 @@ export default class BasePageObject {
 
     return elCount === 1;
   }
-
-  hasText(text) {
-    return this.form.getTextElement(text).exists;
-  }
 }

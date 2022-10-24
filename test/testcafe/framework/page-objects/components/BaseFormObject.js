@@ -170,14 +170,6 @@ export default class BaseFormObject {
     return within(this.el).getByRole('button').value;
   }
 
-  getTextElement(content) {
-    return within(this.el).getByText(content);
-  }
-
-  getTextElementOnScreen(content) {
-    return screen.getByText(content);
-  }
-
   // =====================================
   // Error
   // =====================================
