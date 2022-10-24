@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -66,7 +66,7 @@ async function setup(t) {
   [ 'Your password will expire later today', mockExpireToday ],
   [ 'Your password is expiring soon', mockExpireSoon ],
 ].forEach(([ formTitle, mock ]) => {
-  test.meta('v3', false)
+  test
     .requestHooks(logger, mock)('Should have the correct labels - expire in days', async t => {
       const passwordExpiryWarningPage = await setup(t);
       await t.expect(passwordExpiryWarningPage.getFormTitle()).eql(formTitle);
@@ -77,7 +77,12 @@ async function setup(t) {
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('A lowercase letter');
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('A number');
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('No parts of your username');
-      await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+      // In V3, UX made a conscious decision to not include server side requirements in the UI
+      // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
+      // but for now, it does not display in v3
+      if (!userVariables.v3) {
+        await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+      }
       await t.expect(passwordExpiryWarningPage.remindMeLaterLinkExists()).eql(true);
       await t.expect(passwordExpiryWarningPage.getSignoutLinkText()).eql('Back to sign in');
       await t.expect(passwordExpiryWarningPage.doesTextExist('When your password expires you will be locked out of your Okta account.')).eql(true);
@@ -131,7 +136,7 @@ test
     });
   });
 
-test.meta('v3', false)
+test.meta('v3', false) // TODO: OKTA-544016 - determine if we should match this functionality in v3
   .requestHooks(logger, mockChangePasswordNotAllowed)('can choose "skip" if password change is not allowed', async t => {
     const passwordExpiryWarningPage = await setup(t);
     const successPage = new SuccessPageObject(t);
