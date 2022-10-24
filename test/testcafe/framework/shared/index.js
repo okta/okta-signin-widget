@@ -84,6 +84,13 @@ export async function assertRequestMatches(loggedRequest, url, method, body) {
   }
 }
 
+// eslint-disable-next-line @okta/okta/no-unlocalized-text-in-templates
+export const oktaDashboardContent = `
+  <h1 id="mock-user-dashboard-title">Mock User Dashboard</h1>
+  <h2>Query parameters</h2>
+  <a href="/">Back to Login</a>
+`;
+
 /**
  * Provides mock responses for common endpoints. Use this export instead of
  * importing from "testcafe" directly to avoid falling back to dyson mock server
