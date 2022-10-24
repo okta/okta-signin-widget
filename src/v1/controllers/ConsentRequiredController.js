@@ -90,6 +90,10 @@ const getScopeCheckBoxes = (scopes) => {
   }));
 };
 
+const isGranularConsent = (appState) => {
+  return 'optional' in appState.get('scopes')[0];
+};
+
 export default FormController.extend({
   className: 'consent-required',
   initialize: function() {
@@ -101,8 +105,7 @@ export default FormController.extend({
     const skipLink = new SkipLink();
     $(`#${Enums.WIDGET_LOGIN_CONTAINER_ID}`).prepend(skipLink.render().$el);
 
-    // granular consent
-    if ('optional' in this.options.appState.get('scopes')[0]) {
+    if (isGranularConsent(this.options.appState)) {
       this.$el.addClass('granular-consent').removeClass('consent-required');
       this.form.cancel = _.partial(loc, 'oform.cancel', 'login');
       _.forEach(this.options.appState.get('scopes'), scope => {
@@ -125,7 +128,7 @@ export default FormController.extend({
       return this.doTransaction(function(transaction) {
         let scopeNames = _.pluck(this.get('scopes'), 'name');
         let consent = { expiresAt: this.get('expiresAt') };
-        if ('optional' in this.get('scopes')[0]) {
+        if (isGranularConsent(this)) {
           consent['optedScopes'] =  _.reduce(scopeNames, (optedScopes, scope) => { optedScopes[scope] = this.get(scope); return optedScopes; }, {});
         } else {
           consent['scopes'] = scopeNames;
@@ -154,7 +157,7 @@ export default FormController.extend({
     save: _.partial(loc, 'consent.required.consentButton', 'login'),
     cancel: _.partial(loc, 'consent.required.cancelButton', 'login'),
     formChildren: function() {
-      if ('optional' in this.options.appState.get('scopes')[0]) {
+      if (isGranularConsent(this.options.appState)) {
         return [
           getConsentHeader(granularConsentHeaderTemplate),
           granularConsentDescription,
