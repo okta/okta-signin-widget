@@ -51,7 +51,8 @@ const basicConfig = {
   el: '#okta-login-container',
   authParams: { pkce:false },
   clientId: WIDGET_WEB_CLIENT_ID,
-  scopes: ['openid', 'email', 'profile']
+  scopes: ['openid', 'email', 'profile'],
+  useClassicEngine: true
 };
 
 Given(

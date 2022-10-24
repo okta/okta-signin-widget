@@ -370,7 +370,7 @@ export default class TestApp {
     const authClient = oktaSign.authClient;
 
     // email verify callback
-    if (authClient.idx.isEmailVerifyCallback(window.location.search)) {
+    if (authClient.idx?.isEmailVerifyCallback(window.location.search)) {
       const { state, otp } = authClient.idx.parseEmailVerifyCallback(window.location.search);
       this.oktaSignIn = await getOktaSignIn({ ...config.widgetOptions, state, otp });
       this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: RenderResultSuccess) => {
