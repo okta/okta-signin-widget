@@ -140,6 +140,15 @@ export default class BaseFormObject {
   /**
    * @param {string} name the text of the button to click
    */
+  async clickButton(name) {
+    const buttonToClick = this.getButton(name);
+
+    await this.t.click(buttonToClick);
+  }
+
+  /**
+   * @param {string} name the text of the button to click
+   */
   async clickSaveButton(name = 'Next') {
     const buttonToClick = this.getButton(name);
 

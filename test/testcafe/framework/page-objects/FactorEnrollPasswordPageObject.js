@@ -3,6 +3,7 @@ import BasePageObject from './BasePageObject';
 const passwordFieldName = 'credentials\\.passcode';
 const confirmPasswordFieldName = 'confirmPassword';
 const requirementsSelector = '[data-se="password-authenticator--rules"]';
+const resetPasswordButtonName = 'Reset Password';
 
 /**
  * This page object will be used by 
@@ -36,6 +37,10 @@ export default class EnrollPasswordPageObject extends BasePageObject {
 
   clickNextButton() {
     return this.form.clickSaveButton();
+  }
+
+  clickResetPasswordButton() {
+    this.form.clickButton(resetPasswordButtonName);
   }
 
   waitForErrorBox() {
@@ -89,5 +94,9 @@ export default class EnrollPasswordPageObject extends BasePageObject {
 
   doesTextExist(content) {
     return this.form.getTextElement(content).exists;
+  }
+
+  resetPasswordButtonExists() {
+    return this.form.getButton(resetPasswordButtonName).exists;
   }
 }
