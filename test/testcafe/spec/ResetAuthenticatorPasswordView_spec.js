@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -16,7 +17,9 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorResetPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 fixture('Authenticator Reset Password').meta('v3', true);
 
