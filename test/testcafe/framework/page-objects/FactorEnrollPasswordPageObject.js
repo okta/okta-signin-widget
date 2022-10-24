@@ -84,7 +84,7 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   }
 
   async clickRemindMeLaterLink() {
-    await this.t.click(this.getLink('Remind me later'));
+    await this.t.click(this.form.getLink('Remind me later'));
   }
 
   doesTextExist(content) {
