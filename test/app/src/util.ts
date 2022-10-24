@@ -103,7 +103,8 @@ export async function loadPolyfill(minified: boolean) {
   const existingEl = document.getElementById('widget-polyfill') as HTMLScriptElement;
 
   //let url = `${window.location.origin}/okta-auth-js.polyfill`;
-  let url = `${window.location.origin}/okta-sign-in.polyfill`;
+  //let url = `${window.location.origin}/okta-sign-in.polyfill`;
+  let url = `${window.location.origin}/js/okta-sign-in.polyfill`;
   // if (minified) {
   //   url += '.min';
   // }
