@@ -90,8 +90,4 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   doesTextExist(content) {
     return this.form.getTextElement(content).exists;
   }
-
-  getSaveButtonLabel() {
-    return this.form.getButton('Change Password').textContent;
-  }
 }
