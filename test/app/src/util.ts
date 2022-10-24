@@ -87,9 +87,9 @@ export async function loadWidgetScript(bundle: string, minified: boolean) {
   if (bundle !== 'default') {
     url += `.${bundle}`;
   }
-  if (minified) {
-    url += '.min';
-  }
+  //if (minified) {
+  //  url += '.min';
+  //}
   url += '.js';
 
   if (!existingEl || existingEl.src !== url) {
@@ -102,7 +102,8 @@ export async function loadWidgetScript(bundle: string, minified: boolean) {
 export async function loadPolyfill(minified: boolean) {
   const existingEl = document.getElementById('widget-polyfill') as HTMLScriptElement;
 
-  let url = `${window.location.origin}/okta-auth-js.polyfill`;
+  //let url = `${window.location.origin}/okta-auth-js.polyfill`;
+  let url = `${window.location.origin}/okta-sign-in.polyfill`;
   // if (minified) {
   //   url += '.min';
   // }
