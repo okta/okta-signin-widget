@@ -91,7 +91,10 @@ const SchemaPropertySchemaProperty = BaseModel.extend({
     unique: undefined,
     __metadata__: undefined,
     __isSensitive__: BaseModel.ComputedProperty(['settings'], function (settings) {
-      return !!(settings && settings.sensitive);
+      return !!(settings && settings.sensitive && settings.sensitive !== 'NOT_SENSITIVE');
+    }),
+    __isPendingSensitive__: BaseModel.ComputedProperty(['settings'], function (settings) {
+      return !!(settings && settings.sensitive && settings.sensitive === 'PENDING_SENSITIVE');
     }),
     __unique__: false,
     __isUniqueValidated__: BaseModel.ComputedProperty(['unique'], function (unique) {

@@ -210,7 +210,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
         classes.push(option.classes);
       }
 
-      style = option.style.cssText !== "" ? " style=\"" + option.style + "\"" : "";
+      style = option.style.cssText !== "" && option.style !== "" ? " style=\"" + option.style + "\"" : "";
       return "<li id=\"" + option.dom_id + "\" class=\"" + classes.join(" ") + "\"" + style + ">" + option.html + "</li>";
     };
 
