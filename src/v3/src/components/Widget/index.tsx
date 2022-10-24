@@ -101,14 +101,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleError = (transaction: IdxTransaction | undefined, error: unknown) => {
+  const handleError = (error: unknown) => {
     // TODO: handle error based on types
     // AuthApiError is one of the potential error that can be thrown here
     // We will want to expose development stage errors from auth-js and file jiras against it
     setAuthApiError(error as AuthApiError);
     console.error(error);
-    // error event
-    events?.afterError?.(transaction ? getEventContext(transaction) : {}, error);
     return null;
   };
 
@@ -125,7 +123,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         stepName: transaction.nextStep?.name,
       });
     } catch (error) {
-      handleError(idxTransaction, error);
+      events?.ready?.();
+
+      handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, stateToken, setIdxTransaction, setAuthApiError]);
@@ -195,8 +195,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       });
 
       setIdxTransaction(transaction);
+
+      events?.ready?.({
+        stepName: transaction.nextStep?.name,
+      });
     } catch (error) {
-      handleError(idxTransaction, error);
+      events?.ready?.();
+
+      handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, setIdxTransaction, setAuthApiError]);
@@ -231,13 +237,23 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [pollingTransaction]); // only watch on pollingTransaction changes
 
   useEffect(() => {
-    if (!idxTransaction) {
+    if (isClientTransaction) {
       return;
     }
-    events?.afterRender?.(getEventContext(idxTransaction));
+    if (authApiError !== null) {
+      // this means there was an api error, still call afterRender
+      // TODO refactor: special case for API error terminal states
+      events?.afterRender?.({
+        controller: null,
+        formName: 'terminal',
+      });
+    } else if (typeof idxTransaction !== 'undefined') {
+      // after render event
+      events?.afterRender?.(getEventContext(idxTransaction));
+    }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idxTransaction, bootstrap]);
+  }, [idxTransaction, authApiError]);
 
   return (
     <WidgetContextProvider value={{

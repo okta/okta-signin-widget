@@ -18,13 +18,13 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
     // 'error-401-invalid-otp-passcode',
     // 'error-with-failure-redirect',
-    // 'error-feature-not-enabled',
+    'error-feature-not-enabled',
     // 'error-account-creation',
     // 'error-request-not-completed',
     // 'error-403-security-access-denied',

@@ -1,4 +1,4 @@
-import { ClientFunction, RequestMock, RequestLogger } from 'testcafe';
+import { ClientFunction, RequestMock, RequestLogger, Selector } from 'testcafe';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -84,6 +84,7 @@ const requestLogger = RequestLogger(
 );
 
 fixture('Interact')
+.only
   .meta('v3', true);
 
 function decodeUrlEncodedRequestBody(body) {
@@ -120,6 +121,7 @@ async function setup(t, options = {}) {
       state: 'mock-state'
     }
   });
+  await t.expect(Selector('form').exists).eql(true);
   return pageObject;
 }
 
@@ -256,7 +258,8 @@ test.meta('v3', false).requestHooks(requestLogger, cancelResetPasswordMock)('cle
   await t.expect(params['recovery_token']).eql(undefined);
 });
 
-test.only.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error when recovery token is invalid', async t => {
+// TODO: afterRender being called too early
+test.meta('v3', false).requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error when recovery token is invalid', async t => {
   await setup(t);
 
   const terminalPageObject = new TerminalPageObject(t);

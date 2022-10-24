@@ -32,6 +32,10 @@ export async function checkConsoleMessages(context = {}) {
   let { log } = await t.getBrowserConsoleMessages();
   log = log.filter((msg) => LOG_IGNORE_PATTERNS.every(rx => !rx.test(msg)));
 
+
+  console.warn('log expected', context);
+  console.warn('log actual', log);
+
   await t.expect(log.length).eql(context.length);
 
   for (let i = 0; i < context.length; i++) {

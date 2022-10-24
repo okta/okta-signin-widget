@@ -1,14 +1,18 @@
 import { Selector, userVariables } from 'testcafe';
 
+import { screen, within } from '@testing-library/testcafe';
+
 const DATA_SE_CALLOUT = '[data-se="callout"]';
 
 export default class CalloutObject {
 
   constructor(parent /* Selector */, index = 0) {
     if (parent) {
-      this.el = parent.find(DATA_SE_CALLOUT).nth(index);
+      // this.el = parent.find(DATA_SE_CALLOUT).nth(index);
+      this.el = within(parent).getAllByRole('alert').nth(index);
     } else {
-      this.el = new Selector(DATA_SE_CALLOUT).nth(index);
+      // this.el = new Selector(DATA_SE_CALLOUT).nth(index);
+      this.el = screen.getAllByRole('alert')[index];
     }
   }
 
