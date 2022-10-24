@@ -111,6 +111,68 @@ Object {
 }
 `;
 
+exports[`Identify Transformer Tests should add UI elements for identifier, passcode & rememberMe with username default option when username is provided in remediation (inputMeta) 1`] = `
+Object {
+  "data": Object {
+    "identifier": "mockUser",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "primaryauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+            "value": "mockUser",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+            "secret": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "rememberMe",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.primaryauth.submit",
+        "options": Object {
+          "step": "identify",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
 exports[`Identify Transformer Tests should add UI elements for identifier, passcode & rememberMe with username pulled from cookie as the default option when username is not provided in options but features rememberMe & rememberMyUsernameOnOIE are provided 1`] = `
 Object {
   "data": Object {

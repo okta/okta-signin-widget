@@ -133,9 +133,8 @@ export default class BaseFormObject {
    * @param {string} name the text of the button to return
    */
   getButton(name) {
-    return within(this.el).getByRole('button', {
-      value: name,
-    });
+    const options = userVariables.v3 ? { name } : { value: name };
+    return within(this.el).getByRole('button', options);
   }
 
   /**

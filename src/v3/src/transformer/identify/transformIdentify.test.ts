@@ -150,6 +150,43 @@ describe('Identify Transformer Tests', () => {
       .toBe(IDX_STEP.IDENTIFY);
   });
 
+  it('should add UI elements for identifier, passcode & rememberMe with username default option '
+    + 'when username is provided in remediation (inputMeta)', () => {
+    widgetProps = { features: { rememberMe: true, rememberMyUsernameOnOIE: true } };
+    formBag.uischema.elements = [
+      {
+        type: 'Field',
+        options: { inputMeta: { name: 'identifier', value: 'mockUser' } },
+      } as FieldElement,
+      {
+        type: 'Field',
+        options: { inputMeta: { name: 'credentials.passcode', secret: true } },
+      } as FieldElement,
+      {
+        type: 'Field',
+        options: { inputMeta: { name: 'rememberMe' } },
+      } as FieldElement,
+    ];
+    const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.data.identifier).toBe('mockUser');
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('primaryauth.title');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
+      .toBe('identifier');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
+      .toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.name)
+      .toBe('rememberMe');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).label)
+      .toBe('oie.primaryauth.submit');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.step)
+      .toBe(IDX_STEP.IDENTIFY);
+  });
+
   it('should add UI elements for identifier, passcode & rememberMe with username pulled from '
     + 'cookie as the default option when username is not provided in options but features '
     + 'rememberMe & rememberMyUsernameOnOIE are provided', () => {
