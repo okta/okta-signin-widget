@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import IdentityPageObject from  '../framework/page-objects/IdentityPageObject';
@@ -22,7 +23,9 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiredPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const noComplexityMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
