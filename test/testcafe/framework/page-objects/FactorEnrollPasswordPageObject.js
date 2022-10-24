@@ -43,7 +43,7 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   }
 
   hasPasswordError() {
-    return this.form.hasTextBoxError(passwordFieldName);
+    return this.form.hasTextBoxErrorMessage(passwordFieldName);
   }
 
   getPasswordError() {

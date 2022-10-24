@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import IdentityPageObject from  '../framework/page-objects/IdentityPageObject';
@@ -22,7 +23,9 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiredPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const noComplexityMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -44,7 +47,7 @@ const errorPostPasswordUpdateMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/cancel')
   .respond(xhrIdentify);
 
-fixture('Authenticator Expired Password');
+fixture('Authenticator Expired Password').meta('v3', true);
 
 async function setup(t) {
   const expiredPasswordPage = new FactorEnrollPasswordPageObject(t);
@@ -59,11 +62,11 @@ async function setup(t) {
   return expiredPasswordPage;
 }
 
-test
+test.meta('v3', false)
   .requestHooks(logger, mock)('Should have the correct labels', async t => {
     const expiredPasswordPage = await setup(t);
     await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
-    await t.expect(expiredPasswordPage.getSaveButtonLabel()).eql('Change Password');
+    await t.expect(expiredPasswordPage.changePasswordButtonExists()).eql(true);
     await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');
     await t.expect(expiredPasswordPage.getRequirements()).contains('At least 8 characters');
     await t.expect(expiredPasswordPage.getRequirements()).contains('An uppercase letter');
@@ -78,7 +81,7 @@ test
   .requestHooks(logger, noComplexityMock)('Should not show any password requirements', async t => {
     const expiredPasswordPage = await setup(t);
     await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
-    await t.expect(expiredPasswordPage.getSaveButtonLabel()).eql('Change Password');
+    await t.expect(expiredPasswordPage.changePasswordButtonExists()).eql(true);
     await t.expect(expiredPasswordPage.requirementsExist()).eql(false);
   });
 
@@ -86,7 +89,7 @@ test
   .requestHooks(logger, complexityInEnrollmentAuthenticatorMock)('Should show password requirements as per enrollmentAuthenticator object', async t => {
     const expiredPasswordPage = await setup(t);
     await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
-    await t.expect(expiredPasswordPage.getSaveButtonLabel()).eql('Change Password');
+    await t.expect(expiredPasswordPage.changePasswordButtonExists()).eql(true);
     await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');
     await t.expect(expiredPasswordPage.getRequirements()).contains('At least 8 characters');
     await t.expect(expiredPasswordPage.getRequirements()).contains('An uppercase letter');
@@ -102,7 +105,7 @@ test
     await t.expect(expiredPasswordPage.confirmPasswordFieldExists()).eql(true);
 
     // fields are required
-    await expiredPasswordPage.clickNextButton();
+    await expiredPasswordPage.clickChangePasswordButton();
     await expiredPasswordPage.waitForErrorBox();
     await t.expect(expiredPasswordPage.getPasswordError()).eql('This field cannot be left blank');
     await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('This field cannot be left blank');
@@ -110,7 +113,7 @@ test
     // password must match
     await expiredPasswordPage.fillPassword('abcd');
     await expiredPasswordPage.fillConfirmPassword('1234');
-    await expiredPasswordPage.clickNextButton();
+    await expiredPasswordPage.clickChangePasswordButton();
     await expiredPasswordPage.waitForErrorBox();
     await t.expect(expiredPasswordPage.hasPasswordError()).eql(false);
     await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
@@ -125,7 +128,7 @@ test
 
     await expiredPasswordPage.fillPassword('abcdabcd');
     await expiredPasswordPage.fillConfirmPassword('abcdabcd');
-    await expiredPasswordPage.clickNextButton();
+    await expiredPasswordPage.clickChangePasswordButton();
 
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
@@ -149,7 +152,7 @@ test
 
     await expiredPasswordPage.fillPassword('abcdabcd');
     await expiredPasswordPage.fillConfirmPassword('abcdabcd');
-    await expiredPasswordPage.clickNextButton();
+    await expiredPasswordPage.clickChangePasswordButton();
 
     await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
     await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('Your password has been updated but there was a problem signing you in. Please try again or contact your administrator.');
