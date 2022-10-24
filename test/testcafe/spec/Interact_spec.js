@@ -84,7 +84,6 @@ const requestLogger = RequestLogger(
 );
 
 fixture('Interact')
-.only
   .meta('v3', true);
 
 function decodeUrlEncodedRequestBody(body) {
@@ -231,6 +230,9 @@ test.requestHooks(requestLogger, interactMock)('passes recovery_token to interac
   ]);
 });
 
+// TODO this is calling /cancel but not also /interact in v3. Might be good but
+// not sure if it _should_ call interact actually when there is
+// a recovery token
 test.meta('v3', false).requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token and does not pass it to interact after clicking "back to signin"', async t => {
   const recoveryToken = 'abcdef';
   const pageObject = await setup(t, {
@@ -249,17 +251,13 @@ test.meta('v3', false).requestHooks(requestLogger, cancelResetPasswordMock)('cle
   ]);
   requestLogger.clear();
   await pageObject.clickSignOutLink();
-  // TODO this is calling /cancel but not also /interact in v3. Might be good but
-  // not sure if it _should_ call interact actually when there is
-  // a recovery token
   req = requestLogger.requests[0].request; // interact
   params = decodeUrlEncodedRequestBody(req.body);
   await t.expect(req.url).eql('http://localhost:3000/oauth2/default/v1/interact');
   await t.expect(params['recovery_token']).eql(undefined);
 });
 
-// TODO: afterRender being called too early
-test.meta('v3', false).requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error when recovery token is invalid', async t => {
+test.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error when recovery token is invalid', async t => {
   await setup(t);
 
   const terminalPageObject = new TerminalPageObject(t);

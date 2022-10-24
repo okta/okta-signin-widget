@@ -241,14 +241,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return;
     }
     if (authApiError !== null) {
-      // this means there was an api error, still call afterRender
-      // TODO refactor: special case for API error terminal states
+      // TODO sy- refactor: special case for API error terminal states
       events?.afterRender?.({
         controller: null,
         formName: 'terminal',
       });
     } else if (typeof idxTransaction !== 'undefined') {
-      // after render event
       events?.afterRender?.(getEventContext(idxTransaction));
     }
 
