@@ -4125,9 +4125,8 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
   }
 
   (function () {
-    var i,
-        eventName,
-        div = document.createElement("div"); // Support: IE<9 (lack submit/change bubble), Firefox (lack focus(in | out) events)
+    var i, eventName; // Support: IE<9 (lack submit/change bubble), Firefox (lack focus(in | out) events)
+    // OKTA-542169 - fix for csp violation - Removed IE<9 only logic
 
     for (i in {
       submit: true,
@@ -4135,16 +4134,8 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
       focusin: true
     }) {
       eventName = "on" + i;
-
-      if (!(support[i] = eventName in window)) {
-        // Beware of CSP restrictions (https://developer.mozilla.org/en/Security/CSP)
-        div.setAttribute(eventName, "t");
-        support[i] = div.attributes[eventName].expando === false;
-      }
-    } // Null elements to avoid leaks in IE.
-
-
-    div = null;
+      support[i] = eventName in window;
+    }
   })();
 
   var rformElems = /^(?:input|select|textarea)$/i,
