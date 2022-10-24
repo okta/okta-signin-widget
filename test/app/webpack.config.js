@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const ENV = require('@okta/env');
 ENV.config();
@@ -57,25 +56,6 @@ const webpackConfig = {
     },
   },
   plugins: [
-    new CopyPlugin({
-      patterns: [
-      // {
-      //   from: path.resolve(
-      //     __dirname, '..', '..', 'node_modules', '@okta', 'okta-auth-js', 'dist', 'okta-auth-js.polyfill.js'),
-      //   to: path.resolve(__dirname, 'dist', 'okta-auth-js.polyfill.js'),
-      // },
-      // {
-      //   from: path.resolve(
-      //     __dirname, '..', '..', 'node_modules', '@okta', 'okta-auth-js', 'dist', 'okta-auth-js.polyfill.js.map'),
-      //   to: path.resolve(__dirname, 'dist', 'okta-auth-js.polyfill.js.map'),
-      // }
-        // {
-        //   from: path.resolve(
-        //     __dirname, '..', '..', 'target', 'js', 'okta-sign-in.polyfill.js'),
-        //   to: path.resolve(__dirname, 'dist', 'okta-sign-in.polyfill.js'),
-        // }
-      ],
-    }),
     new HtmlWebpackPlugin({
       template: `!!handlebars-loader!${path.resolve(__dirname, 'index.hbs')}`,
       templateParameters: {},
