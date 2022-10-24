@@ -1,4 +1,4 @@
-import { Selector, ClientFunction } from 'testcafe';
+import { ClientFunction } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class SuccessPageObject extends BasePageObject {
@@ -6,7 +6,7 @@ export default class SuccessPageObject extends BasePageObject {
     super(t);
   }
   async getPageUrl() {
-    await this.t.expect(Selector('#mock-user-dashboard-title').innerText).eql('Mock User Dashboard');
+    await this.t.expect(this.form.getTextElementOnScreen('Mock User Dashboard').exists).eql(true);
 
     const pageUrl = await ClientFunction(() => window.location.href)();
     return pageUrl;

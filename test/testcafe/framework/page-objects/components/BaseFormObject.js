@@ -174,6 +174,10 @@ export default class BaseFormObject {
     return within(this.el).getByText(content);
   }
 
+  getTextElementOnScreen(content) {
+    return screen.getByText(content);
+  }
+
   // =====================================
   // Error
   // =====================================
