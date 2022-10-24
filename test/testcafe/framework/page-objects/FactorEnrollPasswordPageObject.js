@@ -70,4 +70,24 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   getErrorBoxText() {
     return this.form.getErrorBoxText();
   }
+
+  clickChangePasswordButton() {
+    return this.form.clickSaveButton('Change Password');
+  }
+
+  changePasswordButtonExists() {
+    return this.form.getButton('Change Password').exists;
+  }
+
+  remindMeLaterLinkExists() {
+    return this.form.getLink('Remind me later').exists;
+  }
+
+  async clickRemindMeLaterLink() {
+    await this.t.click(this.form.getLink('Remind me later'));
+  }
+
+  doesTextExist(content) {
+    return this.form.getTextElement(content).exists;
+  }
 }
