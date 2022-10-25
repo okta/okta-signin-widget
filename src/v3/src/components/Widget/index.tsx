@@ -240,7 +240,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (isClientTransaction) {
       return;
     }
-    if (typeof idxTransaction !== 'undefined') {
+    if (uischema.elements.length > 0 && typeof idxTransaction !== 'undefined') {
       events?.afterRender?.(getEventContext(idxTransaction));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
