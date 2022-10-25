@@ -27,7 +27,10 @@ export default class CalloutObject {
   }
 
   getTextContent() {
-    return this.el.textContent;
+    if (userVariables.v3) {
+      return this.el.textContent;
+    }
+    return this.el.child('[data-se="callout"]').child('div').textContent;
   }
 
 }
