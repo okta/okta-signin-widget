@@ -1,4 +1,4 @@
-import { RequestMock, ClientFunction, userVariables } from 'testcafe';
+import { RequestMock, ClientFunction } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -80,15 +80,13 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
   await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickVerifyButton();
 
   const successPage = new TerminalPageObject(t);
   await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
   await t.expect(successPage.doesTextExist('You can log in using your existing username and password.')).eql(true);
-  if(!userVariables.v3) {
-    const gobackLinkExists = await successPage.goBackLinkExists();
-    await t.expect(gobackLinkExists).eql(false);
-  }
+  const gobackLinkExists = await successPage.goBackLinkExistsV2();
+  await t.expect(gobackLinkExists).eql(false);
   const signoutLinkExists = await successPage.signoutLinkExists();
   await t.expect(signoutLinkExists).eql(true);
 });
@@ -112,7 +110,7 @@ test.requestHooks(errorUnlockAccount)('should show error when unlock account fai
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickVerifyButton();
 
   const terminaErrorPage = new TerminalPageObject(t);
   await terminaErrorPage.waitForErrorBox();

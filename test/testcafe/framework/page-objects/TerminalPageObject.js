@@ -1,5 +1,6 @@
 import BasePageObject from './BasePageObject';
 import CalloutObject from './components/CalloutObject';
+import { userVariables } from 'testcafe';
 
 const TERMINAL_VIEW = '.siw-main-view.terminal';
 export default class TerminalPageObject extends BasePageObject {
@@ -30,5 +31,13 @@ export default class TerminalPageObject extends BasePageObject {
 
   doesTextExist(content) {
     return this.form.getTextElement(content).exists;
+  }
+
+  // Check for go back link unique to V2
+  async goBackLinkExistsV2() {
+    if(!userVariables.v3) {
+      return super.goBackLinkExists();
+    }
+    return false;
   }
 }

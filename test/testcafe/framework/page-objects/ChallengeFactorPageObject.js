@@ -31,7 +31,7 @@ export default class ChallengeFactorPageObject extends BasePageObject {
   }
 
   clickVerifyButton() {
-    return this.form.clickSaveButton('Verify');
+    return this.form.clickButton('Verify');
   }
 
   /**
