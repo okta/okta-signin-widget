@@ -10,6 +10,7 @@ const factorCustomLogoSelector = `${factorListRowSelector} .authenticator-icon-c
 const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
 const factorUsageTextSelector = `${factorListRowSelector} .authenticator-usage-text`;
+const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
 const IDENTIFIER_FIELD = 'identifier';
@@ -78,8 +79,12 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async clickSetUpLaterButton() {
-    const button = this.form.getButton('Set up later');
-    await this.t.click(button);
+    if (userVariables.v3) {
+      const button = this.form.getButton('Set up later');
+      await this.t.click(button);
+      return;
+    }
+    await this.t.click(this.form.getElement(skipOptionalEnrollmentSelector));
   }
 
   getCustomSignOutLink() {

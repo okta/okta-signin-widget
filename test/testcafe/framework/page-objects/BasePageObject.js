@@ -1,6 +1,5 @@
 import BaseFormObject from './components/BaseFormObject';
 import { Selector, ClientFunction, userVariables } from 'testcafe';
-import { within } from '@testing-library/testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
@@ -180,26 +179,20 @@ export default class BasePageObject {
     await this.t.click(Selector(SKIP_SET_UP_LINK));
   }
 
-  async getSwitchAuthenticatorLink(name) {
-    return await within(this.el).findByRole('link', {
-      name,
-    });
+  getReturnToAuthenticatorListLink() {
+    return this.form.getLink('Return to authenticator list');
   }
 
-  async getReturnToAuthenticatorListLink() {
-    return await this.getSwitchAuthenticatorLink('Return to authenticator list');
-  }
-
-  async getVerifyWithSomethingElseLink() {
-    return await this.getSwitchAuthenticatorLink('Verify with something else');
+  getVerifyWithSomethingElseLink() {
+    return this.form.getLink('Verify with something else');
   }
 
   async clickVerifyWithSomethingElseLink() {
-    return await this.t.click(this.getVerifyWithSomethingElseLink());
+    return await this.t.click(await this.getVerifyWithSomethingElseLink());
   }
 
   async clickReturnToAuthenticatorListLink() {
-    return await this.t.click(this.getReturnToAuthenticatorListLink());
+    return await this.t.click(await this.getReturnToAuthenticatorListLink());
   }
 
   getSwitchAuthenticatorLinkText() {  
