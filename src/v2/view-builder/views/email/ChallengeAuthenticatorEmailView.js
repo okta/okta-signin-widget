@@ -45,7 +45,7 @@ const Body = BaseAuthenticatorEmailForm.extend(
 
     isUseEmailMagicLink() {
       const useEmailMagicLink = this.options.appState.get('currentAuthenticatorEnrollment')?.
-      contextualData?.useEmailMagicLink;
+        contextualData?.useEmailMagicLink;
       return useEmailMagicLink !== undefined ? useEmailMagicLink : true;
     },
 
