@@ -49,6 +49,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
     customOptions,
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
+  const hasErrors = typeof errors !== 'undefined';
 
   const handleChange = (e: SelectChangeEvent<string>) => {
     setTouched?.(true);
@@ -62,7 +63,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   return (
     <FormControl
       disabled={loading}
-      error={errors !== undefined}
+      error={hasErrors}
       required={required}
     >
       <InputLabel htmlFor={name}>{label}</InputLabel>
@@ -100,7 +101,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
           )
         }
       </MuiSelect>
-      {errors !== undefined && (
+      {hasErrors && (
         <FieldErrorContainer
           errors={errors}
           fieldName={name}

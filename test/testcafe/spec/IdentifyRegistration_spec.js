@@ -110,6 +110,8 @@ test.requestHooks(mock)('should show errors if required fields are empty', async
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
 });
 
+// In v3 UX made a conscious decision to remove the onBlur field validation trigger because it causes unnecessary noise
+// in the application, so we are leaving this disabled for v3.
 test.meta('v3', false).requestHooks(mock)('should show errors after empty required fields are focused out', async t => {
   const registrationPage = await setup(t);
   await verifyRegistrationPageEvent();

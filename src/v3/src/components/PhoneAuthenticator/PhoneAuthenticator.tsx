@@ -75,6 +75,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const showExtension = methodType === 'voice';
   const onChangeHandler = useOnChange(uischema);
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
+  const phoneHasErrors = typeof errors !== 'undefined';
 
   const formatPhone = (
     phoneNumber: string,
@@ -200,7 +201,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             type="tel"
             name={fieldName}
             id={fieldName}
-            error={errors !== undefined}
+            error={phoneHasErrors}
             disabled={loading}
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               // Set new phone value without phone code
@@ -222,7 +223,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               ...attributes,
             }}
           />
-          {errors !== undefined && (
+          {phoneHasErrors && (
             <FieldErrorContainer
               errors={errors}
               fieldName={fieldName}

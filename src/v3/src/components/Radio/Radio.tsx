@@ -54,6 +54,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
     focus,
   } = uischema;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
+  const hasErrors = typeof errors !== 'undefined';
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTouched?.(true);
@@ -65,7 +66,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
     <FormControl
       component="fieldset"
       required={required}
-      error={errors !== undefined}
+      error={hasErrors}
     >
       {label && (<FormLabel>{label!}</FormLabel>)}
       <RadioGroup
@@ -90,7 +91,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
           ))
         }
       </RadioGroup>
-      {errors !== undefined && (
+      {hasErrors && (
         <FieldErrorContainer
           errors={errors}
           fieldName={name}

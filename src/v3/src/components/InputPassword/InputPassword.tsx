@@ -43,6 +43,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     inputMeta: { name },
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
+  const hasErrors = typeof errors !== 'undefined';
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const changedVal = e.currentTarget.value;
@@ -61,7 +62,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         value={value}
         name={name}
         id={name}
-        error={errors !== undefined}
+        error={hasErrors}
         onChange={handleChange}
         disabled={loading}
         fullWidth
@@ -72,7 +73,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         }}
         ref={focusRef}
       />
-      {errors !== undefined && (
+      {hasErrors && (
         <FieldErrorContainer
           errors={errors}
           fieldName={name}

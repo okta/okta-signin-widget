@@ -48,6 +48,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
     dataSe,
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
+  const hasErrors = typeof errors !== 'undefined';
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched?.(true);
@@ -69,7 +70,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         type={type || 'text'}
         id={name}
         name={name}
-        error={errors !== undefined}
+        error={hasErrors}
         onChange={handleChange}
         disabled={loading}
         fullWidth
@@ -80,7 +81,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         }}
         inputRef={focusRef}
       />
-      {errors !== undefined && (
+      {hasErrors && (
         <FieldErrorContainer
           errors={errors}
           fieldName={name}

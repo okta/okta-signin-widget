@@ -43,6 +43,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   const { options: { inputMeta: { name } }, focus, required } = uischema;
   const label = getTranslation(uischema.translations!);
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
+  const hasErrors = typeof errors !== 'undefined';
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTouched?.(true);
@@ -54,7 +55,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
     <FormControl
       component="fieldset"
       required={required}
-      error={errors !== undefined}
+      error={hasErrors}
       aria-describedby={describedByIds}
     >
       <FormControlLabel
@@ -75,7 +76,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
         )}
         label={label as string}
       />
-      {errors !== undefined && (
+      {hasErrors && (
         <FieldErrorContainer
           errors={errors}
           fieldName={name}
