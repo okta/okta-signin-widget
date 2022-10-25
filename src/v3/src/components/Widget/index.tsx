@@ -245,12 +245,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         controller: null,
         formName: 'terminal',
       });
-    } else if (typeof idxTransaction !== 'undefined') {
+    } else if (uischema.elements.length > 0 && idxTransaction !== undefined) {
       events?.afterRender?.(getEventContext(idxTransaction));
     }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idxTransaction, authApiError]);
+  }, [uischema, authApiError]);
 
   return (
     <WidgetContextProvider value={{
