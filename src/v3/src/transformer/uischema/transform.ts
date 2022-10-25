@@ -94,8 +94,8 @@ export const updateCustomFields: TransformStepFn = (formbag) => {
 
 // TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
 export const updateRequiredFields: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
-  const { nextStep: { name } = {} } = transaction;
-  if (name !== IDX_STEP.ENROLL_PROFILE) {
+  const { nextStep: { name = '' } = {} } = transaction;
+  if (![IDX_STEP.ENROLL_PROFILE, IDX_STEP.ENROLL_PROFILE_UPDATE].includes(name)) {
     return formbag;
   }
   traverseLayout({

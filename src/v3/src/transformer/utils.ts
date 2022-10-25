@@ -15,7 +15,6 @@ import {
   FormBag,
   UISchemaElement,
   UISchemaLayoutType,
-  Undefinable,
 } from '../types';
 
 export const createForm = (): FormBag => ({
@@ -42,7 +41,7 @@ export const removeUIElementWithName = (
 export const getUIElementWithName = (
   name: string,
   elements: UISchemaElement[],
-): Undefinable<UISchemaElement> => (
+): UISchemaElement | undefined => (
   elements.find((element) => (
     name === (element as FieldElement).options.inputMeta.name
   ))

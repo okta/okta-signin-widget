@@ -47,7 +47,7 @@ test.requestHooks(xhrEnrollProfileUpdateMock)('should have correct form title, f
   const identityPage = await setup(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   await t.expect(enrollProfileUpdatePage.getFormTitle()).eql('Additional Profile information');
   await t.expect(await enrollProfileUpdatePage.skipSetUpLinkExists()).notOk();

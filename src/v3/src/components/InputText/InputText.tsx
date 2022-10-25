@@ -42,6 +42,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const { translations = [], focus, required } = uischema;
   const label = getTranslation(translations);
   const hint = getTranslation(translations, 'hint');
+  const explain = getTranslation(translations, 'bottomExplain');
   const {
     attributes,
     inputMeta: { name },
@@ -64,7 +65,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       >
         {label}
       </InputLabel>
-      { hint && <FormHelperText data-se={`${name}-hint`}>{hint}</FormHelperText> }
+      {hint && <FormHelperText data-se={`${name}-hint`}>{hint}</FormHelperText>}
       <OutlinedInput
         value={value}
         type={type || 'text'}
@@ -87,6 +88,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           fieldName={name}
         />
       )}
+      {explain && <FormHelperText data-se={`${name}-explain`}>{explain}</FormHelperText>}
     </Box>
   );
 };
