@@ -31,6 +31,10 @@ export default class BaseFormObject {
     return this.el.find(selector).exists;
   }
 
+  fieldByLabelExists(label) {
+    return within(this.el).getByLabelText(new RegExp(label)).exists;
+  }
+
   getElement(selector) {
     return this.el.find(selector);
   }
@@ -274,6 +278,15 @@ export default class BaseFormObject {
   }
 
   async selectValueChozenDropdown(fieldName, index) {
+    if (userVariables.v3) {
+      const selectEle = await this.el.find(`[data-se="${fieldName}"]`);
+
+      await this.t.click(selectEle);
+      
+      const option = selectEle.child().nth(index);
+      await this.t.click(option);
+      return;
+    }
     const selectContainer = await this.findFormFieldInput(fieldName)
       .find('.chzn-container');
     const containerId = await selectContainer.getAttribute('id');
@@ -284,12 +297,20 @@ export default class BaseFormObject {
     await this.t.click(option);
   }
 
-
   // =====================================
   // radio button
   // =====================================
 
   async selectRadioButtonOption(fieldName, index) {
+    if (userVariables.v3) {
+      const radioEle = await this.el.find(`[data-se="${fieldName}"]`);
+
+      const radioOpt = await radioEle.child().nth(index);
+      await this.t.click(radioOpt);
+      const optionLabel = await radioOpt.textContent;
+
+      return optionLabel;
+    }
     const radioOption = await this.findFormFieldInput(fieldName)
       .find('.radio-label')
       .nth(index);

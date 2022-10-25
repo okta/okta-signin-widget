@@ -21,6 +21,10 @@ export default class ProfileEnrollmentStringOptionsViewPageObject extends BasePa
     return this.form.clickSaveButton();
   }
 
+  clickSignUpButton() {
+    return this.form.clickSaveButton('Sign Up');
+  }
+
   fillEmailField(value) {
     return this.form.setTextBoxValue('userProfile.email', value);
   }

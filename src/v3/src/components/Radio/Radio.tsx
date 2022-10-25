@@ -70,6 +70,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
       <RadioGroup
         name={name}
         id={name}
+        data-se={name}
         aria-describedby={error && `${name}-error`}
         value={value as string ?? ''}
         onChange={handleChange}
