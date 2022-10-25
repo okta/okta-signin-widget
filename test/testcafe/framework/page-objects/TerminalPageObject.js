@@ -36,7 +36,7 @@ export default class TerminalPageObject extends BasePageObject {
   // Check for go back link unique to V2
   async goBackLinkExistsV2() {
     if(!userVariables.v3) {
-      return super.goBackLinkExists();
+      return this.goBackLinkExists();
     }
     return false;
   }
