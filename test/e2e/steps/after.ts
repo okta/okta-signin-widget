@@ -25,6 +25,12 @@ After(deleteUserAndCredentials);
 
 // eslint-disable-next-line no-unused-vars
 After(async function(this: ActionContext) {
+  if (process.env.PRESERVE_CREATED_ENTITIES) {
+    console.log('Not deleting created APP:', this.app);
+    console.log('Not deleting created GROUP:', this.group);
+    return;
+  }
+
   if (this.app) {
     await this.app.deactivate();
     await this.app.delete();
