@@ -24,6 +24,9 @@ module.exports = {
 
     // Consider enabling these
     'jasmine/no-unsafe-spy': 0,
-    'jasmine/prefer-toHaveBeenCalledWith': 0
+    'jasmine/prefer-toHaveBeenCalledWith': 0,
+
+    // disable to prevent auto-fix
+    'jasmine/prefer-promise-strategies': 0,
   }
 };
