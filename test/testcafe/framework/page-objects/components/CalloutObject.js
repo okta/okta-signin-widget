@@ -8,7 +8,7 @@ export default class CalloutObject {
     if (parent) {
       this.el = within(parent).getAllByRole('alert').nth(index);
     } else {
-      this.el = screen.getAllByRole('alert')[index];
+      this.el = screen.getAllByRole('alert').nth(index);
     }
   }
 
@@ -22,15 +22,16 @@ export default class CalloutObject {
     if (userVariables.v3) {
       return hasInfoBoxErrorClass;
     }
-    return  hasInfoBoxErrorClass &&
-      this.el.child('[data-se="icon"]').hasClass('error-16');
+    return hasInfoBoxErrorClass &&
+      this.el.find('[data-se="icon"]').hasClass('error-16');
   }
 
   getTextContent() {
     if (userVariables.v3) {
       return this.el.innerText;
     }
-    return this.el.child('div').textContent;
+    // textContext is preferred, try using that for both
+    return this.el.textContent;
   }
 
 }
