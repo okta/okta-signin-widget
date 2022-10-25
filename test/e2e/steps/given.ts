@@ -71,16 +71,11 @@ Given(
   // eslint-disable-next-line no-unused-vars
   async function (this: ActionContext, appName?: string) {
     const config = { ...basicConfig };
-    console.log(JSON.stringify(config)); // for manual testing in browser
     if (appName) {
-      if (process.env.LOCAL_MONOLITH) {
-        // this.monolithClient = new MonolithClient();
-        // this.app = await this.monolithClient!.createApplication();
-      } else {
-        this.app = await createApp({ appType: 'browser' });
-        config.clientId = this.app.id;
-      }
+      this.app = await createApp({ appType: 'browser' });
+      config.clientId = this.app.id;
     }
+    console.log(JSON.stringify(config)); // for manual testing in browser
     await TestAppPage.open();
     return await TestAppPage.setConfig(config);
   }
@@ -90,13 +85,8 @@ Given(
   /^a group ("[\w\s]+") is assigned to this app$/,
   // eslint-disable-next-line no-unused-vars
   async function (this: ActionContext, groupName?: string) {
-    if (process.env.LOCAL_MONOLITH) {
-      // this.monolithClient = new MonolithClient();
-      // this.app = await this.monolithClient!.createGroup();
-    } else {
-      this.group = await createGroup(groupName);
-      assignAppToGroup(this.app.id, this.group.id)
-    }
+    this.group = await createGroup(groupName);
+    assignAppToGroup(this.app.id, this.group.id);
   }
 );
 
