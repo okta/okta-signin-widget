@@ -27,10 +27,6 @@ export default class CalloutObject {
   }
 
   getTextContent() {
-    if (userVariables.v3) {
-      return this.el.innerText;
-    }
-    // textContext is preferred, try using that for both
     return this.el.textContent;
   }
 
