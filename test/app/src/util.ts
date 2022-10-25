@@ -64,11 +64,11 @@ export function makeClickHandler(fn: UnknownFn): UnknownFn {
   };
 }
 
-export async function loadScript(id: string, url: string) {
+export async function loadScript(id: string, url: string, scriptTagId = 'widget-bundle') {
   return new Promise((resolve, reject) => {
     const scriptTag = document.createElement('script');
     scriptTag.src = url;
-    scriptTag.id = 'widget-bundle';
+    scriptTag.id = scriptTagId;
     scriptTag.async = true;
     scriptTag.addEventListener('load', () => {
       resolve(scriptTag);
@@ -110,7 +110,7 @@ export async function loadPolyfill(minified: boolean) {
 
   if (!existingEl || existingEl.src !== url) {
     existingEl && existingEl.parentElement.removeChild(existingEl);
-    await loadScript('widget-polyfill', url);
+    await loadScript('widget-polyfill', url, 'widget-polyfill');
   }
 }
 
