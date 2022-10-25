@@ -35,7 +35,12 @@ const granularConsentHeaderTemplate = hbs`
   {{/if}}
   <h1>
     <span class="title-text">
-        <b class="no-translate">{{appName}}</b><p>{{{i18n code="granular.consent.scopes.title" bundle="login"}}}</p>
+        {{i18n 
+            code="granular.consent.scopes.title" bundle="login" 
+            arguments="appName"
+            $1="<b class='no-translate'>$1</b>"
+            $2="<p>$2</p>"
+        }}
     </span>
     {{#if issuer}}
       <div class="issuer"><span>{{issuer}}</span></div>
