@@ -1,5 +1,5 @@
 import { BaseView, BaseForm } from '../../internals';
-import { _, $, loc, View } from 'okta';
+import { _, $, View } from 'okta';
 import ConsentViewForm from './ConsentViewForm';
 import AdminConsentViewHeader from './AdminConsentViewHeader';
 import EnduserConsentViewFooter from './EnduserConsentViewFooter';
@@ -7,7 +7,6 @@ import ScopeCheckBox from '../../components/ScopeCheckBox';
 import hbs from 'handlebars-inline-precompile';
 
 const granularConsentViewHeader = AdminConsentViewHeader.extend({
-  titleText: () => loc('oie.consent.scopes.granular.title', 'login'),
   hasIssuer: false,
   template: hbs`
     {{#if clientURI}}
@@ -23,7 +22,12 @@ const granularConsentViewHeader = AdminConsentViewHeader.extend({
     {{/if}}
     <h1>
       <span class="title-text">
-        <b class="no-translate">{{appName}}</b><p>{{titleText}}</p>
+        {{i18n 
+            code="oie.consent.scopes.granular.title" bundle="login" 
+            arguments="appName"
+            $1="<b class='no-translate'>$1</b>"
+            $2="<p>$2</p>"
+        }}
       </span>
     </h1>
     `,
