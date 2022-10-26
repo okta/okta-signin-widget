@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`enroll-profile-update Enroll profile update using enroll-profile remediation fails client side validation with empty required fields 1`] = `
+exports[`enroll-profile-update-required-field fails client side validation with empty required fields 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -109,7 +109,7 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
                       class="MuiTypography-root MuiTypography-h3 emotion-17"
                       data-se="o-form-head"
                     >
-                      Sign in
+                      Additional Profile information
                     </h2>
                   </div>
                 </div>
@@ -120,36 +120,28 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
                     class="MuiBox-root emotion-7"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-20"
-                      for="userProfile.favoriteSport"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                      for="userProfile.newAttribute"
                     >
-                      Favorite sport
-                      <span
-                        aria-hidden="true"
-                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-21"
-                      >
-                         
-                        *
-                      </span>
+                      Some custom attribute
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-22"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
                     >
                       <input
-                        aria-describedby="userProfile.favoriteSport-error"
-                        aria-invalid="true"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
-                        data-se="userProfile.favoriteSport"
-                        id="userProfile.favoriteSport"
-                        name="userProfile.favoriteSport"
+                        aria-invalid="false"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                        data-se="userProfile.newAttribute"
+                        id="userProfile.newAttribute"
+                        name="userProfile.newAttribute"
                         type="text"
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-24"
+                        class="MuiOutlinedInput-notchedOutline emotion-23"
                       >
                         <legend
-                          class="emotion-25"
+                          class="emotion-24"
                         >
                           <span
                             class="notranslate"
@@ -158,18 +150,6 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
                           </span>
                         </legend>
                       </fieldset>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-7"
-                    >
-                      <p
-                        class="MuiFormHelperText-root Mui-error emotion-27"
-                        data-se="userProfile.favoriteSport-error"
-                        id="userProfile.favoriteSport-error"
-                        role="alert"
-                      >
-                        This field cannot be left blank
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -180,36 +160,28 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
                     class="MuiBox-root emotion-7"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-20"
-                      for="userProfile.newAttribute"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
+                      for="userProfile.secondEmail"
                     >
-                      Custom attribute
-                      <span
-                        aria-hidden="true"
-                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-21"
-                      >
-                         
-                        *
-                      </span>
+                      Secondary email
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-22"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
                     >
                       <input
-                        aria-describedby="userProfile.newAttribute-error"
-                        aria-invalid="true"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
-                        data-se="userProfile.newAttribute"
-                        id="userProfile.newAttribute"
-                        name="userProfile.newAttribute"
+                        aria-invalid="false"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                        data-se="userProfile.secondEmail"
+                        id="userProfile.secondEmail"
+                        name="userProfile.secondEmail"
                         type="text"
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-24"
+                        class="MuiOutlinedInput-notchedOutline emotion-23"
                       >
                         <legend
-                          class="emotion-25"
+                          class="emotion-24"
                         >
                           <span
                             class="notranslate"
@@ -219,31 +191,92 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
                         </legend>
                       </fieldset>
                     </div>
-                    <div
-                      class="MuiBox-root emotion-7"
+                    <p
+                      class="MuiFormHelperText-root emotion-32"
+                      data-se="userProfile.secondEmail-explain"
                     >
-                      <p
-                        class="MuiFormHelperText-root Mui-error emotion-27"
-                        data-se="userProfile.newAttribute-error"
-                        id="userProfile.newAttribute-error"
-                        role="alert"
+                      Use a second email to  recover your account  in case you become locked out. This email must be verified after setup.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-15"
+                >
+                  <div
+                    class="MuiBox-root emotion-7"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-20"
+                      for="userProfile.newAttribute2"
+                    >
+                      Some custom attribute 2
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-36"
                       >
-                        This field cannot be left blank
-                      </p>
+                         
+                        *
+                      </span>
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-21"
+                    >
+                      <input
+                        aria-describedby="userProfile.newAttribute2-error"
+                        aria-invalid="true"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
+                        data-se="userProfile.newAttribute2"
+                        id="userProfile.newAttribute2"
+                        name="userProfile.newAttribute2"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-23"
+                      >
+                        <legend
+                          class="emotion-24"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
                     </div>
+                    <p
+                      class="MuiFormHelperText-root Mui-error emotion-32"
+                      data-se="userProfile.newAttribute2-error"
+                      id="userProfile.newAttribute2-error"
+                      role="alert"
+                    >
+                      This field cannot be left blank
+                    </p>
                   </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-15"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-39"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-43"
                     data-type="save"
                     tabindex="0"
                     type="submit"
                   >
-                    Submit
+                    Finish
                   </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-15"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>
@@ -255,7 +288,7 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
 </div>
 `;
 
-exports[`enroll-profile-update Enroll profile update using enroll-profile remediation should render form 1`] = `
+exports[`enroll-profile-update-required-field should render form with one required field 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -331,7 +364,7 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
                       class="MuiTypography-root MuiTypography-h3 emotion-12"
                       data-se="o-form-head"
                     >
-                      Sign in
+                      Additional Profile information
                     </h2>
                   </div>
                 </div>
@@ -342,35 +375,28 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
                     class="MuiBox-root emotion-7"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-15"
-                      for="userProfile.favoriteSport"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-15"
+                      for="userProfile.newAttribute"
                     >
-                      Favorite sport
-                      <span
-                        aria-hidden="true"
-                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-16"
-                      >
-                         
-                        *
-                      </span>
+                      Some custom attribute
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
                     >
                       <input
                         aria-invalid="false"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
-                        data-se="userProfile.favoriteSport"
-                        id="userProfile.favoriteSport"
-                        name="userProfile.favoriteSport"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
+                        data-se="userProfile.newAttribute"
+                        id="userProfile.newAttribute"
+                        name="userProfile.newAttribute"
                         type="text"
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-19"
+                        class="MuiOutlinedInput-notchedOutline emotion-18"
                       >
                         <legend
-                          class="emotion-20"
+                          class="emotion-19"
                         >
                           <span
                             class="notranslate"
@@ -389,35 +415,81 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
                     class="MuiBox-root emotion-7"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-15"
-                      for="userProfile.newAttribute"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-15"
+                      for="userProfile.secondEmail"
                     >
-                      Custom attribute
+                      Secondary email
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
+                    >
+                      <input
+                        aria-invalid="false"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
+                        data-se="userProfile.secondEmail"
+                        id="userProfile.secondEmail"
+                        name="userProfile.secondEmail"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-18"
+                      >
+                        <legend
+                          class="emotion-19"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                    <p
+                      class="MuiFormHelperText-root emotion-27"
+                      data-se="userProfile.secondEmail-explain"
+                    >
+                      Use a second email to  recover your account  in case you become locked out. This email must be verified after setup.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <div
+                    class="MuiBox-root emotion-7"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-15"
+                      for="userProfile.newAttribute2"
+                    >
+                      Some custom attribute 2
                       <span
                         aria-hidden="true"
-                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-16"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-31"
                       >
                          
                         *
                       </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
                     >
                       <input
                         aria-invalid="false"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
-                        data-se="userProfile.newAttribute"
-                        id="userProfile.newAttribute"
-                        name="userProfile.newAttribute"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
+                        data-se="userProfile.newAttribute2"
+                        id="userProfile.newAttribute2"
+                        name="userProfile.newAttribute2"
                         type="text"
                       />
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline emotion-19"
+                        class="MuiOutlinedInput-notchedOutline emotion-18"
                       >
                         <legend
-                          class="emotion-20"
+                          class="emotion-19"
                         >
                           <span
                             class="notranslate"
@@ -433,13 +505,24 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-30"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-37"
                     data-type="save"
                     tabindex="0"
                     type="submit"
                   >
-                    Submit
+                    Finish
                   </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-10"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                    data-se="cancel"
+                    href="javascript:void(0)"
+                  >
+                    Back to sign in
+                  </a>
                 </div>
               </div>
             </form>

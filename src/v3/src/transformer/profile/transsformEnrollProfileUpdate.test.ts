@@ -10,17 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
   ButtonType,
   FieldElement,
+  LinkElement,
   TitleElement,
   WidgetProps,
 } from 'src/types';
 
-import { transformEnrollProfile } from './transformEnrollProfile';
+import { transformEnrollProfileUpdate } from './transformEnrollProfileUpdate';
 
 describe('Enroll Profile Update Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -40,13 +40,14 @@ describe('Enroll Profile Update Transformer Tests', () => {
   });
 
   it('should add title, button, skip link and input elements from remediation with all optional fields', () => {
-    const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformEnrollProfileUpdate({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.data['userProfile.secondEmail']).toBeUndefined();
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe('oie.registration.form.title');
+      .toBe('oie.profile.additional.title');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.firstName');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
@@ -54,7 +55,35 @@ describe('Enroll Profile Update Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.email');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
-      .toBe('oie.registration.form.submit');
+      .toBe('enroll.choices.submit.finish');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
+    expect(updatedFormBag.uischema.elements[5].type).toBe('Link');
+    expect((updatedFormBag.uischema.elements[5] as LinkElement).options.label)
+      .toBe('oie.enroll.skip.profile');
+    expect((updatedFormBag.uischema.elements[5] as LinkElement).options.isActionStep).toBe(false);
+  });
+
+  it('should add title, button and input elements from remediation with all optional fields when skip is missing from remediation', () => {
+    transaction.availableSteps = [];
+
+    const updatedFormBag = transformEnrollProfileUpdate({ transaction, formBag, widgetProps });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.data['userProfile.secondEmail']).toBeUndefined();
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.profile.additional.title');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.firstName');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.lastName');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.email');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+      .toBe('enroll.choices.submit.finish');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
@@ -63,35 +92,20 @@ describe('Enroll Profile Update Transformer Tests', () => {
   it('should add title button and input elements from remediation with at least one required field', () => {
     formBag.uischema.elements.push({
       type: 'Field',
-      label: 'Password',
+      label: 'Another field',
       options: {
-        inputMeta: { name: 'credentials.passcode', secret: true },
+        inputMeta: { name: 'userProfile.anotherField', required: true },
       },
     } as FieldElement);
-    transaction.nextStep = {
-      name: '',
-      relatesTo: {
-        value: {
-          settings: {},
-        } as unknown as IdxAuthenticator,
-      },
-    };
-    const mockUserInfo = {
-      identifier: 'testuser@okta.com',
-      profile: { firstName: 'test', lastName: 'user' },
-    };
-    transaction.context.user = {
-      type: 'object',
-      value: mockUserInfo,
-    };
 
-    const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformEnrollProfileUpdate({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.data['userProfile.secondEmail']).toBeUndefined();
     expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe('oie.registration.form.title');
+      .toBe('oie.profile.additional.title');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.firstName');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
@@ -99,11 +113,41 @@ describe('Enroll Profile Update Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.email');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
-      .toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.attributes?.autocomplete)
-      .toBe('new-password');
+      .toBe('userProfile.anotherField');
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
-      .toBe('oie.registration.form.submit');
+      .toBe('enroll.choices.submit.finish');
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
+  });
+
+  it('should add title button and input elements from remediation with at least one required field and secondEmail field', () => {
+    formBag.uischema.elements.push({
+      type: 'Field',
+      label: 'Secondary email',
+      options: {
+        inputMeta: { name: 'userProfile.secondEmail', required: true },
+      },
+    } as FieldElement);
+
+    const updatedFormBag = transformEnrollProfileUpdate({ transaction, formBag, widgetProps });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.data['userProfile.secondEmail']).toBe('');
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.profile.additional.title');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.firstName');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.lastName');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.email');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.secondEmail');
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
+      .toBe('enroll.choices.submit.finish');
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).type).toBe('Button');
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);

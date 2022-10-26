@@ -25,10 +25,7 @@ import { getUIElementWithName } from '../utils';
 const SECOND_EMAIL_FIELD_NAME = 'userProfile.secondEmail';
 
 export const transformEnrollProfileUpdate: IdxStepTransformer = ({ transaction, formBag }) => {
-  const {
-    availableSteps,
-    nextStep,
-  } = transaction;
+  const { availableSteps, nextStep } = transaction;
   const { uischema, data } = formBag;
 
   const secondEmailField = getUIElementWithName(

@@ -52,7 +52,7 @@ test.requestHooks(xhrEnrollProfileUpdateMock)('should have correct form title, f
 
   await t.expect(enrollProfileUpdatePage.getFormTitle()).eql('Additional Profile information');
   await t.expect(await enrollProfileUpdatePage.skipProfileLinkExists()).eql(false);
-  await t.expect(await enrollProfileUpdatePage.getFormFieldLabel('userProfile.secondEmail')).eql('Secondary email');
+  await t.expect(await enrollProfileUpdatePage.formFieldExistsByLabel('Secondary email')).eql(true);
   // TODO: OKTA-524769 - awaitng ODY team to create wrapped components to enable optional sub label in v3
   if (!userVariables.v3) {
     await t.expect(enrollProfileUpdatePage.getFormFieldSubLabel('userProfile.secondEmail')).eql('Optional');
@@ -60,7 +60,7 @@ test.requestHooks(xhrEnrollProfileUpdateMock)('should have correct form title, f
 
   // show error when field is required
   await enrollProfileUpdatePage.clickFinishButton();
-  await t.expect(enrollProfileUpdatePage.getTextBoxErrorMessage('userProfile.newAttribute2')).eql('This field cannot be left blank');
+  await t.expect(await enrollProfileUpdatePage.getTextBoxErrorMessage('userProfile.newAttribute2')).eql('This field cannot be left blank');
 });
 
 test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalMock)('should have skip link when all fields are optional', async t => {

@@ -28,4 +28,8 @@ export default class EnrollProfileUpdateViewPageObject extends BasePageObject {
   async clickSkipProfileLink() {
     await this.t.click(this.form.getLink('Skip Profile'));
   }
+
+  formFieldExistsByLabel(label) {
+    return this.form.getByLabelText(label).exists;
+  }
 }
