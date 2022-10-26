@@ -7,6 +7,7 @@ $image-size: 30px;
 $consent-text-color: #1d1d21; // Gray 900 in Odyssey
 $consent-light-text-color: #6e6e78; // Gray 600 in Odyssey
 
+.granular-consent,
 .consent-required {
   .title-text,
   .scope-list {
@@ -95,5 +96,43 @@ $consent-light-text-color: #6e6e78; // Gray 600 in Odyssey
         border-color: $input-border-color-focus;
       }
     }
+  }
+}
+
+.granular-consent {
+  .consent-title {
+    font-size: 14px;
+    flex-direction: column;
+    b {
+      font-size: 16px;
+    }
+    span {
+      padding-left: 0;
+    }
+  }
+
+  b {
+    font-weight: bold;
+  }
+
+  .custom-checkbox {
+    label {
+      width: 100%;
+      box-sizing: border-box;
+      display: inline-block;
+    }
+  }
+
+  .custom-checkbox.o-form-read-mode {
+    margin-top: 0;
+  }
+
+  .o-form-input div {
+    width: 100%;
+  }
+
+  .consent-description,
+  .o-form-fieldset {
+    margin-bottom: 6px;
   }
 }
