@@ -153,10 +153,10 @@ module.exports = function({
     break;
   }
 
-  if (outputFilename.includes('polyfill')) {
-    delete webpackConfig.output.library;
-    delete webpackConfig.output.libraryTarget;
-  }
+  // if (outputFilename.includes('polyfill')) {
+  //   delete webpackConfig.output.library;
+  //   delete webpackConfig.output.libraryTarget;
+  // }
 
   return webpackConfig;
 };
