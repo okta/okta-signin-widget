@@ -102,6 +102,8 @@ const renderPlaygroundWidget = (options = {}) => {
   });
 
   signIn.on('afterRender', (context) => {
+    const username = document.getElementsByClassName('css-1kokese-MuiInputBase-input-MuiOutlinedInput-input')[0];
+    username.value = 'bar';
     // handle `afterRender` event.
     // use `console.log` in particular so that those logs can be retrieved
     // in testcafe for assertion
