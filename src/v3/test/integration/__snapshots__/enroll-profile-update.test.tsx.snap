@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`enroll-profile-update Enroll profile update using enroll-profile remediation fails client side validation with empty required fields 1`] = `
+exports[`enroll-profile-update fails client side validation with empty required fields 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -255,7 +255,7 @@ exports[`enroll-profile-update Enroll profile update using enroll-profile remedi
 </div>
 `;
 
-exports[`enroll-profile-update Enroll profile update using enroll-profile remediation should render form 1`] = `
+exports[`enroll-profile-update should render form 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
