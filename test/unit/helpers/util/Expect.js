@@ -356,6 +356,7 @@ const controllerClasses = {
   BarcodePush: 'barcode-push',
   BarcodeTotp: 'barcode-totp',
   ConsentRequired: 'consent-required',
+  GranularConsent: 'granular-consent',
   AdminConsentRequired: 'admin-consent-required',
   EnrollCall: 'enroll-call',
   EnrollChoices: 'enroll-choices',
