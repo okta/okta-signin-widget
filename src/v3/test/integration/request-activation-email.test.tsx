@@ -13,10 +13,10 @@
 import mockResponse from '@okta/mocks/data/idp/idx/request-activation-email.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
-describe('identify-recovery', () => {
+describe('request-activation-email', () => {
   it('renders form', async () => {
     const { container, findByRole } = await setup({ mockResponse });
-    await findByRole('heading', { level: 2 });
+    await findByRole('heading', { level: 2, name: 'Activation link has expired' });
     expect(container).toMatchSnapshot();
   });
 
