@@ -58,7 +58,7 @@ class TestAppPage {
     try {
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     } catch (err) {
-      browser.refresh();
+      await browser.url(window.location.origin);
       console.log('retry setting config');
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     }
