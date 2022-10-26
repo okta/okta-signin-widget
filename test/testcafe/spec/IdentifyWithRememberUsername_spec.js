@@ -115,6 +115,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordError)('identifer w
   // Ensure identifier field is not pre-filled
   await identityPage.navigateToPage();
   await rerenderWidget(baseConfig);  
+  await t.expect(Selector('form').exists).eql(true);
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('');
 });

@@ -89,6 +89,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [ready, setReady] = useState<boolean>(false);
 
   useEffect(() => {
     // If we need to load a language (or apply custom i18n overrides), do
@@ -132,6 +133,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
+    setReady(false);
+
     if (authApiError) {
       return transformUnhandledErrors(widgetProps, authApiError);
     }
@@ -186,6 +189,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
 
     setUischema(formBag.uischema);
+
+    setReady(true);
   }, [formBag, isClientTransaction]);
 
   const resume = useCallback(async () => {
@@ -240,11 +245,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (isClientTransaction) {
       return;
     }
-    if (uischema.elements.length > 0 && typeof idxTransaction !== 'undefined') {
+    if (ready && typeof idxTransaction !== 'undefined') {
       events?.afterRender?.(getEventContext(idxTransaction));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uischema.elements, idxTransaction]);
+  }, [ready, idxTransaction]);
 
   useEffect(() => {
     if (authApiError !== null) {
