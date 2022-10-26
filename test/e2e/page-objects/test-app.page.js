@@ -59,7 +59,8 @@ class TestAppPage {
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     } catch (err) {
       console.log('reload page');
-      await this.open();
+      //await this.open();
+      await this.flowDropdown.selectByVisibleText('default');
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     }
   }
