@@ -215,7 +215,15 @@ export default class BaseFormObject {
   }
 
   getAllErrorBoxTexts() {
-    return within(this.el).findAllByRole('alert');
+    return this.getInnerTexts(FORM_INFOBOX_ERROR);
+  }
+
+  async getErrorBoxTextByIndex(index) {
+    if (userVariables.v3) {
+      return await within(this.el).findAllByRole('alert').nth(index).innerText;
+    }
+    const errors = await this.getAllErrorBoxTexts();
+    return errors[index];
   }
 
   // Field error

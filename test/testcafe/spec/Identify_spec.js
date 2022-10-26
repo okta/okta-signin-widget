@@ -416,11 +416,9 @@ test.requestHooks(identifyRequestLogger, identifyWithUserMock)('should never ren
 test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each error message when there are multiple', async t => {
   const identityPage = await setup(t);
 
-  const errors = await identityPage.form.getAllErrorBoxTexts();
-  await t.expect(await errors.count).eql(3);
-  await t.expect(errors.nth(0).innerText).eql('Your session has expired. Please try to sign in again.');
-  await t.expect(errors.nth(1).innerText).eql('Please enter a password');
-  await t.expect(errors.nth(2).innerText).eql('Please enter a username');
+  await t.expect(await identityPage.form.getErrorBoxTextByIndex(0)).eql('Please enter a username');
+  await t.expect(await identityPage.form.getErrorBoxTextByIndex(1)).eql('Please enter a password');
+  await t.expect(await identityPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
 });
 
 test.meta('v3', false).requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" form with config or by default', async t => {
