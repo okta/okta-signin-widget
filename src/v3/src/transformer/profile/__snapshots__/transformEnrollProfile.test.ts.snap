@@ -102,37 +102,6 @@ Object {
       },
       Object {
         "options": Object {
-          "header": "password.complexity.requirements.header",
-          "id": "password-authenticator--list",
-          "requirements": Array [
-            Object {
-              "label": "password.complexity.number.description",
-              "ruleKey": "minNumber",
-            },
-            Object {
-              "label": "password.complexity.symbol.description",
-              "ruleKey": "minSymbol",
-            },
-          ],
-          "settings": Object {
-            "complexity": Object {
-              "minNumber": 1,
-              "minSymbol": 1,
-            },
-          },
-          "userInfo": Object {
-            "identifier": "testuser@okta.com",
-            "profile": Object {
-              "firstName": "test",
-              "lastName": "user",
-            },
-          },
-          "validationDelayMs": 50,
-        },
-        "type": "PasswordRequirements",
-      },
-      Object {
-        "options": Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
           },

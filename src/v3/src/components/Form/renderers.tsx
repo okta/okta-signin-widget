@@ -141,6 +141,26 @@ export default [
   {
     tester: ({
       options: {
+        inputMeta: { options } = {} as Input,
+        format,
+        customOptions,
+      },
+    }: FieldElement) => (Array.isArray(customOptions) || Array.isArray(options)) && format === 'radio',
+    renderer: Radio,
+  },
+  {
+    tester: ({
+      options: {
+        inputMeta: { options } = {} as Input,
+        format,
+        customOptions,
+      },
+    }: FieldElement) => (Array.isArray(customOptions) || Array.isArray(options)) && format === 'select',
+    renderer: Select,
+  },
+  {
+    tester: ({
+      options: {
         type: defaultType,
         inputMeta: {
           type, options, name, secret,
@@ -161,26 +181,6 @@ export default [
   {
     tester: ({ type }) => type === 'AuthenticatorButton',
     renderer: AuthenticatorButton,
-  },
-  {
-    tester: ({
-      options: {
-        inputMeta: { options } = {} as Input,
-        format,
-        customOptions,
-      },
-    }: FieldElement) => (Array.isArray(customOptions) || Array.isArray(options)) && format === 'radio',
-    renderer: Radio,
-  },
-  {
-    tester: ({
-      options: {
-        inputMeta: { options } = {} as Input,
-        format,
-        customOptions,
-      },
-    }: FieldElement) => (Array.isArray(customOptions) || Array.isArray(options)) && format === 'select',
-    renderer: Select,
   },
   {
     tester: ({ type }) => type === 'Button',

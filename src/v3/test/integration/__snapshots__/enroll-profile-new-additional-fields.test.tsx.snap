@@ -1611,33 +1611,215 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiBox-root emotion-15"
+                    class="MuiFormControl-root MuiFormControl-marginNormal emotion-42"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-16"
+                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error Mui-required emotion-43"
                       for="userProfile.timezone"
                     >
                       Time zone
                       <span
                         aria-hidden="true"
-                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-17"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk Mui-error emotion-17"
                       >
                          
                         *
                       </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-18"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-45"
                     >
-                      <input
+                      <select
                         aria-describedby="userProfile.timezone-error"
                         aria-invalid="true"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-19"
+                        class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-46"
                         data-se="userProfile.timezone"
                         id="userProfile.timezone"
                         name="userProfile.timezone"
-                        type="text"
-                      />
+                        required=""
+                      >
+                        <option
+                          value=""
+                        >
+                          Select an Option
+                        </option>
+                        <option
+                          value="GMT"
+                        >
+                          UTC
+                        </option>
+                        <option
+                          value="WET"
+                        >
+                          WET
+                        </option>
+                        <option
+                          value="CET"
+                        >
+                          CET
+                        </option>
+                        <option
+                          value="MET"
+                        >
+                          CET
+                        </option>
+                        <option
+                          value="ECT"
+                        >
+                          CET
+                        </option>
+                        <option
+                          value="EET"
+                        >
+                          EET
+                        </option>
+                        <option
+                          value="MIT"
+                        >
+                          Pacific/Apia
+                        </option>
+                        <option
+                          value="HST"
+                        >
+                          Pacific/Honolulu
+                        </option>
+                        <option
+                          value="AST"
+                        >
+                          America/Anchorage
+                        </option>
+                        <option
+                          value="PST"
+                        >
+                          America/Los_Angeles
+                        </option>
+                        <option
+                          value="MST"
+                        >
+                          America/Denver
+                        </option>
+                        <option
+                          value="PNT"
+                        >
+                          America/Phoenix
+                        </option>
+                        <option
+                          value="CST"
+                        >
+                          America/Chicago
+                        </option>
+                        <option
+                          value="EST"
+                        >
+                          America/New_York
+                        </option>
+                        <option
+                          value="IET"
+                        >
+                          America/Indiana/Indianapolis
+                        </option>
+                        <option
+                          value="PRT"
+                        >
+                          America/Puerto_Rico
+                        </option>
+                        <option
+                          value="CNT"
+                        >
+                          America/St_Johns
+                        </option>
+                        <option
+                          value="AGT"
+                        >
+                          America/Argentina/Buenos_Aires
+                        </option>
+                        <option
+                          value="BET"
+                        >
+                          America/Sao_Paulo
+                        </option>
+                        <option
+                          value="ART"
+                        >
+                          Africa/Cairo
+                        </option>
+                        <option
+                          value="CAT"
+                        >
+                          Africa/Harare
+                        </option>
+                        <option
+                          value="EAT"
+                        >
+                          Africa/Addis_Ababa
+                        </option>
+                        <option
+                          value="NET"
+                        >
+                          Asia/Yerevan
+                        </option>
+                        <option
+                          value="PLT"
+                        >
+                          Asia/Karachi
+                        </option>
+                        <option
+                          value="IST"
+                        >
+                          Asia/Kolkata
+                        </option>
+                        <option
+                          value="BST"
+                        >
+                          Asia/Dhaka
+                        </option>
+                        <option
+                          value="VST"
+                        >
+                          Asia/Ho_Chi_Minh
+                        </option>
+                        <option
+                          value="CTT"
+                        >
+                          Asia/Shanghai
+                        </option>
+                        <option
+                          value="JST"
+                        >
+                          Asia/Tokyo
+                        </option>
+                        <option
+                          value="ACT"
+                        >
+                          Australia/Darwin
+                        </option>
+                        <option
+                          value="AET"
+                        >
+                          Australia/Sydney
+                        </option>
+                        <option
+                          value="SST"
+                        >
+                          Pacific/Guadalcanal
+                        </option>
+                        <option
+                          value="NST"
+                        >
+                          Pacific/Auckland
+                        </option>
+                      </select>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-47"
+                        data-testid="ArrowDropDownIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M7 10l5 5 5-5z"
+                        />
+                      </svg>
                       <fieldset
                         aria-hidden="true"
                         class="MuiOutlinedInput-notchedOutline emotion-20"
@@ -3238,10 +3420,10 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiFormControl-root MuiFormControl-marginNormal emotion-34"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-11"
+                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-35"
                       for="userProfile.timezone"
                     >
                       Time zone
@@ -3254,16 +3436,198 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-37"
                     >
-                      <input
+                      <select
                         aria-invalid="false"
-                        class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
+                        class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-38"
                         data-se="userProfile.timezone"
                         id="userProfile.timezone"
                         name="userProfile.timezone"
-                        type="text"
-                      />
+                        required=""
+                      >
+                        <option
+                          value=""
+                        >
+                          Select an Option
+                        </option>
+                        <option
+                          value="GMT"
+                        >
+                          UTC
+                        </option>
+                        <option
+                          value="WET"
+                        >
+                          WET
+                        </option>
+                        <option
+                          value="CET"
+                        >
+                          CET
+                        </option>
+                        <option
+                          value="MET"
+                        >
+                          CET
+                        </option>
+                        <option
+                          value="ECT"
+                        >
+                          CET
+                        </option>
+                        <option
+                          value="EET"
+                        >
+                          EET
+                        </option>
+                        <option
+                          value="MIT"
+                        >
+                          Pacific/Apia
+                        </option>
+                        <option
+                          value="HST"
+                        >
+                          Pacific/Honolulu
+                        </option>
+                        <option
+                          value="AST"
+                        >
+                          America/Anchorage
+                        </option>
+                        <option
+                          value="PST"
+                        >
+                          America/Los_Angeles
+                        </option>
+                        <option
+                          value="MST"
+                        >
+                          America/Denver
+                        </option>
+                        <option
+                          value="PNT"
+                        >
+                          America/Phoenix
+                        </option>
+                        <option
+                          value="CST"
+                        >
+                          America/Chicago
+                        </option>
+                        <option
+                          value="EST"
+                        >
+                          America/New_York
+                        </option>
+                        <option
+                          value="IET"
+                        >
+                          America/Indiana/Indianapolis
+                        </option>
+                        <option
+                          value="PRT"
+                        >
+                          America/Puerto_Rico
+                        </option>
+                        <option
+                          value="CNT"
+                        >
+                          America/St_Johns
+                        </option>
+                        <option
+                          value="AGT"
+                        >
+                          America/Argentina/Buenos_Aires
+                        </option>
+                        <option
+                          value="BET"
+                        >
+                          America/Sao_Paulo
+                        </option>
+                        <option
+                          value="ART"
+                        >
+                          Africa/Cairo
+                        </option>
+                        <option
+                          value="CAT"
+                        >
+                          Africa/Harare
+                        </option>
+                        <option
+                          value="EAT"
+                        >
+                          Africa/Addis_Ababa
+                        </option>
+                        <option
+                          value="NET"
+                        >
+                          Asia/Yerevan
+                        </option>
+                        <option
+                          value="PLT"
+                        >
+                          Asia/Karachi
+                        </option>
+                        <option
+                          value="IST"
+                        >
+                          Asia/Kolkata
+                        </option>
+                        <option
+                          value="BST"
+                        >
+                          Asia/Dhaka
+                        </option>
+                        <option
+                          value="VST"
+                        >
+                          Asia/Ho_Chi_Minh
+                        </option>
+                        <option
+                          value="CTT"
+                        >
+                          Asia/Shanghai
+                        </option>
+                        <option
+                          value="JST"
+                        >
+                          Asia/Tokyo
+                        </option>
+                        <option
+                          value="ACT"
+                        >
+                          Australia/Darwin
+                        </option>
+                        <option
+                          value="AET"
+                        >
+                          Australia/Sydney
+                        </option>
+                        <option
+                          value="SST"
+                        >
+                          Pacific/Guadalcanal
+                        </option>
+                        <option
+                          value="NST"
+                        >
+                          Pacific/Auckland
+                        </option>
+                      </select>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-39"
+                        data-testid="ArrowDropDownIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M7 10l5 5 5-5z"
+                        />
+                      </svg>
                       <fieldset
                         aria-hidden="true"
                         class="MuiOutlinedInput-notchedOutline emotion-15"
@@ -3285,7 +3649,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-59"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-60"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -3297,11 +3661,11 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <hr
-                    class="MuiDivider-root MuiDivider-fullWidth emotion-61"
+                    class="MuiDivider-root MuiDivider-fullWidth emotion-62"
                   />
                 </div>
                 <div
-                  class="MuiBox-root emotion-62"
+                  class="MuiBox-root emotion-63"
                 >
                   <div
                     class="MuiBox-root emotion-6"
@@ -3321,7 +3685,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     class="MuiBox-root emotion-6"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-67"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-68"
                       data-se="back"
                       href="javascript:void(0)"
                     >

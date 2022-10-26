@@ -25,6 +25,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
+import { getTranslation } from '../../util';
 import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
@@ -39,7 +40,9 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
-  const { label, focus, required } = uischema;
+  const {
+    label: defaultLabel, focus, required, translations = [],
+  } = uischema;
   const {
     attributes,
     inputMeta: {
@@ -51,6 +54,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
+  const label = getTranslation(translations);
   const handleChange = (e: SelectChangeEvent<string>) => {
     setTouched?.(true);
     const selectTarget = (
@@ -66,7 +70,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       error={hasErrors}
       required={required}
     >
-      <InputLabel htmlFor={name}>{label}</InputLabel>
+      <InputLabel htmlFor={name}>{label || defaultLabel}</InputLabel>
       <MuiSelect
         native
         onChange={handleChange}

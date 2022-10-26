@@ -27,6 +27,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
+import { getTranslation } from '../../util';
 import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
@@ -42,7 +43,8 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const {
-    label,
+    label: defaultLabel,
+    translations = [],
     required,
     options: {
       inputMeta: {
@@ -55,6 +57,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   } = uischema;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
+  const label = getTranslation(translations);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTouched?.(true);
@@ -68,7 +71,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
       required={required}
       error={hasErrors}
     >
-      {label && (<FormLabel>{label!}</FormLabel>)}
+      {label && (<FormLabel>{label || defaultLabel}</FormLabel>)}
       <RadioGroup
         name={name}
         id={name}

@@ -66,7 +66,8 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Profile');
+fixture('Enroll Profile')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -81,10 +82,10 @@ test.requestHooks(requestLogger, EnrollProfileSignUpMock)('should show sign up b
 
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.firstName')).eql('First name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Last name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.email')).eql('Email');
-  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('First name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Last name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Email')).eql(true);
+  await t.expect(await enrollProfilePage.signUpButtonExists()).eql(true);
 });
 
 test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit button when updating info for an existing user', async t => {
@@ -92,11 +93,11 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
   const identityPage = await setup(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign in');
-  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Submit');
+  await t.expect(await enrollProfilePage.submitButtonExists()).eql(true);
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('should show dropdown values for base properties (country code and timezone) on registration form', async t => {
@@ -105,16 +106,14 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.country')).eql('Country');
-  await t.expect(await enrollProfilePage.isDropdownVisible('userProfile.country')).ok();
-  await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.country')).eql('Select an Option');
+  await t.expect(await enrollProfilePage.dropDownExistsByLabel('Country')).eql(true);
+  await t.expect(await enrollProfilePage.form.getValueFromDropdown('userProfile.country')).eql('Select an Option');
   await enrollProfilePage.selectValueFromDropdown('userProfile.country', 1);
 
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.countryCode')).eql('Country code');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Country code')).eql(true);
   await enrollProfilePage.setTextBoxValue('userProfile.countryCode', 'US');
 
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.timezone')).eql('Time zone');
-  await t.expect(await enrollProfilePage.isDropdownVisible('userProfile.timezone')).ok();
+  await t.expect(await enrollProfilePage.dropDownExistsByLabel('Time zone')).eql(true);
   await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.timezone')).eql('Select an Option');
   await enrollProfilePage.selectValueFromDropdown('userProfile.timezone', 1);
 });
@@ -175,7 +174,8 @@ test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All 
     const selector = `userProfile.${formField}`;
     // verify all base attributes map to correct translation
     // all 'label' fields for base attributes in json are appended with a '1'
-    await t.expect(await enrollProfilePage.getFormFieldLabel(selector)).eql(formFieldToLabel[formField]);
+    await t.expect(await enrollProfilePage.form.elementExist(selector)).eql(true);
+    await t.expect(await enrollProfilePage.formFieldExistsByLabel(formFieldToLabel[formField])).eql(true);
   });
 });
 
@@ -186,19 +186,22 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
 
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.firstName')).eql('First name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Last name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.email')).eql('Email');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('First name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Last name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Email')).eql(true);
   // verify prompt & field for password are rendered
-  await t.expect(await enrollProfilePage.getFormFieldLabel('credentials.passcode')).eql('Password');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Password')).eql(true);
   // verify password text toggle is rendered
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   // verify password requirements are rendered
-  await t.expect(await enrollProfilePage.form.elementExist('section[data-se="password-authenticator--rules"]')).ok();
-  await t.expect(await enrollProfilePage.form.getInnerTexts('div[class="password-authenticator--heading"]')).eql(['Password requirements:']);
-  await t.expect(await enrollProfilePage.form.elementExist('ul[class="password-authenticator--list"]')).ok();
+  await t.expect(enrollProfilePage.getRequirements()).contains('Password requirements:');
+  await t.expect(enrollProfilePage.getRequirements()).contains('At least 8 characters');
+  await t.expect(enrollProfilePage.getRequirements()).contains('An uppercase letter');
+  await t.expect(enrollProfilePage.getRequirements()).contains('A lowercase letter');
+  await t.expect(enrollProfilePage.getRequirements()).contains('A number');
+  await t.expect(enrollProfilePage.getRequirements()).contains('No parts of your username');
 
-  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
+  await t.expect(await enrollProfilePage.signUpButtonExists()).eql(true);
 
   // Fill in attribute fields
   await enrollProfilePage.setTextBoxValue('userProfile.firstName', 'First');
@@ -219,13 +222,11 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
   await enrollProfilePage.setTextBoxValue('userProfile.lastName', 'Last');
   await enrollProfilePage.setTextBoxValue('userProfile.email', 'first@last.com');
   await identityPage.fillPasswordField('invalid');
-  // click Save
-  await enrollProfilePage.form.clickSaveButton();
+  // click Sign Up
+  await enrollProfilePage.form.clickSaveButton('Sign Up');
   // Verify error handling
   await enrollProfilePage.form.waitForErrorBox();
 
-  await t.expect(await enrollProfilePage.getErrorBoxText())
-    .eql('We found some errors. Please review the form and make corrections.');
   await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
     .eql('Password requirements were not met');
 });
@@ -244,12 +245,10 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
   await enrollProfilePage.setTextBoxValue('userProfile.email', 'first@last');
   await identityPage.fillPasswordField('invalid');
   // click Save
-  await enrollProfilePage.form.clickSaveButton();
+  await enrollProfilePage.form.clickSaveButton('Sign Up');
   // Verify error handling
   await enrollProfilePage.form.waitForErrorBox();
 
-  await t.expect(await enrollProfilePage.getErrorBoxText())
-    .eql('We found some errors. Please review the form and make corrections.');
   await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email')).eql(true);
   await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
     .eql('Password requirements were not met');

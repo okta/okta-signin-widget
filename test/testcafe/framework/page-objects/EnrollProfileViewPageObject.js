@@ -1,5 +1,7 @@
 import BasePageObject from './BasePageObject';
 
+const requirementsSelector = '[data-se="password-authenticator--rules"]';
+
 export default class EnrollProfileViewPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -33,4 +35,23 @@ export default class EnrollProfileViewPageObject extends BasePageObject {
     return this.form.getCheckboxValue(fieldName);
   }
 
+  signUpButtonExists() {
+    return this.form.getButton('Sign Up').exists;
+  }
+
+  submitButtonExists() {
+    return this.form.getButton('Submit').exists;
+  }
+
+  formFieldExistsByLabel(label) {
+    return this.form.getByLabelText(label).exists;
+  }
+
+  dropDownExistsByLabel(label) {
+    return this.form.getByLabelText(label, { selector: 'select' }).exists;
+  }
+
+  getRequirements() {
+    return this.form.getElement(requirementsSelector).innerText;
+  }
 }

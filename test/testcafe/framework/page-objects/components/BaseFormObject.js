@@ -277,7 +277,13 @@ export default class BaseFormObject {
   // Chozen Dropdown
   // =====================================
 
-  getValueFromDropdown(fieldName) {
+  getValueFromDropdown(fieldName, index = 0) {
+    if (userVariables.v3) {
+      const selectEle = this.el.find(`[data-se="${fieldName}"]`);
+      const option = selectEle.child().nth(index);
+  
+      return option.textContent;
+    }
     const selectContainer = this.findFormFieldInput(fieldName).find('.chzn-container');
     return selectContainer.innerText;
   }
