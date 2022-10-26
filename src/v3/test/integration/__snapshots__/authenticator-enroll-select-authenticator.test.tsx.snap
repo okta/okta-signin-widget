@@ -112,17 +112,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="okta_password_0-ctaLabel okta_password_0-description"
+                    aria-labelledby="okta_password_0-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-okta-password MuiBox-root emotion-7"
+                        class="iconContainer mfa-okta-password authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -160,27 +162,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="okta_password_0-label"
                       >
                         Password
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="okta_password_0-description"
                       >
                         Choose a password for your account
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="okta_password"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="okta_password_0-ctaLabel"
                         >
                           Set up
                         </span>
@@ -193,17 +198,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="phone_number_1-ctaLabel phone_number_1-description"
+                    aria-labelledby="phone_number_1-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-okta-phone MuiBox-root emotion-7"
+                        class="iconContainer mfa-okta-phone authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -251,27 +258,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="phone_number_1-label"
                       >
                         Phone
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="phone_number_1-description"
                       >
                         Verify with a code sent to your phone
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="phone_number"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="phone_number_1-ctaLabel"
                         >
                           Set up
                         </span>
@@ -284,17 +294,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="webauthn_2-ctaLabel webauthn_2-description"
+                    aria-labelledby="webauthn_2-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-webauthn MuiBox-root emotion-7"
+                        class="iconContainer mfa-webauthn authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -352,27 +364,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="webauthn_2-label"
                       >
                         Security Key or Biometric Authenticator
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="webauthn_2-description"
                       >
                         Use a security key or a biometric authenticator to sign in
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="webauthn"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="webauthn_2-ctaLabel"
                         >
                           Set up
                         </span>
@@ -385,17 +400,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="security_question_3-ctaLabel security_question_3-description"
+                    aria-labelledby="security_question_3-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-okta-security-question MuiBox-root emotion-7"
+                        class="iconContainer mfa-okta-security-question authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -433,27 +450,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="security_question_3-label"
                       >
                         Security Question
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="security_question_3-description"
                       >
                         Choose a security question and answer that will be used for signing in
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="security_question"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="security_question_3-ctaLabel"
                         >
                           Set up
                         </span>
@@ -466,17 +486,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="okta_verify_4-ctaLabel okta_verify_4-description"
+                    aria-labelledby="okta_verify_4-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-okta-verify MuiBox-root emotion-7"
+                        class="iconContainer mfa-okta-verify authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -511,27 +533,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="okta_verify_4-label"
                       >
                         Okta Verify
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="okta_verify_4-description"
                       >
                         Okta Verify is an authenticator app, installed on your phone, used to prove your identity
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="okta_verify"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="okta_verify_4-ctaLabel"
                         >
                           Set up
                         </span>
@@ -544,17 +569,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="google_otp_5-ctaLabel google_otp_5-description"
+                    aria-labelledby="google_otp_5-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-google-auth MuiBox-root emotion-7"
+                        class="iconContainer mfa-google-auth authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -664,27 +691,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="google_otp_5-label"
                       >
                         Google Authenticator
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="google_otp_5-description"
                       >
                         Enter a temporary code generated from the Google Authenticator app.
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="google_otp"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="google_otp_5-ctaLabel"
                         >
                           Set up
                         </span>
@@ -697,17 +727,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="onprem_mfa_6-ctaLabel onprem_mfa_6-description"
+                    aria-labelledby="onprem_mfa_6-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-onprem MuiBox-root emotion-7"
+                        class="iconContainer mfa-onprem authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -745,27 +777,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="onprem_mfa_6-label"
                       >
                         Atko Custom On-prem
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="onprem_mfa_6-description"
                       >
                         Verify by entering a code generated by Atko Custom On-prem.
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="onprem_mfa-otp"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="onprem_mfa_6-ctaLabel"
                         >
                           Set up
                         </span>
@@ -778,17 +813,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="rsa_token_7-ctaLabel rsa_token_7-description"
+                    aria-labelledby="rsa_token_7-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-rsa MuiBox-root emotion-7"
+                        class="iconContainer mfa-rsa authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -820,27 +857,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="rsa_token_7-label"
                       >
                         RSA SecurID
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="rsa_token_7-description"
                       >
                         Verify by entering a code generated by RSA SecurID
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="rsa_token-otp"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="rsa_token_7-ctaLabel"
                         >
                           Set up
                         </span>
@@ -853,17 +893,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="duo_8-ctaLabel duo_8-description"
+                    aria-labelledby="duo_8-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-duo MuiBox-root emotion-7"
+                        class="iconContainer mfa-duo authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -897,27 +939,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="duo_8-label"
                       >
                         Duo Security
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="duo_8-description"
                       >
                         Verify your identity using Duo Security.
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="duo"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="duo_8-ctaLabel"
                         >
                           Set up
                         </span>
@@ -930,17 +975,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="external_idp_9-ctaLabel external_idp_9-description"
+                    aria-labelledby="external_idp_9-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-custom-factor MuiBox-root emotion-7"
+                        class="iconContainer mfa-custom-factor authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -983,27 +1030,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="external_idp_9-label"
                       >
                         IDP Authenticator
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="external_idp_9-description"
                       >
                         Redirect to verify with IDP Authenticator.
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="external_idp"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="external_idp_9-ctaLabel"
                         >
                           Set up
                         </span>
@@ -1016,17 +1066,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="custom_otp_10-ctaLabel custom_otp_10-description"
+                    aria-labelledby="custom_otp_10-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-hotp MuiBox-root emotion-7"
+                        class="iconContainer mfa-hotp authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -1069,27 +1121,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="custom_otp_10-label"
                       >
                         Atko Custom OTP Authenticator
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="custom_otp_10-description"
                       >
                         Enter a temporary code generated from an authenticator device.
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="custom_otp"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="custom_otp_10-ctaLabel"
                         >
                           Set up
                         </span>
@@ -1102,17 +1157,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="symantec_vip_11-ctaLabel symantec_vip_11-description"
+                    aria-labelledby="symantec_vip_11-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-symantec MuiBox-root emotion-7"
+                        class="iconContainer mfa-symantec authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -1152,27 +1209,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="symantec_vip_11-label"
                       >
                         Symantec VIP
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="symantec_vip_11-description"
                       >
                         Verify by entering a temporary code from the Symantec VIP app.
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="symantec_vip"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="symantec_vip_11-ctaLabel"
                         >
                           Set up
                         </span>
@@ -1185,17 +1245,19 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    class="authButton MuiBox-root emotion-20"
+                    aria-describedby="yubikey_token_12-ctaLabel yubikey_token_12-description"
+                    aria-labelledby="yubikey_token_12-label"
+                    class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
                     tabindex="0"
                     type="button"
                   >
                     <div
-                      class="MuiBox-root emotion-7"
+                      class="authenticator-icon-container MuiBox-root emotion-7"
                       data-se="authenticator-icon"
                     >
                       <div
-                        class="iconContainer mfa-yubikey MuiBox-root emotion-7"
+                        class="iconContainer mfa-yubikey authenticator-icon MuiBox-root emotion-7"
                         data-se="factor-beacon"
                       >
                         <svg
@@ -1235,27 +1297,30 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                     <div
-                      class="infoSection MuiBox-root emotion-7"
+                      class="authenticator-description infoSection MuiBox-root emotion-7"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h3 emotion-24"
+                        class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-24"
                         data-se="authenticator-button-label"
+                        id="yubikey_token_12-label"
                       >
                         YubiKey Authenticator
                       </h3>
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-25"
                         data-se="authenticator-button-description"
+                        id="yubikey_token_12-description"
                       >
                         Verify your identity using YubiKey
                       </p>
                       <div
-                        class="cta-button actionName MuiBox-root emotion-7"
+                        class="cta-button authenticator-button actionName MuiBox-root emotion-7"
                         data-se="yubikey_token"
                       >
                         <span
-                          class="MuiBox-root emotion-27"
+                          class="button select-factor link-button MuiBox-root emotion-27"
                           data-se="cta-button-label"
+                          id="yubikey_token_12-ctaLabel"
                         >
                           Set up
                         </span>

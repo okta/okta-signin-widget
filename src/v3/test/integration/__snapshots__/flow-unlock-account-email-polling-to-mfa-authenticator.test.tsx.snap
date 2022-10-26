@@ -26,7 +26,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinWebauthnAuthenticator"
+                aria-labelledby="mfa-webauthn"
                 fill="none"
                 height="48"
                 role="img"
@@ -35,7 +35,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinWebauthnAuthenticator"
+                  id="mfa-webauthn"
                 >
                   Security Key or Biometric Authenticator
                 </title>

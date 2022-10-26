@@ -26,7 +26,7 @@ exports[`webauthn-enroll should render form 1`] = `
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinWebauthnAuthenticator"
+                aria-labelledby="mfa-webauthn"
                 fill="none"
                 height="48"
                 role="img"
@@ -35,7 +35,7 @@ exports[`webauthn-enroll should render form 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinWebauthnAuthenticator"
+                  id="mfa-webauthn"
                 >
                   Security Key or Biometric Authenticator
                 </title>
@@ -227,7 +227,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinWebauthnAuthenticator"
+                aria-labelledby="mfa-webauthn"
                 fill="none"
                 height="48"
                 role="img"
@@ -236,7 +236,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinWebauthnAuthenticator"
+                  id="mfa-webauthn"
                 >
                   Security Key or Biometric Authenticator
                 </title>
@@ -410,7 +410,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinWebauthnAuthenticator"
+                aria-labelledby="mfa-webauthn"
                 fill="none"
                 height="48"
                 role="img"
@@ -419,7 +419,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinWebauthnAuthenticator"
+                  id="mfa-webauthn"
                 >
                   Security Key or Biometric Authenticator
                 </title>

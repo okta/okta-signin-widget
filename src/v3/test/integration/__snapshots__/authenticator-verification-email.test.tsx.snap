@@ -26,7 +26,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinEmailAuthenticator"
+                aria-labelledby="mfa-okta-email"
                 fill="none"
                 height="48"
                 role="img"
@@ -35,7 +35,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinEmailAuthenticator"
+                  id="mfa-okta-email"
                 >
                   Email Authentication
                 </title>
@@ -196,7 +196,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinEmailAuthenticator"
+                aria-labelledby="mfa-okta-email"
                 fill="none"
                 height="48"
                 role="img"
@@ -205,7 +205,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinEmailAuthenticator"
+                  id="mfa-okta-email"
                 >
                   Email Authentication
                 </title>
@@ -410,7 +410,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinEmailAuthenticator"
+                aria-labelledby="mfa-okta-email"
                 fill="none"
                 height="48"
                 role="img"
@@ -419,7 +419,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinEmailAuthenticator"
+                  id="mfa-okta-email"
                 >
                   Email Authentication
                 </title>
@@ -623,7 +623,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinEmailAuthenticator"
+                aria-labelledby="mfa-okta-email"
                 fill="none"
                 height="48"
                 role="img"
@@ -632,7 +632,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinEmailAuthenticator"
+                  id="mfa-okta-email"
                 >
                   Email Authentication
                 </title>
@@ -889,7 +889,7 @@ exports[`authenticator-verification-email renders correct form should display re
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinEmailAuthenticator"
+                aria-labelledby="mfa-okta-email"
                 fill="none"
                 height="48"
                 role="img"
@@ -898,7 +898,7 @@ exports[`authenticator-verification-email renders correct form should display re
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinEmailAuthenticator"
+                  id="mfa-okta-email"
                 >
                   Email Authentication
                 </title>
@@ -1293,7 +1293,7 @@ exports[`authenticator-verification-email should have autocomplete attribute on 
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinEmailAuthenticator"
+                aria-labelledby="mfa-okta-email"
                 fill="none"
                 height="48"
                 role="img"
@@ -1302,7 +1302,7 @@ exports[`authenticator-verification-email should have autocomplete attribute on 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinEmailAuthenticator"
+                  id="mfa-okta-email"
                 >
                   Email Authentication
                 </title>

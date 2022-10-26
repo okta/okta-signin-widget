@@ -32,7 +32,9 @@ import style from './styles.module.css';
 const AuthenticatorButton: UISchemaElementComponent<{
   uischema: AuthenticatorButtonElement
 }> = ({ uischema }) => {
-  const ctaButtonClasses = classNames('cta-button', style.actionName);
+  const ctaButtonClasses = classNames('cta-button', 'authenticator-button', style.actionName);
+  const buttonClasses = classNames('authenticator-row', style.authButton);
+  const buttonDescrClasses = classNames('authenticator-description', style.infoSection);
   const {
     translations,
     focus,
@@ -57,6 +59,11 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const onSubmitHandler = useOnSubmit();
   const onValidationHandler = useOnSubmitValidation();
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
+  const describedByIds = [
+    `${iconName}-ctaLabel`,
+    description && `${iconName}-description`,
+    usageDescription && `${iconName}-usageDescription`,
+  ].filter(Boolean).join(' ');
 
   const onClick: ClickHandler = async () => {
     const dataSchema = dataSchemaRef.current!;
@@ -89,37 +96,47 @@ const AuthenticatorButton: UISchemaElementComponent<{
       borderColor="grey.200"
       borderRadius={Tokens.BorderRadiusBase}
       boxShadow={Tokens.ShadowScale0}
-      className={style.authButton}
+      className={buttonClasses}
       data-se="authenticator-button"
       tabIndex={0}
       onClick={onClick}
       onKeyPress={onClick}
       ref={focusRef}
       disabled={loading}
+      aria-labelledby={`${iconName}-label`}
+      aria-describedby={describedByIds}
     >
       { authenticationKey && (
-        <Box data-se="authenticator-icon">
+        <Box
+          className="authenticator-icon-container"
+          data-se="authenticator-icon"
+        >
           <AuthCoin
             authenticatorKey={authenticationKey}
             url={logoUri}
             name={iconName}
             description={iconDescr}
+            customClasses={['authenticator-icon']}
           />
         </Box>
       )}
-      <Box className={style.infoSection}>
+      <Box className={buttonDescrClasses}>
         <Typography
           variant="h3"
+          id={`${iconName}-label`}
           sx={{ fontSize: '1rem', margin: 0, textAlign: 'start' }}
           data-se="authenticator-button-label"
+          className="authenticator-label"
         >
           {label}
         </Typography>
         {description && (
           <Typography
             paragraph
+            id={`${iconName}-description`}
             sx={{ fontSize: '.875rem', margin: 0, textAlign: 'start' }}
             data-se="authenticator-button-description"
+            className="authenticator-description--text"
           >
             {description}
           </Typography>
@@ -127,9 +144,11 @@ const AuthenticatorButton: UISchemaElementComponent<{
         {usageDescription && (
           <Typography
             variant="caption"
+            id={`${iconName}-usageDescription`}
             textAlign="start"
             sx={{ fontSize: '.875rem', margin: 0 }}
             data-se="authenticator-button-usage-text"
+            className="authenticator-usage-text"
           >
             {usageDescription}
           </Typography>
@@ -140,8 +159,10 @@ const AuthenticatorButton: UISchemaElementComponent<{
         >
           <Box
             component="span"
+            id={`${iconName}-ctaLabel`}
             sx={{ fontWeight: 700, fontSize: '.875rem' }}
             data-se="cta-button-label"
+            className="button select-factor link-button"
           >
             {ctaLabel}
           </Box>

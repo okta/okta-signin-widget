@@ -7,7 +7,7 @@ exports[`AuthCoin tests should display Branded AuthCoin and disallow style custo
     data-se="factor-beacon"
   >
     <svg
-      aria-labelledby="authCoinDuoAuthenticator"
+      aria-labelledby="mfa-duo"
       fill="none"
       height="48"
       role="img"
@@ -16,7 +16,7 @@ exports[`AuthCoin tests should display Branded AuthCoin and disallow style custo
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="authCoinDuoAuthenticator"
+        id="mfa-duo"
       >
         factor.duo
       </title>
@@ -45,7 +45,7 @@ exports[`AuthCoin tests should display Non-Branded AuthCoin with style customiza
     data-se="factor-beacon"
   >
     <svg
-      aria-labelledby="authCoinCustomOtpAuthenticator"
+      aria-labelledby="mfa-hotp"
       fill="none"
       height="48"
       role="img"
@@ -54,7 +54,7 @@ exports[`AuthCoin tests should display Non-Branded AuthCoin with style customiza
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="authCoinCustomOtpAuthenticator"
+        id="mfa-hotp"
       >
         factor.hotp.description
       </title>
@@ -92,7 +92,7 @@ exports[`AuthCoin tests should display branded AuthCoin when image URL is provid
     data-se="factor-beacon"
   >
     <svg
-      aria-labelledby="authCoinDuoAuthenticator"
+      aria-labelledby="mfa-duo"
       fill="none"
       height="48"
       role="img"
@@ -101,7 +101,7 @@ exports[`AuthCoin tests should display branded AuthCoin when image URL is provid
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="authCoinDuoAuthenticator"
+        id="mfa-duo"
       >
         factor.duo
       </title>
@@ -131,7 +131,7 @@ exports[`AuthCoin tests should display custom image in place of standard Non-Bra
   >
     <img
       alt="factor.hotp.description"
-      class="customAuthImage"
+      class="customAuthImage custom-logo"
       src="/img/socialButtonIcons/okta.svg"
     />
   </div>
@@ -145,7 +145,7 @@ exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin witho
     data-se="factor-beacon"
   >
     <svg
-      aria-labelledby="authCoinCustomOtpAuthenticator"
+      aria-labelledby="mfa-hotp"
       fill="none"
       height="48"
       role="img"
@@ -154,7 +154,7 @@ exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin witho
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
-        id="authCoinCustomOtpAuthenticator"
+        id="mfa-hotp"
       >
         factor.hotp.description
       </title>

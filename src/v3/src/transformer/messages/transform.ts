@@ -17,6 +17,7 @@ import {
   FormBag,
   InfoboxElement,
   TransformStepFnWithOptions,
+  UISchemaElement,
 } from '../../types';
 import { containsMessageKey, containsOneOfMessageKeys, loc } from '../../util';
 import { transactionMessageTransformer } from '../i18n';
@@ -60,7 +61,8 @@ const transformCustomMessages = (formBag: FormBag, messages: IdxMessage[]): Form
   const { uischema } = formBag;
   const formattedMessages = overrideMessagesWithTitle(messages);
 
-  formattedMessages.forEach((message) => uischema.elements.unshift({
+  const messageElements: UISchemaElement[] = [];
+  formattedMessages.forEach((message) => messageElements.push({
     type: 'InfoBox',
     options: {
       contentType: 'string',
@@ -71,12 +73,17 @@ const transformCustomMessages = (formBag: FormBag, messages: IdxMessage[]): Form
     },
   } as InfoboxElement));
 
+  uischema.elements = messageElements.concat(uischema.elements);
+
   return formBag;
 };
 
 export const transformMessages: TransformStepFnWithOptions = ({ transaction }) => (formBag) => {
   const { messages = [] } = transaction;
   const { uischema } = formBag;
+  if (!messages.length) {
+    return formBag;
+  }
 
   transactionMessageTransformer(transaction);
 
@@ -91,9 +98,10 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
     return formBag;
   }
 
+  const messageElements: UISchemaElement[] = [];
   messages.forEach((message) => {
     const messageClass = message.class ?? 'INFO';
-    uischema.elements.unshift({
+    messageElements.push({
       type: 'InfoBox',
       options: {
         contentType: 'string',
@@ -103,6 +111,8 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
       },
     } as InfoboxElement);
   });
+
+  uischema.elements = messageElements.concat(uischema.elements);
 
   return formBag;
 };

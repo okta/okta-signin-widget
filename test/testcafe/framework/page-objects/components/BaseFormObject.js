@@ -146,6 +146,10 @@ export default class BaseFormObject {
     await this.t.click(buttonToClick);
   }
 
+  getAllButtons() {
+    return within(this.el).getAllByRole('button');
+  }
+
   /**
    * @param {string} name the text of the button to click
    */
@@ -212,6 +216,14 @@ export default class BaseFormObject {
 
   getAllErrorBoxTexts() {
     return this.getInnerTexts(FORM_INFOBOX_ERROR);
+  }
+
+  async getErrorBoxTextByIndex(index) {
+    if (userVariables.v3) {
+      return await within(this.el).findAllByRole('alert').nth(index).innerText;
+    }
+    const errors = await this.getAllErrorBoxTexts();
+    return errors[index];
   }
 
   // Field error

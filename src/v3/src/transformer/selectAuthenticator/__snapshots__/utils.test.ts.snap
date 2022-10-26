@@ -51,7 +51,7 @@ Array [
       "dataSe": "okta_verify-totp",
       "description": "oie.okta_verify.authenticator.description",
       "iconDescr": "factor.totpSoft.description",
-      "iconName": "oktaVerify",
+      "iconName": "oktaVerify_0",
       "includeData": true,
       "includeImmutableData": false,
       "key": "okta_verify",
@@ -71,7 +71,7 @@ Array [
       "dataSe": "okta_verify-push",
       "description": "oie.okta_verify.authenticator.description",
       "iconDescr": "factor.push.description",
-      "iconName": "oktaVerifyPush",
+      "iconName": "oktaVerifyPush_1",
       "includeData": true,
       "includeImmutableData": false,
       "key": "okta_verify",
@@ -83,7 +83,7 @@ Array [
 ]
 `;
 
-exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should return formatted Okta Verify method type options when raw options are provided 1`] = `
+exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should not reorder OV option when fastpass is not an option 1`] = `
 Array [
   Object {
     "label": "Code",
@@ -94,9 +94,9 @@ Array [
       },
       "ctaLabel": "oie.verify.authenticator.button.text",
       "dataSe": "okta_verify-totp",
-      "description": undefined,
+      "description": "oie.okta_verify.label",
       "iconDescr": "factor.totpSoft.description",
-      "iconName": "oktaVerify",
+      "iconName": "oktaVerify_0",
       "includeData": true,
       "includeImmutableData": false,
       "key": "okta_verify",
@@ -114,9 +114,366 @@ Array [
       },
       "ctaLabel": "oie.verify.authenticator.button.text",
       "dataSe": "okta_verify-push",
-      "description": undefined,
+      "description": "oie.okta_verify.label",
       "iconDescr": "factor.push.description",
-      "iconName": "oktaVerifyPush",
+      "iconName": "oktaVerifyPush_1",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "phone_number",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": undefined,
+        "authenticator.methodType": undefined,
+      },
+      "authenticator": Object {
+        "displayName": "",
+        "id": "",
+        "key": "phone_number",
+        "methods": Array [
+          Object {
+            "type": "",
+          },
+        ],
+        "profile": Object {
+          "phoneNumber": "216XXXXX43",
+        },
+        "type": "",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "phone_number",
+      "description": "216XXXXX43",
+      "iconName": "phone_number_1",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "phone_number",
+      "logoUri": undefined,
+      "step": "select-authenticator-enroll",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+]
+`;
+
+exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should not reorder OV option when method types are not set in IDX response 1`] = `
+Array [
+  Object {
+    "label": "Okta Verify",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": "abc234",
+        "authenticator.methodType": "signed_nonce",
+      },
+      "authenticator": Object {
+        "displayName": "",
+        "id": "",
+        "key": "okta_verify",
+        "methods": Array [
+          Object {
+            "type": "",
+          },
+        ],
+        "type": "",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-signed_nonce",
+      "description": "oie.okta_verify.label",
+      "iconName": "okta_verify_0",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "logoUri": undefined,
+      "step": "select-authenticator-enroll",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "phone_number",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": undefined,
+        "authenticator.methodType": undefined,
+      },
+      "authenticator": Object {
+        "displayName": "",
+        "id": "",
+        "key": "phone_number",
+        "methods": Array [
+          Object {
+            "type": "",
+          },
+        ],
+        "profile": Object {
+          "phoneNumber": "216XXXXX43",
+        },
+        "type": "",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "phone_number",
+      "description": "216XXXXX43",
+      "iconName": "phone_number_1",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "phone_number",
+      "logoUri": undefined,
+      "step": "select-authenticator-enroll",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+]
+`;
+
+exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should return formatted Okta Verify method type options when raw options are provided 1`] = `
+Array [
+  Object {
+    "label": "Code",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "totp",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-totp",
+      "description": "oie.okta_verify.label",
+      "iconDescr": "factor.totpSoft.description",
+      "iconName": "oktaVerify_0",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "Push",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "push",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-push",
+      "description": "oie.okta_verify.label",
+      "iconDescr": "factor.push.description",
+      "iconName": "oktaVerifyPush_1",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+]
+`;
+
+exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should set fastpass at beginning of array when deviceKnown = true with multiple OV method types 1`] = `
+Array [
+  Object {
+    "label": "Fastpass",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "signed_nonce",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-signed_nonce",
+      "description": "oie.okta_verify.label",
+      "iconDescr": "factor.push.description",
+      "iconName": "oktaVerifyPush_2",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "Code",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "totp",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-totp",
+      "description": "oie.okta_verify.label",
+      "iconDescr": "factor.totpSoft.description",
+      "iconName": "oktaVerify_0",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "Push",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "push",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-push",
+      "description": "oie.okta_verify.label",
+      "iconDescr": "factor.push.description",
+      "iconName": "oktaVerifyPush_1",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "phone_number",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": undefined,
+        "authenticator.methodType": undefined,
+      },
+      "authenticator": Object {
+        "displayName": "",
+        "id": "",
+        "key": "phone_number",
+        "methods": Array [
+          Object {
+            "type": "",
+          },
+        ],
+        "profile": Object {
+          "phoneNumber": "216XXXXX43",
+        },
+        "type": "",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "phone_number",
+      "description": "216XXXXX43",
+      "iconName": "phone_number_1",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "phone_number",
+      "logoUri": undefined,
+      "step": "select-authenticator-enroll",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+]
+`;
+
+exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should set fastpass at end of array when deviceKnown is not set with multiple OV method types 1`] = `
+Array [
+  Object {
+    "label": "Code",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "totp",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-totp",
+      "description": "oie.okta_verify.label",
+      "iconDescr": "factor.totpSoft.description",
+      "iconName": "oktaVerify_0",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "Push",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "push",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-push",
+      "description": "oie.okta_verify.label",
+      "iconDescr": "factor.push.description",
+      "iconName": "oktaVerifyPush_1",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "okta_verify",
+      "step": "select-authenticator-enroll",
+      "type": "button",
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "phone_number",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": undefined,
+        "authenticator.methodType": undefined,
+      },
+      "authenticator": Object {
+        "displayName": "",
+        "id": "",
+        "key": "phone_number",
+        "methods": Array [
+          Object {
+            "type": "",
+          },
+        ],
+        "profile": Object {
+          "phoneNumber": "216XXXXX43",
+        },
+        "type": "",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "phone_number",
+      "description": "216XXXXX43",
+      "iconName": "phone_number_1",
+      "includeData": true,
+      "includeImmutableData": false,
+      "key": "phone_number",
+      "logoUri": undefined,
+      "step": "select-authenticator-enroll",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "label": "Fastpass",
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": "signed_nonce",
+      },
+      "ctaLabel": "oie.verify.authenticator.button.text",
+      "dataSe": "okta_verify-signed_nonce",
+      "description": "oie.okta_verify.label",
+      "iconDescr": "factor.push.description",
+      "iconName": "oktaVerifyPush_2",
       "includeData": true,
       "includeImmutableData": false,
       "key": "okta_verify",

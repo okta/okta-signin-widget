@@ -26,7 +26,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinPhoneAuthenticator"
+                aria-labelledby="mfa-okta-phone"
                 fill="none"
                 height="48"
                 role="img"
@@ -35,7 +35,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinPhoneAuthenticator"
+                  id="mfa-okta-phone"
                 >
                   Voice Call Authentication
                 </title>
@@ -1630,7 +1630,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
               data-se="factor-beacon"
             >
               <svg
-                aria-labelledby="authCoinPhoneAuthenticator"
+                aria-labelledby="mfa-okta-phone"
                 fill="none"
                 height="48"
                 role="img"
@@ -1639,7 +1639,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title
-                  id="authCoinPhoneAuthenticator"
+                  id="mfa-okta-phone"
                 >
                   Voice Call Authentication
                 </title>

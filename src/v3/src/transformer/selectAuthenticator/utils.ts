@@ -36,6 +36,42 @@ const getAuthenticatorDataSeVal = (authenticatorKey: string, methodType?: string
   return '';
 };
 
+const reorderAuthenticatorButtons = (
+  authButtons: AuthenticatorButtonElement[],
+  options: IdxOption[],
+): AuthenticatorButtonElement[] => {
+  if (authButtons.length <= 1) {
+    return authButtons;
+  }
+  const ovRemediation = options.find((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.OV);
+  const methodType = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'methodType');
+  if (!methodType?.options?.find((option: IdxOption) => option.value === 'signed_nonce')) {
+    return authButtons;
+  }
+  const fastpassAuthenticator = authButtons.find(
+    (button) => button.options.actionParams?.['authenticator.methodType'] === 'signed_nonce',
+  );
+  if (!fastpassAuthenticator) {
+    return authButtons;
+  }
+
+  const updatedAuthenticatorBtns = authButtons.filter(
+    (button) => button.options.actionParams?.['authenticator.methodType'] !== 'signed_nonce',
+  );
+
+  // Re-arrange fastpass in options based on deviceKnown
+  // If deviceKnown is set, set fastpass as the first option in the list
+  // otherwise, place it as the last item in the list of OV options
+  // @ts-ignore OKTA-541266 - deviceKnown missing from type
+  if (ovRemediation?.relatesTo?.deviceKnown) {
+    updatedAuthenticatorBtns.unshift(fastpassAuthenticator);
+  } else {
+    updatedAuthenticatorBtns.push(fastpassAuthenticator);
+  }
+
+  return updatedAuthenticatorBtns;
+};
+
 const buildOktaVerifyOptions = (
   options: IdxOption[],
   step: string,
@@ -44,11 +80,11 @@ const buildOktaVerifyOptions = (
   const ovRemediation = options.find((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.OV);
   const id = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'id')?.value;
   const methodType = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'methodType');
-  if (!methodType || !methodType.options?.length) {
+  if (!methodType?.options?.length) {
     return [];
   }
 
-  return methodType.options.map((option) => {
+  return methodType.options.map((option: IdxOption, index: number) => {
     const authenticatorButton: AuthenticatorButtonElement = {
       type: 'AuthenticatorButton',
       label: option.label,
@@ -60,7 +96,7 @@ const buildOktaVerifyOptions = (
           : loc('oie.verify.authenticator.button.text', 'login'),
         description: isEnroll
           ? loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV], 'login')
-          : undefined,
+          : loc('oie.okta_verify.label', 'login'),
         actionParams: {
           'authenticator.methodType': option.value,
           'authenticator.id': id,
@@ -69,7 +105,7 @@ const buildOktaVerifyOptions = (
         includeData: true,
         includeImmutableData: false,
         dataSe: getAuthenticatorDataSeVal(AUTHENTICATOR_KEY.OV, option.value as string),
-        iconName: option.value === 'totp' ? 'oktaVerify' : 'oktaVerifyPush',
+        iconName: option.value === 'totp' ? `oktaVerify_${index}` : `oktaVerifyPush_${index}`,
         iconDescr: option.value === 'totp'
           ? loc('factor.totpSoft.description', 'login')
           : loc('factor.push.description', 'login'),
@@ -167,57 +203,80 @@ const formatAuthenticatorOptions = (
   options: IdxOption[],
   step: string,
   isEnroll?: boolean,
-): AuthenticatorButtonElement[] => (
-  options.map((option: IdxOption, index: number) => {
-    const authenticatorKey = option.relatesTo?.key as string;
-    const id = getOptionValue(option.value as Input[], 'id')?.value;
-    const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
-    const enrollmentId = getOptionValue(option.value as Input[], 'enrollmentId')?.value;
-    const AUTHENTICATORS_WITH_METHOD_TYPE = [
-      AUTHENTICATOR_KEY.ON_PREM,
-      AUTHENTICATOR_KEY.RSA,
-    ];
-    const authenticator = option.relatesTo;
+): AuthenticatorButtonElement[] => {
+  const authenticatorOptionSet = new Set<string>();
+  return options
+    .filter((option: IdxOption) => {
+      if (isEnroll) {
+        return true;
+      }
+      // If webauthn enrollments > 1 just show one entry with a generic namne (first)
+      // so user doesnt have to select which one to pick. eg)
+      // If there is yubikey5 and another unknown u2f key, user cannot identify that easily.
+      // We need to do this at least  until users can give authenticator enrollments custom names.
+      let isDup = false;
+      const authenticatorKey = option.relatesTo?.key as string;
+      if (authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN) {
+        isDup = authenticatorOptionSet.has(authenticatorKey);
+        authenticatorOptionSet.add(authenticatorKey);
+      } else if (authenticatorKey === AUTHENTICATOR_KEY.CUSTOM_APP) {
+        const id = getOptionValue(option.value as Input[], 'id')?.value as string;
+        isDup = authenticatorOptionSet.has(id);
+        authenticatorOptionSet.add(id);
+      }
+      return !isDup;
+    })
+    .map((option: IdxOption, index: number) => {
+      const authenticatorKey = option.relatesTo?.key as string;
+      const id = getOptionValue(option.value as Input[], 'id')?.value;
+      const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
+      const enrollmentId = getOptionValue(option.value as Input[], 'enrollmentId')?.value;
+      const AUTHENTICATORS_WITH_METHOD_TYPE = [
+        AUTHENTICATOR_KEY.ON_PREM,
+        AUTHENTICATOR_KEY.OV,
+        AUTHENTICATOR_KEY.RSA,
+      ];
+      const authenticator = option.relatesTo;
 
-    return {
-      type: 'AuthenticatorButton',
-      label: option.label,
-      options: {
-        type: ButtonType.BUTTON,
-        key: authenticatorKey,
-        authenticator,
-        ctaLabel: isEnroll
-          ? loc('oie.enroll.authenticator.button.text', 'login')
-          : loc('oie.verify.authenticator.button.text', 'login'),
-        description: getAuthenticatorDescription(
-          option,
-          authenticatorKey,
-          isEnroll,
-        ),
-        usageDescription: isEnroll && getUsageDescription(option),
-        // @ts-ignore logoUri missing from interface
-        logoUri: authenticator.logoUri,
-        actionParams: {
-          'authenticator.id': id,
-          'authenticator.methodType': AUTHENTICATORS_WITH_METHOD_TYPE.includes(authenticatorKey)
-            ? methodType
-            : undefined,
-          'authenticator.enrollmentId': enrollmentId,
+      return {
+        type: 'AuthenticatorButton',
+        label: option.label,
+        options: {
+          type: ButtonType.BUTTON,
+          key: authenticatorKey,
+          authenticator,
+          ctaLabel: isEnroll
+            ? loc('oie.enroll.authenticator.button.text', 'login')
+            : loc('oie.verify.authenticator.button.text', 'login'),
+          description: getAuthenticatorDescription(
+            option,
+            authenticatorKey,
+            isEnroll,
+          ),
+          usageDescription: isEnroll && getUsageDescription(option),
+          // @ts-ignore logoUri missing from interface
+          logoUri: authenticator.logoUri,
+          actionParams: {
+            'authenticator.id': id,
+            'authenticator.methodType': AUTHENTICATORS_WITH_METHOD_TYPE.includes(authenticatorKey)
+              ? methodType
+              : undefined,
+            'authenticator.enrollmentId': enrollmentId,
+          },
+          step,
+          includeData: true,
+          includeImmutableData: false,
+          dataSe: getAuthenticatorDataSeVal(
+            authenticatorKey,
+            AUTHENTICATORS_WITH_METHOD_TYPE.includes(authenticatorKey) && typeof methodType === 'string'
+              ? methodType
+              : undefined,
+          ),
+          iconName: `${authenticatorKey}_${index}`,
         },
-        step,
-        includeData: true,
-        includeImmutableData: false,
-        dataSe: getAuthenticatorDataSeVal(
-          authenticatorKey,
-          AUTHENTICATORS_WITH_METHOD_TYPE.includes(authenticatorKey) && typeof methodType === 'string'
-            ? methodType
-            : undefined,
-        ),
-        iconName: `${authenticatorKey}_${index}`,
-      },
-    } as AuthenticatorButtonElement;
-  })
-);
+      } as AuthenticatorButtonElement;
+    });
+};
 
 const getAuthenticatorButtonElements = (
   options: IdxOption[],
@@ -233,7 +292,7 @@ const getAuthenticatorButtonElements = (
     formattedOptions.splice(ovIndex, 1, ...ovOptions);
   }
 
-  return formattedOptions;
+  return reorderAuthenticatorButtons(formattedOptions, options);
 };
 
 export const getOVMethodTypeAuthenticatorButtonElements = (

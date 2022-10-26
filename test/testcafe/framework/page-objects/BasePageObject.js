@@ -5,7 +5,7 @@ const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
 const SKIP_LINK = '.auth-footer .js-skip';
 const SKIP_SET_UP_LINK = '.auth-footer .js-skip-setup';
-const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
+const SWITCH_AUTHENTICATOR_LINK = '[data-se="switchAuthenticator"]';
 const ionMessagesSelector = '.ion-messages-container';
 const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
 const FACTOR_PAGE_HELP_LINK = '[data-se="factorPageHelpLink"]';
@@ -179,14 +179,41 @@ export default class BasePageObject {
     await this.t.click(Selector(SKIP_SET_UP_LINK));
   }
 
-  async clickSwitchAuthenticatorButton() {
-    await this.t.click(Selector(SWITCH_AUTHENTICATOR_LINK));
+  getReturnToAuthenticatorListLink() {
+    return this.form.getLink('Return to authenticator list');
   }
 
-  getSwitchAuthenticatorLinkText() {
+  getVerifyWithSomethingElseLink() {
+    return this.form.getLink('Verify with something else');
+  }
+
+  async clickVerifyWithSomethingElseLink() {
+    return await this.t.click(await this.getVerifyWithSomethingElseLink());
+  }
+
+  async clickReturnToAuthenticatorListLink() {
+    return await this.t.click(await this.getReturnToAuthenticatorListLink());
+  }
+
+  getSwitchAuthenticatorLinkText() {  
     return Selector(SWITCH_AUTHENTICATOR_LINK).textContent;
   }
 
+  async verifyWithSomethingElseLinkExists() {
+    return await this.getVerifyWithSomethingElseLink().exists;
+  }
+
+  async returnToAuthenticatorListLinkExists() {
+    return await this.getReturnToAuthenticatorListLink().exists;
+  }
+
+  /**
+   * @deprecated
+   * @see verifyWithSomethingElseLinkExists
+   * @see returnToAuthenticatorListLinkExists
+   * Depending on the test (Challenge vs Enroll) use one of the new functions
+   * to check if the switch authenticator link exists
+   */
   async switchAuthenticatorLinkExists() {
     const elCount = await Selector(SWITCH_AUTHENTICATOR_LINK).count;
     return elCount === 1;
