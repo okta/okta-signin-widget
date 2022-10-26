@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, Selector } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
@@ -100,6 +100,7 @@ fixture('Identify')
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(Selector('form').exists).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',

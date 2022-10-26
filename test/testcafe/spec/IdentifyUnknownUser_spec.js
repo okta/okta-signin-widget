@@ -4,7 +4,7 @@ import unknownUser from '../../../playground/mocks/data/idp/idx/identify-unknown
 import notAssignedApp from '../../../playground/mocks/data/idp/idx/error-400-user-not-assigned';
 import registeredUser from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator.json';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
-import { RequestMock } from 'testcafe';
+import { RequestMock, Selector } from 'testcafe';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -25,6 +25,7 @@ fixture('Identify Unknown User').meta('v3', true);
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(Selector('form').exists).eql(true);
 
   await checkConsoleMessages({
     controller: 'primary-auth',
