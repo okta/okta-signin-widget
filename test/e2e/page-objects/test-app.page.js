@@ -58,7 +58,7 @@ class TestAppPage {
     try {
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     } catch (err) {
-      console.log('reload page');
+      console.log('unable to locate config editor');
       //await this.open();
       await this.flowDropdown.selectByVisibleText('default');
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
