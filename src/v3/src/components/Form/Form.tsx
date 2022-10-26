@@ -11,7 +11,7 @@
  */
 
 import { FunctionComponent, h } from 'preact';
-import { useCallback } from 'preact/hooks';
+import { useCallback, useEffect } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit, useOnSubmitValidation } from '../../hooks';
@@ -30,9 +30,14 @@ const Form: FunctionComponent<{
     idxTransaction: currTransaction,
     setMessage,
     dataSchemaRef,
+    setWidgetRendered,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const onValidationHandler = useOnSubmitValidation();
+
+  useEffect(() => {
+    setWidgetRendered(true);
+  });
 
   const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();

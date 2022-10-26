@@ -133,8 +133,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
-    setWidgetRendered(false);
-
     if (authApiError) {
       return transformUnhandledErrors(widgetProps, authApiError);
     }
@@ -189,8 +187,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
 
     setUischema(formBag.uischema);
-
-    setWidgetRendered(true);
   }, [formBag, isClientTransaction]);
 
   const resume = useCallback(async () => {
@@ -277,6 +273,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       dataSchemaRef,
       loading,
       setLoading,
+      setWidgetRendered,
     }}
     >
       {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}
