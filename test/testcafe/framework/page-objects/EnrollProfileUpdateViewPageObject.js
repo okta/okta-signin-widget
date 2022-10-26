@@ -6,7 +6,7 @@ export default class EnrollProfileUpdateViewPageObject extends BasePageObject {
   }
 
   clickFinishButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButton('Finish');
   }
 
   getTextBoxErrorMessage(fieldName) {
@@ -15,5 +15,17 @@ export default class EnrollProfileUpdateViewPageObject extends BasePageObject {
 
   getFormFieldSubLabel(fieldName) {
     return this.form.getFormFieldSubLabel(fieldName);
+  }
+
+  finishButtonExists() {
+    return this.form.getButton('Finish').exists;
+  }
+
+  skipProfileLinkExists() {
+    return this.form.getLink('Skip Profile').exists;
+  }
+
+  async clickSkipProfileLink() {
+    await this.t.click(this.form.getLink('Skip Profile'));
   }
 }
