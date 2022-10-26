@@ -240,17 +240,20 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (isClientTransaction) {
       return;
     }
+    if (typeof idxTransaction !== 'undefined') {
+      events?.afterRender?.(getEventContext(idxTransaction));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idxTransaction]);
+
+  useEffect(() => {
     if (authApiError !== null) {
       events?.afterRender?.({
         controller: null,
         formName: 'terminal',
       });
-    } else if (uischema.elements.length > 0 && idxTransaction !== undefined) {
-      events?.afterRender?.(getEventContext(idxTransaction));
     }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uischema, authApiError]);
+  }, [authApiError]);
 
   return (
     <WidgetContextProvider value={{
