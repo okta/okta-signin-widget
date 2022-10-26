@@ -55,7 +55,13 @@ class TestAppPage {
   }
 
   async setConfig(config) {
-    await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
+    try {
+      await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
+    } catch (err) {
+      browser.refresh();
+      console.log('retry setting config');
+      await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
+    }
   }
 
   async getCspErrors() {
