@@ -1,9 +1,9 @@
 import AppState from 'v2/models/AppState';
 import MockUtil from '../../../helpers/v2/MockUtil';
 import XHRAuthenticatorChallengOktaVerify
-  from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push.json';
+from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push.json';
 import XHRAuthenticatorEnrollOktaVerify
-  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms.json';
+from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms.json';
 import { FORMS_FOR_VERIFICATION, FORMS_WITHOUT_SIGNOUT } from 'v2/ion/RemediationConstants';
 import BrowserFeatures from 'util/BrowserFeatures';
 

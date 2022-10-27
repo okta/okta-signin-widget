@@ -50,7 +50,7 @@ const Body = BaseAuthenticatorEmailForm.extend(
 
     isUseEmailMagicLink() {
       return this.options.appState.get('currentAuthenticator')?.
-      contextualData?.useEmailMagicLink;
+        contextualData?.useEmailMagicLink;
     },
 
     showAuthCodeEntry() {
