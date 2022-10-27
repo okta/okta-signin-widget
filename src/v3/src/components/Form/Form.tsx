@@ -30,6 +30,7 @@ const Form: FunctionComponent<{
     idxTransaction: currTransaction,
     setMessage,
     dataSchemaRef,
+    widgetRendered,
     setWidgetRendered,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
@@ -37,10 +38,11 @@ const Form: FunctionComponent<{
 
   useEffect(() => {
     setWidgetRendered(true);
-  });
+  }, [currTransaction]);
 
   const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();
+    setWidgetRendered(false);
     setMessage(undefined);
 
     const {
