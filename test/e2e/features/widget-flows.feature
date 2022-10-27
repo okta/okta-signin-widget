@@ -1,3 +1,5 @@
+# https://oktainc.atlassian.net/browse/OKTA-545127
+@skip(browserName=/internet.*explorer/)
 Feature: Widget Flows
 
   Background:
