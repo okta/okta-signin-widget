@@ -42,10 +42,10 @@ test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('s
   await t.expect(await profileEnrollmentString.form.fieldByLabelExists('Last name')).eql(true);
   await t.expect(await profileEnrollmentString.form.fieldByLabelExists('Email')).eql(true);
 
-  await t.expect(await profileEnrollmentString.form.fieldByLabelExists('Colors')).eql(true);
+  await t.expect(await profileEnrollmentString.dropDownFieldByLabelExists('Colors')).eql(true);
   await profileEnrollmentString.selectValueFromDropdown('userProfile.colores', 1);
 
-  await t.expect(await profileEnrollmentString.form.fieldByLabelExists('Favorite Song')).eql(true);
+  await t.expect(await profileEnrollmentString.dropDownFieldByLabelExists('Favorite Song')).eql(true);
   await profileEnrollmentString.selectValueFromDropdown('userProfile.favsong', 1);
 
   const favPizza = await profileEnrollmentString.clickRadioButton('userProfile.favpizza', 1);

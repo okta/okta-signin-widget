@@ -31,8 +31,8 @@ export default class BaseFormObject {
     return this.el.find(selector).exists;
   }
 
-  fieldByLabelExists(label) {
-    return within(this.el).getByLabelText(new RegExp(label)).exists;
+  fieldByLabelExists(label, options = undefined) {
+    return within(this.el).getByLabelText(new RegExp(label), options).exists;
   }
 
   getElement(selector) {
