@@ -254,6 +254,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         formName: 'terminal',
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authApiError]);
 
   return (
