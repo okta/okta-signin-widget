@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger, Selector, userVariables } from 'testcafe';
 import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -54,6 +54,7 @@ fixture('Password Authenticator Expiry Warning')
 async function setup(t) {
   const passwordExpiryWarningPage = new FactorEnrollPasswordPageObject(t);
   await passwordExpiryWarningPage.navigateToPage();
+  await t.expect(Selector('form').exists).eql(true);
   await checkConsoleMessages({
     controller: null,
     formName: 'reenroll-authenticator-warning',

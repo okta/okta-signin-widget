@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, Selector } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrIdentifyRecovery from '../../../playground/mocks/data/idp/idx/identify-recovery';
@@ -30,6 +30,7 @@ fixture('Identify Recovery - reset flow').meta('v3', true);
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(Selector('form').exists).eql(true);
   await checkConsoleMessages({
     controller: 'forgot-password',
     formName: 'identify-recovery',

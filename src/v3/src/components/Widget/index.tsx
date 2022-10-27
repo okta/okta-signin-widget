@@ -89,6 +89,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
 
   useEffect(() => {
     // If we need to load a language (or apply custom i18n overrides), do
@@ -101,14 +102,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleError = (transaction: IdxTransaction | undefined, error: unknown) => {
+  const handleError = (error: unknown) => {
     // TODO: handle error based on types
     // AuthApiError is one of the potential error that can be thrown here
     // We will want to expose development stage errors from auth-js and file jiras against it
     setAuthApiError(error as AuthApiError);
     console.error(error);
-    // error event
-    events?.afterError?.(transaction ? getEventContext(transaction) : {}, error);
     return null;
   };
 
@@ -125,7 +124,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         stepName: transaction.nextStep?.name,
       });
     } catch (error) {
-      handleError(idxTransaction, error);
+      events?.ready?.();
+
+      handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, stateToken, setIdxTransaction, setAuthApiError]);
@@ -195,8 +196,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       });
 
       setIdxTransaction(transaction);
+
+      events?.ready?.({
+        stepName: transaction.nextStep?.name,
+      });
     } catch (error) {
-      handleError(idxTransaction, error);
+      events?.ready?.();
+
+      handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, setIdxTransaction, setAuthApiError]);
@@ -231,13 +238,24 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [pollingTransaction]); // only watch on pollingTransaction changes
 
   useEffect(() => {
-    if (!idxTransaction) {
+    if (isClientTransaction) {
       return;
     }
-    events?.afterRender?.(getEventContext(idxTransaction));
-
+    if (widgetRendered && typeof idxTransaction !== 'undefined') {
+      events?.afterRender?.(getEventContext(idxTransaction));
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idxTransaction, bootstrap]);
+  }, [widgetRendered, idxTransaction]);
+
+  useEffect(() => {
+    if (authApiError !== null) {
+      events?.afterRender?.({
+        controller: null,
+        formName: 'terminal',
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authApiError]);
 
   return (
     <WidgetContextProvider value={{
@@ -256,6 +274,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       dataSchemaRef,
       loading,
       setLoading,
+      setWidgetRendered,
     }}
     >
       {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}

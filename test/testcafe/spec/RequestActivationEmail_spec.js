@@ -1,4 +1,4 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, Selector } from 'testcafe';
 
 import RequestActivationEmailPageObject from '../framework/page-objects/RequestActivationEmailPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
@@ -41,6 +41,7 @@ async function setup(t) {
 async function setupTerminal(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
+  await t.expect(Selector('form').exists).eql(true);
   await checkConsoleMessages({
     controller: null,
     formName: 'terminal',
