@@ -59,8 +59,11 @@ class TestAppPage {
 
   async setConfig(config) {
     try {
+      const result = await browser.getPageSource();
+      console.log(result);
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     } catch (err) {
+
       console.log('unable to locate config editor ');
       const result = await browser.execute(() => {
         return document.getElementsByTagName('body')[0].innerHTML;
@@ -72,6 +75,7 @@ class TestAppPage {
       //await this.open('', config);
       await browser.url(`${WIDGET_TEST_SERVER}`);
       await this.open('', config);
+      await waitForLoad(this.configEditor);
     }
   }
 
