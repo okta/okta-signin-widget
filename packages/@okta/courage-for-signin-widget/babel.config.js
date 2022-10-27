@@ -27,7 +27,6 @@ const plugins = [
     alias: {
       '^handlebars(/runtime)?$': './lib/handlebars/dist/cjs/handlebars.runtime',
       '^backbone$': './src/courage/vendor/lib/backbone.js',
-      '^jquery$': './src/courage/vendor/lib/jquery-1.12.4.js',
       '^underscore$': './lib/underscore/underscore-min.js'
     }
   }],
@@ -42,10 +41,19 @@ const targets = {
   node: 'current'
 };
 
+const ignore = [
+  './src/courage/vendor/lib/pendo.xhr.2.110.2-personal.js',
+  './src/courage/vendor/lib/pendo.xhr.2.110.2.js',
+  './src/courage/vendor/lib/pendo.xhr.2.121.0-personal.js',
+  './src/courage/vendor/lib/pendo.xhr.2.121.0.js',
+];
+
+
 const babelConfig = {
   presets,
   plugins,
   targets,
+  ignore,
   inputSourceMap: true,
   sourceMaps: true
 };

@@ -15,7 +15,7 @@ import fetch from 'cross-fetch';
 import country from 'nls/country.json';
 import login from 'nls/login.json';
 import Q from 'q';
-import _ from 'underscore';
+import { _ } from 'okta';
 import BrowserFeatures from 'util/BrowserFeatures';
 import Logger from 'util/Logger';
 const STORAGE_KEY = 'osw.languages';

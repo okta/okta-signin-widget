@@ -1,70 +1,101 @@
-// The release webpack config exports four configs:
-// 1. entryConfig - generates okta-sign-in.entry.js, a non-minified built
-//    version of the widget that does not include any vendor dependencies. This
-//    is meant to be imported through a require() statement using webpack or
-//    browserify.
-// 2. cdnConfig - generates okta.sign-in.min.js, a minified built version of the
+// The release webpack config exports configs to build CDN bundles:
+
+// 1. default - okta-sign-in.min.js - full widget for endusers. generates a minified built version of the
 //    widget that includes everything necessary to run (including all vendor
 //    libraries)
-// 3. noJqueryConfig - generates okta.sign-in.no-jquery.js, which is used by
-//    our own internal login flow. We can remove this once we update loginpage
-//    to use webpack.
-// 4. devConfig - generates okta.sign-in.js, which is a non-minified version of
-//    the widget that contains helpful warning messages and includes everything
-//    necessary to run (including all vendor libraries).
 
-var path = require('path');
+// 2. no polyfill - okta-sign-in.no-polyfill.min.js - full widget for endusers who do not need IE11.
+
+// 3. classic - okta-sign-in.classic.min.js - classic widget for endusers. Does not support OIE. No polyfills.
+
+// 4. oie - okta-sign-in.oie.min.js - oie widget for endusers. Does not support Classic engine. No polyfills.
+
+// 5. polyfill - okta-sign-in.polyfill.min.js - polyfill for embedded widget that need to support IE11 and PKCE
+
+// 6. plugin a11y - okta-plugin-a11y.js - add-on that enhances support for accesibility
 
 var config  = require('./webpack.common.config');
 var plugins = require('./scripts/buildtools/webpack/plugins');
 var useRuntime = require('./scripts/buildtools/webpack/runtime');
 var usePolyfill = require('./scripts/buildtools/webpack/polyfill');
 
-// 1. entryConfig (node module main entry. minified, no polyfill)
-var entryConfig = config('okta-sign-in.entry.js', 'production');
-entryConfig.output.filename = 'okta-sign-in.entry.js';
-entryConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.entry.analyzer' });
-useRuntime(entryConfig);
 
-// 2. noPolyfillConfig
-var noPolyfillConfig = config('okta-sign-in.no-polyfill.min.js', 'production');
-noPolyfillConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.no-polyfill.min.analyzer' });
-useRuntime(noPolyfillConfig);
-
-// 3. cdnConfig (with polyfill)
-var cdnConfig = config('okta-sign-in.min.js', 'production');
-cdnConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.min.analyzer' });
-usePolyfill(cdnConfig);
-
-// 4. noJqueryConfig
-var noJqueryConfig = config('okta-sign-in-no-jquery.js', 'production');
-noJqueryConfig.entry = cdnConfig.entry;
-noJqueryConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in-no-jquery.analyzer' });
-noJqueryConfig.externals = {
-  'jquery': {
-    'commonjs': 'jquery',
-    'commonjs2': 'jquery',
-    'amd': 'jquery',
-    'root': 'jQuery'
+let entries = {
+  // 1. default (default entry, minified, with polyfill)
+  'default': {
+    includePolyfill: true,
+    includeRuntime: true,
+    entry: './src/exports/cdn/default.ts',
+    outputFilename: 'okta-sign-in.min.js',
+    analyzerFile: 'okta-sign-in.min.analyzer'
+  },
+  // 2. no polyfill (default entry, minified, no polyfill)
+  'noPolyfill': {
+    entry: './src/exports/cdn/default.ts',
+    outputFilename: 'okta-sign-in.no-polyfill.min.js',
+    analyzerFile: 'okta-sign-in.no-polyfill.min.analyzer'
+  },
+  // 3. classic (classic entry, minified, no polyfill)
+  'classic': {
+    entry: './src/exports/cdn/classic.ts',
+    outputFilename: 'okta-sign-in.classic.min.js',
+    analyzerFile: 'okta-sign-in.classic.min.analyzer',
+    engine: 'classic',
+  },
+  // 4. oie (oie bundle, minified, no polyfill)
+  'oie': {
+    entry: './src/exports/cdn/oie.ts',
+    outputFilename: 'okta-sign-in.oie.min.js',
+    analyzerFile: 'okta-sign-in.oie.min.analyzer',
+    engine: 'oie'
+  },
+  // 5. polyfill for IE11 (embedded widgets)
+  'polyfill': {
+    entry: './polyfill/index.js',
+    outputFilename: 'okta-sign-in.polyfill.min.js',
+    analyzerFile: 'okta-sign-in.polyfill.min.analyzer',
+    outputLibrary: null
+  },
+  // 6. plugins: a11y
+  'a11y': {
+    entry: './src/plugins/OktaPluginA11y.ts',
+    outputFilename: 'okta-plugin-a11y.js',
+    outputLibrary: 'OktaPluginA11y'
   }
 };
-useRuntime(noJqueryConfig);
 
-// 5. devConfig (with polyfill, unminified)
-var devConfig = config('okta-sign-in.js', 'development');
-devConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in.analyzer' });
-usePolyfill(devConfig);
+// if ENTRY env var is passed, filter the entries to include only the named ENTRY
+if (process.env.ENTRY) {
+  entries = {
+    [process.env.ENTRY]: entries[process.env.ENTRY]
+  };
+}
 
-// 6. plugins: a11y
-var a11yPluginConfig = config('okta-plugin-a11y.js', 'production');
-a11yPluginConfig.entry = [path.resolve(__dirname, 'src/plugins/OktaPluginA11y.ts')];
-a11yPluginConfig.output.library = 'OktaPluginA11y';
+const configs = Object.keys(entries).map(entryName => {
+  const entryValue = entries[entryName];
+  const { entry, outputFilename, analyzerFile, engine, outputLibrary, includePolyfill, includeRuntime } = entryValue;
+  
+  const entryConfig = config({
+    mode: 'production',
+    entry,
+    outputFilename,
+    outputLibrary,
+    engine
+  });
 
-module.exports = [
-  entryConfig,
-  noPolyfillConfig,
-  cdnConfig,
-  noJqueryConfig,
-  devConfig,
-  a11yPluginConfig
-];
+  if (analyzerFile) {
+    entryConfig.plugins = plugins({ isProduction: true, analyzerFile });
+  }
+
+  if (includeRuntime) {
+    useRuntime(entryConfig);
+  }
+
+  if (includePolyfill) {
+    usePolyfill(entryConfig);
+  }
+  
+  return entryConfig;
+});
+
+module.exports = configs;

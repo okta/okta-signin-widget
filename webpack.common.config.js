@@ -11,7 +11,18 @@ var LOCAL_PACKAGES = resolve(__dirname, 'packages/');
 var COURAGE_DIST = `${LOCAL_PACKAGES}/@okta/courage-dist/esm`;
 
 // Return a function so that all consumers get a new copy of the config
-module.exports = function(outputFilename, mode = 'development') {
+module.exports = function({
+  entry,
+  outputFilename,
+  mode = 'development',
+  engine = '',
+  outputLibrary = 'OktaSignIn',
+  outputLibraryTarget = 'umd',
+  cdn = true
+}) {
+
+  // normalize entry so it is always an array
+  entry = Array.isArray(entry) ? entry : [entry];
 
   const babelOptions = {
     configFile: false, // do not load from babel.config.js
@@ -43,17 +54,21 @@ module.exports = function(outputFilename, mode = 'development') {
     babelOptions.plugins.unshift('@babel/plugin-proposal-class-properties');
   }
 
+  if (cdn) {
+    babelOptions.plugins.push('add-module-exports');
+  }
+
   const webpackConfig = {
-    entry: [`${SRC}/index.cjs.js`],
+    entry,
     mode,
     devtool: 'source-map',
     output: {
       path: TARGET_JS,
       filename: outputFilename,
-      library: 'OktaSignIn',
-      libraryTarget: 'umd'
+      libraryTarget: outputLibraryTarget
     },
     resolve: {
+      // conditionNames: ['import', 'browser'],
       extensions: ['.js', '.ts'],
       modules: [SRC, 'packages', 'node_modules'],
       alias: {
@@ -63,7 +78,6 @@ module.exports = function(outputFilename, mode = 'development') {
         'okta-i18n-bundles': 'util/Bundles',
 
         // Vendor files from courage that
-        'jquery': `${COURAGE_DIST}/src/courage/vendor/lib/jquery-1.12.4.js`,
         'handlebars/runtime': `${COURAGE_DIST}/lib/handlebars/dist/cjs/handlebars.runtime`,
         'handlebars$': `${COURAGE_DIST}/lib/handlebars/dist/cjs/handlebars.runtime`,
 
@@ -114,6 +128,10 @@ module.exports = function(outputFilename, mode = 'development') {
     optimization: {}
   };
 
+  if (outputLibrary) {
+    webpackConfig.output.library = outputLibrary;
+  }
+
   if (mode !== 'development') {
     const optimization = {
       minimize: true,
@@ -130,5 +148,15 @@ module.exports = function(outputFilename, mode = 'development') {
     };
     webpackConfig.optimization = optimization;
   }
+
+  switch (engine) {
+  case 'classic':
+    webpackConfig.resolve.alias['@okta/okta-auth-js'] = '@okta/okta-auth-js/authn';
+    break;
+  case 'oie':
+    webpackConfig.resolve.alias['@okta/okta-auth-js'] = '@okta/okta-auth-js/idx';
+    break;
+  }
+
   return webpackConfig;
 };

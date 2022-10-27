@@ -42,7 +42,6 @@ const interactionCodeFlowconfig = {
   redirectUri: 'http://localhost:3000/done',
   el: '#okta-login-container',
   clientId: WIDGET_SPA_CLIENT_ID,
-  useInteractionCodeFlow: true,
   scopes: ['openid', 'email', 'profile']
 };
 
@@ -70,7 +69,8 @@ Given(
   /^an App ("[\w\s]+")?\s?configured to use v1 authn flow$/,
   // eslint-disable-next-line no-unused-vars
   async function (this: ActionContext, appName?: string) {
-    const config = { ...basicConfig };
+    const config = { ...basicConfig, useClassicEngine: true };
+    console.log(JSON.stringify(config)); // for manual testing in browser
     if (appName) {
       this.app = await createApp({ appType: 'browser' });
       config.clientId = this.app.id;
@@ -173,7 +173,6 @@ Given(
       redirectUri: 'http://localhost:3000/done',
       el: '#okta-login-container',
       clientId: WIDGET_SPA_CLIENT_ID,
-      useInteractionCodeFlow: true,
       scopes: ['openid', 'email', 'profile'],
       state: 'abc'
     };

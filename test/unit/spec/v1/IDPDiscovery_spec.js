@@ -1,6 +1,6 @@
 /* eslint max-params:[2, 28], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import AuthContainer from 'helpers/dom/AuthContainer';
 import Beacon from 'helpers/dom/Beacon';
@@ -110,6 +110,7 @@ function setupSocial(settings) {
       {
         clientId: 'someClientId',
         redirectUri: 'https://0.0.0.0:9999',
+        useClassicEngine: true,
         authScheme: 'OAUTH2',
         authParams: {
           responseType: 'id_token',
@@ -1498,6 +1499,20 @@ Expect.describe('IDPDiscovery', function() {
         .then(function(test) {
           expect(test.router.appState.get('disableUsername')).toBe(true);
           expect(test.router.navigate).toHaveBeenCalledWith('signin', { trigger: true });
+        });
+    });
+    itp('primary auth route should contain username when idp is okta and features.prefillUsernameFromIdpDiscovery is on', function() {
+      return setup({ 'features.prefillUsernameFromIdpDiscovery': true })
+        .then(function(test) {
+          Util.mockRouterNavigate(test.router);
+          test.setNextWebfingerResponse(resSuccessOktaIDP);
+          test.form.setUsername('testuser@clouditude.net');
+          test.form.submit();
+          return Expect.waitForPrimaryAuth(test);
+        })
+        .then(function(test) {
+          expect(test.router.appState.get('disableUsername')).toBe(true);
+          expect(test.router.navigate).toHaveBeenCalledWith('signin/okta/testuser%40clouditude.net', { trigger: true });
         });
     });
     itp('disables username field if sign-in returns an error and username was previously disabled', function() {

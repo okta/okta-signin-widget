@@ -2,15 +2,19 @@ const path = require('path');
 const { readFileSync } = require('fs');
 
 const ONE_MB = 1024 * 1024;
-const EXPECTED_PACKAGE_SIZE = 12 * ONE_MB;
+const EXPECTED_PACKAGE_SIZE = 13.35 * ONE_MB;
 const EXPECTED_PACKAGE_FILES = 2200;
 
 const EXPECTED_BUNDLE_SIZES = {
-  'okta-sign-in-no-jquery.js': 1.5 * ONE_MB,
-  'okta-sign-in.entry.js': 1.5 * ONE_MB,
-  'okta-sign-in.js': 4.2 * ONE_MB,
-  'okta-sign-in.min.js': 1.7 * ONE_MB,
-  'okta-sign-in.no-polyfill.min.js': 1.5 * ONE_MB
+  'okta-sign-in.js': 3.2 * ONE_MB,
+  'okta-sign-in.oie.js': 2.4 * ONE_MB,
+  'okta-sign-in.classic.js': 2.4 * ONE_MB,
+  'okta-sign-in.polyfill.js': 0.35 * ONE_MB,
+  'okta-sign-in.min.js': 1.6 * ONE_MB,
+  'okta-sign-in.polyfill.min.js': .08 * ONE_MB,
+  'okta-sign-in.no-polyfill.min.js': 1.5 * ONE_MB,
+  'okta-sign-in.oie.min.js': 1.2 * ONE_MB,
+  'okta-sign-in.classic.min.js': 1.1 * ONE_MB,
 };
 
 exports.command = 'verify-package';
@@ -44,10 +48,12 @@ function verifyPackageContents() {
   expect(manifest.filename).toBe(`okta-okta-signin-widget-${pkg.version}.tgz`);
 
   // package size
+  console.log('manifest.size:', manifest.size / ONE_MB);
   expect(manifest.size).toBeGreaterThan(EXPECTED_PACKAGE_SIZE * .9);
   expect(manifest.size).toBeLessThan(EXPECTED_PACKAGE_SIZE * 1.1);
 
   // files
+  console.log('manifest.entryCount:', manifest.entryCount);
   expect(manifest.entryCount).toBeGreaterThan(EXPECTED_PACKAGE_FILES * .9);
   expect(manifest.entryCount).toBeLessThan(EXPECTED_PACKAGE_FILES * 1.1);
 
@@ -55,16 +61,21 @@ function verifyPackageContents() {
   const expectedFiles = [
     'README.md',
     'dist/css/okta-sign-in.min.css',
-    'dist/js/okta-sign-in.entry.js',
-    'dist/js/okta-sign-in.entry.js.map',
     'dist/js/okta-sign-in.min.js',
-    'dist/esm/src/index.js',
+    'dist/js/okta-sign-in.min.js.map',
+    'dist/js/okta-sign-in.js',
+    'dist/js/okta-sign-in.js.map',
+    'dist/js/okta-sign-in.oie.min.js',
+    'dist/js/okta-sign-in.oie.min.js.map',
+    'dist/js/okta-sign-in.polyfill.min.js',
+    'dist/js/okta-sign-in.polyfill.min.js.map',
+    'dist/esm/src/exports/exports/default.js',
     'dist/labels/json/country_de.json',
     'dist/labels/json/login_ru.json',
     'dist/sass/_fonts.scss',
     'dist/font/okticon.ttf',
     'dist/font/okticon.woff',
-    'types/src/index.d.ts',
+    'types/src/exports/default.d.ts',
     'types/packages/@okta/courage-dist/types/courage/framework/Model.d.ts'
   ];
 
@@ -82,6 +93,12 @@ function verifyPackageContents() {
     if (!manifest.files.some(entry => entry.path === `dist/js/${bundleName}.map`)) {
       throw new Error(`Expected map file ${bundleName}.map was not found in the package dist/js folder`);
     }
+    const entry = manifest.files.find(entry => entry.path === `dist/js/${bundleName}`);
+    const size = Math.round((entry.size / ONE_MB) * 100) / 100;
+    console.log(`${bundleName}: ${size} MB`);
+  });
+
+  Object.keys(EXPECTED_BUNDLE_SIZES).forEach(bundleName => {
     const entry = manifest.files.find(entry => entry.path === `dist/js/${bundleName}`);
     const expectedSize = EXPECTED_BUNDLE_SIZES[bundleName];
     console.log(`Validating bundle size: ${bundleName}`);

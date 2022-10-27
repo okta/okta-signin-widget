@@ -1,5 +1,5 @@
 import { _ } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import GranularConsentRequiredForm from 'helpers/dom/GranularConsentRequiredForm';
 import Util from 'helpers/mocks/Util';
@@ -19,6 +19,7 @@ function setup(settings, res) {
   const baseUrl = window.location.origin;
   const logoUrl = '/img/logos/default.png';
   const authClient = getAuthClient({
+    useClassicEngine: true,
     authParams: {
       issuer: baseUrl,
       transformErrorXHR: LoginUtil.transformErrorXHR

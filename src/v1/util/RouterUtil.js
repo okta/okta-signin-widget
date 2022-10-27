@@ -28,6 +28,7 @@ const enrollFactorUrlTpl = hbs('signin/enroll/{{provider}}/{{factorType}}');
 const activateFactorUrlTpl = hbs('signin/enroll-activate/{{provider}}/{{factorType}}{{#if step}}/{{step}}{{/if}}');
 const recoveryUrlTpl = hbs('signin/recovery/{{recoveryToken}}');
 const refreshUrlTpl = hbs('signin/refresh-auth-state{{#if token}}/{{token}}{{/if}}');
+const signinWithUsernameUrlTpl = hbs('signin/okta/{{username}}');
 const sessionCookieRedirectTpl = hbs(
   // eslint-disable-next-line max-len
   '{{baseUrl}}/login/sessionCookieRedirect?checkAccountSetupComplete=true&token={{{token}}}&redirectUrl={{{redirectUrl}}}'
@@ -92,6 +93,10 @@ fn.createRefreshUrl = function(stateToken) {
   const token = stateToken ? encodeURIComponent(stateToken) : null;
 
   return refreshUrlTpl({ token: token });
+};
+
+fn.createSigninUrl = function(username) {
+  return username ? signinWithUsernameUrlTpl({ username: encodeURIComponent(username) }) : 'signin';
 };
 
 fn.routeAfterAuthStatusChangeError = function(router, err) {

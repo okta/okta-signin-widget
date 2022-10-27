@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 17], max-statements:[2, 70] */
 import { _, $, Backbone } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import RegForm from 'helpers/dom/RegistrationForm';
@@ -264,7 +264,7 @@ Expect.describe('Registration', function() {
         test.form.setReferrer('referrer');
         test.setNextResponse(resErrorNotUnique);
         test.form.submit();
-
+        Util.callAllTimeouts();
         return Expect.waitForFormErrorBox(test.form, test);
       }).then(function(test) {
         expect(test.form.errorBox().length).toBe(1);
@@ -282,7 +282,7 @@ Expect.describe('Registration', function() {
       test.form.setReferrer('referrer');
       test.setNextResponse(resErrorInvalidEmailDomain);
       test.form.submit();
-
+      Util.callAllTimeouts();
       return Expect.waitForFormErrorBox(test.form, test);
     }).then(function(test) {
       expect(test.form.errorBox().length).toBe(1);

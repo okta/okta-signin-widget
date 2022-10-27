@@ -13,7 +13,7 @@
 /*global window: false, jQuery: false, console: false, define: false */
 
 // Modified to support ESM - OKTA-369648
-import jQuery from '../../courage-dist/esm/src/courage/vendor/lib/jquery-1.12.4';
+import jQuery from 'jquery';
 
 /* Cache window, document, undefined */
 (function( window, document, undefined ) {

@@ -7,7 +7,7 @@ import 'jasmine-ajax';
 import Q from 'q';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
-import Widget from 'widget/OktaSignIn';
+import Widget from 'exports/default';
 
 const url = 'https://foo.com';
 

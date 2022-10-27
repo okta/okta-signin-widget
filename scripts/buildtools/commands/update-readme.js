@@ -22,7 +22,10 @@ exports.builder = {
 exports.handler = (argv) => {
   const version = argv.ver ? argv.ver : getPublishedWidgetVersion();
   const options = {
-    files: resolve(join(ROOT_DIR, 'README.md')),
+    files: [
+      resolve(join(ROOT_DIR, 'README.md')),
+      resolve(join(ROOT_DIR, 'polyfill', 'README.md')),
+    ],
     from: /https:\/\/global\.oktacdn\.com\/okta-signin-widget\/\d+\.\d+\.\d+/g,
     to: `https://global.oktacdn.com/okta-signin-widget/${version}`
   };

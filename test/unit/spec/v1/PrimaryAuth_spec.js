@@ -1,7 +1,7 @@
 /* eslint max-params:[2, 32], max-statements:[2, 46], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
 import { OAuthError } from '@okta/okta-auth-js';
-import getAuthClient from 'widget/getAuthClient';
+import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import PrimaryAuthController from 'v1/controllers/PrimaryAuthController';
 import AuthContainer from 'helpers/dom/AuthContainer';
@@ -80,7 +80,7 @@ const typingPattern =
   '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
           0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
 
-async function setup(settings, requests, refreshState) {
+async function setup(settings, requests, refreshState, username) {
   settings || (settings = {});
 
   // To speed up the test suite, calls to debounce are
@@ -113,6 +113,7 @@ async function setup(settings, requests, refreshState) {
       {
         el: $sandbox,
         baseUrl: baseUrl,
+        useClassicEngine: true,
         authClient: authClient,
         globalSuccessFn: successSpy,
       },
@@ -145,7 +146,7 @@ async function setup(settings, requests, refreshState) {
       afterErrorHandler: afterErrorHandler,
     });
   } else {
-    router.primaryAuth();
+    router.primaryAuth(username);
     Util.mockJqueryCss();
     test = await Expect.waitForPrimaryAuth({
       router: router,
@@ -172,6 +173,10 @@ function setupPasswordlessAuth(requests, refreshState) {
     test.setNextResponse(resPasswordlessUnauthenticated);
     return Q(test);
   });
+}
+
+function setupWithUsername(username, settings) {
+  return setup(settings, undefined, false, username);
 }
 
 function setupSocial(settings) {
@@ -1464,7 +1469,7 @@ Expect.describe('PrimaryAuth', function() {
               '</div>' + // beacon-blank
               '</div>' + // radial-progress-bar
               '<div aria-live="polite" role="img" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon" ' + 
-              'style="display: block; background-image: url(&quot;/base/test/unit/assets/1x1.gif&quot;);">' + 
+              'style="background-image: url(&quot;/base/test/unit/assets/1x1.gif&quot;);">' + 
               '<span class="accessibility-text">a single pixel</span><div class="okta-sign-in-beacon-border js-auth-beacon-border auth-beacon-border"></div>' + 
               '</div>' // bg-helper
             );
@@ -2641,6 +2646,34 @@ Expect.describe('PrimaryAuth', function() {
           // should see prompt for factor
           expect(test.form.el('factor-question').length).toEqual(1);
         });
+    });
+  });
+
+  Expect.describe('Auth with IDP Okta', function() {
+    it('prefills username from URL and disables input if features.prefillUsernameFromIdpDiscovery is on', function() {
+      return setupWithUsername('testuser', {
+        'features.prefillUsernameFromIdpDiscovery': true
+      }).then(function(test) {
+        const username = test.form.usernameField();
+
+        expect(username.length).toBe(1);
+        expect(username.attr('type')).toEqual('text');
+        expect(username.prop('required')).toEqual(true);
+        expect(username.prop('disabled')).toEqual(true);
+        expect(username.attr('value')).toEqual('testuser');
+      });
+    });
+
+    it('does NOT prefill username from URL and does NOT disable input if features.prefillUsernameFromIdpDiscovery is off', function() {
+      return setupWithUsername('testuser').then(function(test) {
+        const username = test.form.usernameField();
+
+        expect(username.length).toBe(1);
+        expect(username.attr('type')).toEqual('text');
+        expect(username.prop('required')).toEqual(true);
+        expect(username.prop('disabled')).toEqual(false);
+        expect(username.attr('value')).toEqual('');
+      });
     });
   });
 

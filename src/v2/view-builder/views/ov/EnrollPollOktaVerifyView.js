@@ -1,9 +1,7 @@
 import { loc } from 'okta';
 import { BaseFormWithPolling } from '../../internals';
-import BrowserFeatures from '../../../../util/BrowserFeatures';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import polling from '../shared/polling';
-import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 import OVResendView from './OVResendView';
 import SwitchEnrollChannelLinkView from './SwitchEnrollChannelLinkView';
 import EnrollChannelPollDescriptionView from './EnrollChannelPollDescriptionView';
@@ -37,14 +35,6 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       BaseFormWithPolling.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.stopPolling);
       this.startPolling();
-    },
-    postRender() {
-      BaseFormWithPolling.prototype.postRender.apply(this, arguments);
-
-      if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) &
-        this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
-        this.options.appState.trigger('switchForm', RemediationForms.SELECT_ENROLLMENT_CHANNEL);
-      }
     },
     showMessages() {
       // override showMessages to display custom callout

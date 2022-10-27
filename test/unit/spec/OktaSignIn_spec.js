@@ -7,32 +7,35 @@ import v1Success from 'helpers/xhr/SUCCESS';
 import 'jasmine-ajax';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
-import Widget from 'widget/OktaSignIn';
+import Widget from 'exports/default';
 import V1Router from 'v1/LoginRouter';
 import V1AppState from 'v1/models/AppState';
 import V2AppState from 'v2/models/AppState';
 import Hooks from 'models/Hooks';
+import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
+import RAW_AUTHN_RESPONSE from 'helpers/xhr/SUCCESS';
 
 const url = 'https://foo.com';
 const itp = Expect.itp;
 
-Expect.describe('OktaSignIn initialization', function() {
+describe('OktaSignIn initialization', function() {
   let signIn;
 
-  /* eslint jasmine/no-global-setup:0 */
+  function mockXhr(jsonResponse, status=200) {
+    return {
+      status,
+      responseType: 'json',
+      response: jsonResponse,
+    };
+  }
+
   beforeEach(function() {
-    jasmine.Ajax.install();
-    jasmine.Ajax.stubRequest(/https:\/\/foo.com.*/).andReturn({
-      status: 200,
-      responseText: '',
-    });
     spyOn(Logger, 'warn');
     signIn = new Widget({
       baseUrl: url,
     });
   });
   afterEach(function() {
-    jasmine.Ajax.uninstall();
     $sandbox.empty();
   });
 
@@ -130,18 +133,33 @@ Expect.describe('OktaSignIn initialization', function() {
         });
       });
 
-      it('"useInteractionCodeFlow" without PKCE throws a config error', function() {
+      it('OAuth with interaction code flow without PKCE throws a config error', function() {
         const fn = () => {
           signIn = new Widget({
             baseUrl: url,
-            useInteractionCodeFlow: true,
+            clientId: 'abc',
             authParams: {
               pkce: false
             }
           });
         };
-        expect(fn).toThrowError('The "useInteractionCodeFlow" option requires PKCE to be enabled on the authClient.');
+        expect(fn).toThrowError('OAuth2 with interaction code flow requires PKCE to be enabled on the authClient.');
       });
+
+      it('Classic OAuth flow without PKCE does not throw a config error', function() {
+        const fn = () => {
+          signIn = new Widget({
+            baseUrl: url,
+            clientId: 'abc',
+            useClassicEngine: true,
+            authParams: {
+              pkce: false
+            }
+          });
+        };
+        expect(fn).not.toThrow();
+      });
+
     });
 
     Expect.describe('Session', function() {
@@ -220,7 +238,7 @@ Expect.describe('OktaSignIn initialization', function() {
     });
   });
 
-  Expect.describe('events', function() {
+  describe('events', function() {
     beforeEach(function() {
       spyOn(Logger, 'error');
     });
@@ -228,82 +246,131 @@ Expect.describe('OktaSignIn initialization', function() {
       signIn.remove();
       signIn.off();
     });
-    it('triggers an afterRender event when the Widget renders a page', function(done) {
-      signIn.renderEl({ el: $sandbox });
-      signIn.on('afterRender', function(context) {
-        expect(context).toEqual({ controller: 'primary-auth' });
-        done();
-      });
-    });
 
-    it('triggers a ready event when the Widget renders a page', function(done) {
-      signIn.renderEl({ el: $sandbox });
-      signIn.on('ready', function(context) {
-        expect(context).toEqual({ controller: 'primary-auth' });
-        done();
-      });
-    });
-
-    it('triggers a ready event when the Widget is loaded with a recoveryToken', function(done) {
-      signIn = new Widget({
-        baseUrl: url,
-        recoveryToken: 'foo',
-      });
-      signIn.renderEl({ el: $sandbox });
-      signIn.on('ready', function(context) {
-        expect(context).toEqual({ controller: 'recovery-loading' });
-        done();
-      });
-    });
-    it('triggers a ready event when the Widget is loaded with using idpDiscovery', function(done) {
-      signIn = new Widget({
-        baseUrl: url,
-        features: { idpDiscovery: true },
-      });
-      signIn.renderEl({ el: $sandbox });
-      signIn.on('ready', function(context) {
-        expect(context).toEqual({ controller: 'idp-discovery' });
-        done();
-      });
-    });
-    it('does not trigger a ready event twice', function(done) {
-      signIn.renderEl({ el: '#sandbox' });
-      signIn.on('ready', function(context) {
-        expect(context).toEqual({ controller: 'primary-auth' });
-        // Navigate directly to forgot-password page
-        const forgotPasswordLink = document.getElementsByClassName('link js-forgot-password');
-
-        forgotPasswordLink[0].click();
-      });
-      signIn.on('afterRender', function(context) {
-        if (context.controller === 'forgot-password') {
+    function testEvents(widgetOptions, isOIE) {
+      it('triggers an afterRender event when the Widget renders a page', function(done) {
+        signIn = new Widget(widgetOptions);
+        signIn.renderEl({ el: $sandbox });
+        signIn.on('afterRender', function(context) {
+          expect(context).toMatchObject({ controller: 'primary-auth' });
           done();
-        }
+        });
       });
-    });
-    ['ready', 'afterError', 'afterRender'].forEach(event => {
-      it(`traps third party errors (for ${event} event) in callbacks`, function() {
+
+      it('triggers a ready event when the Widget renders a page', function(done) {
+        signIn = new Widget(widgetOptions);
+        signIn.renderEl({ el: $sandbox });
+        signIn.on('ready', function(context) {
+          expect(context).toMatchObject({ controller: 'primary-auth' });
+          done();
+        });
+      });
+
+      it('triggers a ready event when the Widget is loaded with a recoveryToken', function(done) {
+        // TODO: this feature does not have parity with classic
+        if (isOIE) {
+          done();
+          return;
+        }
+
+        MockUtil.mockAjax([
+          mockXhr(RAW_AUTHN_RESPONSE)
+        ]);
+        
+        signIn = new Widget({
+          ...widgetOptions,
+          recoveryToken: 'foo',
+        });
+        signIn.renderEl({ el: $sandbox });
+        signIn.on('ready', function(context) {
+          expect(context).toMatchObject({ controller: 'recovery-loading' });
+          done();
+        });
+      });
+
+      it('triggers a ready event when the Widget is loaded with using idpDiscovery', function(done) {
+        // TODO: this feature does not have parity with classic
+        if (isOIE) {
+          done();
+          return;
+        }
+        signIn = new Widget({
+          ...widgetOptions,
+          features: { idpDiscovery: true },
+        });
+        signIn.renderEl({ el: $sandbox });
+        signIn.on('ready', function(context) {
+          expect(context).toMatchObject({ controller: 'idp-discovery' });
+          done();
+        });
+      });
+      it('does not trigger a ready event twice', function(done) {
+        // TODO: this feature does not have parity with classic
+        if (isOIE) {
+          done();
+          return;
+        }
+        signIn = new Widget(widgetOptions);
+        signIn.renderEl({ el: '#sandbox' });
+        signIn.on('ready', function(context) {
+          expect(context).toMatchObject({ controller: 'primary-auth' });
+          // Navigate directly to forgot-password page
+          const forgotPasswordLink = document.getElementsByClassName('link js-forgot-password');
+
+          forgotPasswordLink[0].click();
+        });
+        signIn.on('afterRender', function(context) {
+          if (context.controller === 'forgot-password') {
+            done();
+          }
+        });
+      });
+      ['ready', 'afterError', 'afterRender'].forEach(event => {
+        it(`traps third party errors (for ${event} event) in callbacks`, function() {
+          signIn = new Widget(widgetOptions);
+          const mockError = new Error('mockerror');
+          const fn = function() {
+            signIn.on(event, function() {
+              throw mockError;
+            });
+            signIn.trigger(event);
+          };
+          expect(fn).not.toThrowError(mockError);
+          expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
+        });
+      });
+      it('does not trap errors non-registered events', () => {
+        signIn = new Widget(widgetOptions);
         const mockError = new Error('mockerror');
         const fn = function() {
-          signIn.on(event, function() {
+          signIn.on('not-widget-event', function() {
             throw mockError;
           });
-          signIn.trigger(event);
+          signIn.trigger('not-widget-event');
         };
-        expect(fn).not.toThrowError(mockError);
-        expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
+        expect(fn).toThrowError(mockError);
+        expect(Logger.error).not.toHaveBeenCalled();
       });
+    }
+
+    describe('OIE', () => {
+      beforeEach(() => {
+        MockUtil.mockAjax([
+          mockXhr(RAW_IDX_RESPONSE)
+        ]);
+      });
+
+      testEvents( {
+        baseUrl: url,
+        stateToken: 'abc'
+      }, true);
     });
-    it('does not trap errors non-registered events', () => {
-      const mockError = new Error('mockerror');
-      const fn = function() {
-        signIn.on('not-widget-event', function() {
-          throw mockError;
-        });
-        signIn.trigger('not-widget-event');
-      };
-      expect(fn).toThrowError(mockError);
-      expect(Logger.error).not.toHaveBeenCalled();
+
+    describe('Classic', () => {
+      testEvents({
+        baseUrl: url,
+        useClassicEngine: true
+      });
     });
   });
 });
@@ -325,6 +392,7 @@ describe('OktaSignIn object API', function() {
   function createWidget(options = {}) {
     signIn = new Widget(Object.assign({
       baseUrl: url,
+      useClassicEngine: true, // TODO: also test these features with OIE
       features: {
         router: true,
       },
@@ -626,7 +694,7 @@ describe('OktaSignIn object API', function() {
 
     describe('after render v2', () => {
       beforeEach(() => {
-        createWidget({ stateToken: 'fakeV2Token' });
+        createWidget({ stateToken: 'fakeV2Token', useClassicEngine: false });
         signIn.renderEl({ el: $sandbox });
       });
       it('returns result from appState', () => {

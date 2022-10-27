@@ -62,7 +62,15 @@ In summary, testcafe tests are using playground application but not mock sever. 
 
 ## Testing minified CDN bundle
 
-Run `yarn build:webpack-release` to generate CDN bundle. Open `http://localhost:3000/cdn.html` to test the minified bundle loads and renders correctly. Saucelabs tunnel can be used to test in IE11. Although you can use mocks via responseConfig, the `.widgetrc.js` file will not be loaded. Configuration can be edited directly in `cdn.html`. 
+Run `yarn build:webpack-release` to generate CDN bundle (this can be run with the `--watch` flag). Open `http://localhost:3000/cdn.html` to test the minified bundle loads and renders correctly. Saucelabs tunnel can be used to test in IE11. Although you can use mocks via responseConfig, the `.widgetrc.js` file will not be loaded. Configuration can be edited directly in `cdn.html`. Before starting the playground set `DISABLE_CSP` environment variable.
+
+```
+DISABLE_CSP=1 yarn start
+```
+
+## Testing on IE11
+
+Follow instructions for [Testing minified CDN bundle](#testing-minified-cdn-bundle).
 
 ## Some thoughts on enhancement
 
