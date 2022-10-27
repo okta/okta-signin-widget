@@ -73,14 +73,6 @@ describe('Enroll Profile Transformer Tests', () => {
         inputMeta: { name: 'credentials.passcode', secret: true },
       },
     } as FieldElement);
-    transaction.nextStep = {
-      name: '',
-      relatesTo: {
-        value: {
-          settings: {},
-        } as unknown as IdxAuthenticator,
-      },
-    };
     const mockUserInfo = {
       identifier: 'testuser@okta.com',
       profile: { firstName: 'test', lastName: 'user' },
@@ -124,11 +116,19 @@ describe('Enroll Profile Transformer Tests', () => {
     } as FieldElement);
     transaction.nextStep = {
       name: '',
-      relatesTo: {
-        value: {
-          settings: { complexity: { minNumber: 1, minSymbol: 1 } },
-        } as unknown as IdxAuthenticator,
-      },
+      inputs: [
+        { name: 'userProfile', value: [] },
+        {
+          name: 'credentials',
+          value: [],
+          // @ts-ignore OKTA-545082 relatesTo prop missing from Input interface
+          relatesTo: {
+            value: {
+              settings: { complexity: { minNumber: 1, minSymbol: 1 } },
+            } as unknown as IdxAuthenticator,
+          },
+        },
+      ],
     };
     const mockUserInfo = {
       identifier: 'testuser@okta.com',

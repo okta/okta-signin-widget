@@ -63,7 +63,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     }
     const credentialsInput = inputs?.find((input) => input.name === 'credentials');
     const passwordSettings = (
-      // @ts-ignore relatesTo prop missing from Input interface
+      // @ts-ignore OKTA-545082 relatesTo prop missing from Input interface
       credentialsInput?.relatesTo?.value?.settings || {}
     ) as PasswordRequirementsData;
     const passwordRequirementsElement: PasswordRequirementsElement = {
