@@ -75,7 +75,8 @@ class TestAppPage {
       //await this.open('', config);
       await browser.url(`${WIDGET_TEST_SERVER}`);
       await this.open('', config);
-      await waitForLoad(this.configEditor);
+      // await waitForLoad(this.configEditor);
+      await browser.reloadSession();
     }
   }
 
