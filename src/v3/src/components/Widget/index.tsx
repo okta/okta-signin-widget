@@ -276,7 +276,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       dataSchemaRef,
       loading,
       setLoading,
-      widgetRendered,
       setWidgetRendered,
     }}
     >

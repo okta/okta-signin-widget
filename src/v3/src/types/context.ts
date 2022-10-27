@@ -40,6 +40,5 @@ export type IWidgetContext = {
   dataSchemaRef: MutableRef<FormBag['dataSchema'] | undefined>;
   loading: boolean;
   setLoading: StateUpdater<boolean>;
-  widgetRendered: boolean;
   setWidgetRendered: StateUpdater<boolean>;
 };

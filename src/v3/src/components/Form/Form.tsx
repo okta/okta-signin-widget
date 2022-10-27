@@ -30,7 +30,6 @@ const Form: FunctionComponent<{
     idxTransaction: currTransaction,
     setMessage,
     dataSchemaRef,
-    widgetRendered,
     setWidgetRendered,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
