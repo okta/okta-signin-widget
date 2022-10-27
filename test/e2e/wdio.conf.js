@@ -54,7 +54,7 @@ const conf = {
     // will be called from there.
     //
     specs: [
-        path.resolve(__dirname, 'specs/**/*.e2e.js')
+        path.resolve(__dirname, 'specs/**/oidc.e2e.js')
     ],
     // Patterns to exclude.
     exclude: [
@@ -249,7 +249,10 @@ if (process.env.MOBILE_BROWSER_TESTS) {
           acceptUntrustedCertificates: true,
           "ie.ensureCleanSession": true
       },
-      timeouts: { "implicit": 20_000 }
+      timeouts: { "implicit": 20_000 },
+      'sauce:options': {
+        extendedDebugging: true
+      }
     },
     {
       platformName: 'iOS',
