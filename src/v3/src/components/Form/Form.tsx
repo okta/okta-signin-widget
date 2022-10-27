@@ -76,7 +76,15 @@ const Form: FunctionComponent<{
       params,
       step,
     });
-  }, [currTransaction, data, dataSchemaRef, onSubmitHandler, onValidationHandler, setMessage, setWidgetRendered]);
+  }, [
+    currTransaction,
+    data,
+    dataSchemaRef,
+    onSubmitHandler,
+    onValidationHandler,
+    setMessage,
+    setWidgetRendered,
+  ]);
 
   return (
     <form
