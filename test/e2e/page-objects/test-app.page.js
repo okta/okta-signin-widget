@@ -62,8 +62,15 @@ class TestAppPage {
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     } catch (err) {
       console.log('unable to locate config editor ');
-      console.log(await browser.getPageSource());
-      await (await this.resetConfigButton).click();
+      const result = await browser.execute(() => {
+        return document.getElementsByTagName('body')[0].innerHTML;
+      });
+      // node.js context - client and console are available
+      console.log(result); // outputs: 10
+      // console.log(await browser.getPageSource());
+      //await (await this.resetConfigButton).click();
+      //await this.open('', config);
+      await browser.url(`${WIDGET_TEST_SERVER}`);
       await this.open('', config);
     }
   }
