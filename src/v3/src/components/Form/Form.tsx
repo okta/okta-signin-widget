@@ -37,7 +37,7 @@ const Form: FunctionComponent<{
 
   useEffect(() => {
     setWidgetRendered(true);
-  }, [currTransaction]);
+  }, [currTransaction, setWidgetRendered]);
 
   const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();
@@ -76,7 +76,7 @@ const Form: FunctionComponent<{
       params,
       step,
     });
-  }, [currTransaction, data, dataSchemaRef, onSubmitHandler, onValidationHandler, setMessage]);
+  }, [currTransaction, data, dataSchemaRef, onSubmitHandler, onValidationHandler, setMessage, setWidgetRendered]);
 
   return (
     <form
