@@ -90,6 +90,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
 
   useEffect(() => {
     // If we need to load a language (or apply custom i18n overrides), do
@@ -240,7 +241,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
     const { messages: newMessages = [] } = idxTransaction;
 
-    events?.afterRender?.(getEventContext(idxTransaction));
+    if (widgetRendered && typeof idxTransaction !== 'undefined') {
+      events?.afterRender?.(getEventContext(idxTransaction));
+    }
 
     // for multiple error messages
     newMessages?.forEach((newMessage) => {
@@ -254,7 +257,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idxTransaction, bootstrap]);
+  }, [widgetRendered, idxTransaction]);
 
   return (
     <WidgetContextProvider value={{
@@ -273,6 +276,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       dataSchemaRef,
       loading,
       setLoading,
+      setWidgetRendered,
     }}
     >
       {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}
