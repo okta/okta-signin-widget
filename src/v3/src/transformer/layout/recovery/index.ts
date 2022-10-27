@@ -11,3 +11,4 @@
  */
 
 export * from './transformIdentityRecovery';
+export * from './transformRequestActivation';

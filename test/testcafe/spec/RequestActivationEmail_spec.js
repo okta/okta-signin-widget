@@ -30,7 +30,7 @@ const activationEmailUserSuspendedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrUserSuspended);
 
-fixture('Activation Email');
+fixture('Activation Email').meta('v3', true);
 
 async function setup(t) {
   const requestActivaitonEmailPage = new RequestActivationEmailPageObject(t);
@@ -56,7 +56,7 @@ test.requestHooks(requestActivationEmailMock)('should render error with action b
 
   await requestActivationEmailPage.clickRequestActivationEmailButton();
   await t.expect(requestActivationEmailPage.getFormTitle()).eql('Request submitted');
-  await t.expect(requestActivationEmailPage.getContent()).eql('New activation link requested. If your information matches our records, you will receive a new activation link in your inbox soon.');
+  await t.expect(requestActivationEmailPage.hasText('New activation link requested. If your information matches our records, you will receive a new activation link in your inbox soon.')).eql(true);
 });
 
 test.requestHooks(activationEmailInvalidTokenMock)('should render error if activation is link invalid', async t => {
