@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, Selector } from 'testcafe';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrInternalServerError from '../../../playground/mocks/data/idp/idx/error-internal-server-error';
@@ -22,6 +22,7 @@ fixture('Introspect')
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
+  await t.expect(Selector('form').exists).eql(true);
   await checkConsoleMessages({
     controller: null,
     formName: 'terminal',
