@@ -27,7 +27,7 @@ class TestAppPage {
   get flowDropdown() { return $('#f_flow'); }
 
   
-  async open(path = '') {
+  async open(path = '', config = {}) {
     const extraConfig = {};
 
     if (BUNDLE) {
@@ -39,7 +39,10 @@ class TestAppPage {
 
     let queryStr = '';
     if (Object.keys(extraConfig).length > 0) {
-      const configStr = encodeURIComponent(JSON.stringify(extraConfig));
+      const configStr = encodeURIComponent(JSON.stringify({
+        ...extraConfig,
+        ...config
+      }));
       queryStr = `?config=${configStr}`;
     }
     const url = `http://localhost:3000/${path}${queryStr}`;
@@ -59,9 +62,7 @@ class TestAppPage {
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     } catch (err) {
       console.log('unable to locate config editor');
-      //await this.open();
-      await this.flowDropdown.selectByVisibleText('default');
-      await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
+      await this.open('', config);
     }
   }
 
