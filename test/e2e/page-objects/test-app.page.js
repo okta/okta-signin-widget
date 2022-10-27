@@ -62,8 +62,7 @@ class TestAppPage {
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     } catch (err) {
       console.log('unable to locate config editor ');
-      const html = await $('html').getHTML();
-      console.log(html);
+      console.log(await browser.getPageSource());
       await (await this.resetConfigButton).click();
       await this.open('', config);
     }
