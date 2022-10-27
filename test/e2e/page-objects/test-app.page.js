@@ -59,8 +59,6 @@ class TestAppPage {
 
   async setConfig(config) {
     try {
-      const result = await browser.getPageSource();
-      console.log(result);
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     } catch (err) {
 
@@ -68,6 +66,7 @@ class TestAppPage {
       const result = await browser.execute(() => {
         return document.getElementsByTagName('body')[0].innerHTML;
       });
+      console.log(await browser.getPageSource());
       // node.js context - client and console are available
       console.log(result); // outputs: 10
       // console.log(await browser.getPageSource());
