@@ -8231,9 +8231,9 @@ iconv-lite@^0.6.3:
   dependencies:
     safer-buffer ">= 2.1.2 < 3.0.0"
 
-"iedriver@git+https://github.com/barretts/node-iedriver.git":
+"iedriver@https://github.com/barretts/node-iedriver":
   version "4.0.0"
-  resolved "git+https://github.com/barretts/node-iedriver.git#0cf00508787e60645355fa5b23233a40b3ea0181"
+  resolved "https://github.com/barretts/node-iedriver#0cf00508787e60645355fa5b23233a40b3ea0181"
   dependencies:
     extract-zip "1.7.0"
     kew "~0.1.7"
