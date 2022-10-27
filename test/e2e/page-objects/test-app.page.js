@@ -6,6 +6,7 @@ const { WIDGET_TEST_SERVER, BUNDLE, USE_MIN } = process.env;
 class TestAppPage {
   get widget() { return $('#okta-sign-in'); }
   get configEditor() { return $('#config-editor'); }
+  get resetConfigButton() { return $('#resetConfig'); }
   get tokens() { return $('#tokens-container'); }
   get code() { return $('#code-container'); }
   get cspErrors() { return $('#csp-errors-container'); }
@@ -28,7 +29,9 @@ class TestAppPage {
 
   
   async open(path = '', config = {}) {
-    const extraConfig = {};
+    const extraConfig = {
+      ...config
+    };
 
     if (BUNDLE) {
       extraConfig.bundle = BUNDLE;
@@ -39,10 +42,7 @@ class TestAppPage {
 
     let queryStr = '';
     if (Object.keys(extraConfig).length > 0) {
-      const configStr = encodeURIComponent(JSON.stringify({
-        ...extraConfig,
-        ...config
-      }));
+      const configStr = encodeURIComponent(JSON.stringify(config));
       queryStr = `?config=${configStr}`;
     }
     const url = `http://localhost:3000/${path}${queryStr}`;
@@ -62,6 +62,9 @@ class TestAppPage {
       await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
     } catch (err) {
       console.log('unable to locate config editor');
+      const html = await $('html').getHTML();
+      console.log(html);
+      await (await this.resetConfigButton).click();
       await this.open('', config);
     }
   }
