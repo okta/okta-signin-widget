@@ -218,3 +218,10 @@ Given(
     await waitForLoad(TestAppPage.widget);
   }
 );
+
+Given(
+  /^page is rendered$/,
+  async function() {
+    // no -op
+  }
+);
