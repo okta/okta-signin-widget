@@ -16,6 +16,8 @@ module.exports = function({
   outputFilename,
   mode = 'development',
   engine = '',
+  outputLibrary = 'OktaSignIn',
+  outputLibraryTarget = 'umd',
   cdn = true
 }) {
 
@@ -63,8 +65,7 @@ module.exports = function({
     output: {
       path: TARGET_JS,
       filename: outputFilename,
-      library: 'OktaSignIn',
-      libraryTarget: 'umd'
+      libraryTarget: outputLibraryTarget
     },
     resolve: {
       // conditionNames: ['import', 'browser'],
@@ -126,6 +127,10 @@ module.exports = function({
 
     optimization: {}
   };
+
+  if (outputLibrary) {
+    webpackConfig.output.library = outputLibrary;
+  }
 
   if (mode !== 'development') {
     const optimization = {

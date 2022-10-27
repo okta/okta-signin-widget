@@ -53,7 +53,8 @@ let entries = {
   'polyfill': {
     entry: './polyfill/index.js',
     outputFilename: 'okta-sign-in.polyfill.min.js',
-    analyzerFile: 'okta-sign-in.polyfill.min.analyzer'
+    analyzerFile: 'okta-sign-in.polyfill.min.analyzer',
+    outputLibrary: null
   },
   // 6. plugins: a11y
   'a11y': {
@@ -78,15 +79,12 @@ const configs = Object.keys(entries).map(entryName => {
     mode: 'production',
     entry,
     outputFilename,
+    outputLibrary,
     engine
   });
 
   if (analyzerFile) {
     entryConfig.plugins = plugins({ isProduction: true, analyzerFile });
-  }
-
-  if (outputLibrary) {
-    entryConfig.output.library = outputLibrary;
   }
 
   if (includeRuntime) {
