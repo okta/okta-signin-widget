@@ -35,6 +35,7 @@ import {
   transformPhoneVerification,
 } from '../phone';
 import { transformEnrollProfile } from '../profile';
+import { transformEnrollProfileUpdate } from '../profile/transformEnrollProfileUpdate';
 import {
   transformSelectAuthenticatorEnroll,
   transformSelectAuthenticatorUnlockVerify,
@@ -191,6 +192,12 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformEnrollProfile,
       buttonConfig: { showDefaultSubmit: false, showDefaultCancel: false },
+    },
+  },
+  [IDX_STEP.ENROLL_PROFILE_UPDATE]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformEnrollProfileUpdate,
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.IDENTIFY]: {

@@ -33,6 +33,9 @@ jest.mock('./transformQRCode', () => ({
 jest.mock('./transformIdentifierHint', () => ({
   transformIdentifierHint: () => () => ({}),
 }));
+jest.mock('./transformSecondEmailInputExplain', () => ({
+  transformSecondEmailInputExplain: () => () => ({}),
+}));
 jest.mock('./transformPasscodeHint', () => ({
   transformPasscodeHint: () => () => ({}),
 }));
@@ -48,6 +51,7 @@ const mocked = {
   phoneAuthenticator: require('./transformPhoneAuthenticator'),
   qrCode: require('./transformQRCode'),
   identifierHint: require('./transformIdentifierHint'),
+  secondEmailExplain: require('./transformSecondEmailInputExplain'),
   passcodeHint: require('./transformPasscodeHint'),
   webAuthN: require('./transformWebAuthNSubmitButton'),
 };
@@ -61,6 +65,7 @@ describe('i18n Transformer Tests', () => {
     jest.spyOn(mocked.phoneAuthenticator, 'transformPhoneAuthenticator');
     jest.spyOn(mocked.qrCode, 'transformQRCode');
     jest.spyOn(mocked.identifierHint, 'transformIdentifierHint');
+    jest.spyOn(mocked.secondEmailExplain, 'transformSecondEmailInputExplain');
     jest.spyOn(mocked.passcodeHint, 'transformPasscodeHint');
     jest.spyOn(mocked.webAuthN, 'transformWebAuthNSubmitButton');
 
@@ -80,6 +85,7 @@ describe('i18n Transformer Tests', () => {
     expect(mocked.phoneAuthenticator.transformPhoneAuthenticator).toHaveBeenCalled();
     expect(mocked.qrCode.transformQRCode).toHaveBeenCalled();
     expect(mocked.identifierHint.transformIdentifierHint).toHaveBeenCalled();
+    expect(mocked.secondEmailExplain.transformSecondEmailInputExplain).toHaveBeenCalled();
     expect(mocked.passcodeHint.transformPasscodeHint).toHaveBeenCalled();
     expect(mocked.webAuthN.transformWebAuthNSubmitButton).toHaveBeenCalled();
   });

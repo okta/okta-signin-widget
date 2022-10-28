@@ -20,6 +20,7 @@ import { transformInputPassword } from './transformInputPassword';
 import { transformPasscodeHint } from './transformPasscodeHint';
 import { transformPhoneAuthenticator } from './transformPhoneAuthenticator';
 import { transformQRCode } from './transformQRCode';
+import { transformSecondEmailInputExplain } from './transformSecondEmailInputExplain';
 import { transformWebAuthNSubmitButton } from './transformWebAuthNSubmitButton';
 
 export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) => flow(
@@ -30,5 +31,6 @@ export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) 
   transformQRCode,
   transformIdentifierHint(options),
   transformPasscodeHint(options),
+  transformSecondEmailInputExplain(options),
   transformWebAuthNSubmitButton(options),
 )(formbag);
