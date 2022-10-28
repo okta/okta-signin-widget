@@ -247,7 +247,7 @@ export default class BaseFormObject {
 
   hasTextBoxErrorMessage(fieldName, index = undefined) {
     if (userVariables.v3) {
-      return this.el.find(`#${fieldName}-error${index !== undefined ? '-' + index : ''}`).exists;
+      return this.el.find(`[id="${fieldName}-error${index !== undefined ? '-' + index : ''}"]`).exists;
     }
 
     const selectContainer = this.findFormFieldInput(fieldName)

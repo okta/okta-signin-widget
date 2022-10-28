@@ -249,7 +249,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
   // Verify error handling
   await enrollProfilePage.form.waitForErrorBox();
 
-  await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email')).eql(true);
+  await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email', 0)).eql(true);
   await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
     .eql('Password requirements were not met');
 });
