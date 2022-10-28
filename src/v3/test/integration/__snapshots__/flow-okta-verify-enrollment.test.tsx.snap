@@ -329,6 +329,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     </label>
                     <div
                       class="MuiFormGroup-root emotion-17"
+                      data-se="authenticator.channel"
                       id="authenticator.channel"
                       role="radiogroup"
                     >
@@ -1085,6 +1086,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     </label>
                     <div
                       class="MuiFormGroup-root emotion-17"
+                      data-se="authenticator.channel"
                       id="authenticator.channel"
                       role="radiogroup"
                     >
@@ -1756,6 +1758,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     </label>
                     <div
                       class="MuiFormGroup-root emotion-17"
+                      data-se="authenticator.channel"
                       id="authenticator.channel"
                       role="radiogroup"
                     >
@@ -3781,6 +3784,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     </label>
                     <div
                       class="MuiFormGroup-root emotion-17"
+                      data-se="authenticator.channel"
                       id="authenticator.channel"
                       role="radiogroup"
                     >

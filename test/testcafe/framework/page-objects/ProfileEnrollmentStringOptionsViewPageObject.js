@@ -21,6 +21,10 @@ export default class ProfileEnrollmentStringOptionsViewPageObject extends BasePa
     return this.form.clickSaveButton();
   }
 
+  clickSignUpButton() {
+    return this.form.clickSaveButton('Sign Up');
+  }
+
   fillEmailField(value) {
     return this.form.setTextBoxValue('userProfile.email', value);
   }
@@ -35,5 +39,9 @@ export default class ProfileEnrollmentStringOptionsViewPageObject extends BasePa
 
   fillOptionalField(value) {
     return this.form.setTextBoxValue('userProfile.string1', value);
+  }
+
+  dropDownFieldByLabelExists(label) {
+    return this.form.fieldByLabelExists(label, { selector: 'select' });
   }
 }
