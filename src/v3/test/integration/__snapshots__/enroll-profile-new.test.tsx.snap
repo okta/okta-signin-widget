@@ -223,7 +223,7 @@ exports[`enroll-profile-new should render form 1`] = `
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-40"
-                        data-se="o-form-explain"
+                        data-se="haveaccount"
                       >
                         Already have an account?
                       </p>

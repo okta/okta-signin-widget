@@ -12,7 +12,6 @@
 
 import {
   FormControl,
-  FormHelperText,
   InputLabel,
   Select as MuiSelect,
   SelectChangeEvent,
@@ -26,14 +25,16 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
+import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
 const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
   setTouched,
-  error,
-  setError,
+  errors,
+  setErrors,
   onValidateHandler,
+  describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -48,6 +49,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
     customOptions,
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
+  const hasErrors = typeof errors !== 'undefined';
 
   const handleChange = (e: SelectChangeEvent<string>) => {
     setTouched?.(true);
@@ -55,13 +57,13 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
     );
     onChangeHandler(selectTarget.value);
-    onValidateHandler?.(setError, selectTarget.value);
+    onValidateHandler?.(setErrors, selectTarget.value);
   };
 
   return (
     <FormControl
       disabled={loading}
-      error={error !== undefined}
+      error={hasErrors}
       required={required}
     >
       <InputLabel htmlFor={name}>{label}</InputLabel>
@@ -72,7 +74,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         value={value as string}
         inputProps={{
           'data-se': name,
-          'aria-describedby': error && `${name}-error`,
+          'aria-describedby': describedByIds,
           name,
           id: name,
           ...attributes,
@@ -99,15 +101,11 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
           )
         }
       </MuiSelect>
-      {error && (
-        <FormHelperText
-          id={`${name}-error`}
-          role="alert"
-          data-se={`${name}-error`}
-          error
-        >
-          {error}
-        </FormHelperText>
+      {hasErrors && (
+        <FieldErrorContainer
+          errors={errors}
+          fieldName={name}
+        />
       )}
     </FormControl>
   );

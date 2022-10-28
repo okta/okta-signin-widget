@@ -19,28 +19,29 @@ import { DataSchema, FieldElement } from '../types';
 export const useFormFieldValidation = (
   uischema: FieldElement,
 ): (
-  setError?: StateUpdater<string | undefined>, value?: string | boolean | number
+  setErrors?: StateUpdater<string[] | undefined>, value?: string | boolean | number
   ) => void => {
   const { name } = uischema.options.inputMeta;
   const { dataSchemaRef, data } = useWidgetContext();
 
   return useCallback((
-    setError?: StateUpdater<string | undefined>,
+    setErrors?: StateUpdater<string[] | undefined>,
     value?: string | boolean | number,
   ) => {
     const validator = dataSchemaRef.current?.[name] as DataSchema;
     if (typeof validator?.validate === 'function') {
       const updatedData = { ...data, ...(value !== undefined && { [name]: value }) };
       const messages = validator.validate({ ...updatedData });
-      const matchingMessage = messages?.find(
-        (message) => message.name === undefined || message.name === name,
+      const matchingMessages = messages?.filter(
+        (message) => (message.name === undefined || message.name === name) && message.i18n?.key,
       );
-      if (matchingMessage?.i18n?.key) {
+      if (matchingMessages?.length) {
         // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
-        setError?.(getMessage(matchingMessage));
+        const translatedMessages: string[] = matchingMessages.map((message) => getMessage(message));
+        setErrors?.(translatedMessages);
         return;
       }
     }
-    setError?.(undefined);
+    setErrors?.(undefined);
   }, [data, dataSchemaRef, name]);
 };

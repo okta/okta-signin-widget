@@ -128,14 +128,18 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </legend>
                       </fieldset>
                     </div>
-                    <p
-                      class="MuiFormHelperText-root Mui-error emotion-22"
-                      data-se="userProfile.firstName-error"
-                      id="userProfile.firstName-error"
-                      role="alert"
+                    <div
+                      class="MuiBox-root emotion-15"
                     >
-                      This field cannot be left blank
-                    </p>
+                      <p
+                        class="MuiFormHelperText-root Mui-error emotion-23"
+                        data-se="userProfile.firstName-error"
+                        id="userProfile.firstName-error"
+                        role="alert"
+                      >
+                        This field cannot be left blank
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -185,14 +189,18 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </legend>
                       </fieldset>
                     </div>
-                    <p
-                      class="MuiFormHelperText-root Mui-error emotion-22"
-                      data-se="userProfile.lastName-error"
-                      id="userProfile.lastName-error"
-                      role="alert"
+                    <div
+                      class="MuiBox-root emotion-15"
                     >
-                      This field cannot be left blank
-                    </p>
+                      <p
+                        class="MuiFormHelperText-root Mui-error emotion-23"
+                        data-se="userProfile.lastName-error"
+                        id="userProfile.lastName-error"
+                        role="alert"
+                      >
+                        This field cannot be left blank
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -243,24 +251,28 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </legend>
                       </fieldset>
                     </div>
-                    <p
-                      class="MuiFormHelperText-root Mui-error emotion-22"
-                      data-se="userProfile.email-error"
-                      id="userProfile.email-error"
-                      role="alert"
+                    <div
+                      class="MuiBox-root emotion-15"
                     >
-                      This field cannot be left blank
-                    </p>
+                      <p
+                        class="MuiFormHelperText-root Mui-error emotion-23"
+                        data-se="userProfile.email-error"
+                        id="userProfile.email-error"
+                        role="alert"
+                      >
+                        This field cannot be left blank
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiFormControl-root MuiFormControl-marginNormal emotion-42"
+                    class="MuiFormControl-root MuiFormControl-marginNormal emotion-45"
                   >
                     <label
-                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error Mui-required emotion-43"
+                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error Mui-required emotion-46"
                       for="userProfile.country"
                     >
                       Country
@@ -273,12 +285,12 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-45"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-48"
                     >
                       <select
                         aria-describedby="userProfile.country-error"
                         aria-invalid="true"
-                        class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-46"
+                        class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-49"
                         data-se="userProfile.country"
                         id="userProfile.country"
                         name="userProfile.country"
@@ -1497,7 +1509,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </select>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-47"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-50"
                         data-testid="ArrowDropDownIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -1521,14 +1533,18 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </legend>
                       </fieldset>
                     </div>
-                    <p
-                      class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-required emotion-22"
-                      data-se="userProfile.country-error"
-                      id="userProfile.country-error"
-                      role="alert"
+                    <div
+                      class="MuiBox-root emotion-15"
                     >
-                      This field cannot be left blank
-                    </p>
+                      <p
+                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-required emotion-23"
+                        data-se="userProfile.country-error"
+                        id="userProfile.country-error"
+                        role="alert"
+                      >
+                        This field cannot be left blank
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -1577,14 +1593,18 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </legend>
                       </fieldset>
                     </div>
-                    <p
-                      class="MuiFormHelperText-root Mui-error emotion-22"
-                      data-se="userProfile.countryCode-error"
-                      id="userProfile.countryCode-error"
-                      role="alert"
+                    <div
+                      class="MuiBox-root emotion-15"
                     >
-                      This field cannot be left blank
-                    </p>
+                      <p
+                        class="MuiFormHelperText-root Mui-error emotion-23"
+                        data-se="userProfile.countryCode-error"
+                        id="userProfile.countryCode-error"
+                        role="alert"
+                      >
+                        This field cannot be left blank
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -1633,21 +1653,25 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </legend>
                       </fieldset>
                     </div>
-                    <p
-                      class="MuiFormHelperText-root Mui-error emotion-22"
-                      data-se="userProfile.timezone-error"
-                      id="userProfile.timezone-error"
-                      role="alert"
+                    <div
+                      class="MuiBox-root emotion-15"
                     >
-                      This field cannot be left blank
-                    </p>
+                      <p
+                        class="MuiFormHelperText-root Mui-error emotion-23"
+                        data-se="userProfile.timezone-error"
+                        id="userProfile.timezone-error"
+                        role="alert"
+                      >
+                        This field cannot be left blank
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-70"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-76"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -1659,11 +1683,11 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-11"
                 >
                   <hr
-                    class="MuiDivider-root MuiDivider-fullWidth emotion-72"
+                    class="MuiDivider-root MuiDivider-fullWidth emotion-78"
                   />
                 </div>
                 <div
-                  class="MuiBox-root emotion-73"
+                  class="MuiBox-root emotion-79"
                 >
                   <div
                     class="MuiBox-root emotion-11"
@@ -1672,8 +1696,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiBox-root emotion-12"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-76"
-                        data-se="o-form-explain"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-82"
+                        data-se="haveaccount"
                       >
                         Already have an account?
                       </p>
@@ -1683,7 +1707,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-78"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-84"
                       data-se="back"
                       href="javascript:void(0)"
                     >
@@ -3287,7 +3311,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-65"
-                        data-se="o-form-explain"
+                        data-se="haveaccount"
                       >
                         Already have an account?
                       </p>

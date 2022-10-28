@@ -10,31 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Typography } from '@mui/material';
-import { h } from 'preact';
-
-import { DescriptionElement, UISchemaElementComponent } from '../../types';
-
-const InformationalText: UISchemaElementComponent<{
-  uischema: DescriptionElement
-}> = ({
-  uischema,
-}) => {
-  const { content, dataSe } = uischema.options;
-
-  return (
-    <Box
-      display="flex"
-      justifyContent="flex-start"
-    >
-      <Typography
-        paragraph
-        data-se={dataSe || 'o-form-explain'}
-      >
-        {content}
-      </Typography>
-    </Box>
-  );
+export const buildErrorMessageIds = (errors: string[], fieldName: string): string => {
+  if (errors.length === 1) {
+    return `${fieldName}-error`;
+  }
+  const ids = errors.map((_: string, index: number) => `${fieldName}-error-${index}`);
+  return ids.join(' ');
 };
-
-export default InformationalText;

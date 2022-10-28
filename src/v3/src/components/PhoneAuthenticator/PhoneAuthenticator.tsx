@@ -12,7 +12,6 @@
 
 import {
   Box,
-  FormHelperText,
   InputAdornment,
   InputLabel,
   OutlinedInput,
@@ -37,14 +36,16 @@ import {
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
+import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
 const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
   setTouched,
-  error,
-  setError,
+  errors,
+  setErrors,
   onValidateHandler,
+  describedByIds,
 }) => {
   const { data, dataSchemaRef, loading } = useWidgetContext();
   const {
@@ -74,6 +75,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const showExtension = methodType === 'voice';
   const onChangeHandler = useOnChange(uischema);
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
+  const phoneHasErrors = typeof errors !== 'undefined';
 
   const formatPhone = (
     phoneNumber: string,
@@ -104,7 +106,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   useEffect(() => {
     const formattedPhone = formatPhone(phone, phoneCode, extension);
     onChangeHandler(formattedPhone);
-    onValidateHandler?.(setError, formattedPhone);
+    onValidateHandler?.(setErrors, formattedPhone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phoneCode, phone, extension, showExtension]);
 
@@ -199,7 +201,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             type="tel"
             name={fieldName}
             id={fieldName}
-            error={error !== undefined}
+            error={phoneHasErrors}
             disabled={loading}
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               // Set new phone value without phone code
@@ -217,19 +219,15 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             fullWidth
             inputProps={{
               'data-se': fieldName,
-              'aria-describedby': error && `${fieldName}-error`,
+              'aria-describedby': describedByIds,
               ...attributes,
             }}
           />
-          {!!error && (
-            <FormHelperText
-              id={`${fieldName}-error`}
-              role="alert"
-              data-se={`${fieldName}-error`}
-              error
-            >
-              {error}
-            </FormHelperText>
+          {phoneHasErrors && (
+            <FieldErrorContainer
+              errors={errors}
+              fieldName={fieldName}
+            />
           )}
         </Box>
         { renderExtension() }

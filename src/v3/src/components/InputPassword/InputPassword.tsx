@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, FormHelperText } from '@mui/material';
+import { Box } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
@@ -22,14 +22,16 @@ import {
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
+import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
 const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
   setTouched,
-  error,
-  setError,
+  errors,
+  setErrors,
   onValidateHandler,
+  describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -41,12 +43,13 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     inputMeta: { name },
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
+  const hasErrors = typeof errors !== 'undefined';
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const changedVal = e.currentTarget.value;
     setTouched?.(true);
     onChangeHandler(changedVal);
-    onValidateHandler?.(setError, changedVal);
+    onValidateHandler?.(setErrors, changedVal);
   };
 
   return (
@@ -59,26 +62,22 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         value={value}
         name={name}
         id={name}
-        error={error !== undefined}
+        error={hasErrors}
         onChange={handleChange}
         disabled={loading}
         fullWidth
         inputProps={{
           'data-se': name,
-          'aria-describedby': error && `${name}-error`,
+          'aria-describedby': describedByIds,
           ...attributes,
         }}
         ref={focusRef}
       />
-      {error && (
-        <FormHelperText
-          id={`${name}-error`}
-          role="alert"
-          data-se={`${name}-error`}
-          error
-        >
-          {error}
-        </FormHelperText>
+      {hasErrors && (
+        <FieldErrorContainer
+          errors={errors}
+          fieldName={name}
+        />
       )}
     </Box>
 

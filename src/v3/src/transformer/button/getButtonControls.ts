@@ -21,9 +21,9 @@ import {
   ButtonType,
   DescriptionElement,
   LinkElement,
-  OktaWidgetFeatures,
   UISchemaElement,
   UISchemaLayoutType,
+  WidgetProps,
 } from '../../types';
 import { loc, shouldShowCancelLink } from '../../util';
 
@@ -40,7 +40,7 @@ interface GetButtonControlsArgs {
   stepWithUnlockAccount?: boolean;
   verifyWithOther?: boolean;
   backToAuthList?: boolean;
-  features?: OktaWidgetFeatures;
+  widgetProps?: WidgetProps;
 }
 
 export const getButtonControls = (
@@ -146,6 +146,7 @@ export const getButtonControls = (
 
   const registerStep = getButtonStep(IDX_STEP.SELECT_ENROLL_PROFILE);
   if (config.stepWithRegister && registerStep) {
+    const { registration } = config.widgetProps || {};
     elements.push({
       type: 'Divider',
     });
@@ -157,6 +158,9 @@ export const getButtonControls = (
         step,
       },
     };
+    if (typeof registration?.click === 'function') {
+      registerLink.options.onClick = registration?.click;
+    }
     const registrationLabel: DescriptionElement = {
       type: 'Description',
       options: {
@@ -172,7 +176,7 @@ export const getButtonControls = (
   }
 
   const cancelStep = getButtonStep('cancel');
-  if (config.stepWithCancel && cancelStep && shouldShowCancelLink(config.features)) {
+  if (config.stepWithCancel && cancelStep && shouldShowCancelLink(config.widgetProps?.features)) {
     const { name: step } = cancelStep;
     const cancel: LinkElement = {
       type: 'Link',
