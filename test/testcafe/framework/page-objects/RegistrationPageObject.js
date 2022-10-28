@@ -100,15 +100,10 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   alreadyHaveAccountExists() {
-    const text = 'Already have an account?';
     if (userVariables.v3) {
-      return this.form.getByText(text).exists;
+      return this.form.getByText('Already have an account?').exists;
     }
     return Selector(BACK).exists;
-  }
-
-  formFieldExistsByLabel(label) {
-    return this.form.getByLabelText(label).exists;
   }
 
   terminalMessageExist(message) {
