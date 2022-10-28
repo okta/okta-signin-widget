@@ -246,6 +246,6 @@ export default class BasePageObject {
   }
 
   hasText(text) {
-    return this.form.getTextElement(text).exists;
+    return this.form.getByText(text).exists;
   }
 }
