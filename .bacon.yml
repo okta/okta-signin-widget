@@ -90,7 +90,8 @@ test_suites:
       sort_order: '10'
       timeout: '20'
       script_name: verify-registry-install
-      criteria: MERGE
+      # https://oktainc.atlassian.net/browse/OKTA-545411
+      criteria: OPTIONAL
       queue_name: small
     # E2E tests using dockerized monolith - optional (for now)
     - name: e2e-monolith
