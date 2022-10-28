@@ -44,11 +44,11 @@ export default class EnrollProfileViewPageObject extends BasePageObject {
   }
 
   formFieldExistsByLabel(label) {
-    return this.form.getByLabelText(label).exists;
+    return this.form.fieldByLabelExists(label);
   }
 
   dropDownExistsByLabel(label) {
-    return this.form.getByLabelText(label, { selector: 'select' }).exists;
+    return this.form.fieldByLabelExists(label, { selector: 'select' });
   }
 
   getRequirements() {
