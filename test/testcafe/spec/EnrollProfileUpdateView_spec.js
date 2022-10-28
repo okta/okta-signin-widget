@@ -71,7 +71,7 @@ test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalMock)('should 
   await identityPage.clickSignInButton();
 
   await t.expect(await enrollProfileUpdatePage.skipProfileLinkExists()).ok();
-  await t.expect(enrollProfileUpdatePage.finishButtonExists()).eql(true);
+  await t.expect(enrollProfileUpdatePage.form.getButton('Finish').exists).eql(true);
 
   requestLogger.clear();
   await enrollProfileUpdatePage.clickSkipProfileLink();

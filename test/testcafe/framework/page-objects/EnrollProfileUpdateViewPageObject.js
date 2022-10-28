@@ -17,10 +17,6 @@ export default class EnrollProfileUpdateViewPageObject extends BasePageObject {
     return this.form.getFormFieldSubLabel(fieldName);
   }
 
-  finishButtonExists() {
-    return this.form.getButton('Finish').exists;
-  }
-
   skipProfileLinkExists() {
     return this.form.getLink('Skip Profile').exists;
   }
