@@ -48,7 +48,7 @@ const buildDynamicForm = function(url = '', method) {
   const form = document.createElement('form');
 
   form.method = method;
-  form.setAttribute('style', 'display: none;');
+  form.style.display = 'none';
   form.action = targetUrl;
   if (query && query.length) {
     const queryParts = query.split('&');
