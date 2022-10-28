@@ -1611,10 +1611,10 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-11"
                 >
                   <div
-                    class="MuiFormControl-root MuiFormControl-marginNormal emotion-42"
+                    class="MuiFormControl-root MuiFormControl-marginNormal emotion-45"
                   >
                     <label
-                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error Mui-required emotion-43"
+                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error Mui-required emotion-46"
                       for="userProfile.timezone"
                     >
                       Time zone
@@ -1627,12 +1627,12 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </span>
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-45"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-48"
                     >
                       <select
                         aria-describedby="userProfile.timezone-error"
                         aria-invalid="true"
-                        class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-46"
+                        class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-49"
                         data-se="userProfile.timezone"
                         id="userProfile.timezone"
                         name="userProfile.timezone"
@@ -1811,7 +1811,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </select>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-47"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-50"
                         data-testid="ArrowDropDownIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -1839,7 +1839,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiBox-root emotion-15"
                     >
                       <p
-                        class="MuiFormHelperText-root Mui-error emotion-23"
+                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-required emotion-23"
                         data-se="userProfile.timezone-error"
                         id="userProfile.timezone-error"
                         role="alert"
@@ -1853,7 +1853,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-76"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-77"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -1865,11 +1865,11 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-11"
                 >
                   <hr
-                    class="MuiDivider-root MuiDivider-fullWidth emotion-78"
+                    class="MuiDivider-root MuiDivider-fullWidth emotion-79"
                   />
                 </div>
                 <div
-                  class="MuiBox-root emotion-79"
+                  class="MuiBox-root emotion-80"
                 >
                   <div
                     class="MuiBox-root emotion-11"
@@ -1878,7 +1878,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiBox-root emotion-12"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-82"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-83"
                         data-se="haveaccount"
                       >
                         Already have an account?
@@ -1889,7 +1889,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-84"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-85"
                       data-se="back"
                       href="javascript:void(0)"
                     >
@@ -3674,7 +3674,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       class="MuiBox-root emotion-7"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-65"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-66"
                         data-se="haveaccount"
                       >
                         Already have an account?
