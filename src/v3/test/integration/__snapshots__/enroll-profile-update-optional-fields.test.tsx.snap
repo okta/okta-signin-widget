@@ -136,6 +136,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
                     >
                       <input
+                        aria-describedby=" userProfile.secondEmail-explain "
                         aria-invalid="false"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
                         data-se="userProfile.secondEmail"
@@ -161,6 +162,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     <p
                       class="MuiFormHelperText-root emotion-27"
                       data-se="userProfile.secondEmail-explain"
+                      id="userProfile.secondEmail-explain"
                     >
                       Use a second email to  recover your account  in case you become locked out. This email must be verified after setup.
                     </p>

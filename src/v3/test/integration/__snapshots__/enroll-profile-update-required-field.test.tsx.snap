@@ -169,6 +169,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
                     >
                       <input
+                        aria-describedby=" userProfile.secondEmail-explain "
                         aria-invalid="false"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
                         data-se="userProfile.secondEmail"
@@ -194,6 +195,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                     <p
                       class="MuiFormHelperText-root emotion-32"
                       data-se="userProfile.secondEmail-explain"
+                      id="userProfile.secondEmail-explain"
                     >
                       Use a second email to  recover your account  in case you become locked out. This email must be verified after setup.
                     </p>
@@ -245,21 +247,25 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                         </legend>
                       </fieldset>
                     </div>
-                    <p
-                      class="MuiFormHelperText-root Mui-error emotion-32"
-                      data-se="userProfile.newAttribute2-error"
-                      id="userProfile.newAttribute2-error"
-                      role="alert"
+                    <div
+                      class="MuiBox-root emotion-7"
                     >
-                      This field cannot be left blank
-                    </p>
+                      <p
+                        class="MuiFormHelperText-root Mui-error emotion-32"
+                        data-se="userProfile.newAttribute2-error"
+                        id="userProfile.newAttribute2-error"
+                        role="alert"
+                      >
+                        This field cannot be left blank
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
                   class="MuiBox-root emotion-15"
                 >
                   <button
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-43"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-44"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -271,7 +277,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                   class="MuiBox-root emotion-15"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-46"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -424,6 +430,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
                     >
                       <input
+                        aria-describedby=" userProfile.secondEmail-explain "
                         aria-invalid="false"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
                         data-se="userProfile.secondEmail"
@@ -449,6 +456,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     <p
                       class="MuiFormHelperText-root emotion-27"
                       data-se="userProfile.secondEmail-explain"
+                      id="userProfile.secondEmail-explain"
                     >
                       Use a second email to  recover your account  in case you become locked out. This email must be verified after setup.
                     </p>

@@ -50,6 +50,12 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
+  const hintEleId = `${name}-hint`;
+  const explainEleId = `${name}-explain`;
+  const hintAndExplainIds = `${explain ? ` ${explainEleId} ` : ''}${hint ? ` ${hintEleId}` : ''}`;
+  const updatedDescribedByIds = typeof describedByIds !== 'undefined'
+    ? `${describedByIds}${hintAndExplainIds}`
+    : `${hintAndExplainIds}`;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched?.(true);
@@ -65,7 +71,16 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       >
         {label}
       </InputLabel>
-      {hint && <FormHelperText data-se={`${name}-hint`}>{hint}</FormHelperText>}
+      {
+        hint && (
+          <FormHelperText
+            id={hintEleId}
+            data-se={hintEleId}
+          >
+            {hint}
+          </FormHelperText>
+        )
+      }
       <OutlinedInput
         value={value}
         type={type || 'text'}
@@ -77,7 +92,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         fullWidth
         inputProps={{
           'data-se': dataSe,
-          'aria-describedby': describedByIds,
+          'aria-describedby': updatedDescribedByIds || undefined,
           ...attributes,
         }}
         inputRef={focusRef}
@@ -88,7 +103,16 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           fieldName={name}
         />
       )}
-      {explain && <FormHelperText data-se={`${name}-explain`}>{explain}</FormHelperText>}
+      {
+        explain && (
+          <FormHelperText
+            id={explainEleId}
+            data-se={explainEleId}
+          >
+            {explain}
+          </FormHelperText>
+        )
+      }
     </Box>
   );
 };
