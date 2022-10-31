@@ -284,6 +284,7 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, identifyMock)('should
 
 test.meta('v3', false).requestHooks(identifyMock)('should render custom Unlock account link', async t => {
   const identityPage = await setup(t);
+  const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
 
   await rerenderWidget({
     helpLinks: {
@@ -291,13 +292,13 @@ test.meta('v3', false).requestHooks(identifyMock)('should render custom Unlock a
     },
     i18n: {
       en: {
-        'unlockaccount': 'HELP I\'M LOCKED OUT'
+        'unlockaccount': customUnlockLinkText
       }
     }
   });
 
-  await t.expect(identityPage.getUnlockAccountLinkText()).eql('HELP I\'M LOCKED OUT');
-  await t.expect(identityPage.getCustomUnlockAccountLink()).eql('http://unlockaccount');
+  await t.expect(identityPage.unlockAccountLinkExists(customUnlockLinkText)).eql(true);
+  await t.expect(identityPage.getCustomUnlockAccountLinkUrl(customUnlockLinkText)).eql('http://unlockaccount');
 });
 
 test.meta('v3', false).requestHooks(identifyMock)('should not render custom forgot password link', async t => {

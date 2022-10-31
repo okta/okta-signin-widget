@@ -22,7 +22,7 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
 
   async clickEnterCodeLink() {
     if (userVariables.v3) {
-      await this.t.click(this.form.getButton('Enter a code from the email instead'));
+      await this.form.clickButton('Enter a code from the email instead');
     } else {
       await this.form.clickElement('.enter-auth-code-instead-link');
     }

@@ -34,7 +34,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Unlock Account');
+fixture('Unlock Account').meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -48,8 +48,9 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account link', asy
 });
 
 
-test.requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
+test.meta('v3', false).requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
   const identityPage = await setup(t);
+  const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
 
   await rerenderWidget({
     helpLinks: {
@@ -57,13 +58,13 @@ test.requestHooks(identifyLockedUserMock)('should render custom Unlock account l
     },
     i18n: {
       en: {
-        'unlockaccount': 'HELP I\'M LOCKED OUT'
+        'unlockaccount': customUnlockLinkText
       }
     }
   });
 
-  await t.expect(identityPage.getUnlockAccountLinkText()).eql('HELP I\'M LOCKED OUT');
-  await t.expect(identityPage.getCustomUnlockAccountLink()).eql('http://unlockaccount');
+  await t.expect(identityPage.unlockAccountLinkExists(customUnlockLinkText)).eql(true);
+  await t.expect(identityPage.getCustomUnlockAccountLinkUrl(customUnlockLinkText)).eql('http://unlockaccount');
 });
 
 test.requestHooks(identifyLockedUserMock)('should show unlock account authenticator selection list', async t => {
@@ -80,12 +81,12 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
   await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickVerifyButton();
 
   const successPage = new TerminalPageObject(t);
   await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
-  await t.expect(successPage.getMessages()).eql('You can log in using your existing username and password.');
-  const gobackLinkExists = await successPage.goBackLinkExists();
+  await t.expect(successPage.doesTextExist('You can log in using your existing username and password.')).eql(true);
+  const gobackLinkExists = await successPage.goBackLinkExistsV2();
   await t.expect(gobackLinkExists).eql(false);
   const signoutLinkExists = await successPage.signoutLinkExists();
   await t.expect(signoutLinkExists).eql(true);
@@ -110,7 +111,7 @@ test.requestHooks(errorUnlockAccount)('should show error when unlock account fai
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickVerifyButton();
 
   const terminaErrorPage = new TerminalPageObject(t);
   await terminaErrorPage.waitForErrorBox();
