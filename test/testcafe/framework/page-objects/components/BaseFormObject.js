@@ -137,12 +137,21 @@ export default class BaseFormObject {
     return within(this.el).getByRole('button', options);
   }
 
+  /**
+   * @param {string} name the text of the button to click
+   */
+  async clickButton(name) {
+    const buttonToClick = this.getButton(name);
+
+    await this.t.click(buttonToClick);
+  }
+
   getAllButtons() {
     return within(this.el).getAllByRole('button');
   }
 
   /**
-   * @param {string} name the text of the button to click
+   * @param {string} name the text of the save button to click
    */
   async clickSaveButton(name = 'Next') {
     await this.clickButton(name);

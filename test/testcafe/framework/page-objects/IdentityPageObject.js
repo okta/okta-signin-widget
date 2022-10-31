@@ -8,7 +8,6 @@ const FORGOT_PASSWORD_SELECTOR = 'a[data-se="forgot-password"]';
 const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
 const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
-const UNLOCK_ACCOUNT = '.auth-footer .js-unlock';
 const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
 const FOOTER_INFO_SELECTOR = '.footer-info';
@@ -203,11 +202,12 @@ export default class IdentityPageObject extends BasePageObject {
     await this.t.click(Selector(ENROLL_SELECTOR));
   }
 
-  getUnlockAccountLink() {
-    if(userVariables.v3) {
-      return this.form.getLink('Unlock account?');
-    }
-    return Selector(UNLOCK_ACCOUNT);
+  getUnlockAccountLink(name = 'Unlock account?') {
+    return this.form.getLink(name);
+  }
+
+  unlockAccountLinkExists(name = 'Unlock account?') {
+    return this.getUnlockAccountLink(name).exists;
   }
 
   getUnlockAccountLinkText() {
@@ -218,8 +218,8 @@ export default class IdentityPageObject extends BasePageObject {
     await this.t.click(this.getUnlockAccountLink());
   }
 
-  getCustomUnlockAccountLinkUrl() {
-    return this.getUnlockAccountLink().getAttribute('href');
+  getCustomUnlockAccountLinkUrl(name) {
+    return this.getUnlockAccountLink(name).getAttribute('href');
   }
 
   getIdentifierSubLabelValue() {

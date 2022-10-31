@@ -50,6 +50,7 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account link', asy
 
 test.meta('v3', false).requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
   const identityPage = await setup(t);
+  const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
 
   await rerenderWidget({
     helpLinks: {
@@ -57,13 +58,13 @@ test.meta('v3', false).requestHooks(identifyLockedUserMock)('should render custo
     },
     i18n: {
       en: {
-        'unlockaccount': 'HELP I\'M LOCKED OUT'
+        'unlockaccount': customUnlockLinkText
       }
     }
   });
 
-  await t.expect(identityPage.getUnlockAccountLinkText()).eql('HELP I\'M LOCKED OUT');
-  await t.expect(identityPage.getCustomUnlockAccountLinkUrl()).eql('http://unlockaccount');
+  await t.expect(identityPage.unlockAccountLinkExists(customUnlockLinkText)).eql(true);
+  await t.expect(identityPage.getCustomUnlockAccountLinkUrl(customUnlockLinkText)).eql('http://unlockaccount');
 });
 
 test.requestHooks(identifyLockedUserMock)('should show unlock account authenticator selection list', async t => {
