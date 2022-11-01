@@ -11,7 +11,7 @@
  */
 
 import { View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import FactorUtil from 'util/FactorUtil';
 export default View.extend({
   template: hbs`{{#if requirements}}

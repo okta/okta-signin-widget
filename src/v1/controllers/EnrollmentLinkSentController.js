@@ -11,7 +11,7 @@
  */
 
 import { _, View, loc } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import CountryUtil from 'util/CountryUtil';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';

@@ -11,7 +11,7 @@
  */
 
 import { _, loc, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';
 import ResendEmailView from 'v1/views/ResendEmailView';

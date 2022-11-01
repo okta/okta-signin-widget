@@ -1,4 +1,4 @@
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 
 const consentLogoHeaderTemplate = hbs`{{#if clientURI}}
  <a href="{{clientURI}}" class="client-logo-link" target="_blank">

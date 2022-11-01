@@ -12,7 +12,7 @@ We have also changed `handlebars` from a dependency to a peerDependency. The app
 tagged template
 
 ```
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 
 hbs`Hello World!`;
 ```
@@ -20,7 +20,7 @@ hbs`Hello World!`;
 or function call
 
 ```
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 
 hbs('Hello World!');
 ```

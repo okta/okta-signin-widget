@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { _, Backbone, Model, loc, Form, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import LoginModel from 'v1/models/LoginModel';
 import RegistrationSchema from 'v1/models/RegistrationSchema';
 import Q from 'q';

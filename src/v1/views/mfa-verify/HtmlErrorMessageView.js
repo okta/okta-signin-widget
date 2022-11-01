@@ -11,7 +11,7 @@
  */
 
 import { View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 const template = hbs('\
     <span class="icon error-24"></span>\
     <h4><strong>{{{message}}}</strong></h4>\

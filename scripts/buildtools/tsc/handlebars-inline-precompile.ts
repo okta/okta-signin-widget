@@ -4,6 +4,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function hbs(templateString: string | TemplateStringsArray): (...args) => any {
   return function dummyHbs() {
-    throw new Error('Source code must be compiled using babel to use the handlebars-inline-precompile plugin');
+    throw new Error('Source code must be compiled using babel to use the @okta/handlebars-inline-precompile plugin');
   };
 }

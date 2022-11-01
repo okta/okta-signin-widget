@@ -11,7 +11,7 @@
  */
 
 import { _, View, loc } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import FactorUtil from 'util/FactorUtil';
 import RouterUtil from 'v1/util/RouterUtil';
 export default View.extend({

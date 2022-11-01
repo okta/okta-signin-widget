@@ -11,7 +11,7 @@
  */
 
 import { _, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import RouterUtil from 'v1/util/RouterUtil';
 
 function goToFactorActivation(appState) {

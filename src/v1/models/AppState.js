@@ -11,7 +11,7 @@
  */
 
 import { _, $, loc, Model } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import Factor from 'v1/models/Factor';
 import Q from 'q';
 import BrowserFeatures from 'util/BrowserFeatures';

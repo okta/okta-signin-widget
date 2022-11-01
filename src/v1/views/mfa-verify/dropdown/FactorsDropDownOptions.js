@@ -12,7 +12,7 @@
 
 /* eslint max-statements: [2, 16], complexity: [2, 10] */
 import { _, loc } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import RouterUtil from 'v1/util/RouterUtil';
 const pushTitleTpl = hbs('{{factorName}} ({{{deviceName}}})');
 
