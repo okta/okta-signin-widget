@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, loc } from 'okta';
+import { _, loc, internal } from 'okta';
 import FactorUtil from 'util/FactorUtil';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';
@@ -19,12 +19,15 @@ import ValidationUtil from 'v1/util/ValidationUtil';
 import FooterSignout from 'v1/views/shared/FooterSignout';
 import PasswordRequirements from 'v1/views/shared/PasswordRequirements';
 import TextBox from 'v1/views/shared/TextBox';
+let { CheckBox } = internal.views.forms.inputs;
+
 export default FormController.extend({
   className: 'password-reset',
   Model: {
     props: {
       newPassword: ['string', true],
       confirmPassword: ['string', true],
+      revokeSessions: ['boolean', false]
     },
     validate: function() {
       return ValidationUtil.validatePasswordMatch(this);
@@ -34,9 +37,12 @@ export default FormController.extend({
       const self = this;
 
       return this.doTransaction(function(transaction) {
-        return transaction.resetPassword({
-          newPassword: self.get('newPassword'),
-        });
+        const payload = { newPassword: self.get('newPassword') };
+        if (self.settings.get('features.showSessionRevocation')) {
+          payload.revokeSessions = self.get('revokeSessions');
+        }
+
+        return transaction.resetPassword(payload);
       });
     },
   },
@@ -110,6 +116,18 @@ export default FormController.extend({
           autoComplete: 'new-password',
         }),
       ]);
+
+      if (this.settings.get('features.showSessionRevocation')) {
+        children = children.concat([
+          FormType.Input({
+            placeholder: loc('password.reset.revokeSessions', 'login'),
+            name: 'revokeSessions',
+            input: CheckBox,
+            type: 'checkbox',
+          })
+        ]);
+      }
+
       return children;
     },
   },
