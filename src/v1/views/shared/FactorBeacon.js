@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity: [2, 8] */
-import { View } from 'okta';
+import { View } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import Factor from 'v1/models/Factor';
 import Q from 'q';

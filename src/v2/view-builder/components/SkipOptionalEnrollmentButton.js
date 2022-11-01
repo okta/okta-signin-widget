@@ -1,4 +1,4 @@
-import { createButton, loc } from 'okta';
+import { createButton, loc } from '@okta/okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const skipAll = createButton({

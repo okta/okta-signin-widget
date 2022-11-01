@@ -1,4 +1,4 @@
-import { loc, View, createCallout } from 'okta';
+import { loc, View, createCallout } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 
 export default View.extend({

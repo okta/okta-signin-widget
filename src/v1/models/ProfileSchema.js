@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, internal } from 'okta';
+import { _, internal } from '@okta/okta';
 let { BaseSchema } = internal.models;
 export default BaseSchema.Model.extend({
   expand: ['schema'],

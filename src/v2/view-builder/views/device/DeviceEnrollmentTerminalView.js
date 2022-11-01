@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 import { BaseForm, BaseView } from '../../internals';
 import { IosAndAndroidLoopbackOdaTerminalView,
   AndroidAppLinkWithAccountOdaTerminalView,

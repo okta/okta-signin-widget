@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 import AdminConsentViewHeader from './AdminConsentViewHeader';
 
 export default AdminConsentViewHeader.extend({

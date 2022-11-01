@@ -1,5 +1,5 @@
 {
-  "name": "okta",
+  "name": "@okta/okta",
   "version": "1.0.0",
   "description": "Okta Courage for Sign-In Widget",
   "module": "esm/src/index.js",

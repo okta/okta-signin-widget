@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 import { BaseIdPAuthenticatorBody, BaseIdpAuthenticatorView} from './BaseIdpAuthenticator';
 
 const Body = BaseIdPAuthenticatorBody.extend({

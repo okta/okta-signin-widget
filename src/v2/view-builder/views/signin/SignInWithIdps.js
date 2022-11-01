@@ -1,4 +1,4 @@
-import { View, createButton } from 'okta';
+import { View, createButton } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 
 export default View.extend({

@@ -14,7 +14,7 @@
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
-import { _, $, Backbone, Router, loc, BaseRouterOptions } from 'okta';
+import { _, $, Backbone, Router, loc, BaseRouterOptions } from '@okta/okta';
 import Settings from 'models/Settings';
 import Bundles from 'util/Bundles';
 import BrowserFeatures from 'util/BrowserFeatures';

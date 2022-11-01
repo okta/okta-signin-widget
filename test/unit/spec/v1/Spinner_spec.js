@@ -1,4 +1,4 @@
-import { BaseModel } from 'okta';
+import { BaseModel } from '@okta/okta';
 import Spinner from 'v1/views/shared/Spinner';
 
 describe('Spinner', () => {

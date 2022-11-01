@@ -1,5 +1,5 @@
 // Common view for OV push and custom push.
-import { loc, createButton, View } from 'okta';
+import { loc, createButton, View } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import { BaseFormWithPolling } from '../../internals';
 import polling from '../shared/polling';

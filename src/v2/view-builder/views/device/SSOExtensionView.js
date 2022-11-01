@@ -1,5 +1,5 @@
 import { BaseForm, BaseView } from '../../internals';
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 
 // for BETA,
 // redirect is needed for Apple SSO Extension to intercept the request, because

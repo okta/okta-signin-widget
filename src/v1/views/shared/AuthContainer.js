@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from 'okta';
+import { View } from '@okta/okta';
 import Enums from 'util/Enums';
 const CAN_REMOVE_BEACON_CLS = 'can-remove-beacon';
 export default View.extend({

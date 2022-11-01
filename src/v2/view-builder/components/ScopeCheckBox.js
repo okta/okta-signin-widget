@@ -1,4 +1,4 @@
-import { _, internal, loc } from 'okta';
+import { _, internal, loc } from '@okta/okta';
 import { doesI18NKeyExist } from 'v2/ion/i18nTransformer';
 import hbs from '@okta/handlebars-inline-precompile';
 

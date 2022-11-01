@@ -1,4 +1,4 @@
-import { _, $ } from 'okta';
+import { _, $ } from '@okta/okta';
 import Form from './Form';
 export default Form.extend({
   factorRow: function(factorName) {

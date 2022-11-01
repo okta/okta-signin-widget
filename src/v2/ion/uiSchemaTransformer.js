@@ -13,7 +13,7 @@
 /**
  * Create UI Schema into remedation object base on remediation values
  */
-import { _ } from 'okta';
+import { _ } from '@okta/okta';
 import createUiSchemaForBoolean from './ui-schema/ion-boolean-handler';
 import createUiSchemaForObject from './ui-schema/ion-object-handler';
 import createUiSchemaForString from './ui-schema/ion-string-handler';

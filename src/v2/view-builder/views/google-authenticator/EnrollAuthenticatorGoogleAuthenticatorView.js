@@ -1,4 +1,4 @@
-import { loc, View } from 'okta';
+import { loc, View } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import { addCustomButton, BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';

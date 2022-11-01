@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 import BaseAuthenticatorEmailView from './BaseAuthenticatorEmailView';
 import { getCheckYourEmailTitle, getEnterCodeLink } from './AuthenticatorEmailViewUtil';
 

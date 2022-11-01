@@ -1,5 +1,5 @@
 /* eslint max-len: [2, 140] */
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
 import getAuthClient from 'helpers/getAuthClient';

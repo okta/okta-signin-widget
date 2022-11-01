@@ -1,5 +1,5 @@
 /* eslint max-params:[0, 2] */
-import { $ } from 'okta';
+import { $ } from '@okta/okta';
 import PrimaryAuthForm from 'helpers/dom/PrimaryAuthForm';
 import MockUtil from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';

@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity:[2, 10], max-params: [2, 11] */
-import { _, $, loc, View, internal } from 'okta';
+import { _, $, loc, View, internal } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';

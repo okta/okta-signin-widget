@@ -1,4 +1,4 @@
-import { loc, View } from 'okta';
+import { loc, View } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';

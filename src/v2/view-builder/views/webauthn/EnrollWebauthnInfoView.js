@@ -1,4 +1,4 @@
-import { loc, View, createCallout } from 'okta';
+import { loc, View, createCallout } from '@okta/okta';
 import BrowserFeatures from 'util/BrowserFeatures';
 import hbs from '@okta/handlebars-inline-precompile';
 

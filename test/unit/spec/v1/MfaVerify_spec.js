@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint camelcase: 0 */
-import { _, $, internal } from 'okta';
+import { _, $, internal } from '@okta/okta';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Duo from '@okta/duo';

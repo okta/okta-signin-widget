@@ -12,7 +12,7 @@
 
 /* eslint complexity: [2, 47], max-statements: [2, 63] */
 
-import { _, loc } from 'okta';
+import { _, loc } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import BrowserFeatures from 'util/BrowserFeatures';
 import Enums from 'util/Enums';

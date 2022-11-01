@@ -1,4 +1,4 @@
-import { Form, Model } from 'okta';
+import { Form, Model } from '@okta/okta';
 import Settings from 'models/Settings';
 
 describe('courage for signin widget', () => {

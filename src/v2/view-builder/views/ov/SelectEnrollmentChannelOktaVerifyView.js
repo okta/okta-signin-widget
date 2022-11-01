@@ -1,4 +1,4 @@
-import { loc, _ } from 'okta';
+import { loc, _ } from '@okta/okta';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import BrowserFeatures from '../../../../util/BrowserFeatures';

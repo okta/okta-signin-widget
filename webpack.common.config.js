@@ -74,7 +74,7 @@ module.exports = function({
       alias: {
         // General remapping
         'nls': '@okta/i18n/src/json',
-        // 'okta': `${LOCAL_PACKAGES}/@okta/courage-dist`,
+        // '@okta/okta': `${LOCAL_PACKAGES}/@okta/courage-dist`,
         '@okta/okta-i18n-bundles': 'util/Bundles',
 
         // Vendor files from courage that

@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { ListView, loc, View, createButton } from 'okta';
+import { ListView, loc, View, createButton } from '@okta/okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import skipAll from './SkipOptionalEnrollmentButton';
 import hbs from '@okta/handlebars-inline-precompile';

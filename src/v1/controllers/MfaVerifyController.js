@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity: [2, 21] max-statements: [2, 25] max-params: 0 */
-import { loc, internal } from 'okta';
+import { loc, internal } from '@okta/okta';
 import BaseLoginController from 'v1/util/BaseLoginController';
 import EmailMagicLinkForm from 'v1/views/factor-verify/EmailMagicLinkForm';
 import InlineTOTPForm from 'v1/views/mfa-verify/InlineTOTPForm';

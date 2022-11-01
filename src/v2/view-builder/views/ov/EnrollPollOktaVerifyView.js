@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 import { BaseFormWithPolling } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import polling from '../shared/polling';

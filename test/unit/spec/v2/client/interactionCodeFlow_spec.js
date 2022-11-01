@@ -1,6 +1,6 @@
 import { interactionCodeFlow } from 'v2/client/interactionCodeFlow';
 import { ConfigError } from 'util/Errors';
-import { Model } from 'okta';
+import { Model } from '@okta/okta';
 import { RecoverableError } from 'util/OAuthErrors';
 
 describe('v2/client/interactionCodeFlow', () => {

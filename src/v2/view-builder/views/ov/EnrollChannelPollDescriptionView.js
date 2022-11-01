@@ -1,4 +1,4 @@
-import { View, _ } from 'okta';
+import { View, _ } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 
 export default View.extend({

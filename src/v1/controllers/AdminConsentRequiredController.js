@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, View, loc } from 'okta';
+import { _, View, loc } from '@okta/okta';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';
 import ScopeList from 'v1/views/admin-consent/ScopeList';

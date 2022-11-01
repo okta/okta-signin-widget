@@ -1,6 +1,6 @@
-import { _ } from 'okta';
+import { _ } from '@okta/okta';
 
-declare module 'okta' {
+declare module '@okta/okta' {
   interface OktaUnderscore {
     nestedOmit(obj: Record<string, any>, names): Record<string, any>
   }

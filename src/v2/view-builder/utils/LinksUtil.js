@@ -1,4 +1,4 @@
-import { loc, _ } from 'okta';
+import { loc, _ } from '@okta/okta';
 import { ACTIONS, FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const { ENROLLED_PASSWORD_RECOVERY_LINK, ORG_PASSWORD_RECOVERY_LINK } = ACTIONS;

@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity:[2, 10], max-params: [2, 11] */
-import { _, loc, View } from 'okta';
+import { _, loc, View } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import Q from 'q';
 import CryptoUtil from 'util/CryptoUtil';

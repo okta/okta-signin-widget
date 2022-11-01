@@ -12,7 +12,7 @@
  */
 
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
-import { _, loc } from 'okta';
+import { _, loc } from '@okta/okta';
 import Enums from './Enums';
 import Logger from './Logger';
 import BrowserFeatures from './BrowserFeatures';

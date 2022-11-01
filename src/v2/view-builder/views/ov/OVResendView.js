@@ -1,4 +1,4 @@
-import { createCallout } from 'okta';
+import { createCallout } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import BaseResendView from '../shared/BaseResendView';
 
