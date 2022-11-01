@@ -2,6 +2,12 @@
 
 setup_service node v14.18.0
 
+echo "OK now"
+pwd
+
+echo "OKTA_HOME: $OKTA_HOME"
+echo "REPO: $REPO"
+
 cd $OKTA_HOME/$REPO
 
 # Get monolith build version based on commit sha
