@@ -1,9 +1,13 @@
+#!/bin/bash -xe
+
+set +x
 setup_service node v14.18.0
+set -x
 
 local widget_home="$(readlink -f "$(dirname "$BASH_SOURCE")/../..")"
 
 # Get monolith build version based on commit sha
-pushd ${widget_home}
+pushd "${widget_home}"
   source ./scripts/monolith/install-dockolith.sh
   local script="
   import { getBuildVersion } from '@okta/dockolith';
