@@ -4,9 +4,20 @@ set +x
 setup_service node v14.18.0
 set -x
 
-echo "BASH_SOURCE: ${BASH_SOURCE}"
+echo "what is my shell?"
+ps -p $$
+echo "here we go"
+echo "SHELL: $SHELL"
+echo "0: $0"
+echo "BASH_SOURCE: $BASH_SOURCE"
+echo "BASH_SOURCE_0: ${BASH_SOURCE[0]}"
 
-widget_home="$(readlink -f "$(dirname "$BASH_SOURCE")/../..")"
+
+script_src=${BASH_SOURCE[0]:-$0}
+
+
+
+widget_home="$(readlink -f "$(dirname "${script_src}")/../..")"
 
 # Get monolith build version based on commit sha
 pushd "${widget_home}"
