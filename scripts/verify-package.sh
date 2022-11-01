@@ -13,7 +13,7 @@ fi
 set -e
 
 # Internal packages to check for potential Dependency Confusion Attack (OKTA-529256)
-INETRNAL_PACKAGES=("@okta/typingdna" "@okta/handlebars-inline-precompile" "okta-i18n-bundles" "duo" "qtip")
+INETRNAL_PACKAGES=("@okta/typingdna" "@okta/handlebars-inline-precompile" "@okta/okta-i18n-bundles" "duo" "qtip")
 inject_marker="f@@@@@@ke"
 
 # Inject fake packages with same names as ones that are used internally
@@ -52,13 +52,13 @@ check_fake_packages_in_bundle() {
   fi
 }
 
-join() { local IFS=$1; shift; echo "$*"; }
+join_for_regex() { local IFS="|"; shift; echo "$*" | sed 's/\//\\\//g'; }
 
 # Check that fake packages are NOT present in yarn.lock
 check_fake_packages_in_lock() {
   lock_file="yarn.lock"
-  names=$(join "|" ${INETRNAL_PACKAGES[@]})
-  injected_packages=($(cat $lock_file | sed -n -E "s/.*($names})@.*/\1/pg"))
+  names=$(join_for_regex ${INETRNAL_PACKAGES[@]})
+  injected_packages=($(cat $lock_file | sed -n -E "s/.*($names)@.*/\1/pg"))
   injected_packages_cnt=${#injected_packages[@]}
   if [ $injected_packages_cnt -ne 0 ]; then
     echo "!!! Internal package names are found in the lock file: ${injected_packages[@]}"

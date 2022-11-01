@@ -75,7 +75,7 @@ module.exports = function({
         // General remapping
         'nls': '@okta/i18n/src/json',
         // 'okta': `${LOCAL_PACKAGES}/@okta/courage-dist`,
-        'okta-i18n-bundles': 'util/Bundles',
+        '@okta/okta-i18n-bundles': 'util/Bundles',
 
         // Vendor files from courage that
         'handlebars/runtime': `${COURAGE_DIST}/lib/handlebars/dist/cjs/handlebars.runtime`,
