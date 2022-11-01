@@ -12,11 +12,68 @@ fi
 
 set -e
 
+# Internal packages to check for potential Dependency Confusion Attack (OKTA-529256)
+INETRNAL_PACKAGES=("typingdna" "handlebars-inline-precompile" "okta-i18n-bundles" "duo" "qtip")
+
+# Inject fake packages with same names as ones that are used internally
+inject_fake_packages() {
+  inject_marker="f@@@@@@ke"
+  for pkg in "${INETRNAL_PACKAGES[@]}"
+  do
+    mkdir -p "node_modules/$pkg"
+    package_json=$(cat <<-EOF
+      {
+        "name": "$pkg",
+        "version": "99.0.0",
+        "description": "fake $pkg",
+        "main": "index.js"
+      }
+EOF
+    )
+    index_js=$(cat <<-EOF
+      export default function () {
+        throw '$inject_marker $pkg';
+      };
+EOF
+    )
+    echo "$package_json" > "node_modules/$pkg/package.json"
+    echo "$index_js" > "node_modules/$pkg/index.js"
+  done
+}
+
+# Check that fake packages code does NOT leak in final bundle
+check_fake_packages_in_bundle() {
+  bundle_file="$1"
+  injected_packages=($(cat $bundle_file | sed -n -E "s/.*$inject_marker ([^']+).*/\1/pg"))
+  injected_packages_cnt=${#injected_packages[@]}
+  if [ $injected_packages_cnt -ne 0 ]; then
+    echo "!!! Malicious packages can be injected in the bundle: ${injected_packages[@]}"
+    exit ${TEST_FAILURE}
+  fi
+}
+
+join() { local IFS=$1; shift; echo "$*"; }
+
+# Check that fake packages are NOT present in yarn.lock
+check_fake_packages_in_lock() {
+  lock_file="yarn.lock"
+  names=$(join "|" ${INETRNAL_PACKAGES[@]})
+  injected_packages=($(cat $lock_file | sed -n -E "s/.*($names})@.*/\1/pg"))
+  injected_packages_cnt=${#injected_packages[@]}
+  if [ $injected_packages_cnt -ne 0 ]; then
+    echo "!!! Internal package names are found in the lock file: ${injected_packages[@]}"
+    exit ${TEST_FAILURE}
+  fi
+}
+
 # Build
+inject_fake_packages
 if ! yarn build:release; then
   echo "build failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
+check_fake_packages_in_bundle "dist/dist/js/okta-sign-in.js"
+check_fake_packages_in_lock
 
 if ! yarn lint:cdn; then
   echo "lint failed! Exiting..."
@@ -72,15 +129,21 @@ fi
 popd
 
 pushd test/package/cjs
+inject_fake_packages
 if ! (yarn clean && yarn install && yarn test); then
   echo "CommonJS bundle verification failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
+check_fake_packages_in_bundle "dist/require.js"
+check_fake_packages_in_lock
 popd
 
 pushd test/package/esm
+inject_fake_packages
 if ! (yarn clean && yarn install && yarn test); then
   echo "ESM bundle verification failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
+check_fake_packages_in_bundle "dist/main.js"
+check_fake_packages_in_lock
 popd
