@@ -1,4 +1,4 @@
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import { View } from 'okta';
 
 // Courage doesn't support HTML, hence creating a subtitle here.

@@ -12,7 +12,7 @@
 
 /* eslint max-len: [2, 130] */
 import { Form, loc } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import ProfileSchema from 'v1/models/ProfileSchema';
 import RegistrationFormFactory from 'v1/util/RegistrationFormFactory';
 export default Form.extend({

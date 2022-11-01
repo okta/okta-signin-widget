@@ -15,7 +15,7 @@ var Handlebars = require('./handlebars');
 
 function _default(_ref) {
   var t = _ref.types;
-  var IMPORT_NAME = 'handlebars-inline-precompile';
+  var IMPORT_NAME = '@okta/handlebars-inline-precompile';
   var IMPORT_PROP = '_handlebarsImportSpecifier';
 
   function isReferenceToImport(node, file) {

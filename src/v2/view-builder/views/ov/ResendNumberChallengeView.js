@@ -1,5 +1,5 @@
 import { _, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import { WARNING_TIMEOUT } from '../../utils/Constants';
 
 const ResendNumberChallengeView = View.extend({

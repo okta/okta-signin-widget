@@ -1,5 +1,5 @@
 import { loc, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import { BaseForm, BaseView } from '../internals';
 import { MS_PER_SEC } from '../utils/Constants';
 

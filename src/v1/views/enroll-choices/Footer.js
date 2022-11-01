@@ -11,7 +11,7 @@
  */
 
 import { View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 export default View.extend({
   template: hbs`
       <a href="#" class="link goto js-skip" data-se="skip-link">

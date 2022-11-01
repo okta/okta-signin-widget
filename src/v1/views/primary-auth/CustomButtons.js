@@ -11,7 +11,7 @@
  */
 
 import { _, $, View, loc, createButton, internal } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import OAuth2Util from 'util/OAuth2Util';
 const SharedUtil = internal.util.Util;
 const dividerTpl = hbs('<div class="auth-divider">\

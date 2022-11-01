@@ -11,7 +11,7 @@
  */
 
 import { _, ListView, View, createButton, loc } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import FactorUtil from 'util/FactorUtil';
 import RouterUtil from 'v1/util/RouterUtil';
 const cardinalityTextTpl = hbs('<span class="factor-cardinality">{{cardinalityText}}</span>');

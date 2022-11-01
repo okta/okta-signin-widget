@@ -14,7 +14,7 @@
 
 import { _, Model, loc, internal, ModelProperty } from 'okta';
 import config from 'config/config.json';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import Q from 'q';
 import BrowserFeatures from 'util/BrowserFeatures';
 import {

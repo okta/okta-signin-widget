@@ -11,7 +11,7 @@
  */
 
 import { _, Form, loc, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import Util from 'util/Util';
 import NumberChallengeView from './NumberChallengeView';
 

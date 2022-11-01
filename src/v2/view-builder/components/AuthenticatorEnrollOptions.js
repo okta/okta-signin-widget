@@ -12,7 +12,7 @@
 import { ListView, loc, View, createButton } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import skipAll from './SkipOptionalEnrollmentButton';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import { AUTHENTICATOR_ALLOWED_FOR_OPTIONS } from '../utils/Constants';
 
 // https://oktainc.atlassian.net/browse/OKTA-554030

@@ -4,7 +4,7 @@ import ConsentViewForm from './ConsentViewForm';
 import AdminConsentViewHeader from './AdminConsentViewHeader';
 import EnduserConsentViewFooter from './EnduserConsentViewFooter';
 import ScopeCheckBox from '../../components/ScopeCheckBox';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 
 const granularConsentViewHeader = AdminConsentViewHeader.extend({
   hasIssuer: false,

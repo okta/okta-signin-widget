@@ -1,6 +1,6 @@
 import { loc, View } from 'okta';
 import { BaseFooter, BaseForm, BaseView } from '../internals';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import { getSkipSetupLink } from '../utils/LinksUtil';
 
 const Body = BaseForm.extend({

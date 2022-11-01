@@ -1,5 +1,5 @@
 import { View, loc, internal } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 
 const { Notification } = internal.views.components;
 const { Clipboard } = internal.util;

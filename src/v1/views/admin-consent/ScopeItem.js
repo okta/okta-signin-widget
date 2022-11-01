@@ -11,7 +11,7 @@
  */
 
 import { View, _ } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import 'qtip';
 
 export default View.extend({

@@ -11,7 +11,7 @@
  */
 
 import { View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import Animations from 'util/Animations';
 import LoadingBeacon from 'v1/views/shared/LoadingBeacon';
 const NO_BEACON_CLS = 'no-beacon';

@@ -11,7 +11,7 @@
  */
 
 /* eslint max-len: [2, 160] */
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import {loc, View} from 'okta';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';

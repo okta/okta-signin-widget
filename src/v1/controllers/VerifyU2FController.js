@@ -12,7 +12,7 @@
 
 /* global u2f */
 import { _, loc, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import Q from 'q';
 import 'u2f-api-polyfill';
 import { U2FError } from 'util/Errors';
