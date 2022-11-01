@@ -4,6 +4,8 @@ set +x
 setup_service node v14.18.0
 set -x
 
+echo "BASH_SOURCE: ${BASH_SOURCE}"
+
 widget_home="$(readlink -f "$(dirname "$BASH_SOURCE")/../..")"
 
 # Get monolith build version based on commit sha
