@@ -113,6 +113,7 @@ const AUTHENTICATOR_KEY = {
   SYMANTEC_VIP: 'symantec_vip',
   YUBIKEY: 'yubikey_token',
   CUSTOM_APP: 'custom_app',
+  SMARTCARD: 'smart_card_idp'
 };
 
 const AUTHENTICATOR_METHODS = {

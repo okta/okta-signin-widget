@@ -1069,6 +1069,13 @@ const selectOktaVerifyMethod = {
   ],
 };
 
+const smartCardEnrollOrVerify = {
+  '/idp/idx/introspect': [
+    'authenticator-enroll-smartcard',
+    // 'authenticator-verification-smartcard',
+  ],
+};
+
 module.exports = {
   mocks: idx
 };

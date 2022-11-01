@@ -1,0 +1,173 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.6wWfVgQhFEqRf-NrQikI_al3YyJGF0KZ8a0L66aR~c",
+  "expiresAt": "2022-11-01T15:54:00.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Smart Card IdP",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut10ehrE4fRd197J0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "cert",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.6wWfVgQhFEqRf-NrQikI_al3YyJGF0KZ8a0L66aR~c",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "aut10abwKds1Igi4e0g4",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ],
+        "allowedFor": "sso"
+      },
+      {
+        "type": "phone",
+        "key": "phone_number",
+        "id": "aut10adPNGMGHYfir0g4",
+        "displayName": "Phone",
+        "methods": [
+          {
+            "type": "sms"
+          }
+        ],
+        "allowedFor": "sso"
+      },
+      {
+        "type": "federated",
+        "key": "smart_card_idp",
+        "id": "aut10ehrE4fRd197J0g4",
+        "displayName": "Smart Card IdP",
+        "methods": [
+          {
+            "type": "cert"
+          }
+        ],
+        "allowedFor": "sso"
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "federated",
+        "key": "smart_card_idp",
+        "id": "piv10j4PLSl0XUvmj0g4",
+        "displayName": "Smart Card IdP",
+        "methods": [
+          {
+            "type": "cert"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u109kCSTkqiKSjx0g4",
+      "identifier": "admin",
+      "profile": {
+        "firstName": "admin",
+        "lastName": "admin",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.6wWfVgQhFEqRf-NrQikI_al3YyJGF0KZ8a0L66aR~c",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa106uqli1L3jzgs0g4"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "OAUTH2.0",
+      "issuer": {
+        "name": "PIV",
+        "uri": "http://localhost:3000"
+      },
+      "request": {
+        "max_age": -1,
+        "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage",
+        "display": "page",
+        "response_type": "code",
+        "redirect_uri": "http://localhost:3000/enduser/callback",
+        "state": "Kop68VQgRMluTpxs4IoZuK0in0979t5nYAkNzy8zZ93gojN0RH1aYD756z175Gd2",
+        "code_challenge_method": "S256",
+        "nonce": "34HijW9xt2CRrJhOSod0VvW9knouoWSRUgeQvyybg0Kk07fuLw8l9bbCVZXyC3kC",
+        "code_challenge": "TlKC3KD5zeBp-49VNwThvrLuYhtgu5jdxr--GJrq8rE",
+        "response_mode": "query"
+      }
+    }
+  }
+}
