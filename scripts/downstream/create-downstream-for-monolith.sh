@@ -7,17 +7,8 @@ setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 # Get monolith build version based on commit sha
 source ./scripts/monolith/install-dockolith.sh
 pushd ./scripts/dockolith > /dev/null
-  mono_build_version=`./scripts/api/get-build-version "${upstream_artifact_sha}"`
+  mono_build_version=`./scripts/api/get-build-version.sh "${upstream_artifact_sha}"`
 popd > /dev/null
-
-# script="
-# import { getBuildVersion } from '@okta/dockolith';
-# (async function() {
-#   const version = await getBuildVersion({ commitSha: '${upstream_artifact_sha}' });
-#   console.log(version);
-# })();
-# "
-# mono_build_version=`./node_modules/.bin/ts-node -e "${script}"`
 
 # Update script: MONOLITH_BUILDVERSION in e2e-monolith.sh
 pushd ./scripts > /dev/null
