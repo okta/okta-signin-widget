@@ -8,7 +8,7 @@ pwd
 echo "OKTA_HOME: $OKTA_HOME"
 echo "REPO: $REPO"
 
-cd $OKTA_HOME/$REPO
+ls -al
 
 # Get monolith build version based on commit sha
 source ./scripts/monolith/install-dockolith.sh
