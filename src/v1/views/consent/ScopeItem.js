@@ -12,7 +12,7 @@
 
 import { View, _ } from 'okta';
 import hbs from '@okta/handlebars-inline-precompile';
-import 'qtip';
+import '@okta/qtip';
 export default View.extend({
   className: 'scope-item',
   template: hbs(

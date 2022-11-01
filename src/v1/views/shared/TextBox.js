@@ -15,7 +15,7 @@
 //and want to avoid the cirucular dependency that occurs if we
 //include Okta
 import { internal } from 'okta';
-import 'qtip';
+import '@okta/qtip';
 import BrowserFeatures from 'util/BrowserFeatures';
 const { TextBox } = internal.views.forms.inputs;
 export default TextBox.extend({

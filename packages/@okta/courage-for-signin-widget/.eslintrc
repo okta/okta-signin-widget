@@ -27,7 +27,7 @@
         "dirs/dirnames": [2, { "pattern": "^(?!.*node_modules).*$" }],
         "import/no-unresolved": [2, { "ignore": [
           "@okta/okta-i18n-bundles",
-          "qtip"
+          "@okta/qtip"
         ]}],
         "max-len": "off",
         "no-undef": "off",

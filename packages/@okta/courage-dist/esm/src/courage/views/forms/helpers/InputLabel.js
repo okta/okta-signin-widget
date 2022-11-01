@@ -1,6 +1,6 @@
 import _Handlebars2 from '../../../../../lib/handlebars/dist/cjs/handlebars.runtime.js';
 import oktaUnderscore from '../../../util/underscore-wrapper.js';
-import 'qtip';
+import '@okta/qtip';
 import BaseView from '../../BaseView.js';
 
 /**

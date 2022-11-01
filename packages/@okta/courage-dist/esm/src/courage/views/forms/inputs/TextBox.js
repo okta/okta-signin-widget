@@ -1,6 +1,6 @@
 import _Handlebars2 from '../../../../../lib/handlebars/dist/cjs/handlebars.runtime.js';
 import oktaJQueryStatic from '../../../util/jquery-wrapper.js';
-import 'qtip';
+import '@okta/qtip';
 import Keys from '../../../util/Keys.js';
 import '../../../vendor/plugins/jquery.placeholder.js';
 import BaseInput from '../BaseInput.js';
