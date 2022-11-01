@@ -26,7 +26,7 @@
       "rules": {
         "dirs/dirnames": [2, { "pattern": "^(?!.*node_modules).*$" }],
         "import/no-unresolved": [2, { "ignore": [
-          "okta-i18n-bundles",
+          "@okta/okta-i18n-bundles",
           "qtip"
         ]}],
         "max-len": "off",

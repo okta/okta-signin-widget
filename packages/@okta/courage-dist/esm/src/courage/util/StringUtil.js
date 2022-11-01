@@ -1,6 +1,6 @@
 import oktaJQueryStatic from './jquery-wrapper.js';
 import oktaUnderscore from './underscore-wrapper.js';
-import Bundles from 'okta-i18n-bundles';
+import Bundles from '@okta/okta-i18n-bundles';
 
 const entityMap = {
   '&amp;': '&',

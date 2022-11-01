@@ -9,7 +9,7 @@ function customResolvePath(sourceFile, currentFile, opts) {
     return sourceFile;
   }
   // Bundles are external and setup by top-level webpack
-  if (sourceFile === 'okta-i18n-bundles') {
+  if (sourceFile === '@okta/okta-i18n-bundles') {
     return sourceFile;
   }
   return defaultResolvePath(sourceFile, currentFile, opts);
