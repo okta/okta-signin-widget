@@ -66,7 +66,7 @@ module.exports = (env = {}) => {
     if (env.mockDuo) {
       console.log('======> Mocking Duo iFrame');  // eslint-disable-line no-console
       Object.assign(webpackConfig.resolve.alias, {
-        'duo': `${PLAYGROUND}/mocks/spec-duo/duo-mock.js`,
+        '@okta/duo': `${PLAYGROUND}/mocks/spec-duo/duo-mock.js`,
       });
     }
 

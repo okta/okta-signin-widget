@@ -2,7 +2,7 @@
 import { _ } from 'okta';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
-import Duo from 'duo';
+import Duo from '@okta/duo';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollDuoForm';
 import Util from 'helpers/mocks/Util';
