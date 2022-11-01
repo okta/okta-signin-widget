@@ -13,7 +13,7 @@ fi
 set -e
 
 # Internal packages to check for potential Dependency Confusion Attack (OKTA-529256)
-INETRNAL_PACKAGES=("@okta/typingdna" "@okta/handlebars-inline-precompile" "@okta/okta-i18n-bundles" "@okta/duo" "qtip")
+INETRNAL_PACKAGES=("@okta/typingdna" "@okta/handlebars-inline-precompile" "@okta/okta-i18n-bundles" "@okta/duo" "@okta/qtip")
 inject_marker="f@@@@@@ke"
 
 # Inject fake packages with same names as ones that are used internally
