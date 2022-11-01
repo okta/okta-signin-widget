@@ -12,7 +12,7 @@
 
 /* eslint camelcase: 0 */
 import { $, _, loc } from 'okta';
-import Duo from 'duo';
+import Duo from '@okta/duo';
 import Q from 'q';
 import FactorUtil from 'util/FactorUtil';
 import FormController from 'v1/util/FormController';

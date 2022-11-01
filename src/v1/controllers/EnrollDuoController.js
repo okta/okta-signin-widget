@@ -12,7 +12,7 @@
 
 /* eslint camelcase: 0*/
 import { $, _, loc } from 'okta';
-import Duo from 'duo';
+import Duo from '@okta/duo';
 import Q from 'q';
 import FormController from 'v1/util/FormController';
 import Footer from 'v1/views/enroll-factors/Footer';

@@ -1,5 +1,5 @@
 import { loc, createCallout } from 'okta';
-import Duo from 'duo';
+import Duo from '@okta/duo';
 import { BaseForm } from '../../internals';
 
 export default BaseForm.extend({
