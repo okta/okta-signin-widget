@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, $, loc, internal } from 'okta';
+import { _, $, loc, internal } from '@okta/okta';
 import FactorUtil from 'util/FactorUtil';
 import Factor from 'v1//models/Factor';
 import FactorsDropDownOptions from './FactorsDropDownOptions';

@@ -11,7 +11,7 @@
  */
 
 /* eslint max-len: [2, 160] */
-import { _, $, loc, View } from 'okta';
+import { _, $, loc, View } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
 import FormController from 'v1/util/FormController';

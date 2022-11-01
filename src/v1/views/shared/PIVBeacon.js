@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from 'okta';
+import { View } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 export default View.extend({
   className: 'piv-beacon',

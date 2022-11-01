@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { FrameworkView, _ } from 'okta';
+import { FrameworkView, _ } from '@okta/okta';
 
 const _viewAdd = FrameworkView.prototype.add;
 FrameworkView.prototype.add = function(view) {

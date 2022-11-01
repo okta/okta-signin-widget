@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, Model } from 'okta';
+import { _, Model } from '@okta/okta';
 import Q from 'q';
 import Enums from 'util/Enums';
 const KNOWN_ERRORS = ['OAuthError', 'AuthSdkError', 'AuthPollStopError', 'AuthApiError'];

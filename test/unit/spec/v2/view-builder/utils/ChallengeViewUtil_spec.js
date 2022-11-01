@@ -1,5 +1,5 @@
 import {doChallenge} from '../../../../../../src/v2/view-builder/utils/ChallengeViewUtil';
-import { loc, View, createButton } from 'okta';
+import { loc, View, createButton } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import Enums from '../../../../../../src/util/Enums';
 import Util from '../../../../../../src/util/Util';

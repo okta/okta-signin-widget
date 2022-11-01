@@ -13,12 +13,13 @@ fi
 set -e
 
 # Internal packages to check for potential Dependency Confusion Attack (OKTA-529256)
-INETRNAL_PACKAGES=("@okta/typingdna" "@okta/handlebars-inline-precompile" "@okta/okta-i18n-bundles" "@okta/duo" "@okta/qtip")
+INETRNAL_PACKAGES_TO_FAKE=("@okta/typingdna" "@okta/handlebars-inline-precompile" "@okta/okta-i18n-bundles" "@okta/duo" "@okta/qtip")
+INETRNAL_PACKAGES=(${INETRNAL_PACKAGES_TO_FAKE[@]} "@okta/okta")
 inject_marker="f@@@@@@ke"
 
 # Inject fake packages with same names as ones that are used internally
 inject_fake_packages() {
-  for pkg in "${INETRNAL_PACKAGES[@]}"
+  for pkg in "${INETRNAL_PACKAGES_TO_FAKE[@]}"
   do
     mkdir -p "node_modules/$pkg"
     package_json=$(cat <<-EOF
@@ -66,8 +67,17 @@ check_fake_packages_in_lock() {
   fi
 }
 
+check_okta_courage() {
+  courage_link=$(readlink ./node_modules/@okta/okta)
+  expected_src="../../packages/@okta/courage-dist"
+  if [ "$courage_link" != "$expected_src" ]; then
+    echo "!!! Okta courage links to $courage_link but expected $expected_src"
+  fi
+}
+
 # Build
 inject_fake_packages
+check_okta_courage
 if ! yarn build:release; then
   echo "build failed! Exiting..."
   exit ${TEST_FAILURE}

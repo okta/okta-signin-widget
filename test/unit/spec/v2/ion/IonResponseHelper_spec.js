@@ -1,4 +1,4 @@
-import { _ } from 'okta';
+import { _ } from '@okta/okta';
 import IonResponseHelper from 'v2/ion/IonResponseHelper';
 import Bundles from 'util/Bundles';
 

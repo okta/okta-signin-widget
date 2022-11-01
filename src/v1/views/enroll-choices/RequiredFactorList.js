@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, loc } from 'okta';
+import { _, loc } from '@okta/okta';
 import FactorList from './FactorList';
 export default FactorList.extend({
   listTitle: _.partial(loc, 'enroll.choices.list.setup', 'login'),

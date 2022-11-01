@@ -1,5 +1,5 @@
 import { BaseView, BaseForm } from '../../internals';
-import { _, $, View } from 'okta';
+import { _, $, View } from '@okta/okta';
 import ConsentViewForm from './ConsentViewForm';
 import AdminConsentViewHeader from './AdminConsentViewHeader';
 import EnduserConsentViewFooter from './EnduserConsentViewFooter';

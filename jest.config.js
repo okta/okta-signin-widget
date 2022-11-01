@@ -39,7 +39,7 @@ module.exports = {
 
     // General remapping
     '^nls/(.*)': '@okta/i18n/src/json/$1',
-    '^okta$': `${LOCAL_PACKAGES}/@okta/courage-dist/esm/src/index.js`,
+    '^@okta/okta$': `${LOCAL_PACKAGES}/@okta/courage-dist/esm/src/index.js`,
     '^@okta/okta-i18n-bundles$': `${ROOT}/src/util/Bundles`,
     '^@okta/qtip$': '@okta/qtip2/dist/jquery.qtip.js',
     '^@okta/duo$': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,

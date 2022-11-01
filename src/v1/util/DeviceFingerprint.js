@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { $ } from 'okta';
+import { $ } from '@okta/okta';
 import Q from 'q';
 export default {
   getUserAgent: function() {

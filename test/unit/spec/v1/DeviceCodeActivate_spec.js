@@ -1,4 +1,4 @@
-import { _ } from 'okta';
+import { _ } from '@okta/okta';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import DeviceCodeActivateForm from 'helpers/dom/DeviceCodeActivateForm';

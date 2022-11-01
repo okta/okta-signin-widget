@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { FORMS } from '../RemediationConstants';
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 
 const getCheckboxUiSchema = ({ label, type, required }) => ({
   // For Remember Me checkbox, we need the label only on the right side of it.

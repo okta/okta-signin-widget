@@ -1,4 +1,4 @@
-import { _ } from 'okta';
+import { _ } from '@okta/okta';
 import Settings from 'models/Settings';
 import responseTransformer from 'v2/ion/responseTransformer';
 import uiSchemaTransformer from 'v2/ion/uiSchemaTransformer';

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, loc, internal } from 'okta';
+import { _, loc, internal } from '@okta/okta';
 import FormController from 'v1/util/FormController';
 import Footer from 'v1/views/enroll-factors/Footer';
 const { Util } = internal.util;

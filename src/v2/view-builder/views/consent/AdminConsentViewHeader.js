@@ -1,4 +1,4 @@
-import { View, _, loc } from 'okta';
+import { View, _, loc } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 
 const defaultLogo = '/img/logos/default.png';

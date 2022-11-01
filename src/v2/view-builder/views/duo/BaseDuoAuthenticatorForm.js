@@ -1,4 +1,4 @@
-import { loc, createCallout } from 'okta';
+import { loc, createCallout } from '@okta/okta';
 import Duo from '@okta/duo';
 import { BaseForm } from '../../internals';
 

@@ -1,4 +1,4 @@
-import { View } from 'okta';
+import { View } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 
 const generatePasswordPolicyHtml = function(form, rulesList, prepend) {

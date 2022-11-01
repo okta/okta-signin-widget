@@ -1,4 +1,4 @@
-import { View, _, $} from 'okta';
+import { View, _, $} from '@okta/okta';
 import Link from '../components/Link';
 import ToggleTextLink from '../components/ToggleTextLink';
 import { getSignOutLink } from '../utils/LinksUtil';

@@ -1,4 +1,4 @@
-import { Model } from 'okta';
+import { Model } from '@okta/okta';
 import AutoRedirectView from 'v2/view-builder/views/AutoRedirectView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';

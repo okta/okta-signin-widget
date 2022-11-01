@@ -1,4 +1,4 @@
-import { internal } from 'okta';
+import { internal } from '@okta/okta';
 import 'helpers/util/jquery.okta';
 let { Class } = internal.util;
 const Dom = Class.extend({

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, View, loc, internal } from 'okta';
+import { _, View, loc, internal } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
 const { Util } = internal.util;

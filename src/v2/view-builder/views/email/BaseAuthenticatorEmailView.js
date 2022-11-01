@@ -1,4 +1,4 @@
-import { loc, createCallout } from 'okta';
+import { loc, createCallout } from '@okta/okta';
 import { BaseForm } from '../../internals';
 import email from '../shared/email';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';

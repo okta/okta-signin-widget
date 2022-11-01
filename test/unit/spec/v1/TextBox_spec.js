@@ -1,4 +1,4 @@
-import { BaseModel, _ } from 'okta';
+import { BaseModel, _ } from '@okta/okta';
 import Expect from 'helpers/util/Expect';
 import $sandbox from 'sandbox';
 import TextBox from 'v1/views/shared/TextBox';

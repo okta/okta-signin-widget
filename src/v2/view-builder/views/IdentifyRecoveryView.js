@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 
 const Body = BaseForm.extend({

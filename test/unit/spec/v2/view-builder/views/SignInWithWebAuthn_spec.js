@@ -1,4 +1,4 @@
-import { Model } from 'okta';
+import { Model } from '@okta/okta';
 import SignInWithWebAuthn from 'v2/view-builder/views/signin/SignInWithWebAuthn';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';

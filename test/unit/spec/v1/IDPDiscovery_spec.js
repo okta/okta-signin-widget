@@ -1,5 +1,5 @@
 /* eslint max-params:[2, 28], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
-import { _, $, internal } from 'okta';
+import { _, $, internal } from '@okta/okta';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import AuthContainer from 'helpers/dom/AuthContainer';

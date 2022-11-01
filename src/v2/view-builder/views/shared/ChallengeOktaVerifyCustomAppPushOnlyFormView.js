@@ -1,7 +1,7 @@
 // Common view for OV push and custom app.
 import { BaseForm } from '../../internals';
 import {AUTHENTICATOR_KEY} from 'v2/ion/RemediationConstants';
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 
 
 const Body = BaseForm.extend(Object.assign({

@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc } from '@okta/okta';
 import { BaseFooter } from '../../internals';
 import EnrollAuthenticatorPasswordView from './EnrollAuthenticatorPasswordView';
 

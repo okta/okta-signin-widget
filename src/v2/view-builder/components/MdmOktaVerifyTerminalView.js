@@ -1,4 +1,4 @@
-import { View, loc, internal } from 'okta';
+import { View, loc, internal } from '@okta/okta';
 import hbs from '@okta/handlebars-inline-precompile';
 
 const { Notification } = internal.views.components;
