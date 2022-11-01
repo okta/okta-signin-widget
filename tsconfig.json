@@ -22,7 +22,7 @@
       "handlebars-inline-precompile": ["./scripts/buildtools/tsc/handlebars-inline-precompile"],
       "duo": ["./packages/vendor/duo_web_sdk/index.js"],
       "qtip": ["./packages/@okta/qtip2/dist/jquery.qtip.js"],
-      "typingdna": ["./packages/vendor/TypingDnaRecorder-JavaScript/typingdna"],
+      "@okta/typingdna": ["./packages/vendor/TypingDnaRecorder-JavaScript/typingdna"],
       "util/*": ["./src/util/*"],
       "widget/*": ["./src/widget/*"],
       "models/*": ["./src/models/*"],

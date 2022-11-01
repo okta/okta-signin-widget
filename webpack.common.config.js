@@ -84,7 +84,7 @@ module.exports = function({
         'qtip': '@okta/qtip2/dist/jquery.qtip.js',
 
         'duo': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
-        'typingdna': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
+        '@okta/typingdna': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
       }
     },
 
