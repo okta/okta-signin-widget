@@ -93,6 +93,13 @@ test_suites:
       script_name: verify-registry-install
       criteria: MERGE
       queue_name: small
+    - name: find-internal-packages
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '11'
+      timeout: '20'
+      script_name: find-internal-packages
+      criteria: MERGE
+      queue_name: small
     # E2E tests using dockerized monolith - optional (for now)
     - name: e2e-monolith
       script_path: ../okta-signin-widget/scripts
