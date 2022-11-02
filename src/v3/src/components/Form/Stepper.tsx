@@ -15,8 +15,7 @@ import { useState } from 'preact/hooks';
 
 import { StepperContext } from '../../contexts';
 import { StepperLayout } from '../../types';
-// eslint-disable-next-line import/no-cycle
-import Layout from './Layout';
+import LayoutContainer from './LayoutContainer';
 
 type StepperProps = {
   uischema: StepperLayout;
@@ -39,7 +38,7 @@ const Stepper: FunctionComponent<StepperProps> = ({ uischema }) => {
     // Scope setStepIndex by only providing it to its own children components
     // Nested stepper can be supported with this pattern
     <StepperContext.Provider value={{ setStepIndex, stepIndex }}>
-      <Layout uischema={elements[stepIndex]} />
+      <LayoutContainer uischema={elements[stepIndex]} />
     </StepperContext.Provider>
   );
 };

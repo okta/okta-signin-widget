@@ -22,8 +22,7 @@ import { styled } from '@mui/material/styles';
 import { FunctionComponent, h } from 'preact';
 
 import { AccordionLayout } from '../../types';
-// eslint-disable-next-line import/no-cycle
-import Layout from './Layout';
+import LayoutContainer from './LayoutContainer';
 
 type AccordionProps = {
   uischema: AccordionLayout;
@@ -64,8 +63,7 @@ const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
               <Typography>{element.options.summary}</Typography>
             </StyledAccordionSummary>
             <AccordionDetails sx={{ padding: 0 }}>
-              {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
-              <Layout uischema={element.options.content} />
+              <LayoutContainer uischema={element.options.content} />
             </AccordionDetails>
           </MuiAccordion>
         ))

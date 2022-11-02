@@ -14,18 +14,21 @@ import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 import {
-  AccordionLayout,
-  StepperLayout,
   UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
 import { getElementKey } from '../../util';
-import Accordion from './Accordion';
 import ElementContainer from './ElementContainer';
-import Stepper from './Stepper';
 
-const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) => {
+/**
+ *
+ * The purpose of this component is to act as an abstracted layer
+ * for use by non standard UISchemaLayout interfaces to prevent a circular dependency
+ * i.e. {@link AccordionLayout} and {@link StepperLayout}
+ *
+ */
+const LayoutContainer: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) => {
   const { type, elements } = uischema;
 
   const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
@@ -41,17 +44,9 @@ const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) =
         elements.map((element, index) => {
           const elementKey = getElementKey(element, index);
 
-          if (element.type === UISchemaLayoutType.STEPPER) {
-            return <Stepper uischema={element as StepperLayout} />;
-          }
-
-          if (element.type === UISchemaLayoutType.ACCORDION) {
-            return <Accordion uischema={element as AccordionLayout} />;
-          }
-
           if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
             .includes((element as UISchemaLayout).type)) {
-            return <Layout uischema={element as UISchemaLayout} />;
+            return <LayoutContainer uischema={element as UISchemaLayout} />;
           }
 
           return (
@@ -66,4 +61,4 @@ const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) =
   );
 };
 
-export default Layout;
+export default LayoutContainer;

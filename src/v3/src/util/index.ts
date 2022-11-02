@@ -19,6 +19,7 @@ export * from './formatError';
 export * from './formUtils';
 export * from './generateRandomString';
 export * from './getAuthenticatorKey';
+export * from './getElementKey';
 export * from './getImmutableData';
 export * from './getTranslation';
 export * from './getValidationMessages';
