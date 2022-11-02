@@ -1010,7 +1010,7 @@ Expect.describe('ForgotPassword', function() {
           });
       }
     );
-    itp(
+    fit(
       'shows an error if sending email via "Reset via email" link results in an error, after sending sms',
       function() {
         return setupWithSms()
