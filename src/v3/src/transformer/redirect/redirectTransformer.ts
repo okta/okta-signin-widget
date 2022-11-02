@@ -40,8 +40,6 @@ export const redirectTransformer = (
   const appInfo = getAppInfo(transaction);
   const userInfo = getUserInfo(transaction);
 
-  let titleContent = 'oie.success.text.signingIn';
-
   if (interstitialBeforeLoginRedirect === InterstitialRedirectView.DEFAULT) {
     uischema.elements.push({
       type: 'Spinner',
@@ -62,22 +60,25 @@ export const redirectTransformer = (
   const { label, name } = appInfo;
   const appName = label ?? name;
   const { identifier } = userInfo;
-  const contentParams: string[] = [];
 
   // features.showIdentifier=true indicates we are already displaying identifier at the top of the form,
   // so no need to display again in the login text
   if (appName && identifier && !features?.showIdentifier) {
-    titleContent = 'oie.success.text.signingIn.with.appName.and.identifier';
-    contentParams.push(appName, identifier);
+    uischema.elements.unshift({
+      type: 'Description',
+      options: { content: loc('oie.success.text.signingIn.with.appName.and.identifier', 'login', [appName, identifier]) },
+    } as DescriptionElement);
   } else if (appName) {
-    titleContent = 'oie.success.text.signingIn.with.appName';
-    contentParams.push(appName);
+    uischema.elements.unshift({
+      type: 'Description',
+      options: { content: loc('oie.success.text.signingIn.with.appName', 'login', [appName]) },
+    } as DescriptionElement);
+  } else {
+    uischema.elements.unshift({
+      type: 'Description',
+      options: { content: loc('oie.success.text.signingIn', 'login') },
+    } as DescriptionElement);
   }
-
-  uischema.elements.unshift({
-    type: 'Description',
-    options: { content: loc(titleContent, 'login', contentParams.length > 0 ? contentParams : undefined) },
-  } as DescriptionElement);
 
   return formBag;
 };
