@@ -41,7 +41,6 @@ export const redirectTransformer = (
   const userInfo = getUserInfo(transaction);
 
   let titleContent = 'oie.success.text.signingIn';
-  const contentParams: string[] = [];
 
   if (interstitialBeforeLoginRedirect === InterstitialRedirectView.DEFAULT) {
     uischema.elements.push({
@@ -63,6 +62,7 @@ export const redirectTransformer = (
   const { label, name } = appInfo;
   const appName = label ?? name;
   const { identifier } = userInfo;
+  const contentParams: string[] = [];
 
   // features.showIdentifier=true indicates we are already displaying identifier at the top of the form,
   // so no need to display again in the login text
@@ -76,7 +76,7 @@ export const redirectTransformer = (
 
   uischema.elements.unshift({
     type: 'Description',
-    options: { content: loc(titleContent, 'login', [contentParams]) },
+    options: { content: loc(titleContent, 'login', contentParams.length > 0 ? contentParams : undefined) },
   } as DescriptionElement);
 
   return formBag;
