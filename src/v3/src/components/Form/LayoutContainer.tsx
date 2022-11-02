@@ -15,12 +15,11 @@ import { FunctionComponent, h } from 'preact';
 
 import {
   UISchemaElement,
-  UISchemaElementComponent,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { getElementKey, isDevelopmentEnvironment, isTestEnvironment } from '../../util';
-import renderers from './renderers';
+import { getElementKey } from '../../util';
+import ElementContainer from './ElementContainer';
 
 /**
  *
@@ -50,27 +49,11 @@ const LayoutContainer: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uisc
             return <LayoutContainer uischema={element as UISchemaLayout} />;
           }
 
-          const renderer = renderers.find((r) => r.tester(element));
-          if (!renderer) {
-            // TODO: for now do not render for unmatch render object
-            // remove unnecessary uischema in future refactor and throw error
-            // throw new Error(`Failed to find render component for uischema: ${JSON.stringify(element)}`);
-            if (isDevelopmentEnvironment() || isTestEnvironment()) {
-              console.warn(`Failed to find render component for uischema: ${JSON.stringify(element)}`);
-            }
-            return null;
-          }
-
-          const uischemaElement = (element as UISchemaElement);
-          const Component = renderer.renderer as UISchemaElementComponent;
           return (
-            <Box
+            <ElementContainer
               key={elementKey}
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...(!(uischemaElement).noMargin && { marginBottom: 4 })}
-            >
-              <Component uischema={uischemaElement} />
-            </Box>
+              element={element as UISchemaElement}
+            />
           );
         })
       }

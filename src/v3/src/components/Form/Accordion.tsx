@@ -22,7 +22,7 @@ import { styled } from '@mui/material/styles';
 import { FunctionComponent, h } from 'preact';
 
 import { AccordionLayout } from '../../types';
-import Layout from './SimpleLayout';
+import LayoutContainer from './LayoutContainer';
 
 type AccordionProps = {
   uischema: AccordionLayout;
@@ -63,7 +63,7 @@ const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
               <Typography>{element.options.summary}</Typography>
             </StyledAccordionSummary>
             <AccordionDetails sx={{ padding: 0 }}>
-              <Layout uischema={element.options.content} />
+              <LayoutContainer uischema={element.options.content} />
             </AccordionDetails>
           </MuiAccordion>
         ))
