@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 # REMOVME
-DOCKOLITH_BRANCH=ag-wrap-calcifer-OKTA-540531
+DOCKOLITH_BRANCH=
 
 if [[ -z ${DOCKOLITH_BRANCH} ]]; then
   export DOCKOLITH_BRANCH=master
