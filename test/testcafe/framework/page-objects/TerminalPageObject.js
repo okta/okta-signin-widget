@@ -30,7 +30,7 @@ export default class TerminalPageObject extends BasePageObject {
   }
 
   doesTextExist(content) {
-    return this.form.getTextElement(content).exists;
+    return this.form.getByText(content).exists;
   }
 
   // Check for go back link unique to V2
