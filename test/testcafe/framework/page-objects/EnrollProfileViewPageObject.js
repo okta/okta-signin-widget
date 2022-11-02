@@ -1,7 +1,5 @@
 import BasePageObject from './BasePageObject';
 
-const requirementsSelector = '[data-se="password-authenticator--rules"]';
-
 export default class EnrollProfileViewPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -51,7 +49,7 @@ export default class EnrollProfileViewPageObject extends BasePageObject {
     return this.form.fieldByLabelExists(label, { selector: 'select' });
   }
 
-  getRequirements() {
-    return this.form.getElement(requirementsSelector).innerText;
+  hasText(text) {
+    return this.form.getByText(text).exists;
   }
 }

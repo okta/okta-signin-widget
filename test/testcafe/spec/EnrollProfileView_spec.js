@@ -194,12 +194,12 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
   // verify password text toggle is rendered
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   // verify password requirements are rendered
-  await t.expect(enrollProfilePage.getRequirements()).contains('Password requirements:');
-  await t.expect(enrollProfilePage.getRequirements()).contains('At least 8 characters');
-  await t.expect(enrollProfilePage.getRequirements()).contains('An uppercase letter');
-  await t.expect(enrollProfilePage.getRequirements()).contains('A lowercase letter');
-  await t.expect(enrollProfilePage.getRequirements()).contains('A number');
-  await t.expect(enrollProfilePage.getRequirements()).contains('No parts of your username');
+  await t.expect(enrollProfilePage.hasText('Password requirements:')).eql(true);
+  await t.expect(enrollProfilePage.hasText('At least 8 characters')).eql(true);
+  await t.expect(enrollProfilePage.hasText('An uppercase letter')).eql(true);
+  await t.expect(enrollProfilePage.hasText('A lowercase letter')).eql(true);
+  await t.expect(enrollProfilePage.hasText('A number')).eql(true);
+  await t.expect(enrollProfilePage.hasText('No parts of your username')).eql(true);
 
   await t.expect(await enrollProfilePage.signUpButtonExists()).eql(true);
 
