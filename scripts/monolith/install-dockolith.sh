@@ -16,3 +16,11 @@ cp package.json package.json.bak
 yarn add -DW --no-lockfile file:./scripts/dockolith
 mv package.json.bak package.json
 
+pushd ./scripts/dockolith
+  ls -al ./
+  ls -al ./target
+  yarn build
+  ls -al ./target
+popd
+
+exit 1
