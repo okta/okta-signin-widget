@@ -1,3 +1,4 @@
+/* eslint max-statements: [2, 30],  max-depth: [2, 3], complexity: [2, 30] */
 const npmCheck = require('npm-check');
 const process = require('process');
 const path = require('path');
@@ -97,13 +98,17 @@ return (async () => {
     const currentState = await npmCheck({
       cwd: ROOT
     });
-    const internalPkgsRoot = currentState.get('packages').map(mapPackages).filter(pkg => filterPackages(pkg, result));
+    const internalPkgsRoot = currentState.get('packages')
+      .map(mapPackages)
+      .filter(pkg => filterPackages(pkg, result));
     
     // Also find internal packages references inside courage-dist
     const currentStateCourage = await npmCheck({
       cwd: path.resolve(ROOT, 'packages/@okta/courage-dist')
     });
-    const internalPkgsCourage = currentStateCourage.get('packages').map(mapPackages).filter(pkg => filterPackages(pkg, result));
+    const internalPkgsCourage = currentStateCourage.get('packages')
+      .map(mapPackages)
+      .filter(pkg => filterPackages(pkg, result));
     const internalPkgs = [
       ...internalPkgsRoot,
       ...internalPkgsCourage,
