@@ -23,7 +23,8 @@ const identifyPollErrorMock = RequestMock()
 
 const requestLogger = RequestLogger(/poll/);
 
-fixture('Safemode Polling');
+fixture('Safemode Polling')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -32,12 +33,13 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(requestLogger, identifyMock)('should make request based on timer in response', async t => {
+// OKTA-546860 "Safe mode" UI in v3 not yet implemented
+test.meta('v3', false).requestHooks(requestLogger, identifyMock)('should make request based on timer in response', async t => {
   let identityPage  = await setup(t);
 
   await identityPage.fillIdentifierField('username');
   await identityPage.fillPasswordField('password');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   const pollingPageObject = new PollingPageObject();
 
   await t.wait(2000);
@@ -53,7 +55,7 @@ test.requestHooks(requestLogger, identifyPollErrorMock)('not poll on error', asy
   let identityPage  = await setup(t);
   await identityPage.fillIdentifierField('username');
   await identityPage.fillPasswordField('password');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   const pollingPageObject = new PollingPageObject();
   await t.expect(pollingPageObject.getErrorMessages().getTextContent()).eql('Server is unable to respond at the moment.');
   await t.expect(pollingPageObject.getContent().length).eql(0);
