@@ -1,0 +1,156 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.VDwicgRXRn-ztfJ20RImA28OS1M3DtaK2IYQSVoZ",
+  "expiresAt": "2022-11-01T16:05:02.000Z",
+  "intent": "CREDENTIAL_ENROLLMENT",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Smart Card IdP",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut10ehrE4fRd197J0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "cert",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.VDwicgRXRn-ztfJ20RImA28OS1M3DtaK2IYQSVoZ",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "federated",
+        "key": "smart_card_idp",
+        "id": "aut10ehrE4fRd197J0g4",
+        "displayName": "Smart Card IdP",
+        "methods": [
+          {
+            "type": "cert"
+          }
+        ],
+        "allowedFor": "sso"
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "email",
+        "key": "okta_email",
+        "id": "eae10fdQbwwOnqxse0g4",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "lae4hoDWWQbcQmt7b0g3",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      },
+      {
+        "type": "phone",
+        "key": "phone_number",
+        "id": "sms10d0xAGjRoMvBS0g4",
+        "displayName": "Phone",
+        "methods": [
+          {
+            "type": "sms"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u109kCSTkqiKSjx0g4",
+      "identifier": "admin@piv.org",
+      "profile": {
+        "firstName": "admin",
+        "lastName": "admin",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.VDwicgRXRn-ztfJ20RImA28OS1M3DtaK2IYQSVoZ",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "DEFAULT_APP"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "URL",
+      "request": {}
+    }
+  }
+}

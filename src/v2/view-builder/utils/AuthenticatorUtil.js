@@ -24,7 +24,7 @@ const getButtonDataSeAttr = function(authenticator) {
   return '';
 };
 
-/* eslint complexity: [0, 0] */
+/* eslint complexity: [0, 0], max-statements: [2, 24] */
 const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
@@ -188,6 +188,17 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       iconClassName: 'mfa-custom-app-logo',
       logoUri : authenticator?.relatesTo?.logoUri || ''
+    });
+    break;
+  }
+
+  case AUTHENTICATOR_KEY.SMARTCARD: {
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''  
+        : loc('oie.smartcard.authenticator.description', 'login'),
+      iconClassName: 'mfa-smartcard',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
   }

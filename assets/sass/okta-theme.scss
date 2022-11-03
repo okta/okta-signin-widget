@@ -698,7 +698,8 @@
     }
   }
 
-  .smartcard {
+  .smartcard,
+  .mfa-smartcard {
     /* -- Factor Icons (large): PIV -- */
     background-image: url('../img/icons/login/smartcard_70x70.png');
 

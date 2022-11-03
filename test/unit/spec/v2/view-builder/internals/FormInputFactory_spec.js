@@ -251,6 +251,24 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
           },
           authenticatorKey: 'custom_app',
         },
+        {
+          label: 'Smart Card IdP',
+          value: {
+            id: 'aut10ehrE4fRd197J0g4',
+          },
+          relatesTo: {
+            type: 'federated',
+            key: 'smart_card_idp',
+            id: 'piv10j4PLSl0XUvmj0g4',
+            displayName: 'Smart Card IdP',
+            methods: [
+              {
+                type: 'cert',
+              },
+            ],
+          },
+          authenticatorKey: 'smart_card_idp',
+        },
       ],
     };
     // Create a copy of input object.
@@ -528,6 +546,27 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'custom_app',
         logoUri: 'https://cdn.okta1.com/bc/globalFileStoreRecord?id=gfs3sti6DQ7A9vS3h0g4',
         noTranslateClassName: 'no-translate',
+      },
+      {
+        label: 'Smart Card IdP',
+        value: {
+          id: 'aut10ehrE4fRd197J0g4',
+        },
+        relatesTo: {
+          displayName: 'Smart Card IdP',
+          type: 'federated',
+          key: 'smart_card_idp',
+          id: 'piv10j4PLSl0XUvmj0g4',
+          methods: [
+            {
+              type: 'cert'
+            }
+          ]
+        },
+        authenticatorKey:'smart_card_idp',
+        description:'',
+        iconClassName:'mfa-smartcard',
+        buttonDataSeAttr: 'smart_card_idp',
       },
     ]);
     // make sure input parameter is not mutated.
@@ -878,7 +917,25 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
             ]
           },
           authenticatorKey:'google_otp',
-        }
+        },
+        {
+          label: 'Smart Card IdP',
+          value: {
+            id: 'aut10ehrE4fRd197J0g4',
+          },
+          relatesTo: {
+            type: 'federated',
+            key: 'smart_card_idp',
+            id: 'piv10j4PLSl0XUvmj0g4',
+            displayName: 'Smart Card IdP',
+            methods: [
+              {
+                type: 'cert',
+              },
+            ],
+          },
+          authenticatorKey: 'smart_card_idp',
+        },
       ],
       'label-top': true,
     };
@@ -1028,6 +1085,27 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         description:'Enter a temporary code generated from the Google Authenticator app.',
         iconClassName:'mfa-google-auth',
         buttonDataSeAttr: 'google_otp',
+      },
+      {
+        label: 'Smart Card IdP',
+        value: {
+          id: 'aut10ehrE4fRd197J0g4',
+        },
+        relatesTo: {
+          displayName: 'Smart Card IdP',
+          type: 'federated',
+          key: 'smart_card_idp',
+          id: 'piv10j4PLSl0XUvmj0g4',
+          methods: [
+            {
+              type: 'cert'
+            }
+          ]
+        },
+        authenticatorKey:'smart_card_idp',
+        description:'Use a physical smart card, such as PIV or CAC, to sign in',
+        iconClassName:'mfa-smartcard',
+        buttonDataSeAttr: 'smart_card_idp',
       }
     ]);
     // make sure input parameter is not mutated.
