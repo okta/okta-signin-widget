@@ -11,10 +11,16 @@
  */
 
 import { Divider as MuiDivider } from '@mui/material';
-import { FunctionComponent, h } from 'preact';
+import { h } from 'preact';
 
-const Divider: FunctionComponent = () => (
-  <MuiDivider />
-);
+import { DividerElement, UISchemaElementComponent } from '../../types';
+
+const Divider: UISchemaElementComponent<{ uischema: DividerElement }> = ({ uischema }) => {
+  const { options } = uischema;
+
+  return typeof options?.text !== 'undefined' ? (
+    <MuiDivider className="separation-line">{options.text}</MuiDivider>
+  ) : <MuiDivider className="separation-line" />;
+};
 
 export default Divider;

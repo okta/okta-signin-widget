@@ -15,6 +15,7 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  DividerElement,
   FieldElement,
   IdxStepTransformer,
   LinkElement,
@@ -115,7 +116,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
 
   const selectIdentifyStep = availableSteps?.find(({ name }) => name === IDX_STEP.SELECT_IDENTIFY);
   if (selectIdentifyStep) {
-    uischema.elements.push({ type: 'Divider' });
+    uischema.elements.push({ type: 'Divider' } as DividerElement);
     const { name: step } = selectIdentifyStep;
     const signinLink: LinkElement = {
       type: 'Link',

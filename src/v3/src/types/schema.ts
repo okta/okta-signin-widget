@@ -187,6 +187,8 @@ export interface ButtonElement extends UISchemaElement {
     dataSe?: string;
     stepToRender?: string;
     ariaLabel?: string;
+    classes?: string;
+    onClick?: (widgetContext: IWidgetContext) => unknown;
   };
 }
 
@@ -416,4 +418,9 @@ export interface TranslationInfo {
   name: string;
   i18nKey: string;
   value: string;
+}
+
+export interface DividerElement extends UISchemaElement {
+  type: 'Divider';
+  options?: { text: string; };
 }

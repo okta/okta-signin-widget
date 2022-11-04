@@ -209,7 +209,7 @@ exports[`enroll-profile-new should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <hr
-                    class="MuiDivider-root MuiDivider-fullWidth emotion-36"
+                    class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-36"
                   />
                 </div>
                 <div
