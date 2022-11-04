@@ -43,6 +43,7 @@ import {
   transformSelectOVMethodVerify,
 } from '../selectAuthenticator';
 import { transformWebAuthNAuthenticator } from '../webauthn';
+import { transformYubikeyOtpAuthenticator } from '../yubikey';
 import {
   transformEmailChallenge,
   transformEmailChallengeConsent,
@@ -138,6 +139,10 @@ const TransformerMap: {
       transform: transformWebAuthNAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.YUBIKEY]: {
+      transform: transformYubikeyOtpAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
   },
   [IDX_STEP.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: {
@@ -179,6 +184,10 @@ const TransformerMap: {
     },
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
       transform: transformGoogleAuthenticatorEnroll,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.YUBIKEY]: {
+      transform: transformYubikeyOtpAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
   },
