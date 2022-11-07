@@ -76,10 +76,10 @@ describe('Yubikey OTP transformer Tests', () => {
     });
 
     it('should add correct title, description, passcode input, and Verify button', () => {
-      const updatedFormBag = transformYubikeyOtpAuthenticator({ 
-          transaction,
-          formBag,
-          widgetProps,
+      const updatedFormBag = transformYubikeyOtpAuthenticator({
+        transaction,
+        formBag,
+        widgetProps,
       });
 
       expect(updatedFormBag.uischema.elements.length).toBe(4);

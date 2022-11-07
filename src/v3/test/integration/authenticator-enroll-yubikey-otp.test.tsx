@@ -49,7 +49,7 @@ describe('authenticator-enroll-yubikey-otp', () => {
     await user.click(await findByText('Set up', { selector: 'button' }));
 
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', { credentials: { passcode: '1234' }}),
+      ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', { credentials: { passcode: '1234' } }),
     );
   });
 });

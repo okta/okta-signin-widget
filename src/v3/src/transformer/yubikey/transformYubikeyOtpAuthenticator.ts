@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import yubikeySvg from '../../img/yubikeyDemo.svg';
 import { IDX_STEP } from '../../constants';
+import yubikeySvg from '../../img/yubikeyDemo.svg';
 import {
   ButtonElement,
   ButtonType,
@@ -50,8 +50,8 @@ export const transformYubikeyOtpAuthenticator: IdxStepTransformer = ({ formBag, 
   const submitButtonControl: ButtonElement = {
     type: 'Button',
     label: nextStep!.name === IDX_STEP.ENROLL_AUTHENTICATOR
-        ? loc('oie.enroll.authenticator.button.text', 'login')
-        : loc('oform.verify', 'login'),
+      ? loc('oie.enroll.authenticator.button.text', 'login')
+      : loc('oform.verify', 'login'),
     options: {
       type: ButtonType.SUBMIT,
       step: nextStep!.name,
@@ -80,7 +80,7 @@ export const transformYubikeyOtpAuthenticator: IdxStepTransformer = ({ formBag, 
     submitButtonControl,
   ];
 
-  if(nextStep!.name === IDX_STEP.ENROLL_AUTHENTICATOR) {
+  if (nextStep!.name === IDX_STEP.ENROLL_AUTHENTICATOR) {
     uischema.elements.unshift(imageElement);
   }
 

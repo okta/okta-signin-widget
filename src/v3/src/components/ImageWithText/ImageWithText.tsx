@@ -29,18 +29,20 @@ const ImageWithText: UISchemaElementComponent<{
     <Box
       id={uischema.options.id}
       display="flex"
-      justifyContent={textContent ? "flex-start" : "center"}
+      justifyContent={textContent ? 'flex-start' : 'center'}
       alignItems="center"
       flexWrap="wrap"
     >
       <Box marginRight={2}>
         <Icon />
       </Box>
-      { 
-        textContent &&
+      {
+        textContent
+        && (
         <Box>
           <Text as="span">{textContent}</Text>
         </Box>
+        )
       }
     </Box>
   );
