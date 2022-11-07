@@ -27,6 +27,7 @@ export default FormController.extend({
       const data = {
         fromURI: this.settings.get('relayState'),
         isCustomDomain: pivConfig.isCustomDomain,
+        customDomain: pivConfig.customDomain,
       };
 
       try {
