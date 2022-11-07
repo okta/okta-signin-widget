@@ -138,7 +138,8 @@ export default FormController.extend({
               self.webauthnAbortController = null;
             });
         });
-      });
+      })
+        .catch(() => {});
     },
   },
 

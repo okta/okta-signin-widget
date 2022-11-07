@@ -1,20 +1,22 @@
 const path = require('path');
 const { readFileSync } = require('fs');
 
-const ONE_MB = 1024 * 1024;
-const EXPECTED_PACKAGE_SIZE = 13.35 * ONE_MB;
+const KB = 1024;
+const MB = 1024 * 1024;
+const EXPECTED_PACKAGE_SIZE = 13.35 * MB;
 const EXPECTED_PACKAGE_FILES = 2200;
 
 const EXPECTED_BUNDLE_SIZES = {
-  'okta-sign-in.js': 3.2 * ONE_MB,
-  'okta-sign-in.oie.js': 2.4 * ONE_MB,
-  'okta-sign-in.classic.js': 2.4 * ONE_MB,
-  'okta-sign-in.polyfill.js': 0.35 * ONE_MB,
-  'okta-sign-in.min.js': 1.6 * ONE_MB,
-  'okta-sign-in.polyfill.min.js': .08 * ONE_MB,
-  'okta-sign-in.no-polyfill.min.js': 1.5 * ONE_MB,
-  'okta-sign-in.oie.min.js': 1.2 * ONE_MB,
-  'okta-sign-in.classic.min.js': 1.1 * ONE_MB,
+  'okta-plugin-a11y.js': 9.8 * KB,
+  'okta-sign-in.classic.js': 2.4 * MB,
+  'okta-sign-in.classic.min.js': 1.1 * MB,
+  'okta-sign-in.js': 3.2 * MB,
+  'okta-sign-in.min.js': 1.6 * MB,
+  'okta-sign-in.no-polyfill.min.js': 1.6 * MB,
+  'okta-sign-in.oie.js': 2.4 * MB,
+  'okta-sign-in.oie.min.js': 1.2 * MB,
+  'okta-sign-in.polyfill.js': 468 * KB,
+  'okta-sign-in.polyfill.min.js': 99 * KB,
 };
 
 exports.command = 'verify-package';
@@ -48,7 +50,7 @@ function verifyPackageContents() {
   expect(manifest.filename).toBe(`okta-okta-signin-widget-${pkg.version}.tgz`);
 
   // package size
-  console.log('manifest.size:', manifest.size / ONE_MB);
+  console.log('manifest.size:', manifest.size / MB);
   expect(manifest.size).toBeGreaterThan(EXPECTED_PACKAGE_SIZE * .9);
   expect(manifest.size).toBeLessThan(EXPECTED_PACKAGE_SIZE * 1.1);
 
@@ -84,7 +86,7 @@ function verifyPackageContents() {
       throw new Error(`Expected file ${filename} was not found in the package`);
     }
   });
-  console.log(`Package size is within expected range: ${manifest.size / ONE_MB} MB, ${manifest.entryCount} files`);
+  console.log(`Package size is within expected range: ${manifest.size / MB} MB, ${manifest.entryCount} files`);
 
   Object.keys(EXPECTED_BUNDLE_SIZES).forEach(bundleName => {
     if (!manifest.files.some(entry => entry.path === `dist/js/${bundleName}`)) {
@@ -94,7 +96,7 @@ function verifyPackageContents() {
       throw new Error(`Expected map file ${bundleName}.map was not found in the package dist/js folder`);
     }
     const entry = manifest.files.find(entry => entry.path === `dist/js/${bundleName}`);
-    const size = Math.round((entry.size / ONE_MB) * 100) / 100;
+    const size = Math.round((entry.size / MB) * 100) / 100;
     console.log(`${bundleName}: ${size} MB`);
   });
 

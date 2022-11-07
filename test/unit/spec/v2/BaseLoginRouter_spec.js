@@ -8,7 +8,7 @@ import $sandbox from 'sandbox';
 import getAuthClient from 'helpers/getAuthClient';
 import XHRInteract from '../../../../playground/mocks/data/oauth2/interact.json';
 import XHRIdentifyWithPassword
-  from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
+from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import XHRIdentify from '../../../../playground/mocks/data/idp/idx/identify.json';
 import ResetPassword from '../../../../playground/mocks/data/idp/idx/authenticator-reset-password.json';
 import EnrollProfile from '../../../../playground/mocks/data/idp/idx/enroll-profile.json';

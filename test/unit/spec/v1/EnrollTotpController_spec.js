@@ -702,7 +702,6 @@ Expect.describe('EnrollTotp', function() {
         });
     });
     itp('removes the sms activation form on successful activation response', function() {
-      Expect.allowUnhandledPromiseRejection(); // OKTA-324849
       return enrollOktaPushGoCannotScanFn()
         .then(function(test) {
           Util.resetAjaxRequests();

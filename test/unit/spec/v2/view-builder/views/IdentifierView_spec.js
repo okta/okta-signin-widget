@@ -3,11 +3,11 @@ import IdentifierView from 'v2/view-builder/views/IdentifierView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import XHRIdentifyWithPassword
-  from '../../../../../../playground/mocks/data/idp/idx/identify-with-password.json';
+from '../../../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import XHRIdentifyWithThirdPartyIdps
-  from '../../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
+from '../../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
 import XHRIdentifyWithWebAuthn
-  from '../../../../../../playground/mocks/data/idp/idx/identify-with-webauthn-launch-authenticator.json';
+from '../../../../../../playground/mocks/data/idp/idx/identify-with-webauthn-launch-authenticator.json';
 import CookieUtil from 'util/CookieUtil';
 import Bundles from 'util/Bundles';
 import { FORMS } from 'v2/ion/RemediationConstants';

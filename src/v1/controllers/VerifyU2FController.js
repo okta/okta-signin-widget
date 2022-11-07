@@ -118,7 +118,8 @@ export default FormController.extend({
           });
           return deferred.promise;
         });
-      });
+      })
+        .catch(() => {});
     },
   },
 

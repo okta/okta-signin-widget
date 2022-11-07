@@ -768,7 +768,6 @@ Expect.describe('UnlockAccount', function() {
       function() {
         return setupWithSms()
           .then(function(test) {
-            Expect.allowUnhandledPromiseRejection();
             test.setNextResponse(resChallengeSms);
             test.form.setUsername('foo');
             test.form.sendSms();
@@ -861,7 +860,6 @@ Expect.describe('UnlockAccount', function() {
       function() {
         return setupWithCall()
           .then(function(test) {
-            Expect.allowUnhandledPromiseRejection();
             test.setNextResponse(resChallengeCall);
             test.form.setUsername('foo');
             test.form.makeCall();
