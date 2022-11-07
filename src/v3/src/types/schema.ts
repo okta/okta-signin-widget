@@ -311,7 +311,7 @@ export interface ImageWithTextElement extends UISchemaElement {
   options: {
     id: string;
     SVGIcon: FunctionComponent;
-    textContent: string;
+    textContent?: string;
   };
 }
 

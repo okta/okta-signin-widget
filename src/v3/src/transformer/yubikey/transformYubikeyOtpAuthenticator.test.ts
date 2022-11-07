@@ -41,22 +41,23 @@ describe('Yubikey OTP transformer Tests', () => {
       widgetProps = {};
     });
 
-    it('should add correct title, description, passcode input, and Verify button', () => {
-      const updatedFormBag = transformYubikeyOtpAuthenticator({ 
+    it('should add correct title, image, description, passcode input, and Set up button', () => {
+      const updatedFormBag = transformYubikeyOtpAuthenticator({
         transaction,
         formBag,
         widgetProps,
       });
 
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
-      expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements[0].type).toBe('ImageWithText');
+      expect((updatedFormBag.uischema.elements[1] as TitleElement).options?.content)
         .toBe('oie.yubikey.enroll.title');
-      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.yubikey.description');
-      expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
+      expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.name)
         .toBe('credentials.passcode');
-      expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
-        .toBe('oform.verify');
+      expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+        .toBe('oie.enroll.authenticator.button.text');
     });
   });
 

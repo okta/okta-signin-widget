@@ -23,21 +23,25 @@ const ImageWithText: UISchemaElementComponent<{
   uischema: ImageWithTextElement
 }> = ({ uischema }) => {
   const Icon = uischema.options.SVGIcon;
+  const { textContent } = uischema.options;
 
   return (
     <Box
       id={uischema.options.id}
       display="flex"
-      justifyContent="flex-start"
+      justifyContent={textContent ? "flex-start" : "center"}
       alignItems="center"
       flexWrap="wrap"
     >
       <Box marginRight={2}>
         <Icon />
       </Box>
-      <Box>
-        <Text as="span">{uischema.options.textContent}</Text>
-      </Box>
+      { 
+        textContent &&
+        <Box>
+          <Text as="span">{textContent}</Text>
+        </Box>
+      }
     </Box>
   );
 };
