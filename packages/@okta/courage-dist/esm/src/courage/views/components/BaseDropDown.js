@@ -369,7 +369,7 @@ var BaseDropDown = BaseView.extend({
             "column": 327
           }
         }
-      }) : helper)) + "</span><span class=\"icon-dm\"></span></a><div id=\"okta-dropdown-options\" class=\"options clearfix\" style=\"display: none;\"><ul class=\"okta-dropdown-list options-wrap clearfix\"></ul></div>";
+      }) : helper)) + "</span><span class=\"icon-dm\"></span></a><div id=\"okta-dropdown-options\" class=\"options clearfix\"><ul class=\"okta-dropdown-list options-wrap clearfix\"></ul></div>";
     },
     "useData": true
   }),
