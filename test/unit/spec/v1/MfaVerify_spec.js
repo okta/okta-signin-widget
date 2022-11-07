@@ -4190,8 +4190,6 @@ Expect.describe('MFA Verify', function() {
       });
 
       itp('shows an error if u2f.sign fails', function() {
-        Expect.allowUnhandledPromiseRejection();
-
         const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({ errorCode: 2 });
         };
@@ -5264,8 +5262,6 @@ Expect.describe('MFA Verify', function() {
       });
 
       itp('shows an error if u2f.sign fails', function() {
-        Expect.allowUnhandledPromiseRejection();
-
         const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({ errorCode: 2 });
         };
@@ -5420,8 +5416,6 @@ Expect.describe('MFA Verify', function() {
       });
 
       itp('shows an error if u2f.sign fails', function() {
-        Expect.allowUnhandledPromiseRejection();
-
         const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({ errorCode: 2 });
         };

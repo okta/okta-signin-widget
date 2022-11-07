@@ -49,8 +49,14 @@ function runTest(jasmineFn, desc, testFn) {
   });
 }
 
+/**
+ * @deprecated
+ */
 fn.allowUnhandledPromiseRejection = function() {
-  window.removeEventListener('unhandledrejection', unhandledRejectionListener);
+  throw new Error(
+    'Expect.allowUnhandledPromiseRejection is DEPRECATED. ' +
+    'Add .catch() blocks to handle promise rejections.'
+  );
 };
 
 function wrapDescribe(_describe, desc, fn) {

@@ -1021,7 +1021,6 @@ Expect.describe('ForgotPassword', function() {
             return Expect.waitForRecoveryChallenge(test);
           })
           .then(function(test) {
-            Expect.allowUnhandledPromiseRejection();
             test.setNextResponse(resError);
             test.form.clickSendEmailLink();
             return Expect.waitForFormError(test.form, test);
@@ -1109,7 +1108,6 @@ Expect.describe('ForgotPassword', function() {
       function() {
         return setupWithCall()
           .then(function(test) {
-            Expect.allowUnhandledPromiseRejection();
             test.setNextResponse(resChallengeCall);
             test.form.setUsername('foo');
             test.form.makeCall();

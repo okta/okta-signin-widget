@@ -120,7 +120,8 @@ export default FormController.extend({
         default:
           return;
         }
-      });
+      })
+        .catch(() => {});
     },
   },
 

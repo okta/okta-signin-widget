@@ -1062,7 +1062,6 @@ Expect.describe('v1/LoginRouter', function() {
         return Expect.waitForPrimaryAuth(test);
       })
       .then(function(test) {
-        Expect.allowUnhandledPromiseRejection();
         test.setNextResponse([resMfaRequiredDuo, errorInvalidToken]);
         const form = new PrimaryAuthForm($sandbox);
 

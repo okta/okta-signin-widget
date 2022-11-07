@@ -411,7 +411,6 @@ function testMultipleWebauthnFactor(setupFn) {
   });
 
   itp('shows an error if navigator.credentials.get fails and displays retry button', function() {
-    Expect.allowUnhandledPromiseRejection();
     return setupFn({
       webauthnSupported: true,
       signStatus: 'fail',
@@ -525,7 +524,6 @@ Expect.describe('Webauthn Factor', function() {
   });
 
   itp('shows an error if navigator.credentials.get fails', function() {
-    Expect.allowUnhandledPromiseRejection();
     return setupWebauthnFactor({
       webauthnSupported: true,
       signStatus: 'fail',
