@@ -31,11 +31,12 @@ const verifyMock = RequestMock()
 async function setup(t) {
   const pageObject = new YubiKeyAuthenticatorPageObject(t);
   await pageObject.navigateToPage();
+  await pageObject.waitForYubikeyView();
 
   return pageObject;
 }
 
-fixture('Enroll YubiKey Authenticator');
+fixture('Enroll YubiKey Authenticator').meta('v3', true);
 test
   .requestHooks(logger, enrollMock)('enroll with YubiKey authenticator', async t => {
     const pageObject = await setup(t);
@@ -52,7 +53,7 @@ test
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');
-    await pageObject.submit();
+    await pageObject.clickEnrollButton();
 
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl).eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
@@ -65,13 +66,13 @@ test
     await t.expect(pageObject.getFormTitle()).eql('Set up YubiKey');
     
     // Do not fill out the form and submit
-    await pageObject.submit();
+    await pageObject.clickEnrollButton();
 
     pageObject.form.waitForErrorBox();
-    await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+    await t.expect(pageObject.errorBoxTextExists()).eql(true);
   });
 
-fixture('Verify YubiKey Authenticator');
+fixture('Verify YubiKey Authenticator').meta('v3', true);
 test
   .requestHooks(logger, verifyMock)('verify with YubiKey authenticator', async t => {
     const pageObject = await setup(t);
@@ -88,7 +89,7 @@ test
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');
-    await pageObject.submit();
+    await pageObject.clickVerifyButton();
 
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl).eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
@@ -100,13 +101,13 @@ test
 
     await t.expect(pageObject.getFormTitle()).eql('Verify with YubiKey');
     
-    await pageObject.submit();
+    await pageObject.clickVerifyButton();
 
     pageObject.form.waitForErrorBox();
-    await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+    await t.expect(pageObject.errorBoxTextExists()).eql(true);
   });
 
-test.requestHooks(verifyMock)('should show custom factor page link', async t => {
+test.meta('v3', false).requestHooks(verifyMock)('should show custom factor page link', async t => {
   const pageObject = await setup(t);
 
   await renderWidget({

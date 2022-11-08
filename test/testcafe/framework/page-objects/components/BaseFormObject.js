@@ -193,6 +193,10 @@ export default class BaseFormObject {
     return within(this.el).getByText(text, options);
   }
 
+  getByTextOnScreen(text, options = undefined) {
+    return screen.getByText(text, options);
+  }
+
   // =====================================
   // Error
   // =====================================
