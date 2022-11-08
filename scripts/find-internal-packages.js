@@ -25,6 +25,20 @@ aliases = aliases.filter(alias => ![
 ].includes(alias));
 aliases = aliases.filter(alias => !dependencies.includes(alias));
 
+// Utils
+const pushIfNotExists = (arr, item) => {
+  if (arr.indexOf(item) === -1) {
+    arr.push(item);
+  }
+};
+
+const removeIfExists = (arr, item) => {
+  const index = arr.indexOf(item);
+  if (index !== -1) {
+    arr.splice(index, 1);
+  }
+};
+
 // Map result of npm-check: add 'files' with list of source files that require package
 const mapPackages = pkg => {
   // Parse list of source files if it's present
@@ -47,31 +61,42 @@ const mapPackages = pkg => {
 // Filter result of npm-check: include only internal packages
 const filterPackages = (pkg, result) => {
   if (pkg.unused) {
-    // Ignore unused package
+    if (!pkg.devDependency) {
+      pushIfNotExists(result.unused, pkg.moduleName);
+    }
     return false;
+  } else {
+    removeIfExists(result.unused, pkg.moduleName);
   }
   if (aliases.includes(pkg.moduleName + '/*') || ['types'].includes(pkg.moduleName)) {
     // Ignore path alias
     return false;
   }
   if (aliases.includes(pkg.moduleName) && pkg.regError && pkg.pkgError) {
-    // Internal package that is not present in registry and not installed in node_modules
-    result.hidden.push(pkg.moduleName);
+    // Internal package that is not present in registry, not installed in node_modules
+    // Can occur if local package is listed in webpack's `resolve.alias`
+    // Examples: @okta/handlebars-inline-precompile, @okta/duo, @okta/qtip, @okta/typingdna, @okta/qtip, @okta/okta-i18n-bundles
+    pushIfNotExists(result.hidden, pkg.moduleName);
     return false;
   }
   if (aliases.includes(pkg.moduleName) && !pkg.regError && pkg.pkgError) {
-    // Internal package that IS present in registry but not installed in node_modules (backbone)
-    result.overridden.push(pkg.moduleName);
+    // Internal package that is present in registry, not installed in node_modules
+    // Can occur if local package is listed in webpack's `resolve.alias`
+    // Example: backbone
+    pushIfNotExists(result.overridden, pkg.moduleName);
     return false;
   }
   if (aliases.includes(pkg.moduleName) && pkg.regError && pkg.isInstalled) {
-    // Internal package that is not present in registry but is present in node_modules (@okta/okta)
-    result.internal.push(pkg.moduleName);
+    // Internal package that is not present in registry, is installed in node_modules
+    // Can occur if local package is listed in `workspaces`
+    // Example: @okta/okta
+    pushIfNotExists(result.internal, pkg.moduleName);
     return false;
   }
   if (aliases.includes(pkg.moduleName) && !pkg.regError && pkg.isInstalled) {
-    // Internal package is present in registry but overriden with internal one in node_modules
-    result.warning.push(pkg.moduleName);
+    // Internal package that is present in registry, is installed in node_modules
+    // Can occur if local package is listed in `workspaces`
+    pushIfNotExists(result.warning, pkg.moduleName);
     return false;
   }
   if (!pkg.regError && !pkg.pkgError && pkg.isInstalled) {
@@ -91,7 +116,8 @@ return (async () => {
       hidden: [],
       overridden: [],
       internal: [],
-      warning: []
+      warning: [],
+      unused: []
     };
     
     // Run npm-check that detects missing packages, unused packages and packages to be updated
@@ -136,6 +162,9 @@ return (async () => {
       if (result.warning.filter(n => !n.startsWith('@okta/')).length) {
         exitCode = 1;
       }
+    }
+    if (result.unused.length) {
+      console.log('Unused packages:', result.unused.join(', '));
     }
 
     // Unexpected internal packages found in npm-check result
