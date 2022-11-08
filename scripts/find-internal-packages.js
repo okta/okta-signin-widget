@@ -75,7 +75,8 @@ const filterPackages = (pkg, result) => {
   if (aliases.includes(pkg.moduleName) && pkg.regError && pkg.pkgError) {
     // Internal package that is not present in registry, not installed in node_modules
     // Can occur if local package is listed in webpack's `resolve.alias`
-    // Examples: @okta/handlebars-inline-precompile, @okta/duo, @okta/qtip, @okta/typingdna, @okta/qtip, @okta/okta-i18n-bundles
+    // Examples: @okta/handlebars-inline-precompile, @okta/okta-i18n-bundles, 
+    //  @okta/qtip, @okta/duo, @okta/typingdna
     pushIfNotExists(result.hidden, pkg.moduleName);
     return false;
   }
