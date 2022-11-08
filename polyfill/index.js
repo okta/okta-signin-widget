@@ -15,6 +15,7 @@ require('core-js/es/typed-array/uint8-array');
 require('core-js/features/array/from');
 require('core-js/features/array/includes');
 require('core-js/features/array/find');
+require('core-js/features/array/find-index');
 require('core-js/features/string/includes');
 require('core-js/features/string/starts-with');
 require('core-js/features/string/ends-with');
