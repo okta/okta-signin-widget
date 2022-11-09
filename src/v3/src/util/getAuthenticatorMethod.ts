@@ -16,6 +16,7 @@ export const getAuthenticatorMethod = (
   transaction: IdxTransaction,
 ): string | undefined => {
   // currentAuthenticator is from enrollment flows and currentAuthenticatorEnrollment is from verify flows
+  // @ts-ignore Add currentAuthenticatorEnrollment to IdxContext type
   const { context: { currentAuthenticator, currentAuthenticatorEnrollment } } = transaction;
   const enrollMethods = currentAuthenticator?.value?.methods;
   const verifyMethods = currentAuthenticatorEnrollment?.value?.methods;
