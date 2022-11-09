@@ -1,5 +1,20 @@
 #!/bin/bash -x
 
+# Run multiple cleanup commands on trap exit
+cleanup_command=""
+cleanup() {
+  eval "$cleanup_command"
+}
+trap cleanup EXIT
+
+add_cleanup_command() {
+  if [[ -z "$cleanup_command" ]]; then
+    cleanup_command="$1"
+  else
+    cleanup_command="$cleanup_command; $1"
+  fi
+}
+
 if [ -n "${TEST_SUITE_ID}" ]; then
   ORIGINAL_PATH=$PATH
   source $OKTA_HOME/$REPO/scripts/setup.sh
@@ -19,6 +34,8 @@ inject_marker="f@@@@@@ke"
 
 # Inject fake packages with same names as ones that are used internally
 inject_fake_packages() {
+  add_cleanup_command "remove_fake_packages '$(pwd)'"
+  echo "Injecting fake packages to $(pwd)"
   for pkg in "${INTERNAL_PACKAGES_TO_FAKE[@]}"
   do
     mkdir -p "node_modules/$pkg"
@@ -39,6 +56,16 @@ EOF
     )
     echo "$package_json" > "node_modules/$pkg/package.json"
     echo "$index_js" > "node_modules/$pkg/index.js"
+  done
+}
+
+# Revert injection of fake packages
+remove_fake_packages() {
+  echo "Removing fake packages in $1"
+  cd "$1"
+  for pkg in "${INTERNAL_PACKAGES_TO_FAKE[@]}"
+  do
+    rm -rf "node_modules/$pkg"
   done
 }
 
@@ -111,7 +138,7 @@ mv node_modules node_modules2
 
 # Set a trap to restore node_modules when script exits
 ORIGINAL_PWD="${PWD}"
-trap 'restore_node_modules' EXIT
+add_cleanup_command 'restore_node_modules'
 restore_node_modules() {
   echo "Restoring node_modules"
   cd "${ORIGINAL_PWD}"
