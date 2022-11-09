@@ -20,7 +20,6 @@ import {
   IdxStepTransformer,
   ImageWithTextElement,
   TitleElement,
-  UISchemaElement,
 } from '../../types';
 import { loc } from '../../util';
 import { getUIElementWithName } from '../utils';
@@ -31,7 +30,7 @@ export const transformYubikeyOtpAuthenticator: IdxStepTransformer = ({ formBag, 
 
   const passcodeElement = getUIElementWithName(
     'credentials.passcode',
-    uischema.elements as UISchemaElement[],
+    uischema.elements,
   ) as FieldElement;
   passcodeElement.options.attributes = {
     ...passcodeElement.options.attributes,
