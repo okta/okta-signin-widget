@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { createAuthJsPayloadArgs, setup } from './util';
-
 import mockResponse from '@okta/mocks/data/idp/idx/authenticator-verification-yubikey.json';
+import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('authenticator-verification-yubikey-otp', () => {
   it('renders form', async () => {
