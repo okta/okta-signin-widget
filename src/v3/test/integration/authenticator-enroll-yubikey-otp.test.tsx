@@ -12,7 +12,7 @@
 
 import { createAuthJsPayloadArgs, setup } from './util';
 
-import mockResponse from '../../src/mocks/response/idp/idx/authenticator-enroll-yubikey.json';
+import mockResponse from '@okta/mocks/data/idp/idx/authenticator-enroll-yubikey.json';
 
 describe('authenticator-enroll-yubikey-otp', () => {
   it('renders form', async () => {
