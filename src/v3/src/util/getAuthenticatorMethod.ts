@@ -14,6 +14,7 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 
 export const getAuthenticatorMethod = (
   transaction: IdxTransaction,
+  index = 0,
 ): string | undefined => {
   // currentAuthenticator is from enrollment flows and currentAuthenticatorEnrollment is from verify flows
   // @ts-ignore OKTA-549893 TODO: Add currentAuthenticatorEnrollment to IdxContext type
@@ -21,5 +22,5 @@ export const getAuthenticatorMethod = (
   const enrollMethods = currentAuthenticator?.value?.methods;
   const verifyMethods = currentAuthenticatorEnrollment?.value?.methods;
 
-  return (enrollMethods && enrollMethods[0].type) || (verifyMethods && verifyMethods[0].type);
+  return (enrollMethods && enrollMethods[index].type) || (verifyMethods && verifyMethods[index].type);
 };
