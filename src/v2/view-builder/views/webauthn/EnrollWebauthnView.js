@@ -87,7 +87,7 @@ const Body = BaseForm.extend({
             // example data: ["nfc", "usb"]
             transports: JSON.stringify(newCredential.response.getTransports()),
             // example data: {"credProps":{"rk":true}}
-            clientExtensionResults: JSON.stringify(newCredential.getClientExtensionResults())
+            clientExtensions: JSON.stringify(newCredential.getClientExtensionResults())
           }
         });
         this.saveForm(this.model);

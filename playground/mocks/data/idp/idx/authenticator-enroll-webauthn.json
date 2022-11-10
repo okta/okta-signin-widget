@@ -41,8 +41,8 @@
                   "hint": "webauthn"
                 },
                 {
-                  "name": "clientExtensionResults",
-                  "label": "ClientExtensionResults",
+                  "name": "clientExtensions",
+                  "label": "clientExtensions",
                   "visible": false,
                   "required": true,
                   "hint": "webauthn"

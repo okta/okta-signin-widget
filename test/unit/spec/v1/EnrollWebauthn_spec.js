@@ -19,7 +19,7 @@ const itp = Expect.itp;
 const testAttestationObject = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
 const testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
 const transports = ['usb', 'nfc'];
-const clientExtensionData = {'credProps':{'rk':true}};
+const clientExtensions = {'credProps':{'rk':true}};
 
 Expect.describe('EnrollWebauthn', function() {
   function setup(startRouter, onlyWebauthn) {
@@ -95,9 +95,9 @@ Expect.describe('EnrollWebauthn', function() {
           response: {
             attestationObject: CryptoUtil.strToBin(testAttestationObject),
             clientDataJSON: CryptoUtil.strToBin(testClientData),
-            transports: JSON.stringify(transports),
-            clientExtensionResults: JSON.stringify(clientExtensionData),
+            getTransports: function() { return transports; },
           },
+          getClientExtensionResults: function() { return clientExtensions; },
         });
       }
       return deferred.promise;
@@ -253,6 +253,7 @@ Expect.describe('EnrollWebauthn', function() {
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
         .then(function(test) {
+          console.log(test.form);
           Expect.isVisible(test.form.enrollInstructions());
           Expect.isVisible(test.form.enrollSpinningIcon());
           Expect.isNotVisible(test.form.submitButton());
@@ -333,6 +334,8 @@ Expect.describe('EnrollWebauthn', function() {
             data: {
               attestation: testAttestationObject,
               clientData: testClientData,
+              transports: JSON.stringify(transports),
+              clientExtensions: JSON.stringify(clientExtensions),
               stateToken: 'testStateToken',
             },
           });
