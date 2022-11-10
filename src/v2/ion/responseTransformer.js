@@ -209,7 +209,7 @@ const handleFailureRedirect = (settings, result) => {
   const isDirectAuth = settings.get('oauth2Enabled');
   const alwaysRedirect = settings.get('redirect') === 'always'; // redirect option overrides default behavior
   if (isDirectAuth && !alwaysRedirect) {
-    return;
+    console.log('NOT RETURNING AND FORCING A REDIRECT!!!');
   }
   
   const failureRedirect = {
