@@ -47,7 +47,7 @@ describe('Yubikey OTP transformer Tests', () => {
         formBag,
         widgetProps,
       });
-
+      expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(5);
       expect(updatedFormBag.uischema.elements[0].type).toBe('ImageWithText');
       expect((updatedFormBag.uischema.elements[1] as TitleElement).options?.content)
@@ -81,7 +81,7 @@ describe('Yubikey OTP transformer Tests', () => {
         formBag,
         widgetProps,
       });
-
+      expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(4);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
         .toBe('oie.yubikey.challenge.title');
