@@ -26,10 +26,6 @@ export default class YubiKeyAuthenticatorPageObject extends BasePageObject {
     return this.form.clickButton('Verify');
   }
 
-  errorBoxTextExists() {
-    return this.form.getByTextOnScreen('We found some errors. Please review the form and make corrections.').exists;
-  }
-
   getErrorBoxText() {
     if (userVariables.v3) {
       return screen.findAllByRole('alert').nth(0).innerText;
