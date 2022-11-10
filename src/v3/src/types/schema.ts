@@ -312,6 +312,7 @@ export interface ImageWithTextElement extends UISchemaElement {
     id: string;
     SVGIcon: FunctionComponent;
     textContent?: string;
+    alignment?: string;
   };
 }
 

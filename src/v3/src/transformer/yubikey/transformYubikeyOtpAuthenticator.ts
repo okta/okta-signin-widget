@@ -69,6 +69,7 @@ export const transformYubikeyOtpAuthenticator: IdxStepTransformer = ({ formBag, 
     options: {
       id: 'yubikeyDemo',
       SVGIcon: yubikeySvg,
+      alignment: 'center',
     },
   };
 

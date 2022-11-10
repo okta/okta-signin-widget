@@ -23,13 +23,13 @@ const ImageWithText: UISchemaElementComponent<{
   uischema: ImageWithTextElement
 }> = ({ uischema }) => {
   const Icon = uischema.options.SVGIcon;
-  const { textContent } = uischema.options;
+  const { textContent, alignment = 'flex-start' } = uischema.options;
 
   return (
     <Box
       id={uischema.options.id}
       display="flex"
-      justifyContent={textContent ? 'flex-start' : 'center'}
+      justifyContent={alignment}
       alignItems="center"
       flexWrap="wrap"
     >
