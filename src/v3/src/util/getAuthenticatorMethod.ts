@@ -22,5 +22,6 @@ export const getAuthenticatorMethod = (
   const enrollMethods = currentAuthenticator?.value?.methods;
   const verifyMethods = currentAuthenticatorEnrollment?.value?.methods;
 
-  return (enrollMethods && enrollMethods[index].type) || (verifyMethods && verifyMethods[index].type);
+  return (enrollMethods && enrollMethods[index].type)
+  || (verifyMethods && verifyMethods[index].type);
 };
