@@ -114,7 +114,9 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       response: {
         clientDataJSON: 123,
         attestationObject: 234,
+        getTransports: function() { return 345; },
       },
+      getClientExtensionResults: function() { return 456; },
     };
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
@@ -174,6 +176,8 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         expect(testContext.view.form.model.get('credentials')).toEqual({
           clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
           attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
+          transports: JSON.stringify(newCredential.response.getTransports()),
+          clientExtensionResults: JSON.stringify(newCredential.getClientExtensionResults())
         });
         expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
         expect(testContext.view.form.webauthnAbortController).toBe(null);
@@ -222,7 +226,9 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       response: {
         clientDataJSON: 123,
         attestationObject: 234,
+        getTransports: function() { return 345; },
       },
+      getClientExtensionResults: function() { return 456; },
     };
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));

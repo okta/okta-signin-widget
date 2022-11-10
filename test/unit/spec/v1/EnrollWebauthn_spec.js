@@ -18,6 +18,8 @@ import webauthn from 'util/webauthn';
 const itp = Expect.itp;
 const testAttestationObject = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
 const testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
+const transports = ['usb', 'nfc'];
+const clientExtensionData = {'credProps':{'rk':true}};
 
 Expect.describe('EnrollWebauthn', function() {
   function setup(startRouter, onlyWebauthn) {
@@ -93,6 +95,8 @@ Expect.describe('EnrollWebauthn', function() {
           response: {
             attestationObject: CryptoUtil.strToBin(testAttestationObject),
             clientDataJSON: CryptoUtil.strToBin(testClientData),
+            transports: JSON.stringify(transports),
+            clientExtensionResults: JSON.stringify(clientExtensionData),
           },
         });
       }

@@ -84,6 +84,10 @@ const Body = BaseForm.extend({
           credentials : {
             clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
             attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
+            // example data: ["nfc", "usb"]
+            transports: JSON.stringify(newCredential.response.getTransports()),
+            // example data: {"credProps":{"rk":true}}
+            clientExtensionResults: JSON.stringify(newCredential.getClientExtensionResults())
           }
         });
         this.saveForm(this.model);
