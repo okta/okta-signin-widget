@@ -32,6 +32,20 @@
                   "visible": false,
                   "required": true,
                   "hint": "webauthn"
+                },
+                {
+                  "name": "transports",
+                  "label": "Transports",
+                  "visible": false,
+                  "required": true,
+                  "hint": "webauthn"
+                },
+                {
+                  "name": "clientExtensionResults",
+                  "label": "ClientExtensionResults",
+                  "visible": false,
+                  "required": true,
+                  "hint": "webauthn"
                 }
               ]
             }

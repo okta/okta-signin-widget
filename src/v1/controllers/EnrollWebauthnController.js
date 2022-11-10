@@ -96,9 +96,15 @@ export default FormController.extend({
             })
           )
             .then(function(newCredential) {
+              console.log(newCredential);
+              console.log(newCredential.response);
               return transaction.activate({
                 attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
                 clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
+                // example data: ["nfc", "usb"]
+                transports: JSON.stringify(newCredential.response.getTransports()),
+                // example data: {"credProps":{"rk":true}}
+                clientExtensionResults: JSON.stringify(newCredential.getClientExtensionResults())
               });
             })
             .catch(function(error) {
