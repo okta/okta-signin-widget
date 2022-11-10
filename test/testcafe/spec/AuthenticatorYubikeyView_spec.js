@@ -68,8 +68,8 @@ test
     // Do not fill out the form and submit
     await pageObject.clickEnrollButton();
 
-    pageObject.form.waitForErrorBox();
-    await t.expect(pageObject.errorBoxTextExists()).eql(true);
+    await pageObject.form.waitForErrorBox();
+    await t.expect(pageObject.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
   });
 
 fixture('Verify YubiKey Authenticator').meta('v3', true);
@@ -103,8 +103,8 @@ test
     
     await pageObject.clickVerifyButton();
 
-    pageObject.form.waitForErrorBox();
-    await t.expect(pageObject.errorBoxTextExists()).eql(true);
+    await pageObject.form.waitForErrorBox();
+    await t.expect(pageObject.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
   });
 
 test.meta('v3', false).requestHooks(verifyMock)('should show custom factor page link', async t => {

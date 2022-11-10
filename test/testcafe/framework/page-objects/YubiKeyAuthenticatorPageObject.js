@@ -1,4 +1,5 @@
 import { userVariables } from 'testcafe';
+import { screen } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class YubiKeyAuthenticatorPageObject extends BasePageObject {
@@ -27,5 +28,12 @@ export default class YubiKeyAuthenticatorPageObject extends BasePageObject {
 
   errorBoxTextExists() {
     return this.form.getByTextOnScreen('We found some errors. Please review the form and make corrections.').exists;
+  }
+
+  getErrorBoxText() {
+    if (userVariables.v3) {
+      return screen.findAllByRole('alert').nth(0).innerText;
+    }
+    return this.form.getErrorBoxText();
   }
 }
