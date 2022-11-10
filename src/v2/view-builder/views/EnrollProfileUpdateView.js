@@ -1,4 +1,4 @@
-import { loc, View } from '@okta/okta';
+import { loc, View } from '@okta/courage';
 import { BaseFooter, BaseForm, BaseView } from '../internals';
 import hbs from '@okta/handlebars-inline-precompile';
 import { getSkipSetupLink } from '../utils/LinksUtil';

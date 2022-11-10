@@ -1,4 +1,4 @@
-import { View, loc, createButton } from '@okta/okta';
+import { View, loc, createButton } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { FORMS } from '../../../ion/RemediationConstants';
 

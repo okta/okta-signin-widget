@@ -1,5 +1,5 @@
 import SelectEnrollmentChannelOktaVerifyView from 'v2/view-builder/views/ov/SelectEnrollmentChannelOktaVerifyView';
-import { Model } from '@okta/okta';
+import { Model } from '@okta/courage';
 import { BaseForm } from 'v2/view-builder/internals';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';

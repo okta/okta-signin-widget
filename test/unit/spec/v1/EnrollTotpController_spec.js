@@ -1,5 +1,5 @@
 /* eslint max-params: [2, 24] */
-import { _, loc } from '@okta/okta';
+import { _, loc } from '@okta/courage';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';

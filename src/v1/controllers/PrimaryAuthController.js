@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { $ } from '@okta/okta';
+import { $ } from '@okta/courage';
 import PrimaryAuthModel from 'v1/models/PrimaryAuth';
 import BaseLoginController from 'v1/util/BaseLoginController';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';

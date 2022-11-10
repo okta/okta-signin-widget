@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, loc, View } from '@okta/okta';
+import { _, loc, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';

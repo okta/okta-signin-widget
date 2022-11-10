@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { ListView, View, createButton, loc } from '@okta/okta';
+import { ListView, View, createButton, loc } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 
 // https://oktainc.atlassian.net/browse/OKTA-554392

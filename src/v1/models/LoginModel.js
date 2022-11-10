@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Model } from '@okta/okta';
+import { Model } from '@okta/courage';
 import BaseLoginModel from './BaseLoginModel';
 export default BaseLoginModel.extend({
   constructor: function(options) {

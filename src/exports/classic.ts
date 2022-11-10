@@ -1,5 +1,5 @@
 // Classic supports only the Authn pipeline
-import { loc } from '@okta/okta';
+import { loc } from '@okta/courage';
 import Logger from 'util/Logger';
 import { ConfigError } from 'util/Errors';
 import { OktaAuth } from '../authClient/classic';

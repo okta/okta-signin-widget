@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, Form, loc, View } from '@okta/okta';
+import { _, Form, loc, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Util from 'util/Util';
 import NumberChallengeView from './NumberChallengeView';

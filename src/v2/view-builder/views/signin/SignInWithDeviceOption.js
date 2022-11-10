@@ -1,4 +1,4 @@
-import { View, createButton, loc } from '@okta/okta';
+import { View, createButton, loc } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Util from '../../../../util/Util';
 import Enums from '../../../../util/Enums';

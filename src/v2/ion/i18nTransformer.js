@@ -41,7 +41,7 @@
 //         oie.your.new.label = Your new string
 ///////////////////////////////////////////////////////////////////////////////
 
-import { _, loc, $ } from '@okta/okta';
+import { _, loc, $ } from '@okta/courage';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
 import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';

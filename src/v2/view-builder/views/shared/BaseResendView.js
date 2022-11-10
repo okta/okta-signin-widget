@@ -1,4 +1,4 @@
-import { View } from '@okta/okta';
+import { View } from '@okta/courage';
 import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 import sessionStorageHelper from '../../../client/sessionStorageHelper';
 

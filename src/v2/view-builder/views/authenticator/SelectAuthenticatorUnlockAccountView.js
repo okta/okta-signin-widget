@@ -1,5 +1,5 @@
 import { BaseForm, BaseView } from '../../internals';
-import { loc } from '@okta/okta';
+import { loc } from '@okta/courage';
 
 const UnlockAccountView = BaseForm.extend({
   noButtonBar: true,

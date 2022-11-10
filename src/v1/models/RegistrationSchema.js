@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, BaseModel, internal } from '@okta/okta';
+import { _, BaseModel, internal } from '@okta/courage';
 let { BaseSchema, SchemaProperty } = internal.models;
 const RegistrationSchemaRegistrationSchemaPropertyCollection = SchemaProperty.Collection.extend({
   createModelProperties: function() {

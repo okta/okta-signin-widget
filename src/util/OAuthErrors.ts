@@ -1,4 +1,4 @@
-import { loc } from '@okta/okta';
+import { loc } from '@okta/courage';
 
 import { AuthSdkError, OAuthError as SdkOAuthError} from '@okta/okta-auth-js';
 import { OAuthError } from './Errors';

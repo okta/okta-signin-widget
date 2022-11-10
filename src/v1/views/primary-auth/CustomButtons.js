@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, $, View, loc, createButton, internal } from '@okta/okta';
+import { _, $, View, loc, createButton, internal } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import OAuth2Util from 'util/OAuth2Util';
 const SharedUtil = internal.util.Util;

@@ -1,4 +1,4 @@
-import { $ } from '@okta/okta';
+import { $ } from '@okta/courage';
 import ColorsUtil from 'util/ColorsUtil';
 import Enums from 'util/Enums';
 

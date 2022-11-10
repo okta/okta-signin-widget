@@ -1,5 +1,5 @@
 // Common view for OV push and custom app.
-import { Collection } from '@okta/okta';
+import { Collection } from '@okta/courage';
 import { BaseForm } from '../../internals';
 import AuthenticatorVerifyOptions from '../../components/AuthenticatorVerifyOptions';
 import { getAuthenticatorDataForVerification } from '../../utils/AuthenticatorUtil';

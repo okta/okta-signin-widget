@@ -1,4 +1,4 @@
-import { _, loc } from '@okta/okta';
+import { _, loc } from '@okta/courage';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 

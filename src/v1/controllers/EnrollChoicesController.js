@@ -12,7 +12,7 @@
 
 /* eslint complexity: [2, 13] */
 
-import { _, loc, Collection } from '@okta/okta';
+import { _, loc, Collection } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import FactorList from 'v1/views/enroll-choices/FactorList';
 import Footer from 'v1/views/enroll-choices/Footer';

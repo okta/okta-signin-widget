@@ -1,4 +1,4 @@
-import { View, $ } from '@okta/okta';
+import { View, $ } from '@okta/courage';
 import Animations from 'util/Animations';
 import Enums from 'util/Enums';
 

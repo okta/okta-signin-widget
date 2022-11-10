@@ -1,4 +1,4 @@
-import { loc, createCallout } from '@okta/okta';
+import { loc, createCallout } from '@okta/courage';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { getBackToSignInLink, getSkipSetupLink, getReloadPageButtonLink } from '../utils/LinksUtil';
 import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';

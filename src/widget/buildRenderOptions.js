@@ -1,4 +1,4 @@
-import { _, $ } from '@okta/okta';
+import { _, $ } from '@okta/courage';
 import { ConfigError } from 'util/Errors';
 import OAuth2Util from 'util/OAuth2Util';
 

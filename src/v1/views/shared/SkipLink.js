@@ -1,4 +1,4 @@
-import { loc, View } from '@okta/okta';
+import { loc, View } from '@okta/courage';
 import Enums from 'util/Enums';
 
 export default View.extend({

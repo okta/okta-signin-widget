@@ -1,5 +1,5 @@
 import { BaseView } from '../../internals';
-import { loc } from '@okta/okta';
+import { loc } from '@okta/courage';
 import AdminConsentViewHeader from './AdminConsentViewHeader';
 import ConsentViewForm from './ConsentViewForm';
 import { doesI18NKeyExist } from '../../../ion/i18nTransformer';

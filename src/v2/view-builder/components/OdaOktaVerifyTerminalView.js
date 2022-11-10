@@ -1,4 +1,4 @@
-import { View, loc, internal } from '@okta/okta';
+import { View, loc, internal } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
 

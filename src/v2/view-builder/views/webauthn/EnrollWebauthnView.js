@@ -1,4 +1,4 @@
-import { _, loc, createCallout, createButton } from '@okta/okta';
+import { _, loc, createCallout, createButton } from '@okta/courage';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import webauthn from 'util/webauthn';

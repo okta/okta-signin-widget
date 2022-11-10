@@ -1,4 +1,4 @@
-import { _, View } from '@okta/okta';
+import { _, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { WARNING_TIMEOUT } from '../../utils/Constants';
 

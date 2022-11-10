@@ -12,7 +12,7 @@
 
 /* eslint max-depth: [2, 3] */
 /* eslint complexity: [2, 20] */
-import { loc } from '@okta/okta';
+import { loc } from '@okta/courage';
 import { HINTS, ATTR_FORMAT } from '../RemediationConstants';
 import CountryUtil from 'util/CountryUtil';
 import TimeZone from '../../view-builder/utils/TimeZone';

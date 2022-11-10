@@ -1,4 +1,4 @@
-import { Collection } from '@okta/okta';
+import { Collection } from '@okta/courage';
 import * as FormInputFactory from 'v2/view-builder/internals/FormInputFactory';
 import AuthenticatorVerifyOptions from 'v2/view-builder/components/AuthenticatorVerifyOptions';
 import AuthenticatorEnrollOptions from 'v2/view-builder/components/AuthenticatorEnrollOptions';

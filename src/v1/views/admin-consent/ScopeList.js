@@ -11,7 +11,7 @@
  */
 /* eslint max-len: [2, 131] */
 import hbs from '@okta/handlebars-inline-precompile';
-import { _, View, loc } from '@okta/okta';
+import { _, View, loc } from '@okta/courage';
 import ScopeItem from './ScopeItem';
 
 const SCOPE_N_GROUP_CONFIG = {

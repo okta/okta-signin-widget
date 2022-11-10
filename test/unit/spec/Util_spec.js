@@ -1,5 +1,5 @@
 /* eslint max-len: [2, 140] */
-import { $ } from '@okta/okta';
+import { $ } from '@okta/courage';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
 import Util from 'util/Util';

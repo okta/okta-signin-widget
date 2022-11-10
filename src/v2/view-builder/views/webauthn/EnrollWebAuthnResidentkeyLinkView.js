@@ -1,4 +1,4 @@
-import { View } from '@okta/okta';
+import { View } from '@okta/courage';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 import hbs from '@okta/handlebars-inline-precompile';
 

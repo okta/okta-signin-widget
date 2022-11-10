@@ -29,7 +29,7 @@ set -e
 
 # Internal packages to check for potential Dependency Confusion Attack (OKTA-529256)
 INTERNAL_PACKAGES_TO_FAKE=("@okta/typingdna" "@okta/handlebars-inline-precompile" "@okta/okta-i18n-bundles" "@okta/duo" "@okta/qtip")
-INTERNAL_PACKAGES=(${INTERNAL_PACKAGES_TO_FAKE[@]} "@okta/okta")
+INTERNAL_PACKAGES=(${INTERNAL_PACKAGES_TO_FAKE[@]} "@okta/courage")
 inject_marker="f@@@@@@ke"
 
 # Inject fake packages with same names as ones that are used internally
@@ -95,7 +95,7 @@ check_fake_packages_in_lock() {
 }
 
 check_okta_courage() {
-  courage_link=$(readlink ./node_modules/@okta/okta)
+  courage_link=$(readlink ./node_modules/@okta/courage)
   expected_src="../../packages/@okta/courage-dist"
   if [ "$courage_link" != "$expected_src" ]; then
     echo "!!! Okta courage links to $courage_link but expected $expected_src"

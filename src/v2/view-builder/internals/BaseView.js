@@ -1,4 +1,4 @@
-import { _, View } from '@okta/okta';
+import { _, View } from '@okta/courage';
 import BaseHeader from './BaseHeader';
 import BaseForm from './BaseForm';
 import BaseModel from './BaseModel';

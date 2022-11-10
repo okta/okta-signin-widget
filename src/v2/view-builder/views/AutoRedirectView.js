@@ -1,4 +1,4 @@
-import { _, loc, createCallout } from '@okta/okta';
+import { _, loc, createCallout } from '@okta/courage';
 import { BaseForm, BaseView } from '../internals';
 import { INTERSTITIAL_REDIRECT_VIEW } from '../../ion/RemediationConstants';
 import CustomAccessDeniedErrorMessage from '../views/shared/CustomAccessDeniedErrorMessage';

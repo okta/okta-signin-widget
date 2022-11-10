@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* eslint complexity: [2, 7] */
-import { Form, createButton, loc } from '@okta/okta';
+import { Form, createButton, loc } from '@okta/courage';
 import Q from 'q';
 import Enums from 'util/Enums';
 export default Form.extend({

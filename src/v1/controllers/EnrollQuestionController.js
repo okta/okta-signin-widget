@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, loc } from '@okta/okta';
+import { _, loc } from '@okta/courage';
 import FactorUtil from 'util/FactorUtil';
 import FormController from 'v1/util/FormController';
 import Util from 'util/Util';
