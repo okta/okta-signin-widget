@@ -1,4 +1,4 @@
-import { _ } from '@okta/okta';
+import { _ } from '@okta/courage';
 import i18nTransformer from 'v2/ion/i18nTransformer';
 import { getMessageKey, getI18NParams, getMessage, getMessageFromBrowserError } from 'v2/ion/i18nTransformer';
 import Bundles from 'util/Bundles';

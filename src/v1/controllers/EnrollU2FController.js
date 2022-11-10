@@ -11,7 +11,7 @@
  */
 
 /* global u2f */
-import { _, loc, View } from '@okta/okta';
+import { _, loc, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Q from 'q';
 import 'u2f-api-polyfill';

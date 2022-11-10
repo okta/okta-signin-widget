@@ -1,4 +1,4 @@
-import { _ } from '@okta/okta';
+import { _ } from '@okta/courage';
 import { BaseHeader, BaseView } from '../internals';
 import AuthenticatorFooter from './AuthenticatorFooter';
 import HeaderBeacon from './HeaderBeacon';

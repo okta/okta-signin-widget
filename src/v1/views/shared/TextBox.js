@@ -14,7 +14,7 @@
 //because we want to be explicit about which TextBox we are extending here
 //and want to avoid the cirucular dependency that occurs if we
 //include Okta
-import { internal } from '@okta/okta';
+import { internal } from '@okta/courage';
 import '@okta/qtip';
 import BrowserFeatures from 'util/BrowserFeatures';
 const { TextBox } = internal.views.forms.inputs;

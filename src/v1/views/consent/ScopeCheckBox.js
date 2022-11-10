@@ -1,4 +1,4 @@
-import { _, internal } from '@okta/okta';
+import { _, internal } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 
 const CheckBox = internal.views.forms.inputs.CheckBox;

@@ -1,5 +1,5 @@
 /* eslint max-params: [2, 13], camelcase: 0 */
-import { _ } from '@okta/okta';
+import { _ } from '@okta/courage';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Duo from '@okta/duo';

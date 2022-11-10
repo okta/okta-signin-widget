@@ -1,4 +1,4 @@
-import { loc, View } from '@okta/okta';
+import { loc, View } from '@okta/courage';
 import { BaseFooter } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { getForgotPasswordLink, getSignUpLink } from '../utils/LinksUtil';

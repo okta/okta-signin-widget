@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, internal, Form, createButton } from '@okta/okta';
+import { _, internal, Form, createButton } from '@okta/courage';
 import BaseLoginModel from 'v1/models/BaseLoginModel';
 import BaseLoginController from './BaseLoginController';
 import FormType from './FormType';

@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity: [2, 8] */
-import { _, loc, internal, View } from '@okta/okta';
+import { _, loc, internal, View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import CountryUtil from 'util/CountryUtil';
 import Enums from 'util/Enums';

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* eslint complexity: [2, 13] */
-import { _, loc, Collection } from '@okta/okta';
+import { _, loc, Collection } from '@okta/courage';
 import Q from 'q';
 import { AuthStopPollInitiationError } from 'util/Errors';
 import factorUtil from 'util/FactorUtil';

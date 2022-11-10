@@ -1,5 +1,5 @@
 /* eslint max-params: [2, 13], max-len: [2, 160] */
-import { _ } from '@okta/okta';
+import { _ } from '@okta/courage';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import EnrollUserForm from 'helpers/dom/EnrollUserForm';

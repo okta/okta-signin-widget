@@ -11,7 +11,7 @@
  */
 
 /* eslint camelcase: 0 */
-import { $, _, loc } from '@okta/okta';
+import { $, _, loc } from '@okta/courage';
 import Duo from '@okta/duo';
 import Q from 'q';
 import FactorUtil from 'util/FactorUtil';

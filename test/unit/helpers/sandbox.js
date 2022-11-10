@@ -1,4 +1,4 @@
-import { $ } from '@okta/okta';
+import { $ } from '@okta/courage';
 
 let sandbox = $('#sandbox');
 if (!sandbox.length) {

@@ -1,4 +1,4 @@
-import { $, _ } from '@okta/okta';
+import { $, _ } from '@okta/courage';
 import config from 'config/config.json';
 import Util from 'helpers/mocks/Util';
 import 'jasmine-ajax';

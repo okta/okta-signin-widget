@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _ } from '@okta/okta';
+import { _ } from '@okta/courage';
 import { AUTHENTICATOR_KEY } from '../RemediationConstants';
 
 /**

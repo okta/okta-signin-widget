@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from '@okta/okta';
+import { View } from '@okta/courage';
 import ScopeItem from './ScopeItem';
 export default View.extend({
   className: 'scope-list detail-row',

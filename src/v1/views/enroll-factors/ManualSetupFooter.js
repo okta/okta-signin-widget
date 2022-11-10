@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from '@okta/okta';
+import { View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
 

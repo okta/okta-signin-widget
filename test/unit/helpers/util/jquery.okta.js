@@ -1,4 +1,4 @@
-import { $ } from '@okta/okta';
+import { $ } from '@okta/courage';
 
 $.fn.trimmedText = function() {
   return $.trim(this.text());

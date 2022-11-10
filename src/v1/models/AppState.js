@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, $, loc, Model } from '@okta/okta';
+import { _, $, loc, Model } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import Factor from 'v1/models/Factor';
 import Q from 'q';

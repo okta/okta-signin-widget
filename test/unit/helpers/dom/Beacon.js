@@ -1,4 +1,4 @@
-import { _, $ } from '@okta/okta';
+import { _, $ } from '@okta/courage';
 import Dom from './Dom';
 export default Dom.extend({
   beacon: function() {

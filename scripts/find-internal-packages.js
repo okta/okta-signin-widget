@@ -90,7 +90,7 @@ const filterPackages = (pkg, result) => {
   if (aliases.includes(pkg.moduleName) && pkg.regError && pkg.isInstalled) {
     // Internal package that is not present in registry, is installed in node_modules
     // Can occur if local package is listed in `workspaces`
-    // Example: @okta/okta
+    // Example: @okta/courage (packages/@okta/courage-dist)
     pushIfNotExists(result.internal, pkg.moduleName);
     return false;
   }

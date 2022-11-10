@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, Model, loc, internal, ModelProperty } from '@okta/okta';
+import { _, Model, loc, internal, ModelProperty } from '@okta/courage';
 import config from 'config/config.json';
 import hbs from '@okta/handlebars-inline-precompile';
 import Q from 'q';
