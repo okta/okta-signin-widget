@@ -15,7 +15,9 @@ var Handlebars = require('./handlebars');
 
 function _default(_ref) {
   var t = _ref.types;
-  var IMPORT_NAME = '@okta/handlebars-inline-precompile';
+  // Support import from 'handlebars-inline-precompile' or '@okta/handlebars-inline-precompile'
+  var IMPORT_NAME = 'handlebars-inline-precompile';
+  var IMPORT_NAMES = [IMPORT_NAME, `@okta/${IMPORT_NAME}`];
   var IMPORT_PROP = '_handlebarsImportSpecifier';
 
   function isReferenceToImport(node, file) {
@@ -39,9 +41,11 @@ function _default(_ref) {
         var node = path.node,
           scope = path.scope; // Filter out anything other than the `hbs` module.
 
-        if (!t.isLiteral(node.source, {
-          value: IMPORT_NAME
-        })) {
+        if (!IMPORT_NAMES.filter(function(importName) {
+          return t.isLiteral(node.source, {
+            value: importName
+          });
+        }).length) {
           return;
         }
 
