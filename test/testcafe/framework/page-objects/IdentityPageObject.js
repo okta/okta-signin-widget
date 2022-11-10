@@ -106,6 +106,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.getErrorBoxCount();
   }
 
+  async waitForSocialAuthButtons() {
+    return await Selector('.social-auth-button').visible;
+  }
+
   waitForIdentifierError() {
     return this.form.waitForTextBoxError('identifier');
   }
