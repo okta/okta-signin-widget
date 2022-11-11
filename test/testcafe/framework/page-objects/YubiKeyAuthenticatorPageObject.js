@@ -11,10 +11,6 @@ export default class YubiKeyAuthenticatorPageObject extends BasePageObject {
     return this.form.setTextBoxValue(name, value);
   }
 
-  async waitForYubikeyView() {
-    await this.form.el.find('form').exists;
-  }
-
   clickEnrollButton() {
     if(userVariables.v3) {
       return this.form.clickButton('Set up');

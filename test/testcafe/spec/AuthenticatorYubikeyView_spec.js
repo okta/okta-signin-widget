@@ -31,7 +31,6 @@ const verifyMock = RequestMock()
 async function setup(t) {
   const pageObject = new YubiKeyAuthenticatorPageObject(t);
   await pageObject.navigateToPage();
-  await pageObject.waitForYubikeyView();
 
   return pageObject;
 }
@@ -41,15 +40,15 @@ test
   .requestHooks(logger, enrollMock)('enroll with YubiKey authenticator', async t => {
     const pageObject = await setup(t);
 
+    await t.expect(pageObject.getFormTitle()).eql('Set up YubiKey');
+    await t.expect(pageObject.getFormSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
+
     await checkConsoleMessages({
       controller: 'enroll-yubikey',
       formName: 'enroll-authenticator',
       authenticatorKey:'yubikey_token',
       methodType: 'otp'
     });
-
-    await t.expect(pageObject.getFormTitle()).eql('Set up YubiKey');
-    await t.expect(pageObject.getFormSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');
@@ -77,15 +76,15 @@ test
   .requestHooks(logger, verifyMock)('verify with YubiKey authenticator', async t => {
     const pageObject = await setup(t);
 
+    await t.expect(pageObject.getFormTitle()).eql('Verify with YubiKey');
+    await t.expect(pageObject.getFormSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
+
     await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-authenticator',
       authenticatorKey:'yubikey_token',
       methodType: 'otp'
     });
-
-    await t.expect(pageObject.getFormTitle()).eql('Verify with YubiKey');
-    await t.expect(pageObject.getFormSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');
