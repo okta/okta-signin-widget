@@ -116,7 +116,7 @@ const idx = {
     // 'authenticator-enroll-ov-via-sms',
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-google-authenticator',
-    // 'authenticator-pre-enroll-email-emailmagiclink-true',
+    // 'authenticator-enroll-email-first-emailmagiclink-true',
     'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
@@ -192,7 +192,7 @@ const idx = {
     // 'authenticator-enroll-email',
     // 'authenticator-enroll-email-emailmagiclink-true',
     // 'authenticator-enroll-email-emailmagiclink-false',
-    // 'authenticator-pre-enroll-email',
+    // 'authenticator-enroll-email-first',
   ],
   '/idp/idx/cancel': [
     'identify',

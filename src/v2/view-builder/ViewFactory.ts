@@ -151,6 +151,7 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.AUTHENTICATOR_ENROLLMENT_DATA]: {
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorDataPhoneView,
+    [AUTHENTICATOR_KEY.EMAIL]: ChallengeAuthenticatorDataEmailView,
   },
   [RemediationForms.CONSENT_ADMIN]: {
     [DEFAULT]: AdminConsentView
@@ -231,9 +232,6 @@ const VIEWS_MAPPING = {
   [RemediationForms.RESEND]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyResendPushView,
     [AUTHENTICATOR_KEY.CUSTOM_APP]: ChallengeCustomAppResendPushView,
-  },
-  [RemediationForms.AUTHENTICATOR_PRE_ENROLLMENT_DATA]: {
-    [AUTHENTICATOR_KEY.EMAIL]: ChallengeAuthenticatorDataEmailView,
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     [AUTHENTICATOR_KEY.PHONE]: ChallengeAuthenticatorDataPhoneView,

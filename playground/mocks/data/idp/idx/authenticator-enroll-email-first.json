@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "stateHandle": "02.id.tMRajD4bbq6dJWUKt4WvlftrH9Xm64qFttCkW2zJ~c",
-  "expiresAt": "2022-10-19T20:14:27.000Z",
+  "stateHandle": "02.id.OixyfSHb4ItUcmaik89TOB9lvXgaKdG5PIbTwRlA~c.",
+  "expiresAt": "2022-11-14T21:54:29.000Z",
   "intent": "LOGIN",
   "remediation": {
     "type": "array",
@@ -10,7 +10,7 @@
         "rel": [
           "create-form"
         ],
-        "name": "authenticator-pre-enrollment-data",
+        "name": "authenticator-enrollment-data",
         "relatesTo": [
           "$.currentAuthenticator"
         ],
@@ -26,7 +26,7 @@
                 {
                   "name": "id",
                   "required": true,
-                  "value": "aut1epsBIPWYqtVqb0g4",
+                  "value": "autynsoreX5yrpYSt0g3",
                   "mutable": false
                 },
                 {
@@ -46,7 +46,54 @@
           {
             "name": "stateHandle",
             "required": true,
-            "value": "02.id.tMRajD4bbq6dJWUKt4WvlftrH9Xm64qFttCkW2zJ~c",
+            "value": "02.id.OixyfSHb4ItUcmaik89TOB9lvXgaKdG5PIbTwRlA~c.",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Email",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autynsoreX5yrpYSt0g3",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "email",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.OixyfSHb4ItUcmaik89TOB9lvXgaKdG5PIbTwRlA~c.",
             "visible": false,
             "mutable": false
           }
@@ -70,7 +117,7 @@
           {
             "name": "stateHandle",
             "required": true,
-            "value": "02.id.tMRajD4bbq6dJWUKt4WvlftrH9Xm64qFttCkW2zJ~c",
+            "value": "02.id.OixyfSHb4ItUcmaik89TOB9lvXgaKdG5PIbTwRlA~c.",
             "visible": false,
             "mutable": false
           }
@@ -79,7 +126,7 @@
       },
       "type": "email",
       "key": "okta_email",
-      "id": "aut1epsBIPWYqtVqb0g4",
+      "id": "autynsoreX5yrpYSt0g3",
       "displayName": "Email",
       "methods": [
         {
@@ -94,14 +141,14 @@
       {
         "type": "email",
         "key": "okta_email",
-        "id": "aut1epsBIPWYqtVqb0g4",
+        "id": "autynsoreX5yrpYSt0g3",
         "displayName": "Email",
         "methods": [
           {
             "type": "email"
           }
         ],
-        "allowedFor": "recovery"
+        "allowedFor": "sso"
       }
     ]
   },
@@ -112,7 +159,7 @@
   "user": {
     "type": "object",
     "value": {
-      "id": "00u33vrUTchbpxWT30g4",
+      "id": "00u3keru2lVhctLkC0g4",
       "identifier": "testuser@okta.com",
       "profile": {
         "firstName": "Test",
@@ -134,7 +181,7 @@
       {
         "name": "stateHandle",
         "required": true,
-        "value": "02.id.tMRajD4bbq6dJWUKt4WvlftrH9Xm64qFttCkW2zJ~c",
+        "value": "02.id.OixyfSHb4ItUcmaik89TOB9lvXgaKdG5PIbTwRlA~c.",
         "visible": false,
         "mutable": false
       }
@@ -146,7 +193,7 @@
     "value": {
       "name": "okta_enduser",
       "label": "Okta Dashboard",
-      "id": "0oa1eoexPI3KzpIuh0g4"
+      "id": "0oaym5SDvDXQSQD1L0g3"
     }
   },
   "authentication": {
@@ -163,10 +210,10 @@
         "display": "page",
         "response_type": "code",
         "redirect_uri": "http://localhost:3000/enduser/callback",
-        "state": "Go4V42JW5IsAENoeb6p0RLfiDWL7lDSWxpTXG5lABUIWBX2YVA5CCPF9HicEC0Lr",
+        "state": "CGf7wH1ov90pDe809sG6XH2WRXhvIVk8AwZRyb9XVbtWsL1hczQ0hziuh36azRq6",
         "code_challenge_method": "S256",
-        "nonce": "vCFOjuaX7Eaf0sCgOE4khe7yaPZJFtA7NZVOgxCgtoWJVS64q6HBH4LSMlZdcNJg",
-        "code_challenge": "rDTnFnlmdKzk-0x3IMncYWDhuZ6hCGiyz3zUuiyVLcA",
+        "nonce": "ss3xtNZTVS4JQOutF5iky9SBNKjjzaZwWQxxnKJP0N7Sirn9ij4xgZ18k0CMhLXs",
+        "code_challenge": "ad3TIDqUi_dWytIckwhpHyZgOcAntiFfxDO0Inoic3U",
         "response_mode": "query"
       }
     }

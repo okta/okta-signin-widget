@@ -2,8 +2,8 @@ import { RequestMock } from 'testcafe';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 
-import emailAuthenticatorPreEnrollData from '../../../playground/mocks/data/idp/idx/authenticator-pre-enroll-email';
-import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-pre-enroll-email-emailmagiclink-true';
+import emailAuthenticatorPreEnrollData from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-first';
+import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-first-emailmagiclink-true';
 
 const getVerificationEmailTitle = 'Get a verification email';
 const saveBtnLabelText = 'Send me an email';
@@ -28,7 +28,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await checkConsoleMessages({
       controller: null,
-      formName: 'authenticator-pre-enrollment-data',
+      formName: 'authenticator-enrollment-data',
       authenticatorKey: 'okta_email',
       methodType: 'email',
     });
@@ -42,7 +42,7 @@ test
       .eql('Send a verification email by clicking on "Send me an email".');
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
-    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).ok();
     await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
     await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
@@ -61,7 +61,7 @@ test
     await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
-    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).ok();
     await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
     await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
