@@ -210,7 +210,7 @@ export default class BaseFormObject {
 
   getErrorBoxText() {
     if (userVariables.v3) {
-      return within(this.el).getByRole('alert').innerText;
+      return within(this.el).getAllByRole('alert').nth(0).innerText;
     }
 
     return this.el.find(FORM_INFOBOX_ERROR).innerText;

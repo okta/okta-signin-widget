@@ -1,5 +1,4 @@
 import { userVariables } from 'testcafe';
-import { screen } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class YubiKeyAuthenticatorPageObject extends BasePageObject {
@@ -20,12 +19,5 @@ export default class YubiKeyAuthenticatorPageObject extends BasePageObject {
 
   clickVerifyButton() {
     return this.form.clickButton('Verify');
-  }
-
-  getErrorBoxText() {
-    if (userVariables.v3) {
-      return screen.findAllByRole('alert').nth(0).innerText;
-    }
-    return this.form.getErrorBoxText();
   }
 }
