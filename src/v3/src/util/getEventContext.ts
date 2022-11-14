@@ -16,6 +16,7 @@ import { EventContext } from '../../../types';
 import { getV1ClassName } from '../../../v2/ion/ViewClassNamesFactory';
 import { IDX_STEP } from '../constants';
 import { getAuthenticatorKey } from './getAuthenticatorKey';
+import { getAuthenticatorMethod } from './getAuthenticatorMethod';
 import { isPasswordRecovery } from './isPasswordRecovery';
 
 export const getFormNameForTransaction = (transaction: IdxTransaction): string | undefined => {
@@ -49,7 +50,7 @@ export const getEventContext = (transaction: IdxTransaction): EventContext => {
   const { context } = transaction;
   const authenticatorKey = context.currentAuthenticator?.value?.key
     || getAuthenticatorKey(transaction);
-  const methodType = transaction.context.currentAuthenticator?.value?.type;
+  const methodType = getAuthenticatorMethod(transaction);
   const isPasswordRecoveryFlow = isPasswordRecovery(transaction);
   const formName = getFormNameForTransaction(transaction);
 
