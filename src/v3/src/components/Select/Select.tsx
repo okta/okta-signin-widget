@@ -41,7 +41,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const {
-    label: defaultLabel, focus, required, translations = [],
+    focus, required, translations = [],
   } = uischema;
   const {
     attributes,
@@ -70,7 +70,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       error={hasErrors}
       required={required}
     >
-      <InputLabel htmlFor={name}>{label || defaultLabel}</InputLabel>
+      <InputLabel htmlFor={name}>{label}</InputLabel>
       <MuiSelect
         native
         onChange={handleChange}

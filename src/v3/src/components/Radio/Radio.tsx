@@ -43,7 +43,6 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const {
-    label: defaultLabel,
     translations = [],
     required,
     options: {
@@ -71,7 +70,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
       required={required}
       error={hasErrors}
     >
-      {label && (<FormLabel>{label || defaultLabel}</FormLabel>)}
+      {label && (<FormLabel>{label}</FormLabel>)}
       <RadioGroup
         name={name}
         id={name}
