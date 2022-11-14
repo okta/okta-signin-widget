@@ -56,7 +56,6 @@ import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer/IdentifierContainer';
-import InfoSection from '../InfoSection/InfoSection';
 import Spinner from '../Spinner';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
@@ -268,6 +267,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setIsClientTransaction,
       stepToRender,
       setStepToRender,
+      message,
       setMessage,
       data,
       setData,
@@ -291,7 +291,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
               />
               <AuthContent>
                 <IdentifierContainer />
-                <InfoSection message={message} />
                 {
                   uischema.elements.length > 0
                     ? <Form uischema={uischema as UISchemaLayout} />

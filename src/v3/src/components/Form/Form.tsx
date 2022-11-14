@@ -20,6 +20,7 @@ import {
   UISchemaLayout,
 } from '../../types';
 import { getValidationMessages } from '../../util';
+import InfoSection from '../InfoSection/InfoSection';
 import Layout from './Layout';
 
 const Form: FunctionComponent<{
@@ -28,6 +29,7 @@ const Form: FunctionComponent<{
   const {
     data,
     idxTransaction: currTransaction,
+    message,
     setMessage,
     dataSchemaRef,
     setWidgetRendered,
@@ -94,6 +96,7 @@ const Form: FunctionComponent<{
       data-se="o-form"
       style={{ maxWidth: '100%', wordBreak: 'break-word' }}
     >
+      <InfoSection message={message} />
       <Layout uischema={uischema} />
     </form>
   );
