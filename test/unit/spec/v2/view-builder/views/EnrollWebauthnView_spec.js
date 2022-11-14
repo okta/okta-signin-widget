@@ -177,7 +177,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
           clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
           attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
           transports: JSON.stringify(newCredential.response.getTransports()),
-          clientExtensionResults: JSON.stringify(newCredential.getClientExtensionResults())
+          clientExtensions: JSON.stringify(newCredential.getClientExtensionResults())
         });
         expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
         expect(testContext.view.form.webauthnAbortController).toBe(null);
