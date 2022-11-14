@@ -7,19 +7,10 @@ const BaseAuthenticatorEmailForm = BaseAuthenticatorView.prototype.Body;
 const SubtitleView = View.extend({
   template: hbs`
     <div class="okta-form-subtitle" data-se="o-form-explain">
-      {{#if email}}
-        {{i18n
-          code="oie.email.verify.subtitle.text.with.email"
-          bundle="login"
-          arguments="email"
-          $1="<span class='strong no-translate'>$1</span>"
-        }}
-      {{else}}
-        {{i18n
-          code="oie.email.verify.subtitle.text.without.email"
-          bundle="login"
-        }}
-      {{/if}}
+      {{i18n
+        code="oie.email.verify.subtitle.text.without.email"
+        bundle="login"
+      }}
     </div>
   `,
 
