@@ -1467,7 +1467,7 @@ Expect.describe('IDPDiscovery', function() {
         })
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
+          expect(test.form.errorMessage()).toBe('Unable to determine user identification method. Please contact your administrator for assistance.');
         });
     });
   });
