@@ -487,10 +487,10 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@okta/courage@4.5.0-7417-gee15656":
-  version "4.5.0-7417-gee15656"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-7417-gee15656.tgz#96f1ab1dc890da7afb2319429e60c770c3ac7554"
-  integrity sha1-lvGrHciQ2nr7IxlCnmDHcMOsdVQ=
+"@okta/courage@4.5.0-7468-g9c1a728":
+  version "4.5.0-7468-g9c1a728"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-7468-g9c1a728.tgz#19a4cf33a3b5eca149f57793622d428ea52f0a86"
+  integrity sha1-GaTPM6O17KFJ9XeTYi1CjqUvCoY=
   dependencies:
     "@okta/jquery.simplemodal" "1.4.19-g8b711ea"
     "@types/backbone" "^1.4.10"
