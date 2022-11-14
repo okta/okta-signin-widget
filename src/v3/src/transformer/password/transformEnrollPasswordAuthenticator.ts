@@ -155,11 +155,13 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       const newPw = data[passwordFieldName];
       const confirmPw = data.confirmPassword;
       if (newPw !== confirmPw) {
+        // This error is not displayed by the component, however it is used to block
+        // form submission by marking the field as invalid
         return [{
-          name: passwordFieldName,
+          name: 'passwordMatchesValidation',
           class: 'ERROR',
-          message: loc('model.validation.field.blank', 'login'),
-          i18n: { key: 'model.validation.field.blank' },
+          message: loc('password.error.match', 'login'),
+          i18n: { key: 'password.error.match' },
         }];
       }
       return undefined;

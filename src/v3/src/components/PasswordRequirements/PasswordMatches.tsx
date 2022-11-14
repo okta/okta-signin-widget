@@ -21,11 +21,11 @@ import {
   useEffect,
   useState,
 } from 'preact/hooks';
+import { loc } from '../../util';
 
 import { useWidgetContext } from '../../contexts';
 import {
   PasswordMatchesElement,
-  PasswordRequirementsElement,
   UISchemaElementComponent,
 } from '../../types';
 import PasswordRequirementItem from './PasswordRequirementItem';
@@ -65,7 +65,7 @@ const PasswordMatches: UISchemaElementComponent<{
         <List.Item>
           <PasswordRequirementItem
             status={isMatching ? 'complete' : 'incomplete'}
-            text={'Passwords must match'}
+            text={loc('password.enroll.error.match', 'login')}
           />
         </List.Item>
       </List>
