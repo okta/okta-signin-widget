@@ -253,7 +253,6 @@ Expect.describe('EnrollWebauthn', function() {
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
         .then(function(test) {
-          console.log(test.form);
           Expect.isVisible(test.form.enrollInstructions());
           Expect.isVisible(test.form.enrollSpinningIcon());
           Expect.isNotVisible(test.form.submitButton());
