@@ -27,6 +27,7 @@ import InputText from '../InputText';
 import Link from '../Link';
 import List from '../List';
 import PasswordRequirements from '../PasswordRequirements';
+import PasswordMatches from '../PasswordRequirements/PasswordMatches';
 import PhoneAuthenticator from '../PhoneAuthenticator';
 import QRCode from '../QRCode';
 import Radio from '../Radio';
@@ -71,6 +72,10 @@ export default [
   {
     tester: ({ type }) => type === 'PasswordRequirements',
     renderer: PasswordRequirements,
+  },
+  {
+    tester: ({ type }) => type === 'PasswordMatches',
+    renderer: PasswordMatches,
   },
   {
     tester: ({ type }) => type === 'Spinner',

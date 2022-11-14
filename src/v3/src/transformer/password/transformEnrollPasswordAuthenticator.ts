@@ -17,11 +17,12 @@ import {
   HiddenInputElement,
   IdxMessageWithName,
   IdxStepTransformer,
+  PasswordMatchesElement,
   PasswordRequirementsElement,
   PasswordSettings,
   TitleElement,
 } from '../../types';
-import { getUserInfo, loc, updatePasswordRequirementsNotMetMessage } from '../../util';
+import { buildErrorMessageIds, getUserInfo, loc, updatePasswordRequirementsNotMetMessage } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
@@ -119,6 +120,14 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     },
   };
 
+  const passwordMatchesElement: PasswordMatchesElement = {
+    type: 'PasswordMatches',
+    key: 'passwordMatchesValidation',
+    options: {
+      validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
+    },
+  };
+
   const userInfo = getUserInfo(transaction);
   uischema.elements = [
     titleElement,
@@ -133,68 +142,29 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     } as HiddenInputElement,
     passwordElement,
     confirmPasswordElement,
+    passwordMatchesElement,
   ];
 
   // update default dataSchema
-  dataSchema.fieldsToExclude = () => (['confirmPassword']);
+  dataSchema.fieldsToExclude = () => (['confirmPassword', 'passwordMatchesValidation']);
+  dataSchema.fieldsToValidate.push('passwordMatchesValidation');
+
   // Controls form submission validation
-  dataSchema[passwordFieldName] = {
+  dataSchema['passwordMatchesValidation'] = {
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];
       const confirmPw = data.confirmPassword;
-      const errorMessages: IdxMessageWithName[] = [];
-      if (!newPw) {
-        errorMessages.push({
+      if (newPw !== confirmPw) {
+        return [{
           name: passwordFieldName,
           class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
           i18n: { key: 'model.validation.field.blank' },
-        });
-      }
-
-      if (!confirmPw) {
-        errorMessages.push({
-          name: 'confirmPassword',
-          class: 'ERROR',
-          message: loc('model.validation.field.blank', 'login'),
-          i18n: { key: 'model.validation.field.blank' },
-        });
-      } else if (confirmPw !== newPw) {
-        errorMessages.push({
-          name: 'confirmPassword',
-          class: 'ERROR',
-          message: loc('password.error.match', 'login'),
-          i18n: { key: 'password.error.match' },
-        });
-      }
-
-      return errorMessages.length ? errorMessages : undefined;
-    },
-  };
-  // Controls live field change validation
-  dataSchema.confirmPassword = {
-    validate: (data: FormBag['data']) => {
-      const newPw = data[passwordFieldName];
-      const confirmPw = data.confirmPassword;
-      if (!confirmPw) {
-        return [{
-          name: 'confirmPassword',
-          class: 'ERROR',
-          message: loc('model.validation.field.blank', 'login'),
-          i18n: { key: 'model.validation.field.blank' },
-        }];
-      }
-      if (confirmPw !== newPw) {
-        return [{
-          name: 'confirmPassword',
-          class: 'ERROR',
-          message: loc('password.error.match', 'login'),
-          i18n: { key: 'password.error.match' },
         }];
       }
       return undefined;
     },
-  };
+  }
 
   return formBag;
 };

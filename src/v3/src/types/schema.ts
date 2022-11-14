@@ -287,6 +287,13 @@ export interface PasswordRequirementsElement extends UISchemaElement {
   }
 }
 
+export interface PasswordMatchesElement extends UISchemaElement {
+  type: 'PasswordMatches',
+  options: {
+    validationDelayMs: number;
+  }
+}
+
 export interface LinkElement extends UISchemaElement {
   type: 'Link';
   options: ActionOptions & {
