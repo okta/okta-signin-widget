@@ -1,4 +1,4 @@
-import { RequestMock, Selector } from 'testcafe';
+import { RequestMock, Selector, userVariables } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -98,8 +98,13 @@ test.requestHooks(successMock)('should have the correct requirements', async t =
   await t.expect(enrollPasswordPage.getRequirements()).contains('A symbol');
   await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your first name');
   await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your last name');
-  // await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
+  // In V3, UX made a conscious decision to not include server side requirements in the UI
+  // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
+  // but for now, it does not display in v3
+  if (!userVariables.v3) {
+    await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+  }
   await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
-  // await t.expect(enrollPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
   await t.expect(enrollPasswordPage.getRequirements()).contains('A lowercase letter');
 });
