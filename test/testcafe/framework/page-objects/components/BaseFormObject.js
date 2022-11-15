@@ -176,10 +176,11 @@ export default class BaseFormObject {
     await this.t.click(this.el.find(CANCEL_BUTTON_SELECTOR));
   }
 
-  getSaveButtonLabel() {
+  getSaveButtonLabel(name = 'Next') {
     // in v3 buttons dont have a value prop
     if (userVariables.v3) {
-      return within(this.el).getByRole('button').textContent;
+      const submitButton = this.getButton(name);
+      return submitButton.textContent;
     }
 
     return within(this.el).getByRole('button').value;
