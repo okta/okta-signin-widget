@@ -1,4 +1,4 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, Selector } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -18,11 +18,13 @@ const errorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrAuthenticatorEnrollPasswordError, 403);
 
-fixture('Authenticator Enroll Password');
+fixture('Authenticator Enroll Password')
+.meta('v3', true);
 
 async function setup(t) {
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
   await enrollPasswordPage.navigateToPage();
+  await t.expect(Selector('form').exists).eql(true);
   await checkConsoleMessages({
     controller: 'enroll-password',
     formName: 'enroll-authenticator',
@@ -43,7 +45,7 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 
   // assert switch authenticator link shows up
-  await t.expect(await enrollPasswordPage.switchAuthenticatorLinkExists()).ok();
+  await t.expect(await enrollPasswordPage.returnToAuthenticatorListLinkExists()).ok();
   await t.expect(enrollPasswordPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
 
   // fields are required
@@ -59,7 +61,6 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await enrollPasswordPage.waitForErrorBox();
   await t.expect(enrollPasswordPage.hasPasswordError()).eql(false);
   await t.expect(enrollPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
-  await t.expect(enrollPasswordPage.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
 
   await t.expect(await enrollPasswordPage.signoutLinkExists()).ok();
 });
@@ -86,10 +87,9 @@ test.requestHooks(errorMock)('should show a callout when server-side field error
 
   await enrollPasswordPage.waitForErrorBox();
   await t.expect(enrollPasswordPage.getPasswordError()).eql('This password was found in a list of commonly used passwords. Please try another password.');
-  await t.expect(enrollPasswordPage.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
 });
 
-test.requestHooks(successMock)('should have the correct reqiurements', async t => {
+test.requestHooks(successMock)('should have the correct requirements', async t => {
   const enrollPasswordPage = await setup(t);
   await t.expect(enrollPasswordPage.getRequirements()).contains('Password requirements:');
   await t.expect(enrollPasswordPage.getRequirements()).contains('At least 8 characters');
@@ -98,8 +98,8 @@ test.requestHooks(successMock)('should have the correct reqiurements', async t =
   await t.expect(enrollPasswordPage.getRequirements()).contains('A symbol');
   await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your first name');
   await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your last name');
-  await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
+  // await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
   await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
-  await t.expect(enrollPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+  // await t.expect(enrollPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
   await t.expect(enrollPasswordPage.getRequirements()).contains('A lowercase letter');
 });

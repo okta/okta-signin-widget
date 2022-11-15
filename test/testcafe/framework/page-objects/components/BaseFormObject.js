@@ -5,6 +5,7 @@ const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 
 const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
+const SAVE_BUTTON_SELECTOR = '[data-type="save"]';
 
 const focusOnSubmitButton = () => {
   // client function is not able to refer any variables defined outside
@@ -176,10 +177,11 @@ export default class BaseFormObject {
     await this.t.click(this.el.find(CANCEL_BUTTON_SELECTOR));
   }
 
-  getSaveButtonLabel() {
+  getSaveButtonLabel(name = 'Next') {
     // in v3 buttons dont have a value prop
     if (userVariables.v3) {
-      return within(this.el).getByRole('button').textContent;
+      const submitButton = this.getButton(name);
+      return submitButton.textContent;
     }
 
     return within(this.el).getByRole('button').value;
@@ -210,7 +212,7 @@ export default class BaseFormObject {
 
   getErrorBoxText() {
     if (userVariables.v3) {
-      return within(this.el).getAllByRole('alert').nth(0).innerText;
+      return within(this.el).getByRole('alert').innerText;
     }
 
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
