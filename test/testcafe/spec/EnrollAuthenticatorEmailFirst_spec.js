@@ -1,5 +1,6 @@
 import { RequestMock } from 'testcafe';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
+import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 
 import emailAuthenticatorPreEnrollData from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-first';
@@ -41,10 +42,24 @@ test
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql('Send a verification email by clicking on "Send me an email".');
 
-    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    // Verify links (switch authenticator link present since for the only email authenticator available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).ok();
     await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
     await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+
+    // clicking switch authenticator link should display only email authenticator
+    await challengeEmailPageObject.clickSwitchAuthenticatorButton();
+    const selectFactorPageObject = new SelectFactorPageObject(t);
+    await t.expect(selectFactorPageObject.getFormTitle()).eql('Set up security methods');
+    await t.expect(selectFactorPageObject.getFormSubtitle()).eql(
+      'Security methods help protect your account by ensuring only you have access.');
+    await t.expect(selectFactorPageObject.getFactorsCount()).eql(1);
+    await t.expect(selectFactorPageObject.getFactorLabelByIndex(0)).eql('Email');
+    await t.expect(selectFactorPageObject.getFactorIconClassByIndex(0)).contains('okta-email');
+    await t.expect(selectFactorPageObject.getFactorSelectButtonByIndex(0)).eql('Set up');
+    await t.expect(selectFactorPageObject.getFactorSelectButtonDataSeByIndex(0)).eql('okta_email');
+    await t.expect(selectFactorPageObject.getFactorDescriptionByIndex(0)).eql('Verify with a link or code sent to your email');
+    await t.expect(await selectFactorPageObject.factorUsageTextExistsByIndex(0)).eql(true);
   });
 
 test
@@ -60,8 +75,22 @@ test
     const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
 
-    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    // Verify links (switch authenticator link present since for the only email authenticator available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).ok();
     await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
     await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+
+    // clicking switch authenticator link should display only email authenticator
+    await challengeEmailPageObject.clickSwitchAuthenticatorButton();
+    const selectFactorPageObject = new SelectFactorPageObject(t);
+    await t.expect(selectFactorPageObject.getFormTitle()).eql('Set up security methods');
+    await t.expect(selectFactorPageObject.getFormSubtitle()).eql(
+      'Security methods help protect your account by ensuring only you have access.');
+    await t.expect(selectFactorPageObject.getFactorsCount()).eql(1);
+    await t.expect(selectFactorPageObject.getFactorLabelByIndex(0)).eql('Email');
+    await t.expect(selectFactorPageObject.getFactorIconClassByIndex(0)).contains('okta-email');
+    await t.expect(selectFactorPageObject.getFactorSelectButtonByIndex(0)).eql('Set up');
+    await t.expect(selectFactorPageObject.getFactorSelectButtonDataSeByIndex(0)).eql('okta_email');
+    await t.expect(selectFactorPageObject.getFactorDescriptionByIndex(0)).eql('Verify with a link or code sent to your email');
+    await t.expect(await selectFactorPageObject.factorUsageTextExistsByIndex(0)).eql(true);
   });
