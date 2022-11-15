@@ -194,9 +194,18 @@ When(
 );
 
 When(
-  /^user triggers CSP failure in the test app$/,
-  async function() {
-    TestAppPage.triggerCspFail.click();
+  /^user triggers CSP failure in the test app: ([^/w]+)$/,
+  async function(this: ActionContext, cspTest: string) {
+    switch (cspTest) {
+      case 'eval':
+        TestAppPage.triggerCspEvalFail.click();
+        break;
+      case 'style-attr':
+        TestAppPage.triggerCspStyleAttrFail.click();
+        break;
+      default:
+        throw new Error(`Unknown CSP test: ${cspTest}`);
+    }
   }
 );
 

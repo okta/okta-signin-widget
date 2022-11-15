@@ -23,7 +23,8 @@ class TestAppPage {
   get showSignInAndRedirect() { return $('button[name="showSignInAndRedirect"]'); }
   get showSignInToGetTokens() { return $('button[name="showSignInToGetTokens"]'); }
   get startWithRenderEl() { return $('button[name="renderEl"]'); }
-  get triggerCspFail() { return $('button[name="fail-csp"]'); }
+  get triggerCspEvalFail() { return $('button[name="fail-csp-eval"]'); }
+  get triggerCspStyleAttrFail() { return $('button[name="fail-csp-style-attr"]'); }
   get flowDropdown() { return $('#f_flow'); }
 
   

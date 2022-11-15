@@ -1,4 +1,4 @@
-Feature: Widget Customization and CSP error
+Feature: Widget Customization and Basic operations
   Background:
     Given an App configured to use interaction code flow
 
@@ -18,8 +18,4 @@ Feature: Widget Customization and CSP error
       When widget config is updated with colors and i18n
       Then widget background shows the updated color
       And widget displays customized title
-
-    Scenario: User triggers CSP error
-      When user triggers CSP failure in the test app
-      Then user sees the CSP error on the page
 

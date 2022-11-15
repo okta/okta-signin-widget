@@ -46,16 +46,24 @@ const ActionsTemplate = `
       <li class="pure-menu-item">
         <button name="remove" class="pure-menu-link">Remove</button>
       </li>
-      <li class="pure-menu-item">
-        <button name="fail-csp" class="pure-menu-link">
-          Trigger CSP Fail
-        </button>
-      </li>
       <li class="pure-menu-item visible-on-callback">
         <button name="clearTransaction" class="pure-menu-link">clear transaction storage</button>
       </li>
       <li class="pure-menu-item visible-on-callback">
         <button name="signOut" class="pure-menu-link">signOut</button>
+      </li>
+    </ul>
+    <hr/>
+    <ul class="pure-menu-list">
+      <li class="pure-menu-item">
+        <button name="fail-csp-eval" class="pure-menu-link">
+          CSP: eval
+        </button>
+      </li>
+      <li class="pure-menu-item">
+        <button name="fail-csp-style-attr" class="pure-menu-link">
+          CSP: style-src
+        </button>
       </li>
     </ul>
   </div>
@@ -134,7 +142,8 @@ export default class TestApp {
   showSignInAndRedirectButton: HTMLElement;
   showSignInToGetTokensButton: HTMLElement;
   renderElButton: HTMLElement;
-  failCspButton: HTMLElement;
+  failCspEvalButton: HTMLElement;
+  failCspStyleAttrButton: HTMLElement;
   signOutButton: HTMLElement;
   clearTransaction: HTMLElement;
 
@@ -163,7 +172,8 @@ export default class TestApp {
     this.showSignInAndRedirectButton = document.querySelector('#actions-container button[name="showSignInAndRedirect"]');
     this.showSignInToGetTokensButton = document.querySelector('#actions-container button[name="showSignInToGetTokens"]');
     this.renderElButton = document.querySelector('#actions-container button[name="renderEl"]')
-    this.failCspButton = document.querySelector('#actions-container button[name="fail-csp"]');
+    this.failCspEvalButton = document.querySelector('#actions-container button[name="fail-csp-eval"]');
+    this.failCspStyleAttrButton = document.querySelector('#actions-container button[name="fail-csp-style-attr"]');
     this.clearTransaction = document.querySelector('#actions-container button[name="clearTransaction"]');
     this.signOutButton = document.querySelector('#actions-container button[name="signOut"]');
     this.tokensContainer = document.getElementById('tokens-container');
@@ -210,7 +220,7 @@ export default class TestApp {
       this.cspErrors = [...this.cspErrors, err];
       this.cspErrors.forEach(err => {
         const errorEl = document.createElement('div');
-        errorEl.innerHTML = `${err.blockedURI} blocked due to CSP rule ${err.violatedDirective} from ${err.originalPolicy}`;
+        errorEl.innerHTML = `${err.blockedURI} blocked due to CSP rule ${err.violatedDirective}`;
         this.cspErrorsContainer.appendChild(errorEl);
       });
     });
@@ -286,14 +296,6 @@ export default class TestApp {
         console.log(context, error);
       });
     });
-    this.failCspButton.addEventListener('click', () => {
-      try {
-        /* eslint-disable-next-line no-eval */
-        eval('var cspTrigger = true;');
-      } catch (e) {
-        console.warn(e);
-      }
-    });
     this.clearTransaction.addEventListener('click', async () => {
       if (!this.oktaSignIn) {
         const options = this.getWidgetOptions();
@@ -307,6 +309,20 @@ export default class TestApp {
         this.oktaSignIn = await getOktaSignIn(options);
       }
       this.oktaSignIn.authClient.signOut();
+    });
+
+    // CSP
+    this.failCspEvalButton.addEventListener('click', () => {
+      try {
+        /* eslint-disable-next-line no-eval */
+        eval('var cspTrigger = true;');
+      } catch (e) {
+        console.warn(e);
+      }
+    });
+    this.failCspStyleAttrButton.addEventListener('click', () => {
+      const elem = document.createElement('div');
+      elem.setAttribute('style', 'background-color: blue');
     });
   }
 

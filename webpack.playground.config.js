@@ -31,10 +31,11 @@ if (!fs.existsSync(WIDGET_RC_JS)) {
 const headers = {};
 
 if (!process.env.DISABLE_CSP) {
-  headers['Content-Security-Policy'] =
-    // Allow google domains for testing recaptcha
-    // eslint-disable-next-line max-len
-    `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`;
+  // Allow google domains for testing recaptcha
+  const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`;
+  const styleSrc =  `style-src http://${HOST}:${DEV_SERVER_PORT}`;
+  const csp = `${scriptSrc}; ${styleSrc};`;
+  headers['Content-Security-Policy'] = csp;
 }
 
 module.exports = {

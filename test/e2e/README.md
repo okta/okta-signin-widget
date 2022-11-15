@@ -74,7 +74,7 @@ yarn workspace @okta/e2e wdio ./wdio.conf.js --spec ./specs/{filename}
 
 ## Chrome Binary
 
-To point `wdio` at a specific chrome/chromium binary, set `CHROMIUM_BINARY` to the path of the desired binary file. Make sure to also set `CHROMEDRIVER_VERSION` to the same version as the targeted binary.
+To point `wdio` at a specific chrome/chromium binary, set `CHROMIUM_BINARY` to the path of the desired binary file. Make sure to also set `CHROMEDRIVER_VERSION` to the same version as the targeted binary. Latest version numbers can be found at [chromedriver.chromium.org](https://chromedriver.chromium.org/downloads)
 
 ### Run cucumber feature tests against the test app
 

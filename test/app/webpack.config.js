@@ -9,6 +9,11 @@ const DEV_SERVER_PORT = 3000;
 const WORKSPACE_ROOT = path.resolve(__dirname, '../..');
 const { DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET } = process.env;
 
+// CSP settings
+const scriptSrc = `script-src http://localhost:${DEV_SERVER_PORT} https://global.oktacdn.com`;
+const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com`;
+const csp = `${scriptSrc}; ${styleSrc}`;
+
 const webpackConfig = {
   mode: 'development',
   entry: [
@@ -52,7 +57,7 @@ const webpackConfig = {
     port: DEV_SERVER_PORT,
     historyApiFallback: true,
     headers: {
-      'Content-Security-Policy': `script-src http://localhost:${DEV_SERVER_PORT} https://global.oktacdn.com`
+      'Content-Security-Policy': csp
     },
   },
   plugins: [
