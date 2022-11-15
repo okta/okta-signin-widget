@@ -223,7 +223,7 @@ test
 
     const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`Send a verification email to ${emailAddress} by clicking on "Send me an email".`);
+      .eql(`Send a verification email by clicking on "Send me an email".`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -279,7 +279,7 @@ test
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+      .eql(`We sent you a verification email. Click the verification link in your email to continue or enter the code below.`);
     const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
 
@@ -298,7 +298,7 @@ test
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`We sent an email to ${emailAddress}. Enter the verification code in the text box.`);
+      .eql(`We sent you a verification email. Enter the verification code in the text box.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -326,7 +326,7 @@ test
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+      .eql(`We sent you a verification email. Click the verification link in your email to continue or enter the code below.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();

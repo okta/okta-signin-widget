@@ -145,7 +145,7 @@ test
     
     const emailAddress = xhrEnrollEmailWithoutEmailMagicLink.user.value.identifier;
     await t.expect(enrollEmailPageObject.getFormSubtitle())
-      .eql(`We sent an email to ${emailAddress}. Enter the verification code in the text box.`);
+      .eql(`We sent you a verification email. Enter the verification code in the text box.`);
 
     await t.expect(await enrollEmailPageObject.enterCodeFromEmailLinkExists()).notOk();
     await t.expect(await enrollEmailPageObject.signoutLinkExists()).ok();
@@ -160,7 +160,7 @@ test
 
     const emailAddress = xhrEnrollEmailWithEmailMagicLink.user.value.identifier;
     await t.expect(enrollEmailPageObject.getFormSubtitle())
-      .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+      .eql(`We sent you a verification email. Click the verification link in your email to continue or enter the code below.`);
 
     await t.expect(await enrollEmailPageObject.enterCodeFromEmailLinkExists()).ok();
     await t.expect(await enrollEmailPageObject.signoutLinkExists()).ok();
@@ -214,7 +214,7 @@ test
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     const emailAddress = xhrEnrollEmailWithEmailMagicLink.user.value.identifier;
     await t.expect(enrollEmailPageObject.getFormSubtitle())
-      .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+      .eql(`We sent you a verification email. Click the verification link in your email to continue or enter the code below.`);
     await enrollEmailPageObject.clickElement('.enter-auth-code-instead-link');
     await t.expect(enrollEmailPageObject.form.getSaveButtonLabel()).eql('Verify');
 
@@ -256,7 +256,7 @@ test
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     const emailAddress = xhrEnrollEmailWithoutEmailMagicLink.user.value.identifier;
     await t.expect(enrollEmailPageObject.getFormSubtitle())
-      .eql(`We sent an email to ${emailAddress}. Enter the verification code in the text box.`);
+      .eql(`We sent you a verification email. Enter the verification code in the text box.`);
     await t.expect(enrollEmailPageObject.form.getSaveButtonLabel()).eql('Verify');
 
     // Verify links
