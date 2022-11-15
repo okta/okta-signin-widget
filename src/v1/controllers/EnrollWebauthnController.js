@@ -34,6 +34,13 @@ function getExcludeCredentials(credentials) {
   return excludeCredentials;
 }
 
+function processResponseValue(inputValue) {
+  if (inputValue === undefined || inputValue === null) {
+    return null;
+  }
+  return JSON.stringify(inputValue);
+}
+
 export default FormController.extend({
   className: 'enroll-webauthn',
   Model: {
@@ -100,9 +107,9 @@ export default FormController.extend({
                 attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
                 clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
                 // example data: ["nfc", "usb"]
-                transports: JSON.stringify(newCredential.response.getTransports()),
+                transports: processResponseValue(newCredential.response.getTransports()),
                 // example data: {"credProps":{"rk":true}}
-                clientExtensions: JSON.stringify(newCredential.getClientExtensionResults())
+                clientExtensions: processResponseValue(newCredential.getClientExtensionResults())
               });
             })
             .catch(function(error) {

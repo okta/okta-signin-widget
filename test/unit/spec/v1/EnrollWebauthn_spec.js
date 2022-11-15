@@ -84,20 +84,29 @@ Expect.describe('EnrollWebauthn', function() {
     });
   }
 
-  function mockWebauthnSuccessRegistration(resolvePromise) {
+  function mockWebauthnSuccessRegistration(resolvePromise, isNullable=false) {
     mockWebauthn();
     spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
     spyOn(navigator.credentials, 'create').and.callFake(function() {
       const deferred = Q.defer();
+      var localTransports;
+      var localClientExtensions;
+      if (!isNullable) {
+        localTransports = transports;
+        localClientExtensions = clientExtensions;
+      } else {
+        localTransports = null;
+        localClientExtensions = null;
+      }
 
       if (resolvePromise) {
         deferred.resolve({
           response: {
             attestationObject: CryptoUtil.strToBin(testAttestationObject),
             clientDataJSON: CryptoUtil.strToBin(testClientData),
-            getTransports: function() { return transports; },
+            getTransports: function() { return localTransports; },
           },
-          getClientExtensionResults: function() { return clientExtensions; },
+          getClientExtensionResults: function() { return localClientExtensions; },
         });
       }
       return deferred.promise;
@@ -335,6 +344,67 @@ Expect.describe('EnrollWebauthn', function() {
               clientData: testClientData,
               transports: JSON.stringify(transports),
               clientExtensions: JSON.stringify(clientExtensions),
+              stateToken: 'testStateToken',
+            },
+          });
+          expect(test.router.controller.model.webauthnAbortController).toBe(null);
+        });
+    });
+
+    itp('calls navigator.credentials.create and receives null response', function() {
+      mockWebauthnSuccessRegistration(true, true);
+      return setup()
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function(test) {
+          expect(navigator.credentials.create).toHaveBeenCalledWith({
+            publicKey: {
+              rp: {
+                name: 'acme',
+              },
+              user: {
+                id: CryptoUtil.strToBin('00u1212qZXXap6Cts0g4'),
+                name: 'yuming.cao@okta.com',
+                displayName: 'Test User',
+              },
+              pubKeyCredParams: [
+                {
+                  type: 'public-key',
+                  alg: -7,
+                },
+              ],
+              challenge: CryptoUtil.strToBin('G7bIvwrJJ33WCEp6GGSH'),
+              authenticatorSelection: {
+                authenticatorAttachment: 'cross-platform',
+                requireResidentKey: false,
+                userVerification: 'preferred',
+              },
+              u2fParams: {
+                appid: 'https://test.okta.com',
+              },
+              excludeCredentials: [
+                {
+                  type: 'public-key',
+                  id: CryptoUtil.strToBin(
+                    'vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZt'
+                  ),
+                },
+              ],
+            },
+            signal: jasmine.any(Object),
+          });
+          expect(Util.numAjaxRequests()).toBe(2);
+          Expect.isJsonPost(Util.getAjaxRequest(1), {
+            url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
+            data: {
+              attestation: testAttestationObject,
+              clientData: testClientData,
+              transports: null,
+              clientExtensions: null,
               stateToken: 'testStateToken',
             },
           });
