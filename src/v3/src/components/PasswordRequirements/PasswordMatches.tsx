@@ -57,7 +57,7 @@ const PasswordMatches: UISchemaElementComponent<{
   }, [password, confirmPassword]);
 
   return (
-    <Box data-se="password-matches--rules">
+    <Box data-se="password-authenticator--matches">
       <List
         listType="unordered"
         unstyled
