@@ -19,6 +19,7 @@ import {
   ButtonType,
   FieldElement,
   HiddenInputElement,
+  PasswordMatchesElement,
   PasswordRequirementsElement,
   TitleElement,
   WidgetProps,
@@ -69,7 +70,7 @@ describe('Reset Password Authenticator Transformer Tests', () => {
 
     // Verify added elements
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    expect(updatedFormBag.uischema.elements.length).toBe(7);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
     expect(updatedFormBag.uischema.elements[1]?.type).toBe('PasswordRequirements');
@@ -94,10 +95,13 @@ describe('Reset Password Authenticator Transformer Tests', () => {
       .toBe('confirmPassword');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).options.attributes?.autocomplete)
       .toBe('new-password');
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).label).toBe('password.reset');
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options.type)
+    expect(updatedFormBag.uischema.elements[5]?.type).toBe('PasswordMatches');
+    expect((updatedFormBag.uischema.elements[5] as PasswordMatchesElement)
+      .options?.validationDelayMs).toBe(50);
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).label).toBe('password.reset');
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options.type)
       .toBe(ButtonType.SUBMIT);
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options.step)
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options.step)
       .toBe('reset-authenticator');
   });
 
@@ -114,7 +118,7 @@ describe('Reset Password Authenticator Transformer Tests', () => {
 
     // Verify added elements
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
     expect(updatedFormBag.uischema.elements[1].type).toBe('HiddenInput');
@@ -128,10 +132,13 @@ describe('Reset Password Authenticator Transformer Tests', () => {
       .toBe('confirmPassword');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options.attributes?.autocomplete)
       .toBe('new-password');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label).toBe('password.reset');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.type)
+    expect(updatedFormBag.uischema.elements[4]?.type).toBe('PasswordMatches');
+    expect((updatedFormBag.uischema.elements[4] as PasswordMatchesElement)
+      .options?.validationDelayMs).toBe(50);
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).label).toBe('password.reset');
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options.type)
       .toBe(ButtonType.SUBMIT);
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.step)
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options.step)
       .toBe('reset-authenticator');
   });
 
@@ -153,7 +160,7 @@ describe('Reset Password Authenticator Transformer Tests', () => {
 
     // Verify added elements
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    expect(updatedFormBag.uischema.elements.length).toBe(7);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.specific');
     expect(updatedFormBag.uischema.elements[1]?.type).toBe('PasswordRequirements');
@@ -178,10 +185,13 @@ describe('Reset Password Authenticator Transformer Tests', () => {
       .toBe('confirmPassword');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).options.attributes?.autocomplete)
       .toBe('new-password');
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).label).toBe('password.reset');
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options.type)
+    expect(updatedFormBag.uischema.elements[5]?.type).toBe('PasswordMatches');
+    expect((updatedFormBag.uischema.elements[5] as PasswordMatchesElement)
+      .options?.validationDelayMs).toBe(50);
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).label).toBe('password.reset');
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options.type)
       .toBe(ButtonType.SUBMIT);
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options.step)
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options.step)
       .toBe('reset-authenticator');
   });
 });

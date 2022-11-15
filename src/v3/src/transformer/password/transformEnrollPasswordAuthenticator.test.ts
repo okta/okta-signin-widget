@@ -69,7 +69,7 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
 
     // Verify added elements
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.password.enroll.title');
     expect(updatedFormBag.uischema.elements[1]?.type).toBe('PasswordRequirements');
@@ -123,7 +123,7 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
 
     // Verify added elements
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.password.enroll.title');
     expect(updatedFormBag.uischema.elements[1]?.type).toBe('PasswordRequirements');
@@ -163,7 +163,7 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
 
     // Verify added elements
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.password.enroll.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('HiddenInput');

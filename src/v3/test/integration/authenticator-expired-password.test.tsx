@@ -64,9 +64,6 @@ describe('authenticator-expired-password', () => {
 
     await user.click(submitButton);
 
-    const confirmPasswordError = await findByTestId('confirmPassword-error');
-
-    expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
   });
 
@@ -91,7 +88,6 @@ describe('authenticator-expired-password', () => {
 
     const newPasswordError = await findByTestId('credentials.passcode-error');
     expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
-    expect((await findByTestId('confirmPassword-error')).innerHTML).toBe('New passwords must match');
   });
 
   it('should not make network request when fields are not matching', async () => {
@@ -112,9 +108,6 @@ describe('authenticator-expired-password', () => {
     await user.type(confirmPasswordEle, 'abc123');
     await user.click(submitButton);
 
-    const confirmPasswordError = await findByTestId('confirmPassword-error');
-
-    expect(confirmPasswordError.innerHTML).toBe('New passwords must match');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
   });
 
@@ -133,10 +126,8 @@ describe('authenticator-expired-password', () => {
     await user.click(submitButton);
 
     const newPasswordError = await findByTestId('credentials.passcode-error');
-    const confirmPasswordError = await findByTestId('confirmPassword-error');
 
     expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
-    expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
   });
 });
