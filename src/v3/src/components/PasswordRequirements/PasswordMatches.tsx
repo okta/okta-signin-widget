@@ -21,13 +21,13 @@ import {
   useEffect,
   useState,
 } from 'preact/hooks';
-import { loc } from '../../util';
 
 import { useWidgetContext } from '../../contexts';
 import {
   PasswordMatchesElement,
   UISchemaElementComponent,
 } from '../../types';
+import { loc } from '../../util';
 import PasswordRequirementItem from './PasswordRequirementItem';
 
 const PasswordMatches: UISchemaElementComponent<{
@@ -38,7 +38,7 @@ const PasswordMatches: UISchemaElementComponent<{
   const password = 'credentials.newPassword' in data
     ? data['credentials.newPassword']
     : data['credentials.passcode'];
-  const confirmPassword = data['confirmPassword'];
+  const { confirmPassword } = data;
 
   const [isMatching, setIsMatching] = useState<boolean>(false);
 

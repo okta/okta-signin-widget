@@ -22,7 +22,7 @@ import {
   PasswordSettings,
   TitleElement,
 } from '../../types';
-import { buildErrorMessageIds, getUserInfo, loc, updatePasswordRequirementsNotMetMessage } from '../../util';
+import { getUserInfo, loc, updatePasswordRequirementsNotMetMessage } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
@@ -150,7 +150,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   dataSchema.fieldsToValidate.push('passwordMatchesValidation');
 
   // Controls form submission validation
-  dataSchema['passwordMatchesValidation'] = {
+  dataSchema.passwordMatchesValidation = {
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];
       const confirmPw = data.confirmPassword;
@@ -166,7 +166,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       }
       return undefined;
     },
-  }
+  };
 
   return formBag;
 };
