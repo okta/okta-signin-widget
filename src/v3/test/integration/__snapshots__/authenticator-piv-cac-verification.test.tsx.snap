@@ -1,0 +1,1074 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC Button label and class 1`] = `
+<div>
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <span>
+      <main
+        class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
+        id="okta-sign-in"
+      >
+        <div
+          class="siwContainer MuiBox-root emotion-2"
+        >
+          <div
+            class="okta-sign-in-header auth-header siwHeader"
+          >
+            <h1
+              class="MuiTypography-root MuiTypography-h1 emotion-3"
+            />
+          </div>
+          <div
+            class="MuiBox-root emotion-4"
+          >
+            <form
+              class="o-form"
+              data-se="o-form"
+              novalidate=""
+              style="max-width: 100%; word-break: break-word;"
+            >
+              <div
+                class="MuiBox-root emotion-5"
+              >
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-7"
+                  >
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      data-se="o-form-head"
+                    >
+                      Sign In
+                    </h2>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-piv-class piv-button emotion-10"
+                    tabindex="0"
+                    type="button"
+                  >
+                    My custom PIV Button Label
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren separation-line emotion-12"
+                    role="separator"
+                  >
+                    <span
+                      class="MuiDivider-wrapper emotion-13"
+                    >
+                      OR
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-15"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                      for="identifier"
+                    >
+                      Username
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
+                    >
+                      <input
+                        aria-invalid="false"
+                        autocomplete="username"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
+                        data-se="identifier"
+                        id="identifier"
+                        name="identifier"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-19"
+                      >
+                        <legend
+                          class="emotion-20"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-15"
+                  >
+                    <div
+                      class="MuiBox-root emotion-15"
+                    >
+                      <label
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                        for="credentials.passcode"
+                      >
+                        Password
+                      </label>
+                      <div
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-25"
+                      >
+                        <input
+                          aria-invalid="false"
+                          autocomplete="current-password"
+                          class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-26"
+                          data-se="credentials.passcode"
+                          id="credentials.passcode"
+                          name="credentials.passcode"
+                          type="password"
+                        />
+                        <div
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-27"
+                        >
+                          <button
+                            aria-label="toggle password visibility"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-28"
+                            data-mui-internal-clone-element="true"
+                            tabindex="0"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-29"
+                              data-testid="VisibilityIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline emotion-19"
+                        >
+                          <legend
+                            class="emotion-20"
+                          >
+                            <span
+                              class="notranslate"
+                            >
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <fieldset
+                    class="MuiFormControl-root MuiFormControl-marginNormal emotion-33"
+                  >
+                    <label
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-34"
+                    >
+                      <span
+                        class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-35"
+                      >
+                        <input
+                          class="PrivateSwitchBase-input emotion-36"
+                          data-se="rememberMe"
+                          data-se-for-name="rememberMe"
+                          id="rememberMe"
+                          name="rememberMe"
+                          type="checkbox"
+                        />
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-37"
+                          data-testid="CheckBoxOutlineBlankIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-38"
+                      >
+                        Keep me signed in
+                      </span>
+                    </label>
+                  </fieldset>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-40"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    Sign in
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                    data-se="forgot-password"
+                    href="javascript:void(0)"
+                  >
+                    Forgot password?
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                    data-se="unlock"
+                    href="javascript:void(0)"
+                  >
+                    Unlock account?
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <hr
+                    class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-46"
+                  />
+                </div>
+                <div
+                  class="MuiBox-root emotion-47"
+                >
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
+                        data-se="signup-info"
+                      >
+                        Don't have an account?
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      data-se="enroll"
+                      href="javascript:void(0)"
+                    >
+                      Sign Up
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIMARY/default 1`] = `
+<div>
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <span>
+      <main
+        class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
+        id="okta-sign-in"
+      >
+        <div
+          class="siwContainer MuiBox-root emotion-2"
+        >
+          <div
+            class="okta-sign-in-header auth-header siwHeader"
+          >
+            <h1
+              class="MuiTypography-root MuiTypography-h1 emotion-3"
+            />
+          </div>
+          <div
+            class="MuiBox-root emotion-4"
+          >
+            <form
+              class="o-form"
+              data-se="o-form"
+              novalidate=""
+              style="max-width: 100%; word-break: break-word;"
+            >
+              <div
+                class="MuiBox-root emotion-5"
+              >
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-7"
+                  >
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      data-se="o-form-head"
+                    >
+                      Sign In
+                    </h2>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  piv-button emotion-10"
+                    tabindex="0"
+                    type="button"
+                  >
+                    Sign in with PIV / CAC card
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren separation-line emotion-12"
+                    role="separator"
+                  >
+                    <span
+                      class="MuiDivider-wrapper emotion-13"
+                    >
+                      OR
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-15"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                      for="identifier"
+                    >
+                      Username
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
+                    >
+                      <input
+                        aria-invalid="false"
+                        autocomplete="username"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
+                        data-se="identifier"
+                        id="identifier"
+                        name="identifier"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-19"
+                      >
+                        <legend
+                          class="emotion-20"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-15"
+                  >
+                    <div
+                      class="MuiBox-root emotion-15"
+                    >
+                      <label
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-16"
+                        for="credentials.passcode"
+                      >
+                        Password
+                      </label>
+                      <div
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-25"
+                      >
+                        <input
+                          aria-invalid="false"
+                          autocomplete="current-password"
+                          class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-26"
+                          data-se="credentials.passcode"
+                          id="credentials.passcode"
+                          name="credentials.passcode"
+                          type="password"
+                        />
+                        <div
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-27"
+                        >
+                          <button
+                            aria-label="toggle password visibility"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-28"
+                            data-mui-internal-clone-element="true"
+                            tabindex="0"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-29"
+                              data-testid="VisibilityIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline emotion-19"
+                        >
+                          <legend
+                            class="emotion-20"
+                          >
+                            <span
+                              class="notranslate"
+                            >
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <fieldset
+                    class="MuiFormControl-root MuiFormControl-marginNormal emotion-33"
+                  >
+                    <label
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-34"
+                    >
+                      <span
+                        class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-35"
+                      >
+                        <input
+                          class="PrivateSwitchBase-input emotion-36"
+                          data-se="rememberMe"
+                          data-se-for-name="rememberMe"
+                          id="rememberMe"
+                          name="rememberMe"
+                          type="checkbox"
+                        />
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-37"
+                          data-testid="CheckBoxOutlineBlankIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-38"
+                      >
+                        Keep me signed in
+                      </span>
+                    </label>
+                  </fieldset>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-40"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    Sign in
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                    data-se="forgot-password"
+                    href="javascript:void(0)"
+                  >
+                    Forgot password?
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                    data-se="unlock"
+                    href="javascript:void(0)"
+                  >
+                    Unlock account?
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <hr
+                    class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-46"
+                  />
+                </div>
+                <div
+                  class="MuiBox-root emotion-47"
+                >
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
+                        data-se="signup-info"
+                      >
+                        Don't have an account?
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      data-se="enroll"
+                      href="javascript:void(0)"
+                    >
+                      Sign Up
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECONDARY 1`] = `
+<div>
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <span>
+      <main
+        class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
+        id="okta-sign-in"
+      >
+        <div
+          class="siwContainer MuiBox-root emotion-2"
+        >
+          <div
+            class="okta-sign-in-header auth-header siwHeader"
+          >
+            <h1
+              class="MuiTypography-root MuiTypography-h1 emotion-3"
+            />
+          </div>
+          <div
+            class="MuiBox-root emotion-4"
+          >
+            <form
+              class="o-form"
+              data-se="o-form"
+              novalidate=""
+              style="max-width: 100%; word-break: break-word;"
+            >
+              <div
+                class="MuiBox-root emotion-5"
+              >
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-7"
+                  >
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      data-se="o-form-head"
+                    >
+                      Sign In
+                    </h2>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
+                      for="identifier"
+                    >
+                      Username
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
+                    >
+                      <input
+                        aria-invalid="false"
+                        autocomplete="username"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
+                        data-se="identifier"
+                        id="identifier"
+                        name="identifier"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-14"
+                      >
+                        <legend
+                          class="emotion-15"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <div
+                      class="MuiBox-root emotion-10"
+                    >
+                      <label
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-11"
+                        for="credentials.passcode"
+                      >
+                        Password
+                      </label>
+                      <div
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-20"
+                      >
+                        <input
+                          aria-invalid="false"
+                          autocomplete="current-password"
+                          class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-21"
+                          data-se="credentials.passcode"
+                          id="credentials.passcode"
+                          name="credentials.passcode"
+                          type="password"
+                        />
+                        <div
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-22"
+                        >
+                          <button
+                            aria-label="toggle password visibility"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-23"
+                            data-mui-internal-clone-element="true"
+                            tabindex="0"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-24"
+                              data-testid="VisibilityIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline emotion-14"
+                        >
+                          <legend
+                            class="emotion-15"
+                          >
+                            <span
+                              class="notranslate"
+                            >
+                              ​
+                            </span>
+                          </legend>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <fieldset
+                    class="MuiFormControl-root MuiFormControl-marginNormal emotion-28"
+                  >
+                    <label
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-29"
+                    >
+                      <span
+                        class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-30"
+                      >
+                        <input
+                          class="PrivateSwitchBase-input emotion-31"
+                          data-se="rememberMe"
+                          data-se-for-name="rememberMe"
+                          id="rememberMe"
+                          name="rememberMe"
+                          type="checkbox"
+                        />
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
+                          data-testid="CheckBoxOutlineBlankIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-33"
+                      >
+                        Keep me signed in
+                      </span>
+                    </label>
+                  </fieldset>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-35"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    Sign in
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren separation-line emotion-37"
+                    role="separator"
+                  >
+                    <span
+                      class="MuiDivider-wrapper emotion-38"
+                    >
+                      OR
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <button
+                    class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  piv-button emotion-40"
+                    tabindex="0"
+                    type="button"
+                  >
+                    Sign in with PIV / CAC card
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                    data-se="forgot-password"
+                    href="javascript:void(0)"
+                  >
+                    Forgot password?
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                    data-se="unlock"
+                    href="javascript:void(0)"
+                  >
+                    Unlock account?
+                  </a>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <hr
+                    class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-46"
+                  />
+                </div>
+                <div
+                  class="MuiBox-root emotion-47"
+                >
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
+                        data-se="signup-info"
+                      >
+                        Don't have an account?
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      data-se="enroll"
+                      href="javascript:void(0)"
+                    >
+                      Sign Up
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`authenticator-piv-cac-verification should render PIV/CAC view when clicking PIV button 1`] = `
+<div>
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <span>
+      <main
+        class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
+        id="okta-sign-in"
+      >
+        <div
+          class="siwContainer MuiBox-root emotion-2"
+        >
+          <div
+            class="okta-sign-in-header auth-header siwHeader authCoinSpacing"
+          >
+            <h1
+              class="MuiTypography-root MuiTypography-h1 emotion-3"
+            />
+            <div
+              class="iconContainer smart-card-icon authCoinOverlay MuiBox-root emotion-4"
+              data-se="factor-beacon"
+            >
+              <svg
+                aria-labelledby="smart-card-icon"
+                fill="none"
+                height="48"
+                role="img"
+                viewBox="0 0 48 48"
+                width="48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title
+                  id="smart-card-icon"
+                >
+                  PIV Card
+                </title>
+                <path
+                  class="siwFillBg"
+                  clip-rule="evenodd"
+                  d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                  fill="#F5F5F6"
+                  fill-rule="evenodd"
+                />
+                <path
+                  class="siwFillSecondary"
+                  d="M15 29.5a5 5 0 1 1 4.78-6.5h1.03a6 6 0 1 0 0 3h-1.03A5.013 5.013 0 0 1 15 29.5Z"
+                  fill="#A7B5EC"
+                />
+                <path
+                  class="siwFillPrimary"
+                  d="M27.5 36a11.433 11.433 0 0 1-6.61-2.088l-.186-.134.592-.806.17.123a10.5 10.5 0 1 0-.166-17.066l-.592-.806A11.5 11.5 0 1 1 27.5 36Z"
+                  fill="#00297A"
+                />
+                <path
+                  class="siwFillPrimary"
+                  d="m29.354 19.646-.708.708L32.293 24H14.707l1.647-1.646-.708-.708-2.853 2.854 2.853 2.854.708-.708L14.707 25h17.586l-3.647 3.646.708.708 4.853-4.854-4.853-4.854Z"
+                  fill="#00297A"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root emotion-5"
+          >
+            <form
+              class="o-form"
+              data-se="o-form"
+              novalidate=""
+              style="max-width: 100%; word-break: break-word;"
+            >
+              <div
+                class="MuiBox-root emotion-6"
+              >
+                <div
+                  class="MuiBox-root emotion-7"
+                >
+                  <div
+                    class="MuiBox-root emotion-8"
+                  >
+                    <h2
+                      class="MuiTypography-root MuiTypography-h3 emotion-9"
+                      data-se="o-form-head"
+                    >
+                      PIV / CAC card
+                    </h2>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-7"
+                >
+                  <div
+                    class="MuiBox-root emotion-8"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-12"
+                      data-se="o-form-explain"
+                    >
+                      Please insert your PIV / CAC card and select the user certificate.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-7"
+                >
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <span
+                      aria-label="Loading..."
+                      aria-valuemax="1"
+                      aria-valuemin="0"
+                      aria-valuetext="Loading..."
+                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-48Fcvf"
+                      data-se="okta-spinner"
+                      id="okta-spinner"
+                      role="progressbar"
+                    >
+                      <svg
+                        class="ods-57SiHN"
+                        role="presentation"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="ods-3PiY3x"
+                          cx="12"
+                          cy="12"
+                          fill="none"
+                          r="10"
+                        />
+                        <circle
+                          class="ods-627kuP"
+                          cx="12"
+                          cy="12"
+                          fill="none"
+                          r="10"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <form
+          action="http://localhost:3000/sso/idps/MTLS"
+          method="get"
+          style="display: none;"
+        >
+          <input
+            name="stateTokenExternalId"
+            type="hidden"
+            value="ZnNzQnZsc0RwK3RuSnVEUTJNYTZIdXc5bzl6UnI4NzBPazloT0lIMy9wd3hSVGlDMDRjRDQ2V2VqeHJuSGcyNQ"
+          />
+          <input
+            type="submit"
+          />
+        </form>
+      </main>
+    </span>
+  </div>
+</div>
+`;

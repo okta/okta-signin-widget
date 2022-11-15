@@ -27,15 +27,8 @@ const cx = classNames.bind(style);
 const shouldRenderAuthCoin = (props?: AuthCoinProps): boolean => {
   const authCoinConfig = props?.authenticatorKey
     && AuthCoinByAuthenticatorKeyConfig[props?.authenticatorKey];
-  if (!authCoinConfig) {
-    return false;
-  }
 
-  if (!authCoinConfig.icon && !props.url) {
-    return false;
-  }
-
-  return true;
+  return typeof authCoinConfig !== 'undefined' || typeof props?.url !== 'undefined';
 };
 
 export type AuthHeaderProps = {

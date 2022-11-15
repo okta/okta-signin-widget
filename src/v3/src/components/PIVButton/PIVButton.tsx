@@ -12,74 +12,44 @@
 
 import { Box } from '@mui/material';
 import { Button, CircularLoadIndicator } from '@okta/odyssey-react';
-import { IdxActionParams } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
-import { getMessageFromBrowserError } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
-import { useOnSubmit } from '../../hooks';
 import {
   ClickHandler,
+  PIVButtonElement,
   UISchemaElementComponent,
-  WebAuthNButtonElement,
 } from '../../types';
 import { getTranslation } from '../../util';
 
-const WebAuthNSubmit: UISchemaElementComponent<{
-  uischema: WebAuthNButtonElement
+const PIVButton: UISchemaElementComponent<{
+  uischema: PIVButtonElement
 }> = ({ uischema }) => {
   const { translations = [] } = uischema;
   const { options } = uischema;
 
   const btnLabel = getTranslation(translations);
-  const btnRetryLabel = getTranslation(translations, 'retry-label');
 
   const { setMessage, loading } = useWidgetContext();
-  const onSubmitHandler = useOnSubmit();
   const [waiting, setWaiting] = useState<boolean>(false);
-  const [label, setLabel] = useState<string>(btnLabel!);
 
   const showLoading = waiting || loading;
 
-  const executeNextStep = () => {
+  const initCertPrompt = async () => {
     setWaiting(true);
     setMessage(undefined);
 
-    options.onClick()
-      .then(async (params: IdxActionParams) => {
-        setMessage(undefined);
-        onSubmitHandler({
-          params,
-          step: options.step,
-          includeData: true,
-        });
-      })
-      .catch((error: Error) => {
-        const message = getMessageFromBrowserError(error);
-        setMessage({
-          message,
-          class: 'ERROR',
-          i18n: { key: message },
-        });
-        if (btnRetryLabel) {
-          setLabel(btnRetryLabel);
-        }
-      })
-      .finally(() => setWaiting(false));
+    options.onClick();
   };
 
   const handleClick: ClickHandler = (event) => {
     event?.preventDefault();
-    executeNextStep();
+    initCertPrompt();
   };
 
-  // FIXME Change this to use hook instead
-  // see: https://github.com/okta/siw-next/pull/67#discussion_r817894228
   useEffect(() => {
-    if (options?.submitOnLoad) {
-      executeNextStep();
-    }
+    initCertPrompt();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -108,7 +78,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
               variant="primary"
               wide
             >
-              { label }
+              { btnLabel }
             </Button>
           )
       }
@@ -116,4 +86,4 @@ const WebAuthNSubmit: UISchemaElementComponent<{
   );
 };
 
-export default WebAuthNSubmit;
+export default PIVButton;

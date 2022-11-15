@@ -149,7 +149,7 @@ export type WidgetOptions = {
   };
   i18n?: Record<LanguageCode, { [i18nKey: string]: string }>;
   piv?: {
-    certAuthUrl: string;
+    certAuthUrl?: string;
     isCustomDomain?: boolean;
     text?: string;
     className?: string;

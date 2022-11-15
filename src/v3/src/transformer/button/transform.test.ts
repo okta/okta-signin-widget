@@ -71,10 +71,9 @@ describe('Button Transformer Tests', () => {
     } as TransformationOptions;
     transformButtons(mockOptions)(formBag);
 
-    expect(mocked.idps.transformIDPButtons)
-      .toHaveBeenCalledBefore(mocked.submit.transformSubmitButton);
+    expect(mocked.submit.transformSubmitButton)
+      .toHaveBeenCalledBefore(mocked.idps.transformIDPButtons);
 
-    expect(mocked.idps.transformIDPButtons).toHaveBeenCalled();
     expect(mocked.submit.transformSubmitButton).toHaveBeenCalled();
     expect(mocked.forgotPassword.transformForgotPasswordButton).toHaveBeenCalled();
     expect(mocked.unlockAccount.transformUnlockAccountButton).toHaveBeenCalled();
@@ -83,5 +82,6 @@ describe('Button Transformer Tests', () => {
       .toHaveBeenCalled();
     expect(mocked.register.transformRegisterButton).toHaveBeenCalled();
     expect(mocked.cancel.transformCancelButton).toHaveBeenCalled();
+    expect(mocked.idps.transformIDPButtons).toHaveBeenCalled();
   });
 });

@@ -11,9 +11,9 @@
  */
 
 import { FunctionComponent } from 'preact';
-import { IconProps } from 'src/types';
 
-import { AUTHENTICATOR_KEY } from '../../constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
+import { IconProps } from '../../types';
 import { loc } from '../../util';
 import {
   CustomAppIcon,
@@ -63,12 +63,12 @@ const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
     description: loc('factor.duo', 'login'),
     iconClassName: 'mfa-duo',
   },
-  [AUTHENTICATOR_KEY.IDP]: {
-    icon: IDPIcon,
-    name: 'mfa-custom-factor',
+  [AUTHENTICATOR_KEY.EMAIL]: {
+    icon: EmailIcon,
+    name: 'mfa-okta-email',
     customizable: true,
-    description: loc('factor.customFactor.description.generic', 'login'),
-    iconClassName: 'mfa-custom-factor',
+    description: loc('factor.email', 'login'),
+    iconClassName: 'mfa-okta-email',
   },
   [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
     icon: GoogleOTPIcon,
@@ -77,26 +77,12 @@ const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
     description: loc('factor.totpSoft.googleAuthenticator', 'login'),
     iconClassName: 'mfa-google-auth',
   },
-  [AUTHENTICATOR_KEY.EMAIL]: {
-    icon: EmailIcon,
-    name: 'mfa-okta-email',
+  [AUTHENTICATOR_KEY.IDP]: {
+    icon: IDPIcon,
+    name: 'mfa-custom-factor',
     customizable: true,
-    description: loc('factor.email', 'login'),
-    iconClassName: 'mfa-okta-email',
-  },
-  [AUTHENTICATOR_KEY.PASSWORD]: {
-    icon: PasswordIcon,
-    name: 'mfa-okta-password',
-    customizable: true,
-    description: loc('factor.password', 'login'),
-    iconClassName: 'mfa-okta-password',
-  },
-  [AUTHENTICATOR_KEY.OV]: {
-    icon: OktaVerifyIcon,
-    name: 'mfa-okta-verify',
-    customizable: false,
-    description: loc('factor.totpSoft.oktaVerify', 'login'),
-    iconClassName: 'mfa-okta-verify',
+    description: loc('factor.customFactor.description.generic', 'login'),
+    iconClassName: 'mfa-custom-factor',
   },
   [AUTHENTICATOR_KEY.ON_PREM]: {
     icon: OnPremMFAIcon,
@@ -105,12 +91,33 @@ const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
     description: loc('factor.totpHard.description', 'login'),
     iconClassName: 'mfa-onprem',
   },
+  [AUTHENTICATOR_KEY.OV]: {
+    icon: OktaVerifyIcon,
+    name: 'mfa-okta-verify',
+    customizable: false,
+    description: loc('factor.totpSoft.oktaVerify', 'login'),
+    iconClassName: 'mfa-okta-verify',
+  },
+  [AUTHENTICATOR_KEY.PASSWORD]: {
+    icon: PasswordIcon,
+    name: 'mfa-okta-password',
+    customizable: true,
+    description: loc('factor.password', 'login'),
+    iconClassName: 'mfa-okta-password',
+  },
   [AUTHENTICATOR_KEY.PHONE]: {
     icon: PhoneIcon,
     name: 'mfa-okta-phone',
     customizable: true,
     description: loc('factor.call', 'login'),
     iconClassName: 'mfa-okta-phone',
+  },
+  [IDX_STEP.PIV_IDP]: {
+    icon: IDPIcon,
+    name: 'smart-card-icon',
+    customizable: true,
+    description: loc('piv.card', 'login'),
+    iconClassName: 'smart-card-icon',
   },
   [AUTHENTICATOR_KEY.RSA]: {
     icon: RSAIcon,

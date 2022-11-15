@@ -53,6 +53,7 @@ import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
 } from './googleAuthenticator';
+import { transformPIVAuthenticator } from './piv';
 import {
   transformIdentityRecovery,
   transformRequestActivation,
@@ -197,6 +198,12 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
   },
+  [IDX_STEP.ENROLL_POLL]: {
+    [AUTHENTICATOR_KEY.OV]: {
+      transform: transformOktaVerifyEnrollPoll,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
   [IDX_STEP.ENROLL_PROFILE]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformEnrollProfile,
@@ -232,15 +239,9 @@ const TransformerMap: {
       transform: transformIdentityRecovery,
     },
   },
-  [IDX_STEP.ENROLL_POLL]: {
-    [AUTHENTICATOR_KEY.OV]: {
-      transform: transformOktaVerifyEnrollPoll,
-      buttonConfig: { showDefaultSubmit: false },
-    },
-  },
-  [IDX_STEP.SELECT_ENROLLMENT_CHANNEL]: {
-    [AUTHENTICATOR_KEY.OV]: {
-      transform: transformOktaVerifyChannelSelection,
+  [IDX_STEP.PIV_IDP]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformPIVAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
   },
@@ -254,6 +255,16 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.PASSWORD]: {
       transform: transformExpiredPasswordWarningAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.REQUEST_ACTIVATION]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformRequestActivation,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showForgotPassword: false,
+      },
     },
   },
   [IDX_STEP.RESET_AUTHENTICATOR]: {
@@ -283,14 +294,10 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
   },
-  [IDX_STEP.REQUEST_ACTIVATION]: {
-    [AUTHENTICATOR_KEY.DEFAULT]: {
-      transform: transformRequestActivation,
-      buttonConfig: {
-        showDefaultSubmit: false,
-        showDefaultCancel: false,
-        showForgotPassword: false,
-      },
+  [IDX_STEP.SELECT_ENROLLMENT_CHANNEL]: {
+    [AUTHENTICATOR_KEY.OV]: {
+      transform: transformOktaVerifyChannelSelection,
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
 };

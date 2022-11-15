@@ -23,7 +23,6 @@ import { transformUnlockAccountButton } from './transformUnlockAccountButton';
 import { transformVerifyWithOtherButton } from './transformVerifyWithOtherButton';
 
 export const transformButtons: TransformStepFnWithOptions = (options) => (formbag) => flow(
-  transformIDPButtons(options),
   transformSubmitButton(options),
   transformForgotPasswordButton(options),
   transformUnlockAccountButton(options),
@@ -31,4 +30,5 @@ export const transformButtons: TransformStepFnWithOptions = (options) => (formba
   transformReturnToAuthenticatorListButton(options),
   transformRegisterButton(options),
   transformCancelButton(options),
+  transformIDPButtons(options),
 )(formbag);

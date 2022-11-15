@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { NextStep } from '@okta/okta-auth-js';
+
 import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
@@ -50,19 +52,21 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
       variant: 'secondary',
       onClick: (widgetContext: IWidgetContext) => {
         const { setIdxTransaction } = widgetContext;
-        const pivRemediation = transaction.neededToProceed.filter(
+        const pivRemediations = transaction.neededToProceed.filter(
           (remediation) => (remediation.name === IDX_STEP.REDIRECT_IDP
-            && remediation.type === PIV_TYPE) || remediation.name === 'cancel',
-        ).map((remediation) => ({ ...remediation, name: IDX_STEP.PIV_IDP }));
-        const availableSteps = transaction.availableSteps?.filter(
-          (step) => step.name === 'cancel',
-        );
+            && remediation.type === PIV_TYPE),
+        ).map((remediation) => {
+          if (remediation.name === IDX_STEP.REDIRECT_IDP) {
+            return { ...remediation, name: IDX_STEP.PIV_IDP };
+          }
+          return remediation;
+        });
         setIdxTransaction({
           ...transaction,
           messages: [],
-          neededToProceed: pivRemediation,
-          availableSteps,
-          nextStep: { name: IDX_STEP.PIV_IDP },
+          neededToProceed: pivRemediations,
+          availableSteps: pivRemediations as NextStep[],
+          nextStep: pivRemediations.find(({ name }) => name === IDX_STEP.PIV_IDP) as NextStep,
         });
       },
     },
@@ -73,14 +77,19 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
     options: { text: loc('socialauth.divider.text', 'login') },
   };
 
-  const titleIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Title');
-  const pivButtonPos = titleIndex !== -1 ? titleIndex + 1 : 0;
-  // Add button after title (if exists) otherwise add to top of array
-  formbag.uischema.elements.splice(pivButtonPos, 0, pivButton);
-
   if (isBottomDivider) {
+    const titleIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Title');
+    const pivButtonPos = titleIndex !== -1 ? titleIndex + 1 : 0;
+    // Add button after title (if exists) otherwise add to top of array
+    formbag.uischema.elements.splice(pivButtonPos, 0, pivButton);
     formbag.uischema.elements.splice(pivButtonPos + 1, 0, dividerElement);
   } else {
+    const firstLinkIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Link');
+    const firstButtonIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Link');
+    const firstButtonPos = firstButtonIndex !== -1 ? firstButtonIndex : 0;
+    const pivButtonPos = firstLinkIndex !== -1 ? firstLinkIndex : firstButtonPos;
+    // Add button after login form but before links (if any exists)
+    formbag.uischema.elements.splice(pivButtonPos, 0, pivButton);
     formbag.uischema.elements.splice(pivButtonPos, 0, dividerElement);
   }
 
