@@ -147,9 +147,49 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
 
   // update default dataSchema
   dataSchema.fieldsToExclude = () => (['confirmPassword', 'passwordMatchesValidation']);
+  dataSchema.fieldsToValidate.push('confirmPassword');
   dataSchema.fieldsToValidate.push('passwordMatchesValidation');
 
+  // Controls live field change validation
+  dataSchema.confirmPassword = {
+    validate: (data: FormBag['data']) => {
+      const confirmPw = data.confirmPassword;
+      if (!confirmPw) {
+        return [{
+          name: 'confirmPassword',
+          class: 'ERROR',
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        }];
+      }
+    },
+  };
+
   // Controls form submission validation
+  dataSchema[passwordFieldName] = {
+    validate: (data: FormBag['data']) => {
+      const newPw = data[passwordFieldName];
+      const confirmPw = data.confirmPassword;
+      const errorMessages: IdxMessageWithName[] = [];
+      if (!newPw) {
+        errorMessages.push({
+          name: passwordFieldName,
+          class: 'ERROR',
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        });
+      }
+      if (!confirmPw) {
+        errorMessages.push({
+          name: 'confirmPassword',
+          class: 'ERROR',
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        });
+      }
+      return errorMessages.length > 0 ? errorMessages : undefined;
+    }
+  }
   dataSchema.passwordMatchesValidation = {
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];

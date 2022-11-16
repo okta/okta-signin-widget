@@ -64,6 +64,9 @@ describe('authenticator-expired-password', () => {
 
     await user.click(submitButton);
 
+    const confirmPasswordError = await findByTestId('confirmPassword-error');
+
+    expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
   });
 
@@ -126,8 +129,10 @@ describe('authenticator-expired-password', () => {
     await user.click(submitButton);
 
     const newPasswordError = await findByTestId('credentials.passcode-error');
+    const confirmPasswordError = await findByTestId('confirmPassword-error');
 
     expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
+    expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
   });
 });
