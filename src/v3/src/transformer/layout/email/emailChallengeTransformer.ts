@@ -32,7 +32,7 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
   const authenticatorContextualData = getCurrentAuthenticator(transaction)?.value?.contextualData;
-  // @ts-ignore OKTA-XXXXXX - useEmailMagicLink property missing from interface
+  // @ts-ignore OKTA-551247 - useEmailMagicLink property missing from interface
   const useEmailMagicLinkValue = authenticatorContextualData?.useEmailMagicLink;
   const useEmailMagicLink = typeof useEmailMagicLinkValue !== 'undefined'
     ? useEmailMagicLinkValue
