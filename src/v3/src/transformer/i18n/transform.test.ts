@@ -42,6 +42,9 @@ jest.mock('./transformPasscodeHint', () => ({
 jest.mock('./transformWebAuthNSubmitButton', () => ({
   transformWebAuthNSubmitButton: () => () => ({}),
 }));
+jest.mock('./transformPasswordMatches', () => ({
+  transformPasswordMatches: () => () => ({}),
+}));
 
 /* eslint-disable global-require */
 const mocked = {
