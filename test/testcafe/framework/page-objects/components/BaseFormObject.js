@@ -5,11 +5,11 @@ const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 
 const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
+const SAVE_BUTTON_SELECTOR = '[data-type="save"]';
 
 const focusOnSubmitButton = () => {
   // client function is not able to refer any variables defined outside
-  const submitButton = '[data-type="save"]';
-  document.querySelector(submitButton).focus();
+  document.querySelector('[data-type="save"]').focus();
 };
 
 export default class BaseFormObject {
@@ -167,7 +167,7 @@ export default class BaseFormObject {
    * Clicks the button with type=save, regardless of the button value
    */
   async clickSaveButtonAsInput() {
-    const buttonToClick = this.el.find('[data-type="save"]');
+    const buttonToClick = this.el.find(SAVE_BUTTON_SELECTOR);
 
     await this.t.click(buttonToClick);
   }
@@ -176,11 +176,10 @@ export default class BaseFormObject {
     await this.t.click(this.el.find(CANCEL_BUTTON_SELECTOR));
   }
 
-  getSaveButtonLabel(name = 'Next') {
+  getSaveButtonLabel() {
     // in v3 buttons dont have a value prop
     if (userVariables.v3) {
-      const submitButton = this.getButton(name);
-      return submitButton.textContent;
+      return this.el.find(SAVE_BUTTON_SELECTOR).textContent;
     }
 
     return within(this.el).getByRole('button').value;
