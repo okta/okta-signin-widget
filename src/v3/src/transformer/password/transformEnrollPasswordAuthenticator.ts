@@ -162,6 +162,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
           i18n: { key: 'model.validation.field.blank' },
         }];
       }
+      return undefined;
     },
   };
 
@@ -188,8 +189,8 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
         });
       }
       return errorMessages.length > 0 ? errorMessages : undefined;
-    }
-  }
+    },
+  };
   dataSchema.passwordMatchesValidation = {
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];

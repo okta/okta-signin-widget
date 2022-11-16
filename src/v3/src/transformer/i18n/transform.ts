@@ -18,11 +18,11 @@ import { transformField } from './transformField';
 import { transformIdentifierHint } from './transformIdentifierHint';
 import { transformInputPassword } from './transformInputPassword';
 import { transformPasscodeHint } from './transformPasscodeHint';
+import { transformPasswordMatches } from './transformPasswordMatches';
 import { transformPhoneAuthenticator } from './transformPhoneAuthenticator';
 import { transformQRCode } from './transformQRCode';
 import { transformSecondEmailInputExplain } from './transformSecondEmailInputExplain';
 import { transformWebAuthNSubmitButton } from './transformWebAuthNSubmitButton';
-import { transformPasswordMatches } from './transformPasswordMatches';
 
 export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) => flow(
   transformField(options),

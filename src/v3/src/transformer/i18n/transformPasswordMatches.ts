@@ -16,9 +16,7 @@ import {
 import { traverseLayout } from '../util';
 import { addTranslation } from './util';
 
-export const transformPasswordMatches: TransformStepFnWithOptions = ({
-  transaction,
-}) => (
+export const transformPasswordMatches: TransformStepFnWithOptions = () => (
   formbag,
 ) => {
   const { uischema } = formbag;
@@ -27,7 +25,6 @@ export const transformPasswordMatches: TransformStepFnWithOptions = ({
     layout: uischema,
     predicate: (element) => element.type === 'PasswordMatches',
     callback: (element) => {
-      const { nextStep: { name } = {} } = transaction;
       addTranslation({
         element,
         name: 'label',

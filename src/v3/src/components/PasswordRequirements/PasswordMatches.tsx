@@ -27,7 +27,7 @@ import {
   PasswordMatchesElement,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation, loc } from '../../util';
+import { getTranslation } from '../../util';
 import PasswordRequirementItem from './PasswordRequirementItem';
 
 const PasswordMatches: UISchemaElementComponent<{
