@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import PrimaryAuthModel from 'v1/models/PrimaryAuth';
 import CookieUtil from 'util/CookieUtil';
 import Enums from 'util/Enums';
@@ -68,7 +69,13 @@ export default PrimaryAuthModel.extend({
         }
       })
       .catch(() => {
-        this.trigger('error');
+        // webfinger request might fail when corporate proxy checks if request is 'authenticated' using cookies
+        const error = {
+          errorSummary: loc('oform.error.webfinger', 'login'),
+        };
+        this.trigger('error', this, {
+          responseJSON: error,
+        });
         // Specific event handled by the Header for the case where the security image is not
         // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
         this.appState.trigger('removeLoading');
