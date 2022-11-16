@@ -27,7 +27,7 @@ import {
   PasswordMatchesElement,
   UISchemaElementComponent,
 } from '../../types';
-import { loc } from '../../util';
+import { getTranslation, loc } from '../../util';
 import PasswordRequirementItem from './PasswordRequirementItem';
 
 const PasswordMatches: UISchemaElementComponent<{
@@ -39,6 +39,8 @@ const PasswordMatches: UISchemaElementComponent<{
     ? data['credentials.newPassword']
     : data['credentials.passcode'];
   const { confirmPassword } = data;
+  const { translations = [] } = uischema;
+  const label = getTranslation(translations, 'label');
 
   const [isMatching, setIsMatching] = useState<boolean>(false);
 
@@ -65,7 +67,7 @@ const PasswordMatches: UISchemaElementComponent<{
         <List.Item>
           <PasswordRequirementItem
             status={isMatching ? 'complete' : 'incomplete'}
-            text={loc('password.enroll.error.match', 'login')}
+            text={label ?? ''}
           />
         </List.Item>
       </List>

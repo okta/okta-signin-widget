@@ -22,6 +22,7 @@ import { transformPhoneAuthenticator } from './transformPhoneAuthenticator';
 import { transformQRCode } from './transformQRCode';
 import { transformSecondEmailInputExplain } from './transformSecondEmailInputExplain';
 import { transformWebAuthNSubmitButton } from './transformWebAuthNSubmitButton';
+import { transformPasswordMatches } from './transformPasswordMatches';
 
 export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) => flow(
   transformField(options),
@@ -33,4 +34,5 @@ export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) 
   transformPasscodeHint(options),
   transformSecondEmailInputExplain(options),
   transformWebAuthNSubmitButton(options),
+  transformPasswordMatches(options),
 )(formbag);
