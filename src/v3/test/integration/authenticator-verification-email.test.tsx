@@ -91,7 +91,7 @@ describe('authenticator-verification-email', () => {
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
           credentials: { passcode: verificationCode },
-        }),
+        }, 'application/ion+json; okta-version=1.0.0'),
       );
     });
 
