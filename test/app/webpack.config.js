@@ -12,7 +12,10 @@ const { DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET } = process.env;
 // CSP settings
 const scriptSrc = `script-src http://localhost:${DEV_SERVER_PORT} https://global.oktacdn.com`;
 const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com`;
-const csp = `${scriptSrc}; ${styleSrc}`;
+
+// TODO: remove this rule: OKTA-551378
+const styleSrcElem = `style-src-elem http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'unsafe-inline'`;
+const csp = `${scriptSrc}; ${styleSrc}; ${styleSrcElem}`;
 
 const webpackConfig = {
   mode: 'development',
