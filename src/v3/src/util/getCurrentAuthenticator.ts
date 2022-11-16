@@ -10,16 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from '@okta/okta-auth-js';
+import { IdxTransaction, RawIdxResponse } from '@okta/okta-auth-js';
 
-import { getCurrentAuthenticator } from './getCurrentAuthenticator';
-
-export const getAuthenticatorMethod = (
+export const getCurrentAuthenticator = (
   transaction: IdxTransaction,
-  index = 0,
-): string | undefined => {
-  const currentAuthenticator = getCurrentAuthenticator(transaction);
-  const currentAuthenticatorMethods = currentAuthenticator?.value?.methods;
+): RawIdxResponse['currentAuthenticator'] | undefined => {
+  // currentAuthenticator is from enrollment flows and currentAuthenticatorEnrollment is from verify flows
+  const { rawIdxState: { currentAuthenticator, currentAuthenticatorEnrollment } } = transaction;
 
-  return currentAuthenticatorMethods?.[index]?.type;
+  return currentAuthenticator || currentAuthenticatorEnrollment;
 };

@@ -12,6 +12,7 @@
 
 import { act } from 'preact/test-utils';
 import { within } from '@testing-library/preact';
+import authenticatorVerificationEmailMagicLinkDisabled from '@okta/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-false.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import authenticatorVerificationEmail from '../../src/mocks/response/idp/idx/challenge/default.json';
@@ -60,6 +61,38 @@ describe('authenticator-verification-email', () => {
         jest.advanceTimersByTime(31_000);
       });
       expect(container).toMatchSnapshot();
+    });
+
+    it('should render the OTP code entry form when Magic Link is disabled', async () => {
+      const {
+        container,
+        authClient,
+        user,
+        findByText,
+        findByTestId,
+        findByRole,
+      } = await setup({
+        mockResponse: authenticatorVerificationEmailMagicLinkDisabled,
+      });
+
+      const headerEle = await findByRole('heading', { level: 2 });
+      expect(headerEle.textContent).toBe('Verify with your email');
+      await findByText(/We sent you a verification email. Enter the verification code in the text box./);
+      expect(container).toMatchSnapshot();
+
+      const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const submitButton = await findByText('Verify', { selector: 'button' });
+
+      const verificationCode = '123456';
+      await user.type(codeEle, verificationCode);
+      expect(codeEle.value).toEqual(verificationCode);
+      await user.click(submitButton);
+
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: { passcode: verificationCode },
+        }),
+      );
     });
 
     it('should display reminder prompt, then global error after invalid entry and finally display reminder again with global error', async () => {
