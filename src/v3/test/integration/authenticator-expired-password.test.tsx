@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { within } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateDynamicAttribute } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/authenticator-expired-password.json';
@@ -41,6 +42,9 @@ describe('authenticator-expired-password', () => {
     expect(newPasswordEle.value).toEqual(password);
     expect(confirmPasswordEle.value).toEqual(password);
 
+    const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
+    await within(passwordMatchesWrapper).findByRole('img', { name: 'complete' });
+
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
@@ -61,6 +65,9 @@ describe('authenticator-expired-password', () => {
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     await user.type(newPasswordEle, 'superSecretP@ssword12');
+
+    const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
+    await within(passwordMatchesWrapper).findByRole('img', { name: 'incomplete' });
 
     await user.click(submitButton);
 
@@ -91,6 +98,9 @@ describe('authenticator-expired-password', () => {
 
     const newPasswordError = await findByTestId('credentials.passcode-error');
     expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
+
+    const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
+    await within(passwordMatchesWrapper).findByRole('img', { name: 'incomplete' });
   });
 
   it('should not make network request when fields are not matching', async () => {
@@ -109,6 +119,10 @@ describe('authenticator-expired-password', () => {
     await user.type(newPasswordEle, password);
 
     await user.type(confirmPasswordEle, 'abc123');
+
+    const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
+    await within(passwordMatchesWrapper).findByRole('img', { name: 'incomplete' });
+
     await user.click(submitButton);
 
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
@@ -125,6 +139,9 @@ describe('authenticator-expired-password', () => {
     const submitButton = await findByText('Change Password', { selector: 'button' });
     await findByTestId('credentials.passcode') as HTMLInputElement;
     await findByTestId('confirmPassword') as HTMLInputElement;
+
+    const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
+    await within(passwordMatchesWrapper).findByRole('img', { name: 'incomplete' });
 
     await user.click(submitButton);
 
