@@ -1,3 +1,5 @@
+import { within } from '@testing-library/testcafe';
+
 import BasePageObject from './BasePageObject';
 
 const passwordFieldName = 'credentials\\.passcode';
@@ -61,6 +63,13 @@ export default class EnrollPasswordPageObject extends BasePageObject {
 
   getConfirmPasswordError() {
     return this.form.getTextBoxErrorMessage(confirmPasswordFieldName);
+  }
+
+  hasPasswordMatchRequirementStatus(expectComplete = false) {
+    const expectedTitleValue = expectComplete ? 'complete' : 'incomplete';
+    const passwordMatchWrapper = this.form.getElement('[data-se="password-authenticator--matches');
+
+    return within(passwordMatchWrapper).queryByRole('img', { name: expectedTitleValue }).exists;
   }
 
   // This will be used by any password page that has requirements on it.

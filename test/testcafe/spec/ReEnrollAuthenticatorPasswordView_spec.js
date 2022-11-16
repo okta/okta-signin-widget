@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, Selector } from 'testcafe';
+import { RequestMock, RequestLogger, Selector, userVariables } from 'testcafe';
 import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
@@ -117,7 +117,15 @@ test
     await expiredPasswordPage.clickChangePasswordButton();
     await expiredPasswordPage.waitForErrorBox();
     await t.expect(expiredPasswordPage.hasPasswordError()).eql(false);
-    await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
+
+    // In v3, we do not show the error for password match on the field, but rather display the
+    // 'incomplete'/'complete' checkmark next to the 'Passwords must match' label below the
+    // two password fields, so we check this state differently.
+    if (userVariables.v3) {
+      await t.expect(expiredPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
+    } else {
+      await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
+    }
 
     await t.expect(await expiredPasswordPage.signoutLinkExists()).ok();
   });

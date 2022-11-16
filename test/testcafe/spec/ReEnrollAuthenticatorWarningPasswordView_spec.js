@@ -111,7 +111,15 @@ test
     await passwordExpiryWarningPage.clickChangePasswordButton();
     await passwordExpiryWarningPage.waitForErrorBox();
     await t.expect(passwordExpiryWarningPage.hasPasswordError()).eql(false);
-    await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('New passwords must match');
+
+    // In v3, we do not show the error for password match on the field, but rather display the
+    // 'incomplete'/'complete' checkmark next to the 'Passwords must match' label below the
+    // two password fields, so we check this state differently.
+    if (userVariables.v3) {
+      await t.expect(passwordExpiryWarningPage.hasPasswordMatchRequirementStatus(false)).eql(true);
+    } else {
+      await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('New passwords must match');
+    }
 
     await t.expect(await passwordExpiryWarningPage.signoutLinkExists()).ok();
     await t.expect(passwordExpiryWarningPage.remindMeLaterLinkExists()).eql(true);
