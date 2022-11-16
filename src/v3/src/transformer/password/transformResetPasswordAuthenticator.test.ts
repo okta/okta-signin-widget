@@ -18,6 +18,7 @@ import {
   ButtonElement,
   ButtonType,
   FieldElement,
+  FormBag,
   HiddenInputElement,
   PasswordMatchesElement,
   PasswordRequirementsElement,
@@ -28,9 +29,10 @@ import { transformResetPasswordAuthenticator } from './transformResetPasswordAut
 
 describe('Reset Password Authenticator Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const formBag = getStubFormBag();
+  let formBag: FormBag;
   let widgetProps: WidgetProps;
   beforeEach(() => {
+    formBag = getStubFormBag();
     formBag.uischema.elements = [
       {
         type: 'Field',
