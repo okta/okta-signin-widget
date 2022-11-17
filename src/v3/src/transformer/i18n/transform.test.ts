@@ -57,6 +57,7 @@ const mocked = {
   secondEmailExplain: require('./transformSecondEmailInputExplain'),
   passcodeHint: require('./transformPasscodeHint'),
   webAuthN: require('./transformWebAuthNSubmitButton'),
+  passwordMatches: require('./transformPasswordMatches'),
 };
 /* eslint-enable global-require */
 
@@ -71,6 +72,7 @@ describe('i18n Transformer Tests', () => {
     jest.spyOn(mocked.secondEmailExplain, 'transformSecondEmailInputExplain');
     jest.spyOn(mocked.passcodeHint, 'transformPasscodeHint');
     jest.spyOn(mocked.webAuthN, 'transformWebAuthNSubmitButton');
+    jest.spyOn(mocked.passwordMatches, 'transformPasswordMatches');
 
     const formBag = getStubFormBag();
     const mockOptions = {
@@ -91,5 +93,6 @@ describe('i18n Transformer Tests', () => {
     expect(mocked.secondEmailExplain.transformSecondEmailInputExplain).toHaveBeenCalled();
     expect(mocked.passcodeHint.transformPasscodeHint).toHaveBeenCalled();
     expect(mocked.webAuthN.transformWebAuthNSubmitButton).toHaveBeenCalled();
+    expect(mocked.passwordMatches.transformPasswordMatches).toHaveBeenCalled();
   });
 });
