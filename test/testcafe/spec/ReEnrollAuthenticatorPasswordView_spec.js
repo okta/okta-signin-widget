@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, Selector, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
@@ -52,7 +52,7 @@ fixture('Authenticator Expired Password').meta('v3', true);
 async function setup(t) {
   const expiredPasswordPage = new FactorEnrollPasswordPageObject(t);
   await expiredPasswordPage.navigateToPage();
-  await t.expect(Selector('form').exists).eql(true);
+  await t.expect(expiredPasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'password-expired',
     formName: 'reenroll-authenticator',

@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, Selector } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import { renderWidget as rerenderWidget } from '../framework/shared';
@@ -115,7 +115,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordError)('identifer w
   // Ensure identifier field is not pre-filled
   await identityPage.navigateToPage();
   await rerenderWidget(baseConfig);  
-  await t.expect(Selector('form').exists).eql(true);
+  await t.expect(identityPage.formExists()).eql(true);
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('');
 });
@@ -187,7 +187,7 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticatorError)('i
   // Ensure identifier field is not pre-filled
   await identityPage.navigateToPage();
   await rerenderWidget(baseConfig);  
-  await t.expect(Selector('form').exists).eql(true);
+  await t.expect(identityPage.formExists()).eql(true);
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('');
 });

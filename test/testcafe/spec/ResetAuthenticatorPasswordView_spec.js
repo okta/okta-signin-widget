@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, Selector, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -26,7 +26,7 @@ fixture('Authenticator Reset Password').meta('v3', true);
 async function setup(t) {
   const resetPasswordPage = new FactorEnrollPasswordPageObject(t);
   await resetPasswordPage.navigateToPage();
-  await t.expect(Selector('form').exists).eql(true);
+  await t.expect(resetPasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'forgot-password',
     formName: 'reset-authenticator',

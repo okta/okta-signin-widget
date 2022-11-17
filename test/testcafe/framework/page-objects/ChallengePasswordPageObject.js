@@ -1,7 +1,6 @@
 import { Selector } from 'testcafe';
 
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
-import FooterLinkObject from './components/FooterLinkObject';
 
 const FORGOT_PASSWORD_SELECTOR = '[data-se="forgot-password"]';
 const PASSWORD_FIELD = 'credentials\\.passcode';

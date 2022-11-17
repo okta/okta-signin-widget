@@ -89,9 +89,6 @@ export default class BasePageObject {
   }
 
   getFormSubtitle() {
-    if (!userVariables.v3) {
-      return this.getIonMessages();
-    }
     return this.form.getSubtitle();
   }
 
@@ -100,6 +97,9 @@ export default class BasePageObject {
   }
 
   getIonMessages() {
+    if (userVariables.v3) {
+      return this.getFormSubtitle(); 
+    }
     return this.form.getElement(ionMessagesSelector).innerText;
   }
 
@@ -127,11 +127,7 @@ export default class BasePageObject {
   }
 
   async forgotPasswordLinkExists() {
-    if(userVariables.v3){
-      return this.getForgotPasswordLink().exists;
-    }
-    const elCount = await Selector(SIGNOUT_LINK).count;
-    return elCount === 1;
+    return this.getForgotPasswordLink().exists;
   }
 
   // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
@@ -266,5 +262,9 @@ export default class BasePageObject {
 
   hasText(text) {
     return this.form.getByText(text).exists;
+  }
+
+  formExists() {
+    return Selector('form').exists;
   }
 }

@@ -1,4 +1,5 @@
-import { RequestLogger, RequestMock, Selector, userVariables } from 'testcafe';
+import { RequestLogger, RequestMock, userVariables } from 'testcafe';
+import { oktaDashboardContent } from '../framework/shared';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrSSPRSuccess from '../../../playground/mocks/data/idp/idx/terminal-reset-password-success';
@@ -13,7 +14,9 @@ const mockChallengeAuthenticatorPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorRequiredPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const mockInvalidPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -53,7 +56,7 @@ fixture('Challenge Authenticator Password')
 async function setup(t) {
   const challengePasswordPage = new ChallengePasswordPageObject(t);
   await challengePasswordPage.navigateToPage();
-  await t.expect(Selector('form').exists).eql(true);
+  await t.expect(challengePasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-password',
     formName: 'challenge-authenticator',
@@ -148,7 +151,7 @@ test.requestHooks(resetPasswordSuccess)('password changed successfully', async t
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickVerifyButton();
 
-  await t.expect(challengePasswordPage.getFormSubtitle()).eql('You can now sign in with your existing username and new password.');
+  await t.expect(challengePasswordPage.getIonMessages()).eql('You can now sign in with your existing username and new password.');
   await t.expect(challengePasswordPage.getGoBackLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 
   await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
