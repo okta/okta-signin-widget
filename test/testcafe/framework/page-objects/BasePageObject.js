@@ -89,6 +89,9 @@ export default class BasePageObject {
   }
 
   getFormSubtitle() {
+    if (!userVariables.v3) {
+      return this.getIonMessages();
+    }
     return this.form.getSubtitle();
   }
 
@@ -105,11 +108,27 @@ export default class BasePageObject {
     return this.form.getLink('Back to sign in');
   }
 
+  getForgotPasswordLink() {
+    return Selector('[data-se="forgot-password"]');
+  }
+
+  async clickForgotPasswordLink() {
+    await this.t.click(this.getForgotPasswordLink());
+  }
+  
   // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
   // in v3 all Cancel links use the same wording
   async signoutLinkExists() {
     if(userVariables.v3){
       return this.getCancelLink().exists;
+    }
+    const elCount = await Selector(SIGNOUT_LINK).count;
+    return elCount === 1;
+  }
+
+  async forgotPasswordLinkExists() {
+    if(userVariables.v3){
+      return this.getForgotPasswordLink().exists;
     }
     const elCount = await Selector(SIGNOUT_LINK).count;
     return elCount === 1;
