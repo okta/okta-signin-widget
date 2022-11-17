@@ -17,6 +17,7 @@ import {
   HiddenInputElement,
   IdxMessageWithName,
   IdxStepTransformer,
+  PasswordMatchesElement,
   PasswordRequirementsElement,
   PasswordSettings,
   TitleElement,
@@ -119,6 +120,14 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     },
   };
 
+  const passwordMatchesElement: PasswordMatchesElement = {
+    type: 'PasswordMatches',
+    key: 'passwordMatchesValidation',
+    options: {
+      validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
+    },
+  };
+
   const userInfo = getUserInfo(transaction);
   uischema.elements = [
     titleElement,
@@ -133,10 +142,30 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     } as HiddenInputElement,
     passwordElement,
     confirmPasswordElement,
+    passwordMatchesElement,
   ];
 
   // update default dataSchema
-  dataSchema.fieldsToExclude = () => (['confirmPassword']);
+  dataSchema.fieldsToExclude = () => (['confirmPassword', 'passwordMatchesValidation']);
+  dataSchema.fieldsToValidate.push('confirmPassword');
+  dataSchema.fieldsToValidate.push('passwordMatchesValidation');
+
+  // Controls live field change validation
+  dataSchema.confirmPassword = {
+    validate: (data: FormBag['data']) => {
+      const confirmPw = data.confirmPassword;
+      if (!confirmPw) {
+        return [{
+          name: 'confirmPassword',
+          class: 'ERROR',
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        }];
+      }
+      return undefined;
+    },
+  };
+
   // Controls form submission validation
   dataSchema[passwordFieldName] = {
     validate: (data: FormBag['data']) => {
@@ -151,7 +180,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
           i18n: { key: 'model.validation.field.blank' },
         });
       }
-
       if (!confirmPw) {
         errorMessages.push({
           name: 'confirmPassword',
@@ -159,34 +187,19 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
           message: loc('model.validation.field.blank', 'login'),
           i18n: { key: 'model.validation.field.blank' },
         });
-      } else if (confirmPw !== newPw) {
-        errorMessages.push({
-          name: 'confirmPassword',
-          class: 'ERROR',
-          message: loc('password.error.match', 'login'),
-          i18n: { key: 'password.error.match' },
-        });
       }
-
-      return errorMessages.length ? errorMessages : undefined;
+      return errorMessages.length > 0 ? errorMessages : undefined;
     },
   };
-  // Controls live field change validation
-  dataSchema.confirmPassword = {
+  dataSchema.passwordMatchesValidation = {
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName];
       const confirmPw = data.confirmPassword;
-      if (!confirmPw) {
+      if (newPw !== confirmPw) {
+        // This error is not displayed by the component, however it is used to block
+        // form submission by marking the field as invalid
         return [{
-          name: 'confirmPassword',
-          class: 'ERROR',
-          message: loc('model.validation.field.blank', 'login'),
-          i18n: { key: 'model.validation.field.blank' },
-        }];
-      }
-      if (confirmPw !== newPw) {
-        return [{
-          name: 'confirmPassword',
+          name: 'passwordMatchesValidation',
           class: 'ERROR',
           message: loc('password.error.match', 'login'),
           i18n: { key: 'password.error.match' },
