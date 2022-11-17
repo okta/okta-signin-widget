@@ -32,6 +32,9 @@ var PasswordBox = TextBox.extend({
     return this.options.params && this.options.params.showPasswordToggle;
   },
   __showPassword: function () {
+    // Turn off the spellcheck if the user decides to switch to regular input
+    // in order to prevent sending passwords to third party spellcheckers
+    this.$('input').attr('spellcheck', false);
     TextBox.prototype.changeType.apply(this, ['text']);
     this.$('.password-toggle .button-show').hide();
     this.$('.password-toggle .button-hide').show();
