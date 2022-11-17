@@ -23,6 +23,7 @@ import EnrollPasswordPage from '../page-objects/enroll-password-authenticator.pa
 import EnrollPhonePage from '../page-objects/enroll-phone-authenticator.page';
 import VerifyPhoneAuthenticatorPage from '../page-objects/verify-phone-authenticator.page';
 import UnlockPage from '../page-objects/unlock.page.js';
+import { DataTable } from '@wdio/cucumber-framework';
 
 Then(
   /^user sees the tokens on the page$/,
@@ -172,8 +173,9 @@ Then(
 
 Then(
   /^user sees the CSP error on the page$/,
-  async function() {
-    await TestAppPage.assertCSPError('eval blocked due to CSP rule script-src from script-src http://localhost:3000 https://global.oktacdn.com');
+  async function(this: ActionContext, data: DataTable) {
+    const expectedError = data.raw()[0][0];
+    await TestAppPage.assertCSPError(expectedError);
   }
 );
 
