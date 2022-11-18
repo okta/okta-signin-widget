@@ -43,8 +43,8 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const {
-    translations = [],
     required,
+    translations = [],
     options: {
       inputMeta: {
         name,
@@ -54,9 +54,9 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
     },
     focus,
   } = uischema;
+  const label = getTranslation(translations, 'label');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
-  const label = getTranslation(translations);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTouched?.(true);

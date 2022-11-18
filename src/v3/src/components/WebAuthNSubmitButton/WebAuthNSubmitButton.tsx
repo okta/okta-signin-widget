@@ -32,7 +32,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
   const { translations = [] } = uischema;
   const { options } = uischema;
 
-  const btnLabel = getTranslation(translations);
+  const btnLabel = getTranslation(translations, 'label');
   const btnRetryLabel = getTranslation(translations, 'retry-label');
 
   const { setMessage, loading } = useWidgetContext();

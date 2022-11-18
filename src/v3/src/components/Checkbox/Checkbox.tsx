@@ -41,7 +41,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   const onChangeHandler = useOnChange(uischema);
 
   const { options: { inputMeta: { name } }, focus, required } = uischema;
-  const label = getTranslation(uischema.translations!);
+  const label = getTranslation(uischema.translations!, 'label');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 

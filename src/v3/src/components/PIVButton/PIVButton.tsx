@@ -29,14 +29,14 @@ const PIVButton: UISchemaElementComponent<{
   const { translations = [] } = uischema;
   const { options } = uischema;
 
-  const btnLabel = getTranslation(translations);
+  const btnLabel = getTranslation(translations, 'label');
 
   const { setMessage, loading } = useWidgetContext();
   const [waiting, setWaiting] = useState<boolean>(false);
 
   const showLoading = waiting || loading;
 
-  const initCertPrompt = async () => {
+  const initCertPrompt = () => {
     setWaiting(true);
     setMessage(undefined);
 

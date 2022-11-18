@@ -36,7 +36,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
-  const label = getTranslation(uischema.translations!);
+  const label = getTranslation(uischema.translations!, 'label');
   const { translations = [], focus, required } = uischema;
   const {
     attributes,

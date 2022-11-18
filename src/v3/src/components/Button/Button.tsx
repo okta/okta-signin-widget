@@ -76,7 +76,7 @@ const Button: UISchemaElementComponent<{
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(dataSe && { 'data-se': dataSe } )}
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(type !== 'submit' && { onClick: typeof onClick !== 'undefined' ? customClickHandler : handleClick })}
+      {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(ariaLabel && { 'aria-label': ariaLabel } )}
     >
