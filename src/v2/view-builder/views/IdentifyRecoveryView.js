@@ -20,7 +20,7 @@ const Body = BaseForm.extend({
         // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          autoComplete: 'identifier'
+          autoComplete: 'username'
         };
       }
       return newSchema;

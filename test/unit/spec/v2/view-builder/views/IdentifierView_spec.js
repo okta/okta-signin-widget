@@ -181,7 +181,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
     currentViewState = { 
       uiSchema: [{
-        'autoComplete': 'identifier',
+        'autoComplete': 'username',
         'data-se': 'o-form-fieldset-identifier',
         'label': 'Username',
         'label-top': true,
@@ -208,7 +208,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
     currentViewState = { 
       uiSchema: [{
-        'autoComplete': 'identifier',
+        'autoComplete': 'username',
         'data-se': 'o-form-fieldset-identifier',
         'label': 'Username',
         'label-top': true,
@@ -221,7 +221,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     testContext.init(XHRIdentifyWithPassword.remediation.value);
     expect(testContext.view.model.get('identifier')).toEqual('testUsername');
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('testUsername');
-    expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('identifier');
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('username');
   });
 
   it('does not pre-fill identifier form with username from cookie when rememberMe feature is disabled', function() {
@@ -236,7 +236,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
     currentViewState = { 
       uiSchema: [{
-        'autoComplete': 'identifier',
+        'autoComplete': 'username',
         'data-se': 'o-form-fieldset-identifier',
         'label': 'Username',
         'label-top': true,
@@ -249,7 +249,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     testContext.init(XHRIdentifyWithPassword.remediation.value);
     expect(testContext.view.model.get('identifier')).not.toEqual('testUsername');
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('');
-    expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('identifier');    
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('username');    
   });
 
   it('should customize username/password required messages', function() {
@@ -271,7 +271,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     
     currentViewState = { 
       uiSchema: [{
-        'autoComplete': 'identifier',
+        'autoComplete': 'username',
         'data-se': 'o-form-fieldset-identifier',
         'label': 'Username',
         'label-top': true,
