@@ -47,7 +47,8 @@
       "require": "./target/js/okta-sign-in.oie.js",
       "default": "./target/js/okta-sign-in.oie.js"
     },
-    "./polyfill": "./target/js/okta-sign-in.polyfill.js"
+    "./polyfill": "./target/js/okta-sign-in.polyfill.js",
+    "./css/": "./target/css/"
   },
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
