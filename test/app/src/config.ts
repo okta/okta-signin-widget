@@ -77,6 +77,7 @@ export function getDefaultConfig(): Config {
 }
 
 export function extendConfig(baseConfig: Config, extraConfig: Config): Config {
+  const useBundledWidget = !!process.env.DIST_ESM;
   const widgetOptions = {
     ...baseConfig.widgetOptions,
     ...extraConfig.widgetOptions,
@@ -84,6 +85,7 @@ export function extendConfig(baseConfig: Config, extraConfig: Config): Config {
   const config = {
     ...baseConfig,
     ...extraConfig,
+    useBundledWidget,
     widgetOptions
   };
   return config;
