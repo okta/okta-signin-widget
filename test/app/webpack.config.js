@@ -1,13 +1,12 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const ENV = require('@okta/env');
 ENV.config();
 const DEV_SERVER_PORT = 3000;
 
-const WORKSPACE_ROOT = path.resolve(__dirname, '../..');
 const { DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET } = process.env;
 
 // CSP settings
