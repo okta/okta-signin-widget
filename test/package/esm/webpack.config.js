@@ -12,6 +12,13 @@ const config = {
         test: /\.js$/,
         use: ['source-map-loader'],
         enforce: 'pre'
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'css-loader',
+          'source-map-loader'
+        ]
       }
     ]
   },
