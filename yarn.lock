@@ -1717,6 +1717,10 @@
     rasha "^1.2.5"
     safe-flat "^2.0.2"
 
+"@okta/okta-signin-widget@link:dist":
+  version "0.0.0"
+  uid ""
+
 "@peculiar/asn1-schema@^2.1.6", "@peculiar/asn1-schema@^2.3.0":
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/@peculiar/asn1-schema/-/asn1-schema-2.3.3.tgz#21418e1f3819e0b353ceff0c2dad8ccb61acd777"

@@ -109,7 +109,6 @@ const webpackConfig = {
 // With env var set, run against built ESM module in dist folder
 if (DIST_ESM) {
   webpackConfig.resolve.alias['./getOktaSignIn'] = './getOktaSignInFromNPM';
-  // Package `@okta/okta-signin-widget` is linked to dist folder in `prestart` script
 }
 
 if (TARGET === 'CROSS_BROWSER') {

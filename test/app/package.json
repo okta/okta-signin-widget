@@ -4,14 +4,12 @@
   "main": "dist/main.bundle.js",
   "private": true,
   "scripts": {
-    "prestart": "node scripts/link_package.js",
-    "poststart": "CLEAN=1 node scripts/link_package.js",
     "build": "webpack build --config ./webpack.config.js",
     "start": "webpack serve --config ./webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@okta/okta-signin-widget": "*"
+    "@okta/okta-signin-widget": "link:../../dist"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
