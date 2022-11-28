@@ -48,6 +48,5 @@ describe('PIV Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as PIVButtonElement).label).toBe('retry');
     expect((updatedFormBag.uischema.elements[2] as PIVButtonElement).translations)
       .toEqual([{ i18nKey: 'retry', name: 'label', value: 'retry' }]);
-    expect((updatedFormBag.uischema.elements[2] as PIVButtonElement).options.onClick).toBeDefined();
   });
 });

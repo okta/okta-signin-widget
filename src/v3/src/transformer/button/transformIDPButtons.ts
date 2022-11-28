@@ -40,7 +40,9 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
   }
 
   const { piv, idpDisplay } = widgetProps;
-  const isBottomDivider = typeof idpDisplay === 'undefined' ? true : idpDisplay.toUpperCase() === 'PRIMARY';
+  const isBottomDivider = typeof idpDisplay === 'undefined'
+    ? true
+    : idpDisplay.toUpperCase() === 'PRIMARY';
   const pivButton: ButtonElement = {
     type: 'Button',
     label: piv?.text || loc('piv.cac.card', 'login'),
@@ -51,6 +53,14 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
       classes: `${piv?.className || ''} piv-button`,
       variant: 'secondary',
       onClick: (widgetContext: IWidgetContext) => {
+        // To render the PIV view, we have to use a remediation that is provided on initial load
+        // This remeidation doesnt allow a network request, so we have to update the transaction
+        // to set the NextStep as the PIV remediation and change the step name to match what
+        // the transaction transformers expect to render PIV View.
+        // NOTE: IDPs and PIV share the same remediation step name, this is why we update the name
+        // for PIV
+        // Additionally, we clear the messages and other remediations from the PIV view
+        // to prevent the widget from displaying elements that are not related to PIV
         const { setIdxTransaction } = widgetContext;
         const pivRemediations = transaction.neededToProceed.filter(
           (remediation) => (remediation.name === IDX_STEP.REDIRECT_IDP
@@ -81,16 +91,14 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
     const titleIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Title');
     const pivButtonPos = titleIndex !== -1 ? titleIndex + 1 : 0;
     // Add button after title (if exists) otherwise add to top of array
-    formbag.uischema.elements.splice(pivButtonPos, 0, pivButton);
-    formbag.uischema.elements.splice(pivButtonPos + 1, 0, dividerElement);
+    formbag.uischema.elements.splice(pivButtonPos, 0, pivButton, dividerElement);
   } else {
     const firstLinkIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Link');
     const firstButtonIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Link');
     const firstButtonPos = firstButtonIndex !== -1 ? firstButtonIndex : 0;
     const pivButtonPos = firstLinkIndex !== -1 ? firstLinkIndex : firstButtonPos;
     // Add button after login form but before links (if any exists)
-    formbag.uischema.elements.splice(pivButtonPos, 0, pivButton);
-    formbag.uischema.elements.splice(pivButtonPos, 0, dividerElement);
+    formbag.uischema.elements.splice(pivButtonPos, 0, dividerElement, pivButton);
   }
 
   return formbag;

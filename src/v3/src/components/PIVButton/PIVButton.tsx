@@ -15,6 +15,7 @@ import { Button, CircularLoadIndicator } from '@okta/odyssey-react';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
+import Util from '../../../../util/Util';
 import { useWidgetContext } from '../../contexts';
 import {
   ClickHandler,
@@ -27,11 +28,10 @@ const PIVButton: UISchemaElementComponent<{
   uischema: PIVButtonElement
 }> = ({ uischema }) => {
   const { translations = [] } = uischema;
-  const { options } = uischema;
 
   const btnLabel = getTranslation(translations, 'label');
 
-  const { setMessage, loading } = useWidgetContext();
+  const { setMessage, loading, idxTransaction } = useWidgetContext();
   const [waiting, setWaiting] = useState<boolean>(false);
 
   const showLoading = waiting || loading;
@@ -40,7 +40,7 @@ const PIVButton: UISchemaElementComponent<{
     setWaiting(true);
     setMessage(undefined);
 
-    options.onClick();
+    Util.redirectWithFormGet(idxTransaction?.nextStep?.href);
   };
 
   const handleClick: ClickHandler = (event) => {

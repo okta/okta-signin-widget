@@ -219,7 +219,6 @@ export interface WebAuthNButtonElement extends UISchemaElement {
 
 export interface PIVButtonElement extends UISchemaElement {
   type: 'PIVButton';
-  options: { onClick: () => unknown };
 }
 
 export interface TitleElement extends UISchemaElement {

@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Util from '../../../../../util/Util';
 import {
   DescriptionElement,
   IdxStepTransformer,
@@ -19,8 +18,7 @@ import {
 } from '../../../types';
 import { loc } from '../../../util';
 
-export const transformPIVAuthenticator: IdxStepTransformer = ({ formBag, transaction }) => {
-  const { nextStep } = transaction;
+export const transformPIVAuthenticator: IdxStepTransformer = ({ formBag }) => {
   const { uischema } = formBag;
 
   const titleElement: TitleElement = {
@@ -38,11 +36,6 @@ export const transformPIVAuthenticator: IdxStepTransformer = ({ formBag, transac
     type: 'PIVButton',
     label: buttonLabel,
     translations: [{ i18nKey: 'retry', name: 'label', value: buttonLabel }],
-    options: {
-      onClick: () => {
-        Util.redirectWithFormGet(nextStep?.href);
-      },
-    },
   };
 
   uischema.elements = [
