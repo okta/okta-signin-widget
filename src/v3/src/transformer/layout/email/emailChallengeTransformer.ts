@@ -64,7 +64,7 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
   }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-  const maginLinkText = redactedEmailAddress
+  const descriptionBaseText = redactedEmailAddress
     ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [redactedEmailAddress])
     : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
   const instrText = useEmailMagicLink
@@ -73,7 +73,7 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: `${maginLinkText}${instrText}`,
+      content: `${descriptionBaseText}${instrText}`,
     },
   };
 
