@@ -151,6 +151,7 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.AUTHENTICATOR_ENROLLMENT_DATA]: {
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorDataPhoneView,
+    [AUTHENTICATOR_KEY.EMAIL]: ChallengeAuthenticatorDataEmailView,
   },
   [RemediationForms.CONSENT_ADMIN]: {
     [DEFAULT]: AdminConsentView
