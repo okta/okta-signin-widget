@@ -3,7 +3,7 @@ import { Selector } from 'testcafe';
 
 const PASSCODE_FIELD_NAME = 'credentials.passcode';
 const SWITCH_FACTOR_SELECTOR = '.auth-footer .js-switchFactor';
-const SWITCH_AUTHENTICATOR_SELECTOR = '.auth-footer .js-switchAuthenticator';
+const SWITCH_AUTHENTICATOR_SELECTOR = '[data-se="switchAuthenticator"]';
 
 export default class ChallengeFactorPageObject extends BasePageObject {
   constructor(t) {

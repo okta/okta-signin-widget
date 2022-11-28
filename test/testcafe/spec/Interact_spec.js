@@ -1,4 +1,4 @@
-import { ClientFunction, RequestMock, RequestLogger, Selector } from 'testcafe';
+import { ClientFunction, RequestMock, RequestLogger } from 'testcafe';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -120,7 +120,7 @@ async function setup(t, options = {}) {
       state: 'mock-state'
     }
   });
-  await t.expect(Selector('form').exists).eql(true);
+  await t.expect(pageObject.formExists()).eql(true);
   return pageObject;
 }
 

@@ -205,6 +205,10 @@ export default class BaseFormObject {
   }
 
   getErrorBoxCount() {
+    if (userVariables.v3) {
+      return within(this.el).getAllByRole('alert').count;
+    }
+
     return this.el.find(FORM_INFOBOX_ERROR).count;
   }
 

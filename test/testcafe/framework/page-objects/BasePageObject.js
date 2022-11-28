@@ -97,6 +97,9 @@ export default class BasePageObject {
   }
 
   getIonMessages() {
+    if (userVariables.v3) {
+      return this.getFormSubtitle(); 
+    }
     return this.form.getElement(ionMessagesSelector).innerText;
   }
 
@@ -105,6 +108,14 @@ export default class BasePageObject {
     return this.form.getLink('Back to sign in');
   }
 
+  getForgotPasswordLink() {
+    return Selector('[data-se="forgot-password"]');
+  }
+
+  async clickForgotPasswordLink() {
+    await this.t.click(this.getForgotPasswordLink());
+  }
+  
   // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
   // in v3 all Cancel links use the same wording
   async signoutLinkExists() {
@@ -113,6 +124,10 @@ export default class BasePageObject {
     }
     const elCount = await Selector(SIGNOUT_LINK).count;
     return elCount === 1;
+  }
+
+  async forgotPasswordLinkExists() {
+    return this.getForgotPasswordLink().exists;
   }
 
   // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
@@ -247,5 +262,9 @@ export default class BasePageObject {
 
   hasText(text) {
     return this.form.getByText(text).exists;
+  }
+
+  formExists() {
+    return Selector('form').exists;
   }
 }

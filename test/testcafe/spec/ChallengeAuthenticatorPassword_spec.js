@@ -1,4 +1,5 @@
-import { RequestLogger, RequestMock } from 'testcafe';
+import { RequestLogger, RequestMock, userVariables } from 'testcafe';
+import { oktaDashboardContent } from '../framework/shared';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrSSPRSuccess from '../../../playground/mocks/data/idp/idx/terminal-reset-password-success';
@@ -13,7 +14,9 @@ const mockChallengeAuthenticatorPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorRequiredPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const mockInvalidPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -47,11 +50,13 @@ const recoveryRequestLogger = RequestLogger(
   }
 );
 
-fixture('Challenge Authenticator Password');
+fixture('Challenge Authenticator Password')
+  .meta('v3', true);  
 
 async function setup(t) {
   const challengePasswordPage = new ChallengePasswordPageObject(t);
   await challengePasswordPage.navigateToPage();
+  await t.expect(challengePasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-password',
     formName: 'challenge-authenticator',
@@ -68,15 +73,15 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
   await t.expect(challengePasswordPage.getSwitchAuthenticatorButtonText()).eql('Verify with something else');
 
   // assert forgot password link
-  await challengePasswordPage.forgotPasswordLink.exists();
-  await t.expect(challengePasswordPage.forgotPasswordLink.getLabel()).eql('Forgot password?');
+  await t.expect(await challengePasswordPage.forgotPasswordLinkExists()).ok();
+  await t.expect(challengePasswordPage.getForgotPasswordLabelValue()).eql('Forgot password?');
 
   await t.expect(await challengePasswordPage.signoutLinkExists()).ok();
   await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in');
 
   // verify password
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
-  await challengePasswordPage.clickNextButton();
+  await challengePasswordPage.clickVerifyButton();
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
@@ -101,7 +106,7 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
   const challengePasswordPage = await setup(t);
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
-  await challengePasswordPage.clickNextButton();
+  await challengePasswordPage.clickVerifyButton();
 
   await t.expect(challengePasswordPage.getInvalidOTPError()).contains('Password is incorrect');
 
@@ -131,29 +136,33 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   const challengePasswordPage = await setup(t);
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
-  await challengePasswordPage.clickNextButton();
+  await challengePasswordPage.clickVerifyButton();
   await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
   await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
-  await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
+  // OKTA-551654 - Doesn't work in v3 since user id isn't present on session expired screen
+  if (!userVariables.v3) {
+    await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
+  }
 });
 
 test.requestHooks(resetPasswordSuccess)('password changed successfully', async t => {
   const challengePasswordPage = await setup(t);
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
-  await challengePasswordPage.clickNextButton();
+  await challengePasswordPage.clickVerifyButton();
 
   await t.expect(challengePasswordPage.getIonMessages()).eql('You can now sign in with your existing username and new password.');
   await t.expect(challengePasswordPage.getGoBackLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
-  await t.expect(challengePasswordPage.hasIdentifier()).ok();
+
+  await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 
 test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {
   const challengePasswordPage = await setup(t);
-  await challengePasswordPage.forgotPasswordLink.exists();
-  await challengePasswordPage.forgotPasswordLink.click();
+  await t.expect(await challengePasswordPage.forgotPasswordLinkExists()).ok();
+  await challengePasswordPage.clickForgotPasswordLink();
   // show form error once even click twice and trigger API request twice.
-  await challengePasswordPage.forgotPasswordLink.click();
+  await challengePasswordPage.clickForgotPasswordLink();
 
   await t.expect(challengePasswordPage.form.getErrorBoxCount()).eql(1);
   await t.expect(challengePasswordPage.form.getErrorBoxText())
@@ -179,7 +188,8 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
   await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 
-test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
+// OKTA-519360 - Disabled in v3 since password sublabel isn't supported in Odyssey
+test.meta('v3', false).requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
   const challengePasswordPage = await setup(t);
   await renderWidget({
     i18n: {
@@ -188,16 +198,18 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for
       }
     }
   });
+  
   await t.expect(challengePasswordPage.getPasswordSubLabelValue()).eql('Your password goes here');
   await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 
-test.requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor page link', async t => {
+// Help links are not implemented in v3
+test.meta('v3', false).requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor page link', async t => {
   const challengePasswordPage = await setup(t);
 
   await renderWidget({
     helpLinks: {
-      factorPage: {
+      factorPage: { 
         text: 'custom factor page link',
         href: 'https://acme.com/what-is-okta-autheticators'
       }
