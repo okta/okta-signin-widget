@@ -12,7 +12,7 @@
 
 import { Box } from '@mui/material';
 import {
-  List, Text,
+  List,
 } from '@okta/odyssey-react';
 import debounce from 'lodash/debounce';
 import { h } from 'preact';
@@ -97,7 +97,12 @@ const PasswordRequirements: UISchemaElementComponent<{
   return requirements?.length > 0 ? (
     <Box data-se="password-authenticator--rules">
       <Box marginBottom={2}>
-        <Text as="span">{header}</Text>
+        <Box
+          as="span"
+          className="password-authenticator--heading"
+        >
+          {header}
+        </Box>
       </Box>
       <List
         id={id}

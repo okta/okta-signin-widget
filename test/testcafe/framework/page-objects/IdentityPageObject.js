@@ -80,6 +80,9 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async hasShowTogglePasswordIcon() {
+    if (userVariables.v3) {
+      return await this.form.getButton('toggle password visibility').exists;
+    }
     return await Selector('.password-toggle').count;
   }
 

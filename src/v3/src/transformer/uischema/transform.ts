@@ -14,6 +14,7 @@ import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { flow } from 'lodash';
 
 import CountryUtil from '../../../../util/CountryUtil';
+import TimeZone from '../../../../v2/view-builder/utils/TimeZone';
 import { IDX_STEP } from '../../constants';
 import {
   FieldElement,
@@ -66,6 +67,15 @@ export const updateCustomFields: TransformStepFn = (formbag) => {
     callback: (el) => {
       const fieldElement = (el as FieldElement);
       const { options: { inputMeta: { options } } } = fieldElement;
+
+      if (fieldElement.options.inputMeta.name === 'userProfile.timezone') {
+        fieldElement.options.format = 'select';
+        fieldElement.options.customOptions = Object.entries(TimeZone).map(([code, label]) => ({
+          label,
+          value: code,
+        } as IdxOption));
+      }
+
       if (Array.isArray(options) && options[0]?.value) {
         const [option] = options;
         if (option.label === 'display') {

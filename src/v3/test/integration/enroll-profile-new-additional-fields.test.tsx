@@ -36,21 +36,21 @@ describe('enroll-profile-new-additional-fields', () => {
     const emailEle = await findByTestId('userProfile.email') as HTMLInputElement;
     const countryEle = await findByTestId('userProfile.country') as HTMLSelectElement;
     const countryCodeEle = await findByTestId('userProfile.countryCode') as HTMLInputElement;
-    const timezoneEle = await findByTestId('userProfile.timezone') as HTMLInputElement;
+    const timezoneEle = await findByTestId('userProfile.timezone') as HTMLSelectElement;
 
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
     const country = 'US';
     const countryCode = 'USA';
-    const timezone = 'EST';
+    const timezone = 'GMT';
     await waitFor(() => expect(firstNameEle).toHaveFocus());
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
     fireEvent.change(countryEle, { target: { value: country } });
     await user.type(countryCodeEle, countryCode);
-    await user.type(timezoneEle, timezone);
+    fireEvent.change(timezoneEle, { target: { value: timezone } });
 
     expect(firstNameEle.value).toEqual(firstName);
     expect(lastNameEle.value).toEqual(lastName);

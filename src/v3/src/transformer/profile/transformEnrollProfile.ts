@@ -31,7 +31,7 @@ import { getUIElementWithName } from '../utils';
 export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBag }) => {
   const {
     availableSteps,
-    nextStep: { relatesTo, name: stepName } = {},
+    nextStep: { name: stepName, inputs } = {},
     context,
     neededToProceed,
   } = transaction;
@@ -61,7 +61,11 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
       // @ts-ignore TODO: OKTA-539834 - messages missing from type
       passwordElement.options.inputMeta.messages.value = messages;
     }
-    const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordRequirementsData;
+    const credentialsInput = inputs?.find((input) => input.name === 'credentials');
+    const passwordSettings = (
+      // @ts-ignore OKTA-545082 relatesTo prop missing from Input interface
+      credentialsInput?.relatesTo?.value?.settings || {}
+    ) as PasswordRequirementsData;
     const passwordRequirementsElement: PasswordRequirementsElement = {
       type: 'PasswordRequirements',
       options: {
