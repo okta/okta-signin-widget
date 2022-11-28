@@ -41,7 +41,9 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const {
-    focus, required, translations = [],
+    focus,
+    required,
+    translations = [],
   } = uischema;
   const {
     attributes,
