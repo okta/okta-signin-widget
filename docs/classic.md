@@ -1537,6 +1537,8 @@ features: {
 
 - **features.prefillUsernameFromIdpDiscovery** - If `router` and `idpDiscovery` features are enabled, use route `signin/okta/:username` instead of `signin` for redirect from [IdP Discovery](#idp-discovery) page to primary auth page if IdP is your Okta org. Defaults to `false`.
 
+- **features.showSessionRevocation** - If set to `true`, it will show a checkbox that allows the user to revoke all of their active sessions during a Self Service Password Reset.
+
 ### Hooks
 
 > **Note**: Hooks are only supported when using the [Okta Identity Engine](#okta-identity-engine)
