@@ -24,7 +24,10 @@ function updateIdentifierCookie(appState: AppState, idxResponse: IdxResponse) {
     const user = idxResponse?.context?.user;
     const { identifier } = user?.value || {};
     if (identifier) {
-      CookieUtil.setUsernameCookie(identifier);
+      const currentCookieValue = CookieUtil.getCookieUsername();
+      if (!currentCookieValue || (currentCookieValue !== identifier && currentCookieValue !== (identifier as string).split('@')[0])) {
+        CookieUtil.setUsernameCookie(identifier);
+      }
     }
   } else {
     // We remove the cookie explicitly if this feature is disabled.
