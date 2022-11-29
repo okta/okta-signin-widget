@@ -92,9 +92,9 @@ export default {
       // https://oktainc.atlassian.net/browse/OKTA-553082
       // Create and Load devicefingerprint page inside the iframe
       $iframe = $('<iframe>', {
-        style: 'display: none;',
         src: fingerprintData.oktaDomainUrl + '/auth/services/devicefingerprint',
       });
+      $iframe.css('display', 'none');
       fingerprintData.element.append($iframe);
 
       iFrameTimeout = setTimeout(() => {
