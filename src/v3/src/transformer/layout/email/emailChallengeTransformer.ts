@@ -64,16 +64,16 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
   }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-  const instructionBaseText = redactedEmailAddress
+  const instructionPrefixText = redactedEmailAddress
     ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [redactedEmailAddress])
     : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
-  const instrText = useEmailMagicLink
+  const instructionPostfixText = useEmailMagicLink
     ? loc('oie.email.verify.alternate.instructions', 'login')
     : loc('oie.email.verify.alternate.verificationCode.instructions', 'login');
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: `${instructionBaseText}${instrText}`,
+      content: `${instructionPrefixText}${instructionPostfixText}`,
     },
   };
 
