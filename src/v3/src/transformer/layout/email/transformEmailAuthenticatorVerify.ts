@@ -28,7 +28,7 @@ import {
 import { getCurrentAuthenticator, loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 
-export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
+export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
   const authenticatorContextualData = getCurrentAuthenticator(transaction)?.value?.contextualData;

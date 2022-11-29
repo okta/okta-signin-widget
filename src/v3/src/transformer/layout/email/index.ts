@@ -11,5 +11,6 @@
  */
 
 export * from './emailChallengeConsentTransformer';
-export * from './emailChallengeTransformer';
 export * from './emailVerificationTransformer';
+export * from './transformEmailAuthenticatorEnroll';
+export * from './transformEmailAuthenticatorVerify';
