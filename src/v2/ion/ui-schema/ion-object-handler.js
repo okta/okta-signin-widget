@@ -65,8 +65,28 @@ export function createOVOptions(options = []) {
   }
 }
 
+/**
+ * Example of the option like
+ * @param {AuthenticatorOption[]} options
+ * @param {( AuthenticatorEnrollment[] || Authenticator[] )} authenticators
+ */
+function updateCustomAppOptions(options = []) {
+  // update custom app options such that methodType value is sent to backend.
+  const customAppItems = options.filter((option) => option.relatesTo.key === AUTHENTICATOR_KEY.CUSTOM_APP);
+  customAppItems.forEach((customAppItem) => {
+    const methodTypeObj = customAppItem?.value?.form?.value?.find(v => v.name === 'methodType');
+    if (methodTypeObj) {
+      // set the methodType field to be required and immutable in our UI,
+      // so it is always sent to the backend.
+      methodTypeObj.required = true;
+      methodTypeObj.mutable = false;
+    }
+  });
+}
+
 function createAuthenticatorOptions(options = []) {
   createOVOptions(options);
+  updateCustomAppOptions(options);
   return options.map(option => {
     const value = option.value?.form?.value || [];
 
