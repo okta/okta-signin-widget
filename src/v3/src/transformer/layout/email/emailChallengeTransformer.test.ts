@@ -40,192 +40,321 @@ describe('EmailChallengeTransformer Tests', () => {
     ];
   });
 
-  it('should create email challenge UI elements when resend code is available', () => {
-    transaction.nextStep = {
-      name: '',
-      canResend: true,
-      relatesTo: {
-        value: {
-          profile: {
-            email: redactedEmail,
-          },
-        } as unknown as IdxAuthenticator,
-      },
-    };
-    transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
-    const updatedFormBag = transformEmailChallenge({
-      transaction, formBag, widgetProps,
+  describe('Email Magic Link = true', () => {
+    it('should create email challenge UI elements when resend code is available', () => {
+      transaction.nextStep = {
+        name: '',
+        canResend: true,
+        relatesTo: {
+          value: {
+            profile: {
+              email: redactedEmail,
+            },
+          } as unknown as IdxAuthenticator,
+        },
+      };
+      transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
+      const updatedFormBag = transformEmailChallenge({
+        transaction, formBag, widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(1);
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
+
+      const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
+
+      const layoutOne = stepperElements[0];
+
+      expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
+      expect(layoutOne.elements.length).toBe(4);
+
+      expect((layoutOne.elements[0] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutOne.elements[0] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutOne.elements[0] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutOne.elements[0] as ReminderElement).options?.isActionStep)
+        .toBe(true);
+      expect((layoutOne.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.email.mfa.title');
+      expect(layoutOne.elements[2].type).toBe('Description');
+      expect((layoutOne.elements[2] as DescriptionElement).options?.content)
+        .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
+      expect(layoutOne.elements[3].type).toBe('StepperButton');
+      expect((layoutOne.elements[3] as StepperButtonElement).label)
+        .toBe('oie.email.verify.alternate.showCodeTextField');
+
+      const layoutTwo = stepperElements[1];
+
+      expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
+      expect(layoutTwo.elements.length).toBe(5);
+      expect((layoutTwo.elements[0] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutTwo.elements[0] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutTwo.elements[0] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutTwo.elements[0] as ReminderElement).options?.isActionStep)
+        .toBe(true);
+      expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.email.mfa.title');
+      expect(layoutTwo.elements[2].type).toBe('Description');
+      expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
+        .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
+
+      expect((layoutTwo.elements[3] as FieldElement).options.inputMeta.name)
+        .toBe('credentials.passcode');
+
+      expect((layoutTwo.elements[4] as ButtonElement).type).toBe('Button');
+      expect((layoutTwo.elements[4] as ButtonElement).label).toBe('mfa.challenge.verify');
+      expect((layoutTwo.elements[4] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
     });
 
-    expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
+    it('should create email challenge UI elements when profile email is NOT available', () => {
+      transaction.nextStep = {
+        name: 'mock-step',
+        canResend: true,
+        relatesTo: {
+          value: {} as IdxAuthenticator,
+        },
+      };
+      transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
+      const updatedFormBag = transformEmailChallenge({
+        transaction, formBag, widgetProps,
+      });
 
-    const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
+      expect(updatedFormBag).toMatchSnapshot();
+      const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
 
-    const layoutOne = stepperElements[0];
+      const layoutOne = stepperElements[0];
 
-    expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
-    expect(layoutOne.elements.length).toBe(4);
+      expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
+      expect(layoutOne.elements.length).toBe(4);
 
-    expect((layoutOne.elements[0] as ReminderElement).options?.content)
-      .toBe('email.code.not.received');
-    expect((layoutOne.elements[0] as ReminderElement).options?.actionParams?.resend)
-      .toBe(true);
-    expect((layoutOne.elements[0] as ReminderElement).options?.step)
-      .toBe('resend');
-    expect((layoutOne.elements[0] as ReminderElement).options?.isActionStep)
-      .toBe(true);
-    expect((layoutOne.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.mfa.title');
-    expect(layoutOne.elements[2].type).toBe('Description');
-    expect((layoutOne.elements[2] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
-    expect(layoutOne.elements[3].type).toBe('StepperButton');
-    expect((layoutOne.elements[3] as StepperButtonElement).label)
-      .toBe('oie.email.verify.alternate.showCodeTextField');
+      expect((layoutOne.elements[0] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutOne.elements[0] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutOne.elements[0] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutOne.elements[0] as ReminderElement).options?.isActionStep)
+        .toBe(true);
+      expect((layoutOne.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.email.mfa.title');
+      expect(layoutOne.elements[2].type).toBe('Description');
+      expect((layoutOne.elements[2] as DescriptionElement).options?.content)
+        .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
+      expect(layoutOne.elements[3].type).toBe('StepperButton');
+      expect((layoutOne.elements[3] as StepperButtonElement).label)
+        .toBe('oie.email.verify.alternate.showCodeTextField');
 
-    const layoutTwo = stepperElements[1];
+      const layoutTwo = stepperElements[1];
 
-    expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
-    expect(layoutTwo.elements.length).toBe(5);
-    expect((layoutTwo.elements[0] as ReminderElement).options?.content)
-      .toBe('email.code.not.received');
-    expect((layoutTwo.elements[0] as ReminderElement).options?.actionParams?.resend)
-      .toBe(true);
-    expect((layoutTwo.elements[0] as ReminderElement).options?.step)
-      .toBe('resend');
-    expect((layoutTwo.elements[0] as ReminderElement).options?.isActionStep)
-      .toBe(true);
-    expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.mfa.title');
-    expect(layoutTwo.elements[2].type).toBe('Description');
-    expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
+      expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
+      expect(layoutTwo.elements.length).toBe(5);
+      expect((layoutTwo.elements[0] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutTwo.elements[0] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutTwo.elements[0] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutTwo.elements[0] as ReminderElement).options?.isActionStep)
+        .toBe(true);
+      expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.email.mfa.title');
+      expect(layoutTwo.elements[2].type).toBe('Description');
+      expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
+        .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
 
-    expect((layoutTwo.elements[3] as FieldElement).options.inputMeta.name)
-      .toBe('credentials.passcode');
+      expect((layoutTwo.elements[3] as FieldElement).options.inputMeta.name)
+        .toBe('credentials.passcode');
 
-    expect((layoutTwo.elements[4] as ButtonElement).type).toBe('Button');
-    expect((layoutTwo.elements[4] as ButtonElement).label).toBe('mfa.challenge.verify');
-    expect((layoutTwo.elements[4] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
+      expect((layoutTwo.elements[4] as ButtonElement).type).toBe('Button');
+      expect((layoutTwo.elements[4] as ButtonElement).label).toBe('mfa.challenge.verify');
+      expect((layoutTwo.elements[4] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
+    });
+
+    it('should create email challenge UI elements when resend code is NOT available', () => {
+      transaction.availableSteps = [];
+      transaction.nextStep = {
+        name: 'mock-step',
+        relatesTo: {
+          value: {
+            profile: {
+              email: redactedEmail,
+            },
+          } as unknown as IdxAuthenticator,
+        },
+      };
+      const updatedFormBag = transformEmailChallenge({
+        transaction, formBag, widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(1);
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
+
+      const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
+
+      const layoutOne = stepperElements[0];
+
+      expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
+      expect(layoutOne.elements.length).toBe(3);
+
+      expect((layoutOne.elements[0] as DescriptionElement).options?.content)
+        .toBe('oie.email.mfa.title');
+      expect(layoutOne.elements[1].type).toBe('Description');
+      expect((layoutOne.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
+      expect(layoutOne.elements[2].type).toBe('StepperButton');
+      expect((layoutOne.elements[2] as StepperButtonElement).label)
+        .toBe('oie.email.verify.alternate.showCodeTextField');
+
+      const layoutTwo = stepperElements[1];
+
+      expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
+      expect(layoutTwo.elements.length).toBe(4);
+      expect((layoutTwo.elements[0] as DescriptionElement).options?.content)
+        .toBe('oie.email.mfa.title');
+      expect(layoutTwo.elements[1].type).toBe('Description');
+      expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
+
+      expect((layoutTwo.elements[2] as FieldElement).options.inputMeta.name)
+        .toBe('credentials.passcode');
+
+      expect((layoutTwo.elements[3] as ButtonElement).type).toBe('Button');
+      expect((layoutTwo.elements[3] as ButtonElement).label).toBe('mfa.challenge.verify');
+      expect((layoutTwo.elements[3] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
+    });
   });
 
-  it('should create email challenge UI elements when profile email is NOT available', () => {
-    transaction.nextStep = {
-      name: 'mock-step',
-      canResend: true,
-      relatesTo: {
-        value: {} as IdxAuthenticator,
-      },
-    };
-    transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
-    const updatedFormBag = transformEmailChallenge({
-      transaction, formBag, widgetProps,
+  describe('Email Magic Link = false', () => {
+    beforeEach(() => {
+      transaction.rawIdxState = {
+        ...transaction.rawIdxState,
+        currentAuthenticator: {
+          type: '',
+          value: {
+            contextualData: { useEmailMagicLink: false },
+          } as unknown as IdxAuthenticator,
+        },
+      };
     });
 
-    expect(updatedFormBag).toMatchSnapshot();
-    const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
+    it('should create email challenge UI elements when resend code is available', () => {
+      transaction.nextStep = {
+        name: '',
+        canResend: true,
+        relatesTo: {
+          value: {
+            profile: {
+              email: redactedEmail,
+            },
+          } as unknown as IdxAuthenticator,
+        },
+      };
+      transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
+      const updatedFormBag = transformEmailChallenge({
+        transaction, formBag, widgetProps,
+      });
 
-    const layoutOne = stepperElements[0];
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.isActionStep)
+        .toBe(true);
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.email.mfa.title');
+      expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+        .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions');
 
-    expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
-    expect(layoutOne.elements.length).toBe(4);
+      expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.name)
+        .toBe('credentials.passcode');
 
-    expect((layoutOne.elements[0] as ReminderElement).options?.content)
-      .toBe('email.code.not.received');
-    expect((layoutOne.elements[0] as ReminderElement).options?.actionParams?.resend)
-      .toBe(true);
-    expect((layoutOne.elements[0] as ReminderElement).options?.step)
-      .toBe('resend');
-    expect((layoutOne.elements[0] as ReminderElement).options?.isActionStep)
-      .toBe(true);
-    expect((layoutOne.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.mfa.title');
-    expect(layoutOne.elements[2].type).toBe('Description');
-    expect((layoutOne.elements[2] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
-    expect(layoutOne.elements[3].type).toBe('StepperButton');
-    expect((layoutOne.elements[3] as StepperButtonElement).label)
-      .toBe('oie.email.verify.alternate.showCodeTextField');
-
-    const layoutTwo = stepperElements[1];
-
-    expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
-    expect(layoutTwo.elements.length).toBe(5);
-    expect((layoutTwo.elements[0] as ReminderElement).options?.content)
-      .toBe('email.code.not.received');
-    expect((layoutTwo.elements[0] as ReminderElement).options?.actionParams?.resend)
-      .toBe(true);
-    expect((layoutTwo.elements[0] as ReminderElement).options?.step)
-      .toBe('resend');
-    expect((layoutTwo.elements[0] as ReminderElement).options?.isActionStep)
-      .toBe(true);
-    expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.mfa.title');
-    expect(layoutTwo.elements[2].type).toBe('Description');
-    expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
-
-    expect((layoutTwo.elements[3] as FieldElement).options.inputMeta.name)
-      .toBe('credentials.passcode');
-
-    expect((layoutTwo.elements[4] as ButtonElement).type).toBe('Button');
-    expect((layoutTwo.elements[4] as ButtonElement).label).toBe('mfa.challenge.verify');
-    expect((layoutTwo.elements[4] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
-  });
-
-  it('should create email challenge UI elements when resend code is NOT available', () => {
-    transaction.availableSteps = [];
-    transaction.nextStep = {
-      name: 'mock-step',
-      relatesTo: {
-        value: {
-          profile: {
-            email: redactedEmail,
-          },
-        } as unknown as IdxAuthenticator,
-      },
-    };
-    const updatedFormBag = transformEmailChallenge({
-      transaction, formBag, widgetProps,
+      expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
+      expect((updatedFormBag.uischema.elements[4] as ButtonElement).label).toBe('mfa.challenge.verify');
+      expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
+        .toBe(ButtonType.SUBMIT);
     });
 
-    expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
+    it('should create email challenge UI elements when profile email is NOT available', () => {
+      transaction.nextStep = {
+        name: 'mock-step',
+        canResend: true,
+        relatesTo: {
+          value: {} as IdxAuthenticator,
+        },
+      };
+      transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
+      const updatedFormBag = transformEmailChallenge({
+        transaction, formBag, widgetProps,
+      });
 
-    const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.isActionStep)
+        .toBe(true);
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.email.mfa.title');
+      expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+        .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.verificationCode.instructions');
 
-    const layoutOne = stepperElements[0];
+      expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.name)
+        .toBe('credentials.passcode');
 
-    expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
-    expect(layoutOne.elements.length).toBe(3);
+      expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
+      expect((updatedFormBag.uischema.elements[4] as ButtonElement).label).toBe('mfa.challenge.verify');
+      expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
+        .toBe(ButtonType.SUBMIT);
+    });
 
-    expect((layoutOne.elements[0] as DescriptionElement).options?.content)
-      .toBe('oie.email.mfa.title');
-    expect(layoutOne.elements[1].type).toBe('Description');
-    expect((layoutOne.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
-    expect(layoutOne.elements[2].type).toBe('StepperButton');
-    expect((layoutOne.elements[2] as StepperButtonElement).label)
-      .toBe('oie.email.verify.alternate.showCodeTextField');
+    it('should create email challenge UI elements when resend code is NOT available', () => {
+      transaction.availableSteps = [];
+      transaction.nextStep = {
+        name: 'mock-step',
+        relatesTo: {
+          value: {
+            profile: {
+              email: redactedEmail,
+            },
+          } as unknown as IdxAuthenticator,
+        },
+      };
+      const updatedFormBag = transformEmailChallenge({
+        transaction, formBag, widgetProps,
+      });
 
-    const layoutTwo = stepperElements[1];
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options?.content)
+        .toBe('oie.email.mfa.title');
+      expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions');
 
-    expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
-    expect(layoutTwo.elements.length).toBe(4);
-    expect((layoutTwo.elements[0] as DescriptionElement).options?.content)
-      .toBe('oie.email.mfa.title');
-    expect(layoutTwo.elements[1].type).toBe('Description');
-    expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
-      .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
+      expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
+        .toBe('credentials.passcode');
 
-    expect((layoutTwo.elements[2] as FieldElement).options.inputMeta.name)
-      .toBe('credentials.passcode');
-
-    expect((layoutTwo.elements[3] as ButtonElement).type).toBe('Button');
-    expect((layoutTwo.elements[3] as ButtonElement).label).toBe('mfa.challenge.verify');
-    expect((layoutTwo.elements[3] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
+      expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
+      expect((updatedFormBag.uischema.elements[3] as ButtonElement).label).toBe('mfa.challenge.verify');
+      expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
+        .toBe(ButtonType.SUBMIT);
+    });
   });
 });

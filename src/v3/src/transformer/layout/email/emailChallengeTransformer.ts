@@ -25,12 +25,18 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
-import { loc } from '../../../util';
+import { getCurrentAuthenticator, loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 
 export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
+  const authenticatorContextualData = getCurrentAuthenticator(transaction)?.value?.contextualData;
+  // @ts-ignore OKTA-551247 - useEmailMagicLink property missing from interface
+  const useEmailMagicLinkValue = authenticatorContextualData?.useEmailMagicLink;
+  const useEmailMagicLink = typeof useEmailMagicLinkValue !== 'undefined'
+    ? useEmailMagicLinkValue
+    : true;
 
   let reminderElement: ReminderElement | undefined;
 
@@ -58,14 +64,16 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
   }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-  const maginLinkText = redactedEmailAddress
+  const instructionPrefixText = redactedEmailAddress
     ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [redactedEmailAddress])
     : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
-  const instrText = loc('oie.email.verify.alternate.instructions', 'login');
+  const instructionPostfixText = useEmailMagicLink
+    ? loc('oie.email.verify.alternate.instructions', 'login')
+    : loc('oie.email.verify.alternate.verificationCode.instructions', 'login');
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: `${maginLinkText}${instrText}`,
+      content: `${instructionPrefixText}${instructionPostfixText}`,
     },
   };
 
@@ -76,7 +84,7 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
     },
   };
 
-  const submitButtonControl: ButtonElement = {
+  const submitButtonElement: ButtonElement = {
     type: 'Button',
     label: loc('mfa.challenge.verify', 'login'),
     options: {
@@ -84,6 +92,20 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
       step: transaction.nextStep!.name,
     },
   };
+
+  const codeEntryDisplayElements: UISchemaElement[] = [
+    ...(reminderElement ? [reminderElement] : []),
+    titleElement,
+    informationalText,
+    passcodeElement!,
+    submitButtonElement,
+  ];
+
+  // If Email Magic link is disabled, render single form instead of stepper
+  if (!useEmailMagicLink) {
+    uischema.elements = codeEntryDisplayElements;
+    return formBag;
+  }
 
   const showCodeStepperButton: StepperButtonElement = {
     type: 'StepperButton',
@@ -109,13 +131,7 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
       } as UISchemaLayout,
       {
         type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          ...(reminderElement ? [reminderElement] : []),
-          titleElement,
-          informationalText,
-          passcodeElement,
-          submitButtonControl,
-        ],
+        elements: codeEntryDisplayElements,
       } as UISchemaLayout,
     ],
   };

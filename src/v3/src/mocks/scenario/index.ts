@@ -19,6 +19,7 @@ import './authenticator-expired-password';
 import './authenticator-expired-password-no-complexity';
 import './authenticator-expiry-warning-password';
 import './authenticator-expired-password-with-enrollment-authenticator';
+import './authenticator-verification-email-magiclink-false';
 import './email-challenge-consent';
 import './enroll-okta-verify-mfa';
 import './enroll-ov-version-upgrade';
