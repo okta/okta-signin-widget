@@ -22,7 +22,7 @@ import {
 } from '../../types';
 import { loc } from '../../util';
 
-const PIV_TYPE = 'X509';
+export const PIV_TYPE = 'X509';
 
 // TODO: Implement CUSTOM IDP Buttons here
 export const transformIDPButtons: TransformStepFnWithOptions = ({
@@ -54,7 +54,7 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
       variant: 'secondary',
       onClick: (widgetContext: IWidgetContext) => {
         // To render the PIV view, we have to use a remediation that is provided on initial load
-        // This remeidation doesnt allow a network request, so we have to update the transaction
+        // This remeidation doesn't allow a network request, so we have to update the transaction
         // to set the NextStep as the PIV remediation and change the step name to match what
         // the transaction transformers expect to render PIV View.
         // NOTE: IDPs and PIV share the same remediation step name, this is why we update the name
@@ -94,8 +94,8 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
     formbag.uischema.elements.splice(pivButtonPos, 0, pivButton, dividerElement);
   } else {
     const firstLinkIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Link');
-    const firstButtonIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Link');
-    const firstButtonPos = firstButtonIndex !== -1 ? firstButtonIndex : 0;
+    const firstButtonIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Button');
+    const firstButtonPos = firstButtonIndex !== -1 ? firstButtonIndex + 1 : 0;
     const pivButtonPos = firstLinkIndex !== -1 ? firstLinkIndex : firstButtonPos;
     // Add button after login form but before links (if any exists)
     formbag.uischema.elements.splice(pivButtonPos, 0, dividerElement, pivButton);

@@ -28,9 +28,6 @@ Object {
       },
       Object {
         "label": "retry",
-        "options": Object {
-          "onClick": [Function],
-        },
         "translations": Array [
           Object {
             "i18nKey": "retry",
