@@ -29,6 +29,7 @@ import List from '../List';
 import PasswordRequirements from '../PasswordRequirements';
 import PasswordMatches from '../PasswordRequirements/PasswordMatches';
 import PhoneAuthenticator from '../PhoneAuthenticator';
+import PIVButton from '../PIVButton';
 import QRCode from '../QRCode';
 import Radio from '../Radio';
 import Redirect from '../Redirect';
@@ -102,6 +103,10 @@ export default [
   {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',
     renderer: WebAuthNSubmitButton,
+  },
+  {
+    tester: ({ type }) => type === 'PIVButton',
+    renderer: PIVButton,
   },
   {
     tester: ({ type }) => type === 'HiddenInput',

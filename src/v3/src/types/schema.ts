@@ -187,6 +187,8 @@ export interface ButtonElement extends UISchemaElement {
     dataSe?: string;
     stepToRender?: string;
     ariaLabel?: string;
+    classes?: string;
+    onClick?: (widgetContext: IWidgetContext) => unknown;
   };
 }
 
@@ -213,6 +215,10 @@ export interface WebAuthNButtonElement extends UISchemaElement {
     | (() => Promise<WebAuthNVerificationPayload>)
     submitOnLoad?: boolean;
   };
+}
+
+export interface PIVButtonElement extends UISchemaElement {
+  type: 'PIVButton';
 }
 
 export interface TitleElement extends UISchemaElement {
@@ -416,4 +422,9 @@ export interface TranslationInfo {
   name: string;
   i18nKey: string;
   value: string;
+}
+
+export interface DividerElement extends UISchemaElement {
+  type: 'Divider';
+  options?: { text: string; };
 }

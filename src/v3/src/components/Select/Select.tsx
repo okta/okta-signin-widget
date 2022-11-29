@@ -40,11 +40,8 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
-  const {
-    focus,
-    required,
-    translations = [],
-  } = uischema;
+  const { focus, required, translations = [] } = uischema;
+  const label = getTranslation(translations, 'label');
   const {
     attributes,
     inputMeta: {
@@ -56,7 +53,6 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
-  const label = getTranslation(translations);
   const handleChange = (e: SelectChangeEvent<string>) => {
     setTouched?.(true);
     const selectTarget = (

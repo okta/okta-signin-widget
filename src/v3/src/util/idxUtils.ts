@@ -92,6 +92,10 @@ export const buildAuthCoinProps = (
     return { authenticatorKey: AUTHENTICATOR_KEY.EMAIL };
   }
 
+  if (nextStep?.name === IDX_STEP.PIV_IDP) {
+    return { authenticatorKey: IDX_STEP.PIV_IDP };
+  }
+
   const authenticatorKey = getAuthenticatorKey(transaction);
   if (authenticatorKey) {
     return { authenticatorKey };

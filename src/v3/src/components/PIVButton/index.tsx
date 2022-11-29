@@ -10,9 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { TranslationInfo } from '../types';
+import PIVButton from './PIVButton';
 
-export const getTranslation = (
-  translations: TranslationInfo[],
-  name: string,
-): string | undefined => translations.find(({ name: fieldName }) => fieldName === name)?.value;
+export default PIVButton;

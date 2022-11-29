@@ -40,7 +40,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
   const { translations = [], focus, required } = uischema;
-  const label = getTranslation(translations);
+  const label = getTranslation(translations, 'label');
   const hint = getTranslation(translations, 'hint');
   const explain = getTranslation(translations, 'bottomExplain');
   const {

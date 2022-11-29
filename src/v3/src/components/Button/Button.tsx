@@ -26,9 +26,8 @@ const Button: UISchemaElementComponent<{
 }> = ({
   uischema,
 }) => {
-  const {
-    loading,
-  } = useWidgetContext();
+  const widgetContext = useWidgetContext();
+  const { loading } = widgetContext;
   const onSubmitHandler = useOnSubmit();
   const {
     label,
@@ -45,12 +44,16 @@ const Button: UISchemaElementComponent<{
       isActionStep,
       step,
       stepToRender,
+      classes,
+      onClick,
     },
   } = uischema;
 
   const focusRef = useAutoFocus(focus);
 
-  const onClick: ClickHandler = async () => {
+  const customClickHandler = () => onClick?.(widgetContext);
+
+  const handleClick: ClickHandler = async () => {
     onSubmitHandler({
       params: actionParams,
       includeData: Boolean(includeData),
@@ -67,12 +70,13 @@ const Button: UISchemaElementComponent<{
       fullWidth={wide ?? true}
       ref={focusRef}
       disabled={loading}
+      className={classes}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(dataType && { 'data-type': dataType } )}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(dataSe && { 'data-se': dataSe } )}
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(type !== 'submit' && { onClick })}
+      {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(ariaLabel && { 'aria-label': ariaLabel } )}
     >

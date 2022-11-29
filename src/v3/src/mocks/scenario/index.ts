@@ -13,6 +13,7 @@
 import './authenticator-verification-email';
 import './authenticator-verification-phone-sms';
 import './auth-with-securityquestion';
+import './authenticator-piv-cac-verification';
 import './authenticator-verification-password';
 import './authenticator-expired-password';
 import './authenticator-expired-password-no-complexity';

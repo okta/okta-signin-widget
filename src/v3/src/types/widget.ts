@@ -67,6 +67,7 @@ export type WidgetResetArgs = {
 };
 
 export type OktaWidgetEventType = 'ready' | 'afterError' | 'afterRender';
+export type IDPDisplayType = 'PRIMARY' | 'SECONDARY';
 
 export type WidgetProps = Partial<WidgetOptions>;
 
@@ -140,6 +141,7 @@ export type WidgetOptions = {
   idpDiscovery?: {
     requestContext: string;
   };
+  idpDisplay?: IDPDisplayType;
   assets?: {
     baseUrl?: string;
     languages?: string[];
@@ -147,7 +149,7 @@ export type WidgetOptions = {
   };
   i18n?: Record<LanguageCode, { [i18nKey: string]: string }>;
   piv?: {
-    certAuthUrl: string;
+    certAuthUrl?: string;
     isCustomDomain?: boolean;
     text?: string;
     className?: string;

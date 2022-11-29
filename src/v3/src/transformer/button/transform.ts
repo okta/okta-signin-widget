@@ -10,51 +10,25 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxFeature } from '@okta/okta-auth-js';
+import { flow } from 'lodash';
 
-import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import { TransformStepFnWithOptions } from '../../types';
-import { getAuthenticatorKey, hasMinAuthenticatorOptions } from '../../util';
-import TransformerMap from '../layout/idxTransformerMapping';
-import { getButtonControls } from './getButtonControls';
+import { transformCancelButton } from './transformCancelButton';
+import { transformForgotPasswordButton } from './transformForgotPasswordButton';
+import { transformIDPButtons } from './transformIDPButtons';
+import { transformRegisterButton } from './transformRegisterButton';
+import { transformReturnToAuthenticatorListButton } from './transformReturnToAuthenticatorListButton';
+import { transformSubmitButton } from './transformSubmitButton';
+import { transformUnlockAccountButton } from './transformUnlockAccountButton';
+import { transformVerifyWithOtherButton } from './transformVerifyWithOtherButton';
 
-export const transformButtons: TransformStepFnWithOptions = (options) => (formbag) => {
-  const { transaction, step, widgetProps } = options;
-  const { availableSteps, enabledFeatures } = transaction;
-
-  const hasIdentityStep = availableSteps?.some((s) => s.name === IDX_STEP.IDENTIFY);
-  const stepWithRegister = enabledFeatures?.includes(IdxFeature.REGISTRATION) && hasIdentityStep;
-  const stepWithUnlockAccount = enabledFeatures?.includes(IdxFeature.ACCOUNT_UNLOCK)
-    && hasIdentityStep;
-  const verifyWithOther = hasMinAuthenticatorOptions(
-    transaction,
-    IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
-    1, // Min # of auth options for link to display
-  );
-  const backToAuthList = hasMinAuthenticatorOptions(
-    transaction,
-    IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
-    0, // Min # of auth options for link to display
-  );
-
-  const authenticatorKey = getAuthenticatorKey(transaction) ?? AUTHENTICATOR_KEY.DEFAULT;
-  const customTransformer = TransformerMap[step]?.[authenticatorKey];
-
-  const { elements } = getButtonControls(
-    transaction,
-    {
-      stepWithSubmit: customTransformer?.buttonConfig?.showDefaultSubmit ?? true,
-      stepWithCancel: customTransformer?.buttonConfig?.showDefaultCancel ?? true,
-      stepWithRegister,
-      stepWithForgotPassword: customTransformer?.buttonConfig?.showForgotPassword ?? false,
-      stepWithUnlockAccount,
-      backToAuthList,
-      verifyWithOther,
-      widgetProps,
-    },
-  );
-
-  formbag.uischema.elements.push(...elements);
-
-  return formbag;
-};
+export const transformButtons: TransformStepFnWithOptions = (options) => (formbag) => flow(
+  transformSubmitButton(options),
+  transformForgotPasswordButton(options),
+  transformUnlockAccountButton(options),
+  transformVerifyWithOtherButton(options),
+  transformReturnToAuthenticatorListButton(options),
+  transformRegisterButton(options),
+  transformCancelButton(options),
+  transformIDPButtons(options),
+)(formbag);
