@@ -84,7 +84,7 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
     },
   };
 
-  const submitButtonControl: ButtonElement = {
+  const submitButtonElement: ButtonElement = {
     type: 'Button',
     label: loc('mfa.challenge.verify', 'login'),
     options: {
@@ -98,7 +98,7 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
     titleElement,
     informationalText,
     passcodeElement!,
-    submitButtonControl,
+    submitButtonElement,
   ];
 
   // If Email Magic link is disabled, render single form instead of stepper
