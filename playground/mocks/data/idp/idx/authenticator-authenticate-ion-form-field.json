@@ -1,0 +1,232 @@
+{
+  "name": "authenticator",
+  "type": "object",
+  "options": [
+    {
+      "label": "Test Custom Push Authenticator",
+      "value": {
+        "form": {
+          "value": [
+            {
+              "name": "id",
+              "required": true,
+              "value": "aut7116ORq51MqmMi0g4",
+              "mutable": false
+            },
+            {
+              "name": "methodType",
+              "required": false,
+              "value": "push",
+              "mutable": false
+            }
+          ]
+        }
+      },
+      "relatesTo": {
+        "profile": {
+          "deviceName": "sdk_gphone_x86"
+        },
+        "type": "app",
+        "key": "custom_app",
+        "id": "pfd99kq1qDar0nBIj0g4",
+        "displayName": "Test Custom Push Authenticator",
+        "methods": [
+          {
+            "type": "push"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Test Custom Push Authenticator",
+      "value": {
+        "form": {
+          "value": [
+            {
+              "name": "id",
+              "required": true,
+              "value": "aut7116ORq51MqmMi0g4",
+              "mutable": false
+            },
+            {
+              "name": "methodType",
+              "required": false,
+              "value": "push",
+              "mutable": false
+            }
+          ]
+        }
+      },
+      "relatesTo": {
+        "profile": {
+          "deviceName": "sdk_gphone_x86"
+        },
+        "type": "app",
+        "key": "custom_app",
+        "id": "pfd99kxTsEQHi20E70g4",
+        "displayName": "Test Bacon Custom Push Authenticator",
+        "methods": [
+          {
+            "type": "push"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Security Key or Biometric",
+      "value": {
+        "form": {
+          "value": [
+            {
+              "name": "id",
+              "required": true,
+              "value": "aut9d78ScSLylrQck0g4",
+              "mutable": false
+            },
+            {
+              "name": "methodType",
+              "required": false,
+              "value": "webauthn",
+              "mutable": false
+            }
+          ]
+        }
+      },
+      "relatesTo": {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "aut9d78ScSLylrQck0g4",
+        "displayName": "Security Key or Biometric",
+        "methods": [
+          {
+            "type": "webauthn"
+          }
+        ],
+        "allowedFor": "sso"
+      }
+    },
+    {
+      "label": "Okta Verify",
+      "value": {
+        "form": {
+          "value": [
+            {
+              "name": "id",
+              "required": true,
+              "value": "aut70utI9vVyYhoof0g4",
+              "mutable": false
+            },
+            {
+              "name": "methodType",
+              "type": "string",
+              "required": false,
+              "options": [
+                {
+                  "label": "Enter a code",
+                  "value": "totp"
+                },
+                {
+                  "label": "Get a push notification",
+                  "value": "push"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "relatesTo": {
+        "type": "app",
+        "key": "okta_verify",
+        "id": "aut70utI9vVyYhoof0g4",
+        "displayName": "Okta Verify",
+        "methods": [
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          }
+        ],
+        "allowedFor": "sso"
+      }
+    },
+    {
+      "label": "Password",
+      "value": {
+        "form": {
+          "value": [
+            {
+              "name": "id",
+              "required": true,
+              "value": "aut70uovyRYXBk5Uv0g4",
+              "mutable": false
+            },
+            {
+              "name": "methodType",
+              "required": false,
+              "value": "password",
+              "mutable": false
+            }
+          ]
+        }
+      },
+      "relatesTo": {
+        "type": "password",
+        "key": "okta_password",
+        "id": "lae1jjchp07daRB850g4",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Phone",
+      "value": {
+        "form": {
+          "value": [
+            {
+              "name": "id",
+              "required": true,
+              "value": "aut70uqDJScklL2Tw0g4",
+              "mutable": false
+            },
+            {
+              "name": "methodType",
+              "type": "string",
+              "required": false,
+              "options": [
+                {
+                  "label": "SMS",
+                  "value": "sms"
+                }
+              ]
+            },
+            {
+              "name": "enrollmentId",
+              "required": true,
+              "value": "sms72f7B3GRmWNMfQ0g4",
+              "mutable": false
+            }
+          ]
+        }
+      },
+      "relatesTo": {
+        "profile": {
+          "phoneNumber": "+1 XXX-XXX-9999"
+        },
+        "type": "phone",
+        "key": "phone_number",
+        "id": "sms72f7B3GRmWNMfQ0g4",
+        "displayName": "Phone",
+        "methods": [
+          {
+            "type": "sms"
+          }
+        ]
+      }
+    }
+  ]
+}
