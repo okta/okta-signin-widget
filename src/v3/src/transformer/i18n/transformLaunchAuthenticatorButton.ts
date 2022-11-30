@@ -30,6 +30,12 @@ export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ()
         name: 'label',
         i18nKey: 'oktaVerify.button',
       });
+
+      addTranslation({
+        element,
+        name: 'icon-description',
+        i18nKey: 'factor.totpSoft.oktaVerify',
+      });
     },
   });
 

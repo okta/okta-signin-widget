@@ -40,6 +40,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
   };
 
   const label = getTranslation(translations, 'label');
+  const iconDescription = getTranslation(translations, 'icon-description') || '';
 
   return (
     <ButtonMui
@@ -57,8 +58,8 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
         marginY="-3px"
       >
         <OktaVerifyIcon
-          name="ov"
-          description="foo"
+          name="mfa-okta-verify"
+          description={iconDescription}
           width={24}
           height={24}
         />
