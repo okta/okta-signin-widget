@@ -43,5 +43,5 @@ test
     await expiredCustomPasswordPage.clickRedirectButton();
 
     pageUrl = await expiredCustomPasswordPage.getPageUrl();
-    await t.expect(pageUrl).eql('http://example.com/');
+    await t.expect(pageUrl).eql('http://localhost:3000/external-page.html');
   });
