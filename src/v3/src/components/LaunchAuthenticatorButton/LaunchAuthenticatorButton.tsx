@@ -53,13 +53,14 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
         justifyContent="center"
         alignContent="space-between"
         gap="5px"
-        marginY="-7px"
+        // keep the icon from stretching the button vertically
+        marginY="-3px"
       >
         <OktaVerifyIcon
           name="ov"
           description='foo'
-          width={32}
-          height={32}
+          width={24}
+          height={24}
         />
         {label}
       </Box>
