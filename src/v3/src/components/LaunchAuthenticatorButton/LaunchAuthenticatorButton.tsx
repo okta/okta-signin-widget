@@ -12,8 +12,8 @@
 
 import { Box, Button as ButtonMui } from '@mui/material';
 import { h } from 'preact';
-import { useOnSubmit } from '../../hooks';
 
+import { useOnSubmit } from '../../hooks';
 import {
   ClickHandler,
   LaunchAuthenticatorButtonElement,
@@ -58,7 +58,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
       >
         <OktaVerifyIcon
           name="ov"
-          description='foo'
+          description="foo"
           width={24}
           height={24}
         />

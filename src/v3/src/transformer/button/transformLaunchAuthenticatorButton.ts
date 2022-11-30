@@ -12,7 +12,7 @@
 
 import { IDX_STEP } from '../../constants';
 import {
-  ButtonElement, ButtonType, DividerElement, LaunchAuthenticatorButtonElement, TransformStepFnWithOptions,
+  DividerElement, LaunchAuthenticatorButtonElement, TransformStepFnWithOptions,
 } from '../../types';
 import { loc } from '../../util';
 

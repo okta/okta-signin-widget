@@ -16,9 +16,7 @@ import {
 import { traverseLayout } from '../util';
 import { addTranslation } from './util';
 
-export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ({
-  transaction,
-}) => (
+export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = () => (
   formbag,
 ) => {
   const { uischema } = formbag;

@@ -13,11 +13,11 @@
 import { flow } from 'lodash';
 
 import { TransformStepFnWithOptions } from '../../types';
-import { transformLaunchAuthenticatorButton } from './transformLaunchAuthenticatorButton';
 import { transformAuthenticatorButton } from './transformAuthenticatorButton';
 import { transformField } from './transformField';
 import { transformIdentifierHint } from './transformIdentifierHint';
 import { transformInputPassword } from './transformInputPassword';
+import { transformLaunchAuthenticatorButton } from './transformLaunchAuthenticatorButton';
 import { transformPasscodeHint } from './transformPasscodeHint';
 import { transformPasswordMatches } from './transformPasswordMatches';
 import { transformPhoneAuthenticator } from './transformPhoneAuthenticator';

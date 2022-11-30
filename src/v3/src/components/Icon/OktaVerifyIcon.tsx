@@ -14,7 +14,9 @@ import { FunctionComponent, h } from 'preact';
 
 import { IconProps } from '../../types';
 
-export const OktaVerifyIcon: FunctionComponent<IconProps> = ({ name, description, width, height }) => (
+export const OktaVerifyIcon: FunctionComponent<IconProps> = ({
+  name, description, width, height,
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={width || 48}
