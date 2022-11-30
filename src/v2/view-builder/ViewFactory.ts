@@ -113,7 +113,7 @@ import ChallengePushView from './views/shared/ChallengePushView';
 import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustomAppResendPushView';
 
 // custom password
-import ReEnrollAuthenticatorCustomPasswordView from './views/custom-password/ReEnrollAuthenticatorCustomPasswordView';
+import ReEnrollCustomPasswordExpiryView from './views/custom-password/ReEnrollCustomPasswordExpiryView';
 
 const DEFAULT = '_';
 
@@ -212,9 +212,9 @@ const VIEWS_MAPPING = {
     // Password expired scenario..
     [AUTHENTICATOR_KEY.PASSWORD]: ReEnrollAuthenticatorPasswordView
   },
-  [RemediationForms.REENROLL_CUSTOM_AUTHENTICATOR]: {
+  [RemediationForms.REENROLL_CUSTOM_PASSWORD_EXPIRY]: {
     // Custom password expired scenario
-    [AUTHENTICATOR_KEY.PASSWORD]: ReEnrollAuthenticatorCustomPasswordView,
+    [AUTHENTICATOR_KEY.PASSWORD]: ReEnrollCustomPasswordExpiryView,
   },
   // Will expire soon warnings for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR_WARNING]: {

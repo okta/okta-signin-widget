@@ -21,7 +21,7 @@ async function setup(t) {
   await expiredCustomPasswordPage.navigateToPage();
   await checkConsoleMessages({
     controller: 'custom-password-expired',
-    formName: 'reenroll-custom-authenticator',
+    formName: 'reenroll-custom-password-expiry',
     authenticatorKey: 'okta_password',
     methodType: 'password',
   });
