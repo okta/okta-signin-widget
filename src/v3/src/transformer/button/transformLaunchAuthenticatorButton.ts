@@ -45,9 +45,7 @@ export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ({
   const titleIndex = formBag.uischema.elements.findIndex((element) => element.type === 'Title');
   const pivButtonPos = titleIndex !== -1 ? titleIndex + 1 : 0;
 
-  // Add button after title (if exists) otherwise add to top of array
-  formBag.uischema.elements.splice(pivButtonPos, 0, launchAuthenticatorButton);
-  formBag.uischema.elements.splice(pivButtonPos + 1, 0, dividerElement);
+  formBag.uischema.elements.splice(pivButtonPos, 0, launchAuthenticatorButton, dividerElement);
 
   return formBag;
 };
