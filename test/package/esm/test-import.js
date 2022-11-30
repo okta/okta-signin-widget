@@ -3,6 +3,7 @@ import '@okta/okta-signin-widget/polyfill';
 import OktaSignIn from '@okta/okta-signin-widget'; // default export
 import { OktaSignIn as NamedExport } from '@okta/okta-signin-widget'; // named export
 import packageJSON from '@okta/okta-signin-widget/package.json';
+import '@okta/okta-signin-widget/css/okta-sign-in.min.css';
 
 console.log('Verifying widget version: ', packageJSON.version);
 

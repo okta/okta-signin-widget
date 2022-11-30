@@ -14,6 +14,7 @@
     "@okta/okta-signin-widget": "file:../../../dist"
   },
   "devDependencies": {
+    "css-loader": "^6.7.2",
     "source-map-loader": "^2.0.2",
     "webpack": "^5.51.1",
     "webpack-bundle-analyzer": "^4.5.0",

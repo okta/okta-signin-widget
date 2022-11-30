@@ -1,12 +1,12 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const ENV = require('@okta/env');
 ENV.config();
 const DEV_SERVER_PORT = 3000;
 
-const WORKSPACE_ROOT = path.resolve(__dirname, '../..');
 const { DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET } = process.env;
 
 // CSP settings
@@ -33,7 +33,9 @@ const webpackConfig = {
     alias: {
       './getOktaSignIn': './getOktaSignInFromCDN'
     },
-    fallback: { 'events': require.resolve('events/') }
+    fallback: { 'events': require.resolve('events/') },
+    // needed to load ESM version of SIW for DIST_ESM=1
+    ...(DIST_ESM && { conditionNames: ['browser', 'import', 'default'] }),
   },
   module: {
     rules: [
@@ -43,6 +45,15 @@ const webpackConfig = {
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.css$/,
+        exclude: [/node_modules/],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'source-map-loader'
+        ]
       }
     ]
   },
@@ -64,9 +75,12 @@ const webpackConfig = {
     },
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: `!!handlebars-loader!${path.resolve(__dirname, 'index.hbs')}`,
-      templateParameters: {},
+      templateParameters: {
+        DIST_ESM,
+      },
       inject: false,
     }),
     new webpack.DefinePlugin({
@@ -94,7 +108,6 @@ const webpackConfig = {
 // With env var set, run against built ESM module in dist folder
 if (DIST_ESM) {
   webpackConfig.resolve.alias['./getOktaSignIn'] = './getOktaSignInFromNPM';
-  webpackConfig.resolve.alias['@okta/okta-signin-widget'] = path.resolve(WORKSPACE_ROOT, 'dist/');
 }
 
 if (TARGET === 'CROSS_BROWSER') {

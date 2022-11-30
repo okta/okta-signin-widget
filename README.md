@@ -372,6 +372,12 @@ After installing:
 
     Source maps are provided as an external .map file. If you are using [Webpack](https://webpack.github.io/), these can be loaded using the [source-map-loader](https://github.com/webpack-contrib/source-map-loader) plugin.
 
+    If you want to include widget styles in bundle using [style-loader](https://webpack.js.org/loaders/style-loader/) or [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin), use the following import:
+
+    ```javascript
+    import '@okta/okta-signin-widget/css/okta-sign-in.min.css';
+    ```
+
     **Note:** If you use [Browserify](http://browserify.org/) to bundle your app, you'll need to use the `--noparse` option:
 
     ```bash
