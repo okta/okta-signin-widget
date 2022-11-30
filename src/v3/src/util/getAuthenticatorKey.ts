@@ -24,8 +24,14 @@ export const getAuthenticatorKey = (
   transaction: IdxTransaction,
 ): string | undefined => {
   const { nextStep: { name: stepName = '', relatesTo } = {}, context } = transaction;
+  if (stepName === IDX_STEP.DEVICE_CHALLENGE_POLL) {
+    // @ts-expect-error ts(2339) Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
+    return relatesTo?.value?.challengeMethod;
+  }
   // TODO: OKTA-503490 temporary sln to grab auth key for enroll-poll step its missing relatesTo obj
   return (STEPS_MISSING_RELATES_TO.includes(stepName)
     ? context.currentAuthenticator?.value?.key
     : relatesTo?.value?.key);
+    // the data is buried here:
+    // relatesTo.value.contextualData.challenge.value.(challengeMethod = CUSTOM_URI | downloadHref | href)
 };

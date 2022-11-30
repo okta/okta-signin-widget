@@ -54,6 +54,7 @@ import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
 } from './googleAuthenticator';
+import { transformOktaVerifyDeviceChallengePoll } from './oktaVerify';
 import { transformPIVAuthenticator } from './piv';
 import {
   transformIdentityRecovery,
@@ -152,6 +153,15 @@ const TransformerMap: {
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: false,
+      },
+    },
+  },
+  [IDX_STEP.DEVICE_CHALLENGE_POLL]: {
+    ['CUSTOM_URI']: {
+      transform: transformOktaVerifyDeviceChallengePoll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: true,
       },
     },
   },

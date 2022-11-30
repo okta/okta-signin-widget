@@ -154,6 +154,13 @@ const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
     description: loc('factor.totpHard.yubikey', 'login'),
     iconClassName: 'mfa-yubikey',
   },
+  ['CUSTOM_URI']: {
+    icon: OktaVerifyIcon,
+    name: 'mfa-okta-verify',
+    customizable: false,
+    description: loc('factor.totpSoft.oktaVerify', 'login'),
+    iconClassName: 'mfa-okta-verify',
+  }
 };
 
 export default AuthCoinByAuthenticatorKey;
