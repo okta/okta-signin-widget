@@ -35,7 +35,7 @@ const webpackConfig = {
     },
     fallback: { 'events': require.resolve('events/') },
     // needed to load ESM version of SIW for DIST_ESM=1
-    conditionNames: ['browser', 'import', 'default'],
+    conditionNames: DIST_ESM ? ['browser', 'import', 'default'] : [],
   },
   module: {
     rules: [
