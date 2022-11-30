@@ -221,6 +221,13 @@ export interface PIVButtonElement extends UISchemaElement {
   type: 'PIVButton';
 }
 
+export interface LaunchAuthenticatorButtonElement extends UISchemaElement {
+  type: 'LaunchAuthenticatorButton';
+  options: {
+    step: string;
+  };
+}
+
 export interface TitleElement extends UISchemaElement {
   type: 'Title';
   options: {

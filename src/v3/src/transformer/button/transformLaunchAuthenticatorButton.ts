@@ -12,7 +12,7 @@
 
 import { IDX_STEP } from '../../constants';
 import {
-  ButtonElement, ButtonType, DividerElement, TransformStepFnWithOptions,
+  ButtonElement, ButtonType, DividerElement, LaunchAuthenticatorButtonElement, TransformStepFnWithOptions,
 } from '../../types';
 import { loc } from '../../util';
 
@@ -29,13 +29,11 @@ export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ({
     return formBag;
   }
 
-  const launchAuthenticatorButton: ButtonElement = {
-    type: 'Button',
+  const launchAuthenticatorButton: LaunchAuthenticatorButtonElement = {
+    type: 'LaunchAuthenticatorButton',
     label: loc('oktaVerify.button', 'login'),
     options: {
-      type: ButtonType.BUTTON,
       step: IDX_STEP.LAUNCH_AUTHENTICATOR,
-      variant: 'secondary',
     },
   };
 

@@ -24,6 +24,7 @@ import InfoBox from '../InfoBox';
 import InformationalText from '../InformationalText';
 import InputPassword from '../InputPassword';
 import InputText from '../InputText';
+import LaunchAuthenticatorButton from '../LaunchAuthenticatorButton';
 import Link from '../Link';
 import List from '../List';
 import PasswordRequirements from '../PasswordRequirements';
@@ -99,6 +100,10 @@ export default [
     // Move non UI component to custom hook
     tester: ({ type }) => type === 'SuccessCallback',
     renderer: SuccessCallback,
+  },
+  {
+    tester: ({ type }) => type === 'LaunchAuthenticatorButton',
+    renderer: LaunchAuthenticatorButton,
   },
   {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',
