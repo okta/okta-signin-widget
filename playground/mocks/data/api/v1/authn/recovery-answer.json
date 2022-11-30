@@ -1,0 +1,42 @@
+{
+    "stateToken": "00RCzpqu-u2eck3wufQ2_qwRmRUUGF5TlIHF7Wy-Wb",
+    "expiresAt": "2022-10-21T20:20:15.000Z",
+    "status": "PASSWORD_RESET",
+    "recoveryType": "PASSWORD",
+    "_embedded": {
+      "user": {
+        "id": "00u1ejh1oq5ChfLqk0g4",
+        "passwordChanged": "2022-10-17T19:59:32.000Z",
+        "profile": {
+          "login": "test.user@okta.com",
+          "firstName": "Test",
+          "lastName": "User",
+          "locale": "en_US",
+          "timeZone": "America/Los_Angeles"
+        }
+      },
+      "policy": {
+        "complexity": {
+          "minLength": 8,
+          "minLowerCase": 1,
+          "minUpperCase": 1,
+          "minNumber": 1,
+          "minSymbol": 0,
+          "excludeUsername": true
+        },
+        "age": { "minAgeMinutes": 0, "historyCount": 0 }
+      }
+    },
+    "_links": {
+      "next": {
+        "name": "resetPassword",
+        "href": "http://localhost:3000/api/v1/authn/credentials/reset_password",
+        "hints": { "allow": ["POST"] }
+      },
+      "cancel": {
+        "href": "http://localhost:3000/api/v1/authn/cancel",
+        "hints": { "allow": ["POST"] }
+      }
+    }
+  }
+  
