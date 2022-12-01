@@ -48,6 +48,7 @@
     "@types/underscore": "^1.11.4",
     "babel-plugin-transform-amd-to-commonjs": "^1.5.0",
     "babel-plugin-transform-amd-to-es6": "^0.6.1",
+    "babel-plugin-tsconfig-paths-module-resolver": "^1.0.3",
     "copy-webpack-plugin": "4.6.0",
     "eslint": "^7.23.0",
     "rollup": "^2.70.2",
