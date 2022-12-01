@@ -1,0 +1,104 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "0274CpH-bCbrI1zsMCLJlNonSGwOk1yT1ix65oa-2c",
+  "expiresAt": "2022-05-12T19:26:33.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [{
+      "rel": ["create-form"],
+      "name": "enroll-profile",
+      "href": "https://devex-widget-test.hioktane.com/idp/idx/enroll/update",
+      "method": "POST",
+      "produces": "application/ion+json; okta-version=1.0.0",
+      "value": [{
+        "name": "userProfile",
+        "form": {
+          "value": [{
+            "name": "stringtest",
+            "type": "string",
+            "label": "stringtest",
+            "required": true,
+            "options": [{
+              "label": "display",
+              "value": {
+                "type": "object",
+                "value": {
+                  "inputType": "radio",
+                  "options": [{
+                    "label": "str1",
+                    "value": "a"
+                  }, {
+                    "label": "str2",
+                    "value": "b"
+                  }, {
+                    "label": "str3",
+                    "value": "c"
+                  }]
+                }
+              }
+            }]
+          }, {
+            "name": "langcode",
+            "type": "string",
+            "label": "langcode",
+            "required": true,
+            "options": [{
+              "label": "display",
+              "value": {
+                "type": "object",
+                "value": {
+                  "inputType": "select",
+                  "format": "language-code"
+                }
+              }
+            }]
+          }]
+        }
+      }, {
+        "name": "stateHandle",
+        "required": true,
+        "value": "0274CpH-bCbrI1zsMCLJlNonSGwOk1yT1ix65oa-2c",
+        "visible": false,
+        "mutable": false
+      }],
+      "accepts": "application/json; okta-version=1.0.0"
+    }]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u3f8kxnopfFF4Hn0w5",
+      "identifier": "admin",
+      "profile": {
+        "firstName": "Vijet",
+        "lastName": "M",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "https://devex-widget-test.hioktane.com/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [{
+      "name": "stateHandle",
+      "required": true,
+      "value": "0274CpH-bCbrI1zsMCLJlNonSGwOk1yT1ix65oa-2c",
+      "visible": false,
+      "mutable": false
+    }],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa3f8kcDFVK3QjS40w5"
+    }
+  }
+}
