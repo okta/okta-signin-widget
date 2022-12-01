@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 // core features
+require('core-js/features/object/set-prototype-of');
 require('core-js/features/object/assign');
 require('core-js/features/object/keys');
 require('core-js/features/object/values');
