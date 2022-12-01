@@ -30,6 +30,7 @@ const ignoredMocks = [
 
   // OKTA-535435 "Sign me out of all other devices." (enroll-authenticator.okta_password.credentials.revokeSessions) has no entry in login.properties
   'authenticator-enroll-password.json',
+  'authenticator-expired-custom-password.json' // seems to be flaky
 ];
 
 const optionsForInteractionCodeFlow = {

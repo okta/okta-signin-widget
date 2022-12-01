@@ -110,7 +110,10 @@ import AuthenticatorYubiKeyView from './views/yubikey/AuthenticatorYubiKeyView';
 
 // custom app
 import ChallengePushView from './views/shared/ChallengePushView';
-import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustomAppResendPushView'; 
+import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustomAppResendPushView';
+
+// custom password
+import ReEnrollCustomPasswordExpiryView from './views/custom-password/ReEnrollCustomPasswordExpiryView';
 
 const DEFAULT = '_';
 
@@ -207,7 +210,11 @@ const VIEWS_MAPPING = {
   // Expired scenarios for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR]: {
     // Password expired scenario..
-    [AUTHENTICATOR_KEY.PASSWORD]: ReEnrollAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.PASSWORD]: ReEnrollAuthenticatorPasswordView
+  },
+  [RemediationForms.REENROLL_CUSTOM_PASSWORD_EXPIRY]: {
+    // Custom password expired scenario
+    [AUTHENTICATOR_KEY.PASSWORD]: ReEnrollCustomPasswordExpiryView,
   },
   // Will expire soon warnings for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR_WARNING]: {
