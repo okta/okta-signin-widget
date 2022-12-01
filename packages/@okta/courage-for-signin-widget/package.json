@@ -28,7 +28,8 @@
     "yarn": "^1.7.0"
   },
   "dependencies": {
-    "clipboard": "^1.5.16"
+    "clipboard": "^1.5.16",
+    "jquery": "^3.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
