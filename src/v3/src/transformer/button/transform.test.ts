@@ -39,6 +39,9 @@ jest.mock('./transformRegisterButton', () => ({
 jest.mock('./transformCancelButton', () => ({
   transformCancelButton: () => () => ({}),
 }));
+jest.mock('./transformLaunchAuthenticatorButton', () => ({
+  transformLaunchAuthenticatorButton: () => () => ({}),
+}));
 
 /* eslint-disable global-require */
 const mocked = {
@@ -50,6 +53,7 @@ const mocked = {
   returnToAuthenticatorList: require('./transformReturnToAuthenticatorListButton'),
   register: require('./transformRegisterButton'),
   cancel: require('./transformCancelButton'),
+  launchAuthenticator: require('./transformLaunchAuthenticatorButton'),
 };
 /* eslint-enable global-require */
 
@@ -63,6 +67,7 @@ describe('Button Transformer Tests', () => {
     jest.spyOn(mocked.returnToAuthenticatorList, 'transformReturnToAuthenticatorListButton');
     jest.spyOn(mocked.register, 'transformRegisterButton');
     jest.spyOn(mocked.cancel, 'transformCancelButton');
+    jest.spyOn(mocked.launchAuthenticator, 'transformLaunchAuthenticatorButton');
 
     const formBag = getStubFormBag();
     const mockOptions = {
@@ -83,5 +88,6 @@ describe('Button Transformer Tests', () => {
     expect(mocked.register.transformRegisterButton).toHaveBeenCalled();
     expect(mocked.cancel.transformCancelButton).toHaveBeenCalled();
     expect(mocked.idps.transformIDPButtons).toHaveBeenCalled();
+    expect(mocked.launchAuthenticator.transformLaunchAuthenticatorButton).toHaveBeenCalled();
   });
 });
