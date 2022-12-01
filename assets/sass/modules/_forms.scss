@@ -223,7 +223,7 @@
 
 .custom-checkbox {
   label {
-    background-image: url('../img/ui/forms/checkbox-sign-in-widget.png');
+    background-image: none;
   }
 
   label.focus {
@@ -240,8 +240,7 @@
   only screen and (min-resolution: 2dppx) {
   .custom-checkbox {
     label {
-      background-image: url('../img/ui/forms/checkbox-sign-in-widget@2x.png');
-      background-size: 50px 1155px;
+      background-image: none;
     }
   }
 }
