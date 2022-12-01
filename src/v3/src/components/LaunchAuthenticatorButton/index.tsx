@@ -10,26 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export type AuthCoinTheme = {
-  primaryColor?: string;
-  secondaryColor?: string;
-  backgroundColor?: string;
-  width?: number;
-  height?: number;
-};
+import LaunchAuthenticatorButton from './LaunchAuthenticatorButton';
 
-export type AuthCoinProps = {
-  authenticatorKey: string;
-  url?: string;
-  theme?: AuthCoinTheme;
-  customClasses?: string[];
-  name?: string;
-  description?: string;
-};
-
-export type IconProps = {
-  name: string;
-  description: string;
-  width?: string | number;
-  height?: string | number;
-};
+export default LaunchAuthenticatorButton;
