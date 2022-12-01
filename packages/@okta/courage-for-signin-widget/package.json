@@ -34,6 +34,7 @@
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.9",
     "@babel/plugin-external-helpers": "^7.16.7",
+    "@rollup/plugin-replace": "^4.0.0",
     "@babel/plugin-transform-shorthand-properties": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "@okta/babel-plugin-handlebars-inline-precompile": "3.1.0-beta.4200.gf3d0a27",
