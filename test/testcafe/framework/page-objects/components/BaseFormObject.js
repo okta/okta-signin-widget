@@ -347,11 +347,31 @@ export default class BaseFormObject {
     return radioOptionLabel;
   }
 
+  // Only used by v3, but still checks userVariables.v3 for readability
+  async selectRadioButtonOptionByValue(value) {
+    if (userVariables.v3) {
+      const radioOption = await this.el.find(`input[type="radio"][value="${value}"]`);
+      await this.t.click(radioOption); 
+
+      const label = this.el
+        .find(`input[type="radio"][value="${value}"]`)
+        .parent('span')
+        .sibling('span')
+        .textContent;
+
+      return label; 
+    }
+  }
+
   // =====================================
   // helper methods
   // =====================================
 
   findFormFieldInput(fieldName) {
+    if (userVariables.v3) {
+      return this.el
+        .find(`[data-se="${fieldName}"]`);     
+    }
     return this.el
       .find(`[data-se="o-form-input-${fieldName}"]`);
   }

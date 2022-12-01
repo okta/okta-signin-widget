@@ -1,3 +1,4 @@
+import { userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const ANSWER_FIELD = 'credentials.answer';
@@ -10,6 +11,9 @@ export default class EnrollSecurityQuestionPageObject extends BasePageObject {
   }
 
   clickChooseSecurityQuestion() {
+    if (userVariables.v3) {
+        return this.form.selectRadioButtonOptionByValue('predefined');
+    }
     return this.form.selectRadioButtonOption('sub_schema_local_credentials', 0);
   }
 
@@ -18,6 +22,11 @@ export default class EnrollSecurityQuestionPageObject extends BasePageObject {
   }
 
   selectSecurityQuestion(index) {
+    // In v3 widget, "Choose a security question" is also a value in dropdown
+    // We need to skip that value, by increasing the index by 1
+    if (userVariables.v3) {
+      index = index + 1;
+    }
     return this.form.selectValueChozenDropdown(QUESTION_KEY_FIELD, index);
   }
 
@@ -42,7 +51,7 @@ export default class EnrollSecurityQuestionPageObject extends BasePageObject {
   }
 
   clickVerifyButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickButton('Verify');
   }
 
 }
