@@ -1,5 +1,7 @@
 #!/bin/bash -xe
 
+setup_service node v14.18.0
+
 # download okta-ui artifact version if empty and assign to upstream_artifact_version
 if [[ -z "${upstream_artifact_version}" ]]; then
   pushd ${OKTA_HOME}/okta-ui > /dev/null
