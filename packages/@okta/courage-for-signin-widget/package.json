@@ -47,6 +47,7 @@
     "@rollup/plugin-node-resolve": "^13.2.1",
     "@types/backbone": "^1.4.15",
     "@types/underscore": "^1.11.4",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "babel-eslint": "^10.1.0",
     "babel-plugin-transform-amd-to-commonjs": "^1.5.0",
