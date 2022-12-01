@@ -1,9 +1,0 @@
-var Time = {
-  DEBOUNCE_DELAY: 200,
-  LOADING_FADE: 400,
-  UNLOADING_FADE: 400,
-  ROW_EXPANDER_TRANSITION: 150,
-  HIDE_ADD_MAPPING_FORM: 300
-};
-
-export { Time as default };
