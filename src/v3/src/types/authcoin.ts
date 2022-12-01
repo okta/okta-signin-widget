@@ -30,6 +30,6 @@ export type AuthCoinProps = {
 export type IconProps = {
   name: string;
   description: string;
-  width?: number;
-  height?: number;
+  width?: string;
+  height?: string;
 };
