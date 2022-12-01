@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button as ButtonMui, useTheme } from '@mui/material';
+import { Box, Button as ButtonMui } from '@mui/material';
 import { h } from 'preact';
 
 import { useOnSubmit } from '../../hooks';
@@ -25,8 +25,6 @@ import { OktaVerifyIcon } from '../Icon';
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
   uischema: LaunchAuthenticatorButtonElement
 }> = ({ uischema }) => {
-  const theme = useTheme();
-
   const onSubmitHandler = useOnSubmit();
   const {
     translations = [],
@@ -57,14 +55,13 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
         alignContent="space-between"
         gap="5px"
         // keep the icon from stretching the button vertically
-        marginTop="-4px"
-        marginBottom="-5px"
+        marginY="-3px"
       >
         <OktaVerifyIcon
           name="mfa-okta-verify"
           description={iconDescription}
-          width={theme.spacing(5)}
-          height={theme.spacing(5)}
+          width={24}
+          height={24}
         />
         {label}
       </Box>
