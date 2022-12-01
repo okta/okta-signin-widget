@@ -40,19 +40,28 @@ module.exports = function({
     }
   };
 
-  if (mode === 'production') {
-    // preset-env must run before preset-typescript https://github.com/babel/babel/issues/12066
-    babelOptions.presets.unshift('@babel/preset-env'); 
-  } else {
-    // In local development, we would prefer not to include any babel transforms as they make debugging more difficult
-    // However, there is an issue with testcafe which requires us to include the optional chaining transform
-    // https://github.com/DevExpress/testcafe-hammerhead/issues/2714
-    babelOptions.plugins.unshift('@babel/plugin-proposal-optional-chaining');
+  // TODO: load query from browserlistrc
+  const targets = mode === 'production' ? [
+    '> 0.1%',
+    'not opera < 69',
+    'not firefox < 53',
+    'not safari < 7.1',
+    'not ie < 11',
+    'not IE_Mob 11',
+  ] : [
+    'last 1 chrome version',
+    'last 1 firefox version',
+  ];
 
-    // acorn-hammerhead (testcafe) is currently unable to parse class fields, and will return the script unmodified
-    // this will cause URLs to load outside the proxy and cause browser disconnect error
-    babelOptions.plugins.unshift('@babel/plugin-proposal-class-properties');
-  }
+  // preset-env must run before preset-typescript https://github.com/babel/babel/issues/12066
+  babelOptions.presets.unshift([
+    '@babel/preset-env',
+    {
+      useBuiltIns: 'usage',
+      corejs: 3,
+      targets
+    }
+  ]); 
 
   if (cdn) {
     babelOptions.plugins.push('add-module-exports');
