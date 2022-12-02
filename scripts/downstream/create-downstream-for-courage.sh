@@ -4,7 +4,7 @@ setup_service node v14.18.0
 
 # download okta-ui artifact version if empty and assign to upstream_artifact_version
 if [[ -z "${upstream_artifact_version}" ]]; then
-  local upstream_publish_receipt;
+  local upstream_publish_receipt="";
   pushd ${OKTA_HOME}/okta-ui > /dev/null
     download_job_data global publish_receipt upstream_publish_receipt okta-ui ${upstream_artifact_sha}
   popd > /dev/null
