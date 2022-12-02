@@ -22,6 +22,7 @@ import {
   StepperLayout,
   StepperRadioElement,
   TitleElement,
+  UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
@@ -195,7 +196,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
         predefinedQuestionsElement,
         predefinedAnswerElement,
         predefinedSubmitButton,
-      ],
+      ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
     } as UISchemaLayout,
     // Custom question
     {
@@ -206,7 +207,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
         customQuestionElement,
         customAnswerElement,
         customQuestionSubmitButton,
-      ],
+      ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
     } as UISchemaLayout,
   ];
 

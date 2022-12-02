@@ -18,13 +18,14 @@ import { TitleElement, UISchemaElementComponent } from '../../types';
 const Title: UISchemaElementComponent<{
   uischema: TitleElement
 }> = (
-  { uischema: { options } },
+  { uischema: { key, options } },
 ) => (
   <Box
     display="flex"
     justifyContent="flex-start"
   >
     <Typography
+      id={key}
       component="h2"
       variant="h3"
       data-se="o-form-head"

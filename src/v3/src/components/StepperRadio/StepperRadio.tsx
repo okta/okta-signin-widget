@@ -38,6 +38,7 @@ const StepperRadio: UISchemaElementComponent<{
   const {
     label = '',
     focus,
+    ariaDescribedBy,
     options: {
       name,
       customOptions,
@@ -75,6 +76,7 @@ const StepperRadio: UISchemaElementComponent<{
         name={name}
         value={value as string}
         onChange={handleChange}
+        aria-describedby={ariaDescribedBy}
       >
         {
           customOptions?.map((item: IdxOption, index) => (

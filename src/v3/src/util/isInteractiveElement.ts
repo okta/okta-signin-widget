@@ -18,6 +18,7 @@ const interactiveTypes = new Set([
   'WebAuthNSubmitButton',
   'Link',
   'StepperButton',
+  'PIVButton',
   'Select',
 ]);
 

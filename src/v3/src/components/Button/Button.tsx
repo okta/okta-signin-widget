@@ -32,6 +32,7 @@ const Button: UISchemaElementComponent<{
   const {
     label,
     focus,
+    ariaDescribedBy,
     options: {
       type,
       ariaLabel,
@@ -49,7 +50,7 @@ const Button: UISchemaElementComponent<{
     },
   } = uischema;
 
-  const focusRef = useAutoFocus(focus);
+  const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
   const customClickHandler = () => onClick?.(widgetContext);
 
@@ -71,6 +72,7 @@ const Button: UISchemaElementComponent<{
       ref={focusRef}
       disabled={loading}
       className={classes}
+      aria-describedby={ariaDescribedBy}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(dataType && { 'data-type': dataType } )}
       // eslint-disable-next-line react/jsx-props-no-spreading

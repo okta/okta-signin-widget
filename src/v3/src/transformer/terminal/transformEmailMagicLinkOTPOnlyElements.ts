@@ -20,7 +20,6 @@ import {
   ImageWithTextElement,
   TerminalKeyTransformer,
   UISchemaElement,
-  Undefinable,
 } from '../../types';
 import { loc } from '../../util';
 
@@ -49,6 +48,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
   };
   const warningTextElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: { content: loc('idx.return.link.otponly.warning.text', 'login') },
   };
 
@@ -56,6 +56,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
     && loc(CHALLENGE_INTENT_TO_I18KEY[intent], 'login');
   const codeEntryInstructionElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: challengeIntent
         ? loc('idx.return.link.otponly.enter.code.on.page', 'login', [challengeIntent])
@@ -63,10 +64,10 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
     },
   };
 
-  let requestInfoTextElement: Undefinable<DescriptionElement>;
-  let appImageElement: Undefinable<ImageWithTextElement>;
-  let browserImageElement: Undefinable<ImageWithTextElement>;
-  let locationImageElement: Undefinable<ImageWithTextElement>;
+  let requestInfoTextElement: DescriptionElement | undefined;
+  let appImageElement: ImageWithTextElement | undefined;
+  let browserImageElement: ImageWithTextElement | undefined;
+  let locationImageElement: ImageWithTextElement | undefined;
   if (app?.value?.label) {
     appImageElement = {
       type: 'ImageWithText',
@@ -111,6 +112,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
   if (appImageElement || browserImageElement || locationImageElement) {
     requestInfoTextElement = {
       type: 'Description',
+      contentType: 'subtitle',
       options: { content: loc('idx.return.link.otponly.request', 'login') },
     };
   }

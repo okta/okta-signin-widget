@@ -44,10 +44,6 @@ export const MessageTypeVariant: Record<MessageType, MessageVariant> = {
   SUCCESS: 'success',
 };
 
-export type Nullable<T> = T | null;
-export type Undefinable<T> = T | undefined;
-export type Nullish<T> = Nullable<T> | Undefinable<T>;
-
 // Utility that asserts a specific key of an object non-optional
 export type RequiredKeys<T, K extends keyof T> = Exclude<T, K> & Required<Pick<T, K>>;
 

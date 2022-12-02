@@ -19,6 +19,7 @@ import {
   StepperLayout,
   StepperRadioElement,
   TitleElement,
+  UISchemaElement,
   UISchemaLayoutType,
 } from '../../types';
 import { loc, removeFieldLevelMessages } from '../../util';
@@ -81,6 +82,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
 
   const voiceInfoTextElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: loc('oie.phone.enroll.call.subtitle', 'login'),
     },
@@ -88,6 +90,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
 
   const smsInfoTextElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: loc('oie.phone.enroll.sms.subtitle', 'login'),
     },
@@ -140,7 +143,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
           methodTypeRadioEl,
           phoneNumberElement,
           smsStepSubmitButton,
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
       },
       {
         type: UISchemaLayoutType.VERTICAL,
@@ -149,7 +152,7 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
           methodTypeRadioEl,
           phoneNumberElement,
           voiceStepSubmitButton,
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
       },
     ];
 

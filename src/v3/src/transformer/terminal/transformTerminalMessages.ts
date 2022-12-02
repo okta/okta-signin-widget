@@ -37,6 +37,7 @@ const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[])
     if (!message.class || message.class === 'INFO') {
       const messageElement: DescriptionElement = {
         type: 'Description',
+        contentType: 'subtitle',
         options: { content: message.message },
       };
       uischema.elements.push(messageElement);

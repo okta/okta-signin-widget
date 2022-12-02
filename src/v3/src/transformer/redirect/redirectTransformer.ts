@@ -52,6 +52,7 @@ export const redirectTransformer = (
     || interstitialBeforeLoginRedirect === InterstitialRedirectView.NONE) {
     uischema.elements.unshift({
       type: 'Description',
+      contentType: 'subtitle',
       options: { content: loc('oie.success.text.signingIn.with.ellipsis', 'login') },
     } as DescriptionElement);
     return formBag;
@@ -66,16 +67,19 @@ export const redirectTransformer = (
   if (appName && identifier && !features?.showIdentifier) {
     uischema.elements.unshift({
       type: 'Description',
+      contentType: 'subtitle',
       options: { content: loc('oie.success.text.signingIn.with.appName.and.identifier', 'login', [appName, identifier]) },
     } as DescriptionElement);
   } else if (appName) {
     uischema.elements.unshift({
       type: 'Description',
+      contentType: 'subtitle',
       options: { content: loc('oie.success.text.signingIn.with.appName', 'login', [appName]) },
     } as DescriptionElement);
   } else {
     uischema.elements.unshift({
       type: 'Description',
+      contentType: 'subtitle',
       options: { content: loc('oie.success.text.signingIn', 'login') },
     } as DescriptionElement);
   }

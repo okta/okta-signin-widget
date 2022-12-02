@@ -36,6 +36,7 @@ export const withFormValidationState: WrappedFunctionComponent<
   { uischema: FieldElement }> = (props: { uischema: FieldElement }) => {
     const { uischema } = props;
     const {
+      ariaDescribedBy,
       options: {
         inputMeta: {
           name,
@@ -64,7 +65,9 @@ export const withFormValidationState: WrappedFunctionComponent<
       errors: fieldErrors,
       setErrors,
       onValidateHandler,
-      describedByIds: !fieldErrors ? undefined : buildErrorMessageIds(fieldErrors, name),
+      describedByIds: !fieldErrors
+        ? ariaDescribedBy
+        : ` ${buildErrorMessageIds(fieldErrors, name)} ${ariaDescribedBy || ''} `,
     };
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component {...combinedProps} />;

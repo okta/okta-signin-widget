@@ -30,4 +30,5 @@ export const transformUISchema: TransformStepFnWithOptions = (
   setFocusOnFirstElement,
   // TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
   updateRequiredFields(options),
+  buildAriaDescriptionByValues,
 )(formbag);

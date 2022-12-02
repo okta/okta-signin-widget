@@ -71,6 +71,7 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
 
   elements.push({
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: loc(CHANNEL_TO_KEY_MAP.description[selectedChannel], 'login'),
     },

@@ -18,7 +18,6 @@ import { FunctionComponent, h } from 'preact';
 
 import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
-import { Undefinable } from '../../types';
 import { theme } from './IdentifierContainer.theme';
 import style from './style.module.css';
 
@@ -46,7 +45,7 @@ const shouldHideIdentifier = (
 
 const IdentifierContainer: FunctionComponent = () => {
   const { widgetProps: { features }, idxTransaction } = useWidgetContext();
-  const identifier: Undefinable<string> = idxTransaction
+  const identifier: string | undefined = idxTransaction
     ?.context?.user?.value?.identifier as string;
 
   if (shouldHideIdentifier(features?.showIdentifier, identifier, idxTransaction?.nextStep?.name)) {

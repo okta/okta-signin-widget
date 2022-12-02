@@ -54,6 +54,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
 
   const manualKeyElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       // spacing out the code so Screen reader can speak each letter individually
       content: relatesTo.value.contextualData.sharedSecret?.split('').join(' ') || '',
@@ -93,6 +94,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
         elements: [
           {
             type: 'Description',
+            contentType: 'subtitle',
             options: {
               content: loc('oie.enroll.google_authenticator.scanBarcode.description', 'login'),
             },
@@ -100,26 +102,28 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
           qrCodeElement,
           stepOneStepperButton,
           nextButton,
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
       },
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
             type: 'Description',
+            contentType: 'subtitle',
             options: {
               content: loc('oie.enroll.google_authenticator.manualSetupInstructions', 'login'),
             },
           } as DescriptionElement,
           manualKeyElement,
           nextButton,
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
       },
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
             type: 'Description',
+            contentType: 'subtitle',
             options: { content: loc('oie.enroll.google_authenticator.enterCode.title', 'login') },
           } as DescriptionElement,
           passcodeElement,
@@ -131,7 +135,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
               step: transaction.nextStep!.name,
             },
           } as ButtonElement,
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 2 })),
       },
     ],
 

@@ -27,6 +27,7 @@ const Heading: UISchemaElementComponent<{
       marginBottom={2}
     >
       <Typography
+        id={uischema.key}
         variant={`h${options?.level ?? 2}`}
         component={`h${options?.visualLevel ?? 3}`}
       >

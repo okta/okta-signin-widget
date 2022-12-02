@@ -35,6 +35,7 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({
   };
   const informationalText: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: loc('oie.verify.google_authenticator.otp.description', 'login'),
     },

@@ -110,6 +110,8 @@ Promise<WebAuthNEnrollmentPayload>;
 export type WebAuthNAuthenticationHandler = (transaction: IdxTransaction) =>
 Promise<WebAuthNVerificationPayload>;
 
+export type ElementContentType = 'subtitle';
+
 export interface UISchemaElement {
   type: string;
   key?: string;
@@ -121,6 +123,9 @@ export interface UISchemaElement {
   label?: string;
   noMargin?: boolean;
   focus?: boolean;
+  ariaDescribedBy?: string;
+  contentType?: ElementContentType;
+  viewIndex?: number;
 }
 
 export interface UISchemaLayout {

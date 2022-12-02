@@ -54,6 +54,7 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
   const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
   const informationalText: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: `${sendInfoText} ${phoneInfoText}. ${enterCodeInfoText}`,
     },
@@ -61,6 +62,7 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
 
   const carrierChargeDisclaimerText: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: loc('oie.phone.carrier.charges', 'login'),
     },
