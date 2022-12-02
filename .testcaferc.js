@@ -23,10 +23,16 @@ const getSpecs = () => {
   return getSpecsDir(config.src);
 }
 
+const specs = getSpecs();
+
 // more longer running tests are in the "first half"
 // split by .45 instead of .5 (aka / 2) to even out execution time
-const specs = getSpecs();
-const mid = Math.ceil(specs.length * .45);
+// const mid = Math.ceil(specs.length * .4);
+
+// 'test/testcafe/spec/EnrollAuthenticatorEmail_spec.js',
+// 'test/testcafe/spec/EnrollAuthenticatorGoogleAuthenticator_spec.js',
+// 'test/testcafe/spec/EnrollAuthenticatorOktaVerify_spec.js',
+const mid = specs.indexOf('test/testcafe/spec/EnrollAuthenticatorGoogleAuthenticator_spec.js')
 
 if (process.env.FIRST_HALF) {
   config.src = specs.slice(0, mid);
@@ -35,4 +41,5 @@ else if (process.env.SECOND_HALF) {
   config.src = specs.slice(mid);
 }
 
+// console.log(config)
 module.exports = config;
