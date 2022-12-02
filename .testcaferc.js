@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// splits the spec files into 2 halves, assuming the presence of 'FIRST_HALF' or 'SECOND_HALF'
+// env vars, otherwise no-ops as standard testcafe config
+
 const config = {
   browsers: [
     "chrome"
@@ -25,13 +28,14 @@ const getSpecs = () => {
 
 const specs = getSpecs();
 
-// more longer running tests are in the "first half"
-// split by .45 instead of .5 (aka / 2) to even out execution time
-// const mid = Math.ceil(specs.length * .4);
-
 // 'test/testcafe/spec/EnrollAuthenticatorEmail_spec.js',
 // 'test/testcafe/spec/EnrollAuthenticatorGoogleAuthenticator_spec.js',
 // 'test/testcafe/spec/EnrollAuthenticatorOktaVerify_spec.js',
+
+// Both EnrollAuthenticatorEmail_spec and EnrollAuthenticatorOktaVerify_spec seem to be incredibly
+// time consuming tests, as they frequently wait for large periods of time (other spec files don't
+// seem to have the same time impact). Conveniently they are close together in the spec list (see above)
+// splitting the specs on EnrollAuthenticatorGoogleAuthenticator_spec.js equals out the execution time
 const mid = specs.indexOf('test/testcafe/spec/EnrollAuthenticatorGoogleAuthenticator_spec.js')
 
 if (process.env.FIRST_HALF) {
@@ -41,5 +45,4 @@ else if (process.env.SECOND_HALF) {
   config.src = specs.slice(mid);
 }
 
-// console.log(config)
 module.exports = config;
