@@ -434,10 +434,10 @@ import $ from 'jquery';
       container_props = {
         "id": this.container_id,
         "class": container_classes.join(" "),
-        "style": "width: " + this.container_width() + ";",
         "title": this.form_field.title
       };
       this.container = $$1("<div></div>", container_props);
+      this.container.width(this.container_width());
 
       if (this.is_multiple) {
         this.container.html("<ul class=\"chzn-choices\"><li class=\"search-field\"><input type=\"text\" value=\"" + this.default_text + "\" class=\"default\" autocomplete=\"off\" style=\"width:25px;\" /></li></ul><div class=\"chzn-drop\"><ul class=\"chzn-results\"></ul></div>");
