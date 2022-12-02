@@ -24,9 +24,9 @@ const getSpecs = () => {
 }
 
 // more longer running tests are in the "first half"
-// split by .4 instead of .5 (aka / 2) to even out execution time
+// split by .45 instead of .5 (aka / 2) to even out execution time
 const specs = getSpecs();
-const mid = Math.ceil(specs.length * .4);
+const mid = Math.ceil(specs.length * .45);
 
 if (process.env.FIRST_HALF) {
   config.src = specs.slice(0, mid);
