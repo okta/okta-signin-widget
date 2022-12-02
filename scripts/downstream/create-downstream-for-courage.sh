@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 setup_service node v14.18.0
-
+setup_service yarn 1.21.1
 
 # download okta-ui artifact version if empty and assign to upstream_artifact_version
 if [[ -z "${upstream_artifact_version}" ]]; then
