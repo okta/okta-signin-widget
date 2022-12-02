@@ -2,6 +2,7 @@
 
 setup_service node v14.18.0
 
+
 # download okta-ui artifact version if empty and assign to upstream_artifact_version
 if [[ -z "${upstream_artifact_version}" ]]; then
   local upstream_publish_receipt="";
@@ -16,17 +17,25 @@ if [[ -z "${upstream_artifact_version}" ]]; then
   echo "courage version: ${courage_version}"
 fi
 
+# Update courage version and install internal dependencies
+echo "Updating courage version in courage-for-signin-widget to: ${courage_version}"
+pushd ${OKTA_HOME}/okta-signin-widget/packages/@okta/courage-for-signin-widget > /dev/null
+  yarn add -D @okta/courage@${courage_version} --force
+  yarn install
+popd > /dev/null
 
-# Install top-level dependencies
+
+# Install top-level (public) dependencies, also needed for a build
 echo "installing top-level dependencies"
+
+# Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
+setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
+
 pushd ${OKTA_HOME}/okta-signin-widget > /dev/null
   yarn install
 popd > /dev/null
 
-# Update and build courage-for-signin-widget
+# Build courage-for-signin-widget
 pushd ${OKTA_HOME}/okta-signin-widget/packages/@okta/courage-for-signin-widget > /dev/null
-
-  yarn add -D @okta/courage@${courage_version} --force
   yarn build
-
 popd > /dev/null
