@@ -23,13 +23,15 @@ const getSpecs = () => {
   return getSpecsDir(config.src);
 }
 
+// more longer running tests are in the "first half"
+// split by .4 instead of .5 (aka / 2) to even out execution time
 const specs = getSpecs();
-const mid = Math.ceil(specs.length / 2);
+const mid = Math.ceil(specs.length * .4);
 
 if (process.env.FIRST_HALF) {
   config.src = specs.slice(0, mid);
 }
-else if (process.env.LAST_HALF) {
+else if (process.env.SECOND_HALF) {
   config.src = specs.slice(mid);
 }
 
