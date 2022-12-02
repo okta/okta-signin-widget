@@ -26,7 +26,25 @@ import {
 export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { relatesTo } = nextStep;
-  const { uischema, data } = formBag;
+  const { uischema } = formBag;
+
+  const doCustomUri = () => {
+    const existing = document.getElementById('custom-uri-container');
+    if (existing) {
+      existing.remove();
+    }
+
+    const launcher = document.createElement('iframe');
+    // @ts-expect-error ts(2339) Property 'href' does not exist on type 'IdxAuthenticator'.
+    launcher.src = relatesTo?.value.href;
+    launcher.style.display = 'none';
+    launcher.id = 'custom-uri-container';
+
+    const container = document.getElementById('okta-login-container')
+    if (container) {
+      container.appendChild(launcher);
+    }
+  };
 
   uischema.elements.unshift({
     type: 'Title',
@@ -44,7 +62,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
       type: ButtonType.BUTTON,
       variant: 'primary',
       wide: true,
-      onClick: () => null,
+      onClick: doCustomUri,
     },
   } as ButtonElement);
   uischema.elements.push({
@@ -56,7 +74,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
     options: {
       label: 'Download here',
       // @ts-expect-error ts(2339) Property 'downloadHref' does not exist on type 'IdxAuthenticator'.
-      href: transaction.nextStep?.relatesTo?.value.downloadHref
+      href: relatesTo?.value.downloadHref
     }
   } as LinkElement);
 
