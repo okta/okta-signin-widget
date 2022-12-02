@@ -137,6 +137,7 @@
     "testcafe": "^1.18.2",
     "ts-jest": "^26.5.6",
     "ts-loader": "^6.2.1",
+    "ts-migrate": "^0.1.35",
     "wait-on": "^6.0.1",
     "whatwg-fetch": "^3.6.2"
   },
