@@ -50,10 +50,12 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
     type: 'Title',
     options: { content: 'Click "Open Okta Verify" on the browser prompt' },
   } as TitleElement);
+
   uischema.elements.push({
     type: 'Description',
     options: { content: "Didn't get a prompt?" },
   } as DescriptionElement);
+
   uischema.elements.push({
     type: 'Button',
     label: 'Open Okta Verify',
@@ -65,10 +67,12 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
       onClick: doCustomUri,
     },
   } as ButtonElement);
+
   uischema.elements.push({
     type: 'Description',
     options: { content: "Don't have Okta Verify?" },
   } as DescriptionElement);
+
   uischema.elements.push({
     type: 'Link',
     options: {
@@ -77,6 +81,8 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
       href: relatesTo?.value.downloadHref
     }
   } as LinkElement);
+
+  doCustomUri();
 
   return formBag;
 };
