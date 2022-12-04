@@ -337,6 +337,19 @@ export default class BaseFormObject {
   }
 
   async selectRadioButtonOptionByValue(fieldName, value) {
+    if (userVariables.v3) {
+      const radioOption = await this.el.find(`input[type="radio"][value="${value}"]`);
+      await this.t.click(radioOption); 
+
+      const label = this.el
+        .find(`input[type="radio"][value="${value}"]`)
+        .parent('span')
+        .parent('label')
+        .textContent;
+
+      return label; 
+    }
+    
     const radioOption = await this.findFormFieldInput(fieldName)
       .find(`input[value="${value}"] + .radio-label`);
 
@@ -352,6 +365,10 @@ export default class BaseFormObject {
   // =====================================
 
   findFormFieldInput(fieldName) {
+    if (userVariables.v3) {
+      return this.el
+        .find(`[data-se="${fieldName}"]`);     
+    }
     return this.el
       .find(`[data-se="o-form-input-${fieldName}"]`);
   }

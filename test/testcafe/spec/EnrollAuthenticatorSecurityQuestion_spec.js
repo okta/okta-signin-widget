@@ -1,5 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 
+import { oktaDashboardContent } from '../framework/shared';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollSecurityQuestionPageObject from '../framework/page-objects/EnrollSecurityQuestionPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -13,7 +14,9 @@ const authenticatorEnrollSecurityQuestionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollSecurityQuestion)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const authenticatorEnrollSecurityQuestionErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -35,11 +38,13 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Security Question Form');
+fixture('Enroll Security Question Form')
+  .meta('v3', true);
 
 async function setup(t) {
   const enrollSecurityQuestionPage = new EnrollSecurityQuestionPageObject(t);
   await enrollSecurityQuestionPage.navigateToPage();
+  await t.expect(enrollSecurityQuestionPage.formExists()).eql(true);
 
   await checkConsoleMessages({
     controller: 'enroll-question',
@@ -61,7 +66,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(
   // signout link at enroll page
   await t.expect(await enrollSecurityQuestionPage.signoutLinkExists()).ok();
   // assert switch authenticator link shows up
-  await t.expect(await enrollSecurityQuestionPage.switchAuthenticatorLinkExists()).ok();
+  await t.expect(await enrollSecurityQuestionPage.returnToAuthenticatorListLinkExists()).ok();
   await t.expect(enrollSecurityQuestionPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
 
   // select security question and type answer
