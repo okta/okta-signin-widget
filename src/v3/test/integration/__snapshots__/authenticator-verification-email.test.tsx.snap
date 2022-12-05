@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`authenticator-verification-email renders correct form renders the initial form 1`] = `
+exports[`Email authenticator verification when email magic link = undefined renders correct form renders the initial form 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -170,7 +170,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
 </div>
 `;
 
-exports[`authenticator-verification-email renders correct form renders the initial form with resend alert box 1`] = `
+exports[`Email authenticator verification when email magic link = undefined renders correct form renders the initial form with resend alert box 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -384,7 +384,7 @@ exports[`authenticator-verification-email renders correct form renders the initi
 </div>
 `;
 
-exports[`authenticator-verification-email renders correct form renders the otp challenge form 1`] = `
+exports[`Email authenticator verification when email magic link = undefined renders correct form renders the otp challenge form 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -597,7 +597,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
 </div>
 `;
 
-exports[`authenticator-verification-email renders correct form renders the otp challenge form 2`] = `
+exports[`Email authenticator verification when email magic link = undefined renders correct form renders the otp challenge form 2`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -867,7 +867,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
 </div>
 `;
 
-exports[`authenticator-verification-email renders correct form should display reminder prompt, then global error after invalid entry and finally display reminder again with global error 1`] = `
+exports[`Email authenticator verification when email magic link = undefined renders correct form should display reminder prompt, then global error after invalid entry and finally display reminder again with global error 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -1181,7 +1181,7 @@ exports[`authenticator-verification-email renders correct form should display re
 </div>
 `;
 
-exports[`authenticator-verification-email renders correct form should render session expired terminal view when polling results in expired session 1`] = `
+exports[`Email authenticator verification when email magic link = undefined renders correct form should render session expired terminal view when polling results in expired session 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -1275,7 +1275,7 @@ exports[`authenticator-verification-email renders correct form should render ses
 </div>
 `;
 
-exports[`authenticator-verification-email should have autocomplete attribute on otp input element when in ios browser 1`] = `
+exports[`Email authenticator verification when email magic link = undefined should have autocomplete attribute on otp input element when in ios browser 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"

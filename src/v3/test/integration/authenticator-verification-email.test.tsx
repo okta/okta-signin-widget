@@ -18,7 +18,7 @@ import authenticatorVerificationEmail from '../../src/mocks/response/idp/idx/cha
 import authenticatorVerificationEmailInvalidOtp from '../../src/mocks/response/idp/idx/challenge/error-401-invalid-otp-passcode.json';
 import sessionExpiredResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
 
-describe('authenticator-verification-email', () => {
+describe('Email authenticator verification when email magic link = undefined', () => {
   describe('renders correct form', () => {
     beforeEach(() => {
       jest.useFakeTimers();

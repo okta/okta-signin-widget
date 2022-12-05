@@ -27,6 +27,7 @@ import {
 } from '../../../types';
 import { getCurrentAuthenticator, loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
+import { getEmailAuthenticatorSubtitle } from './getEmailAuthenticatorSubtitle';
 
 export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
@@ -64,16 +65,10 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
   }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-  const instructionPrefixText = redactedEmailAddress
-    ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [redactedEmailAddress])
-    : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
-  const instructionPostfixText = useEmailMagicLink
-    ? loc('oie.email.verify.alternate.instructions', 'login')
-    : loc('oie.email.verify.alternate.verificationCode.instructions', 'login');
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
-      content: `${instructionPrefixText}${instructionPostfixText}`,
+      content: getEmailAuthenticatorSubtitle(redactedEmailAddress, useEmailMagicLink),
     },
   };
 

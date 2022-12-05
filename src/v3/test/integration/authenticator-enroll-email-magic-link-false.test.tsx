@@ -13,7 +13,7 @@
 import mockResponse from '@okta/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-false.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
-describe('authenticator-enroll-email-magic-link-false', () => {
+describe('Email authenticator enroll when magic link = false Tests', () => {
   beforeEach(() => {
     jest.useFakeTimers();
   });

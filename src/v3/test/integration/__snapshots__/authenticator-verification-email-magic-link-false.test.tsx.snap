@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`authenticator-verification-email-magic-link-false should render form 1`] = `
+exports[`Email authenticator verification when email magic link = false Tests should render form 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"

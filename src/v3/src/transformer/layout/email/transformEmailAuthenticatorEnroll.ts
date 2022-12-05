@@ -27,6 +27,7 @@ import {
 } from '../../../types';
 import { getCurrentAuthenticator, loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
+import { getEmailAuthenticatorSubtitle } from './getEmailAuthenticatorSubtitle';
 
 export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
@@ -69,13 +70,10 @@ export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transact
     subTitleElement.options.content = loc('oie.email.enroll.subtitle', 'login');
   } else {
     const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-    const subtitlePrefixText = redactedEmailAddress
-      ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [redactedEmailAddress])
-      : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
-    const subtitlePostfixText = useEmailMagicLink
-      ? loc('oie.email.verify.alternate.instructions', 'login')
-      : loc('oie.email.verify.alternate.verificationCode.instructions', 'login');
-    subTitleElement.options.content = `${subtitlePrefixText}${subtitlePostfixText}`;
+    subTitleElement.options.content = getEmailAuthenticatorSubtitle(
+      redactedEmailAddress,
+      useEmailMagicLink,
+    );
   }
 
   const titleElement: TitleElement = {

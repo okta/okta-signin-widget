@@ -14,7 +14,7 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/authenticator-verification-email-magic-link-false.json';
 
-describe('authenticator-verification-email-magic-link-false', () => {
+describe('Email authenticator verification when email magic link = false Tests', () => {
   it('should render form', async () => {
     const {
       container,
