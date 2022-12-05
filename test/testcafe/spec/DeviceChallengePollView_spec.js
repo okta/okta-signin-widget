@@ -274,7 +274,7 @@ const LoginHintAppLinkMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchAppLink);
 
-fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App Link, and Universal Link approaches');
+fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App Link, and Universal Link approaches').meta('v3', true);
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -289,6 +289,7 @@ async function setupLoopbackFallback(t) {
 }
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -332,6 +333,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackUserCancelLogger, loopbackUserCancelLoggerMock)('request body has reason value of true when user clicks cancel and go back link', async t => {
     loopbackPollMockLogger.clear();
     const deviceChallengePollingPage = await setup(t);
@@ -346,6 +348,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackPollMockLogger, loopbackPollFailedMock)('next poll should not start if previous is failed', async t => {
     loopbackPollMockLogger.clear();
     await setup(t);
@@ -361,6 +364,7 @@ test
 // currently polling cancellation is triggered as soon as challenge errors out
 // which adds more count to the polling call
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackPollMockLogger, loopbackPollTimeoutMock).skip('new poll does not starts until last one is ended', async t => {
     loopbackPollMockLogger.clear();
     await setup(t);
@@ -376,6 +380,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -407,6 +412,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackChallengeWrongProfileLogger, loopbackChallengeWrongProfileMock)('in loopback server approach, will cancel polling when challenge errors out with non-503 status', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -446,6 +452,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackSuccessLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
@@ -475,6 +482,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -508,6 +516,7 @@ test
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963, OKTA-548961)
   .requestHooks(loopbackFallbackLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -560,6 +569,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
   .requestHooks(loopbackFallbackLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -580,6 +590,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
   .requestHooks(loopbackFallbackLogger, universalLinkMock)('clicking the launch Okta Verify button opens the universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -631,6 +642,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
   .requestHooks(LoginHintUniversalLinkMock)('expect login_hint in UniversalLink with engFastpassMultipleAccounts on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -649,6 +661,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
   .requestHooks(LoginHintUniversalLinkMock)('expect login_hint not in UniversalLink engFastpassMultipleAccounts off', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -667,6 +680,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
   .requestHooks(LoginHintAppLinkMock)('expect login_hint in AppLink when engFastpassMultipleAccounts is on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -693,6 +707,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
   .requestHooks(LoginHintAppLinkMock)('expect login_hint not in AppLink when engFastpassMultipleAccounts is off', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({

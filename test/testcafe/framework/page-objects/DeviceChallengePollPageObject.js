@@ -85,7 +85,7 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   async clickLaunchOktaVerifyLink() {
-    await this.t.click(this.body.find('#launch-ov'));
+    await this.form.clickButton('Open Okta Verify');
   }
 
   getErrorBox() {
