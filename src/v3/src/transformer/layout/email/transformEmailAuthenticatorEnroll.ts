@@ -27,16 +27,14 @@ import {
 } from '../../../types';
 import { getCurrentAuthenticator, loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
+import { getEmailAuthenticatorSubtitle } from './getEmailAuthenticatorSubtitle';
 
-export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
+export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
   const authenticatorContextualData = getCurrentAuthenticator(transaction)?.value?.contextualData;
   // @ts-ignore OKTA-551247 - useEmailMagicLink property missing from interface
-  const useEmailMagicLinkValue = authenticatorContextualData?.useEmailMagicLink;
-  const useEmailMagicLink = typeof useEmailMagicLinkValue !== 'undefined'
-    ? useEmailMagicLinkValue
-    : true;
+  const useEmailMagicLink = authenticatorContextualData?.useEmailMagicLink;
 
   let reminderElement: ReminderElement | undefined;
 
@@ -63,19 +61,20 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
     passcodeElement.focus = true;
   }
 
-  const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-  const instructionPrefixText = redactedEmailAddress
-    ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [redactedEmailAddress])
-    : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
-  const instructionPostfixText = useEmailMagicLink
-    ? loc('oie.email.verify.alternate.instructions', 'login')
-    : loc('oie.email.verify.alternate.verificationCode.instructions', 'login');
-  const informationalText: DescriptionElement = {
+  const subTitleElement: DescriptionElement = {
     type: 'Description',
-    options: {
-      content: `${instructionPrefixText}${instructionPostfixText}`,
-    },
+    options: { content: '' },
   };
+
+  if (typeof useEmailMagicLink === 'undefined') {
+    subTitleElement.options.content = loc('oie.email.enroll.subtitle', 'login');
+  } else {
+    const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
+    subTitleElement.options.content = getEmailAuthenticatorSubtitle(
+      redactedEmailAddress,
+      useEmailMagicLink,
+    );
+  }
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -96,13 +95,13 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
   const codeEntryDisplayElements: UISchemaElement[] = [
     ...(reminderElement ? [reminderElement] : []),
     titleElement,
-    informationalText,
+    subTitleElement,
     passcodeElement!,
     submitButtonElement,
   ];
 
-  // If Email Magic link is disabled, render single form instead of stepper
-  if (!useEmailMagicLink) {
+  // If useEmailMagicLink not provided, show code entry by default
+  if (typeof useEmailMagicLink === 'undefined' || !useEmailMagicLink) {
     uischema.elements = codeEntryDisplayElements;
     return formBag;
   }
@@ -125,7 +124,7 @@ export const transformEmailChallenge: IdxStepTransformer = ({ transaction, formB
         elements: [
           ...(reminderElement ? [reminderElement] : []),
           titleElement,
-          informationalText,
+          subTitleElement,
           showCodeStepperButton,
         ],
       } as UISchemaLayout,

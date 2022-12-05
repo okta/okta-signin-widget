@@ -45,7 +45,8 @@ import {
 import { transformWebAuthNAuthenticator } from '../webauthn';
 import { transformYubikeyOtpAuthenticator } from '../yubikey';
 import {
-  transformEmailChallenge,
+  transformEmailAuthenticatorEnroll,
+  transformEmailAuthenticatorVerify,
   transformEmailChallengeConsent,
   transformEmailVerification,
 } from './email';
@@ -111,7 +112,7 @@ const TransformerMap: {
   },
   [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.EMAIL]: {
-      transform: transformEmailChallenge,
+      transform: transformEmailAuthenticatorVerify,
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
@@ -165,7 +166,7 @@ const TransformerMap: {
   },
   [IDX_STEP.ENROLL_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.EMAIL]: {
-      transform: transformEmailChallenge,
+      transform: transformEmailAuthenticatorEnroll,
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.PASSWORD]: {
