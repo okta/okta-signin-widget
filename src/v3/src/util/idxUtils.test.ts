@@ -46,6 +46,16 @@ describe('IdxUtils Tests', () => {
             type: '',
           },
         },
+        currentAuthenticatorEnrollment: {
+          type: '',
+          value: {
+            displayName: '',
+            id: '',
+            key: '',
+            methods: [],
+            type: '',
+          },
+        },
         authenticators: {
           type: '',
           value: [],
