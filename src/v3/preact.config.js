@@ -144,10 +144,13 @@ export default {
     config.resolve.alias['@okta/okta-auth-js'] = resolve(
       __dirname,
       'node_modules',
-      '@okta/okta-auth-js',
+      '@okta',
+      'okta-auth-js',
       'esm',
       'browser',
-      'index.js',
+      'exports',
+      'exports',
+      'idx.js',
     );
 
     // broadcast-channel esnode bundle is loaded by default, browser one should
