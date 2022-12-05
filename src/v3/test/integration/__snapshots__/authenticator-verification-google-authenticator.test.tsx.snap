@@ -184,6 +184,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="challenge-authenticator_Title_uft2nai75idszAT621d7"
                     >
                       Verify with Google Authenticator
                     </h2>
@@ -198,6 +199,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="challenge-authenticator_Description_uft2nai75idszAT621d7"
                     >
                       Enter the temporary code generated in your Google Authenticator app
                     </p>
@@ -219,6 +221,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
                     >
                       <input
+                        aria-describedby=" challenge-authenticator_Title_uft2nai75idszAT621d7  challenge-authenticator_Description_uft2nai75idszAT621d7 "
                         aria-invalid="false"
                         autocomplete="off"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-21"
@@ -249,6 +252,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                   class="MuiBox-root emotion-11"
                 >
                   <button
+                    aria-describedby=" challenge-authenticator_Title_uft2nai75idszAT621d7  challenge-authenticator_Description_uft2nai75idszAT621d7 "
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-25"
                     data-type="save"
                     tabindex="0"

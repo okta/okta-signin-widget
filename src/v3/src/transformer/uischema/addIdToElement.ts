@@ -11,25 +11,30 @@
  */
 
 import { TransformStepFnWithOptions } from '../../types';
-import { generateRandomString } from '../../util';
+import { getCurrentAuthenticator } from '../../util';
 import { traverseLayout } from '../util';
 
-export const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
+export const addIdToElement: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
+  const elementIdSet = new Set<string>();
+  let elementCount = 0;
   traverseLayout({
     layout: formbag.uischema,
     predicate: (element) => !!element.type,
     callback: (element) => {
       const { nextStep: { name } = {} } = transaction;
-      // We need Reminder Elements to unmount from view when new transaction
-      // is set, this prevents this alert and error alerts from both displaying
-      // at the same time
-      if (element.type === 'Reminder') {
-        // eslint-disable-next-line no-param-reassign
-        element.key = `${name}_${generateRandomString()}`;
-      } else {
-        // eslint-disable-next-line no-param-reassign
-        element.key = element.key ? `${name}_${element.key}` : name;
-      }
+      const authId = getCurrentAuthenticator(transaction)?.value?.id;
+
+      elementCount += 1;
+      let elementId = element.key
+        ? `${name}_${element.type}_${element.key}`
+        : `${name}_${element.type}`;
+      elementId += [
+        authId,
+        (typeof element.viewIndex !== 'undefined' ? (element.viewIndex + 1) : undefined),
+      ].filter(Boolean).map((str) => `_${str}`).join('');
+      // eslint-disable-next-line no-param-reassign
+      element.id = elementIdSet.has(elementId) ? `${elementId}_${elementCount}` : elementId;
+      elementIdSet.add(elementId);
     },
   });
   return formbag;

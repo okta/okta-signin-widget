@@ -118,6 +118,7 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-15"
                         data-se="o-form-head"
+                        id="enroll-authenticator_Title_aut2m2nnGGzJy8uO80g4_7"
                       >
                         Verify with your email
                       </h2>
@@ -132,6 +133,7 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                         data-se="o-form-explain"
+                        id="enroll-authenticator_Description_aut2m2nnGGzJy8uO80g4_8"
                       >
                         We sent you a verification email. Click the verification link in your email to continue or enter the code below.
                       </p>
@@ -141,6 +143,7 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                     class="MuiBox-root emotion-12"
                   >
                     <button
+                      aria-describedby=" enroll-authenticator_Title_aut2m2nnGGzJy8uO80g4_7  enroll-authenticator_Title_aut2m2nnGGzJy8uO80g4_7 "
                       class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
                       tabindex="0"
                       type="button"

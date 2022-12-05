@@ -15,6 +15,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.enter.otp.in.original.tab",
         },
@@ -29,6 +30,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
         },
@@ -55,6 +57,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
         },
@@ -69,6 +72,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
         },
@@ -95,6 +99,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
         },
@@ -109,6 +114,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
         },
@@ -135,6 +141,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
         },
@@ -149,6 +156,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
         },
@@ -175,6 +183,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
         },
@@ -189,6 +198,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.request",
         },
@@ -203,6 +213,7 @@ Object {
         "type": "ImageWithText",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
         },
@@ -229,6 +240,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
         },
@@ -243,6 +255,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.request",
         },
@@ -273,6 +286,7 @@ Object {
         "type": "ImageWithText",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
         },
@@ -299,6 +313,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
         },
@@ -313,6 +328,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.request",
         },
@@ -335,6 +351,7 @@ Object {
         "type": "ImageWithText",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
         },
@@ -361,6 +378,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
         },
@@ -375,6 +393,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.request",
         },
@@ -405,6 +424,7 @@ Object {
         "type": "ImageWithText",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
         },
@@ -431,6 +451,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
         },
@@ -445,6 +466,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
         },

@@ -15,7 +15,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "key": "title_1",
+        "id": "title_1",
         "options": Object {
           "content": "Sign in",
         },
@@ -23,7 +23,7 @@ Object {
       },
       Object {
         "ariaDescribedBy": " title_1 ",
-        "key": "identifier",
+        "id": "identifier",
         "options": Object {
           "inputMeta": Object {
             "name": "identifier",
@@ -33,7 +33,7 @@ Object {
       },
       Object {
         "ariaDescribedBy": " title_1 ",
-        "key": "credentials.passcode",
+        "id": "credentials.passcode",
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.passcode",
@@ -43,7 +43,7 @@ Object {
       },
       Object {
         "ariaDescribedBy": " title_1 ",
-        "key": "button_1",
+        "id": "button_1",
         "options": Object {
           "type": "submit",
         },
@@ -51,7 +51,7 @@ Object {
       },
       Object {
         "ariaDescribedBy": " title_1 ",
-        "key": "link_1",
+        "id": "link_1",
         "options": Object {
           "label": "Forgot Password",
         },
@@ -78,7 +78,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "key": "title_1",
+        "id": "title_1",
         "options": Object {
           "content": "Verify with your email",
         },
@@ -86,7 +86,7 @@ Object {
       },
       Object {
         "contentType": "subtitle",
-        "key": "subtitle_1",
+        "id": "subtitle_1",
         "options": Object {
           "content": "Please enter your code below",
         },
@@ -94,7 +94,7 @@ Object {
       },
       Object {
         "ariaDescribedBy": " title_1  subtitle_1 ",
-        "key": "credentials.passcode",
+        "id": "credentials.passcode",
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.passcode",
@@ -104,7 +104,7 @@ Object {
       },
       Object {
         "ariaDescribedBy": " title_1  subtitle_1 ",
-        "key": "button_1",
+        "id": "button_1",
         "options": Object {
           "type": "submit",
         },
@@ -112,7 +112,7 @@ Object {
       },
       Object {
         "ariaDescribedBy": " title_1  subtitle_1 ",
-        "key": "link_1",
+        "id": "link_1",
         "options": Object {
           "label": "Back to sign in",
         },
@@ -139,7 +139,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "key": "title_1",
+        "id": "title_1",
         "options": Object {
           "content": "Verify with your email",
         },
@@ -147,7 +147,7 @@ Object {
       },
       Object {
         "contentType": "subtitle",
-        "key": "subtitle_1",
+        "id": "subtitle_1",
         "options": Object {
           "content": "Please enter your code below",
         },
@@ -155,7 +155,7 @@ Object {
       },
       Object {
         "ariaDescribedBy": " title_1  subtitle_1 ",
-        "key": "credentials.passcode",
+        "id": "credentials.passcode",
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.passcode",
@@ -165,7 +165,7 @@ Object {
       },
       Object {
         "ariaDescribedBy": " title_1  subtitle_1 ",
-        "key": "button_1",
+        "id": "button_1",
         "options": Object {
           "type": "submit",
         },
@@ -173,7 +173,7 @@ Object {
       },
       Object {
         "ariaDescribedBy": " title_1  subtitle_1 ",
-        "key": "link_1",
+        "id": "link_1",
         "options": Object {
           "label": "Back to sign in",
         },
@@ -182,7 +182,7 @@ Object {
       Object {
         "elements": Array [
           Object {
-            "key": "descr_1",
+            "id": "descr_1",
             "options": Object {
               "content": "Need an account?",
             },
@@ -190,7 +190,7 @@ Object {
           },
           Object {
             "ariaDescribedBy": " title_1  subtitle_1 ",
-            "key": "link_2",
+            "id": "link_2",
             "options": Object {
               "label": "Sign up",
             },
@@ -220,7 +220,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "key": "title_1",
+        "id": "title_1",
         "options": Object {
           "content": "Verify with your email",
         },
@@ -232,7 +232,7 @@ Object {
             "elements": Array [
               Object {
                 "ariaDescribedBy": " title_1 ",
-                "key": "radio_1",
+                "id": "radio_1",
                 "options": Object {
                   "customOptions": Array [],
                   "defaultValue": [Function],
@@ -243,7 +243,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1 ",
-                "key": "button_1",
+                "id": "button_1",
                 "options": Object {
                   "type": "button",
                 },
@@ -257,7 +257,7 @@ Object {
             "elements": Array [
               Object {
                 "ariaDescribedBy": " title_1 ",
-                "key": "radio_2",
+                "id": "radio_2",
                 "options": Object {
                   "customOptions": Array [],
                   "defaultValue": [Function],
@@ -268,7 +268,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1 ",
-                "key": "credentials.passcode_2",
+                "id": "credentials.passcode_2",
                 "options": Object {
                   "inputMeta": Object {
                     "name": "credentials.passcode",
@@ -279,7 +279,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1 ",
-                "key": "button_2",
+                "id": "button_2",
                 "options": Object {
                   "type": "button",
                 },
@@ -313,7 +313,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "key": "title_1",
+        "id": "title_1",
         "options": Object {
           "content": "Verify with your email",
         },
@@ -325,7 +325,7 @@ Object {
             "elements": Array [
               Object {
                 "contentType": "subtitle",
-                "key": "subtitle_1",
+                "id": "subtitle_1",
                 "options": Object {
                   "content": "You will receieve a voice call",
                 },
@@ -334,7 +334,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1  subtitle_1 ",
-                "key": "radio_1",
+                "id": "radio_1",
                 "options": Object {
                   "customOptions": Array [],
                   "defaultValue": [Function],
@@ -345,7 +345,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1  subtitle_1 ",
-                "key": "button_1",
+                "id": "button_1",
                 "options": Object {
                   "type": "button",
                 },
@@ -359,7 +359,7 @@ Object {
             "elements": Array [
               Object {
                 "contentType": "subtitle",
-                "key": "subtitle_2",
+                "id": "subtitle_2",
                 "options": Object {
                   "content": "You will receieve a text message",
                 },
@@ -368,7 +368,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1  subtitle_2 ",
-                "key": "radio_2",
+                "id": "radio_2",
                 "options": Object {
                   "customOptions": Array [],
                   "defaultValue": [Function],
@@ -379,7 +379,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1  subtitle_2 ",
-                "key": "credentials.passcode_2",
+                "id": "credentials.passcode_2",
                 "options": Object {
                   "inputMeta": Object {
                     "name": "credentials.passcode",
@@ -390,7 +390,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1  subtitle_2 ",
-                "key": "button_2",
+                "id": "button_2",
                 "options": Object {
                   "type": "button",
                 },
@@ -424,7 +424,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "key": "title_1",
+        "id": "title_1",
         "options": Object {
           "content": "Verify with your email",
         },
@@ -436,7 +436,7 @@ Object {
             "elements": Array [
               Object {
                 "contentType": "subtitle",
-                "key": "subtitle_1",
+                "id": "subtitle_1",
                 "options": Object {
                   "content": "You will receieve a voice call",
                 },
@@ -445,7 +445,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1  subtitle_1 ",
-                "key": "radio_1",
+                "id": "radio_1",
                 "options": Object {
                   "customOptions": Array [],
                   "defaultValue": [Function],
@@ -456,7 +456,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1  subtitle_1 ",
-                "key": "button_1",
+                "id": "button_1",
                 "options": Object {
                   "type": "button",
                 },
@@ -470,7 +470,7 @@ Object {
             "elements": Array [
               Object {
                 "contentType": "subtitle",
-                "key": "subtitle_2",
+                "id": "subtitle_2",
                 "options": Object {
                   "content": "You will receieve a text message",
                 },
@@ -479,7 +479,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1  subtitle_2 ",
-                "key": "radio_2",
+                "id": "radio_2",
                 "options": Object {
                   "customOptions": Array [],
                   "defaultValue": [Function],
@@ -490,7 +490,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1  subtitle_2 ",
-                "key": "credentials.passcode_2",
+                "id": "credentials.passcode_2",
                 "options": Object {
                   "inputMeta": Object {
                     "name": "credentials.passcode",
@@ -501,7 +501,7 @@ Object {
               },
               Object {
                 "ariaDescribedBy": " title_1  subtitle_2 ",
-                "key": "button_2",
+                "id": "button_2",
                 "options": Object {
                   "type": "button",
                 },
@@ -511,7 +511,7 @@ Object {
               Object {
                 "elements": Array [
                   Object {
-                    "key": "descr_1",
+                    "id": "descr_1",
                     "options": Object {
                       "content": "Need an account?",
                     },
@@ -519,7 +519,7 @@ Object {
                   },
                   Object {
                     "ariaDescribedBy": " title_1 ",
-                    "key": "link_2",
+                    "id": "link_2",
                     "options": Object {
                       "label": "Sign up",
                     },

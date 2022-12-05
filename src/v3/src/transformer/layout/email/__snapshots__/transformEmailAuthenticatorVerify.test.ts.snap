@@ -33,6 +33,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.verificationCode.instructions",
         },
@@ -82,6 +83,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions",
         },
@@ -143,6 +145,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions",
         },
@@ -200,18 +203,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 0,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 0,
               },
               Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
@@ -221,6 +228,7 @@ Object {
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -238,18 +246,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 1,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 1,
               },
               Object {
                 "focus": true,
@@ -259,6 +271,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 1,
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -267,6 +280,7 @@ Object {
                   "type": "submit",
                 },
                 "type": "Button",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",
@@ -303,12 +317,15 @@ Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 0,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 0,
               },
               Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
@@ -318,6 +335,7 @@ Object {
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -329,12 +347,15 @@ Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 1,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 1,
               },
               Object {
                 "focus": true,
@@ -344,6 +365,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 1,
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -352,6 +374,7 @@ Object {
                   "type": "submit",
                 },
                 "type": "Button",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",
@@ -394,18 +417,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 0,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 0,
               },
               Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
@@ -415,6 +442,7 @@ Object {
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -432,18 +460,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 1,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 1,
               },
               Object {
                 "focus": true,
@@ -453,6 +485,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 1,
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -461,6 +494,7 @@ Object {
                   "type": "submit",
                 },
                 "type": "Button",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",
@@ -503,18 +537,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 0,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 0,
               },
               Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
@@ -524,6 +562,7 @@ Object {
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -541,18 +580,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 1,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 1,
               },
               Object {
                 "focus": true,
@@ -562,6 +605,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 1,
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -570,6 +614,7 @@ Object {
                   "type": "submit",
                 },
                 "type": "Button",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",
@@ -606,12 +651,15 @@ Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 0,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 0,
               },
               Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
@@ -621,6 +669,7 @@ Object {
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -632,12 +681,15 @@ Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 1,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 1,
               },
               Object {
                 "focus": true,
@@ -647,6 +699,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 1,
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -655,6 +708,7 @@ Object {
                   "type": "submit",
                 },
                 "type": "Button",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",
@@ -697,18 +751,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 0,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 0,
               },
               Object {
                 "label": "oie.email.verify.alternate.showCodeTextField",
@@ -718,6 +776,7 @@ Object {
                   "variant": "secondary",
                 },
                 "type": "StepperButton",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -735,18 +794,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
                   "content": "oie.email.mfa.title",
                 },
                 "type": "Title",
+                "viewIndex": 1,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
                 "type": "Description",
+                "viewIndex": 1,
               },
               Object {
                 "focus": true,
@@ -756,6 +819,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 1,
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -764,6 +828,7 @@ Object {
                   "type": "submit",
                 },
                 "type": "Button",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",

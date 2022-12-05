@@ -24,6 +24,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.select.authenticators.verify.subtitle",
         },

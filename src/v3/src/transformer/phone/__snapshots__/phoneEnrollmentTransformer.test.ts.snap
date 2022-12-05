@@ -26,10 +26,12 @@ Object {
           Object {
             "elements": Array [
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.phone.enroll.sms.subtitle",
                 },
                 "type": "Description",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
@@ -49,6 +51,7 @@ Object {
                   "name": "authenticator.methodType",
                 },
                 "type": "StepperRadio",
+                "viewIndex": 0,
               },
               Object {
                 "label": "mfa.phoneNumber.placeholder",
@@ -58,6 +61,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 0,
               },
               Object {
                 "label": "oie.phone.sms.primaryButton",
@@ -66,6 +70,7 @@ Object {
                   "type": "submit",
                 },
                 "type": "Button",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -73,10 +78,12 @@ Object {
           Object {
             "elements": Array [
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.phone.enroll.call.subtitle",
                 },
                 "type": "Description",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
@@ -96,6 +103,7 @@ Object {
                   "name": "authenticator.methodType",
                 },
                 "type": "StepperRadio",
+                "viewIndex": 1,
               },
               Object {
                 "label": "mfa.phoneNumber.placeholder",
@@ -105,6 +113,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 1,
               },
               Object {
                 "label": "oie.phone.call.primaryButton",
@@ -113,6 +122,7 @@ Object {
                   "type": "submit",
                 },
                 "type": "Button",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",
@@ -150,6 +160,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.enroll.sms.subtitle",
         },
@@ -202,6 +213,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.enroll.call.subtitle",
         },

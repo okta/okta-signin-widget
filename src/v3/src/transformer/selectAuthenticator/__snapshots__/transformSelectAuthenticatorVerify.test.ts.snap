@@ -21,6 +21,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.password.reset.verification",
         },
@@ -66,6 +67,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.password.reset.verification",
         },
@@ -111,6 +113,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.select.authenticators.verify.subtitle",
         },

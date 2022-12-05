@@ -23,6 +23,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.numberchallenge.instruction",
         },
@@ -84,6 +85,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.numberchallenge.instruction",
         },
@@ -139,6 +141,7 @@ Object {
         "type": "Reminder",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.okta_verify.push.sent",
         },

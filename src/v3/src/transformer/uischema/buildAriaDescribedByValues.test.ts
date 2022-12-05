@@ -37,11 +37,11 @@ describe('Build aria-describedby values Tests', () => {
 
     it('should add Title ID as aria-describedby values to field elements in non-Stepper flows', async () => {
       formBag.uischema.elements = [
-        { type: 'Title', key: 'title_1', options: { content: 'Sign in' } } as TitleElement,
-        { type: 'Field', key: 'identifier', options: { inputMeta: { name: 'identifier' } } } as FieldElement,
-        { type: 'Field', key: 'credentials.passcode', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
-        { type: 'Button', key: 'button_1', options: { type: ButtonType.SUBMIT } } as ButtonElement,
-        { type: 'Link', key: 'link_1', options: { label: 'Forgot Password' } } as LinkElement,
+        { type: 'Title', id: 'title_1', options: { content: 'Sign in' } } as TitleElement,
+        { type: 'Field', id: 'identifier', options: { inputMeta: { name: 'identifier' } } } as FieldElement,
+        { type: 'Field', id: 'credentials.passcode', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
+        { type: 'Button', id: 'button_1', options: { type: ButtonType.SUBMIT } } as ButtonElement,
+        { type: 'Link', id: 'link_1', options: { label: 'Forgot Password' } } as LinkElement,
       ];
 
       const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
@@ -54,13 +54,13 @@ describe('Build aria-describedby values Tests', () => {
 
     it('should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows', async () => {
       formBag.uischema.elements = [
-        { type: 'Title', key: 'title_1', options: { content: 'Verify with your email' } } as TitleElement,
+        { type: 'Title', id: 'title_1', options: { content: 'Verify with your email' } } as TitleElement,
         {
-          type: 'Description', key: 'subtitle_1', contentType: 'subtitle', options: { content: 'Please enter your code below' },
+          type: 'Description', id: 'subtitle_1', contentType: 'subtitle', options: { content: 'Please enter your code below' },
         } as DescriptionElement,
-        { type: 'Field', key: 'credentials.passcode', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
-        { type: 'Button', key: 'button_1', options: { type: ButtonType.SUBMIT } } as ButtonElement,
-        { type: 'Link', key: 'link_1', options: { label: 'Back to sign in' } } as LinkElement,
+        { type: 'Field', id: 'credentials.passcode', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
+        { type: 'Button', id: 'button_1', options: { type: ButtonType.SUBMIT } } as ButtonElement,
+        { type: 'Link', id: 'link_1', options: { label: 'Back to sign in' } } as LinkElement,
       ];
 
       const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
@@ -72,18 +72,18 @@ describe('Build aria-describedby values Tests', () => {
 
     it('should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows containing additional informational text', async () => {
       formBag.uischema.elements = [
-        { type: 'Title', key: 'title_1', options: { content: 'Verify with your email' } } as TitleElement,
+        { type: 'Title', id: 'title_1', options: { content: 'Verify with your email' } } as TitleElement,
         {
-          type: 'Description', key: 'subtitle_1', contentType: 'subtitle', options: { content: 'Please enter your code below' },
+          type: 'Description', id: 'subtitle_1', contentType: 'subtitle', options: { content: 'Please enter your code below' },
         } as DescriptionElement,
-        { type: 'Field', key: 'credentials.passcode', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
-        { type: 'Button', key: 'button_1', options: { type: ButtonType.SUBMIT } } as ButtonElement,
-        { type: 'Link', key: 'link_1', options: { label: 'Back to sign in' } } as LinkElement,
+        { type: 'Field', id: 'credentials.passcode', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
+        { type: 'Button', id: 'button_1', options: { type: ButtonType.SUBMIT } } as ButtonElement,
+        { type: 'Link', id: 'link_1', options: { label: 'Back to sign in' } } as LinkElement,
         {
           type: UISchemaLayoutType.HORIZONTAL,
           elements: [
-            { type: 'Description', key: 'descr_1', options: { content: 'Need an account?' } } as DescriptionElement,
-            { type: 'Link', key: 'link_2', options: { label: 'Sign up' } } as LinkElement,
+            { type: 'Description', id: 'descr_1', options: { content: 'Need an account?' } } as DescriptionElement,
+            { type: 'Link', id: 'link_2', options: { label: 'Sign up' } } as LinkElement,
           ],
         },
       ];
@@ -100,7 +100,7 @@ describe('Build aria-describedby values Tests', () => {
     beforeEach(() => {
       formBag = getStubFormBag();
       formBag.uischema.elements = [
-        { type: 'Title', key: 'title_1', options: { content: 'Verify with your email' } } as TitleElement,
+        { type: 'Title', id: 'title_1', options: { content: 'Verify with your email' } } as TitleElement,
       ];
     });
 
@@ -113,7 +113,7 @@ describe('Build aria-describedby values Tests', () => {
             elements: [
               {
                 type: 'StepperRadio',
-                key: 'radio_1',
+                id: 'radio_1',
                 viewIndex: 0,
                 options: {
                   name: 'fieldKey',
@@ -122,7 +122,7 @@ describe('Build aria-describedby values Tests', () => {
                 },
               } as StepperRadioElement,
               {
-                type: 'Button', key: 'button_1', viewIndex: 0, options: { type: ButtonType.BUTTON },
+                type: 'Button', id: 'button_1', viewIndex: 0, options: { type: ButtonType.BUTTON },
               } as ButtonElement,
             ],
           },
@@ -131,7 +131,7 @@ describe('Build aria-describedby values Tests', () => {
             elements: [
               {
                 type: 'StepperRadio',
-                key: 'radio_2',
+                id: 'radio_2',
                 viewIndex: 1,
                 options: {
                   name: 'fieldKey',
@@ -140,10 +140,10 @@ describe('Build aria-describedby values Tests', () => {
                 },
               } as StepperRadioElement,
               {
-                type: 'Field', key: 'credentials.passcode_2', viewIndex: 1, options: { inputMeta: { name: 'credentials.passcode' } },
+                type: 'Field', id: 'credentials.passcode_2', viewIndex: 1, options: { inputMeta: { name: 'credentials.passcode' } },
               } as FieldElement,
               {
-                type: 'Button', key: 'button_2', viewIndex: 1, options: { type: ButtonType.BUTTON },
+                type: 'Button', id: 'button_2', viewIndex: 1, options: { type: ButtonType.BUTTON },
               } as ButtonElement,
             ],
           },
@@ -171,11 +171,11 @@ describe('Build aria-describedby values Tests', () => {
             type: UISchemaLayoutType.VERTICAL,
             elements: [
               {
-                type: 'Description', key: 'subtitle_1', viewIndex: 0, contentType: 'subtitle', options: { content: 'You will receieve a voice call' },
+                type: 'Description', id: 'subtitle_1', viewIndex: 0, contentType: 'subtitle', options: { content: 'You will receieve a voice call' },
               } as DescriptionElement,
               {
                 type: 'StepperRadio',
-                key: 'radio_1',
+                id: 'radio_1',
                 viewIndex: 0,
                 options: {
                   name: 'fieldKey',
@@ -184,7 +184,7 @@ describe('Build aria-describedby values Tests', () => {
                 },
               } as StepperRadioElement,
               {
-                type: 'Button', key: 'button_1', viewIndex: 0, options: { type: ButtonType.BUTTON },
+                type: 'Button', id: 'button_1', viewIndex: 0, options: { type: ButtonType.BUTTON },
               } as ButtonElement,
             ],
           },
@@ -192,11 +192,11 @@ describe('Build aria-describedby values Tests', () => {
             type: UISchemaLayoutType.VERTICAL,
             elements: [
               {
-                type: 'Description', key: 'subtitle_2', viewIndex: 1, contentType: 'subtitle', options: { content: 'You will receieve a text message' },
+                type: 'Description', id: 'subtitle_2', viewIndex: 1, contentType: 'subtitle', options: { content: 'You will receieve a text message' },
               } as DescriptionElement,
               {
                 type: 'StepperRadio',
-                key: 'radio_2',
+                id: 'radio_2',
                 viewIndex: 1,
                 options: {
                   name: 'fieldKey',
@@ -205,10 +205,10 @@ describe('Build aria-describedby values Tests', () => {
                 },
               } as StepperRadioElement,
               {
-                type: 'Field', key: 'credentials.passcode_2', viewIndex: 1, options: { inputMeta: { name: 'credentials.passcode' } },
+                type: 'Field', id: 'credentials.passcode_2', viewIndex: 1, options: { inputMeta: { name: 'credentials.passcode' } },
               } as FieldElement,
               {
-                type: 'Button', key: 'button_2', viewIndex: 1, options: { type: ButtonType.BUTTON },
+                type: 'Button', id: 'button_2', viewIndex: 1, options: { type: ButtonType.BUTTON },
               } as ButtonElement,
             ],
           },
@@ -236,11 +236,11 @@ describe('Build aria-describedby values Tests', () => {
             type: UISchemaLayoutType.VERTICAL,
             elements: [
               {
-                type: 'Description', key: 'subtitle_1', viewIndex: 0, contentType: 'subtitle', options: { content: 'You will receieve a voice call' },
+                type: 'Description', id: 'subtitle_1', viewIndex: 0, contentType: 'subtitle', options: { content: 'You will receieve a voice call' },
               } as DescriptionElement,
               {
                 type: 'StepperRadio',
-                key: 'radio_1',
+                id: 'radio_1',
                 viewIndex: 0,
                 options: {
                   name: 'fieldKey',
@@ -249,7 +249,7 @@ describe('Build aria-describedby values Tests', () => {
                 },
               } as StepperRadioElement,
               {
-                type: 'Button', key: 'button_1', viewIndex: 0, options: { type: ButtonType.BUTTON },
+                type: 'Button', id: 'button_1', viewIndex: 0, options: { type: ButtonType.BUTTON },
               } as ButtonElement,
             ],
           },
@@ -257,11 +257,11 @@ describe('Build aria-describedby values Tests', () => {
             type: UISchemaLayoutType.VERTICAL,
             elements: [
               {
-                type: 'Description', key: 'subtitle_2', viewIndex: 1, contentType: 'subtitle', options: { content: 'You will receieve a text message' },
+                type: 'Description', id: 'subtitle_2', viewIndex: 1, contentType: 'subtitle', options: { content: 'You will receieve a text message' },
               } as DescriptionElement,
               {
                 type: 'StepperRadio',
-                key: 'radio_2',
+                id: 'radio_2',
                 viewIndex: 1,
                 options: {
                   name: 'fieldKey',
@@ -270,16 +270,16 @@ describe('Build aria-describedby values Tests', () => {
                 },
               } as StepperRadioElement,
               {
-                type: 'Field', key: 'credentials.passcode_2', viewIndex: 1, options: { inputMeta: { name: 'credentials.passcode' } },
+                type: 'Field', id: 'credentials.passcode_2', viewIndex: 1, options: { inputMeta: { name: 'credentials.passcode' } },
               } as FieldElement,
               {
-                type: 'Button', key: 'button_2', viewIndex: 1, options: { type: ButtonType.BUTTON },
+                type: 'Button', id: 'button_2', viewIndex: 1, options: { type: ButtonType.BUTTON },
               } as ButtonElement,
               {
                 type: UISchemaLayoutType.HORIZONTAL,
                 elements: [
-                  { type: 'Description', key: 'descr_1', options: { content: 'Need an account?' } } as DescriptionElement,
-                  { type: 'Link', key: 'link_2', options: { label: 'Sign up' } } as LinkElement,
+                  { type: 'Description', id: 'descr_1', options: { content: 'Need an account?' } } as DescriptionElement,
+                  { type: 'Link', id: 'link_2', options: { label: 'Sign up' } } as LinkElement,
                 ],
               },
             ],

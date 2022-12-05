@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { TransformStepFn, UISchemaElement } from 'src/types';
-import { isInteractiveType } from 'src/util';
-
+import { TransformStepFn, UISchemaElement } from '../../types';
+import { isInteractiveType } from '../../util';
 import { traverseLayout } from '../util';
 
 export const updateElementsWithAriaDescribedByValues: TransformStepFn = (formbag) => {
@@ -33,7 +32,7 @@ export const updateElementsWithAriaDescribedByValues: TransformStepFn = (formbag
         .filter(
           (descrEle: UISchemaElement) => typeof descrEle.viewIndex === 'undefined'
             || descrEle.viewIndex === el.viewIndex,
-        ).map((descrEle) => ` ${descrEle.key} `).join('');
+        ).map((descrEle) => ` ${descrEle.id} `).join('');
       // eslint-disable-next-line no-param-reassign
       el.ariaDescribedBy = descriptiveElementIds;
     },

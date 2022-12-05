@@ -21,6 +21,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.webauthn.error.not.supported",
         },
@@ -105,6 +106,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.verify.webauthn.instructions",
         },
@@ -197,6 +199,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.verify.webauthn.instructions",
         },
@@ -267,12 +270,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.verify.webauthn.instructions",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.verify.webauthn.uv.required.instructions",
         },
@@ -365,6 +370,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.webauthn.error.not.supported",
         },
@@ -397,6 +403,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.enroll.webauthn.instructions",
         },
@@ -437,12 +444,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.enroll.webauthn.instructions",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.enroll.webauthn.uv.required.instructions",
         },
@@ -483,12 +492,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.enroll.webauthn.instructions",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.enroll.webauthn.instructions.edge",
         },

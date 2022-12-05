@@ -21,12 +21,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.verify.sms.sendText oie.phone.alternate.title",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.carrier.charges",
         },
@@ -82,12 +84,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.verify.call.sendText oie.phone.alternate.title",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.carrier.charges",
         },
@@ -143,12 +147,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.verify.sms.sendText oie.phone.alternate.title",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.carrier.charges",
         },
@@ -192,12 +198,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.verify.sms.sendText +121xxxxx34",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.carrier.charges",
         },
@@ -241,12 +249,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.verify.call.sendText oie.phone.alternate.title",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.carrier.charges",
         },
@@ -290,12 +300,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.verify.call.sendText +121xxxxx34",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.carrier.charges",
         },

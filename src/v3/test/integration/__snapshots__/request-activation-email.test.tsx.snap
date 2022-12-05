@@ -75,6 +75,7 @@ exports[`request-activation-email renders form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-12"
                       data-se="o-form-head"
+                      id="request-activation-email_Title"
                     >
                       Activation link has expired
                     </h2>
@@ -123,6 +124,7 @@ exports[`request-activation-email renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
+                    aria-describedby=" request-activation-email_Title "
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
                     data-type="save"
                     tabindex="0"

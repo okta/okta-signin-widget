@@ -21,12 +21,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.verify.sms.codeSentText oie.phone.alternate.title. oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.carrier.charges",
         },
@@ -67,12 +69,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.verify.sms.codeSentText 1215XXXXXX8. oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.carrier.charges",
         },
@@ -113,12 +117,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.carrier.charges",
         },
@@ -159,12 +165,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "mfa.calling 1215XXXXXX8. oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.phone.carrier.charges",
         },

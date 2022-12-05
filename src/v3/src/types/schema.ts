@@ -114,6 +114,7 @@ export type ElementContentType = 'subtitle';
 
 export interface UISchemaElement {
   type: string;
+  id?: string;
   key?: string;
   // TODO: make this field required
   translations?: TranslationInfo[];

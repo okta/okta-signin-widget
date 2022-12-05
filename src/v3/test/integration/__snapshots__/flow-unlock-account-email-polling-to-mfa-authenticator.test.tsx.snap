@@ -132,6 +132,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="challenge-authenticator_Title_aut2h3f9ovE2RV96P1d7"
                     >
                       Verify with Security Key or Biometric Authenticator
                     </h2>
@@ -146,6 +147,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="challenge-authenticator_Description_aut2h3f9ovE2RV96P1d7"
                     >
                       Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.
                     </p>

@@ -132,6 +132,7 @@ exports[`webauthn-enroll should render form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="enroll-authenticator_Title_aut2h3f9ovE2RV96P1d7"
                     >
                       Set up security key or biometric authenticator
                     </h2>
@@ -146,6 +147,7 @@ exports[`webauthn-enroll should render form 1`] = `
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_aut2h3f9ovE2RV96P1d7"
                     >
                       You will be prompted to register a security key or biometric authenticator (Windows Hello, Touch ID, Face ID, etc.). Follow the instructions to complete set up.
                     </p>
@@ -158,6 +160,7 @@ exports[`webauthn-enroll should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <button
+                      aria-describedby=" enroll-authenticator_Title_aut2h3f9ovE2RV96P1d7  enroll-authenticator_Description_aut2h3f9ovE2RV96P1d7 "
                       class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-6GYpAv ods-6Tybtd"
                       data-se="button"
                     >
@@ -333,6 +336,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="enroll-authenticator_Title_aut2h3f9ovE2RV96P1d7"
                     >
                       Set up security key or biometric authenticator
                     </h2>
@@ -347,6 +351,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_aut2h3f9ovE2RV96P1d7"
                     >
                       Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.
                     </p>
@@ -516,6 +521,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="enroll-authenticator_Title_aut2h3f9ovE2RV96P1d7"
                     >
                       Set up security key or biometric authenticator
                     </h2>
@@ -530,6 +536,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_aut2h3f9ovE2RV96P1d7"
                     >
                       You will be prompted to register a security key or biometric authenticator (Windows Hello, Touch ID, Face ID, etc.). Follow the instructions to complete set up.
                     </p>
@@ -544,6 +551,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_aut2h3f9ovE2RV96P1d7_3"
                     >
                       Note: If you are enrolling a security key and Windows Hello or PIN is enabled, you will need to select 'Cancel' in the prompt before continuing.
                     </p>
@@ -556,6 +564,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     class="MuiBox-root emotion-11"
                   >
                     <button
+                      aria-describedby=" enroll-authenticator_Title_aut2h3f9ovE2RV96P1d7  enroll-authenticator_Description_aut2h3f9ovE2RV96P1d7  enroll-authenticator_Description_aut2h3f9ovE2RV96P1d7_3 "
                       class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-6GYpAv ods-6Tybtd"
                       data-se="button"
                     >

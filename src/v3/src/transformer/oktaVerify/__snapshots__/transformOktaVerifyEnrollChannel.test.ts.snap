@@ -29,6 +29,7 @@ Object {
         "type": "Field",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.enroll.okta_verify.channel.email.description",
         },
@@ -86,6 +87,7 @@ Object {
         "type": "Field",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.enroll.okta_verify.channel.sms.description",
         },

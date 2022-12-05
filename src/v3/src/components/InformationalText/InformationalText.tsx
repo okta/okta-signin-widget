@@ -28,7 +28,7 @@ const InformationalText: UISchemaElementComponent<{
       justifyContent="flex-start"
     >
       <Typography
-        id={uischema.key}
+        id={uischema.id}
         paragraph
         data-se={dataSe || 'o-form-explain'}
       >

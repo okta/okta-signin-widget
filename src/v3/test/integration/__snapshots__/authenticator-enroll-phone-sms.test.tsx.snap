@@ -125,6 +125,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-14"
                       data-se="o-form-head"
+                      id="enroll-authenticator_Title_aut2h3fft10VeLDPD1d7"
                     >
                       Set up phone authentication
                     </h2>
@@ -139,6 +140,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_aut2h3fft10VeLDPD1d7"
                     >
                       A code was sent to your phone. Enter the code below to verify.
                     </p>
@@ -153,6 +155,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_aut2h3fft10VeLDPD1d7_4"
                     >
                       Carrier messaging charges may apply
                     </p>
@@ -174,6 +177,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-24"
                     >
                       <input
+                        aria-describedby=" enroll-authenticator_Title_aut2h3fft10VeLDPD1d7  enroll-authenticator_Description_aut2h3fft10VeLDPD1d7  enroll-authenticator_Description_aut2h3fft10VeLDPD1d7_4 "
                         aria-invalid="false"
                         autocomplete="off"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-25"
@@ -204,6 +208,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
+                    aria-describedby=" enroll-authenticator_Title_aut2h3fft10VeLDPD1d7  enroll-authenticator_Description_aut2h3fft10VeLDPD1d7  enroll-authenticator_Description_aut2h3fft10VeLDPD1d7_4 "
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-29"
                     data-type="save"
                     tabindex="0"
