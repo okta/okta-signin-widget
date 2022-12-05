@@ -170,6 +170,7 @@ const Body = BaseFormWithPolling.extend({
 
   doCustomURI() {
     this.ulDom && this.ulDom.remove();
+    // https://oktainc.atlassian.net/browse/OKTA-554464
     this.ulDom = this.add(`
       <iframe src="${this.customURI}" id="custom-uri-container" style="display:none;"></iframe>
     `).last();

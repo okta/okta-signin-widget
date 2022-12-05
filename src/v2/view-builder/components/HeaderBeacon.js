@@ -12,6 +12,7 @@
 import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 
+// https://oktainc.atlassian.net/browse/OKTA-554417
 export default View.extend({
 
   template: hbs`

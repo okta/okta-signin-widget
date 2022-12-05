@@ -31,7 +31,7 @@ const Body = BaseForm.extend({
 
   getUISchema() {
     const schema = BaseForm.prototype.getUISchema.apply(this, arguments);
-
+    // https://oktainc.atlassian.net/browse/OKTA-555191
     const nextButton = addCustomButton({
       className: 'google-authenticator-next',
       title: loc('oform.next', 'login'),
