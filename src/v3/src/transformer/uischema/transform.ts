@@ -15,8 +15,9 @@ import { flow } from 'lodash';
 import {
   TransformStepFnWithOptions,
 } from '../../types';
+import { setFocusOnFirstElement } from './addFocusToFirstElement';
+import { updateElementsWithAriaDescribedByValues } from './buildAriaDescribedByValues';
 import { createTextElementKeys } from './createTextElementKeys';
-import { setFocusOnFirstElement } from './setFocusOnFirstElement';
 import { updateCustomFields } from './updateCustomFields';
 import { updateElementKeys } from './updateElementKeys';
 import { updateRequiredFields } from './updateRequiredFields';
@@ -30,5 +31,5 @@ export const transformUISchema: TransformStepFnWithOptions = (
   setFocusOnFirstElement,
   // TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
   updateRequiredFields(options),
-  buildAriaDescribedByValues,
+  updateElementsWithAriaDescribedByValues,
 )(formbag);

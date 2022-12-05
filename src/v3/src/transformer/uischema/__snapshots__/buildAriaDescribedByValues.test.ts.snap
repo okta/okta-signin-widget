@@ -1,0 +1,541 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Build aria-describedby values Tests Horizontal / Vertical Layout Schemas should add Title ID as aria-describedby values to field elements in non-Stepper flows 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "title_1",
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "ariaDescribedBy": " title_1 ",
+        "key": "identifier",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "ariaDescribedBy": " title_1 ",
+        "key": "credentials.passcode",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "ariaDescribedBy": " title_1 ",
+        "key": "button_1",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "ariaDescribedBy": " title_1 ",
+        "key": "link_1",
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Build aria-describedby values Tests Horizontal / Vertical Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "title_1",
+        "options": Object {
+          "content": "Verify with your email",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "key": "subtitle_1",
+        "options": Object {
+          "content": "Please enter your code below",
+        },
+        "type": "Description",
+      },
+      Object {
+        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "key": "credentials.passcode",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "key": "button_1",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "key": "link_1",
+        "options": Object {
+          "label": "Back to sign in",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Build aria-describedby values Tests Horizontal / Vertical Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows containing additional informational text 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "title_1",
+        "options": Object {
+          "content": "Verify with your email",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "key": "subtitle_1",
+        "options": Object {
+          "content": "Please enter your code below",
+        },
+        "type": "Description",
+      },
+      Object {
+        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "key": "credentials.passcode",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "key": "button_1",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "key": "link_1",
+        "options": Object {
+          "label": "Back to sign in",
+        },
+        "type": "Link",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "key": "descr_1",
+            "options": Object {
+              "content": "Need an account?",
+            },
+            "type": "Description",
+          },
+          Object {
+            "ariaDescribedBy": " title_1  subtitle_1 ",
+            "key": "link_2",
+            "options": Object {
+              "label": "Sign up",
+            },
+            "type": "Link",
+          },
+        ],
+        "type": "HorizontalLayout",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Build aria-describedby values Tests Stepper Layout Schemas should add Title ID as aria-describedby values to field elements in Stepper flows 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "title_1",
+        "options": Object {
+          "content": "Verify with your email",
+        },
+        "type": "Title",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "ariaDescribedBy": " title_1 ",
+                "key": "radio_1",
+                "options": Object {
+                  "customOptions": Array [],
+                  "defaultValue": [Function],
+                  "name": "fieldKey",
+                },
+                "type": "StepperRadio",
+                "viewIndex": 0,
+              },
+              Object {
+                "ariaDescribedBy": " title_1 ",
+                "key": "button_1",
+                "options": Object {
+                  "type": "button",
+                },
+                "type": "Button",
+                "viewIndex": 0,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "ariaDescribedBy": " title_1 ",
+                "key": "radio_2",
+                "options": Object {
+                  "customOptions": Array [],
+                  "defaultValue": [Function],
+                  "name": "fieldKey",
+                },
+                "type": "StepperRadio",
+                "viewIndex": 1,
+              },
+              Object {
+                "ariaDescribedBy": " title_1 ",
+                "key": "credentials.passcode_2",
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.passcode",
+                  },
+                },
+                "type": "Field",
+                "viewIndex": 1,
+              },
+              Object {
+                "ariaDescribedBy": " title_1 ",
+                "key": "button_2",
+                "options": Object {
+                  "type": "button",
+                },
+                "type": "Button",
+                "viewIndex": 1,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Build aria-describedby values Tests Stepper Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "title_1",
+        "options": Object {
+          "content": "Verify with your email",
+        },
+        "type": "Title",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "contentType": "subtitle",
+                "key": "subtitle_1",
+                "options": Object {
+                  "content": "You will receieve a voice call",
+                },
+                "type": "Description",
+                "viewIndex": 0,
+              },
+              Object {
+                "ariaDescribedBy": " title_1  subtitle_1 ",
+                "key": "radio_1",
+                "options": Object {
+                  "customOptions": Array [],
+                  "defaultValue": [Function],
+                  "name": "fieldKey",
+                },
+                "type": "StepperRadio",
+                "viewIndex": 0,
+              },
+              Object {
+                "ariaDescribedBy": " title_1  subtitle_1 ",
+                "key": "button_1",
+                "options": Object {
+                  "type": "button",
+                },
+                "type": "Button",
+                "viewIndex": 0,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "contentType": "subtitle",
+                "key": "subtitle_2",
+                "options": Object {
+                  "content": "You will receieve a text message",
+                },
+                "type": "Description",
+                "viewIndex": 1,
+              },
+              Object {
+                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "key": "radio_2",
+                "options": Object {
+                  "customOptions": Array [],
+                  "defaultValue": [Function],
+                  "name": "fieldKey",
+                },
+                "type": "StepperRadio",
+                "viewIndex": 1,
+              },
+              Object {
+                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "key": "credentials.passcode_2",
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.passcode",
+                  },
+                },
+                "type": "Field",
+                "viewIndex": 1,
+              },
+              Object {
+                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "key": "button_2",
+                "options": Object {
+                  "type": "button",
+                },
+                "type": "Button",
+                "viewIndex": 1,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Build aria-describedby values Tests Stepper Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows containing additional informational text 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "title_1",
+        "options": Object {
+          "content": "Verify with your email",
+        },
+        "type": "Title",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "contentType": "subtitle",
+                "key": "subtitle_1",
+                "options": Object {
+                  "content": "You will receieve a voice call",
+                },
+                "type": "Description",
+                "viewIndex": 0,
+              },
+              Object {
+                "ariaDescribedBy": " title_1  subtitle_1 ",
+                "key": "radio_1",
+                "options": Object {
+                  "customOptions": Array [],
+                  "defaultValue": [Function],
+                  "name": "fieldKey",
+                },
+                "type": "StepperRadio",
+                "viewIndex": 0,
+              },
+              Object {
+                "ariaDescribedBy": " title_1  subtitle_1 ",
+                "key": "button_1",
+                "options": Object {
+                  "type": "button",
+                },
+                "type": "Button",
+                "viewIndex": 0,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "contentType": "subtitle",
+                "key": "subtitle_2",
+                "options": Object {
+                  "content": "You will receieve a text message",
+                },
+                "type": "Description",
+                "viewIndex": 1,
+              },
+              Object {
+                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "key": "radio_2",
+                "options": Object {
+                  "customOptions": Array [],
+                  "defaultValue": [Function],
+                  "name": "fieldKey",
+                },
+                "type": "StepperRadio",
+                "viewIndex": 1,
+              },
+              Object {
+                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "key": "credentials.passcode_2",
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.passcode",
+                  },
+                },
+                "type": "Field",
+                "viewIndex": 1,
+              },
+              Object {
+                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "key": "button_2",
+                "options": Object {
+                  "type": "button",
+                },
+                "type": "Button",
+                "viewIndex": 1,
+              },
+              Object {
+                "elements": Array [
+                  Object {
+                    "key": "descr_1",
+                    "options": Object {
+                      "content": "Need an account?",
+                    },
+                    "type": "Description",
+                  },
+                  Object {
+                    "ariaDescribedBy": " title_1 ",
+                    "key": "link_2",
+                    "options": Object {
+                      "label": "Sign up",
+                    },
+                    "type": "Link",
+                  },
+                ],
+                "type": "HorizontalLayout",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
