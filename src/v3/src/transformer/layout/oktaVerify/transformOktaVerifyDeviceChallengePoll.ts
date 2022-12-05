@@ -14,11 +14,11 @@ import { NextStep } from '@okta/okta-auth-js';
 import { IDX_STEP } from '../../../constants';
 
 import {
-  ButtonElement,
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
   LinkElement,
+  OpenOktaVerifyButtonElement,
   TitleElement,
 } from '../../../types';
 // import { loc } from '../../../util';
@@ -27,24 +27,6 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { relatesTo } = nextStep;
   const { uischema } = formBag;
-
-  const doCustomUri = () => {
-    const existing = document.getElementById('custom-uri-container');
-    if (existing) {
-      existing.remove();
-    }
-
-    const launcher = document.createElement('iframe');
-    // @ts-expect-error ts(2339) Property 'href' does not exist on type 'IdxAuthenticator'.
-    launcher.src = relatesTo?.value.href;
-    launcher.style.display = 'none';
-    launcher.id = 'custom-uri-container';
-
-    const container = document.getElementById('okta-login-container')
-    if (container) {
-      container.appendChild(launcher);
-    }
-  };
 
   uischema.elements.unshift({
     type: 'Title',
@@ -57,16 +39,13 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
   } as DescriptionElement);
 
   uischema.elements.push({
-    type: 'Button',
-    label: 'Open Okta Verify',
+    type: 'OpenOktaVerifyButton',
     options: {
       step: IDX_STEP.DEVICE_CHALLENGE_POLL,
-      type: ButtonType.BUTTON,
-      variant: 'primary',
-      wide: true,
-      onClick: doCustomUri,
+      // @ts-expect-error ts(2339) Property 'href' does not exist on type 'IdxAuthenticator'.
+      href: relatesTo?.value.href,
     },
-  } as ButtonElement);
+  } as OpenOktaVerifyButtonElement);
 
   uischema.elements.push({
     type: 'Description',
@@ -81,8 +60,6 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
       href: relatesTo?.value.downloadHref
     }
   } as LinkElement);
-
-  doCustomUri();
 
   return formBag;
 };
