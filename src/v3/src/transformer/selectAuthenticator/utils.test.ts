@@ -191,6 +191,7 @@ describe('Select Authenticator Utility Tests', () => {
         expect(currentOption?.label).toBe(option.label);
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.verify.authenticator.button.text');
+        // @ts-expect-error OKTA-555811
         expect(currentOption?.options.description).toBe(option.relatesTo?.profile?.phoneNumber);
       });
     });
@@ -295,6 +296,7 @@ describe('Select Authenticator Utility Tests', () => {
             methods: [{ type: '' }],
             displayName: '',
             key: AUTHENTICATOR_KEY.PHONE,
+            // @ts-expect-error OKTA-555811
             profile: { phoneNumber: '216XXXXX43' },
           },
         },
@@ -356,6 +358,7 @@ describe('Select Authenticator Utility Tests', () => {
             methods: [{ type: '' }],
             displayName: '',
             key: AUTHENTICATOR_KEY.PHONE,
+            // @ts-expect-error OKTA-555811
             profile: { phoneNumber: '216XXXXX43' },
           },
         },
@@ -410,6 +413,7 @@ describe('Select Authenticator Utility Tests', () => {
             methods: [{ type: '' }],
             displayName: '',
             key: AUTHENTICATOR_KEY.PHONE,
+            // @ts-expect-error OKTA-555811
             profile: { phoneNumber: '216XXXXX43' },
           },
         },
@@ -461,6 +465,7 @@ describe('Select Authenticator Utility Tests', () => {
             methods: [{ type: '' }],
             displayName: '',
             key: AUTHENTICATOR_KEY.PHONE,
+            // @ts-expect-error error OKTA-555811
             profile: { phoneNumber: '216XXXXX43' },
           },
         },

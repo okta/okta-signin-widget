@@ -12,7 +12,7 @@
 
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 import { IDX_STEP } from 'src/constants';
-import { DataSchemaBag, FieldElement, FormBag, UISchemaLayoutType } from 'src/types';
+import { DataSchemaBag, FormBag, UISchemaLayoutType } from 'src/types';
 
 export const getStubTransaction = (status: IdxStatus = IdxStatus.PENDING): IdxTransaction => ({
   status,
@@ -29,6 +29,16 @@ export const getStubTransaction = (status: IdxStatus = IdxStatus.PENDING): IdxTr
     expiresAt: '',
     intent: '',
     currentAuthenticator: {
+      type: '',
+      value: {
+        displayName: '',
+        id: '',
+        methods: [],
+        key: '',
+        type: '',
+      },
+    },
+    currentAuthenticatorEnrollment: {
       type: '',
       value: {
         displayName: '',
