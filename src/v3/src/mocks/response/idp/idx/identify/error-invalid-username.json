@@ -125,7 +125,7 @@
       },
       "type": "password",
       "key": "okta_password",
-      "id": "aut2h3ffszv3me6O31d7",
+      "id": "aut1egri5t7iomJ3l1d7",
       "displayName": "Password",
       "methods": [{ "type": "password" }]
     }

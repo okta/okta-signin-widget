@@ -10,115 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { flow } from 'lodash';
 
-import CountryUtil from '../../../../util/CountryUtil';
-import TimeZone from '../../../../v2/view-builder/utils/TimeZone';
-import { IDX_STEP } from '../../constants';
 import {
-  FieldElement,
-  TransformStepFn,
   TransformStepFnWithOptions,
-  UISchemaElement,
 } from '../../types';
-import { generateRandomString, isInteractiveType } from '../../util';
-import { traverseLayout } from '../util';
-
-const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
-  traverseLayout({
-    layout: formbag.uischema,
-    predicate: (element) => !!element.type,
-    callback: (element) => {
-      const { nextStep: { name } = {} } = transaction;
-      // We need Reminder Elements to unmount from view when new transaction
-      // is set, this prevents this alert and error alerts from both displaying
-      // at the same time
-      if (element.type === 'Reminder') {
-        // eslint-disable-next-line no-param-reassign
-        element.key = `${name}_${generateRandomString()}`;
-      } else {
-        // eslint-disable-next-line no-param-reassign
-        element.key = element.key ? `${name}_${element.key}` : name;
-      }
-    },
-  });
-  return formbag;
-};
-
-export const setFocusOnFirstElement: TransformStepFn = (formbag) => {
-  let firstFieldFound = false;
-  traverseLayout({
-    layout: formbag.uischema,
-    predicate: (el) => (!firstFieldFound && isInteractiveType(el.type)),
-    callback: (el) => {
-      const uischemaElement = (el as UISchemaElement);
-      uischemaElement.focus = true;
-      firstFieldFound = true;
-    },
-  });
-  return formbag;
-};
-
-export const updateCustomFields: TransformStepFn = (formbag) => {
-  traverseLayout({
-    layout: formbag.uischema,
-    predicate: (el) => (el.type === 'Field'),
-    callback: (el) => {
-      const fieldElement = (el as FieldElement);
-      const { options: { inputMeta: { options } } } = fieldElement;
-
-      if (fieldElement.options.inputMeta.name === 'userProfile.timezone') {
-        fieldElement.options.format = 'select';
-        fieldElement.options.customOptions = Object.entries(TimeZone).map(([code, label]) => ({
-          label,
-          value: code,
-        } as IdxOption));
-      }
-
-      if (Array.isArray(options) && options[0]?.value) {
-        const [option] = options;
-        if (option.label === 'display') {
-          // TODO: OKTA-538689 Missing type in interface, have to cast to any
-          const input = (option.value as any)?.value;
-          fieldElement.options.format = input.inputType;
-          fieldElement.options.customOptions = input.options;
-          if (input.inputType === 'select' && input.format === 'country-code') {
-            const countryCodeObj = CountryUtil.getCountryCode();
-            const countryOptions = Object.entries(countryCodeObj).map(([code, label]) => ({
-              label,
-              value: code,
-            } as IdxOption));
-            fieldElement.options.customOptions = countryOptions;
-          } else if (input.inputType === 'text') {
-            // Text type that has options must remove options for renderers.tsx
-            // to map to correct element
-            fieldElement.options.inputMeta.options = undefined;
-          }
-        }
-      }
-    },
-  });
-  return formbag;
-};
-
-// TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
-export const updateRequiredFields: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
-  const { nextStep: { name = '' } = {} } = transaction;
-  if (![IDX_STEP.ENROLL_PROFILE, IDX_STEP.ENROLL_PROFILE_UPDATE].includes(name)) {
-    return formbag;
-  }
-  traverseLayout({
-    layout: formbag.uischema,
-    predicate: (el) => (el.type === 'Field'),
-    callback: (el) => {
-      const fieldElement = (el as FieldElement);
-      const { options: { inputMeta: { required } } } = fieldElement;
-      fieldElement.required = required;
-    },
-  });
-  return formbag;
-};
+import { addKeyToElement } from './addKeyToElement';
+import { setFocusOnFirstElement } from './setFocusOnFirstElement';
+import { updateCustomFields } from './updateCustomFields';
+import { updateRequiredFields } from './updateRequiredFields';
 
 export const transformUISchema: TransformStepFnWithOptions = (
   options,
@@ -126,5 +26,6 @@ export const transformUISchema: TransformStepFnWithOptions = (
   addKeyToElement(options),
   updateCustomFields,
   setFocusOnFirstElement,
+  // TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
   updateRequiredFields(options),
 )(formbag);
