@@ -58,13 +58,15 @@ describe('updateElementKeys Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(elements[0].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[0].type}_element_key0`);
+      .toBe('challenge-authenticator_Title_element_key0');
     expect(elements[1].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[1].type}_element_key1`);
+      .toBe('challenge-authenticator_Field_element_key1');
     expect(elements[2].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[2].type}_element_key2`);
+      .toBe('challenge-authenticator_Field_element_key2');
     expect(elements[3].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[3].type}_element_key3`);
+      .toBe('challenge-authenticator_Button_element_key3');
+    expect(elements[4].key)
+      .toBe('challenge-authenticator_Link_element_key4');
   });
 
   it('should create unique element key when key value is not set and transaction does not contain authKey/authID', async () => {
@@ -73,22 +75,23 @@ describe('updateElementKeys Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(elements[0].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[0].type}`);
+      .toBe('challenge-authenticator_Title');
     expect(elements[1].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[1].type}`);
+      .toBe('challenge-authenticator_Field');
     expect(elements[2].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[2].type}`);
+      .toBe('challenge-authenticator_Field');
     expect(elements[3].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[3].type}`);
+      .toBe('challenge-authenticator_Button');
+    expect(elements[4].key)
+      .toBe('challenge-authenticator_Link');
   });
 
   it('should create unique element key when key value is preset and transaction contains authKey', async () => {
     formBag.uischema.elements = formBag.uischema.elements.map(
       (ele: UISchemaElement, index: number) => ({ ...ele, key: `element_key${index}` }),
     );
-    const authKey = AUTHENTICATOR_KEY.EMAIL;
     transaction.nextStep!.relatesTo = {
-      value: { key: authKey } as unknown as IdxAuthenticator,
+      value: { key: AUTHENTICATOR_KEY.EMAIL } as unknown as IdxAuthenticator,
     };
 
     const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
@@ -96,13 +99,15 @@ describe('updateElementKeys Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(elements[0].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[0].type}_element_key0_${authKey}`);
+      .toBe('challenge-authenticator_Title_element_key0_okta_email');
     expect(elements[1].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[1].type}_element_key1_${authKey}`);
+      .toBe('challenge-authenticator_Field_element_key1_okta_email');
     expect(elements[2].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[2].type}_element_key2_${authKey}`);
+      .toBe('challenge-authenticator_Field_element_key2_okta_email');
     expect(elements[3].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[3].type}_element_key3_${authKey}`);
+      .toBe('challenge-authenticator_Button_element_key3_okta_email');
+    expect(elements[4].key)
+      .toBe('challenge-authenticator_Link_element_key4_okta_email');
   });
 
   it('should create unique element key when key value is not set and transaction contains authKey', async () => {
@@ -116,24 +121,25 @@ describe('updateElementKeys Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(elements[0].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[0].type}_${authKey}`);
+      .toBe('challenge-authenticator_Title_okta_email');
     expect(elements[1].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[1].type}_${authKey}`);
+      .toBe('challenge-authenticator_Field_okta_email');
     expect(elements[2].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[2].type}_${authKey}`);
+      .toBe('challenge-authenticator_Field_okta_email');
     expect(elements[3].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[3].type}_${authKey}`);
+      .toBe('challenge-authenticator_Button_okta_email');
+    expect(elements[4].key)
+      .toBe('challenge-authenticator_Link_okta_email');
   });
 
   it('should create unique element key when key value is preset and transaction contains authID', async () => {
     formBag.uischema.elements = formBag.uischema.elements.map(
       (ele: UISchemaElement, index: number) => ({ ...ele, key: `element_key${index}` }),
     );
-    const authId = 'abc1234';
     transaction.rawIdxState.currentAuthenticator = {
       type: '',
       value: {
-        id: authId,
+        id: 'abc1234',
       } as unknown as IdxAuthenticator,
     };
 
@@ -142,13 +148,15 @@ describe('updateElementKeys Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(elements[0].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[0].type}_element_key0_${authId}`);
+      .toBe('challenge-authenticator_Title_element_key0_abc1234');
     expect(elements[1].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[1].type}_element_key1_${authId}`);
+      .toBe('challenge-authenticator_Field_element_key1_abc1234');
     expect(elements[2].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[2].type}_element_key2_${authId}`);
+      .toBe('challenge-authenticator_Field_element_key2_abc1234');
     expect(elements[3].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[3].type}_element_key3_${authId}`);
+      .toBe('challenge-authenticator_Button_element_key3_abc1234');
+    expect(elements[4].key)
+      .toBe('challenge-authenticator_Link_element_key4_abc1234');
   });
 
   it('should create unique element key when key value is not set and transaction contains authID', async () => {
@@ -165,13 +173,15 @@ describe('updateElementKeys Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(elements[0].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[0].type}_${authId}`);
+      .toBe('challenge-authenticator_Title_abc1234');
     expect(elements[1].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[1].type}_${authId}`);
+      .toBe('challenge-authenticator_Field_abc1234');
     expect(elements[2].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[2].type}_${authId}`);
+      .toBe('challenge-authenticator_Field_abc1234');
     expect(elements[3].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[3].type}_${authId}`);
+      .toBe('challenge-authenticator_Button_abc1234');
+    expect(elements[4].key)
+      .toBe('challenge-authenticator_Link_abc1234');
   });
 
   it('should create unique element key when key value is preset and transaction contains authKey & authID', async () => {
@@ -195,13 +205,15 @@ describe('updateElementKeys Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(elements[0].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[0].type}_element_key0_${authKey}_${authId}`);
+      .toBe('challenge-authenticator_Title_element_key0_okta_email_abc1234');
     expect(elements[1].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[1].type}_element_key1_${authKey}_${authId}`);
+      .toBe('challenge-authenticator_Field_element_key1_okta_email_abc1234');
     expect(elements[2].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[2].type}_element_key2_${authKey}_${authId}`);
+      .toBe('challenge-authenticator_Field_element_key2_okta_email_abc1234');
     expect(elements[3].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[3].type}_element_key3_${authKey}_${authId}`);
+      .toBe('challenge-authenticator_Button_element_key3_okta_email_abc1234');
+    expect(elements[4].key)
+      .toBe('challenge-authenticator_Link_element_key4_okta_email_abc1234');
   });
 
   it('should create unique element key when key value is not set and transaction contains authKey & authID', async () => {
@@ -222,18 +234,19 @@ describe('updateElementKeys Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(elements[0].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[0].type}_${authKey}_${authId}`);
+      .toBe('challenge-authenticator_Title_okta_email_abc1234');
     expect(elements[1].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[1].type}_${authKey}_${authId}`);
+      .toBe('challenge-authenticator_Field_okta_email_abc1234');
     expect(elements[2].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[2].type}_${authKey}_${authId}`);
+      .toBe('challenge-authenticator_Field_okta_email_abc1234');
     expect(elements[3].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${elements[3].type}_${authKey}_${authId}`);
+      .toBe('challenge-authenticator_Button_okta_email_abc1234');
+    expect(elements[4].key)
+      .toBe('challenge-authenticator_Link_okta_email_abc1234');
   });
 
   it('should create unique element key for Reminder Element types', async () => {
-    const randomString = '0987654321abc';
-    jest.spyOn(randomStringUtil, 'generateRandomString').mockReturnValue(randomString);
+    jest.spyOn(randomStringUtil, 'generateRandomString').mockReturnValue('0987654321abc');
     formBag.uischema.elements.unshift({ type: 'Reminder', options: { content: 'See errors below' } } as ReminderElement);
 
     const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
@@ -241,6 +254,6 @@ describe('updateElementKeys Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(elements[0].key)
-      .toBe(`${IDX_STEP.CHALLENGE_AUTHENTICATOR}_${randomString}`);
+      .toBe('challenge-authenticator_0987654321abc');
   });
 });
