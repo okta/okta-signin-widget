@@ -15,3 +15,4 @@ export * from './transformOktaVerifyChannelSelection';
 export * from './transformOktaVerifyEnrollChannel';
 export * from './transformOktaVerifyEnrollPoll';
 export * from './transformTOTPChallenge';
+export * from './transformAppleSsoExtension';

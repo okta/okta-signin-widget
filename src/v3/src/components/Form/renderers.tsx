@@ -14,6 +14,7 @@ import { Input } from '@okta/okta-auth-js';
 
 import { FieldElement, Renderer } from '../../types';
 import AuthenticatorButton from '../AuthenticatorButton';
+import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
 import Divider from '../Divider';
@@ -204,5 +205,9 @@ export default [
   {
     tester: ({ type }) => type === 'ImageWithText',
     renderer: ImageWithText,
+  },
+  {
+    tester: ({ type }) => type === 'AutoSubmit',
+    renderer: AutoSubmit,
   },
 ] as Renderer[];
