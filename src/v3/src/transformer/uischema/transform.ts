@@ -15,15 +15,17 @@ import { flow } from 'lodash';
 import {
   TransformStepFnWithOptions,
 } from '../../types';
-import { addKeyToElement } from './addKeyToElement';
+import { createTextElementKeys } from './createTextElementKeys';
 import { setFocusOnFirstElement } from './setFocusOnFirstElement';
 import { updateCustomFields } from './updateCustomFields';
+import { updateElementKeys } from './updateElementKeys';
 import { updateRequiredFields } from './updateRequiredFields';
 
 export const transformUISchema: TransformStepFnWithOptions = (
   options,
 ) => (formbag) => flow(
-  addKeyToElement(options),
+  createTextElementKeys,
+  updateElementKeys(options),
   updateCustomFields,
   setFocusOnFirstElement,
   // TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment

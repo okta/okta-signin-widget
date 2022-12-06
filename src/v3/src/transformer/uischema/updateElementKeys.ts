@@ -20,7 +20,7 @@ import {
 } from '../../util';
 import { traverseLayout } from '../util';
 
-export const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
+export const updateElementKeys: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
   traverseLayout({
     layout: formbag.uischema,
     predicate: (element) => !!element.type,
@@ -36,7 +36,7 @@ export const addKeyToElement: TransformStepFnWithOptions = ({ transaction }) => 
         // eslint-disable-next-line no-param-reassign
         element.key = `${name}_${generateRandomString()}`;
       } else {
-        let elementKey = element.key
+        let elementKey = typeof element.key !== 'undefined'
           ? `${name}_${element.type}_${element.key}`
           : `${name}_${element.type}`;
         elementKey += [
