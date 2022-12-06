@@ -73,6 +73,13 @@ export const IDX_STEP: Record<string, string> = {
   USER_CODE: 'user-code',
 };
 
+export const CHALLENGE_METHOD: Record<string, string> = {
+  APP_LINK: 'APP_LINK',
+  CUSTOM_URI: 'CUSTOM_URI',
+  LOOPBACK: 'LOOPBACK',
+  UNIVERSAL_LINK: 'UNIVERSAL_LINK',
+};
+
 export const AUTHENTICATOR_ALLOWED_FOR_OPTIONS: Record<string, string> = {
   ANY: 'any',
   SSO: 'sso',

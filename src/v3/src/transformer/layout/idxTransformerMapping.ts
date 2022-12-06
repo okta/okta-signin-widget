@@ -12,7 +12,7 @@
 
 import { IdxStepTransformer } from 'src/types';
 
-import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
 import {
   transformOktaVerifyChallengePoll,
@@ -157,7 +157,7 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.DEVICE_CHALLENGE_POLL]: {
-    CUSTOM_URI: {
+    [CHALLENGE_METHOD.CUSTOM_URI]: {
       transform: transformOktaVerifyDeviceChallengePoll,
       buttonConfig: {
         showDefaultSubmit: false,
