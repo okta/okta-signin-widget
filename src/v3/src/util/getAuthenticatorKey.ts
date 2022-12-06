@@ -28,10 +28,9 @@ export const getAuthenticatorKey = (
     // @ts-expect-error ts(2339) Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
     return relatesTo?.value?.challengeMethod;
   }
+  if (STEPS_MISSING_RELATES_TO.includes(stepName)) {
+    return context.currentAuthenticator?.value?.key
+  }
   // TODO: OKTA-503490 temporary sln to grab auth key for enroll-poll step its missing relatesTo obj
-  return (STEPS_MISSING_RELATES_TO.includes(stepName)
-    ? context.currentAuthenticator?.value?.key
-    : relatesTo?.value?.key);
-  // the data is buried here:
-  // relatesTo.value.contextualData.challenge.value.(challengeMethod = CUSTOM_URI | downloadHref | href)
+  return relatesTo?.value?.key;
 };
