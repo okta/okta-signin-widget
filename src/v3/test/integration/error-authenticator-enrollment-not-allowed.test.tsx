@@ -21,8 +21,7 @@ describe('error-authenticator-enrollment-not-allowed', () => {
     expect(container).toMatchSnapshot();
   });
 
-  // TODO: OKTA-528448 : Re-enable once this auth-js bug is fixed
-  it.skip('should send correct payload when clicking back to sign in link', async () => {
+  it('should send correct payload when clicking back to sign in link', async () => {
     const {
       authClient, user, findByText,
     } = await setup({ mockResponse });
