@@ -12,6 +12,7 @@
 import { ListView, View, createButton, loc } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 
+// https://oktainc.atlassian.net/browse/OKTA-554392
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
   template: hbs`

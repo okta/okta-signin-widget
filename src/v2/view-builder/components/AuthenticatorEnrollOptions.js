@@ -15,6 +15,7 @@ import skipAll from './SkipOptionalEnrollmentButton';
 import hbs from 'handlebars-inline-precompile';
 import { AUTHENTICATOR_ALLOWED_FOR_OPTIONS } from '../utils/Constants';
 
+// https://oktainc.atlassian.net/browse/OKTA-554030
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
   template: hbs`
