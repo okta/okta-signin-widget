@@ -434,15 +434,15 @@ import $ from 'jquery';
       container_props = {
         "id": this.container_id,
         "class": container_classes.join(" "),
-        "style": "width: " + this.container_width() + ";",
         "title": this.form_field.title
       };
       this.container = $$1("<div></div>", container_props);
+      this.container[0].style.width = this.container_width();
 
       if (this.is_multiple) {
         this.container.html("<ul class=\"chzn-choices\"><li class=\"search-field\"><input type=\"text\" value=\"" + this.default_text + "\" class=\"default\" autocomplete=\"off\" style=\"width:25px;\" /></li></ul><div class=\"chzn-drop\"><ul class=\"chzn-results\"></ul></div>");
       } else {
-        this.container.html("<a href=\"javascript:void(0)\" class=\"chzn-single chzn-default\" tabindex=\"-1\"><span>" + this.default_text + "</span><div><b></b></div></a><div class=\"chzn-drop\"><div class=\"chzn-search\"><input type=\"text\" autocomplete=\"off\" /></div><ul class=\"chzn-results\"></ul></div>");
+        this.container.html("<a href=\"#\" class=\"chzn-single chzn-default\" tabindex=\"-1\"><span>" + this.default_text + "</span><div><b></b></div></a><div class=\"chzn-drop\"><div class=\"chzn-search\"><input type=\"text\" autocomplete=\"off\" /></div><ul class=\"chzn-results\"></ul></div>");
       }
 
       this.form_field_jq.hide().after(this.container);
