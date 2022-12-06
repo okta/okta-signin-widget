@@ -251,7 +251,8 @@
     "wait-on/axios": "^0.27.2",
     "**/request/qs": "^6.11.0",
     "grunt/minimatch": "^3.1.2",
-    "**/globule/minimatch": "^3.1.2"
+    "**/globule/minimatch": "^3.1.2",
+    "ansi-regex": "^5.0.1"
   },
   "workspaces": {
     "packages": [
