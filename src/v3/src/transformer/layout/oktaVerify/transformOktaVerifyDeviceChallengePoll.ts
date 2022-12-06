@@ -21,7 +21,7 @@ import {
   OpenOktaVerifyButtonElement,
   TitleElement,
 } from '../../../types';
-// import { loc } from '../../../util';
+import { loc } from '../../../util';
 
 export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
@@ -30,12 +30,12 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
 
   uischema.elements.unshift({
     type: 'Title',
-    options: { content: 'Click "Open Okta Verify" on the browser prompt' },
+    options: { content: loc('customUri.title', 'login') },
   } as TitleElement);
 
   uischema.elements.push({
     type: 'Description',
-    options: { content: "Didn't get a prompt?" },
+    options: { content: loc('customUri.required.content.prompt', 'login') },
   } as DescriptionElement);
 
   uischema.elements.push({
@@ -49,13 +49,13 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
 
   uischema.elements.push({
     type: 'Description',
-    options: { content: "Don't have Okta Verify?" },
+    options: { content: loc('customUri.required.content.download.title', 'login') },
   } as DescriptionElement);
 
   uischema.elements.push({
     type: 'Link',
     options: {
-      label: 'Download here',
+      label: loc('customUri.required.content.download.linkText', 'login'),
       // @ts-expect-error ts(2339) Property 'downloadHref' does not exist on type 'IdxAuthenticator'.
       href: relatesTo?.value.downloadHref
     }
