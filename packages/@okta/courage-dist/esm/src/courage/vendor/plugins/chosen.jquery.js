@@ -1,3 +1,5 @@
+console.log('in siw chosen');
+
 import $ from 'jquery';
 
 (function () {
@@ -438,6 +440,7 @@ import $ from 'jquery';
       };
       this.container = $$1("<div></div>", container_props);
       this.container[0].style.width = this.container_width();
+
 
       if (this.is_multiple) {
         this.container.html("<ul class=\"chzn-choices\"><li class=\"search-field\"><input type=\"text\" value=\"" + this.default_text + "\" class=\"default\" autocomplete=\"off\" style=\"width:25px;\" /></li></ul><div class=\"chzn-drop\"><ul class=\"chzn-results\"></ul></div>");
