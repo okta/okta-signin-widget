@@ -157,7 +157,7 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.DEVICE_CHALLENGE_POLL]: {
-    ['CUSTOM_URI']: {
+    CUSTOM_URI: {
       transform: transformOktaVerifyDeviceChallengePoll,
       buttonConfig: {
         showDefaultSubmit: false,

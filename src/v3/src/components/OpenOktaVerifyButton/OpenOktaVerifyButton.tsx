@@ -25,12 +25,16 @@ import Button from '../Button';
 
 type IFrameProps = {
   src: string;
-}
-const IFrame: FunctionComponent<IFrameProps> = ({ src }) => {
-  return (
-    <iframe src={src} style='display: none' />
-  )
-}
+};
+const IFrame: FunctionComponent<IFrameProps> = ({ src }) => (
+  // eslint-disable-next-line jsx-a11y/iframe-has-title
+  <iframe
+    src={src}
+    style={{
+      display: 'none',
+    }}
+  />
+);
 
 const OpenOktaVerifyButton: UISchemaElementComponent<{
   uischema: OpenOktaVerifyButtonElement
@@ -40,7 +44,7 @@ const OpenOktaVerifyButton: UISchemaElementComponent<{
     options: {
       step,
       href,
-    }
+    },
   } = uischema;
   const [key, setKey] = useState<number>(0);
   const label = getTranslation(translations, 'label');
@@ -54,13 +58,18 @@ const OpenOktaVerifyButton: UISchemaElementComponent<{
       wide: true,
       step,
       onClick: () => setKey(key + 1),
-    }
+    },
   };
 
   return (
     <React.Fragment>
       <Button uischema={buttonUiSchema} />
-      {href && <IFrame key={key} src={href} />}
+      {href && (
+      <IFrame
+        key={key}
+        src={href}
+      />
+      )}
     </React.Fragment>
   );
 };

@@ -32,6 +32,6 @@ export const getAuthenticatorKey = (
   return (STEPS_MISSING_RELATES_TO.includes(stepName)
     ? context.currentAuthenticator?.value?.key
     : relatesTo?.value?.key);
-    // the data is buried here:
-    // relatesTo.value.contextualData.challenge.value.(challengeMethod = CUSTOM_URI | downloadHref | href)
+  // the data is buried here:
+  // relatesTo.value.contextualData.challenge.value.(challengeMethod = CUSTOM_URI | downloadHref | href)
 };

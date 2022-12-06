@@ -11,10 +11,9 @@
  */
 
 import { NextStep } from '@okta/okta-auth-js';
-import { IDX_STEP } from '../../../constants';
 
+import { IDX_STEP } from '../../../constants';
 import {
-  ButtonType,
   DescriptionElement,
   IdxStepTransformer,
   LinkElement,
@@ -23,8 +22,11 @@ import {
 } from '../../../types';
 import { loc } from '../../../util';
 
-export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { nextStep = {} as NextStep, availableSteps } = transaction;
+export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
+  transaction,
+  formBag,
+}) => {
+  const { nextStep = {} as NextStep } = transaction;
   const { relatesTo } = nextStep;
   const { uischema } = formBag;
 
@@ -57,8 +59,8 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({ tra
     options: {
       label: loc('customUri.required.content.download.linkText', 'login'),
       // @ts-expect-error ts(2339) Property 'downloadHref' does not exist on type 'IdxAuthenticator'.
-      href: relatesTo?.value.downloadHref
-    }
+      href: relatesTo?.value.downloadHref,
+    },
   } as LinkElement);
 
   return formBag;
