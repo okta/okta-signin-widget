@@ -18,6 +18,7 @@ import { IDX_STEP } from '../constants';
 export const STEPS_MISSING_RELATES_TO: string[] = [
   IDX_STEP.ENROLL_POLL,
   IDX_STEP.ENROLLMENT_CHANNEL_DATA,
+  IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
 ];
 
 export const getAuthenticatorKey = (
