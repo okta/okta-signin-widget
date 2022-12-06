@@ -319,6 +319,7 @@ const TransformerMap: {
     },
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformAppleSsoExtension,
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.CANCEL_TRANSACTION]: {

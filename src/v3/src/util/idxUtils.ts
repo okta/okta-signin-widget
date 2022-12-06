@@ -97,10 +97,6 @@ export const buildAuthCoinProps = (
     return { authenticatorKey: IDX_STEP.PIV_IDP };
   }
 
-  if (nextStep?.name === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
-    return { authenticatorKey: AUTHENTICATOR_KEY.OV };
-  }
-
   const authenticatorKey = getAuthenticatorKey(transaction);
   if (authenticatorKey) {
     return { authenticatorKey };
