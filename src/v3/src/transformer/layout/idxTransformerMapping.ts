@@ -20,6 +20,7 @@ import {
   transformOktaVerifyEnrollChannel,
   transformOktaVerifyEnrollPoll,
   transformTOTPChallenge,
+  transformAppleSsoExtension,
 } from '../oktaVerify';
 import {
   transformEnrollPasswordAuthenticator,
@@ -308,6 +309,21 @@ const TransformerMap: {
   [IDX_STEP.SELECT_ENROLLMENT_CHANNEL]: {
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyChannelSelection,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.DEVICE_APPLE_SSO_EXTENSION]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformAppleSsoExtension,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.OV]: {
+      transform: transformAppleSsoExtension,
+    },
+  },
+  [IDX_STEP.CANCEL_TRANSACTION]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformAppleSsoExtension,
       buttonConfig: { showDefaultSubmit: false },
     },
   },
