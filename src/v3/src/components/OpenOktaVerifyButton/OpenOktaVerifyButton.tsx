@@ -43,7 +43,7 @@ const OpenOktaVerifyButton: UISchemaElementComponent<{
     }
   } = uischema;
   const [key, setKey] = useState<number>(0);
-  const label = getTranslation(translations, 'label') || 'Open Okta Verify';
+  const label = getTranslation(translations, 'label');
 
   const buttonUiSchema: ButtonElement = {
     type: 'Button',

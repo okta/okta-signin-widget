@@ -16,25 +16,19 @@ import {
 import { traverseLayout } from '../util';
 import { addTranslation } from './util';
 
-export const transformLaunchAuthenticatorButton: TransformStepFn = (
+export const transformOpenOktaVerifyButton: TransformStepFn = (
   formbag,
 ) => {
   const { uischema } = formbag;
 
   traverseLayout({
     layout: uischema,
-    predicate: (element) => element.type === 'LaunchAuthenticatorButton',
+    predicate: (element) => element.type === 'OpenOktaVerifyButton',
     callback: (element) => {
       addTranslation({
         element,
         name: 'label',
-        i18nKey: 'oktaVerify.button',
-      });
-
-      addTranslation({
-        element,
-        name: 'icon-description',
-        i18nKey: 'factor.totpSoft.oktaVerify',
+        i18nKey: 'oktaVerify.open.button',
       });
     },
   });
