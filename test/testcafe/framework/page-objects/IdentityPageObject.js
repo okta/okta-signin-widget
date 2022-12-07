@@ -12,7 +12,6 @@ const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
 const FOOTER_INFO_SELECTOR = '.footer-info';
 const CUSTOM_IDP_BUTTON = '.social-auth-general-idp-button';
-const IDENTIFIER_HINT_SELECTOR = '#identifier-hint';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor(t) {
@@ -227,9 +226,6 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getIdentifierSubLabelValue() {
-    if (userVariables.v3) {
-      return Selector(IDENTIFIER_HINT_SELECTOR).textContent;
-    }
     return Selector(SUB_LABEL_SELECTOR).nth(0).textContent;
   }
 
