@@ -126,6 +126,13 @@ export interface UISchemaElement {
   focus?: boolean;
   ariaDescribedBy?: string;
   contentType?: ElementContentType;
+  /**
+   * Each index of the elements
+   * array within {@link StepperLayout} corresponds to a singular view (group of elements).
+   * This property maps to / matches the index value of the group of elements in the
+   * {@link StepperLayout} elements array. This property allows you to determine which
+   * view/step within the {@link StepperLayout} this element belongs to.
+   */
   viewIndex?: number;
 }
 
