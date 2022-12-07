@@ -23,9 +23,11 @@ import {
   TitleElement,
 } from '../../types';
 import { loc } from '../../util';
+import { transformOktaVerifyDeviceChallengePoll } from '../layout/oktaVerify';
 import { getUIElementWithName } from '../utils';
 
-export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({ transaction, formBag }) => {
+export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) => {
+  const { transaction, formBag } = options;
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { relatesTo } = nextStep;
   const { uischema, data } = formBag;
@@ -35,82 +37,88 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({ transacti
     return formBag;
   }
 
-  // Need to initialize autoChallenge checkbox if it is set otherwise it will not display in UI
-  const autoChallenge = getUIElementWithName('autoChallenge', uischema.elements) as FieldElement;
-  data.autoChallenge = autoChallenge?.options?.inputMeta?.value;
+  if (selectedMethod.type === 'push') {
+    // Need to initialize autoChallenge checkbox if it is set otherwise it will not display in UI
+    const autoChallenge = getUIElementWithName('autoChallenge', uischema.elements) as FieldElement;
+    data.autoChallenge = autoChallenge?.options?.inputMeta?.value;
 
-  // @ts-ignore OKTA-496373 correctAnswer is missing from interface
-  const correctAnswer = relatesTo?.value?.contextualData?.correctAnswer;
-  if (selectedMethod.type === 'push' && correctAnswer) {
-    uischema.elements.unshift({
-      type: 'Title',
-      options: { content: loc('oie.okta_verify.push.sent', 'login') },
-    } as TitleElement);
+    // @ts-ignore OKTA-496373 correctAnswer is missing from interface
+    const correctAnswer = relatesTo?.value?.contextualData?.correctAnswer;
 
-    const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
-    if (resendStep) {
-      const { name } = resendStep;
+    if (correctAnswer) {
+      uischema.elements.unshift({
+        type: 'Title',
+        options: { content: loc('oie.okta_verify.push.sent', 'login') },
+      } as TitleElement);
+
+      const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
+      if (resendStep) {
+        const { name } = resendStep;
+        uischema.elements.unshift({
+          type: 'Reminder',
+          options: {
+            content: loc('oie.numberchallenge.warning', 'login'),
+            buttonText: loc('email.button.resend', 'login'),
+            step: name,
+            isActionStep: true,
+            actionParams: { resend: true },
+          },
+        } as ReminderElement);
+      }
+
+      const phoneIconImage: ImageWithTextElement = {
+        type: 'ImageWithText',
+        options: {
+          id: 'code',
+          SVGIcon: PhoneSvg,
+          textContent: correctAnswer,
+        },
+      };
+
+      const description: DescriptionElement = {
+        type: 'Description',
+        options: {
+          content: loc('oie.numberchallenge.instruction', 'login', [correctAnswer]),
+        },
+      };
+
+      uischema.elements.push(description);
+      uischema.elements.push(phoneIconImage);
+      uischema.elements.push({
+        type: 'Spinner',
+        options: {
+          // TODO: OKTA-518793 - replace english string with key once created
+          label: 'Loading...',
+          valueText: 'Loading...',
+        },
+      } as SpinnerElement);
+    } else {
       uischema.elements.unshift({
         type: 'Reminder',
         options: {
-          content: loc('oie.numberchallenge.warning', 'login'),
-          buttonText: loc('email.button.resend', 'login'),
-          step: name,
-          isActionStep: true,
-          actionParams: { resend: true },
+          content: loc('oktaverify.warning', 'login'),
         },
       } as ReminderElement);
+      uischema.elements.unshift({
+        type: 'Title',
+        options: { content: loc('oie.okta_verify.push.title', 'login') },
+      } as TitleElement);
+      uischema.elements.push({
+        type: 'Description',
+        options: { content: loc('oie.okta_verify.push.sent', 'login') },
+      } as DescriptionElement);
+      uischema.elements.push({
+        type: 'Spinner',
+        options: {
+          // TODO: OKTA-518793 - replace english string with key once created
+          label: 'Loading...',
+          valueText: 'Loading...',
+        },
+      } as SpinnerElement);
     }
-
-    const phoneIconImage: ImageWithTextElement = {
-      type: 'ImageWithText',
-      options: {
-        id: 'code',
-        SVGIcon: PhoneSvg,
-        textContent: correctAnswer,
-      },
-    };
-
-    const description: DescriptionElement = {
-      type: 'Description',
-      options: {
-        content: loc('oie.numberchallenge.instruction', 'login', [correctAnswer]),
-      },
-    };
-
-    uischema.elements.push(description);
-    uischema.elements.push(phoneIconImage);
-    uischema.elements.push({
-      type: 'Spinner',
-      options: {
-        // TODO: OKTA-518793 - replace english string with key once created
-        label: 'Loading...',
-        valueText: 'Loading...',
-      },
-    } as SpinnerElement);
-  } else if (selectedMethod.type === 'push') {
-    uischema.elements.unshift({
-      type: 'Reminder',
-      options: {
-        content: loc('oktaverify.warning', 'login'),
-      },
-    } as ReminderElement);
-    uischema.elements.unshift({
-      type: 'Title',
-      options: { content: loc('oie.okta_verify.push.title', 'login') },
-    } as TitleElement);
-    uischema.elements.push({
-      type: 'Description',
-      options: { content: loc('oie.okta_verify.push.sent', 'login') },
-    } as DescriptionElement);
-    uischema.elements.push({
-      type: 'Spinner',
-      options: {
-        // TODO: OKTA-518793 - replace english string with key once created
-        label: 'Loading...',
-        valueText: 'Loading...',
-      },
-    } as SpinnerElement);
+  } else if (selectedMethod.type === 'signed_nonce') {
+    // selectedMethod.type === 'signed_nonce' reflects a FastPass OV flow
+    return transformOktaVerifyDeviceChallengePoll(options);
   }
 
   return formBag;
