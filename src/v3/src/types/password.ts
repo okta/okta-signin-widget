@@ -14,8 +14,8 @@ import { PASSWORD_REQUIREMENTS_KEYS } from '../constants';
 
 export type PasswordRequirementStatus = 'incomplete' | 'complete' | 'info';
 export type PasswordRequirementProps = {
-  status?: PasswordRequirementStatus;
-  text: string;
+  status: PasswordRequirementStatus;
+  label: string;
 };
 
 export interface GetAgeFromMinutes {

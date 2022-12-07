@@ -28,7 +28,7 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 import { getTranslation } from '../../util';
-import PasswordRequirementItem from './PasswordRequirementItem';
+import PasswordRequirementItem from './PasswordRequirementListItem';
 
 const PasswordMatches: UISchemaElementComponent<{
   uischema: PasswordMatchesElement
@@ -67,7 +67,7 @@ const PasswordMatches: UISchemaElementComponent<{
         <List.Item>
           <PasswordRequirementItem
             status={isMatching ? 'complete' : 'incomplete'}
-            text={label ?? ''}
+            label={label ?? ''}
           />
         </List.Item>
       </List>
