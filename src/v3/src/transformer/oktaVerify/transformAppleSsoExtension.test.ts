@@ -48,7 +48,7 @@ describe('SSO extension Transformer Tests', () => {
 
   it('should add Redirect element if step is device-apple-sso-extension and method is GET', () => {
     transaction.nextStep = {
-      name: IDX_STEP.DEVICE_APPLE_SSO_EXTENSION
+      name: IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
     };
     transaction.neededToProceed = [
       {
@@ -66,7 +66,7 @@ describe('SSO extension Transformer Tests', () => {
 
   it('should add AutoSubmit element if step is device-apple-sso-extension and method is POST', () => {
     transaction.nextStep = {
-      name: IDX_STEP.DEVICE_APPLE_SSO_EXTENSION
+      name: IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
     };
     transaction.neededToProceed = [
       {

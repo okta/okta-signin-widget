@@ -12,11 +12,11 @@
 
 import identify from '@okta/mocks/data/idp/idx/identify.json';
 import withCredentialMock from '@okta/mocks/data/idp/idx/identify-with-apple-credential-sso-extension.json';
-import noCredentialMock from '@okta/mocks/data/idp/idx/identify-with-no-sso-extension.json'
+import noCredentialMock from '@okta/mocks/data/idp/idx/identify-with-no-sso-extension.json';
 import stepUpError from '@okta/mocks/data/idp/idx/error-401-okta-verify-apple-sso-step-up.json';
 import { setup } from './util';
 
-    const verifyUrl = 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?\
+const verifyUrl = 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?\
 challengeRequest=eyJraWQiOiJCa2Y3LTVqa2d6eE1NYjBtS0pEX3hpaUxzZFNmLXZ6cks0MmFkcmcyWXEwIiwiYWxnIjoiUlMy\
 NTYifQ.eyJpc3MiOiJodHRwczovL2R0ZGVtby53aWRlcm9jay5jb20iLCJhdWQiOiJva3RhLjYzYzA4MWRiLTFmMTMtNTA4NC04OD\
 JmLWU3OWUxZTVlMmRhNyIsImV4cCI6MTU3ODYxODEzMiwiaWF0IjoxNTc4NjE3ODMyLCJqdGkiOiJ0cmFuc2FjdGlvbklkIiwibm9\
@@ -33,7 +33,6 @@ const cancelUrl = 'http://localhost:3000/idp/idx/authenticators/sso_extension/tr
 
 describe('authenticator-apple-sso-extension', () => {
   it('opens the verify url with credential SSO Extension approach', async () => {
-
     const {
       container,
       findByLabelText,
@@ -55,7 +54,6 @@ describe('authenticator-apple-sso-extension', () => {
   });
 
   it('cancels the transaction when sso extension authenticator does not exist', async () => {
-
     const {
       container,
       findByLabelText,
@@ -77,7 +75,6 @@ describe('authenticator-apple-sso-extension', () => {
   });
 
   it('calls verify then cancels the transaction when step up error is encountered', async () => {
-
     const {
       container,
       findByLabelText,

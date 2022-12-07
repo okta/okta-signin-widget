@@ -12,8 +12,8 @@
 
 import { useEffect } from 'preact/hooks';
 
-import { AutoSubmitElement, UISchemaElementComponent } from '../../types';
 import { useOnSubmit } from '../../hooks';
+import { AutoSubmitElement, UISchemaElementComponent } from '../../types';
 
 const AutoSubmit: UISchemaElementComponent<{ uischema: AutoSubmitElement }> = ({
   uischema: { options },

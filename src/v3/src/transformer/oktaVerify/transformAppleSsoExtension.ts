@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IDX_STEP } from '../../constants';
 import {
   AutoSubmitElement,
   IdxStepTransformer,
@@ -18,13 +19,12 @@ import {
   TitleElement,
 } from '../../types';
 import { loc } from '../../util';
-import { IDX_STEP } from '../../constants';
 
 export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transaction }) => {
   const { uischema } = formBag;
   const { nextStep: { name: stepName } = {}, neededToProceed } = transaction;
 
-  if(typeof stepName === 'undefined') {
+  if (typeof stepName === 'undefined') {
     return formBag;
   }
 
@@ -46,22 +46,24 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
     spinnerElement,
   ];
 
-  if(stepName === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
+  if (stepName === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
     // transaction nextStep does not contain href and method for some reason so we have to grab it from neededToProceed property
-    const nextStepData = neededToProceed?.find(step => step.name === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION);
+    const nextStepData = neededToProceed?.find(
+      (step) => step.name === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
+    );
     const isGetMethod = nextStepData?.method?.toLowerCase() === 'get';
 
-    if(isGetMethod) {
+    if (isGetMethod) {
       uischema.elements.push({
         type: 'Redirect',
-        options: { 
+        options: {
           url: nextStepData?.href,
         },
       } as RedirectElement);
     } else {
       uischema.elements.push({
         type: 'AutoSubmit',
-        options: { 
+        options: {
           redirectStep: stepName,
         },
       } as AutoSubmitElement);
@@ -70,7 +72,7 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
     // This case handles the 'cancel-transaction' step when the 'device-apple-sso-extension' authenticator does not exist
     uischema.elements.push({
       type: 'AutoSubmit',
-      options: { 
+      options: {
         redirectStep: stepName,
       },
     } as AutoSubmitElement);

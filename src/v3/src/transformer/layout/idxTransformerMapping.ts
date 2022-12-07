@@ -15,12 +15,12 @@ import { IdxStepTransformer } from 'src/types';
 import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
 import {
+  transformAppleSsoExtension,
   transformOktaVerifyChallengePoll,
   transformOktaVerifyChannelSelection,
   transformOktaVerifyEnrollChannel,
   transformOktaVerifyEnrollPoll,
   transformTOTPChallenge,
-  transformAppleSsoExtension,
 } from '../oktaVerify';
 import {
   transformEnrollPasswordAuthenticator,
