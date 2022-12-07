@@ -1094,7 +1094,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         Enter Code
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-34"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-34"
                       >
                         <input
                           aria-describedby="credentials.passcode-error"

@@ -1,0 +1,539 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`updateElementKeys Tests should create unique element key for Reminder Element types 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "challenge-authenticator_0987654321abc",
+        "options": Object {
+          "content": "See errors below",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "key": "challenge-authenticator_Title",
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "key": "challenge-authenticator_Field",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Field",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Button",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "key": "challenge-authenticator_Link",
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`updateElementKeys Tests should create unique element key when key value is not set and transaction contains authID 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "challenge-authenticator_Title_abc1234",
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_abc1234",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_abc1234",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Button_abc1234",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "key": "challenge-authenticator_Link_abc1234",
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`updateElementKeys Tests should create unique element key when key value is not set and transaction contains authKey & authID 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "challenge-authenticator_Title_okta_email_abc1234",
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_okta_email_abc1234",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_okta_email_abc1234",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Button_okta_email_abc1234",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "key": "challenge-authenticator_Link_okta_email_abc1234",
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`updateElementKeys Tests should create unique element key when key value is not set and transaction contains authKey 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "challenge-authenticator_Title_okta_email",
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_okta_email",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_okta_email",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Button_okta_email",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "key": "challenge-authenticator_Link_okta_email",
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`updateElementKeys Tests should create unique element key when key value is not set and transaction does not contain authKey/authID 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "challenge-authenticator_Title",
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "key": "challenge-authenticator_Field",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Field",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Button",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "key": "challenge-authenticator_Link",
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`updateElementKeys Tests should create unique element key when key value is preset and transaction contains authID 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "challenge-authenticator_Title_element_key0_abc1234",
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_element_key1_abc1234",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_element_key2_abc1234",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Button_element_key3_abc1234",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "key": "challenge-authenticator_Link_element_key4_abc1234",
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`updateElementKeys Tests should create unique element key when key value is preset and transaction contains authKey & authID 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "challenge-authenticator_Title_element_key0_okta_email_abc1234",
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_element_key1_okta_email_abc1234",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_element_key2_okta_email_abc1234",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Button_element_key3_okta_email_abc1234",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "key": "challenge-authenticator_Link_element_key4_okta_email_abc1234",
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`updateElementKeys Tests should create unique element key when key value is preset and transaction contains authKey 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "challenge-authenticator_Title_element_key0_okta_email",
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_element_key1_okta_email",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_element_key2_okta_email",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Button_element_key3_okta_email",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "key": "challenge-authenticator_Link_element_key4_okta_email",
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`updateElementKeys Tests should create unique element key when key value is preset and transaction does not contain authKey/authID 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "key": "challenge-authenticator_Title_element_key0",
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_element_key1",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Field_element_key2",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "key": "challenge-authenticator_Button_element_key3",
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "key": "challenge-authenticator_Link_element_key4",
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
