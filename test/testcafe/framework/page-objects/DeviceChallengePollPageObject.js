@@ -16,6 +16,9 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
 
+  /**
+   * @deprecated use getFormTitle
+   */
   getHeader() {
     return this.body.find('[data-se="o-form-head"]').innerText;
   }
