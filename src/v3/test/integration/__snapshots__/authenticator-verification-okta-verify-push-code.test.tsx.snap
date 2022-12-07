@@ -110,7 +110,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-13"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-14"
+                      class="MuiTypography-root MuiTypography-h4 emotion-14"
                       data-se="o-form-head"
                     >
                       Push notification sent

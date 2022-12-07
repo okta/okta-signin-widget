@@ -146,7 +146,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                       class="MuiBox-root emotion-18"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-19"
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                       >
                         Set up security question
@@ -536,7 +536,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                       >
                         Set up security question
@@ -946,7 +946,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                       class="MuiBox-root emotion-18"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-19"
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                       >
                         Set up security question
@@ -1336,7 +1336,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                       >
                         Set up security question
@@ -1857,7 +1857,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                       class="MuiBox-root emotion-18"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-19"
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                       >
                         Set up security question
@@ -2358,7 +2358,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                       >
                         Set up security question
@@ -2926,7 +2926,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                       class="MuiBox-root emotion-18"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-19"
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                       >
                         Set up security question

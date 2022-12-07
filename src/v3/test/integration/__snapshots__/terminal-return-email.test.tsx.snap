@@ -110,7 +110,7 @@ exports[`terminal-return-email renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                     >
                       Success! Return to the original tab or window

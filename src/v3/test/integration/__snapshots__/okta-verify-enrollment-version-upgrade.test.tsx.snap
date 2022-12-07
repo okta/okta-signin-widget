@@ -150,7 +150,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                       class="MuiBox-root emotion-19"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-20"
+                        class="MuiTypography-root MuiTypography-h4 emotion-20"
                         data-se="o-form-head"
                       >
                         Set up Okta Verify

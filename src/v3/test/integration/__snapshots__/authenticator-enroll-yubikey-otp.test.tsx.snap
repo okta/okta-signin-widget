@@ -126,7 +126,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                     class="MuiBox-root emotion-15"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-16"
+                      class="MuiTypography-root MuiTypography-h4 emotion-16"
                       data-se="o-form-head"
                     >
                       Set up YubiKey

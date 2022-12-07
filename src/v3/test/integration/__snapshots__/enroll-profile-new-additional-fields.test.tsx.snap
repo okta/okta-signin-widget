@@ -74,7 +74,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                     >
                       Sign up
@@ -1948,7 +1948,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     class="MuiBox-root emotion-7"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      class="MuiTypography-root MuiTypography-h4 emotion-8"
                       data-se="o-form-head"
                     >
                       Sign up

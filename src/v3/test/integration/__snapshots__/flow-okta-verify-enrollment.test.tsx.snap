@@ -110,7 +110,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                       >
                         Set up Okta Verify
@@ -309,7 +309,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                     >
                       More options
@@ -597,7 +597,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                     >
                       Set up Okta Verify via email link
@@ -885,7 +885,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-21"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-22"
+                        class="MuiTypography-root MuiTypography-h4 emotion-22"
                         data-se="o-form-head"
                       >
                         Check your email
@@ -1066,7 +1066,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                     >
                       More options
@@ -1337,7 +1337,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                       >
                         Set up Okta Verify
@@ -1539,7 +1539,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                       >
                         Set up Okta Verify
@@ -1738,7 +1738,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                     >
                       More options
@@ -2026,7 +2026,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                     >
                       Set up Okta Verify via SMS
@@ -3583,7 +3583,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-21"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-22"
+                        class="MuiTypography-root MuiTypography-h4 emotion-22"
                         data-se="o-form-head"
                       >
                         Check your text messages
@@ -3764,7 +3764,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                     >
                       More options

@@ -116,7 +116,7 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                       class="MuiBox-root emotion-14"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        class="MuiTypography-root MuiTypography-h4 emotion-15"
                         data-se="o-form-head"
                       >
                         Verify with your email
