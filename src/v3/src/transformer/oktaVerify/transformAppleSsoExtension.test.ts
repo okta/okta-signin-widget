@@ -54,14 +54,14 @@ describe('SSO extension Transformer Tests', () => {
       {
         name: IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
         method: 'GET',
-        href: 'www.redirect.com',
+        href: 'localhost:3000',
       },
     ];
     const updatedFormBag = transformAppleSsoExtension({ transaction, formBag, widgetProps });
     expect((updatedFormBag.uischema.elements[2] as RedirectElement).type)
       .toBe('Redirect');
     expect((updatedFormBag.uischema.elements[2] as RedirectElement).options.url)
-      .toBe('www.redirect.com');
+      .toBe('localhost:3000');
   });
 
   it('should add AutoSubmit element if step is device-apple-sso-extension and method is POST', () => {

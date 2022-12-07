@@ -12,9 +12,11 @@
 
 import { Box, CircularProgress } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
-import { SpinnerElement } from 'src/types';
 
-const Spinner: FunctionComponent<SpinnerElement['options']> = ({
+const Spinner: FunctionComponent<{
+  label?: string;
+  valueText?: string;
+}> = ({
   label,
   valueText,
 }) => (

@@ -20,9 +20,13 @@ import {
 import { loc } from '../../util';
 import { IDX_STEP } from '../../constants';
 
-export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transaction, widgetProps }) => {
+export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transaction }) => {
   const { uischema } = formBag;
-  const { nextStep, neededToProceed } = transaction;
+  const { nextStep: { name: stepName } = {}, neededToProceed } = transaction;
+
+  if(typeof stepName === 'undefined') {
+    return formBag;
+  }
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -42,7 +46,7 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
     spinnerElement,
   ];
 
-  if(nextStep?.name === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
+  if(stepName === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
     // transaction nextStep does not contain href and method for some reason so we have to grab it from neededToProceed property
     const nextStepData = neededToProceed?.find(step => step.name === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION);
     const isGetMethod = nextStepData?.method?.toLowerCase() === 'get';
@@ -58,7 +62,7 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
       uischema.elements.push({
         type: 'AutoSubmit',
         options: { 
-          redirectStep: nextStep?.name,
+          redirectStep: stepName,
         },
       } as AutoSubmitElement);
     }
@@ -67,7 +71,7 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
     uischema.elements.push({
       type: 'AutoSubmit',
       options: { 
-        redirectStep: nextStep?.name,
+        redirectStep: stepName,
       },
     } as AutoSubmitElement);
   }
