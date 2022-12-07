@@ -10,10 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import {
-  List,
-} from '@okta/odyssey-react';
+import { Box, List } from '@mui/material';
 import debounce from 'lodash/debounce';
 import { h } from 'preact';
 import {
@@ -64,12 +61,10 @@ const PasswordMatches: UISchemaElementComponent<{
         listType="unordered"
         unstyled
       >
-        <List.Item>
-          <PasswordRequirementListItem
-            status={isMatching ? 'complete' : 'incomplete'}
-            label={label ?? ''}
-          />
-        </List.Item>
+        <PasswordRequirementListItem
+          status={isMatching ? 'complete' : 'incomplete'}
+          label={label ?? ''}
+        />
       </List>
     </Box>
   );
