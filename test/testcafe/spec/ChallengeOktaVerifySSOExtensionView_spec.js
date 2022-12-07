@@ -69,7 +69,7 @@ test
     const ssoExtensionHeader = new Selector('.device-apple-sso-extension .siw-main-header');
     await t.expect(ssoExtensionHeader.find('.beacon-container').exists).eql(false);
     await t.expect(ssoExtensionPage.getFormTitle()).eql('Verifying your identity');
-    await t.expect(ssoExtensionPage.showingSpinner()).eql(true);
+    await t.expect(ssoExtensionPage.spinnerExists()).eql(true);
     await t.expect(await ssoExtensionPage.verifyWithSomethingElseLinkExists()).eql(true);
     await t.expect(await ssoExtensionPage.getCancelLink().exists).eql(true);
 

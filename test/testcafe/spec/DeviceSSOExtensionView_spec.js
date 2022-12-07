@@ -1,4 +1,4 @@
-import { RequestLogger, RequestMock, ClientFunction, Selector } from 'testcafe';
+import { RequestLogger, RequestMock, ClientFunction, Selector, userVariables } from 'testcafe';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identifyWithAppleRedirectSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-apple-redirect-sso-extension';
@@ -112,7 +112,7 @@ test
     const ssoExtensionHeader = new Selector('.device-apple-sso-extension .siw-main-header');
     await t.expect(ssoExtensionHeader.find('.beacon-container').exists).eql(false);
     await t.expect(ssoExtensionPage.getFormTitle()).eql('Verifying your identity');
-    await t.expect(ssoExtensionPage.showingSpinner()).eql(true);
+    await t.expect(ssoExtensionPage.spinnerExists()).eql(true);
     await t.expect(await ssoExtensionPage.getCancelLink().exists).eql(true);
 
     // the next ajax mock (credentialSSOExtensionMock) set up for delaying 4s
@@ -165,7 +165,9 @@ test
     await ssoExtensionPage.navigateToPage();
     await ssoExtensionPage.formExists();
     await ssoExtensionPage.form.waitForErrorBox();
-    await t.expect(ssoExtensionPage.showingSpinner()).eql(false);
+    if(!userVariables.v3) {
+      await t.expect(ssoExtensionPage.getSpinnerStyle()).eql('none');
+    }
   });
 
 test
