@@ -118,7 +118,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-15"
                         data-se="o-form-head"
-                        id="challenge-authenticator_Title_eae1egri5eK5zce0V1d7_1"
+                        id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1"
                       >
                         Verify with your email
                       </h2>
@@ -133,7 +133,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                         data-se="o-form-explain"
-                        id="challenge-authenticator_Description_eae1egri5eK5zce0V1d7_1"
+                        id="challenge-authenticator_Description_We_sent_an_email_to_f****************e@example.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eae1egri5eK5zce0V1d7_4_1"
                       >
                         We sent an email to f****************e@example.com. Click the verification link in your email to continue or enter the code below.
                       </p>
@@ -143,7 +143,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby=" challenge-authenticator_Title_eae1egri5eK5zce0V1d7_1  challenge-authenticator_Description_eae1egri5eK5zce0V1d7_1 "
+                      aria-describedby="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1 challenge-authenticator_Description_We_sent_an_email_to_f****************e@example.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eae1egri5eK5zce0V1d7_4_1"
                       class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-20"
                       tabindex="0"
                       type="button"
@@ -335,7 +335,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-22"
                         data-se="o-form-head"
-                        id="challenge-authenticator_Title_eae1egri5eK5zce0V1d7_1"
+                        id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1"
                       >
                         Verify with your email
                       </h2>
@@ -350,7 +350,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                         data-se="o-form-explain"
-                        id="challenge-authenticator_Description_eae1egri5eK5zce0V1d7_1"
+                        id="challenge-authenticator_Description_We_sent_an_email_to_f****************e@example.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eae1egri5eK5zce0V1d7_4_1"
                       >
                         We sent an email to f****************e@example.com. Click the verification link in your email to continue or enter the code below.
                       </p>
@@ -360,7 +360,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby=" challenge-authenticator_Title_eae1egri5eK5zce0V1d7_1  challenge-authenticator_Description_eae1egri5eK5zce0V1d7_1 "
+                      aria-describedby="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1 challenge-authenticator_Description_We_sent_an_email_to_f****************e@example.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eae1egri5eK5zce0V1d7_4_1"
                       class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-focusVisible  emotion-27"
                       tabindex="0"
                       type="button"
@@ -508,7 +508,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-15"
                         data-se="o-form-head"
-                        id="challenge-authenticator_Title_eae1egri5eK5zce0V1d7_2"
+                        id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2"
                       >
                         Verify with your email
                       </h2>
@@ -523,7 +523,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                         data-se="o-form-explain"
-                        id="challenge-authenticator_Description_eae1egri5eK5zce0V1d7_2"
+                        id="challenge-authenticator_Description_We_sent_an_email_to_f****************e@example.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eae1egri5eK5zce0V1d7_8_2"
                       >
                         We sent an email to f****************e@example.com. Click the verification link in your email to continue or enter the code below.
                       </p>
@@ -545,7 +545,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-22"
                       >
                         <input
-                          aria-describedby=" challenge-authenticator_Title_eae1egri5eK5zce0V1d7_2  challenge-authenticator_Description_eae1egri5eK5zce0V1d7_2 "
+                          aria-describedby="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2 challenge-authenticator_Description_We_sent_an_email_to_f****************e@example.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eae1egri5eK5zce0V1d7_8_2"
                           aria-invalid="false"
                           autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
@@ -576,7 +576,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby=" challenge-authenticator_Title_eae1egri5eK5zce0V1d7_2  challenge-authenticator_Description_eae1egri5eK5zce0V1d7_2 "
+                      aria-describedby="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2 challenge-authenticator_Description_We_sent_an_email_to_f****************e@example.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eae1egri5eK5zce0V1d7_8_2"
                       class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-27"
                       data-type="save"
                       tabindex="0"
@@ -758,7 +758,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-20"
                         data-se="o-form-head"
-                        id="challenge-authenticator_Title_eaexdyjzXZ3iWikza0g3_2"
+                        id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2"
                       >
                         Verify with your email
                       </h2>
@@ -773,7 +773,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
                         data-se="o-form-explain"
-                        id="challenge-authenticator_Description_eaexdyjzXZ3iWikza0g3_2"
+                        id="challenge-authenticator_Description_We_sent_an_email_to_t***t@idx.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eaexdyjzXZ3iWikza0g3_8_2"
                       >
                         We sent an email to t***t@idx.com. Click the verification link in your email to continue or enter the code below.
                       </p>
@@ -795,7 +795,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-27"
                       >
                         <input
-                          aria-describedby=" credentials.passcode-error  challenge-authenticator_Title_eaexdyjzXZ3iWikza0g3_2  challenge-authenticator_Description_eaexdyjzXZ3iWikza0g3_2  "
+                          aria-describedby=" credentials.passcode-error challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2 challenge-authenticator_Description_We_sent_an_email_to_t***t@idx.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eaexdyjzXZ3iWikza0g3_8_2 "
                           aria-invalid="true"
                           autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-28"
@@ -838,7 +838,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-17"
                   >
                     <button
-                      aria-describedby=" challenge-authenticator_Title_eaexdyjzXZ3iWikza0g3_2  challenge-authenticator_Description_eaexdyjzXZ3iWikza0g3_2 "
+                      aria-describedby="challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2 challenge-authenticator_Description_We_sent_an_email_to_t***t@idx.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eaexdyjzXZ3iWikza0g3_8_2"
                       class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-34"
                       data-type="save"
                       tabindex="0"
@@ -1075,7 +1075,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-27"
                         data-se="o-form-head"
-                        id="challenge-authenticator_Title_eaexdyjzXZ3iWikza0g3_2"
+                        id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2"
                       >
                         Verify with your email
                       </h2>
@@ -1090,7 +1090,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-30"
                         data-se="o-form-explain"
-                        id="challenge-authenticator_Description_eaexdyjzXZ3iWikza0g3_2"
+                        id="challenge-authenticator_Description_We_sent_an_email_to_t***t@idx.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eaexdyjzXZ3iWikza0g3_8_2"
                       >
                         We sent an email to t***t@idx.com. Click the verification link in your email to continue or enter the code below.
                       </p>
@@ -1112,7 +1112,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-34"
                       >
                         <input
-                          aria-describedby=" credentials.passcode-error  challenge-authenticator_Title_eaexdyjzXZ3iWikza0g3_2  challenge-authenticator_Description_eaexdyjzXZ3iWikza0g3_2  "
+                          aria-describedby=" credentials.passcode-error challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2 challenge-authenticator_Description_We_sent_an_email_to_t***t@idx.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eaexdyjzXZ3iWikza0g3_8_2 "
                           aria-invalid="true"
                           autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-35"
@@ -1155,7 +1155,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-17"
                   >
                     <button
-                      aria-describedby=" challenge-authenticator_Title_eaexdyjzXZ3iWikza0g3_2  challenge-authenticator_Description_eaexdyjzXZ3iWikza0g3_2 "
+                      aria-describedby="challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2 challenge-authenticator_Description_We_sent_an_email_to_t***t@idx.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eaexdyjzXZ3iWikza0g3_8_2"
                       class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-41"
                       data-type="save"
                       tabindex="0"
@@ -1409,7 +1409,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                       <h2
                         class="MuiTypography-root MuiTypography-h3 emotion-15"
                         data-se="o-form-head"
-                        id="challenge-authenticator_Title_eae1egri5eK5zce0V1d7_2"
+                        id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2"
                       >
                         Verify with your email
                       </h2>
@@ -1424,7 +1424,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                         data-se="o-form-explain"
-                        id="challenge-authenticator_Description_eae1egri5eK5zce0V1d7_2"
+                        id="challenge-authenticator_Description_We_sent_an_email_to_f****************e@example.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eae1egri5eK5zce0V1d7_8_2"
                       >
                         We sent an email to f****************e@example.com. Click the verification link in your email to continue or enter the code below.
                       </p>
@@ -1446,7 +1446,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-22"
                       >
                         <input
-                          aria-describedby=" challenge-authenticator_Title_eae1egri5eK5zce0V1d7_2  challenge-authenticator_Description_eae1egri5eK5zce0V1d7_2 "
+                          aria-describedby="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2 challenge-authenticator_Description_We_sent_an_email_to_f****************e@example.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eae1egri5eK5zce0V1d7_8_2"
                           aria-invalid="false"
                           autocomplete="one-time-code"
                           class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
@@ -1477,7 +1477,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby=" challenge-authenticator_Title_eae1egri5eK5zce0V1d7_2  challenge-authenticator_Description_eae1egri5eK5zce0V1d7_2 "
+                      aria-describedby="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2 challenge-authenticator_Description_We_sent_an_email_to_f****************e@example.com._Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below._okta_email_eae1egri5eK5zce0V1d7_8_2"
                       class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-27"
                       data-type="save"
                       tabindex="0"

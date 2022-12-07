@@ -18,7 +18,8 @@ export const updateElementsWithAriaDescribedByValues: TransformStepFn = (formbag
   const descriptionElements: UISchemaElement[] = [];
   traverseLayout({
     layout: formbag.uischema,
-    predicate: (el) => el.type === 'Title' || el.contentType === 'subtitle',
+    predicate: (el) => el.type === 'Title'
+      || (el.type === 'Description' && el.contentType === 'subtitle'),
     callback: (el) => {
       descriptionElements.push(el);
     },
@@ -32,7 +33,7 @@ export const updateElementsWithAriaDescribedByValues: TransformStepFn = (formbag
         .filter(
           (descrEle: UISchemaElement) => typeof descrEle.viewIndex === 'undefined'
             || descrEle.viewIndex === el.viewIndex,
-        ).map((descrEle) => ` ${descrEle.id} `).join('');
+        ).map((descrEle) => descrEle.id).join(' ');
       // eslint-disable-next-line no-param-reassign
       el.ariaDescribedBy = descriptiveElementIds;
     },

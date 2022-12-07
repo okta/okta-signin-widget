@@ -22,7 +22,7 @@ Object {
         "type": "Title",
       },
       Object {
-        "ariaDescribedBy": " title_1 ",
+        "ariaDescribedBy": "title_1",
         "id": "identifier",
         "options": Object {
           "inputMeta": Object {
@@ -32,7 +32,7 @@ Object {
         "type": "Field",
       },
       Object {
-        "ariaDescribedBy": " title_1 ",
+        "ariaDescribedBy": "title_1",
         "id": "credentials.passcode",
         "options": Object {
           "inputMeta": Object {
@@ -42,7 +42,7 @@ Object {
         "type": "Field",
       },
       Object {
-        "ariaDescribedBy": " title_1 ",
+        "ariaDescribedBy": "title_1",
         "id": "button_1",
         "options": Object {
           "type": "submit",
@@ -50,7 +50,7 @@ Object {
         "type": "Button",
       },
       Object {
-        "ariaDescribedBy": " title_1 ",
+        "ariaDescribedBy": "title_1",
         "id": "link_1",
         "options": Object {
           "label": "Forgot Password",
@@ -93,7 +93,7 @@ Object {
         "type": "Description",
       },
       Object {
-        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "ariaDescribedBy": "title_1 subtitle_1",
         "id": "credentials.passcode",
         "options": Object {
           "inputMeta": Object {
@@ -103,7 +103,7 @@ Object {
         "type": "Field",
       },
       Object {
-        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "ariaDescribedBy": "title_1 subtitle_1",
         "id": "button_1",
         "options": Object {
           "type": "submit",
@@ -111,7 +111,7 @@ Object {
         "type": "Button",
       },
       Object {
-        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "ariaDescribedBy": "title_1 subtitle_1",
         "id": "link_1",
         "options": Object {
           "label": "Back to sign in",
@@ -154,7 +154,7 @@ Object {
         "type": "Description",
       },
       Object {
-        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "ariaDescribedBy": "title_1 subtitle_1",
         "id": "credentials.passcode",
         "options": Object {
           "inputMeta": Object {
@@ -164,7 +164,7 @@ Object {
         "type": "Field",
       },
       Object {
-        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "ariaDescribedBy": "title_1 subtitle_1",
         "id": "button_1",
         "options": Object {
           "type": "submit",
@@ -172,7 +172,7 @@ Object {
         "type": "Button",
       },
       Object {
-        "ariaDescribedBy": " title_1  subtitle_1 ",
+        "ariaDescribedBy": "title_1 subtitle_1",
         "id": "link_1",
         "options": Object {
           "label": "Back to sign in",
@@ -189,7 +189,7 @@ Object {
             "type": "Description",
           },
           Object {
-            "ariaDescribedBy": " title_1  subtitle_1 ",
+            "ariaDescribedBy": "title_1 subtitle_1",
             "id": "link_2",
             "options": Object {
               "label": "Sign up",
@@ -231,7 +231,7 @@ Object {
           Object {
             "elements": Array [
               Object {
-                "ariaDescribedBy": " title_1 ",
+                "ariaDescribedBy": "title_1",
                 "id": "radio_1",
                 "options": Object {
                   "customOptions": Array [],
@@ -242,7 +242,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "ariaDescribedBy": " title_1 ",
+                "ariaDescribedBy": "title_1",
                 "id": "button_1",
                 "options": Object {
                   "type": "button",
@@ -256,7 +256,7 @@ Object {
           Object {
             "elements": Array [
               Object {
-                "ariaDescribedBy": " title_1 ",
+                "ariaDescribedBy": "title_1",
                 "id": "radio_2",
                 "options": Object {
                   "customOptions": Array [],
@@ -267,7 +267,7 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "ariaDescribedBy": " title_1 ",
+                "ariaDescribedBy": "title_1",
                 "id": "credentials.passcode_2",
                 "options": Object {
                   "inputMeta": Object {
@@ -278,7 +278,7 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "ariaDescribedBy": " title_1 ",
+                "ariaDescribedBy": "title_1",
                 "id": "button_2",
                 "options": Object {
                   "type": "button",
@@ -333,7 +333,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "ariaDescribedBy": " title_1  subtitle_1 ",
+                "ariaDescribedBy": "title_1 subtitle_1",
                 "id": "radio_1",
                 "options": Object {
                   "customOptions": Array [],
@@ -344,7 +344,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "ariaDescribedBy": " title_1  subtitle_1 ",
+                "ariaDescribedBy": "title_1 subtitle_1",
                 "id": "button_1",
                 "options": Object {
                   "type": "button",
@@ -367,7 +367,7 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "ariaDescribedBy": "title_1 subtitle_2",
                 "id": "radio_2",
                 "options": Object {
                   "customOptions": Array [],
@@ -378,7 +378,7 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "ariaDescribedBy": "title_1 subtitle_2",
                 "id": "credentials.passcode_2",
                 "options": Object {
                   "inputMeta": Object {
@@ -389,7 +389,7 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "ariaDescribedBy": "title_1 subtitle_2",
                 "id": "button_2",
                 "options": Object {
                   "type": "button",
@@ -444,7 +444,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "ariaDescribedBy": " title_1  subtitle_1 ",
+                "ariaDescribedBy": "title_1 subtitle_1",
                 "id": "radio_1",
                 "options": Object {
                   "customOptions": Array [],
@@ -455,7 +455,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "ariaDescribedBy": " title_1  subtitle_1 ",
+                "ariaDescribedBy": "title_1 subtitle_1",
                 "id": "button_1",
                 "options": Object {
                   "type": "button",
@@ -478,7 +478,7 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "ariaDescribedBy": "title_1 subtitle_2",
                 "id": "radio_2",
                 "options": Object {
                   "customOptions": Array [],
@@ -489,7 +489,7 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "ariaDescribedBy": "title_1 subtitle_2",
                 "id": "credentials.passcode_2",
                 "options": Object {
                   "inputMeta": Object {
@@ -500,7 +500,7 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "ariaDescribedBy": " title_1  subtitle_2 ",
+                "ariaDescribedBy": "title_1 subtitle_2",
                 "id": "button_2",
                 "options": Object {
                   "type": "button",
@@ -518,7 +518,7 @@ Object {
                     "type": "Description",
                   },
                   Object {
-                    "ariaDescribedBy": " title_1 ",
+                    "ariaDescribedBy": "title_1",
                     "id": "link_2",
                     "options": Object {
                       "label": "Sign up",

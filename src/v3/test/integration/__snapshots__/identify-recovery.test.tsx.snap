@@ -43,7 +43,7 @@ exports[`identify-recovery renders form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
                       data-se="o-form-head"
-                      id="identify-recovery_Title"
+                      id="identify-recovery_Title_Reset_your_password_1"
                     >
                       Reset your password
                     </h2>
@@ -65,7 +65,7 @@ exports[`identify-recovery renders form 1`] = `
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
-                        aria-describedby=" identify-recovery_Title "
+                        aria-describedby="identify-recovery_Title_Reset_your_password_1"
                         aria-invalid="false"
                         autocomplete="username"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
@@ -95,7 +95,7 @@ exports[`identify-recovery renders form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    aria-describedby=" identify-recovery_Title "
+                    aria-describedby="identify-recovery_Title_Reset_your_password_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-17"
                     data-type="save"
                     tabindex="0"

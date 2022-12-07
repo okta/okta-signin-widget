@@ -109,7 +109,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
-                      id="challenge-poll_Title_aut2h3fft4y9pDPCS1d7"
+                      id="challenge-poll_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >
                       Get a push notification
                     </h2>
@@ -122,7 +122,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                   class="MuiBox-root emotion-11"
                 >
                   <fieldset
-                    aria-describedby=" challenge-poll_Title_aut2h3fft4y9pDPCS1d7  challenge-poll_Description_aut2h3fft4y9pDPCS1d7 "
+                    aria-describedby="challenge-poll_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1 challenge-poll_Description_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_4"
                     class="MuiFormControl-root MuiFormControl-marginNormal emotion-16"
                   >
                     <label
@@ -168,7 +168,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-24"
                       data-se="o-form-explain"
-                      id="challenge-poll_Description_aut2h3fft4y9pDPCS1d7"
+                      id="challenge-poll_Description_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_4"
                     >
                       Push notification sent
                     </p>

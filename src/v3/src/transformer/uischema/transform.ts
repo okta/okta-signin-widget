@@ -15,7 +15,7 @@ import { flow } from 'lodash';
 import {
   TransformStepFnWithOptions,
 } from '../../types';
-import { addIdToElement } from './addIdToElement';
+import { addIdToElements } from './addIdToElements';
 import { updateElementsWithAriaDescribedByValues } from './buildAriaDescribedByValues';
 import { createTextElementKeys } from './createTextElementKeys';
 import { setFocusOnFirstElement } from './setFocusOnFirstElement';
@@ -28,7 +28,7 @@ export const transformUISchema: TransformStepFnWithOptions = (
 ) => (formbag) => flow(
   createTextElementKeys,
   updateElementKeys(options),
-  addIdToElement(options),
+  addIdToElements,
   updateCustomFields,
   setFocusOnFirstElement,
   // TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment

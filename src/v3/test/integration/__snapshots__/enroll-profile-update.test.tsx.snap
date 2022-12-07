@@ -108,7 +108,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-17"
                       data-se="o-form-head"
-                      id="enroll-profile_Title"
+                      id="enroll-profile_Title_Sign_in_1"
                     >
                       Sign in
                     </h2>
@@ -137,7 +137,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-22"
                     >
                       <input
-                        aria-describedby=" userProfile.favoriteSport-error  enroll-profile_Title  "
+                        aria-describedby=" userProfile.favoriteSport-error enroll-profile_Title_Sign_in_1 "
                         aria-invalid="true"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
                         data-se="userProfile.favoriteSport"
@@ -197,7 +197,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-22"
                     >
                       <input
-                        aria-describedby=" userProfile.newAttribute-error  enroll-profile_Title  "
+                        aria-describedby=" userProfile.newAttribute-error enroll-profile_Title_Sign_in_1 "
                         aria-invalid="true"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-23"
                         data-se="userProfile.newAttribute"
@@ -238,7 +238,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                   class="MuiBox-root emotion-15"
                 >
                   <button
-                    aria-describedby=" enroll-profile_Title "
+                    aria-describedby="enroll-profile_Title_Sign_in_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-39"
                     data-type="save"
                     tabindex="0"
@@ -332,7 +332,7 @@ exports[`enroll-profile-update should render form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-12"
                       data-se="o-form-head"
-                      id="enroll-profile_Title"
+                      id="enroll-profile_Title_Sign_in_1"
                     >
                       Sign in
                     </h2>
@@ -361,7 +361,7 @@ exports[`enroll-profile-update should render form 1`] = `
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
                     >
                       <input
-                        aria-describedby=" enroll-profile_Title "
+                        aria-describedby="enroll-profile_Title_Sign_in_1"
                         aria-invalid="false"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
                         data-se="userProfile.favoriteSport"
@@ -409,7 +409,7 @@ exports[`enroll-profile-update should render form 1`] = `
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
                     >
                       <input
-                        aria-describedby=" enroll-profile_Title "
+                        aria-describedby="enroll-profile_Title_Sign_in_1"
                         aria-invalid="false"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
                         data-se="userProfile.newAttribute"
@@ -438,7 +438,7 @@ exports[`enroll-profile-update should render form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby=" enroll-profile_Title "
+                    aria-describedby="enroll-profile_Title_Sign_in_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-30"
                     data-type="save"
                     tabindex="0"

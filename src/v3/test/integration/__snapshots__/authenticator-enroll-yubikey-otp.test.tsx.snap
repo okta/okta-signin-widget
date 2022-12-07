@@ -128,7 +128,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-16"
                       data-se="o-form-head"
-                      id="enroll-authenticator_Title_aut10faWWbNaNWBaH0g4"
+                      id="enroll-authenticator_Title_Set_up_YubiKey_yubikey_token_aut10faWWbNaNWBaH0g4_2"
                     >
                       Set up YubiKey
                     </h2>
@@ -143,7 +143,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                       data-se="o-form-explain"
-                      id="enroll-authenticator_Description_aut10faWWbNaNWBaH0g4"
+                      id="enroll-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code._yubikey_token_aut10faWWbNaNWBaH0g4_3"
                     >
                       Insert the YubiKey into a USB port and tap it to generate a verification code.
                     </p>
@@ -168,7 +168,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-24"
                       >
                         <input
-                          aria-describedby=" enroll-authenticator_Title_aut10faWWbNaNWBaH0g4  enroll-authenticator_Description_aut10faWWbNaNWBaH0g4 "
+                          aria-describedby="enroll-authenticator_Title_Set_up_YubiKey_yubikey_token_aut10faWWbNaNWBaH0g4_2 enroll-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code._yubikey_token_aut10faWWbNaNWBaH0g4_3"
                           aria-invalid="false"
                           autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-25"
@@ -222,7 +222,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    aria-describedby=" enroll-authenticator_Title_aut10faWWbNaNWBaH0g4  enroll-authenticator_Description_aut10faWWbNaNWBaH0g4 "
+                    aria-describedby="enroll-authenticator_Title_Set_up_YubiKey_yubikey_token_aut10faWWbNaNWBaH0g4_2 enroll-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code._yubikey_token_aut10faWWbNaNWBaH0g4_3"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-32"
                     data-type="save"
                     tabindex="0"

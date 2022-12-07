@@ -10,30 +10,26 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { TransformStepFnWithOptions } from '../../types';
-import { getCurrentAuthenticator } from '../../util';
+import { TransformStepFn } from '../../types';
+import { generateRandomString } from '../../util';
 import { traverseLayout } from '../util';
 
-export const addIdToElement: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
+export const addIdToElements: TransformStepFn = (formbag) => {
   const elementIdSet = new Set<string>();
   let elementCount = 0;
   traverseLayout({
     layout: formbag.uischema,
     predicate: (element) => !!element.type,
     callback: (element) => {
-      const { nextStep: { name } = {} } = transaction;
-      const authId = getCurrentAuthenticator(transaction)?.value?.id;
-
       elementCount += 1;
-      let elementId = element.key
-        ? `${name}_${element.type}_${element.key}`
-        : `${name}_${element.type}`;
+      let elementId = `${element.key}_${elementCount}`;
       elementId += [
-        authId,
         (typeof element.viewIndex !== 'undefined' ? (element.viewIndex + 1) : undefined),
       ].filter(Boolean).map((str) => `_${str}`).join('');
       // eslint-disable-next-line no-param-reassign
-      element.id = elementIdSet.has(elementId) ? `${elementId}_${elementCount}` : elementId;
+      element.id = elementIdSet.has(elementId)
+        ? `${elementId}_${generateRandomString()}`
+        : elementId;
       elementIdSet.add(elementId);
     },
   });

@@ -47,9 +47,9 @@ describe('Build aria-describedby values Tests', () => {
       const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect((updatedFormBag.uischema.elements[1] as UISchemaElement).ariaDescribedBy).toBe(' title_1 ');
-      expect((updatedFormBag.uischema.elements[2] as UISchemaElement).ariaDescribedBy).toBe(' title_1 ');
-      expect((updatedFormBag.uischema.elements[3] as UISchemaElement).ariaDescribedBy).toBe(' title_1 ');
+      expect((updatedFormBag.uischema.elements[1] as UISchemaElement).ariaDescribedBy).toBe('title_1');
+      expect((updatedFormBag.uischema.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1');
+      expect((updatedFormBag.uischema.elements[3] as UISchemaElement).ariaDescribedBy).toBe('title_1');
     });
 
     it('should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows', async () => {
@@ -66,8 +66,8 @@ describe('Build aria-describedby values Tests', () => {
       const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect((updatedFormBag.uischema.elements[2] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_1 ');
-      expect((updatedFormBag.uischema.elements[3] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_1 ');
+      expect((updatedFormBag.uischema.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
+      expect((updatedFormBag.uischema.elements[3] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
     });
 
     it('should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows containing additional informational text', async () => {
@@ -91,8 +91,8 @@ describe('Build aria-describedby values Tests', () => {
       const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect((updatedFormBag.uischema.elements[2] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_1 ');
-      expect((updatedFormBag.uischema.elements[3] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_1 ');
+      expect((updatedFormBag.uischema.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
+      expect((updatedFormBag.uischema.elements[3] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
     });
   });
 
@@ -156,11 +156,11 @@ describe('Build aria-describedby values Tests', () => {
       const stepper = updatedFormBag.uischema.elements[1] as StepperLayout;
       const viewOne = stepper.elements[0];
       const viewTwo = stepper.elements[1];
-      expect((viewOne.elements[0] as UISchemaElement).ariaDescribedBy).toBe(' title_1 ');
-      expect((viewOne.elements[1] as UISchemaElement).ariaDescribedBy).toBe(' title_1 ');
-      expect((viewTwo.elements[0] as UISchemaElement).ariaDescribedBy).toBe(' title_1 ');
-      expect((viewTwo.elements[1] as UISchemaElement).ariaDescribedBy).toBe(' title_1 ');
-      expect((viewTwo.elements[2] as UISchemaElement).ariaDescribedBy).toBe(' title_1 ');
+      expect((viewOne.elements[0] as UISchemaElement).ariaDescribedBy).toBe('title_1');
+      expect((viewOne.elements[1] as UISchemaElement).ariaDescribedBy).toBe('title_1');
+      expect((viewTwo.elements[0] as UISchemaElement).ariaDescribedBy).toBe('title_1');
+      expect((viewTwo.elements[1] as UISchemaElement).ariaDescribedBy).toBe('title_1');
+      expect((viewTwo.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1');
     });
 
     it('should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows', async () => {
@@ -221,11 +221,11 @@ describe('Build aria-describedby values Tests', () => {
       const stepper = updatedFormBag.uischema.elements[1] as StepperLayout;
       const viewOne = stepper.elements[0];
       const viewTwo = stepper.elements[1];
-      expect((viewOne.elements[1] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_1 ');
-      expect((viewOne.elements[2] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_1 ');
-      expect((viewTwo.elements[1] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_2 ');
-      expect((viewTwo.elements[2] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_2 ');
-      expect((viewTwo.elements[3] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_2 ');
+      expect((viewOne.elements[1] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
+      expect((viewOne.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
+      expect((viewTwo.elements[1] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_2');
+      expect((viewTwo.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_2');
+      expect((viewTwo.elements[3] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_2');
     });
 
     it('should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows containing additional informational text', async () => {
@@ -293,11 +293,11 @@ describe('Build aria-describedby values Tests', () => {
       const stepper = updatedFormBag.uischema.elements[1] as StepperLayout;
       const viewOne = stepper.elements[0];
       const viewTwo = stepper.elements[1];
-      expect((viewOne.elements[1] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_1 ');
-      expect((viewOne.elements[2] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_1 ');
-      expect((viewTwo.elements[1] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_2 ');
-      expect((viewTwo.elements[2] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_2 ');
-      expect((viewTwo.elements[3] as UISchemaElement).ariaDescribedBy).toBe(' title_1  subtitle_2 ');
+      expect((viewOne.elements[1] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
+      expect((viewOne.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
+      expect((viewTwo.elements[1] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_2');
+      expect((viewTwo.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_2');
+      expect((viewTwo.elements[3] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_2');
     });
   });
 });
