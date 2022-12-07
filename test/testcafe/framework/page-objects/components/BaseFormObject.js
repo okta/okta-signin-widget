@@ -403,6 +403,10 @@ export default class BaseFormObject {
     await this.t.click(this.el.find(selector));
   }
 
+  getSpinner() {
+    return within(this.el).queryByLabelText('Loading...');
+  }
+
   /**
    * Queries for all elements matching the selector
    * and returns a list of inner texts of the matching elements.
