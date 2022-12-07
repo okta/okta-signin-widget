@@ -21,11 +21,13 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-fixture('Identify + Password');
+fixture('Identify + Password')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
@@ -39,17 +41,16 @@ async function setup(t) {
 test.requestHooks(identifyWithPasswordMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
 
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 
   await identityPage.fillIdentifierField('Test Identifier');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasPasswordError()).eql(true);
   await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
   await t.expect(identityPage.getPasswordErrorMessage()).eql('This field cannot be left blank');
 });
@@ -65,7 +66,7 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
     }
   });
 
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
@@ -73,10 +74,9 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
 
 
   await identityPage.fillIdentifierField('Test Identifier');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasPasswordError()).eql(true);
   await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
   await t.expect(identityPage.getPasswordErrorMessage()).eql('Password is required!');
 });
@@ -92,7 +92,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   await t.expect(identityPage.getSaveButtonLabel()).eql('Sign in');
 
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   const req = identifyRequestLogger.requests[0].request;
@@ -116,7 +116,8 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
 });
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
+// OKTA-555502 - showPasswordToggleOnSignInPage feature not supported yet
+test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
   const identityPage = await setup(t);
   await renderWidget({
     features: { showPasswordToggleOnSignInPage: false },
@@ -124,7 +125,8 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
+// OKTA-555502 - showPasswordToggleOnSignInPage feature not supported yet
+test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
   const identityPage = await setup(t);
   await renderWidget({
     'features.showPasswordToggleOnSignInPage': false,
@@ -132,7 +134,8 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
-test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
+// OKTA-519488 - i18n option for Secondary label is not supported in v3
+test.meta('v3', false).requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
   const identityPage = await setup(t);
   await renderWidget({
     i18n: {
