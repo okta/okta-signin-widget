@@ -10,10 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import {
-  List,
-} from '@okta/odyssey-react';
+import { Box, List } from '@mui/material';
 import debounce from 'lodash/debounce';
 import { h } from 'preact';
 import {
@@ -30,7 +27,7 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 import { validatePassword } from '../../util';
-import PasswordRequirementItem from './PasswordRequirementItem';
+import PasswordRequirementListItem from './PasswordRequirementListItem';
 
 const PasswordRequirements: UISchemaElementComponent<{
   uischema: PasswordRequirementsElement
@@ -55,11 +52,7 @@ const PasswordRequirements: UISchemaElementComponent<{
   const getPasswordStatus = (
     ruleKey: string,
     passwordValidation: PasswordValidation,
-  ): PasswordRequirementStatus | undefined => {
-    if (!passwordValidation) {
-      return undefined;
-    }
-
+  ): PasswordRequirementStatus => {
     const ruleValue = passwordValidation[ruleKey];
     if (ruleValue) {
       return 'complete';
@@ -95,27 +88,27 @@ const PasswordRequirements: UISchemaElementComponent<{
   }, [password]);
 
   return requirements?.length > 0 ? (
-    <Box data-se="password-authenticator--rules">
-      <Box marginBottom={2}>
-        <Box
-          as="span"
-          className="password-authenticator--heading"
-        >
-          {header}
-        </Box>
+    <Box
+      component="figure"
+      margin={0}
+      data-se="password-authenticator--rules"
+    >
+      <Box
+        component="figcaption"
+        className="password-authenticator--heading"
+      >
+        {header}
       </Box>
       <List
         id={id}
-        listType="unordered"
-        unstyled
+        dense
       >
         {requirements.map(({ ruleKey, label }) => (
-          <List.Item key={label}>
-            <PasswordRequirementItem
-              status={getPasswordStatus(ruleKey, passwordValidations)}
-              text={label}
-            />
-          </List.Item>
+          <PasswordRequirementListItem
+            key={label}
+            status={getPasswordStatus(ruleKey, passwordValidations)}
+            label={label}
+          />
         ))}
       </List>
     </Box>

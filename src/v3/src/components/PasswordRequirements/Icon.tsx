@@ -11,21 +11,25 @@
  */
 
 import { Box } from '@mui/material';
-import { Icon } from '@okta/odyssey-react';
+import { Icon as OdyIcon } from '@okta/odyssey-react';
 import { withTheme } from '@okta/odyssey-react-theme';
 import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
 
-import { PasswordRequirementProps } from '../../types';
+import { PasswordRequirementStatus } from '../../types';
 import { theme } from './PasswordRequirements.theme';
 import style from './style.module.css';
 
 const cx = classNames.bind(style);
 
-const PasswordRequirement: FunctionComponent<PasswordRequirementProps> = (
+type PasswordRequirementIconProps = {
+  status: PasswordRequirementStatus;
+};
+
+const Icon: FunctionComponent<PasswordRequirementIconProps> = (
   props,
 ) => {
-  const { status, text } = props;
+  const { status } = props;
   const statusToIconName = {
     incomplete: 'close',
     complete: 'check-circle-filled',
@@ -38,23 +42,13 @@ const PasswordRequirement: FunctionComponent<PasswordRequirementProps> = (
   });
 
   return (
-    <Box>
-      {
-        status && (
-          <Box
-            display="inline-block"
-            marginRight={1}
-            className={iconClasses}
-          >
-            <Icon
-              title={status}
-              name={statusToIconName[status]}
-            />
-          </Box>
-        )
-      }
-      <Box component="span">{text}</Box>
+    <Box className={iconClasses}>
+      <OdyIcon
+        // TODO: OKTA-556721 - Create and use loc string here for requirement status
+        title={status}
+        name={statusToIconName[status]}
+      />
     </Box>
   );
 };
-export default withTheme(theme, style)(PasswordRequirement);
+export default withTheme(theme, style)(Icon);
