@@ -385,7 +385,6 @@ const desktopSmartProbe = {
 };
 
 // device probe: Windows/Android authenticator with custom URI, probing is not required
-// sy-this one?
 const windowAuthnCustomUri = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback-challenge-not-received',
@@ -1055,6 +1054,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  // mocks: idx
-  mocks: windowAuthnCustomUri
+  mocks: idx
 };
