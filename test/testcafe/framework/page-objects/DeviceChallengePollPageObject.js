@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
@@ -21,7 +21,7 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   getIframeAttributes() {
-    return Selector('#custom-uri-container').attributes;
+    return Selector('iframe').attributes;
   }
 
   getContent() {
@@ -84,8 +84,12 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     await this.t.click(Selector('.al-button'));
   }
 
-  async clickLaunchOktaVerifyLink() {
-    await this.form.clickButton('Open Okta Verify');
+  async clickLaunchOktaVerifyButton() {
+    if (userVariables.v3) {
+      await this.form.clickButton('Open Okta Verify');
+    } else {
+      await this.t.click(Selector('#launch-ov'));
+    }
   }
 
   getErrorBox() {

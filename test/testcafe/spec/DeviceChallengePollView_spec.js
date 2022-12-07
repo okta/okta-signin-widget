@@ -561,7 +561,7 @@ test
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/) // in iframe
     )).eql(1);
-    await deviceChallengePollPageObject.clickLaunchOktaVerifyLink();
+    await deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     await t.wait(100); // opening the page in iframe takes just a moment
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/) // in iframe
@@ -604,6 +604,7 @@ test
   });
 
 test
+  .meta('v3', false) // Not yet implemented in v3
   .requestHooks(LoginHintCustomURIMock)('expect login_hint in CustomURI when engFastpassMultipleAccounts is on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -634,7 +635,7 @@ test
     await identityPage.fillIdentifierField(username);
     identityPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Click "Open Okta Verify" on the browser prompt');
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Click "Open Okta Verify" on the browser prompt');
 
     // verify login_hint is not appended to the customURI url in the iframe
     const attributes = await deviceChallengePollPageObject.getIframeAttributes();
