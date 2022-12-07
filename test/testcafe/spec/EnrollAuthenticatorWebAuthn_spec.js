@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { oktaDashboardContent } from '../framework/shared';
 import EnrollWebauthnPageObject from '../framework/page-objects/EnrollWebauthnPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-enroll-webauthn';
@@ -8,14 +9,18 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollWebauthn)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 fixture('Enroll Webauthn Authenticator')
-  .requestHooks(mock);
+  .requestHooks(mock)
+  .meta('v3', true);
 
 async function setup(t) {
   const enrollWebauthnPage = new EnrollWebauthnPageObject(t);
   await enrollWebauthnPage.navigateToPage();
+  await t.expect(enrollWebauthnPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'enroll-webauthn',
     formName: 'enroll-authenticator',
@@ -31,12 +36,13 @@ test('should have webauthn not supported error if browser doesnt support', async
   const enrollWebauthnPage = await setup(t);
   await t.expect(enrollWebauthnPage.getFormTitle()).eql('Set up security key or biometric authenticator');
   await t.expect(enrollWebauthnPage.hasEnrollInstruction()).eql(false);
-  await t.expect(enrollWebauthnPage.hasWebauthnNotSupportedError()).eql(true);
+  await t.expect(enrollWebauthnPage.getWebauthnNotSupportedError())
+    .eql('Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.');
 
   // signout link at enroll page
   await t.expect(await enrollWebauthnPage.signoutLinkExists()).ok();
 
   // assert switch authenticator link shows up
-  await t.expect(await enrollWebauthnPage.switchAuthenticatorLinkExists()).ok();
+  await t.expect(await enrollWebauthnPage.returnToAuthenticatorListLinkExists()).ok();
   await t.expect(enrollWebauthnPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
 });
