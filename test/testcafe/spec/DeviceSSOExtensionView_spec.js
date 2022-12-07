@@ -113,7 +113,7 @@ test
     await t.expect(ssoExtensionHeader.find('.beacon-container').exists).eql(false);
     await t.expect(ssoExtensionPage.getFormTitle()).eql('Verifying your identity');
     await t.expect(ssoExtensionPage.showingSpinner()).eql(true);
-    await t.expect(await ssoExtensionPage.goBackLinkExists()).eql(true);
+    await t.expect(await ssoExtensionPage.getCancelLink().exists).eql(true);
 
     // the next ajax mock (credentialSSOExtensionMock) set up for delaying 4s
     // testcafe waits 3s by default for ajax call
@@ -164,6 +164,7 @@ test
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
     await ssoExtensionPage.formExists();
+    await ssoExtensionPage.form.waitForErrorBox();
     await t.expect(ssoExtensionPage.showingSpinner()).eql(false);
   });
 
