@@ -17,7 +17,7 @@ import { useState } from 'preact/hooks';
 import {
   ButtonElement,
   ButtonType,
-  OpenOktaVerifyButtonElement,
+  OpenOktaVerifyFPButtonElement,
   UISchemaElementComponent,
 } from '../../types';
 import { getTranslation } from '../../util';
@@ -36,8 +36,8 @@ const IFrame: FunctionComponent<IFrameProps> = ({ src }) => (
   />
 );
 
-const OpenOktaVerifyButton: UISchemaElementComponent<{
-  uischema: OpenOktaVerifyButtonElement
+const OpenOktaVerifyFPButton: UISchemaElementComponent<{
+  uischema: OpenOktaVerifyFPButtonElement
 }> = ({ uischema }) => {
   const {
     translations = [],
@@ -74,4 +74,4 @@ const OpenOktaVerifyButton: UISchemaElementComponent<{
   );
 };
 
-export default OpenOktaVerifyButton;
+export default OpenOktaVerifyFPButton;

@@ -10,6 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import OpenOktaVerifyButton from './OpenOktaVerifyButton';
+import OpenOktaVerifyFPButton from './OpenOktaVerifyFPButton';
 
-export default OpenOktaVerifyButton;
+export default OpenOktaVerifyFPButton;

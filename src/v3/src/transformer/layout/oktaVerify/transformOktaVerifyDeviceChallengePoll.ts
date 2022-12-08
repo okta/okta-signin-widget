@@ -17,7 +17,7 @@ import {
   DescriptionElement,
   IdxStepTransformer,
   LinkElement,
-  OpenOktaVerifyButtonElement,
+  OpenOktaVerifyFPButtonElement,
   TitleElement,
 } from '../../../types';
 import { loc } from '../../../util';
@@ -47,7 +47,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
       // @ts-expect-error ts(2339) Property 'href' does not exist on type 'IdxAuthenticator'.
       href: relatesTo?.value.href,
     },
-  } as OpenOktaVerifyButtonElement);
+  } as OpenOktaVerifyFPButtonElement);
 
   uischema.elements.push({
     type: 'Description',
