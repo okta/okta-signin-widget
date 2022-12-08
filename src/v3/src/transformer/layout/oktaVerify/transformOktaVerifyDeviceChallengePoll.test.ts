@@ -42,7 +42,11 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
   });
 
   it('should transform elements when challengeMethod is CUSTOM_URI', () => {
-    const updatedFormBag = transformOktaVerifyDeviceChallengePoll({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformOktaVerifyDeviceChallengePoll({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);

@@ -20,8 +20,8 @@ import {
   WidgetProps,
 } from 'src/types';
 
-import { transformOktaVerifyChallengePoll } from './transformOktaVerifyChallengePoll';
 import { transformOktaVerifyDeviceChallengePoll } from '../layout/oktaVerify/transformOktaVerifyDeviceChallengePoll';
+import { transformOktaVerifyChallengePoll } from './transformOktaVerifyChallengePoll';
 
 jest.mock('../layout/oktaVerify/transformOktaVerifyDeviceChallengePoll');
 

@@ -11,6 +11,7 @@
  */
 
 import { NextStep } from '@okta/okta-auth-js';
+import { IdxAuthenticatorChallenge } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 
 import { IDX_STEP } from '../../../constants';
 import {
@@ -44,8 +45,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     type: 'OpenOktaVerifyButton',
     options: {
       step: IDX_STEP.DEVICE_CHALLENGE_POLL,
-      // @ts-expect-error ts(2339) Property 'href' does not exist on type 'IdxAuthenticator'.
-      href: relatesTo?.value.href,
+      href: (relatesTo?.value as IdxAuthenticatorChallenge).href,
     },
   } as OpenOktaVerifyFPButtonElement);
 
@@ -58,8 +58,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     type: 'Link',
     options: {
       label: loc('customUri.required.content.download.linkText', 'login'),
-      // @ts-expect-error ts(2339) Property 'downloadHref' does not exist on type 'IdxAuthenticator'.
-      href: relatesTo?.value.downloadHref,
+      href: (relatesTo?.value as IdxAuthenticatorChallenge).downloadHref,
     },
   } as LinkElement);
 
