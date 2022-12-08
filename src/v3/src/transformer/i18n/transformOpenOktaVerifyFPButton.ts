@@ -23,7 +23,7 @@ export const transformOpenOktaVerifyFPButton: TransformStepFn = (
 
   traverseLayout({
     layout: uischema,
-    predicate: (element) => element.type === 'OpenOktaVerifyButton',
+    predicate: (element) => element.type === 'OpenOktaVerifyFPButton',
     callback: (element) => {
       addTranslation({
         element,

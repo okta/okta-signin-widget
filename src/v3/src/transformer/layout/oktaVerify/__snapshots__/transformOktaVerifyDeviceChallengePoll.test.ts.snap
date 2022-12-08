@@ -31,7 +31,7 @@ Object {
           "href": "okta-verify.html",
           "step": "device-challenge-poll",
         },
-        "type": "OpenOktaVerifyButton",
+        "type": "OpenOktaVerifyFPButton",
       },
       Object {
         "options": Object {

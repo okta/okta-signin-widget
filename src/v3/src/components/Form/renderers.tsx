@@ -107,7 +107,7 @@ export default [
     renderer: LaunchAuthenticatorButton,
   },
   {
-    tester: ({ type }) => type === 'OpenOktaVerifyButton',
+    tester: ({ type }) => type === 'OpenOktaVerifyFPButton',
     renderer: OpenOktaVerifyFPButton,
   },
   {

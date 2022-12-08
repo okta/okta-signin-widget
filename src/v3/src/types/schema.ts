@@ -229,7 +229,7 @@ export interface LaunchAuthenticatorButtonElement extends UISchemaElement {
 }
 
 export interface OpenOktaVerifyFPButtonElement extends UISchemaElement {
-  type: 'OpenOktaVerifyButton';
+  type: 'OpenOktaVerifyFPButton';
   options: {
     step: string;
     href?: string;

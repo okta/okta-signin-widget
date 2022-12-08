@@ -42,7 +42,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   } as DescriptionElement);
 
   uischema.elements.push({
-    type: 'OpenOktaVerifyButton',
+    type: 'OpenOktaVerifyFPButton',
     options: {
       step: IDX_STEP.DEVICE_CHALLENGE_POLL,
       href: (relatesTo?.value as IdxAuthenticatorChallenge).href,
