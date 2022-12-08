@@ -10,32 +10,40 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { TransformStepFn, UISchemaElement } from '../../types';
-import { isInteractiveType } from '../../util';
+import { FieldElement, TransformStepFn, UISchemaElement } from '../../types';
 import { traverseLayout } from '../util';
 
-export const updateElementsWithAriaDescribedByValues: TransformStepFn = (formbag) => {
-  const descriptionElements: UISchemaElement[] = [];
+/**
+ * The purpose of this function is to apply the ID of PasswordRequirement List element
+ * as the aria-describedby value to Password Text Fields
+ */
+export const updatePasswordDescribedByValue: TransformStepFn = (formbag) => {
+  const passwordRequirementsElement: UISchemaElement[] = [];
   traverseLayout({
     layout: formbag.uischema,
-    predicate: (el) => el.type === 'Title'
-      || (el.type === 'Description' && el.contentType === 'subtitle'),
+    predicate: (el) => el.type === 'PasswordRequirements',
     callback: (el) => {
-      descriptionElements.push(el);
+      passwordRequirementsElement.push(el);
     },
   });
 
+  if (passwordRequirementsElement.length === 0) {
+    return formbag;
+  }
+
   traverseLayout({
     layout: formbag.uischema,
-    predicate: (el) => isInteractiveType(el.type),
+    predicate: (el) => el.type === 'Field' && !!(el as FieldElement).options.inputMeta.secret,
     callback: (el) => {
-      const descriptiveElementIds = descriptionElements
+      const descriptiveElementIds = passwordRequirementsElement
         .filter(
           (descrEle: UISchemaElement) => typeof descrEle.viewIndex === 'undefined'
             || descrEle.viewIndex === el.viewIndex,
         ).map((descrEle) => descrEle.id).join(' ');
       // eslint-disable-next-line no-param-reassign
-      el.ariaDescribedBy = descriptiveElementIds;
+      el.ariaDescribedBy = typeof el.ariaDescribedBy === 'undefined'
+        ? descriptiveElementIds
+        : `${el.ariaDescribedBy} ${descriptiveElementIds}`;
     },
   });
   return formbag;

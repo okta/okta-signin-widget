@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Build aria-describedby values Tests Horizontal / Vertical Layout Schemas should add Title ID as aria-describedby values to field elements in non-Stepper flows 1`] = `
+exports[`Update aria-describedby values for Interactive Elements Tests Horizontal / Vertical Layout Schemas should add Title ID as aria-describedby values to field elements in non-Stepper flows 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -63,7 +63,7 @@ Object {
 }
 `;
 
-exports[`Build aria-describedby values Tests Horizontal / Vertical Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows 1`] = `
+exports[`Update aria-describedby values for Interactive Elements Tests Horizontal / Vertical Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -124,7 +124,7 @@ Object {
 }
 `;
 
-exports[`Build aria-describedby values Tests Horizontal / Vertical Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows containing additional informational text 1`] = `
+exports[`Update aria-describedby values for Interactive Elements Tests Horizontal / Vertical Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows containing additional informational text 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -205,7 +205,7 @@ Object {
 }
 `;
 
-exports[`Build aria-describedby values Tests Stepper Layout Schemas should add Title ID as aria-describedby values to field elements in Stepper flows 1`] = `
+exports[`Update aria-describedby values for Interactive Elements Tests Stepper Layout Schemas should add Title ID as aria-describedby values to field elements in Stepper flows 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -298,7 +298,7 @@ Object {
 }
 `;
 
-exports[`Build aria-describedby values Tests Stepper Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows 1`] = `
+exports[`Update aria-describedby values for Interactive Elements Tests Stepper Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -409,7 +409,7 @@ Object {
 }
 `;
 
-exports[`Build aria-describedby values Tests Stepper Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows containing additional informational text 1`] = `
+exports[`Update aria-describedby values for Interactive Elements Tests Stepper Layout Schemas should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows containing additional informational text 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {

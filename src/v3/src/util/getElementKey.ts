@@ -13,8 +13,8 @@
 import { FieldElement, UISchemaElement } from '../types';
 
 export const getElementKey = (element: UISchemaElement, index: number): string => {
-  const defaultKey = [element.type, element.key, index].join('_');
+  const defaultKey = [element.key, index].join('_');
   return element.type === 'Field' && (element as FieldElement).key
-    ? [(element as FieldElement).key].join('_')
+    ? (element as FieldElement).key
     : defaultKey;
 };

@@ -25,9 +25,9 @@ import {
   UISchemaLayoutType,
 } from 'src/types';
 
-import { updateElementsWithAriaDescribedByValues } from './buildAriaDescribedByValues';
+import { updateInteractiveElementsDescribedByValue } from './updateInteractiveElementsDescribedByValue';
 
-describe('Build aria-describedby values Tests', () => {
+describe('Update aria-describedby values for Interactive Elements Tests', () => {
   let formBag: FormBag;
 
   describe('Horizontal / Vertical Layout Schemas', () => {
@@ -44,7 +44,7 @@ describe('Build aria-describedby values Tests', () => {
         { type: 'Link', id: 'link_1', options: { label: 'Forgot Password' } } as LinkElement,
       ];
 
-      const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
+      const updatedFormBag = updateInteractiveElementsDescribedByValue(formBag);
 
       expect(updatedFormBag).toMatchSnapshot();
       expect((updatedFormBag.uischema.elements[1] as UISchemaElement).ariaDescribedBy).toBe('title_1');
@@ -52,7 +52,7 @@ describe('Build aria-describedby values Tests', () => {
       expect((updatedFormBag.uischema.elements[3] as UISchemaElement).ariaDescribedBy).toBe('title_1');
     });
 
-    it('should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows', async () => {
+    it('should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows', () => {
       formBag.uischema.elements = [
         { type: 'Title', id: 'title_1', options: { content: 'Verify with your email' } } as TitleElement,
         {
@@ -63,14 +63,14 @@ describe('Build aria-describedby values Tests', () => {
         { type: 'Link', id: 'link_1', options: { label: 'Back to sign in' } } as LinkElement,
       ];
 
-      const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
+      const updatedFormBag = updateInteractiveElementsDescribedByValue(formBag);
 
       expect(updatedFormBag).toMatchSnapshot();
       expect((updatedFormBag.uischema.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
       expect((updatedFormBag.uischema.elements[3] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
     });
 
-    it('should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows containing additional informational text', async () => {
+    it('should add Title and Subtitle IDs as aria-describedby values to field elements in non-Stepper flows containing additional informational text', () => {
       formBag.uischema.elements = [
         { type: 'Title', id: 'title_1', options: { content: 'Verify with your email' } } as TitleElement,
         {
@@ -88,7 +88,7 @@ describe('Build aria-describedby values Tests', () => {
         },
       ];
 
-      const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
+      const updatedFormBag = updateInteractiveElementsDescribedByValue(formBag);
 
       expect(updatedFormBag).toMatchSnapshot();
       expect((updatedFormBag.uischema.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_1');
@@ -104,7 +104,7 @@ describe('Build aria-describedby values Tests', () => {
       ];
     });
 
-    it('should add Title ID as aria-describedby values to field elements in Stepper flows', async () => {
+    it('should add Title ID as aria-describedby values to field elements in Stepper flows', () => {
       formBag.uischema.elements.push({
         type: UISchemaLayoutType.STEPPER,
         elements: [
@@ -150,7 +150,7 @@ describe('Build aria-describedby values Tests', () => {
         ],
       } as StepperLayout);
 
-      const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
+      const updatedFormBag = updateInteractiveElementsDescribedByValue(formBag);
 
       expect(updatedFormBag).toMatchSnapshot();
       const stepper = updatedFormBag.uischema.elements[1] as StepperLayout;
@@ -163,7 +163,7 @@ describe('Build aria-describedby values Tests', () => {
       expect((viewTwo.elements[2] as UISchemaElement).ariaDescribedBy).toBe('title_1');
     });
 
-    it('should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows', async () => {
+    it('should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows', () => {
       formBag.uischema.elements.push({
         type: UISchemaLayoutType.STEPPER,
         elements: [
@@ -215,7 +215,7 @@ describe('Build aria-describedby values Tests', () => {
         ],
       } as StepperLayout);
 
-      const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
+      const updatedFormBag = updateInteractiveElementsDescribedByValue(formBag);
 
       expect(updatedFormBag).toMatchSnapshot();
       const stepper = updatedFormBag.uischema.elements[1] as StepperLayout;
@@ -228,7 +228,7 @@ describe('Build aria-describedby values Tests', () => {
       expect((viewTwo.elements[3] as UISchemaElement).ariaDescribedBy).toBe('title_1 subtitle_2');
     });
 
-    it('should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows containing additional informational text', async () => {
+    it('should add Title and Subtitle IDs as aria-describedby values to field elements in Stepper flows containing additional informational text', () => {
       formBag.uischema.elements.push({
         type: UISchemaLayoutType.STEPPER,
         elements: [
@@ -287,7 +287,7 @@ describe('Build aria-describedby values Tests', () => {
         ],
       } as StepperLayout);
 
-      const updatedFormBag = updateElementsWithAriaDescribedByValues(formBag);
+      const updatedFormBag = updateInteractiveElementsDescribedByValue(formBag);
 
       expect(updatedFormBag).toMatchSnapshot();
       const stepper = updatedFormBag.uischema.elements[1] as StepperLayout;
