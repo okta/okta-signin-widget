@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc, $ } from 'okta';
 import BaseAuthenticatorEmailView from './BaseAuthenticatorEmailView';
 import { getCheckYourEmailTitle, getEnterCodeLink } from './AuthenticatorEmailViewUtil';
 
@@ -8,6 +8,10 @@ const Body = BaseAuthenticatorEmailForm.extend(
   Object.assign({
     resendEmailAction: 'currentAuthenticator-resend',
 
+    events: {
+      'click .enter-auth-code-instead-link': 'showAuthCodeEntry',
+    },
+
     initialize() {
       BaseAuthenticatorEmailForm.prototype.initialize.apply(this, arguments);
 
@@ -15,17 +19,11 @@ const Body = BaseAuthenticatorEmailForm.extend(
 
       const useEmailMagicLinkValue = this.isUseEmailMagicLink();
 
-      if (useEmailMagicLinkValue !== undefined) {
-        
-        this.noButtonBar = true;
-        this.events['click .enter-auth-code-instead-link'] = 'showAuthCodeEntry';
-
-        if (useEmailMagicLinkValue) {
-          this.add(getEnterCodeLink(), {
-            prepend: true,
-            selector: '.o-form-error-container',
-          });
-        } 
+      if (useEmailMagicLinkValue) {
+        this.add(getEnterCodeLink(), {
+          prepend: true,
+          selector: '.o-form-error-container',
+        });
   
         this.add(getCheckYourEmailTitle(), {
           prepend: true,
@@ -38,25 +36,22 @@ const Body = BaseAuthenticatorEmailForm.extend(
     },
 
     postRender() {
-      if (this.isUseEmailMagicLink() !== undefined) {
-        BaseAuthenticatorEmailForm.prototype.postRender.apply(this, arguments);
-        if (this.isUseEmailMagicLink()) {
+      BaseAuthenticatorEmailForm.prototype.postRender.apply(this, arguments);
+      if (this.isUseEmailMagicLink()) {
+        $(() => {
           this.showCodeEntryField(false);
-        } else {
-          this.noButtonBar = false;
-        }
+          this.togglePrimaryButton(false);
+        });
       }
     },
 
     isUseEmailMagicLink() {
-      return this.options.appState.get('currentAuthenticator')?.
+      return !!this.options.appState.get('currentAuthenticator')?.
         contextualData?.useEmailMagicLink;
     },
 
     showAuthCodeEntry() {
-      this.noButtonBar = false;
-      this.render();
-
+      this.togglePrimaryButton(true);
       this.showCodeEntryField(true);
       this.removeEnterAuthCodeInsteadLink();
     },
@@ -69,6 +64,9 @@ const Body = BaseAuthenticatorEmailForm.extend(
     removeEnterAuthCodeInsteadLink() {
       this.$el.find('.enter-auth-code-instead-link').remove();
     },
+    togglePrimaryButton(state) {
+      this.$el.find('.button.button-primary').toggle(state);
+    }
   })
 );
 

@@ -1,11 +1,11 @@
 import BaseAuthenticatorEmailView from './BaseAuthenticatorEmailView';
 import { getCheckYourEmailTitle, getEnterCodeLink } from './AuthenticatorEmailViewUtil';
+import { $ } from 'okta';
 
 const BaseAuthenticatorEmailForm = BaseAuthenticatorEmailView.prototype.Body;
 
 const Body = BaseAuthenticatorEmailForm.extend(
   Object.assign({
-    noButtonBar: true,
     resendEmailAction: 'currentAuthenticatorEnrollment-resend',
 
     events: {
@@ -37,9 +37,11 @@ const Body = BaseAuthenticatorEmailForm.extend(
     postRender() {
       BaseAuthenticatorEmailForm.prototype.postRender.apply(this, arguments);
       if (this.isUseEmailMagicLink()) {
-        this.showCodeEntryField(false);
-      } else {
-        this.noButtonBar = false;
+        // Use jQuery fn to wait until the dom is ready
+        $(() => {
+          this.showCodeEntryField(false);
+          this.togglePrimaryButton(false);
+        });
       }
     },
 
@@ -50,9 +52,7 @@ const Body = BaseAuthenticatorEmailForm.extend(
     },
 
     showAuthCodeEntry() {
-      this.noButtonBar = false;
-      this.render();
-
+      this.togglePrimaryButton(true);
       this.showCodeEntryField(true);
       this.removeEnterAuthCodeInsteadLink();
     },
@@ -65,6 +65,10 @@ const Body = BaseAuthenticatorEmailForm.extend(
     removeEnterAuthCodeInsteadLink() {
       this.$el.find('.enter-auth-code-instead-link').remove();
     },
+
+    togglePrimaryButton(state) {
+      this.$el.find('.button.button-primary').toggle(state);
+    }
   })
 );
 

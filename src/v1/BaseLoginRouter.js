@@ -183,15 +183,6 @@ export default Router.extend({
         .then(_.bind(this.render, this, Controller, options));
     }
 
-    // Load the custom colors only on the first render
-    if (this.settings.get('colors.brand') && !ColorsUtil.isLoaded()) {
-      const colors = {
-        brand: this.settings.get('colors.brand'),
-      };
-
-      ColorsUtil.addStyle(colors);
-    }
-
     const oldController = this.controller;
 
     this.controller = new Controller(controllerOptions);
@@ -215,6 +206,15 @@ export default Router.extend({
         this.show();
 
         this.controller.render();
+
+        // Apply the custom colors after render
+        if (this.settings.get('colors.brand')) {
+          const colors = {
+            brand: this.settings.get('colors.brand'),
+          };
+
+          ColorsUtil.addStyle(this.controller.$el, colors);
+        }
 
         if (!oldController) {
           this.el.append(this.controller.el);

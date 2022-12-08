@@ -18,7 +18,6 @@ import { _, $, Backbone, Router, loc, BaseRouterOptions } from 'okta';
 import Settings from 'models/Settings';
 import Bundles from 'util/Bundles';
 import BrowserFeatures from 'util/BrowserFeatures';
-import ColorsUtil from 'util/ColorsUtil';
 import Enums from 'util/Enums';
 import { ConfigError } from 'util/Errors';
 import Logger from 'util/Logger';
@@ -176,15 +175,6 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
       // These settings should only be used one time, for initial render
       this.settings.unset('stateToken');
       this.settings.unset('proxyIdxResponse');
-    }
-
-    // Load the custom colors only on the first render
-    if (this.settings.get('colors.brand') && !ColorsUtil.isLoaded()) {
-      const colors = {
-        brand: this.settings.get('colors.brand'),
-      };
-
-      ColorsUtil.addStyle(colors);
     }
 
     // Show before initial render

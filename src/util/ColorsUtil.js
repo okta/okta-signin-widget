@@ -10,21 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Enums from 'util/Enums';
+import { $ } from 'okta';
 const fn = {};
-
-const template = function(colors) {
-  return `
-#okta-sign-in.auth-container .button-primary,
-#okta-sign-in.auth-container .button-primary:active,
-#okta-sign-in.auth-container .button-primary:focus { background: ${colors.brand}; }
-#okta-sign-in.auth-container .button-primary:hover { background: ${fn.lighten(colors.brand, 0.05)}; }
-#okta-sign-in.auth-container .button.button-primary.link-button-disabled {
-  background: ${colors.brand};
-  opacity: 0.5;
-}
-    `;
-};
 
 // visible for testing
 fn.lighten = function(hex, lum) {
@@ -41,20 +28,16 @@ fn.lighten = function(hex, lum) {
   return newHex;
 };
 
-fn.addStyle = function(colors) {
-  const css = template(colors);
-  const main = document.getElementById(Enums.WIDGET_CONTAINER_ID);
-  const style = document.createElement('style');
-
-  style.id = Enums.WIDGET_CONFIG_COLORS_ID;
-  style.type = 'text/css';
-  style.appendChild(document.createTextNode(css));
-
-  main.appendChild(style);
-};
-
-fn.isLoaded = function() {
-  return !!document.getElementById(Enums.WIDGET_CONFIG_COLORS_ID);
+fn.addStyle = function($containerEl, colors) {
+  const $primaryButton = $containerEl.find('.button-primary');
+  $primaryButton
+    .css('background', colors.brand)
+    .on('mouseenter', function() {
+      $(this).css('background', fn.lighten(colors.brand, 0.05));
+    })
+    .on('mouseleave', function() {
+      $(this).css('background', colors.brand);
+    });
 };
 
 export default fn;

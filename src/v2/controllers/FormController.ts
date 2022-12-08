@@ -15,6 +15,7 @@ import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
 import Util from 'util/Util';
+import ColorsUtil from 'util/ColorsUtil';
 import sessionStorageHelper from '../client/sessionStorageHelper';
 import { HttpResponse, IdxStatus, ProceedOptions } from '@okta/okta-auth-js';
 import { EventErrorContext } from 'types/events';
@@ -67,6 +68,14 @@ export default Controller.extend({
           currentViewState,
         }
       }).last();
+      
+      // Apply the custom colors after render
+      if (this.settings.get('colors.brand')) {
+        const colors = {
+          brand: this.settings.get('colors.brand'),
+        };
+        ColorsUtil.addStyle(this.$el, colors);
+      }
     } catch (error) {
       // This is the place where runtime error (NPE) happens at most of time.
       // It has been swallowed by Q.js hence add try/catch to surface up errors.

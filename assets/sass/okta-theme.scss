@@ -756,6 +756,7 @@
     border-color: $disabled-primary-button-bg-color;
     background-image: none;
     box-shadow: none;
+    opacity: 0.5;
 
     &:hover,
     &:focus,
