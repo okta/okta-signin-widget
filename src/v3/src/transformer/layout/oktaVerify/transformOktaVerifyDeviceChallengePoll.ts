@@ -11,7 +11,6 @@
  */
 
 import { NextStep } from '@okta/okta-auth-js';
-import { IdxAuthenticatorChallenge } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 
 import { IDX_STEP } from '../../../constants';
 import {
@@ -45,7 +44,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     type: 'OpenOktaVerifyFPButton',
     options: {
       step: IDX_STEP.DEVICE_CHALLENGE_POLL,
-      href: (relatesTo?.value as IdxAuthenticatorChallenge).href,
+      href: relatesTo?.value.href,
     },
   } as OpenOktaVerifyFPButtonElement);
 
@@ -58,7 +57,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     type: 'Link',
     options: {
       label: loc('customUri.required.content.download.linkText', 'login'),
-      href: (relatesTo?.value as IdxAuthenticatorChallenge).downloadHref,
+      href: relatesTo?.value.downloadHref,
     },
   } as LinkElement);
 

@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxAuthenticatorChallenge } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   DescriptionElement,
@@ -36,7 +35,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
           challengeMethod: 'CUSTOM_URI',
           href: 'okta-verify.html',
           downloadHref: 'https://apps.apple.com/us/app/okta-verify/id490179405',
-        } as IdxAuthenticatorChallenge,
+        },
       },
     };
   });
