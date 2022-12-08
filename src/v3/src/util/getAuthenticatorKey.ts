@@ -29,7 +29,7 @@ export const getAuthenticatorKey = (
     return relatesTo?.value?.challengeMethod;
   }
   if (STEPS_MISSING_RELATES_TO.includes(stepName)) {
-    return context.currentAuthenticator?.value?.key
+    return context.currentAuthenticator?.value?.key;
   }
   // TODO: OKTA-503490 temporary sln to grab auth key for enroll-poll step its missing relatesTo obj
   return relatesTo?.value?.key;
