@@ -16,7 +16,7 @@ import {
 import { traverseLayout } from '../util';
 import { addTranslation } from './util';
 
-export const transformOpenOktaVerifyButton: TransformStepFn = (
+export const transformOpenOktaVerifyFPButton: TransformStepFn = (
   formbag,
 ) => {
   const { uischema } = formbag;
