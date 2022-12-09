@@ -17,6 +17,14 @@ source $OKTA_HOME/$REPO/scripts/setup.sh
 set -e
 cd $OKTA_HOME/$REPO
 
+create_log_group "Build Widget"
+  # Build
+  if ! yarn build:release; then
+    echo "build failed! Exiting..."
+    exit ${TEST_FAILURE}
+  fi
+finish_log_group $?
+
 # Start monolith
 create_log_group "Start Monolith"
 source ./scripts/monolith/install-dockolith.sh
@@ -31,14 +39,6 @@ echo "${DOCKER_HOST_CONTAINER_IP} ${TEST_ORG_SUBDOMAIN}.okta1.com" >> /etc/hosts
 cat /etc/hosts
 source ./scripts/monolith/create-testenv.sh
 export ORG_OIE_ENABLED=true
-finish_log_group $?
-
-# Build Widget
-create_log_group "Build Widget"
-if ! yarn build:release; then
-  echo "build failed! Exiting..."
-  exit ${TEST_FAILURE}
-fi
 finish_log_group $?
 
 # Setup E2E environment
