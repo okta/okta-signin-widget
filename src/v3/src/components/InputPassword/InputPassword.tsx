@@ -92,7 +92,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           <InputAdornment position="end">
             <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
               <IconButton
-                // TODO: request translation keys
+                // TODO: OKTA-558040 request translation keys for aria labels
                 aria-label={isConfirmPassword ? 'Show re-enter password' : 'Show password'}
                 aria-pressed={showPassword}
                 aria-controls={name}
