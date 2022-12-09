@@ -1,5 +1,8 @@
 #!/bin/bash -xe
 
+# REMOVE ME
+DOCKOLITH_BRANCH=ag-OKTA-536775-support-content-injection
+
 if [[ -z ${DOCKOLITH_BRANCH} ]]; then
   export DOCKOLITH_BRANCH=master
 fi
