@@ -27,6 +27,7 @@ import InputText from '../InputText';
 import LaunchAuthenticatorButton from '../LaunchAuthenticatorButton';
 import Link from '../Link';
 import List from '../List';
+import OpenOktaVerifyFPButton from '../OpenOktaVerifyFPButton';
 import PasswordRequirements from '../PasswordRequirements';
 import PasswordMatches from '../PasswordRequirements/PasswordMatches';
 import PhoneAuthenticator from '../PhoneAuthenticator';
@@ -104,6 +105,10 @@ export default [
   {
     tester: ({ type }) => type === 'LaunchAuthenticatorButton',
     renderer: LaunchAuthenticatorButton,
+  },
+  {
+    tester: ({ type }) => type === 'OpenOktaVerifyFPButton',
+    renderer: OpenOktaVerifyFPButton,
   },
   {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',

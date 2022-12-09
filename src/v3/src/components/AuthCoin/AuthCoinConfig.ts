@@ -12,7 +12,7 @@
 
 import { FunctionComponent } from 'preact';
 
-import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { IconProps } from '../../types';
 import { loc } from '../../util';
 import {
@@ -153,6 +153,13 @@ const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
     customizable: false,
     description: loc('factor.totpHard.yubikey', 'login'),
     iconClassName: 'mfa-yubikey',
+  },
+  [CHALLENGE_METHOD.CUSTOM_URI]: {
+    icon: OktaVerifyIcon,
+    name: 'mfa-okta-verify',
+    customizable: false,
+    description: loc('factor.totpSoft.oktaVerify', 'login'),
+    iconClassName: 'mfa-okta-verify',
   },
 };
 

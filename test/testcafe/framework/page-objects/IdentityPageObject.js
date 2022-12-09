@@ -60,7 +60,11 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async clickOktaVerifyButton() {
-    await this.t.click(Selector('.sign-in-with-device-option .okta-verify-container .link-button'));
+    if (userVariables.v3) {
+      await this.form.clickButton(/Sign in with Okta FastPass/);
+    } else {
+      await this.t.click(Selector('.sign-in-with-device-option .okta-verify-container .link-button'));
+    }
   }
 
   getSeparationLineText() {

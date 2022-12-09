@@ -328,7 +328,7 @@ test
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/)
     )).eql(1);
-    await deviceChallengePollPageObject.clickLaunchOktaVerifyLink();
+    await deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/)
     )).eql(2);

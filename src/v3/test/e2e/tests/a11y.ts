@@ -380,3 +380,10 @@ test.page(
   await checkA11y(t);
   await takeScreenshot(t, 'error-session-expired');
 });
+
+test.page(
+  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/authenticators/okta-verify/launch/device-challenge-poll-custom-uri',
+)('device-challenge-poll-custom-uri', async (t) => {
+  await checkA11y(t);
+  await takeScreenshot(t, 'device-challenge-poll-custom-uri');
+});

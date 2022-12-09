@@ -18,6 +18,7 @@ import { transformField } from './transformField';
 import { transformIdentifierHint } from './transformIdentifierHint';
 import { transformInputPassword } from './transformInputPassword';
 import { transformLaunchAuthenticatorButton } from './transformLaunchAuthenticatorButton';
+import { transformOpenOktaVerifyFPButton } from './transformOpenOktaVerifyFPButton';
 import { transformPasscodeHint } from './transformPasscodeHint';
 import { transformPasswordMatches } from './transformPasswordMatches';
 import { transformPhoneAuthenticator } from './transformPhoneAuthenticator';
@@ -35,6 +36,7 @@ export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) 
   transformPasscodeHint(options),
   transformSecondEmailInputExplain(options),
   transformWebAuthNSubmitButton(options),
-  transformLaunchAuthenticatorButton(options),
+  transformLaunchAuthenticatorButton,
+  transformOpenOktaVerifyFPButton,
   transformPasswordMatches(options),
 )(formbag);

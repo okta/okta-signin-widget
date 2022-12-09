@@ -134,7 +134,7 @@ export default class BaseFormObject {
   }
 
   /**
-   * @param {string} name the text of the button to return
+   * @param {(string|RegExp)} name the text of the button to return
    */
   getButton(name) {
     const options = userVariables.v3 ? { name } : { value: name };

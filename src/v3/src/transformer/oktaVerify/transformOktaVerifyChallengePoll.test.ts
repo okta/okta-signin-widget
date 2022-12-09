@@ -20,7 +20,10 @@ import {
   WidgetProps,
 } from 'src/types';
 
+import { transformOktaVerifyDeviceChallengePoll } from '../layout/oktaVerify/transformOktaVerifyDeviceChallengePoll';
 import { transformOktaVerifyChallengePoll } from './transformOktaVerifyChallengePoll';
+
+jest.mock('../layout/oktaVerify/transformOktaVerifyDeviceChallengePoll');
 
 describe('Transform Okta Verify Challenge Poll Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -148,5 +151,25 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       .toBe('42');
     expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options.id).toBe('code');
     expect(updatedFormBag.uischema.elements[3].type).toBe('Spinner');
+  });
+
+  it('should call device challenge poll transformer when selected authenticator method is signed_nonce', () => {
+    transaction.nextStep = {
+      name: '',
+      relatesTo: {
+        value: {
+          methods: [{ type: 'signed_nonce' }],
+        } as IdxAuthenticator,
+      },
+    };
+
+    transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
+
+    expect(transformOktaVerifyDeviceChallengePoll).toHaveBeenCalledTimes(1);
+    expect(transformOktaVerifyDeviceChallengePoll).toHaveBeenLastCalledWith({
+      transaction,
+      formBag,
+      widgetProps,
+    });
   });
 });

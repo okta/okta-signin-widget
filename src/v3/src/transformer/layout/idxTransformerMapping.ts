@@ -12,7 +12,7 @@
 
 import { IdxStepTransformer } from 'src/types';
 
-import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
 import {
   transformOktaVerifyChallengePoll,
@@ -54,6 +54,7 @@ import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
 } from './googleAuthenticator';
+import { transformOktaVerifyDeviceChallengePoll } from './oktaVerify';
 import { transformPIVAuthenticator } from './piv';
 import {
   transformIdentityRecovery,
@@ -152,6 +153,15 @@ const TransformerMap: {
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: false,
+      },
+    },
+  },
+  [IDX_STEP.DEVICE_CHALLENGE_POLL]: {
+    [CHALLENGE_METHOD.CUSTOM_URI]: {
+      transform: transformOktaVerifyDeviceChallengePoll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: true,
       },
     },
   },
