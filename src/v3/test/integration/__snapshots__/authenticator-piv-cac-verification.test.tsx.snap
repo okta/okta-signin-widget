@@ -43,6 +43,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
                       data-se="o-form-head"
+                      id="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     >
                       Sign In
                     </h2>
@@ -52,6 +53,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   class="MuiBox-root emotion-6"
                 >
                   <button
+                    aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root custom-piv-class piv-button emotion-10"
                     tabindex="0"
                     type="button"
@@ -89,6 +91,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
                     >
                       <input
+                        aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                         aria-invalid="false"
                         autocomplete="username"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
@@ -133,6 +136,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-25"
                       >
                         <input
+                          aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                           aria-invalid="false"
                           autocomplete="current-password"
                           class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-26"
@@ -186,6 +190,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   class="MuiBox-root emotion-6"
                 >
                   <fieldset
+                    aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     class="MuiFormControl-root MuiFormControl-marginNormal emotion-33"
                   >
                     <label
@@ -226,6 +231,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   class="MuiBox-root emotion-6"
                 >
                   <button
+                    aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-40"
                     data-type="save"
                     tabindex="0"
@@ -275,6 +281,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
                         data-se="signup-info"
+                        id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_12"
                       >
                         Don't have an account?
                       </p>
@@ -345,6 +352,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
                       data-se="o-form-head"
+                      id="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     >
                       Sign In
                     </h2>
@@ -354,6 +362,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   class="MuiBox-root emotion-6"
                 >
                   <button
+                    aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  piv-button emotion-10"
                     tabindex="0"
                     type="button"
@@ -391,6 +400,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
                     >
                       <input
+                        aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                         aria-invalid="false"
                         autocomplete="username"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
@@ -435,6 +445,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-25"
                       >
                         <input
+                          aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                           aria-invalid="false"
                           autocomplete="current-password"
                           class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-26"
@@ -488,6 +499,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   class="MuiBox-root emotion-6"
                 >
                   <fieldset
+                    aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     class="MuiFormControl-root MuiFormControl-marginNormal emotion-33"
                   >
                     <label
@@ -528,6 +540,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   class="MuiBox-root emotion-6"
                 >
                   <button
+                    aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-40"
                     data-type="save"
                     tabindex="0"
@@ -577,6 +590,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
                         data-se="signup-info"
+                        id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_12"
                       >
                         Don't have an account?
                       </p>
@@ -647,6 +661,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
                       data-se="o-form-head"
+                      id="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     >
                       Sign In
                     </h2>
@@ -668,6 +683,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
+                        aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                         aria-invalid="false"
                         autocomplete="username"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
@@ -712,6 +728,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-20"
                       >
                         <input
+                          aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                           aria-invalid="false"
                           autocomplete="current-password"
                           class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-21"
@@ -765,6 +782,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   class="MuiBox-root emotion-6"
                 >
                   <fieldset
+                    aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     class="MuiFormControl-root MuiFormControl-marginNormal emotion-28"
                   >
                     <label
@@ -805,6 +823,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   class="MuiBox-root emotion-6"
                 >
                   <button
+                    aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-35"
                     data-type="save"
                     tabindex="0"
@@ -831,6 +850,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   class="MuiBox-root emotion-6"
                 >
                   <button
+                    aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  piv-button emotion-40"
                     tabindex="0"
                     type="button"
@@ -879,6 +899,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
                         data-se="signup-info"
+                        id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_12"
                       >
                         Don't have an account?
                       </p>
@@ -991,6 +1012,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-9"
                       data-se="o-form-head"
+                      id="piv-idp_Title_PIV_/_CAC_card_aut2h3ffszv3me6O31d7_1"
                     >
                       PIV / CAC card
                     </h2>
@@ -1005,6 +1027,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-12"
                       data-se="o-form-explain"
+                      id="piv-idp_Description_Please_insert_your_PIV_/_CAC_card_and_select_the_user_certificate_aut2h3ffszv3me6O31d7_2"
                     >
                       Please insert your PIV / CAC card and select the user certificate.
                     </p>

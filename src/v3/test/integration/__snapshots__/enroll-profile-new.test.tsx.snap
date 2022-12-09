@@ -43,6 +43,7 @@ exports[`enroll-profile-new should render form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
                       data-se="o-form-head"
+                      id="enroll-profile_Title_Sign_up_1"
                     >
                       Sign up
                     </h2>
@@ -71,6 +72,7 @@ exports[`enroll-profile-new should render form 1`] = `
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
                     >
                       <input
+                        aria-describedby="enroll-profile_Title_Sign_up_1"
                         aria-invalid="false"
                         autocomplete="family-name"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
@@ -119,6 +121,7 @@ exports[`enroll-profile-new should render form 1`] = `
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
                     >
                       <input
+                        aria-describedby="enroll-profile_Title_Sign_up_1"
                         aria-invalid="false"
                         autocomplete="given-name"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
@@ -167,6 +170,7 @@ exports[`enroll-profile-new should render form 1`] = `
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
                     >
                       <input
+                        aria-describedby="enroll-profile_Title_Sign_up_1"
                         aria-invalid="false"
                         autocomplete="email"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
@@ -197,6 +201,7 @@ exports[`enroll-profile-new should render form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
+                    aria-describedby="enroll-profile_Title_Sign_up_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-34"
                     data-type="save"
                     tabindex="0"
@@ -224,6 +229,7 @@ exports[`enroll-profile-new should render form 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-40"
                         data-se="haveaccount"
+                        id="enroll-profile_Description_Already_have_an_account_8"
                       >
                         Already have an account?
                       </p>

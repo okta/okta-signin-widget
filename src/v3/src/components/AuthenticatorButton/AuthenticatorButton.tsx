@@ -38,6 +38,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const {
     translations,
     focus,
+    ariaDescribedBy,
     options: {
       type,
       key: authenticationKey,
@@ -63,6 +64,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     `${iconName}-ctaLabel`,
     description && `${iconName}-description`,
     usageDescription && `${iconName}-usageDescription`,
+    ariaDescribedBy,
   ].filter(Boolean).join(' ');
 
   const onClick: ClickHandler = async () => {

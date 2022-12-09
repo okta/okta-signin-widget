@@ -21,6 +21,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "piv.cac.card.insert",
         },

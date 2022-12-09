@@ -60,6 +60,7 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
   const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
   const informationalTextElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: `${sendInfoText} ${phoneInfoText}. ${enterCodeInfoText}`,
     },
@@ -67,6 +68,7 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
 
   const carrierChargeDisclaimerText: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: loc('oie.phone.carrier.charges', 'login'),
     },

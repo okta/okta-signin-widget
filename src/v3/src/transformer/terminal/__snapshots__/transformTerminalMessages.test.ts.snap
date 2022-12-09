@@ -15,6 +15,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.selfservice.unlock_user.success.message",
         },
@@ -79,6 +80,7 @@ Object {
         "type": "InfoBox",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.consent.enduser.deny.description",
         },
@@ -220,12 +222,14 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.consent.enduser.email.allow.description",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.return.to.original.tab",
         },

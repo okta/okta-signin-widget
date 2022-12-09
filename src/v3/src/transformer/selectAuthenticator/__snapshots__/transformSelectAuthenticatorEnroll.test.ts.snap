@@ -21,12 +21,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.select.authenticators.enroll.subtitle",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.setup.required",
         },
@@ -73,12 +75,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.select.authenticators.enroll.subtitle",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.setup.optional",
         },
@@ -133,12 +137,14 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.select.authenticators.enroll.subtitle.custom",
         },
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "oie.setup.optional",
         },

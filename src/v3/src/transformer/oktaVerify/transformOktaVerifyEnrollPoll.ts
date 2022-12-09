@@ -21,6 +21,7 @@ import {
   ReminderElement,
   StepperLayout,
   TextWithHtmlElement,
+  UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
@@ -131,7 +132,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
               stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
             },
           } as ButtonElement,
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
       } as UISchemaLayout,
       {
         type: UISchemaLayoutType.VERTICAL,
@@ -140,12 +141,13 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
           title,
           {
             type: 'Description',
+            contentType: 'subtitle',
             options: {
               content: loc('oie.enroll.okta_verify.email.info', 'login', [email]),
             },
           } as DescriptionElement,
           switchChannelButton('oie.enroll.okta_verify.switch.channel.link.text'),
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
       },
       {
         type: UISchemaLayoutType.VERTICAL,
@@ -154,12 +156,13 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
           title,
           {
             type: 'Description',
+            contentType: 'subtitle',
             options: {
               content: loc('oie.enroll.okta_verify.sms.info', 'login', [phoneNumber]),
             },
           } as DescriptionElement,
           switchChannelButton('oie.enroll.okta_verify.switch.channel.link.text'),
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 2 })),
       },
     ],
     options: {

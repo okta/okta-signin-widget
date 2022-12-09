@@ -26,6 +26,7 @@ import {
   WidgetProps,
 } from '../types';
 import { getAuthenticatorKey } from './getAuthenticatorKey';
+import { getCurrentAuthenticator } from './getCurrentAuthenticator';
 import { loc } from './locUtil';
 
 export const getUserInfo = (transaction: IdxTransaction): UserInfo => {
@@ -145,8 +146,12 @@ export const areTransactionsEqual = (
     return false;
   }
 
-  const tx1AuthId = tx1?.context.currentAuthenticator?.value?.id;
-  const tx2AuthId = tx2?.context.currentAuthenticator?.value?.id;
+  const tx1AuthId = typeof tx1 !== 'undefined'
+    ? getCurrentAuthenticator(tx1)?.value?.id
+    : undefined;
+  const tx2AuthId = typeof tx2 !== 'undefined'
+    ? getCurrentAuthenticator(tx2)?.value?.id
+    : undefined;
   if (tx1AuthId !== tx2AuthId) {
     return false;
   }

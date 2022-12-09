@@ -59,6 +59,7 @@ export const transformYubikeyOtpAuthenticator: IdxStepTransformer = ({ formBag, 
 
   const descriptionElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: loc('oie.yubikey.description', 'login'),
     },

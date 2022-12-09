@@ -43,6 +43,7 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
   const redactedEmailAddress = relatesTo?.value?.profile?.email as string;
   const informationalText: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: redactedEmailAddress
         ? loc('oie.email.verify.subtitleWithEmailAddress', 'login', [redactedEmailAddress])

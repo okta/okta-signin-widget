@@ -43,6 +43,7 @@ exports[`user-unlock-account renders form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
                       data-se="o-form-head"
+                      id="select-authenticator-unlock-account_Title_Unlock_account_1"
                     >
                       Unlock account?
                     </h2>
@@ -64,6 +65,7 @@ exports[`user-unlock-account renders form 1`] = `
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
+                        aria-describedby="select-authenticator-unlock-account_Title_Unlock_account_1"
                         aria-invalid="false"
                         autocomplete="username"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
@@ -93,7 +95,7 @@ exports[`user-unlock-account renders form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    aria-describedby="okta_email_0-ctaLabel"
+                    aria-describedby="okta_email_0-ctaLabel select-authenticator-unlock-account_Title_Unlock_account_1"
                     aria-labelledby="okta_email_0-label"
                     class="authenticator-row authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"
@@ -172,7 +174,7 @@ exports[`user-unlock-account renders form 1`] = `
                   class="MuiBox-root emotion-6"
                 >
                   <button
-                    aria-describedby="phone_number_1-ctaLabel"
+                    aria-describedby="phone_number_1-ctaLabel select-authenticator-unlock-account_Title_Unlock_account_1"
                     aria-labelledby="phone_number_1-label"
                     class="authenticator-row authButton MuiBox-root emotion-17"
                     data-se="authenticator-button"

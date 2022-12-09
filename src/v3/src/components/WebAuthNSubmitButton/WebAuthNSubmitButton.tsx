@@ -29,7 +29,7 @@ import { getTranslation } from '../../util';
 const WebAuthNSubmit: UISchemaElementComponent<{
   uischema: WebAuthNButtonElement
 }> = ({ uischema }) => {
-  const { translations = [] } = uischema;
+  const { translations = [], ariaDescribedBy } = uischema;
   const { options } = uischema;
 
   const btnLabel = getTranslation(translations, 'label');
@@ -106,6 +106,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
               size="l"
               onClick={handleClick}
               variant="primary"
+              aria-describedby={ariaDescribedBy}
               wide
             >
               { label }

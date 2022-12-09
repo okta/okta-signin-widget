@@ -122,6 +122,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1"
                     >
                       Set up phone authentication
                     </h2>
@@ -139,6 +140,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
                         data-se="o-form-explain"
+                        id="authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aut2h3fft10VeLDPD1d7_3_1"
                       >
                         Enter your phone number to receive a verification code via SMS.
                       </p>
@@ -152,6 +154,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     >
                       
                       <div
+                        aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aut2h3fft10VeLDPD1d7_3_1"
                         class="MuiFormGroup-root emotion-20"
                         role="radiogroup"
                       >
@@ -268,6 +271,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                           class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-39"
                         >
                           <select
+                            aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aut2h3fft10VeLDPD1d7_3_1"
                             autocomplete="tel-country-code"
                             class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-40"
                             data-se="countryList"
@@ -1531,6 +1535,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               </p>
                             </span>
                             <input
+                              aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aut2h3fft10VeLDPD1d7_3_1"
                               aria-invalid="false"
                               autocomplete="tel-national"
                               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
@@ -1563,6 +1568,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <button
+                      aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aut2h3fft10VeLDPD1d7_3_1"
                       class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-54"
                       data-type="save"
                       tabindex="0"
@@ -1726,6 +1732,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1"
                     >
                       Set up phone authentication
                     </h2>
@@ -1743,6 +1750,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
                         data-se="o-form-explain"
+                        id="authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_voice_call_phone_number_aut2h3fft10VeLDPD1d7_7_2"
                       >
                         Enter your phone number to receive a verification code via voice call.
                       </p>
@@ -1756,6 +1764,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     >
                       
                       <div
+                        aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_voice_call_phone_number_aut2h3fft10VeLDPD1d7_7_2"
                         class="MuiFormGroup-root emotion-20"
                         role="radiogroup"
                       >
@@ -1872,6 +1881,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-39"
                         >
                           <select
+                            aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_voice_call_phone_number_aut2h3fft10VeLDPD1d7_7_2"
                             autocomplete="tel-country-code"
                             class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-40"
                             data-se="countryList"
@@ -3135,6 +3145,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               </p>
                             </span>
                             <input
+                              aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_voice_call_phone_number_aut2h3fft10VeLDPD1d7_7_2"
                               aria-invalid="false"
                               autocomplete="tel-national"
                               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
@@ -3173,6 +3184,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                             class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary emotion-55"
                           >
                             <input
+                              aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_voice_call_phone_number_aut2h3fft10VeLDPD1d7_7_2"
                               autocomplete="tel-extension"
                               class="MuiOutlinedInput-input MuiInputBase-input emotion-56"
                               data-se="extension"
@@ -3203,6 +3215,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     class="MuiBox-root emotion-11"
                   >
                     <button
+                      aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_voice_call_phone_number_aut2h3fft10VeLDPD1d7_7_2"
                       class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-60"
                       data-type="save"
                       tabindex="0"

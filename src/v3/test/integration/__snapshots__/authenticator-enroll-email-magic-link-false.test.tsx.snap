@@ -115,6 +115,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-14"
                       data-se="o-form-head"
+                      id="enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_2"
                     >
                       Verify with your email
                     </h2>
@@ -129,6 +130,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_We_sent_you_a_verification_email_Enter_the_verification_code_in_the_text_box_okta_email_aut2m2nnGGzJy8uO80g4_3"
                     >
                       We sent you a verification email. Enter the verification code in the text box.
                     </p>
@@ -150,6 +152,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
                     >
                       <input
+                        aria-describedby="enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_2"
                         aria-invalid="false"
                         autocomplete="off"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
@@ -180,6 +183,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                   class="MuiBox-root emotion-11"
                 >
                   <button
+                    aria-describedby="enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_2"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-26"
                     data-type="save"
                     tabindex="0"

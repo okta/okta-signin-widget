@@ -24,6 +24,7 @@ const StepperButton: UISchemaElementComponent<{
   const {
     label,
     focus,
+    ariaDescribedBy,
     options: {
       nextStepIndex,
       variant,
@@ -46,6 +47,7 @@ const StepperButton: UISchemaElementComponent<{
       sx={{
         whiteSpace: 'normal',
       }}
+      aria-describedby={ariaDescribedBy}
     >
       {label}
     </Button>

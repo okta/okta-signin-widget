@@ -28,6 +28,7 @@ export const transformPIVAuthenticator: IdxStepTransformer = ({ formBag }) => {
 
   const descriptionElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: { content: loc('piv.cac.card.insert', 'login') },
   };
 

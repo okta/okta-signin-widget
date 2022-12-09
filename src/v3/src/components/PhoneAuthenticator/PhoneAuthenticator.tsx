@@ -52,6 +52,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     translations = [],
     focus,
     required,
+    ariaDescribedBy,
     options: {
       inputMeta: {
         name: fieldName,
@@ -61,9 +62,9 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
       attributes,
     },
   } = uischema;
-  const mainLabel = getTranslation(translations!, 'label');
-  const extensionLabel = getTranslation(translations!, 'extension');
-  const countryLabel = getTranslation(translations!, 'country');
+  const mainLabel = getTranslation(translations, 'label');
+  const extensionLabel = getTranslation(translations, 'extension');
+  const countryLabel = getTranslation(translations, 'country');
 
   const countries = CountryUtil.getCountries() as Record<string, string>;
   const [phone, setPhone] = useState<string>('');
@@ -132,6 +133,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
           inputProps={{
             'data-se': 'extension',
             autocomplete: 'tel-extension',
+            'aria-describedby': ariaDescribedBy,
           }}
         />
       </Box>
@@ -162,6 +164,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         inputProps={{
           'data-se': 'countryList',
           autocomplete: 'tel-country-code',
+          'aria-describedby': ariaDescribedBy,
         }}
       >
         {

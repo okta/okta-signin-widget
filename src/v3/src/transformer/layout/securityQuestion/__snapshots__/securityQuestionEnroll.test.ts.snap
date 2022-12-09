@@ -28,6 +28,7 @@ Object {
                   "content": "oie.security.question.enroll.title",
                 },
                 "type": "Title",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
@@ -48,6 +49,7 @@ Object {
                   "name": "questionType",
                 },
                 "type": "StepperRadio",
+                "viewIndex": 0,
               },
               Object {
                 "key": "credentials.questionKey",
@@ -79,6 +81,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 0,
               },
               Object {
                 "key": "credentials.answer_predefined",
@@ -89,6 +92,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 0,
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -98,6 +102,7 @@ Object {
                   "type": "submit",
                 },
                 "type": "Button",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -109,6 +114,7 @@ Object {
                   "content": "oie.security.question.enroll.title",
                 },
                 "type": "Title",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
@@ -129,6 +135,7 @@ Object {
                   "name": "questionType",
                 },
                 "type": "StepperRadio",
+                "viewIndex": 1,
               },
               Object {
                 "label": "oie.security.question.createQuestion.label",
@@ -138,6 +145,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 1,
               },
               Object {
                 "key": "credentials.answer_custom",
@@ -150,6 +158,7 @@ Object {
                   },
                 },
                 "type": "Field",
+                "viewIndex": 1,
               },
               Object {
                 "label": "mfa.challenge.verify",
@@ -161,6 +170,7 @@ Object {
                   "type": "submit",
                 },
                 "type": "Button",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",

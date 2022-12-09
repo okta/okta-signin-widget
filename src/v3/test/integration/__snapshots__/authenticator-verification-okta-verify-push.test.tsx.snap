@@ -109,6 +109,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="authenticator-verification-data_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >
                       Get a push notification
                     </h2>
@@ -118,6 +119,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <fieldset
+                    aria-describedby="authenticator-verification-data_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     class="MuiFormControl-root MuiFormControl-marginNormal emotion-15"
                   >
                     <label
@@ -158,6 +160,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
+                    aria-describedby="authenticator-verification-data_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
                     data-type="save"
                     tabindex="0"

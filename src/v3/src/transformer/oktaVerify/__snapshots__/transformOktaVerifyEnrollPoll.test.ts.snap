@@ -23,6 +23,7 @@ Object {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
@@ -34,12 +35,14 @@ Object {
                   "type": "ordered",
                 },
                 "type": "List",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
                   "data": "#mockQrCode",
                 },
                 "type": "QRCode",
+                "viewIndex": 0,
               },
               Object {
                 "label": "enroll.totp.cannotScan",
@@ -51,6 +54,7 @@ Object {
                   "variant": "secondary",
                 },
                 "type": "Button",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -62,12 +66,15 @@ Object {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
+                "viewIndex": 1,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.enroll.okta_verify.email.info",
                 },
                 "type": "Description",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
@@ -77,6 +84,7 @@ Object {
                   "stepToRender": "select-enrollment-channel",
                 },
                 "type": "TextWithHtml",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",
@@ -88,12 +96,15 @@ Object {
                   "content": "oie.enroll.okta_verify.setup.title",
                 },
                 "type": "Title",
+                "viewIndex": 2,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.enroll.okta_verify.sms.info",
                 },
                 "type": "Description",
+                "viewIndex": 2,
               },
               Object {
                 "options": Object {
@@ -103,6 +114,7 @@ Object {
                   "stepToRender": "select-enrollment-channel",
                 },
                 "type": "TextWithHtml",
+                "viewIndex": 2,
               },
             ],
             "type": "VerticalLayout",
@@ -149,12 +161,14 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
                   "content": "oie.enroll.okta_verify.setup.email.title",
                 },
                 "type": "Title",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
@@ -166,12 +180,14 @@ Object {
                   "type": "ordered",
                 },
                 "type": "List",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
                   "data": "#mockQrCode",
                 },
                 "type": "QRCode",
+                "viewIndex": 0,
               },
               Object {
                 "label": "enroll.totp.cannotScan",
@@ -183,6 +199,7 @@ Object {
                   "variant": "secondary",
                 },
                 "type": "Button",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -201,18 +218,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
                   "content": "oie.enroll.okta_verify.setup.email.title",
                 },
                 "type": "Title",
+                "viewIndex": 1,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.enroll.okta_verify.email.info",
                 },
                 "type": "Description",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
@@ -222,6 +243,7 @@ Object {
                   "stepToRender": "select-enrollment-channel",
                 },
                 "type": "TextWithHtml",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",
@@ -240,18 +262,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 2,
               },
               Object {
                 "options": Object {
                   "content": "oie.enroll.okta_verify.setup.email.title",
                 },
                 "type": "Title",
+                "viewIndex": 2,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.enroll.okta_verify.sms.info",
                 },
                 "type": "Description",
+                "viewIndex": 2,
               },
               Object {
                 "options": Object {
@@ -261,6 +287,7 @@ Object {
                   "stepToRender": "select-enrollment-channel",
                 },
                 "type": "TextWithHtml",
+                "viewIndex": 2,
               },
             ],
             "type": "VerticalLayout",
@@ -307,12 +334,14 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
                   "content": "oie.enroll.okta_verify.setup.sms.title",
                 },
                 "type": "Title",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
@@ -324,12 +353,14 @@ Object {
                   "type": "ordered",
                 },
                 "type": "List",
+                "viewIndex": 0,
               },
               Object {
                 "options": Object {
                   "data": "#mockQrCode",
                 },
                 "type": "QRCode",
+                "viewIndex": 0,
               },
               Object {
                 "label": "enroll.totp.cannotScan",
@@ -341,6 +372,7 @@ Object {
                   "variant": "secondary",
                 },
                 "type": "Button",
+                "viewIndex": 0,
               },
             ],
             "type": "VerticalLayout",
@@ -359,18 +391,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
                   "content": "oie.enroll.okta_verify.setup.sms.title",
                 },
                 "type": "Title",
+                "viewIndex": 1,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.enroll.okta_verify.email.info",
                 },
                 "type": "Description",
+                "viewIndex": 1,
               },
               Object {
                 "options": Object {
@@ -380,6 +416,7 @@ Object {
                   "stepToRender": "select-enrollment-channel",
                 },
                 "type": "TextWithHtml",
+                "viewIndex": 1,
               },
             ],
             "type": "VerticalLayout",
@@ -398,18 +435,22 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
+                "viewIndex": 2,
               },
               Object {
                 "options": Object {
                   "content": "oie.enroll.okta_verify.setup.sms.title",
                 },
                 "type": "Title",
+                "viewIndex": 2,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.enroll.okta_verify.sms.info",
                 },
                 "type": "Description",
+                "viewIndex": 2,
               },
               Object {
                 "options": Object {
@@ -419,6 +460,7 @@ Object {
                   "stepToRender": "select-enrollment-channel",
                 },
                 "type": "TextWithHtml",
+                "viewIndex": 2,
               },
             ],
             "type": "VerticalLayout",

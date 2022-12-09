@@ -28,7 +28,7 @@ import { getTranslation } from '../../util';
 const PIVButton: UISchemaElementComponent<{
   uischema: PIVButtonElement
 }> = ({ uischema }) => {
-  const { translations = [] } = uischema;
+  const { translations = [], ariaDescribedBy } = uischema;
 
   const btnLabel = getTranslation(translations, 'label');
 
@@ -77,6 +77,7 @@ const PIVButton: UISchemaElementComponent<{
               size="l"
               onClick={handleClick}
               variant="primary"
+              aria-describedby={ariaDescribedBy}
               wide
             >
               { btnLabel }

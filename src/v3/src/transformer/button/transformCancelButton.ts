@@ -35,6 +35,7 @@ export const transformCancelButton: TransformStepFnWithOptions = ({
 
   const cancelLink: LinkElement = {
     type: 'Link',
+    contentType: 'footer',
     options: {
       label: loc('goback', 'login'),
       isActionStep: true,

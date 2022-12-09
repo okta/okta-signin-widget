@@ -68,6 +68,7 @@ export const transformSelectAuthenticatorVerify: IdxStepTransformer = ({
   };
   const informationalTextElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: isPwRecovery
         ? loc('oie.password.reset.verification', 'login')

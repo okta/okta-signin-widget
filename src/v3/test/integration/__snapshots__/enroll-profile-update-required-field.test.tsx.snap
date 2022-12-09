@@ -108,6 +108,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-17"
                       data-se="o-form-head"
+                      id="profile-update_Title_Additional_Profile_information_1"
                     >
                       Additional Profile information
                     </h2>
@@ -129,6 +130,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
                     >
                       <input
+                        aria-describedby="profile-update_Title_Additional_Profile_information_1"
                         aria-invalid="false"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
                         data-se="userProfile.newAttribute"
@@ -169,7 +171,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
                     >
                       <input
-                        aria-describedby=" userProfile.secondEmail-explain "
+                        aria-describedby="profile-update_Title_Additional_Profile_information_1 userProfile.secondEmail-explain "
                         aria-invalid="false"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
                         data-se="userProfile.secondEmail"
@@ -224,7 +226,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-21"
                     >
                       <input
-                        aria-describedby="userProfile.newAttribute2-error"
+                        aria-describedby=" userProfile.newAttribute2-error profile-update_Title_Additional_Profile_information_1 "
                         aria-invalid="true"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-22"
                         data-se="userProfile.newAttribute2"
@@ -265,6 +267,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                   class="MuiBox-root emotion-15"
                 >
                   <button
+                    aria-describedby="profile-update_Title_Additional_Profile_information_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-44"
                     data-type="save"
                     tabindex="0"
@@ -369,6 +372,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-12"
                       data-se="o-form-head"
+                      id="profile-update_Title_Additional_Profile_information_1"
                     >
                       Additional Profile information
                     </h2>
@@ -390,6 +394,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
                     >
                       <input
+                        aria-describedby="profile-update_Title_Additional_Profile_information_1"
                         aria-invalid="false"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
                         data-se="userProfile.newAttribute"
@@ -430,7 +435,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
                     >
                       <input
-                        aria-describedby=" userProfile.secondEmail-explain "
+                        aria-describedby="profile-update_Title_Additional_Profile_information_1 userProfile.secondEmail-explain "
                         aria-invalid="false"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
                         data-se="userProfile.secondEmail"
@@ -485,6 +490,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
                     >
                       <input
+                        aria-describedby="profile-update_Title_Additional_Profile_information_1"
                         aria-invalid="false"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-17"
                         data-se="userProfile.newAttribute2"
@@ -513,6 +519,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                   class="MuiBox-root emotion-10"
                 >
                   <button
+                    aria-describedby="profile-update_Title_Additional_Profile_information_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-37"
                     data-type="save"
                     tabindex="0"

@@ -35,7 +35,7 @@ const PasswordRequirements: UISchemaElementComponent<{
   const { data } = useWidgetContext();
   const {
     header,
-    id,
+    id: listId,
     requirements,
     settings,
     userInfo,
@@ -92,6 +92,7 @@ const PasswordRequirements: UISchemaElementComponent<{
       component="figure"
       margin={0}
       data-se="password-authenticator--rules"
+      id={uischema.id}
     >
       <Box
         component="figcaption"
@@ -100,7 +101,7 @@ const PasswordRequirements: UISchemaElementComponent<{
         {header}
       </Box>
       <List
-        id={id}
+        id={listId}
         dense
       >
         {requirements.map(({ ruleKey, label }) => (

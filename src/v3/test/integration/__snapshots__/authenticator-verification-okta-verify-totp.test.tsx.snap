@@ -109,6 +109,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >
                       Enter a code
                     </h2>
@@ -130,6 +131,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
                     >
                       <input
+                        aria-describedby="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                         aria-invalid="false"
                         autocomplete="one-time-code"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
@@ -160,6 +162,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                   class="MuiBox-root emotion-11"
                 >
                   <button
+                    aria-describedby="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
                     data-type="save"
                     tabindex="0"
@@ -309,6 +312,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >
                       Enter a code
                     </h2>
@@ -330,6 +334,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
                     >
                       <input
+                        aria-describedby="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                         aria-invalid="false"
                         autocomplete="off"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-18"
@@ -360,6 +365,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
+                    aria-describedby="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-22"
                     data-type="save"
                     tabindex="0"

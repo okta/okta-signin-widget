@@ -15,11 +15,11 @@ import { render } from '@testing-library/preact';
 import { h } from 'preact';
 import { IDX_STEP } from 'src/constants';
 import { getStubTransaction } from 'src/mocks/utils/utils';
-import { Nullish, WidgetProps } from 'src/types';
+import { WidgetProps } from 'src/types';
 
 import IdentifierContainer from './IdentifierContainer';
 
-let transaction: Nullish<IdxTransaction>;
+let transaction: IdxTransaction | null;
 let mockProps: WidgetProps = {};
 
 jest.mock('../../contexts', () => ({

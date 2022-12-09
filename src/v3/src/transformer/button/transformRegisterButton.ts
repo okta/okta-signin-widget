@@ -45,6 +45,7 @@ export const transformRegisterButton: TransformStepFnWithOptions = ({
   const { name: step } = registerStep;
   const registerLink: LinkElement = {
     type: 'Link',
+    contentType: 'footer',
     options: {
       label: loc('signup', 'login'),
       step,

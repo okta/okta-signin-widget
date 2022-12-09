@@ -132,6 +132,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                     >
                       Verify with Security Key or Biometric Authenticator
                     </h2>
@@ -146,6 +147,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="challenge-authenticator_Description_Security_key_or_biometric_authenticator_is_not_supported_on_this_browser_Contact_your_admin_for_assistance_webauthn_aut2h3f9ovE2RV96P1d7_2"
                     >
                       Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.
                     </p>
@@ -437,6 +439,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                     >
                       Verify with Security Key or Biometric Authenticator
                     </h2>
@@ -451,6 +454,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="challenge-authenticator_Description_You_will_be_prompted_to_use_a_security_key_or_biometric_verification_(Windows_Hello,_Touch_ID,_etc)_Follow_the_instructions_to_complete_verification_webauthn_aut2h3f9ovE2RV96P1d7_2"
                     >
                       You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.
                     </p>
@@ -463,6 +467,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                     class="MuiBox-root emotion-11"
                   >
                     <button
+                      aria-describedby="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 challenge-authenticator_Description_You_will_be_prompted_to_use_a_security_key_or_biometric_verification_(Windows_Hello,_Touch_ID,_etc)_Follow_the_instructions_to_complete_verification_webauthn_aut2h3f9ovE2RV96P1d7_2"
                       class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-6GYpAv ods-6Tybtd"
                       data-se="button"
                     >
@@ -760,6 +765,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                     >
                       Verify with Security Key or Biometric Authenticator
                     </h2>
@@ -774,6 +780,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="challenge-authenticator_Description_You_will_be_prompted_to_use_a_security_key_or_biometric_verification_(Windows_Hello,_Touch_ID,_etc)_Follow_the_instructions_to_complete_verification_webauthn_aut2h3f9ovE2RV96P1d7_2"
                     >
                       You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.
                     </p>
@@ -786,6 +793,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                     class="MuiBox-root emotion-11"
                   >
                     <button
+                      aria-describedby="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 challenge-authenticator_Description_You_will_be_prompted_to_use_a_security_key_or_biometric_verification_(Windows_Hello,_Touch_ID,_etc)_Follow_the_instructions_to_complete_verification_webauthn_aut2h3f9ovE2RV96P1d7_2"
                       class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-6GYpAv ods-6Tybtd"
                       data-se="button"
                     >

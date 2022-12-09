@@ -77,6 +77,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
 
       const description: DescriptionElement = {
         type: 'Description',
+        contentType: 'subtitle',
         options: {
           content: loc('oie.numberchallenge.instruction', 'login', [correctAnswer]),
         },
@@ -105,6 +106,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
       } as TitleElement);
       uischema.elements.push({
         type: 'Description',
+        contentType: 'subtitle',
         options: { content: loc('oie.okta_verify.push.sent', 'login') },
       } as DescriptionElement);
       uischema.elements.push({

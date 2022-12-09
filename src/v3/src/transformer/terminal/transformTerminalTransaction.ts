@@ -28,7 +28,6 @@ import {
   SpinnerElement,
   TitleElement,
   UISchemaLayout,
-  Undefinable,
   WidgetProps,
 } from '../../types';
 import {
@@ -49,7 +48,7 @@ import { setFocusOnFirstElement } from '../uischema';
 import { createForm } from '../utils';
 import { transformTerminalMessages } from './transformTerminalMessages';
 
-const getTitleKey = (messages?: IdxMessage[]): Undefinable<string> => {
+const getTitleKey = (messages?: IdxMessage[]): string | undefined => {
   if (!messages) {
     return undefined;
   }

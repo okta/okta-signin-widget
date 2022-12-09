@@ -51,6 +51,7 @@ const appendViewCallouts = (
   } = relatesTo?.value || {};
   const calloutEle: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: { content: '' },
   };
   if (name === IDX_STEP.ENROLL_AUTHENTICATOR) {
@@ -62,6 +63,7 @@ const appendViewCallouts = (
     if (BrowserFeatures.isEdge()) {
       const edgeCalloutEle: DescriptionElement = {
         type: 'Description',
+        contentType: 'subtitle',
         options: { content: loc('oie.enroll.webauthn.instructions.edge', 'login') },
       };
       uischema.elements.unshift(edgeCalloutEle);
@@ -160,6 +162,7 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
   };
   const informationalTextElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: loc('oie.webauthn.error.not.supported', 'login'),
     },

@@ -132,6 +132,7 @@ exports[`webauthn-enroll should render form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                     >
                       Set up security key or biometric authenticator
                     </h2>
@@ -146,6 +147,7 @@ exports[`webauthn-enroll should render form 1`] = `
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_You_will_be_prompted_to_register_a_security_key_or_biometric_authenticator_(Windows_Hello,_Touch_ID,_Face_ID,_etc)_Follow_the_instructions_to_complete_set_up_webauthn_aut2h3f9ovE2RV96P1d7_2"
                     >
                       You will be prompted to register a security key or biometric authenticator (Windows Hello, Touch ID, Face ID, etc.). Follow the instructions to complete set up.
                     </p>
@@ -158,6 +160,7 @@ exports[`webauthn-enroll should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <button
+                      aria-describedby="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 enroll-authenticator_Description_You_will_be_prompted_to_register_a_security_key_or_biometric_authenticator_(Windows_Hello,_Touch_ID,_Face_ID,_etc)_Follow_the_instructions_to_complete_set_up_webauthn_aut2h3f9ovE2RV96P1d7_2"
                       class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-6GYpAv ods-6Tybtd"
                       data-se="button"
                     >
@@ -333,6 +336,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                     >
                       Set up security key or biometric authenticator
                     </h2>
@@ -347,6 +351,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_Security_key_or_biometric_authenticator_is_not_supported_on_this_browser_Contact_your_admin_for_assistance_webauthn_aut2h3f9ovE2RV96P1d7_2"
                     >
                       Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.
                     </p>
@@ -516,6 +521,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                     >
                       Set up security key or biometric authenticator
                     </h2>
@@ -530,6 +536,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_You_will_be_prompted_to_register_a_security_key_or_biometric_authenticator_(Windows_Hello,_Touch_ID,_Face_ID,_etc)_Follow_the_instructions_to_complete_set_up_webauthn_aut2h3f9ovE2RV96P1d7_2"
                     >
                       You will be prompted to register a security key or biometric authenticator (Windows Hello, Touch ID, Face ID, etc.). Follow the instructions to complete set up.
                     </p>
@@ -544,6 +551,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="enroll-authenticator_Description_Note:_If_you_are_enrolling_a_security_key_and_Windows_Hello_or_PIN_is_enabled,_you_will_need_to_select_Cancel_in_the_prompt_before_continuing_webauthn_aut2h3f9ovE2RV96P1d7_3"
                     >
                       Note: If you are enrolling a security key and Windows Hello or PIN is enabled, you will need to select 'Cancel' in the prompt before continuing.
                     </p>
@@ -556,6 +564,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     class="MuiBox-root emotion-11"
                   >
                     <button
+                      aria-describedby="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 enroll-authenticator_Description_You_will_be_prompted_to_register_a_security_key_or_biometric_authenticator_(Windows_Hello,_Touch_ID,_Face_ID,_etc)_Follow_the_instructions_to_complete_set_up_webauthn_aut2h3f9ovE2RV96P1d7_2 enroll-authenticator_Description_Note:_If_you_are_enrolling_a_security_key_and_Windows_Hello_or_PIN_is_enabled,_you_will_need_to_select_Cancel_in_the_prompt_before_continuing_webauthn_aut2h3f9ovE2RV96P1d7_3"
                       class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-6GYpAv ods-6Tybtd"
                       data-se="button"
                     >

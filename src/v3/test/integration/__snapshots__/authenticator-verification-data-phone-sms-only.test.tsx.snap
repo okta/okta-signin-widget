@@ -122,6 +122,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-13"
                       data-se="o-form-head"
+                      id="authenticator-verification-data_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_1"
                     >
                       Verify with your phone
                     </h2>
@@ -136,6 +137,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="authenticator-verification-data_Description_Send_a_code_via_SMS_to_1_XXX-XXX-4601_phone_number_sms4bvjioge7Sdu3p5d7_2"
                     >
                       Send a code via SMS to +1 XXX-XXX-4601
                     </p>
@@ -150,6 +152,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
+                      id="authenticator-verification-data_Description_Carrier_messaging_charges_may_apply_phone_number_sms4bvjioge7Sdu3p5d7_3"
                     >
                       Carrier messaging charges may apply
                     </p>
@@ -159,6 +162,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                   class="MuiBox-root emotion-11"
                 >
                   <button
+                    aria-describedby="authenticator-verification-data_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_1 authenticator-verification-data_Description_Send_a_code_via_SMS_to_1_XXX-XXX-4601_phone_number_sms4bvjioge7Sdu3p5d7_2 authenticator-verification-data_Description_Carrier_messaging_charges_may_apply_phone_number_sms4bvjioge7Sdu3p5d7_3"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
                     data-type="save"
                     tabindex="0"

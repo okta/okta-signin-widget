@@ -50,6 +50,7 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
 
   const carrierInfoText: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: loc('oie.phone.carrier.charges', 'login'),
     },
@@ -61,12 +62,14 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   const phoneInfoText = redactedPhoneNumber || loc('oie.phone.alternate.title', 'login');
   const smsInfoTextElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: `${loc('oie.phone.verify.sms.sendText', 'login')} ${phoneInfoText}`,
     },
   };
   const voiceInfoTextElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: `${loc('oie.phone.verify.call.sendText', 'login')} ${phoneInfoText}`,
     },

@@ -67,6 +67,7 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
   const informationalText: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: getEmailAuthenticatorSubtitle(redactedEmailAddress, useEmailMagicLink),
     },
@@ -122,11 +123,13 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
           titleElement,
           informationalText,
           showCodeStepperButton,
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
       } as UISchemaLayout,
       {
         type: UISchemaLayoutType.VERTICAL,
-        elements: codeEntryDisplayElements,
+        elements: codeEntryDisplayElements.map(
+          (ele: UISchemaElement) => ({ ...ele, viewIndex: 1 }),
+        ),
       } as UISchemaLayout,
     ],
   };

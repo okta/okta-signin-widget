@@ -110,8 +110,11 @@ Promise<WebAuthNEnrollmentPayload>;
 export type WebAuthNAuthenticationHandler = (transaction: IdxTransaction) =>
 Promise<WebAuthNVerificationPayload>;
 
+export type ElementContentType = 'subtitle' | 'footer';
+
 export interface UISchemaElement {
   type: string;
+  id?: string;
   key?: string;
   // TODO: make this field required
   translations?: TranslationInfo[];
@@ -121,6 +124,16 @@ export interface UISchemaElement {
   label?: string;
   noMargin?: boolean;
   focus?: boolean;
+  ariaDescribedBy?: string;
+  contentType?: ElementContentType;
+  /**
+   * Each index of the elements
+   * array within {@link StepperLayout} corresponds to a singular view (group of elements).
+   * This property maps to / matches the index value of the group of elements in the
+   * {@link StepperLayout} elements array. This property allows you to determine which
+   * view/step within the {@link StepperLayout} this element belongs to.
+   */
+  viewIndex?: number;
 }
 
 export interface UISchemaLayout {

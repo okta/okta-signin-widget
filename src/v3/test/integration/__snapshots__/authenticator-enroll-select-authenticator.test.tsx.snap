@@ -75,6 +75,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-12"
                       data-se="o-form-head"
+                      id="select-authenticator-enroll_Title_Set_up_security_methods_1"
                     >
                       Set up security methods
                     </h2>
@@ -89,6 +90,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
                       data-se="o-form-explain"
+                      id="select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2"
                     >
                       Security methods help protect your account by ensuring only you have access.
                     </p>
@@ -103,6 +105,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
                       data-se="o-form-explain"
+                      id="select-authenticator-enroll_Description_Set_up_required_3"
                     >
                       Set up required
                     </p>
@@ -112,7 +115,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="okta_password_0-ctaLabel okta_password_0-description"
+                    aria-describedby="okta_password_0-ctaLabel okta_password_0-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="okta_password_0-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -198,7 +201,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="phone_number_1-ctaLabel phone_number_1-description"
+                    aria-describedby="phone_number_1-ctaLabel phone_number_1-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="phone_number_1-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -294,7 +297,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="webauthn_2-ctaLabel webauthn_2-description"
+                    aria-describedby="webauthn_2-ctaLabel webauthn_2-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="webauthn_2-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -400,7 +403,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="security_question_3-ctaLabel security_question_3-description"
+                    aria-describedby="security_question_3-ctaLabel security_question_3-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="security_question_3-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -486,7 +489,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="okta_verify_4-ctaLabel okta_verify_4-description"
+                    aria-describedby="okta_verify_4-ctaLabel okta_verify_4-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="okta_verify_4-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -569,7 +572,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="google_otp_5-ctaLabel google_otp_5-description"
+                    aria-describedby="google_otp_5-ctaLabel google_otp_5-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="google_otp_5-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -727,7 +730,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="onprem_mfa_6-ctaLabel onprem_mfa_6-description"
+                    aria-describedby="onprem_mfa_6-ctaLabel onprem_mfa_6-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="onprem_mfa_6-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -813,7 +816,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="rsa_token_7-ctaLabel rsa_token_7-description"
+                    aria-describedby="rsa_token_7-ctaLabel rsa_token_7-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="rsa_token_7-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -893,7 +896,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="duo_8-ctaLabel duo_8-description"
+                    aria-describedby="duo_8-ctaLabel duo_8-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="duo_8-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -975,7 +978,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="external_idp_9-ctaLabel external_idp_9-description"
+                    aria-describedby="external_idp_9-ctaLabel external_idp_9-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="external_idp_9-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -1066,7 +1069,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="custom_otp_10-ctaLabel custom_otp_10-description"
+                    aria-describedby="custom_otp_10-ctaLabel custom_otp_10-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="custom_otp_10-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -1157,7 +1160,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="symantec_vip_11-ctaLabel symantec_vip_11-description"
+                    aria-describedby="symantec_vip_11-ctaLabel symantec_vip_11-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="symantec_vip_11-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"
@@ -1245,7 +1248,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   class="MuiBox-root emotion-10"
                 >
                   <button
-                    aria-describedby="yubikey_token_12-ctaLabel yubikey_token_12-description"
+                    aria-describedby="yubikey_token_12-ctaLabel yubikey_token_12-description select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_required_3"
                     aria-labelledby="yubikey_token_12-label"
                     class="authenticator-row authButton MuiBox-root emotion-20"
                     data-se="authenticator-button"

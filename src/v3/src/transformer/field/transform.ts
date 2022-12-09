@@ -25,17 +25,17 @@ import { transformer as attributesTransformer } from './attributes';
 import { transformer as typeTransformer } from './type';
 
 const mapUiElement = (input: Input): FieldElement => {
-  const { label } = input;
+  const { label, name } = input;
   const fieldType = typeTransformer(input);
   const attributes = attributesTransformer(input);
 
   return {
     type: 'Field',
     label,
-    key: input.name,
+    key: name,
     options: {
       inputMeta: { ...input },
-      ...fieldType?.[input.name],
+      ...fieldType?.[name],
       ...attributes,
     },
   };

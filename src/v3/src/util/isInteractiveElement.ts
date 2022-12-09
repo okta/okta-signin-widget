@@ -18,7 +18,8 @@ const interactiveTypes = new Set([
   'WebAuthNSubmitButton',
   'Link',
   'StepperButton',
-  'Select',
+  'PIVButton',
+  'OpenOktaVerifyFPButton',
 ]);
 
 export const isInteractiveType = (type: string): boolean => interactiveTypes.has(type);
