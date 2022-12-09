@@ -8,7 +8,6 @@ export REGISTRY="https://artifacts.aue1d.saasure.com/artifactory/npm-topic"
 cd ${OKTA_HOME}/${REPO}
 
 setup_service node v14.18.0
-# Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
 setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 
 # Install required dependencies
@@ -18,7 +17,7 @@ yarn global add @okta/ci-pkginfo
 export PATH="${PATH}:$(yarn global bin)"
 export TEST_SUITE_TYPE="build"
 
-# Append a SHA to the version in package.json 
+# Append a SHA to the version in package.json
 if ! ci-append-sha; then
   echo "ci-append-sha failed! Exiting..."
   exit $FAILED_SETUP
@@ -31,11 +30,17 @@ artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
 
-# use the default npm registry
-if ! npm i --registry=https://registry.npmjs.org; then
+# NOTE: setup_service sets the registry to internal mirror, reset to default 
+NPM_REGISTRY="$(npm config get registry)"
+npm config delete registry
+
+# use npm instead of yarn to test as a community dev
+if ! npm i; then
   echo "install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
+
+npm config set registry "$NPM_REGISTRY"
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
 published_tarball=${REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
@@ -45,14 +50,14 @@ if ! npm i ${published_tarball}; then
 fi
 
 # use the same version of auth-js as the widget, otherwise you'll get type errors
-auth_js_version=$(cat node_modules/@okta/okta-signin-widget/package.json | jq -r '.dependencies."@okta/okta-auth-js"')
+auth_js_version=$(jq -r '.dependencies."@okta/okta-auth-js" node_modules/@okta/okta-signin-widget/package.json')
 if ! npm i @okta/okta-auth-js@${auth_js_version}; then
   echo "install auth-js@${auth_js_version} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
-export ISSUER=https://oie-signin-widget.okta.com
-export CLIENT_ID=0oa8lrg7ojTsbJgRQ696
+export ISSUER="https://oie-signin-widget.okta.com"
+export CLIENT_ID="0oa8lrg7ojTsbJgRQ696"
 
 # Run build to verify siw installation
 if ! npm run build; then
