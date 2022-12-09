@@ -13,7 +13,6 @@
 import { Input } from '@okta/okta-auth-js';
 
 import { FieldElement, Renderer } from '../../types';
-// import AuthenticatorButton from '../AuthenticatorButton';
 import AuthenticatorButtonList from '../AuthenticatorButton';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
