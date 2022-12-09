@@ -44,7 +44,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     type: 'OpenOktaVerifyFPButton',
     options: {
       step: IDX_STEP.DEVICE_CHALLENGE_POLL,
-      // @ts-expect-error
+      // @ts-expect-error Property 'href' does not exist on type 'IdxAuthenticator'.
       href: relatesTo?.value.href,
     },
   } as OpenOktaVerifyFPButtonElement);
@@ -58,7 +58,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     type: 'Link',
     options: {
       label: loc('customUri.required.content.download.linkText', 'login'),
-      // @ts-expect-error
+      // @ts-expect-error Property 'downloadHref' does not exist on type 'IdxAuthenticator'.
       href: relatesTo?.value.downloadHref,
     },
   } as LinkElement);

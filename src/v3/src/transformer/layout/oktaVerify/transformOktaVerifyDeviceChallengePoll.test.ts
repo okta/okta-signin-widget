@@ -32,7 +32,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       name: '',
       relatesTo: {
         value: {
-          // @ts-expect-error
+          // @ts-expect-error Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
           challengeMethod: 'CUSTOM_URI',
           href: 'okta-verify.html',
           downloadHref: 'https://apps.apple.com/us/app/okta-verify/id490179405',
