@@ -29,12 +29,15 @@ function common::widget::start_webapp() {
     local -r compose_path="${OKTA_CORE_HOME}/scripts/docker-ci/composefiles/monolith"
     local -r service_name="Monolith"
     local -r prepare_container_callback="common::widget::deploy_widget"
+
+    echo "DOCKER_HOST_CONTAINER_IP before: ${DOCKER_HOST_CONTAINER_IP}"
     if ! (start_image "${image_name}" "${compose_env_file}" "${compose_path}" "${service_name}" ${prepare_container_callback}); then
         echo "webapp startup failed!"
         move_logs_tmp_api
         log_extra_dir_as_zip ${TMP_LOGS_LOCATION} run_logs.zip
         exit ${BUILD_FAILURE}
     fi
+    echo "DOCKER_HOST_CONTAINER_IP after: ${DOCKER_HOST_CONTAINER_IP}"
 }
 
 # Deploys the locally build widget to docker monolith image
