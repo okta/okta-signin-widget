@@ -4,7 +4,7 @@
 # https://artifacts.aue1e.internal/artifactory/integration/test-baselines/
 : "${MONOLITH_BUILDVERSION?:"missing MONOLITH_BUILDVERSION"}"
 
-export WIDGET_HOME=${WIDGET_HOME:-`(readlink -f "$(dirname "$BASH_SOURCE")/../../..")`}
+export WIDGET_HOME=${WIDGET_HOME:-`(readlink -f "$(dirname "$0")/../../..")`}
 export WIDGET_VERSION="${WIDGET_VERSION:-$(cat ${WIDGET_HOME}/package.json | jq '.version' -r)}"
 export SYNTHETIC_WIDGET_VERSION=${SYNTHETIC_WIDGET_VERSION:-${WIDGET_VERSION}-local}
 export DOCKOLITH_HOME="${DOCKOLITH_HOME:-${WIDGET_HOME}/scripts/dockolith}"

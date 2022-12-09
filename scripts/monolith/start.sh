@@ -2,7 +2,7 @@
 
 create_log_group "Setup"
 
-  export WIDGET_HOME="$(readlink -f "$(dirname "$BASH_SOURCE")/../..")"
+  export WIDGET_HOME="$(readlink -f "$(dirname "$0")/../..")"
   source ${WIDGET_HOME}/scripts/monolith/lib/common-widget-setup.sh
 
   if [ -z "${DOCKOLITH_CI}" ]; then # Local

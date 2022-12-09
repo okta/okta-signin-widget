@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-export WIDGET_HOME="$(readlink -f "$(dirname "$BASH_SOURCE")/../..")"
+export WIDGET_HOME="$(readlink -f "$(dirname "$0")/../..")"
 source ${WIDGET_HOME}/scripts/monolith/lib/common-widget-setup.sh
 
 setup_logging_api
