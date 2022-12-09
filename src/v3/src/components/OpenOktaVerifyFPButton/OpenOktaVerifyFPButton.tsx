@@ -41,6 +41,8 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const {
     translations = [],
+    focus,
+    ariaDescribedBy,
     options: {
       step,
       href,
@@ -52,6 +54,8 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
   const buttonUiSchema: ButtonElement = {
     type: 'Button',
     label,
+    focus,
+    ariaDescribedBy,
     options: {
       type: ButtonType.BUTTON,
       variant: 'primary',

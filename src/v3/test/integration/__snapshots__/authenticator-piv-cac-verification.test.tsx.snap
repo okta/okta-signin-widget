@@ -281,7 +281,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
                         data-se="signup-info"
-                        id="identify_Description_Don't_have_an_account?_aut2h3ffszv3me6O31d7_12"
+                        id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_12"
                       >
                         Don't have an account?
                       </p>
@@ -590,7 +590,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
                         data-se="signup-info"
-                        id="identify_Description_Don't_have_an_account?_aut2h3ffszv3me6O31d7_12"
+                        id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_12"
                       >
                         Don't have an account?
                       </p>
@@ -899,7 +899,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
                         data-se="signup-info"
-                        id="identify_Description_Don't_have_an_account?_aut2h3ffszv3me6O31d7_12"
+                        id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_12"
                       >
                         Don't have an account?
                       </p>
@@ -1027,7 +1027,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-12"
                       data-se="o-form-explain"
-                      id="piv-idp_Description_Please_insert_your_PIV_/_CAC_card_and_select_the_user_certificate._aut2h3ffszv3me6O31d7_2"
+                      id="piv-idp_Description_Please_insert_your_PIV_/_CAC_card_and_select_the_user_certificate_aut2h3ffszv3me6O31d7_2"
                     >
                       Please insert your PIV / CAC card and select the user certificate.
                     </p>

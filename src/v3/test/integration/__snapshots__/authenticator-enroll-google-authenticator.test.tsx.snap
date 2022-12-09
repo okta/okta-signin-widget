@@ -202,7 +202,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
                         data-se="o-form-explain"
-                        id="enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the_\\"+\\"_icon,_then_select_\\"Scan_barcode\\"._google_otp_aut2m5drzzUlo4Bn81d7_3_1"
+                        id="enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_3_1"
                       >
                         Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".
                       </p>
@@ -225,7 +225,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the_\\"+\\"_icon,_then_select_\\"Scan_barcode\\"._google_otp_aut2m5drzzUlo4Bn81d7_3_1"
+                      aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_3_1"
                       class="MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-21"
                       tabindex="0"
                       type="button"
@@ -237,7 +237,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the_\\"+\\"_icon,_then_select_\\"Scan_barcode\\"._google_otp_aut2m5drzzUlo4Bn81d7_3_1"
+                      aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_3_1"
                       class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-23"
                       tabindex="0"
                       type="button"

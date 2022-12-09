@@ -37,6 +37,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
 
   uischema.elements.push({
     type: 'Description',
+    contentType: 'subtitle',
     options: { content: loc('customUri.required.content.prompt', 'login') },
   } as DescriptionElement);
 
@@ -51,6 +52,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
 
   uischema.elements.push({
     type: 'Description',
+    contentType: 'subtitle',
     options: { content: loc('customUri.required.content.download.title', 'login') },
   } as DescriptionElement);
 

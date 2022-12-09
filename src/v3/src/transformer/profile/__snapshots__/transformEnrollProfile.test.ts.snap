@@ -65,6 +65,7 @@ Object {
             "type": "Description",
           },
           Object {
+            "contentType": "footer",
             "options": Object {
               "label": "signin",
               "step": "select-identify",

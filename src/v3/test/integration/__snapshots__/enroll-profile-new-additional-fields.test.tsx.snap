@@ -1882,7 +1882,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-83"
                         data-se="haveaccount"
-                        id="enroll-profile_Description_Already_have_an_account?_11"
+                        id="enroll-profile_Description_Already_have_an_account_11"
                       >
                         Already have an account?
                       </p>
@@ -3687,7 +3687,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-66"
                         data-se="haveaccount"
-                        id="enroll-profile_Description_Already_have_an_account?_11"
+                        id="enroll-profile_Description_Already_have_an_account_11"
                       >
                         Already have an account?
                       </p>

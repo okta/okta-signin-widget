@@ -147,7 +147,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
-                      id="challenge-authenticator_Description_Security_key_or_biometric_authenticator_is_not_supported_on_this_browser._Contact_your_admin_for_assistance._webauthn_aut2h3f9ovE2RV96P1d7_2"
+                      id="challenge-authenticator_Description_Security_key_or_biometric_authenticator_is_not_supported_on_this_browser_Contact_your_admin_for_assistance_webauthn_aut2h3f9ovE2RV96P1d7_2"
                     >
                       Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.
                     </p>

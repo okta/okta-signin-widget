@@ -45,6 +45,7 @@ export const transformForgotPasswordButton: TransformStepFnWithOptions = ({
   const { name: stepName } = forgotPasswordStep;
   const forgotPassword: LinkElement = {
     type: 'Link',
+    contentType: 'footer',
     options: {
       label: loc('forgotpassword', 'login'),
       isActionStep: true,

@@ -36,6 +36,7 @@ export const transformReturnToAuthenticatorListButton: TransformStepFnWithOption
   const { name: step } = selectEnrollStep;
   const listLink: LinkElement = {
     type: 'Link',
+    contentType: 'footer',
     options: {
       label: loc('oie.enroll.switch.authenticator', 'login'),
       step,

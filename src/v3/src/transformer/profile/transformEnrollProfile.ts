@@ -120,6 +120,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     const { name: step } = selectIdentifyStep;
     const signinLink: LinkElement = {
       type: 'Link',
+      contentType: 'footer',
       options: {
         label: loc('signin', 'login'),
         step,

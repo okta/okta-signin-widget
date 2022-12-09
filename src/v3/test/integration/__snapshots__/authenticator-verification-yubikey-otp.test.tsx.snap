@@ -129,7 +129,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
                       data-se="o-form-explain"
-                      id="challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code._yubikey_token_ykf16jdolQhTHA5yp0g4_2"
+                      id="challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
                     >
                       Insert the YubiKey into a USB port and tap it to generate a verification code.
                     </p>
@@ -154,7 +154,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-21"
                       >
                         <input
-                          aria-describedby="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1 challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code._yubikey_token_ykf16jdolQhTHA5yp0g4_2"
+                          aria-describedby="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1 challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
                           aria-invalid="false"
                           autocomplete="off"
                           class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-22"
@@ -208,7 +208,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    aria-describedby="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1 challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code._yubikey_token_ykf16jdolQhTHA5yp0g4_2"
+                    aria-describedby="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1 challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-29"
                     data-type="save"
                     tabindex="0"

@@ -37,6 +37,7 @@ export const transformUnlockAccountButton: TransformStepFnWithOptions = ({
 
   const unlockLink: LinkElement = {
     type: 'Link',
+    contentType: 'footer',
     options: {
       label: loc('unlockaccount', 'login'),
       step: unlockStep.name,

@@ -135,7 +135,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-18"
                       >
                         <select
-                          aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device._okta_verify_aut2h3fft4y9pDPCS1d7_3"
+                          aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                           autocomplete="tel-country-code"
                           class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-19"
                           data-se="countryList"
@@ -1399,7 +1399,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                             </p>
                           </span>
                           <input
-                            aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device._okta_verify_aut2h3fft4y9pDPCS1d7_3"
+                            aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                             aria-invalid="false"
                             autocomplete="tel-national"
                             class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedStart emotion-29"
@@ -1437,7 +1437,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-34"
                       data-se="o-form-explain"
-                      id="enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device._okta_verify_aut2h3fft4y9pDPCS1d7_3"
+                      id="enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                     >
                       Make sure you can access the text on your mobile device.
                     </p>
@@ -1447,7 +1447,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   class="MuiBox-root emotion-11"
                 >
                   <button
-                    aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device._okta_verify_aut2h3fft4y9pDPCS1d7_3"
+                    aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-36"
                     data-type="save"
                     tabindex="0"

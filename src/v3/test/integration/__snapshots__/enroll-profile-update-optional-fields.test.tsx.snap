@@ -228,6 +228,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                   class="MuiBox-root emotion-10"
                 >
                   <a
+                    aria-describedby="profile-update_Title_Additional_Profile_information_1"
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
                     data-se="skip"
                     href="javascript:void(0)"

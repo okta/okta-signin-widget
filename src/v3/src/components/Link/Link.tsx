@@ -24,6 +24,8 @@ const Link: UISchemaElementComponent<{
     loading,
   } = useWidgetContext();
   const {
+    focus,
+    ariaDescribedBy,
     options: {
       label,
       href,
@@ -33,7 +35,6 @@ const Link: UISchemaElementComponent<{
       step,
       onClick: onClickHandler,
     },
-    focus,
   } = uischema;
   const onSubmitHandler = useOnSubmit();
   const focusRef = useAutoFocus<HTMLAnchorElement>(focus);
@@ -58,6 +59,7 @@ const Link: UISchemaElementComponent<{
         // eslint-disable-next-line no-script-url
         href="javascript:void(0)"
         onClick={onClickHandler || onClick}
+        aria-describedby={ariaDescribedBy}
         ref={focusRef}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...(dataSe && { 'data-se': dataSe } )}
@@ -69,6 +71,7 @@ const Link: UISchemaElementComponent<{
         <LinkMui
           href={href}
           ref={focusRef}
+          aria-describedby={ariaDescribedBy}
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...(dataSe && { 'data-se': dataSe } )}
         >

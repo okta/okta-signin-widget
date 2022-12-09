@@ -36,6 +36,7 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
   const { name: step } = selectVerifyStep;
   const listLink: LinkElement = {
     type: 'Link',
+    contentType: 'footer',
     options: {
       label: loc('oie.verification.switch.authenticator', 'login'),
       step,

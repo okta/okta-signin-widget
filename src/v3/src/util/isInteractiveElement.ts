@@ -19,7 +19,7 @@ const interactiveTypes = new Set([
   'Link',
   'StepperButton',
   'PIVButton',
-  'Select',
+  'OpenOktaVerifyFPButton',
 ]);
 
 export const isInteractiveType = (type: string): boolean => interactiveTypes.has(type);

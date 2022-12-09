@@ -31,7 +31,7 @@ export const createTextElementKeys: TransformStepFn = (formbag) => {
     callback: (element) => {
       const titleEle = element as (DescriptionElement | TitleElement | HeadingElement);
       // eslint-disable-next-line no-param-reassign
-      titleEle.key = titleEle.options.content.split(' ').join('_');
+      titleEle.key = titleEle.options.content.replace(/['"+.?]/g, '').split(' ').join('_');
     },
   });
   return formbag;

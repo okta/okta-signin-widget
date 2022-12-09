@@ -36,7 +36,7 @@ export const updateInteractiveElementsDescribedByValue: TransformStepFn = (formb
 
   traverseLayout({
     layout: formbag.uischema,
-    predicate: (el) => isInteractiveType(el.type),
+    predicate: (el) => isInteractiveType(el.type) && el.contentType !== 'footer',
     callback: (el) => {
       const descriptiveElementIds = descriptionElements
         .filter(
