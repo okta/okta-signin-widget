@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, IconButton, InputAdornment, InputLabel, OutlinedInput, Tooltip } from '@mui/material';
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+  Box, IconButton, InputAdornment, InputLabel, OutlinedInput, Tooltip,
+} from '@mui/material';
 import { useOid } from '@okta/odyssey-react/dist/utils';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
@@ -48,7 +50,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
-  const [showPassword, setShowPassword] = useState<Boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const changedVal = e.currentTarget.value;
@@ -65,7 +67,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     e.preventDefault();
   };
 
-  const isConfirmPassword = name === "confirmPassword";
+  const isConfirmPassword = name === 'confirmPassword';
 
   return (
     <Box>
@@ -76,7 +78,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         error={hasErrors}
         inputRef={focusRef}
         onChange={handleChange}
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         value={value}
         disabled={loading}
         fullWidth
@@ -86,12 +88,12 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           ...attributes,
         }}
         startAdornment={null}
-        endAdornment={
+        endAdornment={(
           <InputAdornment position="end">
             <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
               <IconButton
                 // TODO: request translation keys
-                aria-label={isConfirmPassword ? "Show re-enter password" : "Show password"}
+                aria-label={isConfirmPassword ? 'Show re-enter password' : 'Show password'}
                 aria-pressed={showPassword}
                 aria-controls={name}
                 onClick={handleClickShowPassword}
@@ -102,7 +104,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
               </IconButton>
             </Tooltip>
           </InputAdornment>
-        }
+        )}
       />
       {hasErrors && (
         <FieldErrorContainer
