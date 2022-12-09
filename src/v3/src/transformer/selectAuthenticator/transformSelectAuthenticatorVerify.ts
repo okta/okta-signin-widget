@@ -11,13 +11,14 @@
  */
 
 import { NextStep } from '@okta/okta-auth-js';
+
 import {
+  AuthenticatorButtonListElement,
   DescriptionElement,
   IdxStepTransformer,
   TitleElement,
   UISchemaElement,
-} from 'src/types';
-
+} from '../../types';
 import { isPasswordRecovery, loc } from '../../util';
 import { removeUIElementWithName } from '../utils';
 import { getAuthenticatorVerifyButtonElements } from './utils';
@@ -59,7 +60,12 @@ export const transformSelectAuthenticatorVerify: IdxStepTransformer = ({
     'authenticator',
     uischema.elements as UISchemaElement[],
   );
-  uischema.elements = uischema.elements.concat(authenticatorButtonElements);
+
+  const authenticatorListElement: AuthenticatorButtonListElement = {
+    type: 'AuthenticatorButtonList',
+    options: { buttons: authenticatorButtonElements },
+  };
+  uischema.elements = uischema.elements.concat([authenticatorListElement]);
 
   const isPwRecovery = isPasswordRecovery(transaction);
   const titleElement: TitleElement = {

@@ -35,18 +35,25 @@ Object {
         "type": "Description",
       },
       Object {
-        "label": "Email",
         "options": Object {
-          "actionParams": Object {
-            "authenticator.id": "123abc",
-          },
-          "ctaLabel": "Select",
-          "description": "Enroll in email authenticator",
-          "key": "okta_email",
-          "step": "select-authenticator-enroll",
-          "type": "button",
+          "buttons": Array [
+            Object {
+              "label": "Email",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.id": "123abc",
+                },
+                "ctaLabel": "Select",
+                "description": "Enroll in email authenticator",
+                "key": "okta_email",
+                "step": "select-authenticator-enroll",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
         },
-        "type": "AuthenticatorButton",
+        "type": "AuthenticatorButtonList",
       },
     ],
     "type": "VerticalLayout",
@@ -89,18 +96,25 @@ Object {
         "type": "Description",
       },
       Object {
-        "label": "Email",
         "options": Object {
-          "actionParams": Object {
-            "authenticator.id": "123abc",
-          },
-          "ctaLabel": "Select",
-          "description": "Enroll in email authenticator",
-          "key": "okta_email",
-          "step": "select-authenticator-enroll",
-          "type": "button",
+          "buttons": Array [
+            Object {
+              "label": "Email",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.id": "123abc",
+                },
+                "ctaLabel": "Select",
+                "description": "Enroll in email authenticator",
+                "key": "okta_email",
+                "step": "select-authenticator-enroll",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
         },
-        "type": "AuthenticatorButton",
+        "type": "AuthenticatorButtonList",
       },
       Object {
         "label": "oie.optional.authenticator.button.title",
@@ -151,18 +165,25 @@ Object {
         "type": "Description",
       },
       Object {
-        "label": "Email",
         "options": Object {
-          "actionParams": Object {
-            "authenticator.id": "123abc",
-          },
-          "ctaLabel": "Select",
-          "description": "Enroll in email authenticator",
-          "key": "okta_email",
-          "step": "select-authenticator-enroll",
-          "type": "button",
+          "buttons": Array [
+            Object {
+              "label": "Email",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.id": "123abc",
+                },
+                "ctaLabel": "Select",
+                "description": "Enroll in email authenticator",
+                "key": "okta_email",
+                "step": "select-authenticator-enroll",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
         },
-        "type": "AuthenticatorButton",
+        "type": "AuthenticatorButtonList",
       },
       Object {
         "label": "oie.optional.authenticator.button.title",

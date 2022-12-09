@@ -15,6 +15,7 @@ import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   AuthenticatorButtonElement,
+  AuthenticatorButtonListElement,
   ButtonElement,
   ButtonType,
   DescriptionElement,
@@ -152,21 +153,26 @@ describe('Transform Select OV Method Verify Tests', () => {
     const updatedFormBag = transformSelectOVMethodVerify({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.select.authenticators.verify.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.verify.subtitle');
-    expect((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement).type).toBe('AuthenticatorButton');
-    expect((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+    expect((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement).type).toBe('AuthenticatorButtonList');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons.length)).toBe(2);
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.methodType']).toBe('push');
-    expect((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement).label)
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).label)
       .toBe('Get a push notification');
-    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).type).toBe('AuthenticatorButton');
-    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[1] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.methodType']).toBe('totp');
-    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).label).toBe('Enter a code');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[1] as AuthenticatorButtonElement).label).toBe('Enter a code');
   });
 });

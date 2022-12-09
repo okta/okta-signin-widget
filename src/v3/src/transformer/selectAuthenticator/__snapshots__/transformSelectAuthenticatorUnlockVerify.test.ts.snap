@@ -29,17 +29,24 @@ Object {
         "type": "Field",
       },
       Object {
-        "label": "Email",
         "options": Object {
-          "actionParams": Object {
-            "authenticator.id": "123abc",
-          },
-          "ctaLabel": "Select",
-          "key": "okta_email",
-          "step": "select-authenticator-unlock-account",
-          "type": "button",
+          "buttons": Array [
+            Object {
+              "label": "Email",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.id": "123abc",
+                },
+                "ctaLabel": "Select",
+                "key": "okta_email",
+                "step": "select-authenticator-unlock-account",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
         },
-        "type": "AuthenticatorButton",
+        "type": "AuthenticatorButtonList",
       },
     ],
     "type": "VerticalLayout",

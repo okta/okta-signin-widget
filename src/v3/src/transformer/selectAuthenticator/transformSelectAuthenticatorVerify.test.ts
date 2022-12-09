@@ -15,6 +15,7 @@ import { AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   AuthenticatorButtonElement,
+  AuthenticatorButtonListElement,
   ButtonType,
   DescriptionElement,
   TitleElement,
@@ -94,13 +95,18 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       .toBe('oie.select.authenticators.verify.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.verify.subtitle');
-    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.actionParams?.['authenticator.id'])).toBe('123abc');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.step)).toBe('select-authenticator-authenticate');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.type)).toBe(ButtonType.BUTTON);
+    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButtonList');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons.length)).toBe(1);
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
+      .options.actionParams?.['authenticator.id']).toBe('123abc');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
+      .options.step).toBe('select-authenticator-authenticate');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
+      .options.type).toBe(ButtonType.BUTTON);
   });
 
   it('should add UI elements for verification authenticator selector'
@@ -124,13 +130,18 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       .toBe('password.reset.title.generic');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.password.reset.verification');
-    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.actionParams?.['authenticator.id'])).toBe('123abc');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.step)).toBe('select-authenticator-authenticate');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.type)).toBe(ButtonType.BUTTON);
+    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButtonList');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons.length)).toBe(1);
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
+      .options.actionParams?.['authenticator.id']).toBe('123abc');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
+      .options.step).toBe('select-authenticator-authenticate');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
+      .options.type).toBe(ButtonType.BUTTON);
   });
 
   it('should add UI elements for verification authenticator selector'
@@ -157,12 +168,17 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       .toBe('password.reset.title.specific');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.password.reset.verification');
-    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.actionParams?.['authenticator.id'])).toBe('123abc');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.step)).toBe('select-authenticator-authenticate');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.type)).toBe(ButtonType.BUTTON);
+    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButtonList');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons.length)).toBe(1);
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
+      .options.actionParams?.['authenticator.id']).toBe('123abc');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
+      .options.step).toBe('select-authenticator-authenticate');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
+      .options.type).toBe(ButtonType.BUTTON);
   });
 });

@@ -13,6 +13,7 @@
 import { NextStep } from '@okta/okta-auth-js';
 
 import {
+  AuthenticatorButtonListElement,
   FieldElement,
   IdxStepTransformer,
   TitleElement,
@@ -46,10 +47,15 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
 
   const identifier = getUIElementWithName('identifier', uischema.elements) as FieldElement;
 
+  const authenticatorListElement: AuthenticatorButtonListElement = {
+    type: 'AuthenticatorButtonList',
+    options: { buttons: authenticatorButtons },
+  };
+
   uischema.elements = [
     title,
     identifier,
-    ...authenticatorButtons,
+    authenticatorListElement,
   ];
 
   return formBag;
