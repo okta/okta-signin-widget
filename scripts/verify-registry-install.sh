@@ -31,16 +31,13 @@ git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/
 pushd test/package/angular-sample/custom-login
 
 # NOTE: setup_service sets the registry to internal mirror, reset to default 
-NPM_REGISTRY="$(npm config get registry)"
-npm config delete registry
+export NODE_EXTRA_CA_CERTS="/etc/pki/tls/certs/ca-bundle.crt"
 
 # use npm instead of yarn to test as a community dev
 if ! npm i; then
   echo "install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
-
-npm config set registry "$NPM_REGISTRY"
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
 published_tarball=${REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
