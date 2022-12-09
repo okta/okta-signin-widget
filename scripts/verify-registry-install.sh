@@ -31,7 +31,8 @@ artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
 
-if ! npm i; then
+# use the default npm registry
+if ! npm i --registry=https://registry.npmjs.org; then
   echo "install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
