@@ -141,17 +141,26 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                   <div
                     class="MuiBox-root emotion-4"
                   >
-                    <div
-                      class="MuiBox-root emotion-4"
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
+                      for="credentials.passcode"
                     >
-                      <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
-                        for="credentials.passcode"
-                      >
-                        Insert then tap your YubiKey
-                      </label>
+                      Insert then tap your YubiKey
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-20"
+                    >
+                      <input
+                        aria-invalid="false"
+                        autocomplete="off"
+                        class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-21"
+                        data-se="credentials.passcode"
+                        id="credentials.passcode"
+                        name="credentials.passcode"
+                        type="password"
+                      />
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-21"
+                        class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-22"
                       >
                         <input
                           aria-describedby="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1 challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
@@ -166,41 +175,33 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                         <div
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-23"
                         >
-                          <button
-                            aria-label="toggle password visibility"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-24"
-                            data-mui-internal-clone-element="true"
-                            tabindex="0"
-                            type="button"
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-24"
+                            data-testid="VisibilityIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-25"
-                              data-testid="VisibilityIcon"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-26"
-                        >
-                          <legend
-                            class="emotion-27"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
+                            <path
+                              d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                            />
+                          </svg>
+                        </button>
                       </div>
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-25"
+                      >
+                        <legend
+                          class="emotion-26"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
                     </div>
                   </div>
                 </div>
@@ -221,7 +222,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
