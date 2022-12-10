@@ -30,6 +30,7 @@ function common::widget::start_webapp() {
     local -r service_name="Monolith"
     local -r prepare_container_callback="common::widget::deploy_widget"
 
+    export DOCKER_HOST_CONTAINER_IP="FUBAR"
     echo "DOCKER_HOST_CONTAINER_IP before: ${DOCKER_HOST_CONTAINER_IP}"
     if ! (start_image "${image_name}" "${compose_env_file}" "${compose_path}" "${service_name}" ${prepare_container_callback}); then
         echo "webapp startup failed!"

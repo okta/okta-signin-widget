@@ -17,6 +17,8 @@ echo "start DOCKER_HOST_CONTAINER_IP before: ${DOCKER_HOST_CONTAINER_IP}"
 common::widget::start_webapp;
 echo "start DOCKER_HOST_CONTAINER_IP after: ${DOCKER_HOST_CONTAINER_IP}"
 
+export DOCKER_HOST_CONTAINER_IP=$(docker inspect --format='{{.NetworkSettings.Networks.monolith_network.IPAddress}}' mono_dockerhost)
+
 update_hosts_entry $DOCKER_HOST_CONTAINER_IP cdn.okta1.com
 update_hosts_entry $DOCKER_HOST_CONTAINER_IP rain.okta1.com
 update_hosts_entry $DOCKER_HOST_CONTAINER_IP backdoorentry.okta1.com
