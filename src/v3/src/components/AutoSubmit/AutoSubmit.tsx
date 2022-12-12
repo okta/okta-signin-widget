@@ -23,7 +23,7 @@ const AutoSubmit: UISchemaElementComponent<{ uischema: AutoSubmitElement }> = ({
   useEffect(() => {
     // we only want this to ever happen once (on initial component mount)
     onSubmitHandler({
-      step: options.redirectStep,
+      step: options.step,
     }).then();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
