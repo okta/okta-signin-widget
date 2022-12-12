@@ -68,7 +68,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
 
   return (
     <Box>
-      <InputLabel htmlFor={name}>{label + (required ? ' *' : '')}</InputLabel>
+      <InputLabel htmlFor={name} required={required}>{label}</InputLabel>
       <OutlinedInput
         id={name}
         name={name}
