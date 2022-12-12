@@ -120,8 +120,4 @@ export default BaseAuthenticatorView.extend({
       local,
     });
   },
-  postRender() {
-    BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
-    this.el.querySelector('.google-authenticator-next').style.display = 'block';
-  },
 });
