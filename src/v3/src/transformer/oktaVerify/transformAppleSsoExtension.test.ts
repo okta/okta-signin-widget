@@ -10,11 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxTransaction } from '@okta/okta-auth-js';
 import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import {
   AutoSubmitElement,
+  FormBag,
   RedirectElement,
   SpinnerElement,
   TitleElement,
@@ -24,12 +26,12 @@ import { transformAppleSsoExtension } from './transformAppleSsoExtension';
 
 describe('SSO extension Transformer Tests', () => {
   let widgetProps: WidgetProps;
-  const formBag = getStubFormBag();
-  let transaction = getStubTransactionWithNextStep();
+  let formBag: FormBag;
+  let transaction: IdxTransaction;
 
   beforeEach(() => {
     transaction = getStubTransactionWithNextStep();
-    formBag.uischema.elements = [];
+    formBag = getStubFormBag();;
     widgetProps = {};
   });
 
