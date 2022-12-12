@@ -1,5 +1,9 @@
 declare const StringUtil: {
     /** @static */
+    getRawLocale: () => string;
+    /** @static */
+    isLocaleBundleExist(bundleName: any, locale: string): boolean;
+    /** @static */
     sprintf: () => any;
     /**
      * Converts a URI encoded query string into a hash map
