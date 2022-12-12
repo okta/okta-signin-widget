@@ -110,7 +110,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-13"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-14"
+                      class="MuiTypography-root MuiTypography-h4 emotion-14"
                       data-se="o-form-head"
                       id="challenge-poll_Title_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_2"
                     >

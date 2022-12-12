@@ -73,7 +73,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-12"
+                      class="MuiTypography-root MuiTypography-h4 emotion-12"
                       data-se="o-form-head"
                       id="select-authenticator-enroll_Title_Set_up_security_methods_1"
                     >

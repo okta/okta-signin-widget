@@ -110,7 +110,7 @@ exports[`email-challenge-consent should render form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="email-challenge-consent_Title_Did_you_just_try_to_sign_in_1"
                     >

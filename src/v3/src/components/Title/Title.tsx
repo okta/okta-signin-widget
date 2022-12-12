@@ -27,7 +27,7 @@ const Title: UISchemaElementComponent<{
     <Typography
       id={id}
       component="h2"
-      variant="h3"
+      variant="h4"
       data-se="o-form-head"
     >
       {options?.content}

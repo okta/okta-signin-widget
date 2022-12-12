@@ -107,7 +107,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >

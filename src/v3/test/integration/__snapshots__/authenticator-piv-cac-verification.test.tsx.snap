@@ -41,7 +41,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiBox-root emotion-7"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      class="MuiTypography-root MuiTypography-h4 emotion-8"
                       data-se="o-form-head"
                       id="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     >
@@ -350,7 +350,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiBox-root emotion-7"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      class="MuiTypography-root MuiTypography-h4 emotion-8"
                       data-se="o-form-head"
                       id="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     >
@@ -659,7 +659,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-7"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-8"
+                      class="MuiTypography-root MuiTypography-h4 emotion-8"
                       data-se="o-form-head"
                       id="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                     >
@@ -1010,7 +1010,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                     class="MuiBox-root emotion-8"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-9"
+                      class="MuiTypography-root MuiTypography-h4 emotion-9"
                       data-se="o-form-head"
                       id="piv-idp_Title_PIV_/_CAC_card_aut2h3ffszv3me6O31d7_1"
                     >

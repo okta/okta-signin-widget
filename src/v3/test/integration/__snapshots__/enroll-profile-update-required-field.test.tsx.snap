@@ -106,7 +106,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                     class="MuiBox-root emotion-16"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-17"
+                      class="MuiTypography-root MuiTypography-h4 emotion-17"
                       data-se="o-form-head"
                       id="profile-update_Title_Additional_Profile_information_1"
                     >
@@ -370,7 +370,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     class="MuiBox-root emotion-11"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-12"
+                      class="MuiTypography-root MuiTypography-h4 emotion-12"
                       data-se="o-form-head"
                       id="profile-update_Title_Additional_Profile_information_1"
                     >

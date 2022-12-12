@@ -116,7 +116,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-14"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        class="MuiTypography-root MuiTypography-h4 emotion-15"
                         data-se="o-form-head"
                         id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1"
                       >
@@ -333,7 +333,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-21"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-22"
+                        class="MuiTypography-root MuiTypography-h4 emotion-22"
                         data-se="o-form-head"
                         id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1"
                       >
@@ -506,7 +506,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-14"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        class="MuiTypography-root MuiTypography-h4 emotion-15"
                         data-se="o-form-head"
                         id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2"
                       >
@@ -756,7 +756,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-19"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-20"
+                        class="MuiTypography-root MuiTypography-h4 emotion-20"
                         data-se="o-form-head"
                         id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2"
                       >
@@ -1073,7 +1073,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-26"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-27"
+                        class="MuiTypography-root MuiTypography-h4 emotion-27"
                         data-se="o-form-head"
                         id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2"
                       >
@@ -1407,7 +1407,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                       class="MuiBox-root emotion-14"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-15"
+                        class="MuiTypography-root MuiTypography-h4 emotion-15"
                         data-se="o-form-head"
                         id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2"
                       >

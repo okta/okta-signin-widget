@@ -123,7 +123,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     class="MuiBox-root emotion-13"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-14"
+                      class="MuiTypography-root MuiTypography-h4 emotion-14"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_2"
                     >

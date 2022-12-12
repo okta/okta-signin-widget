@@ -112,7 +112,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1"
                     >

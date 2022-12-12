@@ -182,7 +182,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                     >
@@ -460,7 +460,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                     >
@@ -757,7 +757,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                     >
@@ -1025,7 +1025,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                     >

@@ -110,7 +110,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                         id="enroll-poll_Title_Set_up_Okta_Verify_okta_verify_aut2h3fft4y9pDPCS1d7_2_1"
                       >
@@ -311,7 +311,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >
@@ -602,7 +602,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >
@@ -894,7 +894,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-21"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-22"
+                        class="MuiTypography-root MuiTypography-h4 emotion-22"
                         data-se="o-form-head"
                         id="enroll-poll_Title_Check_your_email_okta_verify_aut2h3fft4y9pDPCS1d7_8_2"
                       >
@@ -1077,7 +1077,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >
@@ -1351,7 +1351,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                         id="enroll-poll_Title_Set_up_Okta_Verify_okta_verify_aut2h3fft4y9pDPCS1d7_2_1"
                       >
@@ -1555,7 +1555,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                         id="enroll-poll_Title_Set_up_Okta_Verify_okta_verify_aut2h3fft4y9pDPCS1d7_2_1"
                       >
@@ -1756,7 +1756,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >
@@ -2047,7 +2047,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >
@@ -3609,7 +3609,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       class="MuiBox-root emotion-21"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-22"
+                        class="MuiTypography-root MuiTypography-h4 emotion-22"
                         data-se="o-form-head"
                         id="enroll-poll_Title_Check_your_text_messages_okta_verify_aut2h3fft4y9pDPCS1d7_12_3"
                       >
@@ -3792,7 +3792,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-12"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h3 emotion-13"
+                      class="MuiTypography-root MuiTypography-h4 emotion-13"
                       data-se="o-form-head"
                       id="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     >

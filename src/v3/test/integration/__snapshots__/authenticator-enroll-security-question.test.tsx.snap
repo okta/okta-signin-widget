@@ -146,7 +146,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                       class="MuiBox-root emotion-18"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-19"
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
                       >
@@ -540,7 +540,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                         id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
                       >
@@ -955,7 +955,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                       class="MuiBox-root emotion-18"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-19"
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
                       >
@@ -1349,7 +1349,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                         id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                       >
@@ -1875,7 +1875,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                       class="MuiBox-root emotion-18"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-19"
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                       >
@@ -2380,7 +2380,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                       class="MuiBox-root emotion-13"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-14"
+                        class="MuiTypography-root MuiTypography-h4 emotion-14"
                         data-se="o-form-head"
                         id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                       >
@@ -2952,7 +2952,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                       class="MuiBox-root emotion-18"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h3 emotion-19"
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                       >
