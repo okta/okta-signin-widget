@@ -69,7 +69,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
 
   return (
     <Box>
-      <InputLabel htmlFor={useOid(name)}>{label + (required ? ' *' : '')}</InputLabel>
+      <InputLabel htmlFor={name}>{label + (required ? ' *' : '')}</InputLabel>
       <OutlinedInput
         id={name}
         name={name}
@@ -85,13 +85,12 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           'aria-describedby': describedByIds,
           ...attributes,
         }}
-        startAdornment={null}
         endAdornment={(
           <InputAdornment position="end">
             <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
               <IconButton
                 // TODO: OKTA-558040 request translation keys for aria labels
-                aria-label={getTranslation(translations, 'show label')}
+                aria-label={getTranslation(translations, 'visibilityToggleLabel')}
                 aria-pressed={showPassword}
                 aria-controls={name}
                 onClick={handleClickShowPassword}
