@@ -103,6 +103,7 @@ test
     await t.expect(getStateHandleFromSessionStorage()).eql(null);
   });
 
+// TODO: OKTA-557948 Implement custom biometrics error and enable this test
 test.meta('v3', false)
   .requestHooks(credentialSSOExtensionBiometricsErrorMobileMock)('show biometrics error for mobile platform in credential SSO Extension', async t => {
     const ssoExtensionPage = new BasePageObject(t);
@@ -118,6 +119,7 @@ test.meta('v3', false)
     await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
   });
 
+// TODO: OKTA-557948 Implement custom biometrics error and enable this test
 test.meta('v3', false)
   .requestHooks(credentialSSOExtensionBiometricsErrorDesktopMock)('show biometrics error for desktop platform in credential SSO Extension', async t => {
     const ssoExtensionPage = new BasePageObject(t);
