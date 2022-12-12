@@ -79,7 +79,7 @@ describe('SSO extension Transformer Tests', () => {
     const updatedFormBag = transformAppleSsoExtension({ transaction, formBag, widgetProps });
     expect((updatedFormBag.uischema.elements[2] as AutoSubmitElement).type)
       .toBe('AutoSubmit');
-    expect((updatedFormBag.uischema.elements[2] as AutoSubmitElement).options.redirectStep)
+    expect((updatedFormBag.uischema.elements[2] as AutoSubmitElement).options.step)
       .toBe(IDX_STEP.DEVICE_APPLE_SSO_EXTENSION);
   });
 });

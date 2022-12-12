@@ -29,7 +29,7 @@ Object {
       },
       Object {
         "options": Object {
-          "redirectStep": "",
+          "step": "",
         },
         "type": "AutoSubmit",
       },

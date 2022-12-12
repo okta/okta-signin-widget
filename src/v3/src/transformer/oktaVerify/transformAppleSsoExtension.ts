@@ -46,6 +46,13 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
     spinnerElement,
   ];
 
+  const autoSubmitElement: AutoSubmitElement = {
+    type: 'AutoSubmit',
+    options: {
+      step: stepName,
+    },
+  };
+
   if (stepName === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
     // transaction nextStep does not contain href and method for some reason so we have to grab it from neededToProceed property
     const nextStepData = neededToProceed?.find(
@@ -61,21 +68,11 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
         },
       } as RedirectElement);
     } else {
-      uischema.elements.push({
-        type: 'AutoSubmit',
-        options: {
-          redirectStep: stepName,
-        },
-      } as AutoSubmitElement);
+      uischema.elements.push(autoSubmitElement);
     }
   } else {
     // This case handles the 'cancel-transaction' step when the 'device-apple-sso-extension' authenticator does not exist
-    uischema.elements.push({
-      type: 'AutoSubmit',
-      options: {
-        redirectStep: stepName,
-      },
-    } as AutoSubmitElement);
+    uischema.elements.push(autoSubmitElement);
   }
 
   return formBag;
