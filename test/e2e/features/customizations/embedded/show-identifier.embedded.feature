@@ -1,4 +1,5 @@
-@ignore
+# OKTA-558295
+@skip
 Feature: Widget Customizations > Embedded > Show Identifier
 
   Background:
