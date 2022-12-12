@@ -56,6 +56,8 @@ test
     await t.expect(enrollGoogleAuthenticatorPageObject.getSetUpDescription())
       .eql('Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".');
     await t.expect(enrollGoogleAuthenticatorPageObject.hasQRcode).ok();
+    const nextButtonClass = enrollGoogleAuthenticatorPageObject.getNextButtonClass();
+    await t.expect(nextButtonClass).contains('google-authenticator-next default-custom-button button-primary link-button');
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
@@ -76,6 +78,8 @@ test
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
     await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
     await t.expect(enrollGoogleAuthenticatorPageObject.getSharedSecret()).eql('ZR74DHZTG43NBULV');
+    const nextButtonClass = enrollGoogleAuthenticatorPageObject.getNextButtonClass();
+    await t.expect(nextButtonClass).contains('google-authenticator-next default-custom-button button-primary link-button');
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
@@ -99,6 +103,8 @@ test
     // Verify links (switch authenticator link is present even if there is just one authenticator available))
     await t.expect(await enrollGoogleAuthenticatorPageObject.switchAuthenticatorLinkExists()).ok();
     await t.expect(await enrollGoogleAuthenticatorPageObject.signoutLinkExists()).ok();
+    const nextButtonClass = enrollGoogleAuthenticatorPageObject.getNextButtonClass();
+    await t.expect(nextButtonClass).contains('google-authenticator-next default-custom-button button-primary link-button');
 
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
@@ -122,6 +128,8 @@ test
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
     await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
     await t.expect(enrollGoogleAuthenticatorPageObject.getSharedSecret()).eql('ZR74DHZTG43NBULV');
+    const nextButtonClass = enrollGoogleAuthenticatorPageObject.getNextButtonClass();
+    await t.expect(nextButtonClass).contains('google-authenticator-next default-custom-button button-primary link-button');
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available))
