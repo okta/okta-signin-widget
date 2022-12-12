@@ -37,8 +37,6 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
 
   const spinnerElement = {
     type: 'Spinner',
-    // TODO: OKTA-518793 - replace english string with key once created
-    options: { label: 'Loading...', valueText: 'Loading...' },
   } as SpinnerElement;
 
   uischema.elements = [
