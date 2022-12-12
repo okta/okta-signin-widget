@@ -151,6 +151,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-20"
                     >
                       <input
+                        aria-describedby="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1 challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
                         aria-invalid="false"
                         autocomplete="off"
                         class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-21"
@@ -162,18 +163,14 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                       <div
                         class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-22"
                       >
-                        <input
-                          aria-describedby="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1 challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
-                          aria-invalid="false"
-                          autocomplete="off"
-                          class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-22"
-                          data-se="credentials.passcode"
-                          id="credentials.passcode"
-                          name="credentials.passcode"
-                          type="password"
-                        />
-                        <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-23"
+                        <button
+                          aria-controls="credentials.passcode"
+                          aria-label="Show password"
+                          aria-pressed="false"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-23"
+                          data-mui-internal-clone-element="true"
+                          tabindex="0"
+                          type="button"
                         >
                           <svg
                             aria-hidden="true"
@@ -210,7 +207,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                 >
                   <button
                     aria-describedby="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1 challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
-                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-29"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-28"
                     data-type="save"
                     tabindex="0"
                     type="submit"
