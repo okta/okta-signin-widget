@@ -5,12 +5,11 @@ setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 
 pushd ${OKTA_HOME}/${REPO}
 
-# print md5sum of yarn.lock
-md5sum yarn.lock
-
-yq --version
-
-AUDIT_RESULTS=$( yarn audit --json )
+AUDIT_RESULTS=""
+yarn audit --json | while read LINE; do
+  AUDIT_RESULTS+="$(echo "$LINE" | yq r -)"
+  AUDIT_RESULTS+="\n---\n"
+done
 
 # print audit results
 log_custom_message "Audit Results" "$AUDIT_RESULTS"
