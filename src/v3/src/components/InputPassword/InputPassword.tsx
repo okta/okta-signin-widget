@@ -14,7 +14,6 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   Box, IconButton, InputAdornment, InputLabel, OutlinedInput, Tooltip,
 } from '@mui/material';
-import { useOid } from '@okta/odyssey-react/dist/utils';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
