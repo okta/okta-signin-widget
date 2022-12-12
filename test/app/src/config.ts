@@ -28,7 +28,7 @@ export function getIssuerOrigin(issuer: string): string {
   return issuer?.split('/oauth2/')[0];
 }
 
-export function getBaseUrl(options: WidgetOptions): string {
+export function getBaseUrl(options: WidgetOptions = {}): string {
   const baseUrl = options.baseUrl;
   if (baseUrl) {
     return baseUrl;
@@ -39,7 +39,7 @@ export function getBaseUrl(options: WidgetOptions): string {
   }
 }
 
-export function getIssuer(options: WidgetOptions): string {
+export function getIssuer(options: WidgetOptions = {}): string {
   return options.issuer || options.authParams?.issuer;
 }
 

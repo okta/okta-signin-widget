@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "test": "node ./runner.js",
-    "test:lang": "node ./runner.langtests.js"
+    "test:lang": "node ./runner.langtests.js",
+    "test:cucumber": "wdio run cucumber.wdio.conf.ts",
+    "test:spec": "wdio run wdio.conf.js"
   },
   "dependencies": {
     "@okta/okta-sdk-nodejs": "^6.5.0",

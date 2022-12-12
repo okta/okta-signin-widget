@@ -172,6 +172,9 @@ const local: Record<string, ModelProperty> = {
   //Colors
   'colors.brand': 'string',
 
+  //cspNonce
+  'cspNonce': 'string',
+
   //Descriptions
   brandName: 'string',
 

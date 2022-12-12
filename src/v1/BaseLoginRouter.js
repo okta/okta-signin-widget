@@ -188,8 +188,9 @@ export default Router.extend({
       const colors = {
         brand: this.settings.get('colors.brand'),
       };
+      const cspNonce = this.settings.get('cspNonce');
 
-      ColorsUtil.addStyle(colors);
+      ColorsUtil.addStyle(colors, cspNonce);
     }
 
     const oldController = this.controller;
