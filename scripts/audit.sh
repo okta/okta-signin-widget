@@ -8,7 +8,7 @@ pushd ${OKTA_HOME}/${REPO}
 # print md5sum of yarn.lock
 md5sum yarn.lock
 
-AUDIT_RESULTS=$( yarn audit )
+AUDIT_RESULTS=$( yarn audit --json | yq -p=json )
 
 # print audit results
 log_custom_message "Audit Results" "$AUDIT_RESULTS"
