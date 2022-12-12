@@ -8,8 +8,10 @@ pushd ${OKTA_HOME}/${REPO}
 # print md5sum of yarn.lock
 md5sum yarn.lock
 
+AUDIT_RESULTS=$( yarn audit )
+
 # print audit results
-log_custom_message $( yarn audit )
+log_custom_message "Audit Results" "$AUDIT_RESULTS"
 
 # TODO enforce check one audit is clean
 exit $SUCCESS
