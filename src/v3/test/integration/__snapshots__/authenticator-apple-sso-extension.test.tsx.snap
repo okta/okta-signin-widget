@@ -43,6 +43,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
                       data-se="o-form-head"
+                      id="identify_Title_Sign_In_1"
                     >
                       Sign In
                     </h2>
@@ -64,6 +65,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
+                        aria-describedby="identify_Title_Sign_In_1"
                         aria-invalid="false"
                         autocomplete="username"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
@@ -93,6 +95,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                   class="MuiBox-root emotion-6"
                 >
                   <fieldset
+                    aria-describedby="identify_Title_Sign_In_1"
                     class="MuiFormControl-root MuiFormControl-marginNormal emotion-17"
                   >
                     <label
@@ -133,6 +136,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                   class="MuiBox-root emotion-6"
                 >
                   <button
+                    aria-describedby="identify_Title_Sign_In_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-24"
                     data-type="save"
                     tabindex="0"
@@ -160,6 +164,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-30"
                         data-se="signup-info"
+                        id="identify_Description_Dont_have_an_account_7"
                       >
                         Don't have an account?
                       </p>
@@ -230,6 +235,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
                       data-se="o-form-head"
+                      id="identify_Title_Sign_In_1"
                     >
                       Sign In
                     </h2>
@@ -251,6 +257,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
+                        aria-describedby="identify_Title_Sign_In_1"
                         aria-invalid="false"
                         autocomplete="username"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
@@ -280,6 +287,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                   class="MuiBox-root emotion-6"
                 >
                   <fieldset
+                    aria-describedby="identify_Title_Sign_In_1"
                     class="MuiFormControl-root MuiFormControl-marginNormal emotion-17"
                   >
                     <label
@@ -320,6 +328,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                   class="MuiBox-root emotion-6"
                 >
                   <button
+                    aria-describedby="identify_Title_Sign_In_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-24"
                     data-type="save"
                     tabindex="0"
@@ -347,6 +356,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-30"
                         data-se="signup-info"
+                        id="identify_Description_Dont_have_an_account_7"
                       >
                         Don't have an account?
                       </p>
@@ -417,6 +427,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     <h2
                       class="MuiTypography-root MuiTypography-h3 emotion-8"
                       data-se="o-form-head"
+                      id="identify_Title_Sign_In_1"
                     >
                       Sign In
                     </h2>
@@ -438,6 +449,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-12"
                     >
                       <input
+                        aria-describedby="identify_Title_Sign_In_1"
                         aria-invalid="false"
                         autocomplete="username"
                         class="MuiOutlinedInput-input MuiInputBase-input emotion-13"
@@ -467,6 +479,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                   class="MuiBox-root emotion-6"
                 >
                   <fieldset
+                    aria-describedby="identify_Title_Sign_In_1"
                     class="MuiFormControl-root MuiFormControl-marginNormal emotion-17"
                   >
                     <label
@@ -507,6 +520,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                   class="MuiBox-root emotion-6"
                 >
                   <button
+                    aria-describedby="identify_Title_Sign_In_1"
                     class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-24"
                     data-type="save"
                     tabindex="0"
@@ -534,6 +548,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-30"
                         data-se="signup-info"
+                        id="identify_Description_Dont_have_an_account_7"
                       >
                         Don't have an account?
                       </p>

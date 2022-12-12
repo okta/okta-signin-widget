@@ -31,7 +31,7 @@ describe('SSO extension Transformer Tests', () => {
 
   beforeEach(() => {
     transaction = getStubTransactionWithNextStep();
-    formBag = getStubFormBag();;
+    formBag = getStubFormBag();
     widgetProps = {};
   });
 
