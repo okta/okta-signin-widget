@@ -36,7 +36,7 @@ const cucumberOpts: WebdriverIO.CucumberOpts = {
   failFast: false,
   // <boolean> Enable this config to treat undefined definitions as
   // warnings
-  ignoreUndefinedDefinitions: false,
+  ignoreUndefinedDefinitions: true,
   // <string[]> ("extension:module") require files with the given
   // EXTENSION after requiring MODULE (repeatable)
   names: [],
