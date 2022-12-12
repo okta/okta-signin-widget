@@ -39,6 +39,7 @@ describe('Select Authenticator Utility Tests', () => {
         {
           type: 'AuthenticatorButton',
           label: options[0].label,
+          id: 'auth_btn_okta_verify_totp',
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
@@ -54,6 +55,7 @@ describe('Select Authenticator Utility Tests', () => {
         {
           type: 'AuthenticatorButton',
           label: options[1].label,
+          id: 'auth_btn_okta_verify_push',
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
