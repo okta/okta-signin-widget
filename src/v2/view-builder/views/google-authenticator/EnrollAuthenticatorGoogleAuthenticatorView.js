@@ -35,9 +35,6 @@ const Body = BaseForm.extend({
     const nextButton = addCustomButton({
       className: 'google-authenticator-next',
       title: loc('oform.next', 'login'),
-      attributes: {
-        style: 'display: block',
-      },
       click: () => {
         this.model.set(VIEW_TO_DISPLAY, viewToDisplayState.ENTER_CODE);
       }
@@ -122,5 +119,9 @@ export default BaseAuthenticatorView.extend({
     return ModelClass.extend({
       local,
     });
+  },
+  postRender() {
+    BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
+    this.el.querySelector('.google-authenticator-next').style.display = 'block';
   },
 });
