@@ -35,6 +35,21 @@ export const transformInputPassword: TransformStepFn = (formBag: FormBag) => {
         name: 'hide',
         i18nKey: 'mfa.challenge.answer.hideAnswer',
       });
+
+      const { options: { inputMeta: { name: fieldName } } } = (element as FieldElement);
+      let showLabel = 'Show password'
+      if (fieldName === 'confirmPassword') {
+        showLabel = 'Show re-enter password'
+      } else if (fieldName === 'credentials.answer') {
+        showLabel = 'Show answer'
+      }
+      // TODO: OKTA-558040 request translation keys for labels
+      addTranslation({
+        element,
+        name: 'show label',
+        i18nKey: '',
+        defaultValue: showLabel,
+      });
     },
   });
 

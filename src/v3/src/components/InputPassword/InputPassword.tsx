@@ -67,8 +67,6 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     e.preventDefault();
   };
 
-  const isConfirmPassword = name === 'confirmPassword';
-
   return (
     <Box>
       <InputLabel htmlFor={useOid(name)}>{label + (required ? ' *' : '')}</InputLabel>
@@ -93,7 +91,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
             <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
               <IconButton
                 // TODO: OKTA-558040 request translation keys for aria labels
-                aria-label={isConfirmPassword ? 'Show re-enter password' : 'Show password'}
+                aria-label={getTranslation(translations, 'show label')}
                 aria-pressed={showPassword}
                 aria-controls={name}
                 onClick={handleClickShowPassword}
