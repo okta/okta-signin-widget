@@ -9,7 +9,7 @@ export_cloud_config
 #Set the spring config profiles. this determines which config files are loaded
 # http://localhost:8100/okta/ci,ci_test_shared_credentials
 # web credentials for CCS in bootstrap-ci.properties
-export MONOLITH_PROFILES_ACTIVE="ci_test_shared_credentials,ci"
+export MONOLITH_PROFILES_ACTIVE="ci_test_shared_credentials,ci,widget"
 
 # Stop monolith if it is running
 common::widget::stop_webapp

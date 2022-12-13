@@ -43,8 +43,9 @@ function common::widget::start_webapp() {
 function common::widget::deploy_widget() {
   local -r monolith_container_id="$1"
 
-  # Write synthetic version to a tmp file named "override.properties"
-  local -r local_conf_file=${DOCKOLITH_TMP}/override.properties
+  # Write synthetic version to a tmp file named "application-widet.properties"
+  # This will be loaded with the "widget" CCS profile
+  local -r local_conf_file=${DOCKOLITH_TMP}/application-widget.properties
   mkdir -p ${DOCKOLITH_TMP}
   echo "ui.widget.version=${SYNTHETIC_WIDGET_VERSION}" > ${local_conf_file}
 

@@ -13,6 +13,12 @@ fi
 
 dockolith::setup;
 
+#Set the spring config profiles. this determines which config files are loaded
+# http://localhost:8100/okta/ci,ci_test_shared_credentials
+# web credentials for CCS in bootstrap-ci.properties
+# special "widget" profile is used to load locally built widget version
+export MONOLITH_PROFILES_ACTIVE="ci_test_shared_credentials,ci,widget"
+
 common::widget::start_webapp;
 
 export DOCKER_HOST_CONTAINER_IP=$(docker inspect --format='{{.NetworkSettings.Networks.monolith_network.IPAddress}}' mono_dockerhost)
