@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   Box,
   IconButton,
@@ -19,6 +18,7 @@ import {
   OutlinedInput,
   Tooltip,
 } from '@mui/material';
+import { EyeIcon, EyeOffIcon } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
@@ -110,7 +110,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
               >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
               </IconButton>
             </Tooltip>
           </InputAdornment>
