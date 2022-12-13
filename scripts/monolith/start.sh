@@ -13,17 +13,14 @@ fi
 
 dockolith::setup;
 
-echo "start DOCKER_HOST_CONTAINER_IP before: ${DOCKER_HOST_CONTAINER_IP}"
 common::widget::start_webapp;
-echo "start DOCKER_HOST_CONTAINER_IP after: ${DOCKER_HOST_CONTAINER_IP}"
 
 export DOCKER_HOST_CONTAINER_IP=$(docker inspect --format='{{.NetworkSettings.Networks.monolith_network.IPAddress}}' mono_dockerhost)
-
 update_hosts_entry $DOCKER_HOST_CONTAINER_IP cdn.okta1.com
 update_hosts_entry $DOCKER_HOST_CONTAINER_IP rain.okta1.com
 update_hosts_entry $DOCKER_HOST_CONTAINER_IP backdoorentry.okta1.com
 
-cat http://backdoorentry.okta1.com:1802
+curl http://backdoorentry.okta1.com:1802
 
 export METRIC_TO_LOG=bootstrap_db
 if ! log_metric_wrapper dockolith::bootstrap;
