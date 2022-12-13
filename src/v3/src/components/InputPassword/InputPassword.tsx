@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+//import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   Box,
   IconButton,
@@ -104,13 +104,13 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
               <IconButton
                 // TODO: OKTA-558040 request translation keys for aria labels
                 aria-label={getTranslation(translations, 'visibilityToggleLabel')}
-                // aria-pressed={showPassword}
-                // aria-controls={name}
+                aria-pressed={showPassword}
+                aria-controls={name}
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
               >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+                {/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
               </IconButton>
             </Tooltip>
           </InputAdornment>
