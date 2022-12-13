@@ -267,4 +267,16 @@ export default class BasePageObject {
   formExists() {
     return Selector('form').exists;
   }
+
+  spinnerExists() {
+    if(userVariables.v3) {
+      return this.form.getSpinner().exists;
+    }
+
+    return Selector('.spinner').exists;
+  }
+
+  getSpinnerStyle() {
+    return Selector('.spinner').getStyleProperty('display');
+  }
 }

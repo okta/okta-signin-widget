@@ -435,6 +435,11 @@ export interface RedirectElement extends UISchemaElement {
   options: { url: string; },
 }
 
+export interface AutoSubmitElement extends UISchemaElement {
+  type: 'AutoSubmit',
+  options: ActionOptions,
+}
+
 export interface HiddenInputElement extends UISchemaElement {
   type: 'HiddenInput';
   options: { name: string; value: string; };

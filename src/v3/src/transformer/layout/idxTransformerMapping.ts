@@ -15,6 +15,7 @@ import { IdxStepTransformer } from 'src/types';
 import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
 import {
+  transformAppleSsoExtension,
   transformOktaVerifyChallengePoll,
   transformOktaVerifyChannelSelection,
   transformOktaVerifyEnrollChannel,
@@ -111,6 +112,12 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
   },
+  [IDX_STEP.CANCEL_TRANSACTION]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformAppleSsoExtension,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
   [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.EMAIL]: {
       transform: transformEmailAuthenticatorVerify,
@@ -154,6 +161,16 @@ const TransformerMap: {
         showDefaultSubmit: false,
         showDefaultCancel: false,
       },
+    },
+  },
+  [IDX_STEP.DEVICE_APPLE_SSO_EXTENSION]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformAppleSsoExtension,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.OV]: {
+      transform: transformAppleSsoExtension,
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.DEVICE_CHALLENGE_POLL]: {
