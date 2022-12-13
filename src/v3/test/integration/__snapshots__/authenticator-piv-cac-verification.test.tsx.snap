@@ -146,9 +146,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                         class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-26"
                       >
                         <button
-                          aria-controls="credentials.passcode"
-                          aria-label="Show password"
-                          aria-pressed="false"
+                          aria-label="Show"
                           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-27"
                           data-mui-internal-clone-element="true"
                           tabindex="0"
@@ -453,9 +451,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                         class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-26"
                       >
                         <button
-                          aria-controls="credentials.passcode"
-                          aria-label="Show password"
-                          aria-pressed="false"
+                          aria-label="Show"
                           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-27"
                           data-mui-internal-clone-element="true"
                           tabindex="0"
@@ -734,9 +730,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                         class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-21"
                       >
                         <button
-                          aria-controls="credentials.passcode"
-                          aria-label="Show password"
-                          aria-pressed="false"
+                          aria-label="Show"
                           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-22"
                           data-mui-internal-clone-element="true"
                           tabindex="0"

@@ -178,9 +178,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                         class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-25"
                       >
                         <button
-                          aria-controls="credentials.passcode"
-                          aria-label="Show password"
-                          aria-pressed="false"
+                          aria-label="Show"
                           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-26"
                           data-mui-internal-clone-element="true"
                           tabindex="0"

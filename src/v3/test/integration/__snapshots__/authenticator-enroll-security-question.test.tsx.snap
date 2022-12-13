@@ -341,9 +341,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-51"
                         >
                           <button
-                            aria-controls="credentials.answer"
-                            aria-label="Show answer"
-                            aria-pressed="false"
+                            aria-label="Show"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-52"
                             data-mui-internal-clone-element="true"
                             tabindex="0"
@@ -721,9 +719,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-44"
                         >
                           <button
-                            aria-controls="credentials.answer"
-                            aria-label="Show answer"
-                            aria-pressed="false"
+                            aria-label="Show"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-45"
                             data-mui-internal-clone-element="true"
                             tabindex="0"
@@ -1134,9 +1130,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-49"
                         >
                           <button
-                            aria-controls="credentials.answer"
-                            aria-label="Show answer"
-                            aria-pressed="false"
+                            aria-label="Show"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-50"
                             data-mui-internal-clone-element="true"
                             tabindex="0"
@@ -1637,9 +1631,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-45"
                         >
                           <button
-                            aria-controls="credentials.answer"
-                            aria-label="Show answer"
-                            aria-pressed="false"
+                            aria-label="Show"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-46"
                             data-mui-internal-clone-element="true"
                             tabindex="0"
@@ -2161,9 +2153,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-50"
                         >
                           <button
-                            aria-controls="credentials.answer"
-                            aria-label="Show answer"
-                            aria-pressed="false"
+                            aria-label="Show"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-51"
                             data-mui-internal-clone-element="true"
                             tabindex="0"
@@ -2672,9 +2662,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-45"
                         >
                           <button
-                            aria-controls="credentials.answer"
-                            aria-label="Show answer"
-                            aria-pressed="false"
+                            aria-label="Show"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-46"
                             data-mui-internal-clone-element="true"
                             tabindex="0"
@@ -3234,9 +3222,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-50"
                         >
                           <button
-                            aria-controls="credentials.answer"
-                            aria-label="Show answer"
-                            aria-pressed="false"
+                            aria-label="Show"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-51"
                             data-mui-internal-clone-element="true"
                             tabindex="0"

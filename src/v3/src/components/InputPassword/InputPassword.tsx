@@ -12,13 +12,21 @@
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
-  Box, IconButton, InputAdornment, InputLabel, OutlinedInput, Tooltip,
+  Box,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Tooltip,
 } from '@mui/material';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useOnChange, useValue } from '../../hooks';
+import {
+  useAutoFocus,
+  useOnChange,
+  useValue, } from '../../hooks';
 import {
   ChangeEvent,
   ClickEvent,
@@ -94,9 +102,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
             <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
               <IconButton
                 // TODO: OKTA-558040 request translation keys for aria labels
-                aria-label={getTranslation(translations, 'visibilityToggleLabel')}
-                aria-pressed={showPassword}
-                aria-controls={name}
+                //aria-label={getTranslation(translations, 'visibilityToggleLabel')}
+                //aria-pressed={showPassword}
+                //aria-controls={name}
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge="end"

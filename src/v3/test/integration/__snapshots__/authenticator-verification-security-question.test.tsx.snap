@@ -147,9 +147,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                         class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-19"
                       >
                         <button
-                          aria-controls="credentials.answer"
-                          aria-label="Show answer"
-                          aria-pressed="false"
+                          aria-label="Show"
                           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-20"
                           data-mui-internal-clone-element="true"
                           tabindex="0"
