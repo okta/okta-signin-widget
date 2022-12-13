@@ -12,7 +12,11 @@ if [[ -z "${upstream_artifact_version}" ]]; then
   echo "okta-ui publish receipt: ${upstream_publish_receipt}"
 
   # Get the Courage version
-  local -r courage_version="$(echo ${upstream_publish_receipt} | cut -d'@' -f3)"
+  local -r courage_version=$(echo "$upstream_publish_receipt" | grep "@okta/courage" | sed 's/.*@//')
+  if [ -z ${courage_version} ]; then
+      echo "No courage version was published from this build. Cannot generate downstream branch."
+      exit ${BUILD_FAILURE}
+  fi
 
   echo "courage version: ${courage_version}"
 fi
