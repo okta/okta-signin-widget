@@ -348,7 +348,19 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                             data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
-                          />
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                              data-testid="VisibilityIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                              />
+                            </svg>
+                          </button>
                         </div>
                         <fieldset
                           aria-hidden="true"
@@ -372,7 +384,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                   >
                     <button
                       aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-56"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-57"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -385,7 +397,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -396,7 +408,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -716,7 +728,19 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                             data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
-                          />
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-46"
+                              data-testid="VisibilityIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                              />
+                            </svg>
+                          </button>
                         </div>
                         <fieldset
                           aria-hidden="true"
@@ -740,7 +764,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   >
                     <button
                       aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-49"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-50"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -753,7 +777,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-51"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -764,7 +788,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-51"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -1117,7 +1141,19 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                             data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
-                          />
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                              data-testid="VisibilityIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                              />
+                            </svg>
+                          </button>
                         </div>
                         <fieldset
                           aria-hidden="true"
@@ -1138,7 +1174,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                         class="MuiBox-root emotion-4"
                       >
                         <p
-                          class="MuiFormHelperText-root Mui-error emotion-54"
+                          class="MuiFormHelperText-root Mui-error emotion-55"
                           data-se="credentials.answer-error"
                           id="credentials.answer-error"
                           role="alert"
@@ -1153,7 +1189,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                   >
                     <button
                       aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-56"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-57"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -1166,7 +1202,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1177,7 +1213,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -1608,7 +1644,19 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                             data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
-                          />
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-47"
+                              data-testid="VisibilityIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                              />
+                            </svg>
+                          </button>
                         </div>
                         <fieldset
                           aria-hidden="true"
@@ -1632,7 +1680,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                   >
                     <button
                       aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-50"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-51"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -1645,7 +1693,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -1656,7 +1704,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-53"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -2120,7 +2168,19 @@ exports[`authenticator-enroll-security-question predefined question should send 
                             data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
-                          />
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                              data-testid="VisibilityIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                              />
+                            </svg>
+                          </button>
                         </div>
                         <fieldset
                           aria-hidden="true"
@@ -2141,7 +2201,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                         class="MuiBox-root emotion-4"
                       >
                         <p
-                          class="MuiFormHelperText-root Mui-error emotion-55"
+                          class="MuiFormHelperText-root Mui-error emotion-56"
                           data-se="credentials.answer-error"
                           id="credentials.answer-error"
                           role="alert"
@@ -2156,7 +2216,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                   >
                     <button
                       aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-57"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-58"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -2169,7 +2229,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -2180,7 +2240,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -2619,7 +2679,19 @@ exports[`authenticator-enroll-security-question predefined question should show 
                             data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
-                          />
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-47"
+                              data-testid="VisibilityIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                              />
+                            </svg>
+                          </button>
                         </div>
                         <fieldset
                           aria-hidden="true"
@@ -2640,7 +2712,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                         class="MuiBox-root emotion-4"
                       >
                         <p
-                          class="MuiFormHelperText-root Mui-error emotion-50"
+                          class="MuiFormHelperText-root Mui-error emotion-51"
                           data-se="credentials.answer-error"
                           id="credentials.answer-error"
                           role="alert"
@@ -2655,28 +2727,28 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   >
                     <button
                       aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled  emotion-52"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root Mui-disabled  emotion-53"
                       data-type="save"
                       disabled=""
                       tabindex="-1"
                       type="submit"
                     >
                       <div
-                        class="MuiBox-root emotion-53"
+                        class="MuiBox-root emotion-54"
                       >
                         <span
                           aria-label="Loading..."
                           aria-valuetext="Loading..."
-                          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-54"
+                          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-55"
                           role="progressbar"
                           style="width: 1.14285714rem; height: 1.14285714rem;"
                         >
                           <svg
-                            class="MuiCircularProgress-svg emotion-55"
+                            class="MuiCircularProgress-svg emotion-56"
                             viewBox="22 22 44 44"
                           >
                             <circle
-                              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-56"
+                              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-57"
                               cx="44"
                               cy="44"
                               fill="none"
@@ -2694,7 +2766,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -2705,7 +2777,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
@@ -3169,7 +3241,19 @@ exports[`authenticator-enroll-security-question predefined question should show 
                             data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
-                          />
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                              data-testid="VisibilityIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                              />
+                            </svg>
+                          </button>
                         </div>
                         <fieldset
                           aria-hidden="true"
@@ -3190,7 +3274,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                         class="MuiBox-root emotion-4"
                       >
                         <p
-                          class="MuiFormHelperText-root Mui-error emotion-55"
+                          class="MuiFormHelperText-root Mui-error emotion-56"
                           data-se="credentials.answer-error"
                           id="credentials.answer-error"
                           role="alert"
@@ -3205,7 +3289,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   >
                     <button
                       aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
-                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-57"
+                      class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-58"
                       data-type="save"
                       tabindex="0"
                       type="submit"
@@ -3218,7 +3302,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
                     data-se="switchAuthenticator"
                     href="javascript:void(0)"
                   >
@@ -3229,7 +3313,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
                   class="MuiBox-root emotion-17"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
                     data-se="cancel"
                     href="javascript:void(0)"
                   >
