@@ -3,15 +3,19 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { RequestMock } from 'testcafe';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
+import { oktaDashboardContent } from '../framework/shared';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(success);
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 fixture('Success Form')
-  .requestHooks(mock);
+  .requestHooks(mock)
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

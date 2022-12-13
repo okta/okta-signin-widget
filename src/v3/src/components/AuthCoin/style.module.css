@@ -1,0 +1,24 @@
+.iconContainer {
+  position: relative;
+  background: #ffffff;
+  width: 54px;
+  height: 48px;
+  padding: 0 3px 0 3px;
+}
+
+.customAuthImage {
+  width: var(--CustomAuthImageWidth);
+  height: var(--CustomAuthImageHeight);
+}
+
+:global(.siwFillPrimary) {
+  fill: var(--PrimaryFill);
+}
+
+:global(.siwFillSecondary) {
+  fill: var(--SecondaryFill);
+}
+
+:global(.siwFillBg) {
+  fill: var(--BackgroundFill);
+}

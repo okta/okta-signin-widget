@@ -316,7 +316,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).notOk();
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
-    await deviceChallengePollPageObject.clickSwitchAuthenticatorButton();
+    await deviceChallengePollPageObject.clickVerifyWithSomethingElseLink();
     const secondSelectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
     await t.expect(secondSelectAuthenticatorPageObject.getFormTitle()).eql('Verify it\'s you with a security method');
   });
@@ -328,7 +328,7 @@ test
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/)
     )).eql(1);
-    await deviceChallengePollPageObject.clickLaunchOktaVerifyLink();
+    await deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/)
     )).eql(2);

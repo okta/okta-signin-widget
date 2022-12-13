@@ -1,0 +1,91 @@
+{
+  "stateHandle": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
+  "version": "1.0.0",
+  "expiresAt": "2020-12-18T21:48:19.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+      "type": "array",
+      "value": [
+          {
+              "rel": ["create-form"],
+              "name": "device-challenge-poll",
+              "relatesTo": [
+                  "authenticatorChallenge"
+              ],
+              "href": "http://localhost:3000/idp/idx/authenticators/poll",
+              "method": "POST",
+              "accepts": "application/vnd.okta.v1+json",
+              "refresh": 4000,
+              "value": [
+                  {
+                      "name": "stateHandle",
+                      "required": true,
+                      "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
+                      "visible": false,
+                      "mutable": false
+                  }
+              ]
+          }
+      ]
+  },
+  "cancel": {
+      "rel": ["create-form"],
+      "name": "cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
+      "method": "POST",
+      "accepts": "application/vnd.okta.v1+json",
+      "value": [
+          {
+              "name": "stateHandle",
+              "required": true,
+              "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
+              "visible": false,
+              "mutable": false
+          }
+      ]
+  },
+  "context": {
+      "rel": [
+          "create-form"
+      ],
+      "name": "context",
+      "href": "http://localhost:3000/idp/idx/context",
+      "method": "POST",
+      "accepts": "application/vnd.okta.v1+json",
+      "value": [
+          {
+              "name": "stateHandle",
+              "required": true,
+              "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
+              "visible": false,
+              "mutable": false
+          }
+      ]
+  },
+  "authenticatorChallenge": {
+      "type": "object",
+      "value": {
+          "challengeMethod": "CUSTOM_URI",
+          "href": "okta-verify.html",
+          "downloadHref": "https://apps.apple.com/us/app/okta-verify/id490179405",
+          "cancel": {
+              "rel": [
+                  "create-form"
+              ],
+              "name": "cancel-polling",
+              "href": "http://localhost:3000/idp/idx/authenticators/poll/cancel",
+              "method": "POST",
+              "accepts": "application/vnd.okta.v1+json",
+              "value": [
+                  {
+                      "name": "stateHandle",
+                      "required": true,
+                      "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1w",
+                      "visible": false,
+                      "mutable": false
+                  }
+              ]
+          }
+      }
+  }
+}

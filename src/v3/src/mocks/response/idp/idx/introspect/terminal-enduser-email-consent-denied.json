@@ -1,0 +1,18 @@
+{
+  "stateHandle": "02YNPsosm8mrM70hbzTcqQa5qeKRv2r-Ez2_Fiunr8",
+  "version": "1.0.0",
+  "expiresAt": "2021-03-18T16:05:12.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Operation cancelled by user.",
+        "i18n": {
+          "key": "idx.operation.cancelled.by.user"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Enums from 'util/Enums';
+import Enums from '../../util/Enums';
 
 /**
  * Structure of FORMS object:

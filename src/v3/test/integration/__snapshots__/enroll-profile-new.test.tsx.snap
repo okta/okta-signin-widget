@@ -1,0 +1,258 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`enroll-profile-new should render form 1`] = `
+<div>
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <span>
+      <main
+        class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
+        id="okta-sign-in"
+      >
+        <div
+          class="siwContainer MuiBox-root emotion-2"
+        >
+          <div
+            class="okta-sign-in-header auth-header siwHeader"
+          >
+            <h1
+              class="MuiTypography-root MuiTypography-h1 emotion-3"
+            />
+          </div>
+          <div
+            class="MuiBox-root emotion-4"
+          >
+            <form
+              class="o-form"
+              data-se="o-form"
+              novalidate=""
+              style="max-width: 100%; word-break: break-word;"
+            >
+              <div
+                class="MuiBox-root emotion-5"
+              >
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-7"
+                  >
+                    <h2
+                      class="MuiTypography-root MuiTypography-h4 emotion-8"
+                      data-se="o-form-head"
+                      id="enroll-profile_Title_Sign_up_1"
+                    >
+                      Sign up
+                    </h2>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-11"
+                      for="userProfile.lastName"
+                    >
+                      Last name
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-12"
+                      >
+                         
+                        *
+                      </span>
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                    >
+                      <input
+                        aria-describedby="enroll-profile_Title_Sign_up_1"
+                        aria-invalid="false"
+                        autocomplete="family-name"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
+                        data-se="userProfile.lastName"
+                        id="userProfile.lastName"
+                        name="userProfile.lastName"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-15"
+                      >
+                        <legend
+                          class="emotion-16"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-11"
+                      for="userProfile.firstName"
+                    >
+                      First name
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-12"
+                      >
+                         
+                        *
+                      </span>
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                    >
+                      <input
+                        aria-describedby="enroll-profile_Title_Sign_up_1"
+                        aria-invalid="false"
+                        autocomplete="given-name"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
+                        data-se="userProfile.firstName"
+                        id="userProfile.firstName"
+                        name="userProfile.firstName"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-15"
+                      >
+                        <legend
+                          class="emotion-16"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <label
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-11"
+                      for="userProfile.email"
+                    >
+                      Email
+                      <span
+                        aria-hidden="true"
+                        class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-12"
+                      >
+                         
+                        *
+                      </span>
+                    </label>
+                    <div
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                    >
+                      <input
+                        aria-describedby="enroll-profile_Title_Sign_up_1"
+                        aria-invalid="false"
+                        autocomplete="email"
+                        class="MuiOutlinedInput-input MuiInputBase-input emotion-14"
+                        data-se="userProfile.email"
+                        id="userProfile.email"
+                        inputmode="email"
+                        name="userProfile.email"
+                        type="text"
+                      />
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-15"
+                      >
+                        <legend
+                          class="emotion-16"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <button
+                    aria-describedby="enroll-profile_Title_Sign_up_1"
+                    class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-34"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    Sign Up
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-6"
+                >
+                  <hr
+                    class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-36"
+                  />
+                </div>
+                <div
+                  class="MuiBox-root emotion-37"
+                >
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <div
+                      class="MuiBox-root emotion-7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-40"
+                        data-se="haveaccount"
+                        id="enroll-profile_Description_Already_have_an_account_8"
+                      >
+                        Already have an account?
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-6"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      data-se="back"
+                      href="javascript:void(0)"
+                    >
+                      Sign In
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </span>
+  </div>
+</div>
+`;

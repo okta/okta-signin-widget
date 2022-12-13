@@ -1,0 +1,80 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "023jo2AVBG9z8V86MDpPDNE2u6ihFPU5mh5CZ8_Hao",
+  "expiresAt": "2022-04-12T21:40:29.000Z",
+  "intent": "CONSENT",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "email-challenge-consent",
+        "href": "http://localhost:3000/idp/idx/consent",
+        "method": "POST",
+        "accepts": "application/json; okta-version=1.0.0",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "requestInfo": [
+          {
+            "name": "appName",
+            "type": "string",
+            "label": "Application",
+            "value": "Okta Dashboard"
+          },
+          {
+            "name": "browser",
+            "type": "string",
+            "label": "Browser",
+            "value": "CHROME"
+          }
+        ],
+        "value": [
+          {
+            "name": "consent",
+            "type": "boolean",
+            "required": true,
+            "options": [
+              {
+                "label": "Allow",
+                "value": true
+              },
+              {
+                "label": "Deny",
+                "value": false
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "023jo2AVBG9z8V86MDpPDNE2u6ihFPU5mh5CZ8_Hao",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u2kk7x4ni8vYvuO1d7",
+      "identifier": "tester@okta1.com",
+      "profile": {
+        "firstName": "Tester",
+        "lastName": "McTesterson",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa2h3ffrkQcybnQ21d7"
+    }
+  }
+}

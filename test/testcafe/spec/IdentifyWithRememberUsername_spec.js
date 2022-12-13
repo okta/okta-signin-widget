@@ -74,7 +74,8 @@ const baseConfig = {
   }
 };
 
-fixture('Identify With Remember Username');
+fixture('Identify With Remember Username')
+  .meta('v3', true);
 
 async function setup(t, options) {
   const identityPage = new IdentityPageObject(t);
@@ -90,7 +91,7 @@ test.requestHooks(identifyRequestLogger, identifyWithError)('identifer first flo
   await identityPage.clickNextButton();
 
   await identityPage.fillPasswordField('testPassword');
-  await identityPage.clickNextButton();
+  await identityPage.clickVerifyButton();
 
   await identityPage.waitForErrorBox();
 
@@ -107,13 +108,14 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordError)('identifer w
 
   await identityPage.fillIdentifierField('test@okta.com');
   await identityPage.fillPasswordField('testPassword');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   await identityPage.waitForErrorBox();
 
   // Ensure identifier field is not pre-filled
   await identityPage.navigateToPage();
   await rerenderWidget(baseConfig);  
+  await t.expect(identityPage.formExists()).eql(true);
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('');
 });
@@ -126,7 +128,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('identifer first flow - s
   await identityPage.clickNextButton();
 
   await identityPage.fillPasswordField('testPassword');
-  await identityPage.clickNextButton();  
+  await identityPage.clickVerifyButton();  
 
   await t.expect(identifyRequestLogger.count(() => true)).eql(2);
   const req = identifyRequestLogger.requests[0].request;
@@ -148,7 +150,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('identifer wi
 
   await identityPage.fillIdentifierField('testUser@okta.com');
   await identityPage.fillPasswordField('testPassword');
-  await identityPage.clickNextButton();  
+  await identityPage.clickSignInButton();  
 
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   const req = identifyRequestLogger.requests[0].request;
@@ -179,12 +181,13 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticatorError)('i
   await challengeEmailPageObject.clickEnterCodeLink();
 
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickVerifyButton();
   await challengeEmailPageObject.waitForErrorBox();
 
   // Ensure identifier field is not pre-filled
   await identityPage.navigateToPage();
   await rerenderWidget(baseConfig);  
+  await t.expect(identityPage.formExists()).eql(true);
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('');
 });
@@ -209,7 +212,7 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identi
   await challengeEmailPageObject.clickEnterCodeLink();
 
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickVerifyButton();
 
   const req = identifyRequestLogger.requests[0].request;
   const reqBody = JSON.parse(req.body);
@@ -233,7 +236,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
   await identityPage.clickNextButton();
 
   await identityPage.fillPasswordField('testPassword');
-  await identityPage.clickNextButton();  
+  await identityPage.clickVerifyButton();
 
   await t.expect(identifyRequestLogger.count(() => true)).eql(2);
   const req = identifyRequestLogger.requests[0].request;
@@ -265,7 +268,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
   await identityPage.clickNextButton();
 
   await identityPage.fillPasswordField('testPassword');
-  await identityPage.clickNextButton();  
+  await identityPage.clickVerifyButton();  
 
   await t.expect(identifyRequestLogger.count(() => true)).eql(2);
   const req = identifyRequestLogger.requests[0].request;

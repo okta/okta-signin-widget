@@ -1,4 +1,5 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
+import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -17,7 +18,9 @@ const mockExpireInDays = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiryWarningPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const xhrAuthenticatorExpiryWarningPasswordExpireToday = JSON.parse(JSON.stringify(xhrAuthenticatorExpiryWarningPassword));
 xhrAuthenticatorExpiryWarningPasswordExpireToday.currentAuthenticator.value.settings.daysToExpiry = 0;
@@ -45,11 +48,13 @@ const mockChangePasswordNotAllowed = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/skip')
   .respond(xhrSuccess);
 
-fixture('Password Authenticator Expiry Warning');
+fixture('Password Authenticator Expiry Warning')
+  .meta('v3', true);
 
 async function setup(t) {
   const passwordExpiryWarningPage = new FactorEnrollPasswordPageObject(t);
   await passwordExpiryWarningPage.navigateToPage();
+  await t.expect(passwordExpiryWarningPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: null,
     formName: 'reenroll-authenticator-warning',
@@ -69,17 +74,22 @@ async function setup(t) {
     .requestHooks(logger, mock)('Should have the correct labels - expire in days', async t => {
       const passwordExpiryWarningPage = await setup(t);
       await t.expect(passwordExpiryWarningPage.getFormTitle()).eql(formTitle);
-      await t.expect(passwordExpiryWarningPage.getSaveButtonLabel()).eql('Change Password');
+      await t.expect(passwordExpiryWarningPage.changePasswordButtonExists()).eql(true);
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Password requirements:');
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('At least 8 characters');
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('An uppercase letter');
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('A lowercase letter');
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('A number');
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('No parts of your username');
-      await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
-      await t.expect(passwordExpiryWarningPage.getSkipLinkText()).eql('Remind me later');
+      // In V3, UX made a conscious decision to not include server side requirements in the UI
+      // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
+      // but for now, it does not display in v3
+      if (!userVariables.v3) {
+        await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+      }
+      await t.expect(passwordExpiryWarningPage.remindMeLaterLinkExists()).eql(true);
       await t.expect(passwordExpiryWarningPage.getSignoutLinkText()).eql('Back to sign in');
-      await t.expect(passwordExpiryWarningPage.getIonMessages()).eql('When your password expires you will be locked out of your Okta account.');
+      await t.expect(passwordExpiryWarningPage.doesTextExist('When your password expires you will be locked out of your Okta account.')).eql(true);
     });
 });
 
@@ -90,7 +100,7 @@ test
     await t.expect(passwordExpiryWarningPage.confirmPasswordFieldExists()).eql(true);
 
     // fields are required
-    await passwordExpiryWarningPage.clickNextButton();
+    await passwordExpiryWarningPage.clickChangePasswordButton();
     await passwordExpiryWarningPage.waitForErrorBox();
     await t.expect(passwordExpiryWarningPage.getPasswordError()).eql('This field cannot be left blank');
     await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('This field cannot be left blank');
@@ -98,13 +108,21 @@ test
     // password must match
     await passwordExpiryWarningPage.fillPassword('abcd');
     await passwordExpiryWarningPage.fillConfirmPassword('1234');
-    await passwordExpiryWarningPage.clickNextButton();
+    await passwordExpiryWarningPage.clickChangePasswordButton();
     await passwordExpiryWarningPage.waitForErrorBox();
     await t.expect(passwordExpiryWarningPage.hasPasswordError()).eql(false);
-    await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('New passwords must match');
+
+    // In v3, we do not show the error for password match on the field, but rather display the
+    // 'incomplete'/'complete' checkmark next to the 'Passwords must match' label below the
+    // two password fields, so we check this state differently.
+    if (userVariables.v3) {
+      await t.expect(passwordExpiryWarningPage.hasPasswordMatchRequirementStatus(false)).eql(true);
+    } else {
+      await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('New passwords must match');
+    }
 
     await t.expect(await passwordExpiryWarningPage.signoutLinkExists()).ok();
-    await t.expect(await passwordExpiryWarningPage.skipLinkExists()).ok();
+    await t.expect(passwordExpiryWarningPage.remindMeLaterLinkExists()).eql(true);
   });
 
 test
@@ -114,7 +132,7 @@ test
 
     await passwordExpiryWarningPage.fillPassword('abcdabcd');
     await passwordExpiryWarningPage.fillConfirmPassword('abcdabcd');
-    await passwordExpiryWarningPage.clickNextButton();
+    await passwordExpiryWarningPage.clickChangePasswordButton();
 
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
@@ -130,14 +148,14 @@ test
     });
   });
 
-test
+test.meta('v3', false) // TODO: OKTA-544016 - determine if we should match this functionality in v3
   .requestHooks(logger, mockChangePasswordNotAllowed)('can choose "skip" if password change is not allowed', async t => {
     const passwordExpiryWarningPage = await setup(t);
     const successPage = new SuccessPageObject(t);
 
     await passwordExpiryWarningPage.fillPassword('abcdabcd');
     await passwordExpiryWarningPage.fillConfirmPassword('abcdabcd');
-    await passwordExpiryWarningPage.clickNextButton();
+    await passwordExpiryWarningPage.clickChangePasswordButton();
 
     await passwordExpiryWarningPage.waitForErrorBox();
 
@@ -146,9 +164,8 @@ test
     const errorText = passwordExpiryWarningPage.form.getErrorBoxText();
     await t.expect(errorText).eql('Change password not allowed on specified user.');
     await passwordExpiryWarningPage.confirmPasswordFieldExists();
-    const skipText = await passwordExpiryWarningPage.getSkipLinkText();
-    await t.expect(skipText).eql('Remind me later');
-    await passwordExpiryWarningPage.clickSkipLink();
+    await t.expect(passwordExpiryWarningPage.remindMeLaterLinkExists()).eql(true);
+    await passwordExpiryWarningPage.clickRemindMeLaterLink();
 
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)

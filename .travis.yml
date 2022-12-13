@@ -1,0 +1,23 @@
+language: node_js
+
+node_js:
+- '14'
+
+install:
+- TMPDIR=/tmp yarn install
+
+script:
+- yarn $TEST_SUITE
+
+cache: false
+
+# addons:
+#   chrome: stable
+
+env:
+  matrix:
+  - TEST_SUITE=lint:ci
+  # - TEST_SUITE="test -t karma"
+  # - TEST_SUITE=test:tsd:ci
+  # - TEST_SUITE=test:testcafe-ci
+  # - TEST_SUITE="test -t jest"

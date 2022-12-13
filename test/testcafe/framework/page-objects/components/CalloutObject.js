@@ -1,14 +1,14 @@
-import { Selector } from 'testcafe';
+import { userVariables } from 'testcafe';
 
-const DATA_SE_CALLOUT = '[data-se="callout"]';
+import { screen, within } from '@testing-library/testcafe';
 
 export default class CalloutObject {
 
   constructor(parent /* Selector */, index = 0) {
     if (parent) {
-      this.el = parent.find(DATA_SE_CALLOUT).nth(index);
+      this.el = within(parent).getAllByRole('alert').nth(index);
     } else {
-      this.el = new Selector(DATA_SE_CALLOUT).nth(index);
+      this.el = screen.getAllByRole('alert').nth(index);
     }
   }
 
@@ -18,12 +18,19 @@ export default class CalloutObject {
   }
 
   isError() {
-    return this.el.hasClass('infobox-error') &&
-      this.el.child('[data-se="icon"]').hasClass('error-16');
+    const hasInfoBoxErrorClass = this.el.hasClass('infobox-error');
+    if (userVariables.v3) {
+      return hasInfoBoxErrorClass;
+    }
+    return hasInfoBoxErrorClass &&
+      this.el.find('[data-se="icon"]').hasClass('error-16');
   }
 
   getTextContent() {
-    return this.el.child('div').textContent;
+    if (userVariables.v3) {
+      return this.el.textContent;
+    }
+    return this.el.child('[data-se="callout"]').child('div').textContent;
   }
 
 }

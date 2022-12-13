@@ -1,16 +1,13 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '[data-se="callout"]';
 const ENROLL_SELECTOR = 'a[data-se="enroll"]';
 const NEEDHELP_SELECTOR = 'a[data-se="help"]';
 const FORGOT_PASSWORD_SELECTOR = 'a[data-se="forgot-password"]';
-const CUSTOM_CHECKBOX_SELECTOR = '.custom-checkbox';
-const REMEMBER_ME_FIELD_NAME = 'rememberMe';
 const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
 const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
-const UNLOCK_ACCOUNT = '.auth-footer .js-unlock';
 const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
 const FOOTER_INFO_SELECTOR = '.footer-info';
@@ -21,24 +18,28 @@ export default class IdentityPageObject extends BasePageObject {
     super(t);
   }
 
+  /**
+   * @deprecated
+   * @see BasePageObject.getFormTitle
+   */
   getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
+    return this.getFormTitle();
   }
 
   getOktaVerifyButtonText() {
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
   }
 
-  getRememberMeText() {
-    return this.form.getElement(CUSTOM_CHECKBOX_SELECTOR).textContent;
+  getRememberMeCheckbox() {
+    return this.form.getCheckbox('Keep me signed in');
   }
 
   getRememberMeValue() {
-    return this.form.getCheckboxValue(REMEMBER_ME_FIELD_NAME);
+    return this.getRememberMeCheckbox().checked;
   }
 
   checkRememberMe() {
-    return this.form.setCheckbox(REMEMBER_ME_FIELD_NAME, true);
+    return this.form.setCheckbox('Keep me signed in', true, true);
   }
 
   getSignupLinkText() {
@@ -53,17 +54,17 @@ export default class IdentityPageObject extends BasePageObject {
     return Selector(FORGOT_PASSWORD_SELECTOR).textContent;
   }
 
-  getUnlockAccountLinkText() {
-    return Selector(UNLOCK_ACCOUNT).textContent;
-  }
-
   async hasForgotPasswordLinkText() {
     const elCount = await Selector(FORGOT_PASSWORD_SELECTOR).count;
     return elCount === 1;
   }
 
   async clickOktaVerifyButton() {
-    await this.t.click(Selector('.sign-in-with-device-option .okta-verify-container .link-button'));
+    if (userVariables.v3) {
+      await this.form.clickButton(/Sign in with Okta FastPass/);
+    } else {
+      await this.t.click(Selector('.sign-in-with-device-option .okta-verify-container .link-button'));
+    }
   }
 
   getSeparationLineText() {
@@ -71,11 +72,11 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   fillIdentifierField(value) {
-    return this.form.setTextBoxValue('identifier', value);
+    return this.form.setTextBoxValue('Username', value, true);
   }
 
   getIdentifierValue() {
-    return this.form.getTextBoxValue('identifier');
+    return this.form.getTextBoxValue('Username', true);
   }
 
   fillPasswordField(value) {
@@ -83,7 +84,14 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async hasShowTogglePasswordIcon() {
+    if (userVariables.v3) {
+      return await this.form.getButton('toggle password visibility').exists;
+    }
     return await Selector('.password-toggle').count;
+  }
+
+  getNextButton() {
+    return this.form.getButton('Next');
   }
 
   getSaveButtonLabel() {
@@ -91,7 +99,15 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   clickNextButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButton('Next');
+  }
+
+  clickVerifyButton() {
+    return this.form.clickSaveButton('Verify');
+  }
+
+  clickSignInButton() {
+    return this.form.clickSaveButton('Sign in');
   }
 
   waitForErrorBox() {
@@ -114,10 +130,6 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.waitForTextBoxError('identifier');
   }
 
-  hasIdentifierError() {
-    return this.form.hasTextBoxError('identifier');
-  }
-
   hasIdentifierErrorMessage() {
     return this.form.hasTextBoxErrorMessage('identifier');
   }
@@ -126,6 +138,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.getTextBoxErrorMessage('identifier');
   }
 
+  /**
+   * @deprecated
+   * @see hasPasswordErrorMessage
+   */
   hasPasswordError() {
     return this.form.hasTextBoxError('credentials\\.passcode');
   }
@@ -143,11 +159,14 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   hasUnknownUserErrorCallout() {
+    if(userVariables.v3) {
+      return this.form.hasErrorBox();
+    }
     return this.form.getCallout(CALLOUT_SELECTOR).hasClass('infobox-error');
   }
 
   getUnknownUserCalloutContent() {
-    return this.form.getCallout(CALLOUT_SELECTOR).textContent;
+    return this.form.getErrorBoxText();
   }
 
   getIdpButton(selector) {
@@ -194,12 +213,24 @@ export default class IdentityPageObject extends BasePageObject {
     await this.t.click(Selector(ENROLL_SELECTOR));
   }
 
-  async clickUnlockAccountLink() {
-    await this.t.click(Selector(UNLOCK_ACCOUNT));
+  getUnlockAccountLink(name = 'Unlock account?') {
+    return this.form.getLink(name);
   }
 
-  getCustomUnlockAccountLink() {
-    return Selector(UNLOCK_ACCOUNT).getAttribute('href');
+  unlockAccountLinkExists(name = 'Unlock account?') {
+    return this.getUnlockAccountLink(name).exists;
+  }
+
+  getUnlockAccountLinkText() {
+    return this.getUnlockAccountLink().textContent;
+  }
+
+  async clickUnlockAccountLink() {
+    await this.t.click(this.getUnlockAccountLink());
+  }
+
+  getCustomUnlockAccountLinkUrl(name) {
+    return this.getUnlockAccountLink(name).getAttribute('href');
   }
 
   getIdentifierSubLabelValue() {

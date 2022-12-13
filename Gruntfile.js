@@ -4,26 +4,26 @@ const ENV = require('@okta/env');
 ENV.config();
 
 module.exports = function(grunt) {
-
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
 
-  var Handlebars  = require('handlebars'),
-      postcssAutoprefixer = require('autoprefixer')({remove: false}),
-      cssnano     = require('cssnano')({safe: true}),      
-      sass        = require('sass'),
-      path        = require('path');
+  const Handlebars = require('handlebars');
+  const postcssAutoprefixer = require('autoprefixer')({remove: false});
+  const cssnano = require('cssnano')({safe: true});
+  const sass = require('sass');
+  const path = require('path');
 
-  var JS                    = 'target/js',
-      DIST                  = 'dist/dist',
-      SASS                  = 'target/sass',
-      I18N_SRC              = 'packages/@okta/i18n/src',
-      COURAGE_TYPES         = 'packages/@okta/courage-dist/types',
-      // Note: 3000 is necessary to test against certain browsers in SauceLabs
-      DEFAULT_SERVER_PORT   = 3000;
+  const JS = 'target/js';
+  const DIST = 'dist/dist';
+  const SASS = 'target/sass';
+  const I18N_SRC = 'packages/@okta/i18n/src';
+  const COURAGE_TYPES = 'packages/@okta/courage-dist/types';
 
-  var mockDuo = grunt.option('env.mockDuo');
-  var buildAllBundles = grunt.option('buildAllBundles');
+  // NOTE: 3000 is necessary to test against certain browsers in SauceLabs
+  const DEFAULT_SERVER_PORT = 3000;
+
+  const mockDuo = grunt.option('env.mockDuo');
+  const buildAllBundles = grunt.option('buildAllBundles');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -99,6 +99,37 @@ module.exports = function(grunt) {
             rename: function() {
               return 'target/sass/widgets/_jquery.qtip.scss';
             }
+          }
+        ]
+      },
+
+      'src-to-dist': {
+        files: [
+          {
+            expand: true,
+            dest: 'dist',
+            src: [
+              'package.json',
+              'LICENSE',
+              'THIRD-PARTY-NOTICES',
+              '*.md',
+              'types/**',
+              'src/**',
+              '!src/v3/**',
+            ],
+          },
+          {
+            expand: true,
+            dest: 'dist/src/v3',
+            cwd: 'src/v3/src',
+            src: [
+              '**',
+              '!bin/**',
+              '!mocks/**',
+              '!**/__snapshots__/**',
+              '!**/*.svg',
+              '!**/*.test.{js,jsx,ts,tsx}',
+            ],
           }
         ]
       },
@@ -255,7 +286,7 @@ module.exports = function(grunt) {
             dest: 'target/js'
           }
         ]
-      }
+      },
     },
 
     exec: {
@@ -265,7 +296,7 @@ module.exports = function(grunt) {
       'build-esm': 'yarn build:esm',
       'build-dev-watch':
         'yarn build:webpack-dev --watch --env skipAnalyzer=true' + (mockDuo ? ' --env mockDuo=true' : ''),
-      'build-release': 'yarn build:webpack-release',
+      'build-release': 'yarn build:webpack-release && yarn workspace v3 build',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',
       'run-protractor': 'yarn protractor',
@@ -319,7 +350,7 @@ module.exports = function(grunt) {
             extensions: ['html'],
             setHeaders: res => {
               res.setHeader(
-                'Content-Security-Policy', 
+                'Content-Security-Policy',
                 `script-src 'unsafe-inline' http://localhost:${DEFAULT_SERVER_PORT}`
               );
             }
@@ -354,8 +385,18 @@ module.exports = function(grunt) {
         ]
       }
     },
-
   });
+
+  grunt.task.registerTask(
+    'prepack',
+    'Prepares the dist directory for publishing on npm',
+    function() {
+      grunt.task.run([
+        'copy:src-to-dist',
+        'exec:prepack'
+      ]);
+    }
+  );
 
   grunt.task.registerTask(
     'build-e2e-app',

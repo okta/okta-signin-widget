@@ -1,4 +1,5 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
+import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -16,13 +17,16 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorResetPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
-fixture('Authenticator Reset Password');
+fixture('Authenticator Reset Password').meta('v3', true);
 
 async function setup(t) {
   const resetPasswordPage = new FactorEnrollPasswordPageObject(t);
   await resetPasswordPage.navigateToPage();
+  await t.expect(resetPasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'forgot-password',
     formName: 'reset-authenticator',
@@ -33,11 +37,11 @@ async function setup(t) {
   return resetPasswordPage;
 }
 
-test
+test.meta('v3', false)
   .requestHooks(logger, mock)('Should have the correct labels', async t => {
     const resetPasswordPage = await setup(t);
     await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your password');
-    await t.expect(resetPasswordPage.getSaveButtonLabel()).eql('Reset Password');
+    await t.expect(resetPasswordPage.resetPasswordButtonExists()).eql(true);
     await t.expect(resetPasswordPage.getRequirements()).contains('Password requirements:');
     await t.expect(resetPasswordPage.getRequirements()).contains('At least 8 characters');
     await t.expect(resetPasswordPage.getRequirements()).contains('An uppercase letter');
@@ -55,7 +59,7 @@ test
     await t.expect(resetPasswordPage.confirmPasswordFieldExists()).eql(true);
 
     // fields are required
-    await resetPasswordPage.clickNextButton();
+    await resetPasswordPage.clickResetPasswordButton();
     await resetPasswordPage.waitForErrorBox();
     await t.expect(resetPasswordPage.getPasswordError()).eql('This field cannot be left blank');
     await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('This field cannot be left blank');
@@ -63,10 +67,18 @@ test
     // password must match
     await resetPasswordPage.fillPassword('abcd');
     await resetPasswordPage.fillConfirmPassword('1234');
-    await resetPasswordPage.clickNextButton();
+    await resetPasswordPage.clickResetPasswordButton();
     await resetPasswordPage.waitForErrorBox();
     await t.expect(resetPasswordPage.hasPasswordError()).eql(false);
-    await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
+
+    // In v3, we do not show the error for password match on the field, but rather display the
+    // 'incomplete'/'complete' checkmark next to the 'Passwords must match' label below the
+    // two password fields, so we check this state differently.
+    if (userVariables.v3) {
+      await t.expect(resetPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
+    } else {
+      await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
+    }
 
     await t.expect(await resetPasswordPage.signoutLinkExists()).ok();
   });
@@ -78,7 +90,7 @@ test
 
     await resetPasswordPage.fillPassword('abcdabcd');
     await resetPasswordPage.fillConfirmPassword('abcdabcd');
-    await resetPasswordPage.clickNextButton();
+    await resetPasswordPage.clickResetPasswordButton();
 
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)

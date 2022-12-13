@@ -24,7 +24,8 @@
                   "label": "Where did you go for your favorite vacation?",
                   "required": true,
                   "value": "favorite_vacation_location",
-                  "visible": false
+                  "visible": false, 
+                  "mutable": false
                 },
                 {
                   "name": "answer",
@@ -241,7 +242,7 @@
         "id": "autwa6eD9o02iBbsta82"
       },
       {
-        "displayName": "Okta Security Question",
+        "displayName": "Security Question",
         "type": "security_question",
         "key": "security_question",
         "authenticatorId": "aid568g3mXgtID0HHSLH",
@@ -252,13 +253,17 @@
   "currentAuthenticatorEnrollment": {
     "type": "object",
     "value": {
+      "profile": {
+        "questionKey": "favorite_vacation_location",
+        "question": "Where did you go for your favorite vacation?"
+      },
       "contextualData": {
         "enrolledQuestion": {
-          "question": "social",
-          "questionKey": "custom"
+          "question": "Where did you go for your favorite vacation?",
+          "questionKey": "favorite_vacation_location"
         }
       },
-      "displayName": "Okta Security Question",
+      "displayName": "Security Question",
       "type": "security_question",
       "key": "security_question",
       "authenticatorId": "autwa6eD9o02iBbtv0g1",

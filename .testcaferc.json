@@ -2,5 +2,13 @@
   "browsers": [
     "chrome"
   ],
-  "src": "test/testcafe/spec/"
+  "src": "test/testcafe/spec/",
+  "clientScripts": [
+    {
+      "module": "@testing-library/dom/dist/@testing-library/dom.umd.js"
+    }
+  ],
+  "userVariables": {
+    "v3": false
+  }
 }

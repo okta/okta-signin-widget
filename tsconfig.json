@@ -1,50 +1,89 @@
 {
   "compilerOptions": {
-    "noEmit": true,
-    "rootDir": ".",
-    "baseUrl": ".",
-    "outDir": "./types",
-    "target": "es6",
-    "sourceMap": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "checkJs": false,
-    "plugins": [
-      { "transform": "@zerollup/ts-transform-paths" }
-    ],
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "noEmit": true,
+    "outDir": "./types",
     "paths": {
-      "okta-i18n-bundles": ["./src/util/Bundles.ts"],
-      "nls/*": ["./packages/@okta/i18n/src/json/*"],
-      "okta": ["./packages/@okta/courage-dist/types"],
-      "handlebars-inline-precompile": ["./scripts/buildtools/tsc/handlebars-inline-precompile"],
-      "duo": ["./packages/vendor/duo_web_sdk/index.js"],
-      "qtip": ["./packages/@okta/qtip2/dist/jquery.qtip.js"],
-      "typingdna": ["./packages/vendor/TypingDnaRecorder-JavaScript/typingdna"],
-      "util/*": ["./src/util/*"],
-      "widget/*": ["./src/widget/*"],
-      "models/*": ["./src/models/*"],
-      "v1/*": ["./src/v1/*"],
-      "v2/*": ["./src/v2/*"],
-      "types": ["./src/types"],
-      "types/*": ["./src/types/*"],
-      "views/*": ["./src/views/*"],
-      "config/*": ["./src/config/*"],
-      "exports/*": ["./src/exports/*"]
-    }
+      "config/*": [
+        "./src/config/*"
+      ],
+      "duo": [
+        "./packages/vendor/duo_web_sdk/index.js"
+      ],
+      "exports/*": [
+        "./src/exports/*"
+      ],
+      "handlebars-inline-precompile": [
+        "./scripts/buildtools/tsc/handlebars-inline-precompile"
+      ],
+      "models/*": [
+        "./src/models/*"
+      ],
+      "nls/*": [
+        "./packages/@okta/i18n/src/json/*"
+      ],
+      "okta": [
+        "./packages/@okta/courage-dist/types"
+      ],
+      "okta-i18n-bundles": [
+        "./src/util/Bundles.ts"
+      ],
+      "qtip": [
+        "./packages/@okta/qtip2/dist/jquery.qtip.js"
+      ],
+      "src/*": [
+        "./src/v3/src/*"
+      ],
+      "types": [
+        "./src/types"
+      ],
+      "types/*": [
+        "./src/types/*"
+      ],
+      "typingdna": [
+        "./packages/vendor/TypingDnaRecorder-JavaScript/typingdna"
+      ],
+      "util/*": [
+        "./src/util/*"
+      ],
+      "v1/*": [
+        "./src/v1/*"
+      ],
+      "v2/*": [
+        "./src/v2/*"
+      ],
+      "views/*": [
+        "./src/views/*"
+      ],
+      "widget/*": [
+        "./src/widget/*"
+      ]
+    },
+    "plugins": [
+      {
+        "transform": "@zerollup/ts-transform-paths"
+      }
+    ],
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "sourceMap": true,
+    "target": "es6"
   },
-  "include": [
-    "src/types/*",
-    "src/exports/*",
-    "src/authClient/*",
-    "src/router/*"
-  ],
   "exclude": [
     "types/generated/*"
   ],
   "files": [
     "src/exports/default.ts"
+  ],
+  "include": [
+    "src/types/*",
+    "src/exports/*",
+    "src/authClient/*",
+    "src/router/*"
   ]
 }

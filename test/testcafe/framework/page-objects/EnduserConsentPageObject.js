@@ -6,7 +6,7 @@ export default class EnduserConsentPageObject extends ConsentPageObject {
   }
 
   clickAllowButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButtonAsInput();
   }
 
   clickDontAllowButton() {

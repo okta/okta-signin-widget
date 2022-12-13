@@ -1,4 +1,5 @@
 import BasePageObject from './BasePageObject';
+import { userVariables } from 'testcafe';
 
 export default class EnrollWebauthnPageObject extends BasePageObject {
   constructor(t) {
@@ -9,7 +10,10 @@ export default class EnrollWebauthnPageObject extends BasePageObject {
     return this.form.elementExist('.idx-webauthn-enroll-text');
   }
 
-  hasWebauthnNotSupportedError() {
-    return this.form.elementExist('.webauthn-not-supported');
+  getWebauthnNotSupportedError() {
+    if (userVariables.v3) {
+      return this.form.getSubtitle();
+    }
+    return this.form.el.find('.webauthn-not-supported').innerText;
   }
 }

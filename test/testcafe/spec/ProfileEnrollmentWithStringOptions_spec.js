@@ -21,7 +21,8 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Profile');
+fixture('Enroll Profile')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -37,22 +38,20 @@ test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('s
   requestLogger.clear();
   await t.expect(profileEnrollmentString.getFormTitle()).eql('Sign up');
 
-  await t.expect(await profileEnrollmentString.getFormFieldLabel('userProfile.firstName')).eql('First name');
-  await t.expect(await profileEnrollmentString.getFormFieldLabel('userProfile.lastName')).eql('Last name');
-  await t.expect(await profileEnrollmentString.getFormFieldLabel('userProfile.email')).eql('Email');
+  await t.expect(await profileEnrollmentString.form.fieldByLabelExists('First name')).eql(true);
+  await t.expect(await profileEnrollmentString.form.fieldByLabelExists('Last name')).eql(true);
+  await t.expect(await profileEnrollmentString.form.fieldByLabelExists('Email')).eql(true);
 
-  await t.expect(await profileEnrollmentString.getFormFieldLabel('userProfile.colores')).eql('Colors');
-  await t.expect(await profileEnrollmentString.getDropDownComponent('userProfile.colores')).ok();
+  await t.expect(await profileEnrollmentString.dropDownFieldByLabelExists('Colors')).eql(true);
   await profileEnrollmentString.selectValueFromDropdown('userProfile.colores', 1);
 
-  await t.expect(await profileEnrollmentString.getFormFieldLabel('userProfile.favsong')).eql('Favorite Song');
-  await t.expect(await profileEnrollmentString.getDropDownComponent('userProfile.favsong')).ok();
+  await t.expect(await profileEnrollmentString.dropDownFieldByLabelExists('Favorite Song')).eql(true);
   await profileEnrollmentString.selectValueFromDropdown('userProfile.favsong', 1);
 
   const favPizza = await profileEnrollmentString.clickRadioButton('userProfile.favpizza', 1);
   await t.expect(favPizza).eql('Razza');
 
-  await t.expect(await profileEnrollmentString.getSaveButtonLabel()).eql('Sign Up');
+  await t.expect(await profileEnrollmentString.form.getButton('Sign Up').exists).eql(true);
 });
 
 test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('should submit form when all optional fields are empty', async t => {
@@ -66,7 +65,7 @@ test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('s
   await profileEnrollmentString.fillOptionalField('');
 
   requestLogger.clear();
-  await profileEnrollmentString.clickFinishButton();
+  await profileEnrollmentString.clickSignUpButton();
 
   const req = requestLogger.requests[0].request;
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/enroll/new');

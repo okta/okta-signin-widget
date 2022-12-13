@@ -17,6 +17,7 @@ const EXPECTED_BUNDLE_SIZES = {
   'okta-sign-in.oie.min.js': 1.2 * MB,
   'okta-sign-in.polyfill.js': 468 * KB,
   'okta-sign-in.polyfill.min.js': 99 * KB,
+  'okta-sign-in.next.js': 7 * MB, // NOTE: bloated temporarily without tree-shaking
 };
 
 exports.command = 'verify-package';
@@ -71,6 +72,7 @@ function verifyPackageContents() {
     'dist/js/okta-sign-in.oie.min.js.map',
     'dist/js/okta-sign-in.polyfill.min.js',
     'dist/js/okta-sign-in.polyfill.min.js.map',
+    'dist/js/okta-sign-in.next.js',
     'dist/esm/src/exports/exports/default.js',
     'dist/labels/json/country_de.json',
     'dist/labels/json/login_ru.json',
@@ -103,9 +105,11 @@ function verifyPackageContents() {
   Object.keys(EXPECTED_BUNDLE_SIZES).forEach(bundleName => {
     const entry = manifest.files.find(entry => entry.path === `dist/js/${bundleName}`);
     const expectedSize = EXPECTED_BUNDLE_SIZES[bundleName];
-    console.log(`Validating bundle size: ${bundleName}`);
-    expect(entry.size).toBeGreaterThan(expectedSize * .9);
-    expect(entry.size).toBeLessThan(expectedSize * 1.1);
+    const min = expectedSize * 0.9;
+    const max = expectedSize * 1.1;
+    console.log(`Validating bundle size: ${bundleName} (${min} <  < ${max})`);
+    expect(entry.size).toBeGreaterThan(min);
+    expect(entry.size).toBeLessThan(max);
   });
 }
 

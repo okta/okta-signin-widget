@@ -1,0 +1,75 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.IGdPZ8y5F2hQJg9605n5y-IlshsGT_YgCn2GzXGa",
+  "expiresAt": "2022-08-24T18:40:45.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Authenticator enrollment is not allowed at this time. Please contact support for assistance.",
+        "class": "ERROR"
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00uhcbzjs0zc1Qv1g4w5",
+      "identifier": "tester@okta1.com",
+      "profile": {
+        "firstName": "Tester",
+        "lastName": "Test",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.IGdPZ8y5F2hQJg9605n5y-IlshsGT_YgCn2GzXGa",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oagd71tsqHFvLukL4w5"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "OAUTH2.0",
+      "issuer": {
+        "name": "emailsfactor-siwv3-test",
+        "uri": "http://localhost:3000"
+      },
+      "request": {
+        "max_age": -1,
+        "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage",
+        "display": "page",
+        "response_type": "code",
+        "redirect_uri": "http://localhost:3000/enduser/callback",
+        "state": "QZEk955ICp2ACOVM8LaAc1NMWgfHgQbp0sSoHnk0CcdQad6i5ZABbHIB8FHArVKv",
+        "code_challenge_method": "S256",
+        "nonce": "a15BscV79skynd6niPzoHOnE2FqIIU6bCgBoQB89T7fJhEZb7nTn9sN1e2B4TdVP",
+        "code_challenge": "7C5q4ExUVfW1JD2Gw7SwNvtDspCPVERNZpBihn3wU1g",
+        "response_mode": "query"
+      }
+    }
+  }
+}

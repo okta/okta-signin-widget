@@ -16,11 +16,13 @@ const introspectRequestLogger = RequestLogger(
   }
 );
 
-fixture('Introspect');
+fixture('Introspect')
+  .meta('v3', true);
 
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
+  await t.expect(terminalPageObject.formExists()).eql(true);
   await checkConsoleMessages({
     controller: null,
     formName: 'terminal',

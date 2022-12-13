@@ -1,8 +1,11 @@
+import { within } from '@testing-library/testcafe';
+
 import BasePageObject from './BasePageObject';
 
 const passwordFieldName = 'credentials\\.passcode';
 const confirmPasswordFieldName = 'confirmPassword';
 const requirementsSelector = '[data-se="password-authenticator--rules"]';
+const resetPasswordButtonName = 'Reset Password';
 const revokeSessionToggle = 'credentials.revokeSessions';
 /**
  * This page object will be used by 
@@ -38,12 +41,16 @@ export default class EnrollPasswordPageObject extends BasePageObject {
     return this.form.clickSaveButton();
   }
 
+  clickResetPasswordButton() {
+    this.form.clickButton(resetPasswordButtonName);
+  }
+
   waitForErrorBox() {
     return this.form.waitForErrorBox();
   }
 
   hasPasswordError() {
-    return this.form.hasTextBoxError(passwordFieldName);
+    return this.form.hasTextBoxErrorMessage(passwordFieldName);
   }
 
   getPasswordError() {
@@ -58,6 +65,13 @@ export default class EnrollPasswordPageObject extends BasePageObject {
     return this.form.getTextBoxErrorMessage(confirmPasswordFieldName);
   }
 
+  hasPasswordMatchRequirementStatus(expectComplete = false) {
+    const expectedTitleValue = expectComplete ? 'complete' : 'incomplete';
+    const passwordMatchWrapper = this.form.getElement('[data-se="password-authenticator--matches');
+
+    return within(passwordMatchWrapper).queryByRole('img', { name: expectedTitleValue }).exists;
+  }
+
   // This will be used by any password page that has requirements on it.
   getRequirements() {
     return this.form.getElement(requirementsSelector).innerText;
@@ -69,6 +83,30 @@ export default class EnrollPasswordPageObject extends BasePageObject {
 
   getErrorBoxText() {
     return this.form.getErrorBoxText();
+  }
+
+  clickChangePasswordButton() {
+    return this.form.clickSaveButton('Change Password');
+  }
+
+  changePasswordButtonExists() {
+    return this.form.getButton('Change Password').exists;
+  }
+
+  remindMeLaterLinkExists() {
+    return this.form.getLink('Remind me later').exists;
+  }
+
+  async clickRemindMeLaterLink() {
+    await this.t.click(this.form.getLink('Remind me later'));
+  }
+
+  doesTextExist(content) {
+    return this.form.getByText(content).exists;
+  }
+
+  resetPasswordButtonExists() {
+    return this.form.getButton(resetPasswordButtonName).exists;
   }
 
   sessionRevocationToggleExist() {

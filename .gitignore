@@ -24,7 +24,8 @@ packages/@okta/i18n/dist/
 test-reports/
 package-lock.json
 .eslintcache
-/types
+types/
+.codegen.sum
 
 # Test dist package
 node_modules2

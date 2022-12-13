@@ -1,10 +1,11 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock } from '../framework/shared';
 import terminalReturnEmail from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import terminalTransferEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
 import terminalReturnExpiredEmail from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import terminalRegistrationEmail from '../../../playground/mocks/data/idp/idx/terminal-registration';
 import terminalReturnEmailConsentDenied from '../../../playground/mocks/data/idp/idx/terminal-enduser-email-consent-denied';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import TerminalPageObjectV3 from '../framework/page-objects/TerminalPageObjectV3';
 import sessionExpired from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
 import noPermissionForAction from '../../../playground/mocks/data/idp/idx/error-403-security-access-denied';
 import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-polling-window-expired';
@@ -13,6 +14,8 @@ import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/te
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 import errorTerminalMultipleErrors from '../../../playground/mocks/data/idp/idx/error-terminal-multiple-errors';
 import customAccessDeniedErrorMessage from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message.json';
+
+import { userVariables } from 'testcafe';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -66,11 +69,13 @@ const terminalCustomAccessDeniedErrorMessageMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(customAccessDeniedErrorMessage);
 
-fixture('Terminal view');
+fixture('Terminal view').meta('v3', true);
 
 async function setup(t) {
-  const terminalPageObject = new TerminalPageObject(t);
+  const terminalPageObject = userVariables.v3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
+  // ensure form has loaded
+  await t.expect(terminalPageObject.formExists()).eql(true);
   return terminalPageObject;
 }
 
@@ -145,7 +150,9 @@ async function setup(t) {
   test
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
-      await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+      if(!userVariables.v3) {
+        await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+      }
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
     });
 });
@@ -153,15 +160,12 @@ async function setup(t) {
 test.requestHooks(terminalMultipleErrorsMock)('should render each error message when there are multiple', async t => {
   const terminalViewPage = await setup(t);
 
-  const errors = terminalViewPage.form.getAllErrorBoxTexts();
-  await t.expect(errors).eql([
-    'Please enter a username',
-    'Please enter a password',
-    'Your session has expired. Please try to sign in again.'
-  ]);
+  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(0)).eql('Please enter a username');
+  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(1)).eql('Please enter a password');
+  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
 });
 
-test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
+test.meta('v3', false).requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
   const terminalViewPage = await setup(t);
 
   await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');

@@ -1,5 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 
+import { oktaDashboardContent } from '../framework/shared';
+
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -28,7 +30,9 @@ const mockOptionalAuthenticatorEnrollment = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsWithSkip)
   .onRequestTo('http://localhost:3000/idp/idx/skip')
-  .respond(success);
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const mockEnrollAuthenticatorCustomOTP = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -48,7 +52,8 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Select Authenticator for enrollment Form');
+fixture('Select Authenticator for enrollment Form')
+  .meta('v3', true);
 
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
@@ -159,7 +164,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(12)).eql('Verify your identity using YubiKey');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(12)).eql(false);
 
-  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
+  await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
 });
 
 test.requestHooks(mockEnrollAuthenticatorWithUsageInfo)('should load select authenticator list with or without usage text based on allowedFor value', async t => {
@@ -212,7 +217,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should navigate to password 
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 });
 
-test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
+test.meta('v3', false).requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 
@@ -220,7 +225,7 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
-  await enrollPasswordPage.clickSwitchAuthenticatorButton();
+  await enrollPasswordPage.clickReturnToAuthenticatorListLink();
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
   // re-select password
   selectFactorPage.selectFactorByIndex(0);
@@ -246,7 +251,7 @@ test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enr
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 
-  selectFactorPage.skipOptionalEnrollment();
+  selectFactorPage.clickSetUpLaterButton();
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)

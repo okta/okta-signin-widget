@@ -1,7 +1,8 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
+import { within } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
-const factorListRowSelector = '.authenticator-list .authenticator-row';
+const factorListRowSelector = userVariables.v3 ? '.authenticator-row' : '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
 const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
@@ -20,20 +21,35 @@ export default class SelectFactorPageObject extends BasePageObject {
     super(t);
   }
 
+  getFactorButtons() {
+    if (userVariables.v3) {
+      return this.form.getAllButtons().withAttribute('data-se', 'authenticator-button');
+    }
+    return this.form.getElement(factorListRowSelector);
+  }
+
   getFactorsCount() {
-    return this.form.getElement(factorListRowSelector).count;
+    return this.getFactorButtons().count;
   }
 
   getFactorLabelByIndex(index) {
+    if (userVariables.v3) {
+      const factorButton = this.getFactorButtons().nth(index);
+      return within(factorButton).findByRole('heading', { level: 3 }).textContent;
+    }
     return this.form.getElement(factorLabelSelector).nth(index).textContent;
   }
 
+  getFactorDescriptionElementByIndex(index) {
+    return this.getFactorButtons().nth(index).find(factorDescriptionSelector);
+  }
+
   getFactorDescriptionByIndex(index) {
-    return this.form.getElement(factorListRowSelector).nth(index).find(factorDescriptionSelector).textContent;
+    return this.getFactorDescriptionElementByIndex(index).textContent;
   }
 
   async factorDescriptionExistsByIndex(index) {
-    const elCount = await this.form.getElement(factorListRowSelector).nth(index).find(factorDescriptionSelector).count;
+    const elCount = await this.getFactorDescriptionElementByIndex(index).count;
     return elCount === 1;
   }
 
@@ -46,8 +62,12 @@ export default class SelectFactorPageObject extends BasePageObject {
     return elCount === 1;
   }
 
+  getFactorCTAButtonByIndex(index) {
+    return this.form.getElement(factorSelectButtonSelector).nth(index);
+  }
+
   getFactorSelectButtonByIndex(index) {
-    return this.form.getElement(factorSelectButtonSelector).nth(index).textContent;
+    return this.getFactorCTAButtonByIndex(index).textContent;
   }
 
   getFactorSelectButtonDataSeByIndex(index) {
@@ -55,10 +75,15 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async selectFactorByIndex(index) {
-    await this.t.click(this.form.getElement(factorSelectButtonSelector).nth(index));
+    await this.t.click(this.getFactorCTAButtonByIndex(index));
   }
 
-  async skipOptionalEnrollment() {
+  async clickSetUpLaterButton() {
+    if (userVariables.v3) {
+      const button = this.form.getButton('Set up later');
+      await this.t.click(button);
+      return;
+    }
     await this.t.click(this.form.getElement(skipOptionalEnrollmentSelector));
   }
 
@@ -67,7 +92,12 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async clickCustomOTP() {
-    await this.t.click(this.form.getElement(CUSTOM_OTP_BUTTON_SELECTOR));
+    if (userVariables.v3) {
+      const button = this.form.getButton('Atko Custom OTP Authenticator');
+      await this.t.click(button);
+    } else {
+      await this.t.click(this.form.getElement(CUSTOM_OTP_BUTTON_SELECTOR));
+    }
   }
 
   async getErrorFromErrorBox() {
@@ -82,13 +112,16 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.form.getTextBoxErrorMessage(IDENTIFIER_FIELD);
   }
 
-  async factorUsageTextExistsByIndex(index) {
-    const elCount = await this.form.getElement(factorListRowSelector).nth(index).find(factorUsageTextSelector).count;
-    return elCount === 1;
+  getFactorUsageTextElementByIndex(index) {
+    return this.getFactorButtons().nth(index).find(factorUsageTextSelector);
   }
 
   getFactorUsageTextByIndex(index) {
-    return this.form.getElement(factorListRowSelector).nth(index).find(factorUsageTextSelector).textContent;
+    return this.getFactorUsageTextElementByIndex(index).textContent;
   }
 
+  async factorUsageTextExistsByIndex(index) {
+    const elCount = await this.getFactorUsageTextElementByIndex(index).count;
+    return elCount === 1;
+  }
 }
