@@ -104,9 +104,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
             <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
               <IconButton
                 // TODO: OKTA-558040 request translation keys for aria labels
-                aria-label={getTranslation(translations, 'visibilityToggleLabel')}
-                aria-pressed={showPassword}
-                aria-controls={name}
+                //aria-label={getTranslation(translations, 'visibilityToggleLabel')}
+                //aria-pressed={showPassword}
+                //aria-controls={name}
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
