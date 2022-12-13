@@ -26,7 +26,8 @@ import { useWidgetContext } from '../../contexts';
 import {
   useAutoFocus,
   useOnChange,
-  useValue, } from '../../hooks';
+  useValue,
+} from '../../hooks';
 import {
   ChangeEvent,
   ClickEvent,
@@ -103,8 +104,8 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
               <IconButton
                 // TODO: OKTA-558040 request translation keys for aria labels
                 aria-label={getTranslation(translations, 'visibilityToggleLabel')}
-                //aria-pressed={showPassword}
-                //aria-controls={name}
+                // aria-pressed={showPassword}
+                // aria-controls={name}
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
