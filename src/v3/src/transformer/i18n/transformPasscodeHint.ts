@@ -35,8 +35,8 @@ export const transformPasscodeHint: TransformStepFnWithOptions = ({
       const { nextStep: { name } = {} } = transaction;
       const authenticatorKey = getAuthenticatorKey(transaction);
       if (!(name === IDX_STEP.IDENTIFY
-        || (name !== IDX_STEP.CHALLENGE_AUTHENTICATOR
-          && authenticatorKey !== AUTHENTICATOR_KEY.PASSWORD))) {
+        || (name === IDX_STEP.CHALLENGE_AUTHENTICATOR
+          && authenticatorKey === AUTHENTICATOR_KEY.PASSWORD))) {
         return;
       }
 
