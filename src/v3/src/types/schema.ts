@@ -256,6 +256,15 @@ export interface OpenOktaVerifyFPButtonElement extends UISchemaElement {
   };
 }
 
+export interface LoopbackProbeElement extends UISchemaElement {
+  type: 'LoopbackProbe';
+  options: {
+    ports: number[];
+    domain: string;
+    challengeRequest: string;
+  };
+}
+
 export interface TitleElement extends UISchemaElement {
   type: 'Title';
   options: {

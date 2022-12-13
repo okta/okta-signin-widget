@@ -57,6 +57,7 @@ import {
 } from './googleAuthenticator';
 import {
   transformOktaVerifyDeviceChallengePoll,
+  transformOktaVerifyFPLoopbackPoll,
   transformOktaVerifyFPLaunchAuthenticator,
 } from './oktaVerify';
 import { transformPIVAuthenticator } from './piv';
@@ -179,6 +180,13 @@ const TransformerMap: {
   [IDX_STEP.DEVICE_CHALLENGE_POLL]: {
     [CHALLENGE_METHOD.CUSTOM_URI]: {
       transform: transformOktaVerifyDeviceChallengePoll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: true,
+      },
+    },
+    [CHALLENGE_METHOD.LOOPBACK]: {
+      transform: transformOktaVerifyFPLoopbackPoll,
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: true,
