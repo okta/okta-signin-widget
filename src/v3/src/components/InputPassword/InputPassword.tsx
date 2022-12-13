@@ -105,8 +105,8 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
               <IconButton
                 // TODO: OKTA-558040 request translation keys for aria labels
                 aria-label={getTranslation(translations, 'visibilityToggleLabel')}
-                // aria-pressed={showPassword}
-                // aria-controls={name}
+                aria-pressed={showPassword}
+                aria-controls={name}
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
