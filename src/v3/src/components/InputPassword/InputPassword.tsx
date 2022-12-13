@@ -14,6 +14,7 @@ import {
   Box,
   EyeIcon,
   EyeOffIcon,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputBase,
@@ -50,14 +51,22 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
-  const label = getTranslation(uischema.translations!, 'label');
   const { translations = [], focus, required } = uischema;
   const {
     attributes,
     inputMeta: { name },
   } = uischema.options;
+  const label = getTranslation(translations, 'label');
+  const hint = getTranslation(translations, 'hint');
+  const explain = getTranslation(translations, 'bottomExplain');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
+  const hintEleId = `${name}-hint`;
+  const explainEleId = `${name}-explain`;
+  const hintAndExplainIds = `${explain ? ` ${explainEleId} ` : ''}${hint ? ` ${hintEleId}` : ''}`;
+  const updatedDescribedByIds = typeof describedByIds !== 'undefined'
+    ? `${describedByIds}${hintAndExplainIds}`
+    : `${hintAndExplainIds}`;
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -84,6 +93,14 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
       >
         {label}
       </InputLabel>
+      {hint && (
+        <FormHelperText
+          id={hintEleId}
+          data-se={hintEleId}
+        >
+          {hint}
+        </FormHelperText>
+      )}
       <InputBase
         id={name}
         name={name}
@@ -96,7 +113,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         fullWidth
         inputProps={{
           'data-se': name,
-          'aria-describedby': describedByIds,
+          'aria-describedby': updatedDescribedByIds || undefined,
           ...attributes,
         }}
         endAdornment={(
@@ -128,6 +145,14 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           errors={errors}
           fieldName={name}
         />
+      )}
+      {explain && (
+        <FormHelperText
+          id={explainEleId}
+          data-se={explainEleId}
+        >
+          {explain}
+        </FormHelperText>
       )}
     </Box>
   );

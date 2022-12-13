@@ -188,8 +188,7 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
   await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 
-// OKTA-519360 - Disabled in v3 since password sublabel isn't supported in Odyssey
-test.meta('v3', false).requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
+test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
   const challengePasswordPage = await setup(t);
   await renderWidget({
     i18n: {
@@ -199,7 +198,7 @@ test.meta('v3', false).requestHooks(mockChallengeAuthenticatorPassword)('should 
     }
   });
   
-  await t.expect(challengePasswordPage.getPasswordSubLabelValue()).eql('Your password goes here');
+  await t.expect(challengePasswordPage.hasSubLabelText('Your password goes here')).eql(true);
   await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 

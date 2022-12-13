@@ -8,7 +8,6 @@ const FORGOT_PASSWORD_SELECTOR = 'a[data-se="forgot-password"]';
 const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
 const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
-const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
 const FOOTER_INFO_SELECTOR = '.footer-info';
 const CUSTOM_IDP_BUTTON = '.social-auth-general-idp-button';
@@ -225,12 +224,8 @@ export default class IdentityPageObject extends BasePageObject {
     return this.getUnlockAccountLink(name).getAttribute('href');
   }
 
-  getIdentifierSubLabelValue() {
-    return Selector(SUB_LABEL_SELECTOR).nth(0).textContent;
-  }
-
-  getPasswordSubLabelValue() {
-    return Selector(SUB_LABEL_SELECTOR).nth(1).textContent;
+  hasSubLabelText(text) {
+    return this.hasText(text);
   }
 
   getIdpsContainer() {
