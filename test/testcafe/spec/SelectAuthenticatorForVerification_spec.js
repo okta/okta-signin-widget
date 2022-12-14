@@ -240,6 +240,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(15)).eql('Custom Push App');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(15)).contains('mfa-custom-app-logo');
   await t.expect(await selectFactorPage.factorCustomLogoExist(15)).eql(true);
+  await t.expect(selectFactorPage.getFactorIconBgImageByIndex(15)).match(/^url\(".*\/img\/logos\/default\.png"\)$/);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(15)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(15)).eql('custom_app');
 
