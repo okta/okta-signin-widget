@@ -41,6 +41,10 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.form.getElement(factorIconSelector).nth(index).getAttribute('class');
   }
 
+  getFactorIconBgImageByIndex(index) {
+    return this.form.getElement(factorIconSelector).nth(index).getStyleProperty('background-image');
+  }
+
   async factorCustomLogoExist(index) {
     const elCount = await this.form.getElement(factorCustomLogoSelector).nth(index).find(CUSTOM_LOGO_SELECTOR).count;
     return elCount === 1;

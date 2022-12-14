@@ -6,6 +6,7 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator';
 import xhrSelectAuthenticatorsWithUsageInfo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-with-usage-info';
+import xhrSelectAuthenticatorsWithCustomApp from '../../../playground/mocks/data/idp/idx/authenticator-enroll-custom-app-push';
 import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
 
 import xhrSelectAuthenticatorsWithSkip from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-with-skip';
@@ -39,6 +40,10 @@ const mockEnrollAuthenticatorCustomOTP = RequestMock()
     res.headers['content-type'] = 'application/json';
     res.setBody(xhrAuthenticatorEnrollCustomOTP);
   });
+
+const mockEnrollAuthenticatorWithCustomApp = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsWithCustomApp);
 
 const requestLogger = RequestLogger(
   /idx\/introspect|\/credential\/enroll/,
@@ -259,4 +264,49 @@ test.requestHooks(mockEnrollAuthenticatorCustomOTP)('enroll custom OTP authentic
   const error = await selectFactorPage.getErrorFromErrorBox();
   // custom OTP is blocked for enduser. Can only be enrolled by admin
   await t.expect(error).contains('Contact your administrator to continue enrollment.');
+});
+
+test.requestHooks(mockEnrollAuthenticatorWithCustomApp)('should load select authenticator list with custom app', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql(
+    'Security methods help protect your account by ensuring only you have access.');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(5);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Custom OTP');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-hotp');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0)).eql('custom_otp');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(0)).eql('Enter a temporary code generated from an authenticator device.');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(0)).eql(false);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('My custom push authenticator 8');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('custom-app-logo');
+  await t.expect(selectFactorPage.getFactorIconBgImageByIndex(1)).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1)).eql('custom_app');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(1)).eql('My custom push authenticator 8 is an authenticator app, installed on your phone, used to prove your identity');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Okta Verify');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-verify');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_verify');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(2))
+    .eql('Okta Verify is an authenticator app, installed on your phone, used to prove your identity');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Phone');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-phone');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(3)).eql('phone_number');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(3)).eql('Verify with a code sent to your phone');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(3)).eql(false);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Security Key or Biometric Authenticator');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(4)).eql('Use a security key or a biometric authenticator to sign in');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(4)).contains('mfa-webauthn');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(4)).eql('webauthn');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(4)).eql(false);
 });
