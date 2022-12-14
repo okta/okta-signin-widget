@@ -11,6 +11,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -440,6 +441,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -824,6 +826,7 @@ exports[`authenticator-enroll-security-question custom question should show fiel
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -1253,6 +1256,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -1748,6 +1752,7 @@ exports[`authenticator-enroll-security-question predefined question should send 
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -2288,6 +2293,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -2829,6 +2835,7 @@ exports[`authenticator-enroll-security-question predefined question should show 
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"

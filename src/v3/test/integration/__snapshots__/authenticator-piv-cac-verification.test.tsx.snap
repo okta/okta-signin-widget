@@ -11,6 +11,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -322,6 +323,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -633,6 +635,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -944,6 +947,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
