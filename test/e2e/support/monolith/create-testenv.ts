@@ -20,6 +20,52 @@ import path from 'path';
 async function bootstrap() {
   const subDomain = process.env.TEST_ORG_SUBDOMAIN || 'siw-test-' + Date.now();
   const outputFilePath = path.join(__dirname, '../../../../', 'testenv.local');
+  const options = {
+    enableFFs: [
+      'API_ACCESS_MANAGEMENT',
+      'ENG_EMAIL_MAGIC_LINK_OOB_AUTHENTICATOR_FLOWS',
+      'ACCOUNT_LOCKOUT_USER_EMAIL',
+      'ENG_ENABLE_SSU_FOR_OIE',
+      'ENG_OIE_TERMINAL_SSPR_FOR_MAGIC_LINK',
+      'OKTA_MFA_POLICY'
+    ],
+    disableFFs: [
+      'REQUIRE_PKCE_FOR_OIDC_APPS',
+      'DISPLAY_EMBEDDED_LOGIN_SUPPORT'
+    ],
+    users: [
+      {
+        firstName: 'Saml',
+        lastName: 'Jackson',
+        email: 'george@acme.com',
+        password: 'Abcd1234'
+      },
+      {
+        firstName: 'Alexander',
+        lastName: 'Hamilton',
+        email: 'mary@acme.com',
+        password: 'Abcd1234'
+      }
+    ],
+    apps: [
+      {
+        label: 'SIW WEB APP',
+        appType: 'web',
+        interactionCode: true
+      },
+      {
+        label: 'SIW SPA APP',
+        appType: 'browser',
+        interactionCode: true
+      }
+    ],
+    origins: [
+      {
+        name: 'SIW Test App',
+        origin: 'http://localhost:3000',
+      }
+    ]
+  };
 
   console.error(`Bootstrap starting: ${subDomain}`);
 
@@ -39,10 +85,22 @@ async function bootstrap() {
   const { id: orgId } = await oktaClient.getOrgSettings();
 
   await enableOIE(orgId);
+  console.error('Activating okta_email factor');
   await activateOrgFactor(config, 'okta_email');
+  console.error('Disabling step up for password recovery');
   await disableStepUpForPasswordRecovery(config);
 
+  // Set Feature flags
+  console.error('Setting feature flags...')
+  for (const option of options.enableFFs) {
+    await enableFeatureFlag(config, orgId, option);
+  }
+  for (const option of options.disableFFs) {
+    await disableFeatureFlag(config, orgId, option);
+  }
+
   // Enable interaction_code grant on the default authorization server
+  console.error('Enabling interaction_code grant on the default authorization server');
   const authServer = await getDefaultAuthorizationServer(config);
   await authServer.listPolicies().each(async (policy) => {
     if (policy.name === 'Default Policy') {
@@ -131,61 +189,6 @@ async function bootstrap() {
       }
     }
   });
-
-  const options = {
-    enableFFs: [
-      'API_ACCESS_MANAGEMENT',
-      'ENG_EMAIL_MAGIC_LINK_OOB_AUTHENTICATOR_FLOWS',
-      'ACCOUNT_LOCKOUT_USER_EMAIL',
-      'ENG_ENABLE_SSU_FOR_OIE',
-      'ENG_OIE_TERMINAL_SSPR_FOR_MAGIC_LINK',
-      'OKTA_MFA_POLICY'
-    ],
-    disableFFs: [
-      'REQUIRE_PKCE_FOR_OIDC_APPS'
-    ],
-    users: [
-      {
-        firstName: 'Saml',
-        lastName: 'Jackson',
-        email: 'george@acme.com',
-        password: 'Abcd1234'
-      },
-      {
-        firstName: 'Alexander',
-        lastName: 'Hamilton',
-        email: 'mary@acme.com',
-        password: 'Abcd1234'
-      }
-    ],
-    apps: [
-      {
-        label: 'SIW WEB APP',
-        appType: 'web',
-        interactionCode: true
-      },
-      {
-        label: 'SIW SPA APP',
-        appType: 'browser',
-        interactionCode: true
-      }
-    ],
-    origins: [
-      {
-        name: 'SIW Test App',
-        origin: 'http://localhost:3000',
-      }
-    ]
-  };
-
-  // Set Feature flags
-  console.error('Setting feature flags...')
-  for (const option of options.enableFFs) {
-    await enableFeatureFlag(config, orgId, option);
-  }
-  for (const option of options.disableFFs) {
-    await disableFeatureFlag(config, orgId, option);
-  }
 
   // Add Trusted origins
   for (const option of options.origins) {
