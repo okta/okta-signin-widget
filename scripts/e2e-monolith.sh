@@ -36,6 +36,7 @@ create_log_group "Create Test Org"
 # Add widget test host to /etc/hosts
 export TEST_ORG_SUBDOMAIN="siw-test-1"
 echo "${DOCKER_HOST_CONTAINER_IP} ${TEST_ORG_SUBDOMAIN}.okta1.com" >> /etc/hosts
+echo "${DOCKER_HOST_CONTAINER_IP} ${TEST_ORG_SUBDOMAIN}-admin.okta1.com" >> /etc/hosts
 cat /etc/hosts
 source ./scripts/monolith/create-testenv.sh
 export ORG_OIE_ENABLED=true
