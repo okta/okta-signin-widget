@@ -8,6 +8,18 @@ const browserOptions = {
     args: []
 };
 
+// Default timeout for all waitFor* commands.
+let waitforTimeout = 10000;
+
+// Default jasmine timeout
+let defaultTimeoutInterval = 60000;
+
+// Increase timeouts when debugging
+if (process.env.DEBUG) {
+  waitforTimeout = waitforTimeout * 100;
+  defaultTimeoutInterval = defaultTimeoutInterval * 100
+}
+
 if (process.env.CHROMIUM_BINARY) {
   browserOptions.binary = process.env.CHROMIUM_BINARY;
 }
@@ -130,7 +142,7 @@ const conf = {
     baseUrl: 'http://localhost:3000',
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    waitforTimeout,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
@@ -186,7 +198,7 @@ const conf = {
     //
     // Options to be passed to Jasmine.
     jasmineOpts: {
-        defaultTimeoutInterval: 60000
+        defaultTimeoutInterval
     },
 }
 
