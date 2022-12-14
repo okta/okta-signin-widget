@@ -10,7 +10,8 @@ import {
   setPolicyForApp,
   disableStepUpForPasswordRecovery,
   getCatchAllRule,
-  getDefaultAuthorizationServer
+  getDefaultAuthorizationServer,
+  enableEmbeddedLogin
 } from '@okta/dockolith';
 import { writeFileSync } from 'fs';
 import path from 'path';
@@ -30,8 +31,7 @@ async function bootstrap() {
       'OKTA_MFA_POLICY'
     ],
     disableFFs: [
-      'REQUIRE_PKCE_FOR_OIDC_APPS',
-      'DISPLAY_EMBEDDED_LOGIN_SUPPORT'
+      'REQUIRE_PKCE_FOR_OIDC_APPS'
     ],
     users: [
       {
@@ -98,6 +98,9 @@ async function bootstrap() {
   for (const option of options.disableFFs) {
     await disableFeatureFlag(config, orgId, option);
   }
+
+  console.error('Enabling embedded login');
+  await enableEmbeddedLogin(config);
 
   // Enable interaction_code grant on the default authorization server
   console.error('Enabling interaction_code grant on the default authorization server');
