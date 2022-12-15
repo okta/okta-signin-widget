@@ -17,7 +17,7 @@ import {
   Input,
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
-import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { IdxOption } from '@okta/okta-auth-js/idx';
 import { FunctionComponent } from 'preact';
 
 import { IWidgetContext } from './context';

@@ -11,7 +11,7 @@
  */
 
 import { Input, NextStep } from '@okta/okta-auth-js';
-import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { IdxOption } from '@okta/okta-auth-js/idx';
 
 import {
   ButtonElement,

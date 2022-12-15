@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { IdxOption } from '@okta/okta-auth-js/idx';
 
 import CountryUtil from '../../../../util/CountryUtil';
 import TimeZone from '../../../../v2/view-builder/utils/TimeZone';

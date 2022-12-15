@@ -13,7 +13,7 @@
 import { FlowIdentifier, OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
 import {
   RawIdxResponse,
-} from '@okta/okta-auth-js/lib/idx/types/idx-js';
+} from '@okta/okta-auth-js/idx';
 
 import { LanguageCallback, LanguageCode } from '../../../types';
 import { RegistrationOptions as RegOptions } from '../../../types/registration';
