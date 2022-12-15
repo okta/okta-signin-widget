@@ -189,7 +189,7 @@ const TransformerMap: {
       transform: transformOktaVerifyFPLoopbackPoll,
       buttonConfig: {
         showDefaultSubmit: false,
-        showDefaultCancel: true,
+        showDefaultCancel: false,
       },
     },
   },

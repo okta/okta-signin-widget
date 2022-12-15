@@ -14,6 +14,7 @@ import { NextStep } from '@okta/okta-auth-js';
 
 import {
   IdxStepTransformer,
+  LinkElement,
   LoopbackProbeElement,
   SpinnerElement,
   TitleElement,
@@ -37,7 +38,7 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     type: 'Spinner',
   } as SpinnerElement);
 
-  uischema.elements.unshift({
+  uischema.elements.push({
     type: 'LoopbackProbe',
     options: {
       // @ts-expect-error ports is not defined on value
@@ -48,6 +49,20 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
       challengeRequest: relatesTo?.value.challengeRequest,
     },
   } as LoopbackProbeElement);
+
+  const cancelStep = transaction.availableSteps?.find(({ name }) => name === 'authenticatorChallenge-cancel');
+  if (typeof cancelStep !== 'undefined') {
+    const cancelLink: LinkElement = {
+      type: 'Link',
+      contentType: 'footer',
+      options: {
+        label: loc('goback', 'login'),
+        isActionStep: true,
+        step: cancelStep.name,
+      },
+    };
+    uischema.elements.push(cancelLink);
+  }
 
   return formBag;
 };
