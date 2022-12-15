@@ -10,14 +10,27 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { PasswordInput } from '@okta/odyssey-react-mui';
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Tooltip,
+} from '@mui/material';
+import { EyeIcon, EyeOffIcon } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
+import { useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useOnChange, useValue } from '../../hooks';
+import {
+  useAutoFocus,
+  useOnChange,
+  useValue,
+} from '../../hooks';
 import {
   ChangeEvent,
+  ClickEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -45,25 +58,39 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const changedVal = e.currentTarget.value;
     setTouched?.(true);
     onChangeHandler(changedVal);
     onValidateHandler?.(setErrors, changedVal);
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (e: ClickEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <Box>
-      <PasswordInput
-        label={label + (required ? ' *' : '')}
-        tooltipLabel={
-          (isHidden: boolean) => (isHidden ? getTranslation(translations, 'show') : getTranslation(translations, 'hide'))
-        }
-        value={value}
-        name={name}
+      <InputLabel
+        htmlFor={name}
+        required={required}
+      >
+        {label}
+      </InputLabel>
+      <OutlinedInput
         id={name}
+        name={name}
         error={hasErrors}
+        inputRef={focusRef}
         onChange={handleChange}
+        type={showPassword ? 'text' : 'password'}
+        value={value}
         disabled={loading}
         fullWidth
         inputProps={{
@@ -71,7 +98,23 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           'aria-describedby': describedByIds,
           ...attributes,
         }}
-        ref={focusRef}
+        endAdornment={(
+          <InputAdornment position="end">
+            <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
+              <IconButton
+                // TODO: OKTA-558040 request translation keys for aria labels
+                aria-label={getTranslation(translations, 'visibilityToggleLabel')}
+                aria-pressed={showPassword}
+                aria-controls={name}
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              </IconButton>
+            </Tooltip>
+          </InputAdornment>
+        )}
       />
       {hasErrors && (
         <FieldErrorContainer
@@ -80,7 +123,6 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         />
       )}
     </Box>
-
   );
 };
 

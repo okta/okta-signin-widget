@@ -142,6 +142,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
       setData((prev) => ({
         ...prev,
         [QUESTION_KEY_INPUT_NAME]: preSelectedQuestion,
+        [ANSWER_INPUT_NAME]: undefined,
       }));
 
       const stepLayout = securityQuestionStepper.elements[stepIndex];
@@ -152,10 +153,11 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     value: 'custom',
     label: loc('oie.security.question.createQuestion.label', 'login'),
     callback: (widgetContext, stepIndex) => {
-      const { dataSchemaRef } = widgetContext;
+      const { dataSchemaRef, setData } = widgetContext;
       dataSchemaRef.current!.submit = customQuestionSubmitButton.options;
       dataSchemaRef.current!.fieldsToValidate = ['credentials.question', 'credentials.answer'];
-
+      // reset answer field
+      setData((prev) => ({ ...prev, [ANSWER_INPUT_NAME]: undefined }));
       const stepLayout = securityQuestionStepper.elements[stepIndex];
       stepLayout.elements = removeFieldLevelMessages(stepLayout.elements);
     },
