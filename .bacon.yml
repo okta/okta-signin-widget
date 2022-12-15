@@ -11,8 +11,7 @@ test_suites:
       sort_order: '2'
       timeout: '10'
       script_name: verify-package
-      # https://oktainc.atlassian.net/browse/OKTA-545411
-      criteria: OPTIONAL
+      criteria: MERGE
       queue_name: small
     - name: lint
       script_path: /root/okta/okta-signin-widget/scripts
