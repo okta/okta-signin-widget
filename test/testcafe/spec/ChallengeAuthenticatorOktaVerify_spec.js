@@ -4,11 +4,11 @@ import SelectAuthenticatorPageObject from '../framework/page-objects/SelectAuthe
 import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrOktaVerifyOnlyMethodsWithoutDeviceKnown
-  from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known';
+from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known';
 import xhrOktaVerifyPushOnlyWithoutAutoChallenge
-  from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-okta-verify-push-only-without-autochallenge';
+from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-okta-verify-push-only-without-autochallenge';
 import xhrChallengeTotpOktaVerifyOnly
-  from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp-onlyOV';
+from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp-onlyOV';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const FORM_TITLE = 'Verify it\'s you with a security method';
