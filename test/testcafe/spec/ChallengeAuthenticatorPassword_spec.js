@@ -8,7 +8,6 @@ import xhrForgotPasswordError from '../../../playground/mocks/data/idp/idx/error
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengePasswordPageObject from '../framework/page-objects/ChallengePasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import sessionExpired from '../../../playground/mocks/data/idp/idx/error-pre-versioning-ff-session-expired';
 
 const mockChallengeAuthenticatorPassword = RequestMock()
