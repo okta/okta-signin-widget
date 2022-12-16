@@ -59,6 +59,10 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
         label: loc('goback', 'login'),
         isActionStep: true,
         step: cancelStep.name,
+        actionParams: {
+          reason: 'USER_CANCELED',
+          statusCode: null,
+        },
       },
     };
     uischema.elements.push(cancelLink);

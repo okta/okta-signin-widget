@@ -68,7 +68,7 @@ export type InputAttributes = {
 
 // flat params
 export type ActionParams = {
-  [key: string]: string | boolean | number;
+  [key: string]: string | boolean | number | null;
 };
 
 export interface ActionOptions {

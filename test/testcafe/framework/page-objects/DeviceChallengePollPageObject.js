@@ -39,9 +39,6 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.footer.find('[data-se="sign-in-options"]');
   }
 
-  /**
-   * @deprecated use getCancelLink
-   */
   getFooterCancelPollingLink() {
     if (userVariables.v3) {
       return this.getCancelLink();
@@ -53,9 +50,6 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.footer.find('[data-se="switchAuthenticator"]');
   }
 
-  /**
-   * @deprecated use getCancelLink
-   */
   getFooterSignOutLink() {
     if (userVariables.v3) {
       return this.getCancelLink();
@@ -77,7 +71,7 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   getDownloadOktaVerifyLink() {
-    return this.body.find('#download-ov').getAttribute('href');
+    return this.form.getLink('Download here').getAttribute('href');
   }
 
   getPrimaryButtonText() {
@@ -89,7 +83,11 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   async clickCancelAndGoBackLink() {
-    await this.t.click(Selector('a[data-se="cancel-authenticator-challenge"]'));
+    if (userVariables.v3) {
+      await this.t.click(this.getCancelLink());
+    } else {
+      await this.t.click(Selector('a[data-se="cancel-authenticator-challenge"]'));
+    }
   }
 
   async clickUniversalLink() {
