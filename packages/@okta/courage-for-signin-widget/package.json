@@ -8,7 +8,7 @@
     "lint:src": "eslint .",
     "lint:target": "eslint --no-inline-config --no-ignore `find target/esm -type f -name \"*.js\"`",
     "lint": "yarn lint:src && yarn lint:target",
-    "prebuild": "yarn link:lib && yarn link:courage",
+    "prebuild": "yarn link:lib && yarn link:courage && yarn patch",
     "link:lib": "ln -snf ./node_modules ./lib",
     "link:courage": "pushd ./src && ln -snf ../node_modules/@okta/courage/src ./courage && popd",
     "clean": "yarn clean:esm && yarn clean:types && rm -rf ./target",
@@ -21,7 +21,12 @@
     "build:types": "yarn clean:types && yarn generate:types",
     "build:esm": "rollup -c",
     "build": "yarn clean && yarn build:types && yarn build:esm && yarn lint && yarn copy",
-    "build:babel": "rm -rf target/babel && yarn babel src -x .ts,.js --out-dir target/babel"
+    "build:babel": "rm -rf target/babel && yarn babel src -x .ts,.js --out-dir target/babel",
+    "patch": "yarn patch:hbs && yarn patch:hbs2 && yarn patch:qtip && yarn patch:i18n",
+    "patch:hbs": "find ./node_modules/@okta/courage/src -type f | xargs sed -i '' -e \"s/import hbs from 'handlebars-inline-precompile'/import hbs from '@okta\\/handlebars-inline-precompile'/g\"",
+    "patch:hbs2": "find ./node_modules/@okta/babel-plugin-handlebars-inline-precompile -type f | xargs sed -i '' -e \"s/'handlebars-inline-precompile'/'@okta\\/handlebars-inline-precompile'/g\"",
+    "patch:qtip": "find ./node_modules/@okta/courage/src -type f | xargs sed -i '' -e \"s/import 'qtip'/import '@okta\\/qtip'/g\"",
+    "patch:i18n": "find ./node_modules/@okta/courage/src -type f | xargs sed -i '' -e \"s/from 'okta-i18n-bundles'/from '@okta\\/okta-i18n-bundles'/g\""
   },
   "engines": {
     "node": ">=12.22.0",

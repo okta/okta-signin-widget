@@ -13,8 +13,6 @@ tagged template
 
 ```
 import hbs from '@okta/handlebars-inline-precompile';
-// or
-// import hbs from 'handlebars-inline-precompile';
 
 hbs`Hello World!`;
 ```
