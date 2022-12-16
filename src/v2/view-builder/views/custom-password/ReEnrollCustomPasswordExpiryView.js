@@ -1,4 +1,4 @@
-import { createButton, loc, _ } from 'okta';
+import { createButton, loc, _ } from '@okta/courage';
 import { BaseView, BaseForm } from '../../internals';
 import Util from '../../../../util/Util';
 
