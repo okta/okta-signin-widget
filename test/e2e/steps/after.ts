@@ -18,7 +18,7 @@ import TestAppPage from '../page-objects/test-app.page';
 
 // eslint-disable-next-line no-unused-vars
 AfterStep(async function (this: ActionContext) {
-  this.saveScreenshot('after');
+  this.saveScreenshot('afterStep');
 });
 
 After(deleteUserAndCredentials);
