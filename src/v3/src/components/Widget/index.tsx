@@ -37,6 +37,7 @@ import { transformTerminalTransaction, transformUnhandledErrors } from '../../tr
 import { createForm } from '../../transformer/utils';
 import {
   FormBag,
+  TitleElement,
   UISchemaLayout,
   UISchemaLayoutType,
   WidgetProps,
@@ -172,6 +173,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   useEffect(() => {
     prevIdxTransactionRef.current = idxTransaction;
   }, [idxTransaction]);
+
+  // update title
+  useEffect(() => {
+    const titleElement = uischema.elements.find((element) => (
+      element.type === "Title"
+    ));
+    const titleText = 'Okta Sign-in Widget - ' + (titleElement as TitleElement)?.options.content;
+    document.title = (titleText) || 'Loading Okta Sign-in Widget';
+  }, [uischema]);
 
   // update dataSchemaRef in context
   useEffect(() => {
