@@ -57,4 +57,8 @@ export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject 
   getCodeFieldError() {
     return this.form.getTextBoxErrorMessage(CODE_FIELD_NAME);
   }
+
+  getNextButton() {
+    return this.form.getElement('.google-authenticator-next');
+  }
 }
