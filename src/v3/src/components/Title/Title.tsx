@@ -12,27 +12,36 @@
 
 import { Box, Typography } from '@mui/material';
 import { h } from 'preact';
+import { useEffect } from 'preact/hooks';
 
 import { TitleElement, UISchemaElementComponent } from '../../types';
 
 const Title: UISchemaElementComponent<{
   uischema: TitleElement
 }> = (
-  { uischema: { id, options } },
-) => (
-  <Box
-    display="flex"
-    justifyContent="flex-start"
-  >
-    <Typography
-      id={id}
-      component="h2"
-      variant="h4"
-      data-se="o-form-head"
+  { uischema: { id, options: { content, setPageTitle = true } } },
+) => {
+  useEffect(() => {
+    if(setPageTitle) {
+      document.title = `Okta Sign-in Widget - ${content}`;
+    }
+  }, []);
+
+  return (
+    <Box
+      display="flex"
+      justifyContent="flex-start"
     >
-      {options?.content}
-    </Typography>
-  </Box>
-);
+      <Typography
+        id={id}
+        component="h2"
+        variant="h4"
+        data-se="o-form-head"
+      >
+        {content}
+      </Typography>
+    </Box>
+  );
+}
 
 export default Title;

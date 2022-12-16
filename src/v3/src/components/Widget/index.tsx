@@ -174,15 +174,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     prevIdxTransactionRef.current = idxTransaction;
   }, [idxTransaction]);
 
-  // update title
-  useEffect(() => {
-    const titleElement = uischema.elements.find((element) => (
-      element.type === "Title"
-    ));
-    const titleText = 'Okta Sign-in Widget - ' + (titleElement as TitleElement)?.options.content;
-    document.title = (titleText) || 'Loading Okta Sign-in Widget';
-  }, [uischema]);
-
   // update dataSchemaRef in context
   useEffect(() => {
     dataSchemaRef.current = formBag.dataSchema;
