@@ -613,7 +613,7 @@ test
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-560815)
   .requestHooks(LoginHintCustomURIMock)('expect login_hint in CustomURI when engFastpassMultipleAccounts is on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -652,7 +652,7 @@ test
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963, OKTA-560815)
   .requestHooks(LoginHintUniversalLinkMock)('expect login_hint in UniversalLink with engFastpassMultipleAccounts on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -690,7 +690,7 @@ test
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963, OKTA-560815)
   .requestHooks(LoginHintAppLinkMock)('expect login_hint in AppLink when engFastpassMultipleAccounts is on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
