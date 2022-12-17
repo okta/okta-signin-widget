@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 # Monolith version to test against
-export MONOLITH_BUILDVERSION=2022.11.1-begin-468-g4ac0323d4b2b
+export MONOLITH_BUILDVERSION=2022.12.0-begin-507-ga84e4b4b9e67
 
 export WIDGET_HOME="$(readlink -f "$(dirname "$0")/..")"
 export LOCAL_MONOLITH=true
