@@ -1,6 +1,7 @@
 #!/bin/bash -x
 
 # Monolith version to test against
+# TODO: auto-select a recent stable version OKTA-561403
 export MONOLITH_BUILDVERSION=2022.12.0-begin-507-ga84e4b4b9e67
 
 export WIDGET_HOME="$(readlink -f "$(dirname "$0")/..")"
