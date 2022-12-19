@@ -20,7 +20,7 @@ require('core-js/features/array/find-index');
 require('core-js/features/string/includes');
 require('core-js/features/string/starts-with');
 require('core-js/features/string/ends-with');
-require('core-js-pure/stable/set');
+require('core-js/stable/set');
 require('core-js/web/url');
 
 // crypto is eeded for PKCE
