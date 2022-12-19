@@ -11,6 +11,7 @@ exports[`webauthn-enroll should render form 1`] = `
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -215,6 +216,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
@@ -400,6 +402,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
         data-commit="b9bbc0140703c3fbf0e2e58920362e70"
         data-version="0.0.0"
         id="okta-sign-in"
+        lang="en"
       >
         <div
           class="siwContainer MuiBox-root emotion-2"
