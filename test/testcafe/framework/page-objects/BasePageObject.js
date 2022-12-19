@@ -14,7 +14,6 @@ export default class BasePageObject {
   constructor(t) {
     this.t = t;
     this.url = '';
-    this.beacon = new Selector('.beacon-container');
     this.form = new BaseFormObject(t);
   }
 
@@ -235,7 +234,7 @@ export default class BasePageObject {
   }
 
   getBeaconClass() {
-    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
+    return Selector('[data-se="factor-beacon"]').getAttribute('class');
   }
 
   refresh() {

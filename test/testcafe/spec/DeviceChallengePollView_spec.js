@@ -298,7 +298,7 @@ async function setupLoopbackFallback(t) {
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
-    // await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     // await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
@@ -385,7 +385,7 @@ test
 test
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
     const deviceChallengePollPageObject = await setup(t);
-    // await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
@@ -417,7 +417,7 @@ test
 test
   .requestHooks(loopbackChallengeWrongProfileLogger, loopbackChallengeWrongProfileMock)('in loopback server approach, will cancel polling when challenge errors out with non-503 status', async t => {
     const deviceChallengePollPageObject = await setup(t);
-    // await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
@@ -506,7 +506,7 @@ test
     )).eql(1);
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
-    // await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Click "Open Okta Verify" on the browser prompt');
     await deviceChallengePollPageObject.hasText('Didn’t get a prompt?');
     await deviceChallengePollPageObject.hasText('Open Okta Verify');
