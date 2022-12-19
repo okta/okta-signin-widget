@@ -1,4 +1,4 @@
-import { $ } from '@okta/courage';
+import { $, View } from '@okta/courage';
 import { BaseFormWithPolling } from '../internals';
 import Logger from 'util/Logger';
 import {
@@ -170,10 +170,19 @@ const Body = BaseFormWithPolling.extend({
 
   doCustomURI() {
     this.ulDom && this.ulDom.remove();
-    // https://oktainc.atlassian.net/browse/OKTA-554464
-    this.ulDom = this.add(`
-      <iframe src="${this.customURI}" id="custom-uri-container" style="display:none;"></iframe>
-    `).last();
+
+    const IframeView = View.extend({
+      tagName: 'iframe',
+      id: 'custom-uri-container',
+      attributes: {
+        src: this.customURI,
+      },
+      initialize() {
+        this.el.style.display = 'none';
+      }
+    });
+
+    this.ulDom = this.add(IframeView).last();
   },
 
   stopProbing() {
