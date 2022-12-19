@@ -29,7 +29,7 @@ export default {
             },
             user: {
               id: '00u1212qZXXap6Cts0g4',
-              name: 'yuming.cao@okta.com',
+              name: 'test.user@okta.com',
               displayName: 'Test User',
             },
             pubKeyCredParams: [

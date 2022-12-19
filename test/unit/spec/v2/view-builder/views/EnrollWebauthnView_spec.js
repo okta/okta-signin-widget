@@ -114,7 +114,9 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       response: {
         clientDataJSON: 123,
         attestationObject: 234,
+        getTransports: function() { return 345; },
       },
+      getClientExtensionResults: function() { return 456; },
     };
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
@@ -174,6 +176,85 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         expect(testContext.view.form.model.get('credentials')).toEqual({
           clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
           attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
+          transports: JSON.stringify(newCredential.response.getTransports()),
+          clientExtensions: JSON.stringify(newCredential.getClientExtensionResults())
+        });
+        expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
+        expect(testContext.view.form.webauthnAbortController).toBe(null);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('credentials.create returns nullable response', function(done) {
+    const newCredential = {
+      response: {
+        clientDataJSON: 123,
+        attestationObject: 234,
+        getTransports: function() { return undefined; },
+      },
+      getClientExtensionResults: function() { return undefined; },
+    };
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
+    spyOn(BaseForm.prototype, 'saveForm');
+
+    testContext.init(EnrollWebauthnResponse.currentAuthenticator.value, EnrollWebauthnResponse.authenticatorEnrollments);
+    testContext.view.$('.webauthn-setup').click();
+
+    Expect.waitForSpyCall(testContext.view.form.saveForm)
+      .then(() => {
+        expect(navigator.credentials.create).toHaveBeenCalledWith({
+          publicKey: {
+            rp: {
+              name: 'idx',
+            },
+            user: {
+              id: CryptoUtil.strToBin('00utjm1GstPjCF9Ad0g3'),
+              name: 'test@okta.com',
+              displayName: 'test user',
+            },
+            pubKeyCredParams: [
+              {
+                type: 'public-key',
+                alg: -7,
+              },
+              {
+                type: 'public-key',
+                alg: -257,
+              },
+            ],
+            challenge: CryptoUtil.strToBin('zrTo0mMXyCt90mweh2HL'),
+            attestation: 'direct',
+            authenticatorSelection: {
+              userVerification: 'discouraged',
+            },
+            u2fParams: {
+              appid: 'http://idx.okta1.com:1802',
+            },
+            excludeCredentials: [
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(
+                  'hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w'
+                ),
+              },
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(
+                  '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w'
+                ),
+              },
+            ],
+          },
+          signal: jasmine.any(Object),
+        });
+
+        expect(testContext.view.form.model.get('credentials')).toEqual({
+          clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
+          attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
+          transports: null,
+          clientExtensions: null
         });
         expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
         expect(testContext.view.form.webauthnAbortController).toBe(null);
@@ -222,7 +303,9 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       response: {
         clientDataJSON: 123,
         attestationObject: 234,
+        getTransports: function() { return 345; },
       },
+      getClientExtensionResults: function() { return 456; },
     };
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));

@@ -19,6 +19,13 @@ function getExcludeCredentials(authenticatorEnrollments = []) {
   return credentials;
 }
 
+function processResponseValue(inputValue) {
+  if (inputValue === undefined || inputValue === null) {
+    return null;
+  }
+  return JSON.stringify(inputValue);
+}
+
 const Body = BaseForm.extend({
   title() {
     return loc('oie.enroll.webauthn.title', 'login');
@@ -84,6 +91,10 @@ const Body = BaseForm.extend({
           credentials : {
             clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
             attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
+            // example data: ["nfc", "usb"]
+            transports: processResponseValue(newCredential.response.getTransports()),
+            // example data: {"credProps":{"rk":true}}
+            clientExtensions: processResponseValue(newCredential.getClientExtensionResults())
           }
         });
         this.saveForm(this.model);
