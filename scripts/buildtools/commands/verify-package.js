@@ -7,16 +7,16 @@ const EXPECTED_PACKAGE_SIZE = 13.35 * MB;
 const EXPECTED_PACKAGE_FILES = 2200;
 
 const EXPECTED_BUNDLE_SIZES = {
-  'okta-plugin-a11y.js': 9.8 * KB,
+  'okta-plugin-a11y.js': 12 * KB,
   'okta-sign-in.classic.js': 2.4 * MB,
   'okta-sign-in.classic.min.js': 1.1 * MB,
   'okta-sign-in.js': 3.2 * MB,
   'okta-sign-in.min.js': 1.6 * MB,
   'okta-sign-in.no-polyfill.min.js': 1.6 * MB,
   'okta-sign-in.oie.js': 2.4 * MB,
-  'okta-sign-in.oie.min.js': 1.2 * MB,
-  'okta-sign-in.polyfill.js': 880 * KB,
-  'okta-sign-in.polyfill.min.js': 180 * KB,
+  'okta-sign-in.oie.min.js': 1.3 * MB,
+  'okta-sign-in.polyfill.js': 476 * KB,
+  'okta-sign-in.polyfill.min.js': 100 * KB,
 };
 
 exports.command = 'verify-package';
