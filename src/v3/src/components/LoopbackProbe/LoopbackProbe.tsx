@@ -37,25 +37,6 @@ const makeRequest = async ({ url, method = 'GET', data }: RequestOptions) => {
   }
 }
 
-const checkPort = async (domain: string, port: number): Promise<number> => {
-  try {
-    // deviceChallenge.domain is where the baseUrl should come from
-    const response = await makeRequest({
-      url: `${domain}:${port}/probe`,
-    });
-
-    if (!response.ok) {
-      throw new Error();
-    }
-  } catch (e) {
-    // TODO: use Logger.error
-    console.warn(`Something unexpected happened while we were checking port ${port}`);
-    throw e;
-  }
-
-  return port;
-}
-
 const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ uischema }) => {
   const {
     options: {
@@ -79,65 +60,86 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ 
   };
 
   useEffect(() => {
-    const doProbing = async () => {
-      const promises = ports.map((portNumber) => {
-        return checkPort(domain, portNumber);
-      });
-
-      try {
-        // @ts-expect-error TODO see if we can update to es2021
-        const successPort = await Promise.any(promises);
-        console.warn('success!', successPort);
-        return successPort;
-      } catch (e) {
-        // TODO; use Logger.error
-        console.warn('No available ports. Loopback server failed and polling is cancelled');
-        // call cancel polling method
-        cancelHandler({
-          reason: 'OV_UNREACHABLE_BY_LOOPBACK',
-          statusCode: null,
-        });
-
-        // // @ts-expect-error es2021 issue
-        // if (e instanceof AggregateError) {
-        //   // @ts-expect-error es2021 issue
-        //   console.warn(e.errors);
-        // }
-      }
-    };
-
-    const onPortFound = async (port: number) => {
-      const response = await makeRequest({
-        url: `${domain}:${port}/challenge`,
-        method: 'POST',
-        // todo get actual challengeRequest value
-        data: JSON.stringify({ challengeRequest }),
-      });
-      if (!response.ok) {
-        if (response.status !== 503) {
-          // Windows and MacOS return status code 503 when 
-          // there are multiple profiles on the device and
-          // the wrong OS profile responds to the challenge request
-          cancelHandler({
-            reason: 'OV_RETURNED_ERROR',
-            statusCode: response.status,
+    (async () => {
+      // get the ports list
+      // loop over each port and do:
+      ports.every(async (port, index) => {
+        try {
+      //  1. probe the port
+          const probeResponse = await makeRequest({
+            url: `${domain}:${port}/probe`,
           });
+
+          if (!probeResponse.ok) {
+        //    on fail: return and call onFailure
+            console.error(`Authenticator is not listening on port ${port}.`);
+
+            if (index + 1 === ports.length) {
+        //    if this was the last port: return and cancel polling, OV_UNREACHABLE_BY_LOOPBACK
+              // TODO: use Logger.error
+              console.error('No available ports. Loopback server failed and polling is cancelled.');
+
+              cancelHandler({
+                reason: 'OV_UNREACHABLE_BY_LOOPBACK',
+                statusCode: null,
+              });
+
+              return false;
+            }
+        //    if it wasn't the last port: return and continue with next port
+            return true;
+          }
+
+      //  2. check port for challenge
+          const challengeResponse = await makeRequest({
+            url: `${domain}:${port}/challenge`,
+            method: 'POST',
+            // todo get actual challengeRequest value
+            data: JSON.stringify({ challengeRequest }),
+          });
+
+      //    on fail:
+          if (!challengeResponse.ok) {
+        //    if status !== 503: return and cancel polling, OV_RETURNED_ERROR
+            // Windows and MacOS return status code 503 when 
+            // there are multiple profiles on the device and
+            // the wrong OS profile responds to the challenge request
+            if (challengeResponse.status !== 503) {
+              cancelHandler({
+                reason: 'OV_RETURNED_ERROR',
+                statusCode: challengeResponse.status,
+              });
+
+              // when challenge responds with other errors abort port probing
+              return false;
+            } else if (index + 1 === ports.length) {
+        //    else if this was last port: return and cancel polling, OV_UNREACHABLE_BY_LOOPBACK
+              cancelHandler({
+                reason: 'OV_UNREACHABLE_BY_LOOPBACK',
+                statusCode: null,
+              });
+
+              return false;
+            }
+        //    else: continue with next loop iteration
+            return true;
+          }
+        } catch (e) {
+          // only for unexpected error conditions (e.g. fetch throws an error)
+          // TODO: use Logger.error
+          console.error(`Something unexpected happened while we were checking port ${port}`);
+
+          return false;
         }
-      }
-    };
-    const main = async () => {
-      const loopbackServerPort = await doProbing();
+      });
 
-      if (loopbackServerPort) {
-        await onPortFound(loopbackServerPort);
-        // trigger another poll
-        onSubmitHandler({
-          step: 'device-challenge-poll',
-        });
-      }
-    };
-
-    main();
+      //  3. trigger submit action
+      // once the OV challenge succeeds, triggers another polling right away without waiting
+      // for the next ongoing polling to be triggered to make the authentication flow go faster 
+      onSubmitHandler({
+        step: 'device-challenge-poll',
+      });
+    })();
   }, []);
 
   return null;
