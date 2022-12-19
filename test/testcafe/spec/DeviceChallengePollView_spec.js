@@ -294,8 +294,8 @@ async function setupLoopbackFallback(t) {
   return deviceChallengeFalllbackPage;
 }
 
+// TODO: sy- remove this comment: this test is passing
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     // await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -310,7 +310,6 @@ test
       record => record.response.statusCode === 500 &&
         record.request.url.match(/2000/)
     )).eql(1);
-    // TODO sy- test failing because we don't try challenge on all ports that respond right now
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.method === 'get' &&
@@ -367,11 +366,7 @@ test
       })).eql(1);
   });
 
-// reconsider/rewrite this test on OKTA-390965,
-// currently polling cancellation is triggered as soon as challenge errors out
-// which adds more count to the polling call
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackPollMockLogger, loopbackPollTimeoutMock).skip('new poll does not starts until last one is ended', async t => {
     loopbackPollMockLogger.clear();
     await setup(t);
@@ -418,8 +413,8 @@ test
     )).eql(1);
   });
 
+// TODO remove this note: this test is passing
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548961)
   .requestHooks(loopbackChallengeWrongProfileLogger, loopbackChallengeWrongProfileMock)('in loopback server approach, will cancel polling when challenge errors out with non-503 status', async t => {
     const deviceChallengePollPageObject = await setup(t);
     // await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -462,7 +457,6 @@ test
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
     const deviceChallengePollPageObject = await setup(t);
-    // await t.debug();
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
 
     await t.expect(loopbackSuccessLogger.count(
