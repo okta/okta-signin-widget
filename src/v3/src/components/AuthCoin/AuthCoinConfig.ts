@@ -161,6 +161,13 @@ const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
     description: loc('factor.totpSoft.oktaVerify', 'login'),
     iconClassName: 'mfa-okta-verify',
   },
+  [CHALLENGE_METHOD.LOOPBACK]: {
+    icon: OktaVerifyIcon,
+    name: 'mfa-okta-verify',
+    customizable: false,
+    description: loc('factor.totpSoft.oktaVerify', 'login'),
+    iconClassName: 'mfa-okta-verify',
+  },
 };
 
 export default AuthCoinByAuthenticatorKey;
