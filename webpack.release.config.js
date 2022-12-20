@@ -23,8 +23,8 @@ var usePolyfill = require('./scripts/buildtools/webpack/polyfill');
 let entries = {
   // 1. default (default entry, minified, with polyfill)
   'default': {
-    includePolyfill: true,
-    includeRuntime: true,
+    includePolyfill: false,
+    includeRuntime: false,
     entry: './src/exports/cdn/default.ts',
     outputFilename: 'okta-sign-in.min.js',
     analyzerFile: 'okta-sign-in.min.analyzer'
