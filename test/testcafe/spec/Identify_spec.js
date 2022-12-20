@@ -452,28 +452,3 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" f
   doesFormHaveFocus = identityPage.form.getElement('[data-se="o-form-input-identifier"] input').focused;
   await t.expect(doesFormHaveFocus).eql(false);
 });
-
-// tests the 'features.rememberMe' (and 'features.rememberMyUsernameOnOIE') widget feature in v2
-test.requestHooks(identifyRequestLogger, identifyMock)('should store identifier in ln cookie when updated', async t => {
-  const identityPage = await setup(t);
-
-  await t.setCookies({name: 'ln', value: 'PREFILL VALUE'});
-
-  await rerenderWidget({
-    features: {
-      rememberMe: true,
-      rememberMyUsernameOnOIE: true
-    }
-  });
-
-  await t.expect(identityPage.getIdentifierValue()).eql('PREFILL VALUE');
-
-  await identityPage.fillIdentifierField('Test Identifier');
-  await identityPage.clickNextButton();
-
-  const cookie = await t.getCookies('ln');
-
-  await t
-    .expect(cookie.name).eql('ln')
-    .expect(cookie.name).eql('Test Identifier');
-});
