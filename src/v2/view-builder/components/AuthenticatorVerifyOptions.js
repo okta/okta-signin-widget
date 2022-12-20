@@ -36,8 +36,9 @@ const AuthenticatorRow = View.extend({
   `,
   postRender: function() {
     View.prototype.postRender.apply(this, arguments);
-    if (this.model.get('logoUri')) {
-      this.el.querySelector('.custom-app-logo').style.backgroundImage = `url(${this.model.get('logoUri')})`;
+    const logoUri = this.model.get('logoUri');
+    if (logoUri) {
+      this.el.querySelector('.custom-logo').style.backgroundImage = `url(${logoUri})`;
     }
   },
   children: function(){
