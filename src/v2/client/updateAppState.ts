@@ -1,45 +1,13 @@
 import { IdxResponse } from "@okta/okta-auth-js";
-import CookieUtil from '../../util/CookieUtil';
 import AppState from '../models/AppState';
 import sessionStorageHelper from './sessionStorageHelper';
 import { interactionCodeFlow } from './interactionCodeFlow';
 import { FORMS } from "../ion/RemediationConstants";
 import transformIdxResponse from '../ion/transformIdxResponse';
 
-function hasAuthenticationSucceeded(idxResponse: IdxResponse) {
-  // Check whether authentication has succeeded. This is done by checking the server response
-  // and seeing if either the 'success' or 'successWithInteractionCode' objects are present.
-  return idxResponse?.rawIdxState?.success || idxResponse?.rawIdxState?.successWithInteractionCode;
-}
-
-/**
-  * When "Remember My Username" is enabled, we save the identifier in a cookie
-  * so that the next time the user visits the SIW, the identifier field can be 
-  * pre-filled with this value.
-  */
-function updateIdentifierCookie(appState: AppState, idxResponse: IdxResponse) {
-  const settings = appState.settings;
-  if (settings.get('features.rememberMe')) {
-    // Update the cookie with the identifier
-    const user = idxResponse?.context?.user;
-    const { identifier } = user?.value || {};
-    if (identifier) {
-      CookieUtil.setUsernameCookie(identifier);
-    }
-  } else {
-    // We remove the cookie explicitly if this feature is disabled.
-    CookieUtil.removeUsernameCookie();
-  }    
-}
 
 export async function updateAppState(appState: AppState, idxResponse: IdxResponse): Promise<void> {
   const settings = appState.settings;
-
-  // Only update the cookie when the user has successfully authenticated themselves 
-  // to avoid incorrect/unnecessary updates.
-  if (hasAuthenticationSucceeded(idxResponse) && settings.get('features.rememberMyUsernameOnOIE')) {
-      updateIdentifierCookie(appState, idxResponse);
-  }
 
   const lastResponse = appState.get('idx');
   const useInteractionCodeFlow = settings.get('oauth2Enabled');
