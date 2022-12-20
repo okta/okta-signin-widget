@@ -12,6 +12,7 @@
 
 import { FunctionComponent, h } from 'preact';
 import { useEffect } from 'preact/hooks';
+import Logger from 'util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import { LoopbackProbeElement } from '../../types';
@@ -24,17 +25,12 @@ type RequestOptions = {
 
 // add timeout option: https://dmitripavlutin.com/timeout-fetch-request/
 const makeRequest = async ({ url, method = 'GET', data }: RequestOptions) => {
-  console.warn(`[LoopbackProbe#makeRequest]: Making a ${method} request to ${url}`);
-  try {
-    const response = await fetch(url, {
-      method,
-      ...(typeof data === 'string' ? { body: data } : {}),
-    });
+  const response = await fetch(url, {
+    method,
+    ...(typeof data === 'string' ? { body: data } : {}),
+  });
 
-    return response;
-  } catch (e) {
-    throw new Error(`Failed to make a request to ${url}.`);
-  }
+  return response;
 }
 
 const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ uischema }) => {
@@ -60,24 +56,21 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ 
   };
 
   useEffect(() => {
-    (async () => {
-      // get the ports list
-      // loop over each port and do:
+    const doLoopback = async () => {
+      // loop over each port
       ports.every(async (port, index) => {
         try {
-      //  1. probe the port
+          // probe the port
           const probeResponse = await makeRequest({
             url: `${domain}:${port}/probe`,
           });
 
           if (!probeResponse.ok) {
-        //    on fail: return and call onFailure
-            console.error(`Authenticator is not listening on port ${port}.`);
+            Logger.error(`Authenticator is not listening on port ${port}.`);
 
             if (index + 1 === ports.length) {
-        //    if this was the last port: return and cancel polling, OV_UNREACHABLE_BY_LOOPBACK
-              // TODO: use Logger.error
-              console.error('No available ports. Loopback server failed and polling is cancelled.');
+              // if this was the last port: cancel polling and return
+              Logger.error('No available ports. Loopback server failed and polling is cancelled.');
 
               cancelHandler({
                 reason: 'OV_UNREACHABLE_BY_LOOPBACK',
@@ -86,34 +79,32 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ 
 
               return false;
             }
-        //    if it wasn't the last port: return and continue with next port
+            // there's more ports to try continue with next port
             return true;
           }
 
-      //  2. check port for challenge
+          // try port with challenge request
           const challengeResponse = await makeRequest({
             url: `${domain}:${port}/challenge`,
             method: 'POST',
-            // todo get actual challengeRequest value
             data: JSON.stringify({ challengeRequest }),
           });
 
-      //    on fail:
           if (!challengeResponse.ok) {
-        //    if status !== 503: return and cancel polling, OV_RETURNED_ERROR
             // Windows and MacOS return status code 503 when 
             // there are multiple profiles on the device and
             // the wrong OS profile responds to the challenge request
             if (challengeResponse.status !== 503) {
+              // when challenge response with other error statuses,
+              // cancel polling and return
               cancelHandler({
                 reason: 'OV_RETURNED_ERROR',
                 statusCode: challengeResponse.status,
               });
 
-              // when challenge responds with other errors abort port probing
               return false;
             } else if (index + 1 === ports.length) {
-        //    else if this was last port: return and cancel polling, OV_UNREACHABLE_BY_LOOPBACK
+              // if this was last port: cancel polling and return
               cancelHandler({
                 reason: 'OV_UNREACHABLE_BY_LOOPBACK',
                 statusCode: null,
@@ -121,25 +112,27 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ 
 
               return false;
             }
-        //    else: continue with next loop iteration
+            // no errors but this is not the port we're looking for
+            // continue with next loop iteration
             return true;
           }
         } catch (e) {
           // only for unexpected error conditions (e.g. fetch throws an error)
-          // TODO: use Logger.error
-          console.error(`Something unexpected happened while we were checking port ${port}`);
+          Logger.error(`Something unexpected happened while we were checking port ${port}`);
 
           return false;
         }
       });
 
-      //  3. trigger submit action
+      // success condition
       // once the OV challenge succeeds, triggers another polling right away without waiting
       // for the next ongoing polling to be triggered to make the authentication flow go faster 
       onSubmitHandler({
         step: 'device-challenge-poll',
       });
-    })();
+    };
+
+    doLoopback();
   }, []);
 
   return null;
