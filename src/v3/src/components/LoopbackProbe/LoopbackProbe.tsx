@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
+import crossFetch from 'cross-fetch';
 import Logger from 'util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
@@ -34,6 +35,7 @@ type RequestOptions = {
 const makeRequest = async ({ url, timeout, method, data }: RequestOptions) => {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
+  const fetch = global.fetch || crossFetch;
 
   const response = await fetch(url, {
     method,
