@@ -300,7 +300,6 @@ test
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
-    // await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
@@ -479,12 +478,10 @@ test
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
 
     pollingError = true;
-    // TODO sy- can we remove this? seems unnecessary to check one is not there and the other is
-    // await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
   });
 
-// TODO sy- remove this comment: this test is passing (with caveat, see TODOs)
+// TODO sy- remove this comment: this test is passing
 test
   .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
     loopbackFallbackLogger.clear();
@@ -513,8 +510,7 @@ test
     await deviceChallengePollPageObject.hasText('Don’t have Okta Verify?');
     await deviceChallengePollPageObject.hasText('Download here');
     await t.expect(deviceChallengePollPageObject.getDownloadOktaVerifyLink()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
-    // TODO: sy-need to check this assertion out in v2 behavior
-    // await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
   });
 
 const getPageUrl = ClientFunction(() => window.location.href);
