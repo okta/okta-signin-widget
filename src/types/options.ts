@@ -227,7 +227,6 @@ export type Feature =
   'idpDiscovery' |
   'passwordlessAuth' |
   'showPasswordToggleOnSignInPage' |
-  'trackTypingPattern' |
   'redirectByFormSubmit' |
   'useDeviceFingerprintForSecurityImage' |
   'showPasswordRequirementsAsHtmlList' |

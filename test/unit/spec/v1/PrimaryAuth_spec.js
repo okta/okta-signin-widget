@@ -30,7 +30,6 @@ import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';
 import { UnsupportedBrowserError } from 'util/Errors';
-import TypingUtil from 'v1/util/TypingUtil';
 import LoginUtil from 'util/Util';
 import CookieUtil from 'util/CookieUtil';
 const SharedUtil = internal.util.Util;
@@ -75,10 +74,6 @@ const VALID_ACCESS_TOKEN =
   'IsJzI0MQ0zlnM2QiiA7nvS54k6Xy78ebnkJvmeMCctjXVKk' +
   'JOEhR6vs11qVmIgbwZ4--MqUIRU3WoFEsr0muLl039QrUa1' +
   'EQ9-Ua9rPOMaO0pFC6h2lfB_HfzGifXATKsN-wLdxk6cgA';
-
-const typingPattern =
-  '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
-          0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
 
 async function setup(settings, requests, refreshState, username) {
   settings || (settings = {});
@@ -1080,75 +1075,6 @@ Expect.describe('PrimaryAuth', function() {
     });
   });
 
-  Expect.describe('Typing biometrics', function() {
-    itp('does not contain typing pattern header in primary auth request if feature is disabled', function() {
-      return setup({ features: { trackTypingPattern: false } })
-        .then(function(test) {
-          Util.resetAjaxRequests();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          spyOn(TypingUtil, 'track').and.callFake(function(target) {
-            expect(target).toBe('okta-signin-username');
-          });
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function() {
-          expect(TypingUtil.track).not.toHaveBeenCalled();
-          expect(Util.numAjaxRequests()).toBe(1);
-          const ajaxArgs = Util.getAjaxRequest(0);
-
-          expect(ajaxArgs.requestHeaders['x-typing-pattern']).toBe(undefined);
-        });
-    });
-
-    itp('contains typing pattern header in primary auth request if feature is enabled', function() {
-      return setup({ features: { trackTypingPattern: true } })
-        .then(function(test) {
-          Util.resetAjaxRequests();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          spyOn(TypingUtil, 'track').and.callFake(function(targetId) {
-            expect(targetId).toBe('okta-signin-username');
-          });
-          spyOn(TypingUtil, 'getTypingPattern').and.callFake(function() {
-            return typingPattern;
-          });
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function() {
-          expect(Util.numAjaxRequests()).toBe(1);
-          const ajaxArgs = Util.getAjaxRequest(0);
-
-          expect(ajaxArgs.requestHeaders['x-typing-pattern']).toBe(typingPattern);
-        });
-    });
-
-    itp('continues with primary auth if typing pattern cannot be computed', function() {
-      return setup({ features: { trackTypingPattern: true } })
-        .then(function(test) {
-          Util.resetAjaxRequests();
-          test.form.setUsername('testuser');
-          test.form.setPassword('pass');
-          test.setNextResponse(resSuccess);
-          spyOn(TypingUtil, 'getTypingPattern').and.callFake(function() {
-            return;
-          });
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy, test);
-        })
-        .then(function() {
-          expect(Util.numAjaxRequests()).toBe(1);
-          const ajaxArgs = Util.getAjaxRequest(0);
-
-          expect(ajaxArgs.requestHeaders['x-typing-pattern']).toBeUndefined();
-        });
-    });
-  });
-
   Expect.describe('Device Fingerprint', function() {
     itp(
       `is not computed if securityImage is off, deviceFingerprinting is true
@@ -1354,40 +1280,6 @@ Expect.describe('PrimaryAuth', function() {
           });
         });
     });
-    itp(
-      'contains device fingerprint and typing pattern header in primaryAuth if both features are enabled',
-      function() {
-        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
-
-          deferred.resolve('thisIsTheDeviceFingerprint');
-          return deferred.promise;
-        });
-        spyOn(TypingUtil, 'track').and.callFake(function(target) {
-          expect(target).toBe('okta-signin-username');
-        });
-        spyOn(TypingUtil, 'getTypingPattern').and.callFake(function() {
-          return typingPattern;
-        });
-        return setup({ features: { deviceFingerprinting: true, trackTypingPattern: true } })
-          .then(function(test) {
-            Util.resetAjaxRequests();
-            test.form.setUsername('testuser');
-            test.form.setPassword('pass');
-            test.setNextResponse(resSuccess);
-            test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy, test);
-          })
-          .then(function() {
-            expect(Util.numAjaxRequests()).toBe(1);
-            expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
-            const ajaxArgs = Util.getAjaxRequest(0);
-
-            expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBe('thisIsTheDeviceFingerprint');
-            expect(ajaxArgs.requestHeaders['x-typing-pattern']).toBe(typingPattern);
-          });
-      }
-    );
     itp('does not load deviceFingerprint when username field looses focus if username is empty', function() {
       spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
         const deferred = Q.defer();
