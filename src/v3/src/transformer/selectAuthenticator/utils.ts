@@ -171,7 +171,6 @@ const getAuthenticatorDescription = (
   }
 
   if (authenticatorKey === AUTHENTICATOR_KEY.PHONE) {
-    // @ts-expect-error OKTA-554038
     return option.relatesTo?.profile?.phoneNumber as string || undefined;
   }
 
