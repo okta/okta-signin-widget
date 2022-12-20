@@ -75,6 +75,7 @@ Util.transformErrorXHR = function(xhr) {
   if (!xhr.responseJSON) {
     if (!xhr.responseText) {
       // Empty server response
+      Util.logConsoleError('Empty responseText');
       xhr.responseJSON = { errorSummary: loc('error.unsupported.response', 'login') };
       return xhr;
     }
@@ -83,6 +84,7 @@ Util.transformErrorXHR = function(xhr) {
         xhr.responseJSON = JSON.parse(xhr.responseText);
       } catch (e) {
         // Malformed server response
+        Util.logConsoleError(e);
         xhr.responseJSON = { errorSummary: loc('error.unsupported.response', 'login') };
         return xhr;
       }

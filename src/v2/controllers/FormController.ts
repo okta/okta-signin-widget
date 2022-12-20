@@ -351,6 +351,7 @@ export default Controller.extend({
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
     } else {
+      // oie form logs error for unsupported response
       Util.logConsoleError(error);
       errorObj = { responseJSON: { errorSummary: loc('error.unsupported.response', 'login')}};
     }
