@@ -6,13 +6,12 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
   constructor(t) {
     super(t);
     this.t = t;
-    this.beacon = new Selector('.beacon-container');
     this.body = new Selector('.launch-authenticator');
     this.footer = new Selector('.auth-footer');
   }
 
-  getBeaconClass() {
-    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
+  getHeader() {
+    return this.body.find('[data-se="o-form-head"]').innerText;
   }
 
   getContentText() {
