@@ -12,7 +12,6 @@
 import { View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 
-// https://oktainc.atlassian.net/browse/OKTA-554417
 export default View.extend({
 
   template: hbs`
@@ -22,8 +21,7 @@ export default View.extend({
       </div>
       {{#if logoUri}}
       <div class="bg-helper auth-beacon auth-beacon-factor custom-app-logo" data-se="factor-beacon" role="img" 
-        aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"
-        style="background-image: url('{{logoUri}}')">
+        aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}">
       {{else}}
       <div class="bg-helper auth-beacon auth-beacon-factor {{className}}" data-se="factor-beacon">
       {{/if}}
@@ -32,6 +30,13 @@ export default View.extend({
     </div >
   `,
 
+  postRender: function() {
+    View.prototype.postRender.apply(this, arguments);
+    const data = this.getTemplateData();
+    if (data.logoUri) {
+      this.el.querySelector('.custom-app-logo').style.backgroundImage = `url(${data.logoUri})`;
+    }
+  },
   getTemplateData: function() {
     const appState = this.options?.appState;
     return { className: this.getBeaconClassName() || '',
