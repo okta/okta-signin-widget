@@ -25,7 +25,13 @@ type RequestOptions = {
   data?: string;
 }
 
-const makeRequest = async ({ url, timeout, method = 'GET', data }: RequestOptions) => {
+/**
+ * Temporary request client to be removed once this functionality is added
+ * to auth-js library.
+ * @see https://oktainc.atlassian.net/browse/OKTA-561852
+ * @returns Promise<Response>
+ */
+const makeRequest = async ({ url, timeout, method, data }: RequestOptions) => {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
 
@@ -40,22 +46,23 @@ const makeRequest = async ({ url, timeout, method = 'GET', data }: RequestOption
   return response;
 }
 
-const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ uischema }) => {
-  const {
-    options: {
-      ports,
-      domain,
-      challengeRequest,
-    },
-  } = uischema;
+const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () => {
   const onSubmitHandler = useOnSubmit();
   const context = useWidgetContext();
   const { idxTransaction } = context;
   const relatesTo = idxTransaction?.nextStep?.relatesTo;
+
   // @ts-expect-error probeTimeoutMillis is not on IdxAuthenticator
-  const probeTimeoutMillis = typeof relatesTo?.value.probeTimeoutMillis === 'undefined' ?
+  const probeTimeoutMillis: number = typeof relatesTo?.value.probeTimeoutMillis === 'undefined' ?
     // @ts-expect-error probeTimeoutMillis is not on IdxAuthenticator
     100 : relatesTo?.value.probeTimeoutMillis;
+  // @ts-expect-error ports is not on IdxAuthenticator
+  const ports: number[] = relatesTo?.value.ports || [];
+  // @ts-expect-error domain is not on IdxAuthenticator
+  const domain: string = relatesTo?.value.domain;
+  // @ts-expect-error challengeRequest is not on IdxAuthenticator
+  const challengeRequest: string = relatesTo?.value.challengeRequest;
+
   const cancelStep = idxTransaction?.availableSteps?.find(({ name }) => name === 'authenticatorChallenge-cancel');
   const cancelHandler = (params?: Record<string, unknown> | undefined) => {
     if (typeof cancelStep !== 'undefined') {
@@ -101,7 +108,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ 
 
               return false;
             }
-            // there's more ports to try continue with next port
+            // there's more ports to try, continue with next port
             return true;
           }
 

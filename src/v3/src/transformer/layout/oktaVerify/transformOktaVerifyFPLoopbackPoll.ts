@@ -40,14 +40,6 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
 
   uischema.elements.push({
     type: 'LoopbackProbe',
-    options: {
-      // @ts-expect-error ports is not defined on value
-      ports: relatesTo?.value.ports,
-      // @ts-expect-error ports is not defined on value
-      domain: relatesTo?.value.domain,
-      // @ts-expect-error ports is not defined on value
-      challengeRequest: relatesTo?.value.challengeRequest,
-    },
   } as LoopbackProbeElement);
 
   const cancelStep = transaction.availableSteps?.find(({ name }) => name === 'authenticatorChallenge-cancel');
