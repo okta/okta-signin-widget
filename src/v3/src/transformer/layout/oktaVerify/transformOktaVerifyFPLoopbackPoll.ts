@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { NextStep } from '@okta/okta-auth-js';
-
 import {
   IdxStepTransformer,
   LinkElement,
@@ -25,8 +23,6 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   transaction,
   formBag,
 }) => {
-  const { nextStep = {} as NextStep } = transaction;
-  const { relatesTo } = nextStep;
   const { uischema } = formBag;
 
   uischema.elements.unshift({

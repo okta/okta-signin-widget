@@ -10,10 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// Allow this shadow dependency from auth-js because it is temporary
+// eslint-disable-next-line import/no-extraneous-dependencies
+import crossFetch from 'cross-fetch';
 import { FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
-import crossFetch from 'cross-fetch';
-import Logger from 'util/Logger';
+
+import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import { LoopbackProbeElement } from '../../types';
@@ -24,7 +27,7 @@ type RequestOptions = {
   timeout: number;
   method: 'GET' | 'POST';
   data?: string;
-}
+};
 
 /**
  * Temporary request client to be removed once this functionality is added
@@ -32,7 +35,9 @@ type RequestOptions = {
  * @see https://oktainc.atlassian.net/browse/OKTA-561852
  * @returns Promise<Response>
  */
-const makeRequest = async ({ url, timeout, method, data }: RequestOptions) => {
+const makeRequest = async ({
+  url, timeout, method, data,
+}: RequestOptions) => {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
   const fetch = global.fetch || crossFetch;
@@ -46,7 +51,7 @@ const makeRequest = async ({ url, timeout, method, data }: RequestOptions) => {
   clearTimeout(id);
 
   return response;
-}
+};
 
 const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () => {
   const onSubmitHandler = useOnSubmit();
@@ -55,9 +60,9 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () 
   const relatesTo = idxTransaction?.nextStep?.relatesTo;
 
   // @ts-expect-error probeTimeoutMillis is not on IdxAuthenticator
-  const probeTimeoutMillis: number = typeof relatesTo?.value.probeTimeoutMillis === 'undefined' ?
+  const probeTimeoutMillis: number = typeof relatesTo?.value.probeTimeoutMillis === 'undefined'
     // @ts-expect-error probeTimeoutMillis is not on IdxAuthenticator
-    100 : relatesTo?.value.probeTimeoutMillis;
+    ? 100 : relatesTo?.value.probeTimeoutMillis;
   // @ts-expect-error ports is not on IdxAuthenticator
   const ports: number[] = relatesTo?.value.ports || [];
   // @ts-expect-error domain is not on IdxAuthenticator
@@ -123,7 +128,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () 
           });
 
           if (!challengeResponse.ok) {
-            // Windows and MacOS return status code 503 when 
+            // Windows and MacOS return status code 503 when
             // there are multiple profiles on the device and
             // the wrong OS profile responds to the challenge request
             if (challengeResponse.status !== 503) {
@@ -135,7 +140,8 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () 
               });
 
               return false;
-            } else if (index + 1 === ports.length) {
+            }
+            if (index + 1 === ports.length) {
               // if this was last port: cancel polling and return
               cancelHandler({
                 reason: 'OV_UNREACHABLE_BY_LOOPBACK',
@@ -148,6 +154,8 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () 
             // continue with next loop iteration
             return true;
           }
+          // challenge response was a 2xx, end probing
+          return false;
         } catch (e) {
           // only for unexpected error conditions (e.g. fetch throws an error)
           Logger.error(`Something unexpected happened while we were checking port ${port}`);
@@ -158,13 +166,14 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () 
 
       // success condition
       // once the OV challenge succeeds, triggers another polling right away without waiting
-      // for the next ongoing polling to be triggered to make the authentication flow go faster 
+      // for the next ongoing polling to be triggered to make the authentication flow go faster
       onSubmitHandler({
         step: 'device-challenge-poll',
       });
     };
 
     doLoopback();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
