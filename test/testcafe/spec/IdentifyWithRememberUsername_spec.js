@@ -309,12 +309,12 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should store identifier 
 
   await t.expect(identityPage.getIdentifierValue()).eql('PREFILL VALUE');
 
-  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.fillIdentifierField('TestIdentifier');
   await identityPage.clickNextButton();
 
   const cookie = await t.getCookies('ln');
 
   await t
     .expect(cookie[0].name).eql('ln')
-    .expect(cookie[0].value).eql('Test Identifier');
+    .expect(cookie[0].value).eql('TestIdentifier');
 });
