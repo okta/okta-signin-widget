@@ -16,19 +16,26 @@ import Logger from 'util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import { LoopbackProbeElement } from '../../types';
+import { isAndroid } from '../../util';
 
 type RequestOptions = {
   url: string;
-  method?: 'GET' | 'POST';
+  timeout: number;
+  method: 'GET' | 'POST';
   data?: string;
 }
 
-// add timeout option: https://dmitripavlutin.com/timeout-fetch-request/
-const makeRequest = async ({ url, method = 'GET', data }: RequestOptions) => {
+const makeRequest = async ({ url, timeout, method = 'GET', data }: RequestOptions) => {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
   const response = await fetch(url, {
     method,
     ...(typeof data === 'string' ? { body: data } : {}),
+    signal: controller.signal,
   });
+
+  clearTimeout(id);
 
   return response;
 }
@@ -44,6 +51,11 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ 
   const onSubmitHandler = useOnSubmit();
   const context = useWidgetContext();
   const { idxTransaction } = context;
+  const relatesTo = idxTransaction?.nextStep?.relatesTo;
+  // @ts-expect-error probeTimeoutMillis is not on IdxAuthenticator
+  const probeTimeoutMillis = typeof relatesTo?.value.probeTimeoutMillis === 'undefined' ?
+    // @ts-expect-error probeTimeoutMillis is not on IdxAuthenticator
+    100 : relatesTo?.value.probeTimeoutMillis;
   const cancelStep = idxTransaction?.availableSteps?.find(({ name }) => name === 'authenticatorChallenge-cancel');
   const cancelHandler = (params?: Record<string, unknown> | undefined) => {
     if (typeof cancelStep !== 'undefined') {
@@ -62,6 +74,16 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ 
         try {
           // probe the port
           const probeResponse = await makeRequest({
+            method: 'GET',
+            /*
+            OKTA-278573 in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional
+            timeout however, increasing timeout is a temporary solution since user will need to wait much longer in
+            worst case.
+            TODO: Android timeout is temporarily set to 3000ms and needs optimization post-Beta.
+            OKTA-365427 introduces probeTimeoutMillis; but we should also consider probeTimeoutMillisHTTPS for
+            customizing timeouts in the more costly Android and other (keyless) HTTPS scenarios.
+            */
+            timeout: isAndroid() ? 3_000 : probeTimeoutMillis,
             url: `${domain}:${port}/probe`,
           });
 
@@ -87,6 +109,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({ 
           const challengeResponse = await makeRequest({
             url: `${domain}:${port}/challenge`,
             method: 'POST',
+            timeout: 300_000,
             data: JSON.stringify({ challengeRequest }),
           });
 
