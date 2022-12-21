@@ -34,6 +34,18 @@ describe('DeviceFingerprinting', () => {
     jest.spyOn(DeviceFingerprinting, 'isMessageFromCorrectSource').mockReturnValue(true);
   }
 
+  it('creates hidden iframe during fingerprint generation', async () => {
+    mockIFrameMessages(true);
+    bypassMessageSourceCheck();
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.fingerprintData);
+    let $iFrame = $sandbox.find('iframe');
+    expect($iFrame.length).toBe(1);
+    expect($iFrame.is(":hidden")).toBe(true);
+    await fingerprintPromise;
+    $iFrame = $sandbox.find('iframe');
+    expect($iFrame.length).toBe(0);
+  });
+
   it('returns a fingerprint if the communication with the iframe is successful', async () => {
     mockIFrameMessages(true);
     bypassMessageSourceCheck();
