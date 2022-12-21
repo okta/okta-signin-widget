@@ -43,7 +43,6 @@ export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (trans
   // generate a PublicKeyCredential instance for use by IDX to enroll the user/device
   const options = (
     activationData && authenticatorEnrollments?.value
-    // @ts-expect-error OKTA-554038
   ) && OktaAuth.webauthn.buildCredentialCreationOptions(
     activationData,
     authenticatorEnrollments.value,
@@ -84,7 +83,6 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
   // generate a PublicKeyCredential instance for use by IDX verify the user
   const options = (
     challengeData && authenticatorEnrollments?.value
-    // @ts-expect-error OKTA-554038
   ) && OktaAuth.webauthn.buildCredentialRequestOptions(
     challengeData,
     authenticatorEnrollments.value,
@@ -96,6 +94,5 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
 
   // Extracts the key properties from the credentials object and returns.
   // for some reason generic remediator does not allow/expect id field and fails when passed
-  // @ts-expect-error OKTA-554038
   return { credentials: omit(OktaAuth.webauthn.getAssertion(credentials), ['id']) };
 };
