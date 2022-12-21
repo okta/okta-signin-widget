@@ -40,7 +40,7 @@ describe('DeviceFingerprinting', () => {
     const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.fingerprintData);
     let $iFrame = $sandbox.find('iframe');
     expect($iFrame.length).toBe(1);
-    expect($iFrame.is(":hidden")).toBe(true);
+    expect($iFrame.is(':hidden')).toBe(true);
     expect($iFrame.attr('src')).toBe('/auth/services/devicefingerprint');
     await fingerprintPromise;
     $iFrame = $sandbox.find('iframe');
