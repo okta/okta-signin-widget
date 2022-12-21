@@ -56,10 +56,12 @@ if [ -n "${TEST_SUITE_ID}" ]; then
   # Verify minimum supported version of node
   export PATH=$ORIGINAL_PATH
   setup_service node v14.18.0
+  npm config set registry=https://registry.npmjs.org/
 
-  # Verify minimum supported version of yarn
+  # Verify minimum supported version of yarn.
   # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
   setup_service yarn 1.7.0 /etc/pki/tls/certs/ca-bundle.crt
+  yarn config set registry https://registry.yarnpkg.com
   export PATH="${PATH}:$(yarn global bin)"
   set -e
 fi
