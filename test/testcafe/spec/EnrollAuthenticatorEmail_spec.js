@@ -311,7 +311,7 @@ test
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
-    )).gte(8);
+    )).eql(8);
 
     await enrollEmailPageObject.clickResendEmail();
 

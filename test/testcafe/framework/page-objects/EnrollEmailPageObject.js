@@ -56,9 +56,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
     if (userVariables.v3) {
       return this.form.el.find('[role="alert"]').textContent;
     }
-    else {
       return this.form.el.find(RESEND_EMAIL).textContent;
-    }  
   }
 
   async clickResendEmail() {
