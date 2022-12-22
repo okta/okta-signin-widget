@@ -185,4 +185,30 @@ describe('models/Settings', () => {
       expect(settings.get('backToSignInUri')).toBe('http://foo');
     });
   });
+
+  describe('stateToken', () => {
+    it('defaults to window value if value exists', () => {
+      global.oktaData = {
+        signIn: {
+          stateToken: 'windowStateToken'
+        }
+      };
+      const settings = new Settings({ baseUrl: 'http://base' });
+      expect(settings.get('stateToken')).toEqual('windowStateToken');
+    });
+    it('is undefined if not set in options or window', () => {
+      global.oktaData = {};
+      const settings = new Settings({ baseUrl: 'http://base' });
+      expect(settings.get('stateToken')).toBeUndefined();
+    });
+    it('can be set', () => {
+      global.oktaData = {
+        signIn: {
+          stateToken: 'windowStateToken'
+        }
+      };
+      const settings = new Settings({ baseUrl: 'http://base', stateToken: 'customStateToken'});
+      expect(settings.get('stateToken')).toEqual('customStateToken');
+    });
+  });
 });

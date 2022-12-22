@@ -241,3 +241,10 @@ export interface HookDefinition {
 export interface HooksOptions {
   [name: string]: HookDefinition;
 }
+
+type SignIn = {
+  stateToken: string,
+}
+export interface OktaData {
+  signIn: SignIn
+}
