@@ -17,7 +17,6 @@ import { FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import Logger from '../../../../util/Logger';
-import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import { LoopbackProbeElement } from '../../types';
 import { isAndroid } from '../../util';
@@ -44,6 +43,9 @@ const makeRequest = async ({
 
   const response = await fetch(url, {
     method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
     ...(typeof data === 'string' ? { body: data } : {}),
     signal: controller.signal,
   });
@@ -53,29 +55,28 @@ const makeRequest = async ({
   return response;
 };
 
-const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () => {
+const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
+  uischema: {
+    options: {
+      deviceChallengePayload,
+      cancelStep,
+      step,
+    },
+  },
+}) => {
   const onSubmitHandler = useOnSubmit();
-  const context = useWidgetContext();
-  const { idxTransaction } = context;
-  const relatesTo = idxTransaction?.nextStep?.relatesTo;
 
-  // @ts-expect-error probeTimeoutMillis is not on IdxAuthenticator
-  const probeTimeoutMillis: number = typeof relatesTo?.value.probeTimeoutMillis === 'undefined'
-    // @ts-expect-error probeTimeoutMillis is not on IdxAuthenticator
-    ? 100 : relatesTo?.value.probeTimeoutMillis;
-  // @ts-expect-error ports is not on IdxAuthenticator
-  const ports: number[] = relatesTo?.value.ports || [];
-  // @ts-expect-error domain is not on IdxAuthenticator
-  const domain: string = relatesTo?.value.domain;
-  // @ts-expect-error challengeRequest is not on IdxAuthenticator
-  const challengeRequest: string = relatesTo?.value.challengeRequest;
+  const probeTimeoutMillis: number = typeof deviceChallengePayload.probeTimeoutMillis === 'undefined'
+    ? 100 : deviceChallengePayload.probeTimeoutMillis;
+  const ports: number[] = deviceChallengePayload.ports || [];
+  const domain: string = deviceChallengePayload.domain;
+  const challengeRequest: string = deviceChallengePayload.challengeRequest;
 
-  const cancelStep = idxTransaction?.availableSteps?.find(({ name }) => name === 'authenticatorChallenge-cancel');
   const cancelHandler = (params?: Record<string, unknown> | undefined) => {
     if (typeof cancelStep !== 'undefined') {
       onSubmitHandler({
         isActionStep: true,
-        step: cancelStep?.name,
+        step: cancelStep,
         params,
       });
     }
@@ -83,8 +84,9 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () 
 
   useEffect(() => {
     const doLoopback = async () => {
+      let foundPort: boolean = false;
       // loop over each port
-      ports.every(async (port, index) => {
+      for (const port of ports) {
         try {
           // probe the port
           const probeResponse = await makeRequest({
@@ -103,20 +105,8 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () 
 
           if (!probeResponse.ok) {
             Logger.error(`Authenticator is not listening on port ${port}.`);
-
-            if (index + 1 === ports.length) {
-              // if this was the last port: cancel polling and return
-              Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-
-              cancelHandler({
-                reason: 'OV_UNREACHABLE_BY_LOOPBACK',
-                statusCode: null,
-              });
-
-              return false;
-            }
             // there's more ports to try, continue with next port
-            return true;
+            continue;
           }
 
           // try port with challenge request
@@ -139,37 +129,37 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = () 
                 statusCode: challengeResponse.status,
               });
 
-              return false;
-            }
-            if (index + 1 === ports.length) {
-              // if this was last port: cancel polling and return
-              cancelHandler({
-                reason: 'OV_UNREACHABLE_BY_LOOPBACK',
-                statusCode: null,
-              });
-
-              return false;
+              break;
             }
             // no errors but this is not the port we're looking for
             // continue with next loop iteration
-            return true;
+            continue;
           }
           // challenge response was a 2xx, end probing
-          return false;
+          foundPort = true;
+          break;
         } catch (e) {
           // only for unexpected error conditions (e.g. fetch throws an error)
           Logger.error(`Something unexpected happened while we were checking port ${port}`);
-
-          return false;
         }
-      });
+      };
 
-      // success condition
-      // once the OV challenge succeeds, triggers another polling right away without waiting
-      // for the next ongoing polling to be triggered to make the authentication flow go faster
-      onSubmitHandler({
-        step: 'device-challenge-poll',
-      });
+      if (foundPort) {
+        // success condition
+        // once the OV challenge succeeds, triggers another polling right away without waiting
+        // for the next ongoing polling to be triggered to make the authentication flow go faster
+        onSubmitHandler({
+          step,
+        });
+      } else {
+        // no more ports to probe: cancel polling and return
+        Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+
+        cancelHandler({
+          reason: 'OV_UNREACHABLE_BY_LOOPBACK',
+          statusCode: null,
+        });
+      }
     };
 
     doLoopback();

@@ -23,7 +23,7 @@ import {
   TitleElement,
 } from '../../types';
 import { loc } from '../../util';
-import { transformOktaVerifyDeviceChallengePoll } from '../layout/oktaVerify';
+import { transformOktaVerifyDeviceChallengePoll, transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 import { getUIElementWithName } from '../utils';
 
 export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) => {
@@ -119,6 +119,10 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
       } as SpinnerElement);
     }
   } else if (selectedMethod.type === 'signed_nonce') {
+    if (relatesTo?.value.type === 'app') {
+      // selectedMethod.type === 'app' reflects a FastPass OV Loopback flow
+      return transformOktaVerifyFPLoopbackPoll(options);
+    }
     // selectedMethod.type === 'signed_nonce' reflects a FastPass OV flow
     return transformOktaVerifyDeviceChallengePoll(options);
   }

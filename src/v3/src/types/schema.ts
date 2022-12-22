@@ -15,6 +15,7 @@ import {
   IdxMessage,
   IdxTransaction,
   Input,
+  NextStep,
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
@@ -258,6 +259,16 @@ export interface OpenOktaVerifyFPButtonElement extends UISchemaElement {
 
 export interface LoopbackProbeElement extends UISchemaElement {
   type: 'LoopbackProbe';
+  options: {
+    deviceChallengePayload: {
+      ports: number[];
+      domain: string;
+      challengeRequest: string;
+      probeTimeoutMillis?: number;
+    };
+    step: string;
+    cancelStep: string;
+  };
 }
 
 export interface TitleElement extends UISchemaElement {

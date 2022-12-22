@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IDX_STEP } from '../../../constants';
 import {
   IdxStepTransformer,
   LinkElement,
@@ -34,27 +35,36 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     type: 'Spinner',
   } as SpinnerElement);
 
+  const cancelStep = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL ?
+    'authenticatorChallenge-cancel' : 'currentAuthenticator-cancel';
+  const deviceChallengePayload = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL ?
+    transaction.nextStep?.relatesTo?.value :
+    // @ts-expect-error challenge is not defined on contextualData
+    transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
+
   uischema.elements.push({
     type: 'LoopbackProbe',
+    options: {
+      deviceChallengePayload,
+      cancelStep,
+      step: transaction.nextStep?.name,
+    },
   } as LoopbackProbeElement);
 
-  const cancelStep = transaction.availableSteps?.find(({ name }) => name === 'authenticatorChallenge-cancel');
-  if (typeof cancelStep !== 'undefined') {
-    const cancelLink: LinkElement = {
-      type: 'Link',
-      contentType: 'footer',
-      options: {
-        label: loc('goback', 'login'),
-        isActionStep: true,
-        step: cancelStep.name,
-        actionParams: {
-          reason: 'USER_CANCELED',
-          statusCode: null,
-        },
+  const cancelLink: LinkElement = {
+    type: 'Link',
+    contentType: 'footer',
+    options: {
+      label: loc('goback', 'login'),
+      isActionStep: true,
+      step: cancelStep,
+      actionParams: {
+        reason: 'USER_CANCELED',
+        statusCode: null,
       },
-    };
-    uischema.elements.push(cancelLink);
-  }
+    },
+  };
+  uischema.elements.push(cancelLink);
 
   return formBag;
 };
