@@ -295,7 +295,6 @@ async function setupLoopbackFallback(t) {
   return deviceChallengeFalllbackPage;
 }
 
-// TODO: sy- remove this comment: this test is passing
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
@@ -328,7 +327,6 @@ test
     await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
   });
 
-// TODO: sy- remove this comment: this test is passing
 test
   .requestHooks(loopbackUserCancelLogger, loopbackUserCancelLoggerMock)('request body has reason value of true when user clicks cancel and go back link', async t => {
     loopbackPollMockLogger.clear();
@@ -343,7 +341,6 @@ test
     )).eql(1);
   });
 
-// TODO sy-remove this comment: this test is passing
 test
   .requestHooks(loopbackPollMockLogger, loopbackPollFailedMock)('next poll should not start if previous is failed', async t => {
     loopbackPollMockLogger.clear();
@@ -371,7 +368,6 @@ test
     )).eql(2);
   });
 
-// TODO sy- remove this comment: this test is passing
 test
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
     const deviceChallengePollPageObject = await setup(t);
@@ -409,7 +405,6 @@ test
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6512|6513/))).eql(false);
   });
 
-// TODO remove this note: this test is passing
 test
   .requestHooks(loopbackChallengeWrongProfileLogger, loopbackChallengeWrongProfileMock)('in loopback server approach, will cancel polling when challenge errors out with non-503 status', async t => {
     const deviceChallengePollPageObject = await setup(t);
@@ -449,7 +444,6 @@ test
     )).eql(1);
   });
 
-// TODO remove this note: this test is passing
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
     const deviceChallengePollPageObject = await setup(t);
@@ -478,7 +472,6 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
   });
 
-// TODO sy- remove this comment: this test is passing
 test
   .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
     loopbackFallbackLogger.clear();
