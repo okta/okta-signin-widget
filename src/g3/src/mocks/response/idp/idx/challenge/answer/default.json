@@ -1,0 +1,76 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02tKwcMNRmwEsDoe_HuMZYf5m-lg3kFugYKrcTWOL3",
+  "expiresAt": "2021-10-27T20:34:09.000Z",
+  "intent": "LOGIN",
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u1egri51r4PYyfE1d7",
+      "identifier": "firstname.lastname@example.com",
+      "profile": {
+        "firstName": "Firstname",
+        "lastName": "Lastname",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02tKwcMNRmwEsDoe_HuMZYf5m-lg3kFugYKrcTWOL3",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "siw-next",
+      "id": "0oa1eguv0090rji841d7"
+    }
+  },
+  "successWithInteractionCode": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "issue",
+    "href": "http://localhost:3000/oauth2/aus1egrv8pvP49Xjx1d7/v1/token",
+    "method": "POST",
+    "value": [
+      {
+        "name": "grant_type",
+        "required": true,
+        "value": "interaction_code"
+      },
+      {
+        "name": "interaction_code",
+        "required": true,
+        "value": "oNJqO9CtpzMoIlKcc5o41MUpWSxlfI5xJoCtsiGo-qg"
+      },
+      {
+        "name": "client_id",
+        "required": true,
+        "value": "0oa1eguv0090rji841d7"
+      },
+      {
+        "name": "code_verifier",
+        "required": true
+      }
+    ],
+    "accepts": "application/x-www-form-urlencoded"
+  }
+}

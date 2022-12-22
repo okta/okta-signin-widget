@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "025kLuK76SYpdxoETivPm3WDaLEInNHi8YnAyCrKc8",
+  "expiresAt": "2022-04-27T00:04:42.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Your account is now unlocked!",
+        "i18n": {
+          "key": "oie.selfservice.unlock_user.success.message",
+          "params": []
+        },
+        "class": "INFO"
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u2kk7x4ni8vYvuO1d7",
+      "identifier": "tester@okta1.com",
+      "profile": {
+        "firstName": "Test",
+        "lastName": "McTesterson",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "025kLuK76SYpdxoETivPm3WDaLEInNHi8YnAyCrKc8",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "SIW Next",
+      "id": "0oa2h3j3ysoR3eHN11d7"
+    }
+  }
+}

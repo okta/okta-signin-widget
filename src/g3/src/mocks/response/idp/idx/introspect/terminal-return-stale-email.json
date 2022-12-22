@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "This email link is out of date. Return to the screen where you requested it.",
+        "i18n": {
+          "key": "idx.return.stale",
+          "params": []
+        }
+      }
+    ]
+  }
+}

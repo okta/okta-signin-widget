@@ -1,0 +1,179 @@
+{
+  "schema": {
+    "type": "object",
+    "properties": {
+      "authenticator": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "methodType": {
+            "type": "string"
+          },
+          "enrollmentId": {
+            "type": "string"
+          }
+        },
+        "enum": [
+          {
+            "label": "Okta Password",
+            "value": {
+              "key": "okta_password",
+              "id": "aidwboITrg4b4yAYd0g3",
+              "methodType": "password"
+            }
+          },
+          {
+            "label": "FIDO2 (WebAuthn)",
+            "value": {
+              "key": "webauthn",
+              "id": "fwftheidkwh282hv8g3",
+              "methodType": "webauthn"
+            }
+          },
+          {
+            "label": "FIDO2 (WebAuthn)",
+            "value": {
+              "key": "webauthn",
+              "id": "aidtheidkwh282hv8g3",
+              "methodType": "webauthn"
+            }
+          },
+          {
+            "label": "Okta Email",
+            "value": {
+              "key": "okta_email",
+              "id": "aidtm56L8gXXHI1SD0g3",
+              "methodType": "email"
+            }
+          },
+          {
+            "label": "Phone",
+            "description": "+1 XXX-XXX-5309",
+            "value": {
+              "key": "phone_number",
+              "id": "aut5v31Tb789KuCGY0g4",
+              "enrollmentId": "pae5ykx4eIvfslkO90g4"
+            }
+          },
+          {
+            "label": "Phone",
+            "description": "+1 XXX-XXX-5310",
+            "value": {
+              "key": "phone_number",
+              "id": "aut5v31Tb789KuCGY0g4",
+              "enrollmentId": "pae5ykzcnhmdfSMuQ0g4"
+            }
+          },
+          {
+            "label": "Okta Security Question",
+            "value": {
+              "key": "security_question",
+              "id": "aid568g3mXgtID0HHSLH"
+            }
+          },
+          {
+            "label": "Okta Verify",
+            "value": {
+              "key": "okta_verify",
+              "id": "auttheidkwh282hv8g3",
+              "methodType": "signed_nonce"
+            }
+          },
+          {
+            "label": "Google Authenticator",
+            "value": {
+              "key": "google_otp",
+              "id": "aut11ceMaP0B0EzMI0g4"
+            }
+          },
+          {
+            "label": "Atko Custom On-prem",
+            "value": {
+              "key": "onprem_mfa",
+              "id": "autx7fdyRt87txnAs0g3",
+              "enrollmentId": "paexaoLGpTBjbyhBF0g3"
+            }
+          },
+          {
+            "label": "RSA SecurID",
+            "value": {
+              "key": "rsa_token",
+              "id": "autx7fdyRt87txnAs0g3",
+              "enrollmentId": "paexaoLGpTBjbyhBF0g3"
+            }
+          },
+          {
+            "label": "Duo Security",
+            "value": {
+              "key": "duo",
+              "id": "aut32kl92UF8kfE4E0g4",
+              "methodType": "idp"
+            }
+          },
+          {
+            "label": "IDP Authenticator",
+            "value": {
+              "key": "external_idp",
+              "id": "0oa69chx4bZyx8O7l0g4"
+            }
+          },
+          {
+            "label": "Atko Custom OTP Authenticator",
+            "value": {
+              "key": "custom_otp",
+              "id": "aut32kl92UF8kfE4E0g5",
+              "methodType": "idp"
+            }
+          },
+          {
+            "label": "Symantec VIP",
+            "value": {
+              "key": "symantec_vip",
+              "id": "aut11ceMaP0B0EzMI0g4"
+            }
+          },
+          {
+            "label": "YubiKey Authenticator",
+            "value": {
+              "key": "yubikey_token",
+              "id": "aut11ceMaP0B0EzMI0g4"
+            }
+          },
+          {
+            "label": "Custom Push App",
+            "value": {
+              "key": "custom_app",
+              "id": "aut198w4v0f8dr8gT0g4"
+            }
+          }
+        ]
+      },
+      "stateHandle": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "authenticator",
+      "stateHandle"
+    ]
+  },
+  "uischema": {
+    "type": "VerticalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/authenticator"
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/stateHandle",
+        "options": {
+          "format": "hidden"
+        }
+      }
+    ]
+  },
+  "data": {}
+}

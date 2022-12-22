@@ -1,0 +1,67 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "esModuleInterop": false,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noEmit": true,
+    "paths": {
+      "@okta/mocks/*": [
+        "../../playground/mocks/*"
+      ],
+      "config/*": [
+        "../config/*"
+      ],
+      "nls/*": [
+        "../../packages/@okta/i18n/src/json/*"
+      ],
+      "@okta/courage": [
+        "../../packages/@okta/courage-dist"
+      ],
+      "okta-i18n-bundles": [
+        "../util/Bundles.ts"
+      ],
+      "react": [
+        "node_modules/preact/compat",
+      ],
+      "react-dom": [
+        "node_modules/preact/compat",
+      ],
+      "src/*": [
+        "./src/*"
+      ],
+      "util/*": [
+        "../util/*"
+      ]
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES5",
+    "useDefineForClassFields": true
+  },
+  "extends": "../../tsconfig.json",
+  "files": [
+    "global.d.ts",
+    "vite.config.ts"
+  ],
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}

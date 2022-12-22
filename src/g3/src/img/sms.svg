@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" aria-labelledby="smsAuthenticator" role="img" viewBox="0 0 48 48">
+  <title id="smsAuthenticator">SMS Authenticator</title>
+  <path fill="#F5F5F6" fill-rule="evenodd" d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z" class="siwFillBg" clip-rule="evenodd"/>
+  <path fill="#00297A" d="M28 14.5V18h-1v-3.5a1.5 1.5 0 0 0-1.5-1.5h-13a1.5 1.5 0 0 0-1.5 1.5v12.79L14.29 24H17v1h-2.29L10 29.71V14.5a2.5 2.5 0 0 1 2.5-2.5h13a2.5 2.5 0 0 1 2.5 2.5Z" class="siwFillPrimary"/>
+  <path fill="#A7B5EC" d="M38 39.707 32.293 34H20.5a2.5 2.5 0 0 1-2.5-2.5v-10a2.5 2.5 0 0 1 2.5-2.5h15a2.5 2.5 0 0 1 2.5 2.5v18.207ZM20.5 20a1.5 1.5 0 0 0-1.5 1.5v10a1.5 1.5 0 0 0 1.5 1.5h12.207L37 37.293V21.5a1.5 1.5 0 0 0-1.5-1.5h-15Z" class="siwFillSecondary"/>
+  <path fill="#00297A" d="M22 24h12v1H22v-1Zm0 4h12v1H22v-1Z" class="siwFillPrimary"/>
+</svg>
