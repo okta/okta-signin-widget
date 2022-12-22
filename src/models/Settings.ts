@@ -33,7 +33,7 @@ const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{ver
 
 declare global {
   interface Window {
-    oktaData: OktaData;
+    oktaData?: OktaData;
   }
 }
 
