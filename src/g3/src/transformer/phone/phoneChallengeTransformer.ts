@@ -1,0 +1,102 @@
+/*
+ * Copyright (c) 2022-present, Okta, Inc. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant
+ * to the Apache License, Version 2.0 (the "License.")
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { NextStep } from '@okta/okta-auth-js';
+
+import {
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  IdxStepTransformer,
+  ReminderElement,
+  TitleElement,
+} from '../../types';
+import { loc } from '../../util';
+
+export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
+  const { nextStep = {} as NextStep, availableSteps } = transaction;
+  const { uischema } = formBag;
+
+  const { methods, profile } = nextStep.relatesTo?.value || {};
+  const { phoneNumber } = profile || {};
+  const methodType = methods?.[0]?.type;
+  let reminderElement: ReminderElement | undefined;
+
+  const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
+  const smsMethodType = methodType === 'sms';
+  if (resendStep) {
+    const { name } = resendStep;
+    reminderElement = {
+      type: 'Reminder',
+      options: {
+        content: smsMethodType ? loc('oie.phone.verify.sms.resendText', 'login') : loc('oie.phone.verify.call.resendText', 'login'),
+        buttonText: smsMethodType ? loc('oie.phone.verify.sms.resendLinkText', 'login') : loc('oie.phone.verify.call.resendLinkText', 'login'),
+        step: name,
+        isActionStep: true,
+        actionParams: { resend: true },
+      },
+    };
+  }
+
+  const sendInfoText = smsMethodType
+    ? loc('oie.phone.verify.sms.codeSentText', 'login')
+    : loc('mfa.calling', 'login');
+  const phoneInfoText = phoneNumber || loc('oie.phone.alternate.title', 'login');
+  const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
+  const informationalText: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      content: `${sendInfoText} ${phoneInfoText}. ${enterCodeInfoText}`,
+    },
+  };
+
+  const carrierChargeDisclaimerText: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      content: loc('oie.phone.carrier.charges', 'login'),
+    },
+  };
+
+  const titleElement: TitleElement = {
+    type: 'Title',
+    options: {
+      content: loc('oie.phone.verify.title', 'login'),
+    },
+  };
+
+  const submitButtonControl: ButtonElement = {
+    type: 'Button',
+    label: loc('mfa.challenge.verify', 'login'),
+    options: {
+      type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
+    },
+  };
+
+  uischema.elements.push(submitButtonControl);
+  uischema.elements.unshift(carrierChargeDisclaimerText);
+  uischema.elements.unshift(informationalText);
+  uischema.elements.unshift(titleElement);
+  if (reminderElement) {
+    uischema.elements.unshift(reminderElement);
+  }
+
+  return formBag;
+};

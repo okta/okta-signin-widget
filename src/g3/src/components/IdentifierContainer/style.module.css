@@ -1,0 +1,12 @@
+.identifierContainer {
+  border-radius: 36px;
+  background-color: var(--BackgroundFill);
+}
+
+.identifierSpan {
+  margin-left: 10px;
+}
+
+.userIconContainer {
+  color: var(--PrimaryFill);
+}

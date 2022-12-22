@@ -1,0 +1,175 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02GSSQHSTb3ZExbAH0gsu2LUY5QKaIViVyr3l7OjUz",
+  "expiresAt": "2022-04-27T14:55:10.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Google Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut2m5drzzUlo4Bn81d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "otp",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              },
+              {
+                "label": "Security Key or Biometric",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut2h3f9ovE2RV96P1d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "webauthn",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02GSSQHSTb3ZExbAH0gsu2LUY5QKaIViVyr3l7OjUz",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "google_otp",
+        "id": "aut2m5drzzUlo4Bn81d7",
+        "displayName": "Google Authenticator",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      },
+      {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "aut2h3f9ovE2RV96P1d7",
+        "displayName": "Security Key or Biometric",
+        "methods": [
+          {
+            "type": "webauthn"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "google_otp",
+        "id": "uft3k49ihzNMMKfnd1d7",
+        "displayName": "Google Authenticator",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      },
+      {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "fwf3k53gmdZ1bIrt51d7",
+        "displayName": "MacBook Touch ID",
+        "credentialId": "AbvOIjjB6V7No_CA_xNDV6ZApaaLsI-8TKKOrWdOcx2IiMKooO29XC7S2iZXIhvLiKJrfc_UeuBVC5reZ9fktwuiOA-IHWCdZAoGsPZEoVS3KOqeukUbWSKJDVc",
+        "methods": [
+          {
+            "type": "webauthn"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u2kk7x4ni8vYvuO1d7",
+      "identifier": "tester@okta1.com",
+      "profile": {
+        "firstName": "Test",
+        "lastName": "McTesterson",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02GSSQHSTb3ZExbAH0gsu2LUY5QKaIViVyr3l7OjUz",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "SIW Next",
+      "id": "0oa2h3j3ysoR3eHN11d7"
+    }
+  }
+}

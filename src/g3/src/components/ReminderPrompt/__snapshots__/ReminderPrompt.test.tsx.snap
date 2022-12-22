@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReminderPrompt should show prompt after custom timeout passes 1`] = `<div />`;
+
+exports[`ReminderPrompt should show prompt with working link after default timeout passes 1`] = `
+<div>
+  <div
+    class="MuiBox-root emotion-0"
+  >
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxWarning MuiAlert-infobox emotion-1"
+      role="alert"
+    >
+      <div
+        class="MuiAlert-icon emotion-2"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-3"
+          data-testid="ReportProblemOutlinedIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
+          />
+        </svg>
+      </div>
+      <div
+        class="MuiAlert-message emotion-4"
+      >
+        <div
+          class="MuiBox-root emotion-5"
+        >
+          Didnt receive the email?
+        </div>
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-6"
+          href="javascript:void(0);"
+        >
+          Send again?
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ReminderPrompt should show prompt with working link after default timeout passes where ctaText contains HTML 1`] = `
+<div>
+  <div
+    class="MuiBox-root emotion-0"
+  >
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxWarning MuiAlert-infobox emotion-1"
+      role="alert"
+    >
+      <div
+        class="MuiAlert-icon emotion-2"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-3"
+          data-testid="ReportProblemOutlinedIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
+          />
+        </svg>
+      </div>
+      <div
+        class="MuiAlert-message emotion-4"
+      >
+        <div
+          class="MuiBox-root emotion-5"
+        >
+          <div
+            class="MuiBox-root emotion-5"
+          >
+            Didn't receive the email? Click 
+            <a
+              class="send-again"
+              href="#"
+            >
+              send again
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,31 @@
+.siwHeader {
+  padding-block-start: var(--HeaderPaddingBlockStart);
+  padding-inline-end: var(--HeaderPaddingInlineEnd);
+  padding-block-end: var(--HeaderPaddingBlockEnd);
+  padding-inline-start: var(--HeaderPaddingInlineStart);
+  border-bottom: 1px solid #d7d7dc;
+}
+
+.siwHeader h1 {
+  line-height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.siwHeader.authCoinSpacing {
+  padding-block-start: var(--AuthCoinPaddingBlockStart);
+  padding-inline-end: var(--AuthCoinPaddingInlineEnd);
+  padding-block-end: var(--AuthCoinPaddingBlockEnd);
+  padding-inline-start: var(--AuthCoinPaddingInlineStart);
+}
+
+.siwOrgLogo {
+  max-width: 200px;
+  max-height: 40px;
+}
+
+.authCoinOverlay {
+  margin: auto;
+  top: 24px;
+}

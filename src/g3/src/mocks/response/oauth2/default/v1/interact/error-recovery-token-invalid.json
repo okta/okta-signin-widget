@@ -1,0 +1,4 @@
+{
+  "error": "invalid_request",
+  "error_description": "The recovery token is invalid"
+}
