@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class SignInDeviceViewPageObject extends BasePageObject {
@@ -15,23 +15,29 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
   }
 
   getHeader() {
-    return this.body.find('[data-se="o-form-head"]').innerText;
+    return this.form.getTitle();
   }
 
   getContentText() {
-    return this.getTextContent('[data-se="o-form-fieldset-container"] .signin-with-ov-description');
+    return this.form.getByText('To access Microsoft Office 365, your organization requires you to sign in with Okta FastPass.');
   }
 
   getOVButtonIcon() {
+    if(userVariables.v3) {
+      return this.form.getButtonIcon('Okta Verify Sign in with Okta FastPass').textContent;
+    }
     return this.body.find('.okta-verify-container [data-se="button"] span').getAttribute('class');
   }
 
   getOVButtonLabel() {
+    if(userVariables.v3) {
+      return this.form.getButton('Okta Verify Sign in with Okta FastPass').innerText;
+    }
     return this.getTextContent('.okta-verify-container [data-se="button"]');
   }
 
   getEnrollFooterLink() {
-    return this.footer.find('[data-se="enroll"]');
+    return this.form.getLink('Sign up');
   }
 
   getHelpFooterLink() {
@@ -39,10 +45,14 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
   }
 
   getSignOutFooterLink() {
-    return this.footer.find('[data-se="cancel"]');
+    return this.getCancelLink();
   }
 
   async clickLaunchOktaVerifyButton() {
-    await this.t.click(this.body.find('.okta-verify-container [data-se="button"]'));
+    if(userVariables.v3) {
+      await this.form.clickButton('Okta Verify Sign in with Okta FastPass');
+    } else {
+      await this.t.click(this.body.find('.okta-verify-container [data-se="button"]'));
+    }
   }
 }

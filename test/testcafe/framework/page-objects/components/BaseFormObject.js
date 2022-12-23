@@ -407,6 +407,10 @@ export default class BaseFormObject {
     return within(this.el).queryByLabelText('Loading...');
   }
 
+  getButtonIcon(buttonName) {
+    return within(this.getButton(buttonName)).getByRole('img');
+  }
+
   /**
    * Queries for all elements matching the selector
    * and returns a list of inner texts of the matching elements.
