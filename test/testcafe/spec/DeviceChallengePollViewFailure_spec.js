@@ -7,11 +7,19 @@ import { Constants } from '../framework/shared';
 
 const logger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 
+let mockCalls = 0;
 const mock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
+    if (mockCalls === 0) {
+      res.statusCode = '200';
+      res.headers['content-type'] = 'application/json';
+      res.setBody(identifyWithDeviceProbingLoopback);
+      mockCalls++;
+      return;
+    }
     return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '403';
       res.headers['content-type'] = 'application/json';
@@ -41,6 +49,13 @@ const deviceInvalidatedErrorMsg = RequestMock()
   .respond(identifyWithDeviceProbingLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
+    if (mockCalls === 0) {
+      res.statusCode = '200';
+      res.headers['content-type'] = 'application/json';
+      res.setBody(identifyWithDeviceProbingLoopback);
+      mockCalls++;
+      return;
+    }
     return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '400';
       res.headers['content-type'] = 'application/json';
@@ -70,6 +85,13 @@ const nonIdxError = RequestMock()
   .respond(identifyWithDeviceProbingLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
+    if (mockCalls === 0) {
+      res.statusCode = '200';
+      res.headers['content-type'] = 'application/json';
+      res.setBody(identifyWithDeviceProbingLoopback);
+      mockCalls++;
+      return;
+    }
     return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '400';
       res.headers['content-type'] = 'application/json';
@@ -94,7 +116,7 @@ const nonIdxError = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
-fixture('Device Challenge Polling View with Polling Failure');
+fixture('Device Challenge Polling View with Polling Failure').meta('v3', true);
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -103,10 +125,10 @@ async function setup(t) {
 }
 
 test.requestHooks(logger, mock)('probing and polling APIs are sent and responded', async t => {
+  mockCalls = 0;
   const deviceChallengePollPageObject = await setup(t);
-  await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
-  await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
-  await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().length).eql(0);
+  await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+  await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
   await t.expect(logger.count(
     record => record.response.statusCode === 200 &&
       record.request.method !== 'options' &&
@@ -118,20 +140,23 @@ test.requestHooks(logger, mock)('probing and polling APIs are sent and responded
       record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
   )).eql(1);
   await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql('You do not have permission to perform the requested action');
-  await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('none');
-  await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Take me to sign in');
-  await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().length).eql(0);
+  await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(false);
+  await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
 });
 
 test
+  .meta('v3', false) // Need to add title when this specific type of error is returned (OKTA-TICKET?)
   .requestHooks(logger, deviceInvalidatedErrorMsg)('add title when device or account is invalidated', async t => {
+    mockCalls = 0;
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql(
       'Couldn’t verify your identity\n\nYour device or account was invalidated. If this is unexpected, contact your administrator for help.');
   });
 
 test
+  .meta('v3', false) // Need to handle this error case correctly (OKTA-TICKET?)
   .requestHooks(logger, nonIdxError)('Non IDX error', async t => {
+    mockCalls = 0;
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql(
       'There was an unsupported response from server.');

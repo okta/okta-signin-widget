@@ -60,8 +60,14 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     await this.t.click(this.getFooterSwitchAuthenticatorLink());
   }
 
-  getSpinner() {
-    return this.body.find('.spinner');
+  async hasSpinner() {
+    if (userVariables.v3) {
+      return this.form.getSpinner().exists;
+    }
+
+    const display = await this.body.find('.spinner').getStyleProperty('display');
+
+    return display === 'block';
   }
 
   getDownloadOktaVerifyLink() {
