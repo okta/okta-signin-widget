@@ -29,23 +29,19 @@ import {
 
 import { transformSelectAuthenticatorVerify } from '.';
 
-const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
-  const authenticators = [];
-  authenticators.push({
-    type: 'AuthenticatorButton',
-    label: 'Email',
-    options: {
-      type: ButtonType.BUTTON,
-      key: AUTHENTICATOR_KEY.EMAIL,
-      ctaLabel: 'Select',
-      actionParams: {
-        'authenticator.id': '123abc',
-      },
-      step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => [{
+  type: 'AuthenticatorButton',
+  label: 'Email',
+  options: {
+    type: ButtonType.BUTTON,
+    key: AUTHENTICATOR_KEY.EMAIL,
+    ctaLabel: 'Select',
+    actionParams: {
+      'authenticator.id': '123abc',
     },
-  } as AuthenticatorButtonElement);
-  return authenticators;
-};
+    step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+  },
+}];
 
 jest.mock('./utils', () => ({
   getAuthenticatorVerifyButtonElements: (
