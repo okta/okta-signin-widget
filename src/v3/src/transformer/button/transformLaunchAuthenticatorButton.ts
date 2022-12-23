@@ -26,7 +26,12 @@ export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ({
     (remediation) => remediation.name === IDX_STEP.LAUNCH_AUTHENTICATOR,
   );
 
-  if (!containsLaunchAuthenticator || nextStep?.name === IDX_STEP.LAUNCH_AUTHENTICATOR) {
+  if (!containsLaunchAuthenticator) {
+    return formBag;
+  }
+
+  // When launch-authenticator is the required step, we handle the button in the layout transformer
+  if (nextStep?.name === IDX_STEP.LAUNCH_AUTHENTICATOR) {
     return formBag;
   }
 
