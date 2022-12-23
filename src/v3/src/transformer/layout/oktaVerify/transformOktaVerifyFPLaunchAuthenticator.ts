@@ -19,7 +19,7 @@ import {
 } from '../../../types';
 import { loc } from '../../../util';
 
-export const transformLaunchAuthenticatorPage: IdxStepTransformer = ({ formBag, transaction }) => {
+export const transformOktaVerifyFPLaunchAuthenticator: IdxStepTransformer = ({ formBag, transaction }) => {
   const { uischema } = formBag;
   const { context } = transaction;
 

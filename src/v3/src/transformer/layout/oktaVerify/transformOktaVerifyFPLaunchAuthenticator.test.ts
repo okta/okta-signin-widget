@@ -15,7 +15,7 @@ import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/
 import {
   DescriptionElement, LaunchAuthenticatorButtonElement, TitleElement, WidgetProps,
 } from '../../../types';
-import { transformLaunchAuthenticatorPage } from './transformLaunchAuthenticatorPage';
+import { transformOktaVerifyFPLaunchAuthenticator } from './transformOktaVerifyFPLaunchAuthenticator';
 
 describe('Launch Authenticator page transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -28,7 +28,7 @@ describe('Launch Authenticator page transformer Tests', () => {
   });
 
   it('should create Launch Authenticator button, title, and description elements for display', () => {
-    const updatedFormBag = transformLaunchAuthenticatorPage({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformOktaVerifyFPLaunchAuthenticator({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
@@ -46,7 +46,7 @@ describe('Launch Authenticator page transformer Tests', () => {
 
   it('should show correct description when app is specified', () => {
     transaction.context.app.value.label = 'test app';
-    const updatedFormBag = transformLaunchAuthenticatorPage({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformOktaVerifyFPLaunchAuthenticator({ transaction, formBag, widgetProps });
 
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
       .toBe('oktaVerify.appDescription');

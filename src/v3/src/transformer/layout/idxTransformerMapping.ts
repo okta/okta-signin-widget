@@ -51,7 +51,7 @@ import {
   transformEmailChallengeConsent,
   transformEmailVerification,
 } from './email';
-import { transformLaunchAuthenticatorPage } from './fastpass';
+import { transformOktaVerifyFPLaunchAuthenticator } from './oktaVerify';
 import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
@@ -270,7 +270,7 @@ const TransformerMap: {
   },
   [IDX_STEP.LAUNCH_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
-      transform: transformLaunchAuthenticatorPage,
+      transform: transformOktaVerifyFPLaunchAuthenticator,
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: false,
