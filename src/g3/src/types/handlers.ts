@@ -16,10 +16,13 @@
  * limitations under the License.
  */
 
-import OktaSignIn from './OktaSignIn';
+import { h } from 'preact';
 
-const siw = new OktaSignIn({
-  el: '#okta-login-container',
+export type ClickHandler<T extends EventTarget = HTMLButtonElement> = h.JSX.MouseEventHandler<T>;
+export type ChangeHandler<T extends EventTarget = HTMLInputElement> = h.JSX.TargetedEvent<T>;
 
-});
-console.log(siw);
+type E<T extends EventTarget> = h.JSX.TargetedEvent<T> & { target: T };
+
+export type SubmitEvent = h.JSX.TargetedEvent<HTMLFormElement, Event>;
+export type ClickEvent<T extends EventTarget = HTMLButtonElement> = E<T>;
+export type ChangeEvent<T extends EventTarget = HTMLFormElement> = h.JSX.TargetedEvent<T, Event>;
