@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { JsonObject } from 'src/types';
 import { scenario } from '../registry';
 
 let POLL_COUNTER = 0;
@@ -61,13 +62,10 @@ scenario('verify-ov-push-mfa', (rest) => ([
   // Poll response
   rest.post('*/idp/idx/authenticators/poll', async (req, res, ctx) => {
     POLL_COUNTER += 1;
-    let response = null;
     const ATTEMPTS_BEFORE_SUCCESS = 4;
-    if (POLL_COUNTER <= ATTEMPTS_BEFORE_SUCCESS) {
-      response = (await import('../response/idp/idx/challenge/verify-ov-send-push.json')).default;
-    } else {
-      response = (await import('../response/idp/idx/authenticators/poll/verify-ov-push-manual-success.json')).default;
-    }
+    const response = POLL_COUNTER <= ATTEMPTS_BEFORE_SUCCESS
+      ? (await import('../response/idp/idx/challenge/verify-ov-send-push.json')).default
+      : (await import('../response/idp/idx/authenticators/poll/verify-ov-push-manual-success.json')).default;
     return res(
       ctx.status(200),
       ctx.json(response),

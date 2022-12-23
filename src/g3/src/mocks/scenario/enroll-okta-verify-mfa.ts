@@ -40,14 +40,13 @@ scenario('enroll-okta-verify-mfa', (rest) => ([
   rest.post('*/idp/idx/credential/enroll', async (req, res, ctx) => {
     const request = req.body as Record<string, any>;
     const channel = request.authenticator?.channel;
-    let response = null;
-    if (!channel || channel === 'qrcode') {
-      response = (await import('../response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json')).default;
-    } else if (channel === 'email') {
-      response = (await import('../response/idp/idx/credential/enroll/enroll-ov-email-channel.json')).default;
-    } else {
-      response = (await import('../response/idp/idx/credential/enroll/enroll-ov-sms-channel.json')).default;
-    }
+    const response = !channel || channel === 'qrcode'
+      ? (await import('../response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json')).default
+      : (
+        channel === 'email'
+          ? (await import('../response/idp/idx/credential/enroll/enroll-ov-email-channel.json')).default
+          : (await import('../response/idp/idx/credential/enroll/enroll-ov-sms-channel.json')).default
+      );
     return res(
       ctx.status(200),
       ctx.json(response),
@@ -55,12 +54,9 @@ scenario('enroll-okta-verify-mfa', (rest) => ([
   }),
   rest.post('*/idp/idx/challenge/send', async (req, res, ctx) => {
     const request = req.body as Record<string, any>;
-    let response = null;
-    if (request.email) {
-      response = (await import('../response/idp/idx/challenge/send/enroll-ov-email-mfa.json')).default;
-    } else {
-      response = (await import('../response/idp/idx/challenge/send/enroll-ov-sms-mfa.json')).default;
-    }
+    const response = request.email
+      ? (await import('../response/idp/idx/challenge/send/enroll-ov-email-mfa.json')).default
+      : (await import('../response/idp/idx/challenge/send/enroll-ov-sms-mfa.json')).default;
     return res(
       ctx.status(200),
       ctx.json(response),
@@ -69,13 +65,10 @@ scenario('enroll-okta-verify-mfa', (rest) => ([
   // allowing poll to be called once before giving a successful response
   rest.post('*/idp/idx/challenge/poll', async (req, res, ctx) => {
     POLL_COUNTER += 1;
-    let response = null;
     const ATTEMPTS_BEFORE_SUCCESS = 30 * 10000;
-    if (POLL_COUNTER <= ATTEMPTS_BEFORE_SUCCESS) {
-      response = (await import('../response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json')).default;
-    } else {
-      response = (await import('../response/idp/idx/challenge/poll/enroll-ov-success.json')).default;
-    }
+    const response = POLL_COUNTER <= ATTEMPTS_BEFORE_SUCCESS
+      ? (await import('../response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json')).default
+      : (await import('../response/idp/idx/challenge/poll/enroll-ov-success.json')).default;
     return res(
       ctx.status(200),
       ctx.json(response),
