@@ -82,44 +82,6 @@ async function setup(t, options) {
   return identityPage;
 }
 
-// skipping test, not sure why identifier is only stored during successful auth attempt - OKTA-552341
-test.skip.requestHooks(identifyRequestLogger, identifyWithError)('identifer first flow - should NOT remember username after failed authentication', async t => {
-  const identityPage = await setup(t);
-  await rerenderWidget(baseConfig);
-
-  await identityPage.fillIdentifierField('test@okta.com');
-  await identityPage.clickNextButton();
-
-  await identityPage.fillPasswordField('testPassword');
-  await identityPage.clickNextButton();
-
-  await identityPage.waitForErrorBox();
-
-  // Ensure identifier field is not pre-filled
-  await identityPage.navigateToPage();
-  await rerenderWidget(baseConfig);  
-  const identifier = identityPage.getIdentifierValue();
-  await t.expect(identifier).eql('');
-});
-
-// skipping test, not sure why identifier is only stored during successful auth attempt - OKTA-552341
-test.skip.requestHooks(identifyRequestLogger, identifyWithPasswordError)('identifer with password - should NOT remember username after failed authentication', async t => {
-  const identityPage = await setup(t);
-  await rerenderWidget(baseConfig);
-
-  await identityPage.fillIdentifierField('test@okta.com');
-  await identityPage.fillPasswordField('testPassword');
-  await identityPage.clickNextButton();
-
-  await identityPage.waitForErrorBox();
-
-  // Ensure identifier field is not pre-filled
-  await identityPage.navigateToPage();
-  await rerenderWidget(baseConfig);  
-  const identifier = identityPage.getIdentifierValue();
-  await t.expect(identifier).eql('');
-});
-
 test.requestHooks(identifyRequestLogger, identifyMock)('identifer first flow - should remember username after successful authentication', async t => {
   const identityPage = await setup(t);
   await rerenderWidget(baseConfig);
@@ -168,28 +130,6 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('identifer wi
   await rerenderWidget(baseConfig);  
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('testUser@okta.com');
-});
-
-// skipping test, not sure why identifier is only stored during successful auth attempt - OKTA-552341
-test.skip.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticatorError)('identifer with email challenge - should NOT remember username after failed authentication', async t => {
-  const identityPage = await setup(t);
-  await rerenderWidget(baseConfig);
-
-  await identityPage.fillIdentifierField('testUser@okta.com');
-  await identityPage.clickNextButton();
-
-  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
-  await challengeEmailPageObject.clickEnterCodeLink();
-
-  await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
-  await challengeEmailPageObject.clickNextButton();
-  await challengeEmailPageObject.waitForErrorBox();
-
-  // Ensure identifier field is not pre-filled
-  await identityPage.navigateToPage();
-  await rerenderWidget(baseConfig);  
-  const identifier = identityPage.getIdentifierValue();
-  await t.expect(identifier).eql('');
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identifer with email challenge - should remember username after successful authentication', async t => {
