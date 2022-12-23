@@ -21,7 +21,7 @@ export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ({
 }) => (
   formBag,
 ) => {
-  const { neededToProceed: remediations, nextStep } = transaction;
+  const { neededToProceed: remediations, nextStep, context } = transaction;
   const containsLaunchAuthenticator = remediations.some(
     (remediation) => remediation.name === IDX_STEP.LAUNCH_AUTHENTICATOR,
   );
@@ -38,9 +38,12 @@ export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ({
   const launchAuthenticatorButton: LaunchAuthenticatorButtonElement = {
     type: 'LaunchAuthenticatorButton',
     label: loc('oktaVerify.button', 'login'),
-    focus: false,
     options: {
       step: IDX_STEP.LAUNCH_AUTHENTICATOR,
+      // @ts-expect-error authenticatorChallenge missing from transaction context type
+      deviceChallengeUrl: context?.authenticatorChallenge?.value?.href,
+      // @ts-expect-error authenticatorChallenge missing from transaction context type
+      challengeMethod: context?.authenticatorChallenge?.value?.challengeMethod,
     },
   };
 

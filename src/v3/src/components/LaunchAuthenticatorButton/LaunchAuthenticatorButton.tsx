@@ -34,7 +34,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
     options: {
       step,
       deviceChallengeUrl,
-      challengeMethod = '',
+      challengeMethod,
     },
   } = uischema;
 
