@@ -13,13 +13,15 @@
 import { Box, Button as ButtonMui } from '@mui/material';
 import { h } from 'preact';
 
+import Util from '../../../../util/Util';
+import { CHALLENGE_METHOD } from '../../constants';
 import { useAutoFocus, useOnSubmit } from '../../hooks';
 import {
   ClickHandler,
   LaunchAuthenticatorButtonElement,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { getTranslation, isAndroid } from '../../util';
 import { OktaVerifyIcon } from '../Icon';
 
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
@@ -32,6 +34,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
     options: {
       step,
       deviceChallengeUrl,
+      challengeMethod = '',
     },
   } = uischema;
 
@@ -39,7 +42,11 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
 
   const handleClick: ClickHandler = async () => {
     if (deviceChallengeUrl) {
-      window.location.href = deviceChallengeUrl;
+      if (isAndroid() && challengeMethod !== CHALLENGE_METHOD.APP_LINK) {
+        Util.redirectWithFormGet(deviceChallengeUrl);
+      } else {
+        window.location.assign(deviceChallengeUrl);
+      }
     }
     onSubmitHandler({
       step,

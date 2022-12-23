@@ -51,6 +51,8 @@ export const transformOktaVerifyFPLaunchAuthenticator: IdxStepTransformer = ({
       step: IDX_STEP.LAUNCH_AUTHENTICATOR,
       // @ts-expect-error authenticatorChallenge missing from transaction context type
       deviceChallengeUrl: context?.authenticatorChallenge?.value?.href,
+      // @ts-expect-error authenticatorChallenge missing from transaction context type
+      challengeMethod: context?.authenticatorChallenge?.value?.challengeMethod,
     },
   };
 
