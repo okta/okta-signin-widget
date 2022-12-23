@@ -21,7 +21,7 @@ import { Button } from '@okta/odyssey-react';
 import { FunctionComponent, h } from 'preact';
 import { ClickHandler } from 'src/types';
 
-import style from './style.css';
+import style from './style.module.css';
 
 type SocialProps = {
   Icon: FunctionComponent,

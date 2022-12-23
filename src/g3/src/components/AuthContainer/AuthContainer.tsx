@@ -22,7 +22,7 @@ import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
 import { getLanguageCode } from '../../util';
-import style from './style.css';
+import style from './style.module.css';
 
 const AuthContainer: FunctionComponent = ({ children }) => {
   const classes = classNames('auth-container', 'main-container', style.mainViewContainer);
