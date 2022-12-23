@@ -28,7 +28,11 @@ describe('Launch Authenticator page transformer Tests', () => {
   });
 
   it('should create Launch Authenticator button, title, and description elements for display', () => {
-    const updatedFormBag = transformOktaVerifyFPLaunchAuthenticator({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformOktaVerifyFPLaunchAuthenticator({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
@@ -40,13 +44,19 @@ describe('Launch Authenticator page transformer Tests', () => {
       .toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
       .toBe('oktaVerify.description');
-    expect((updatedFormBag.uischema.elements[2] as LaunchAuthenticatorButtonElement).type).toBe('LaunchAuthenticatorButton');
-    expect((updatedFormBag.uischema.elements[2] as LaunchAuthenticatorButtonElement).label).toBe('oktaVerify.button');
+    expect((updatedFormBag.uischema.elements[2] as LaunchAuthenticatorButtonElement).type)
+      .toBe('LaunchAuthenticatorButton');
+    expect((updatedFormBag.uischema.elements[2] as LaunchAuthenticatorButtonElement).label)
+      .toBe('oktaVerify.button');
   });
 
   it('should show correct description when app is specified', () => {
     transaction.context.app.value.label = 'test app';
-    const updatedFormBag = transformOktaVerifyFPLaunchAuthenticator({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformOktaVerifyFPLaunchAuthenticator({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
       .toBe('oktaVerify.appDescription');

@@ -51,12 +51,14 @@ import {
   transformEmailChallengeConsent,
   transformEmailVerification,
 } from './email';
-import { transformOktaVerifyFPLaunchAuthenticator } from './oktaVerify';
 import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
 } from './googleAuthenticator';
-import { transformOktaVerifyDeviceChallengePoll } from './oktaVerify';
+import {
+  transformOktaVerifyDeviceChallengePoll,
+  transformOktaVerifyFPLaunchAuthenticator,
+} from './oktaVerify';
 import { transformPIVAuthenticator } from './piv';
 import {
   transformIdentityRecovery,
