@@ -30,10 +30,14 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
     translations = [],
     options: {
       step,
+      deviceChallengeUrl,
     },
   } = uischema;
 
   const handleClick: ClickHandler = async () => {
+    if (deviceChallengeUrl) {
+      window.location.href = deviceChallengeUrl;
+    }
     onSubmitHandler({
       step,
     });

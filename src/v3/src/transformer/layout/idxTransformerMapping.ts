@@ -51,6 +51,7 @@ import {
   transformEmailChallengeConsent,
   transformEmailVerification,
 } from './email';
+import { transformLaunchAuthenticatorPage } from './fastpass';
 import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
@@ -265,6 +266,15 @@ const TransformerMap: {
   [IDX_STEP.IDENTIFY_RECOVERY]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformIdentityRecovery,
+    },
+  },
+  [IDX_STEP.LAUNCH_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformLaunchAuthenticatorPage,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+      },
     },
   },
   [IDX_STEP.PIV_IDP]: {

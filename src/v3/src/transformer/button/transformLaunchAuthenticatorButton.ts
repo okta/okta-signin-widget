@@ -21,11 +21,12 @@ export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ({
 }) => (
   formBag,
 ) => {
-  const { neededToProceed: remediations } = transaction;
+  const { neededToProceed: remediations, nextStep } = transaction;
   const containsLaunchAuthenticator = remediations.some(
     (remediation) => remediation.name === IDX_STEP.LAUNCH_AUTHENTICATOR,
   );
-  if (!containsLaunchAuthenticator) {
+
+  if (!containsLaunchAuthenticator || nextStep?.name === IDX_STEP.LAUNCH_AUTHENTICATOR) {
     return formBag;
   }
 
