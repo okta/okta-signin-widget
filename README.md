@@ -139,6 +139,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [features.hideSignOutLinkInMFA](#featureshidesignoutlinkinmfa)
     - [features.rememberMe](#featuresrememberme)
     - [features.autoFocus](#featuresautofocus)
+  - [cspNonce](#cspNonce)
 - [Events](#events)
   - [ready](#ready)
   - [afterError](#aftererror)
@@ -1353,6 +1354,14 @@ Pre-fills the identifier field with the previously used username.
 
 Defaults to `true`.
 Automatically focuses the first input field of any form when displayed. 
+
+### cspNonce
+
+The widget injects secure inline script/style blocks at runtime for customization purpose, but those blocks may violate CSP rules that set in the hosted web page.
+
+`cspNonce` allows set [nonce](https://content-security-policy.com/nonce/) value from `Content-Security-Policy` header to the injected blocks, so script/style from those blocks can still be executable.
+
+**Note:** [nonce](https://content-security-policy.com/nonce/) directive was added to CSP level2, you may still see CSP errors in browser console if it's used in unsupported browsers. 
 
 ## Events
 

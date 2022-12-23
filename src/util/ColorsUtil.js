@@ -41,13 +41,16 @@ fn.lighten = function(hex, lum) {
   return newHex;
 };
 
-fn.addStyle = function(colors) {
+fn.addStyle = function(colors, cspNonce) {
   const css = template(colors);
   const main = document.getElementById(Enums.WIDGET_CONTAINER_ID);
   const style = document.createElement('style');
 
   style.id = Enums.WIDGET_CONFIG_COLORS_ID;
   style.type = 'text/css';
+  if (cspNonce) {
+    style.nonce = cspNonce;
+  }
   style.appendChild(document.createTextNode(css));
 
   main.appendChild(style);

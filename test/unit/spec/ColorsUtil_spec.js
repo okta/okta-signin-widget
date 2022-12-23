@@ -32,6 +32,29 @@ describe('ColorsUtil', function() {
 
       ColorsUtil.addStyle(colors);
       expect($(`#${Enums.WIDGET_CONFIG_COLORS_ID}`)).toBeDefined();
+      expect($(`#${Enums.WIDGET_CONFIG_COLORS_ID}`).prop('nonce')).toEqual('');
+      expect(normalize($(`#${Enums.WIDGET_CONFIG_COLORS_ID}`).text())).toBe(normalize(expectedStyle));
+    });
+
+    it('applys cspNonce to style tag', function() {
+      const colors = {
+        brand: '#008000',
+      };
+      const cspNonce = 'random';
+      const expectedStyle = `
+          #okta-sign-in.auth-container .button-primary,
+          #okta-sign-in.auth-container .button-primary:active,
+          #okta-sign-in.auth-container .button-primary:focus { background: #008000; }
+          #okta-sign-in.auth-container .button-primary:hover { background: #008600; }
+          #okta-sign-in.auth-container .button.button-primary.link-button-disabled {
+            background: #008000;
+            opacity: 0.5;
+          }
+        `;
+
+      ColorsUtil.addStyle(colors, cspNonce);
+      expect($(`#${Enums.WIDGET_CONFIG_COLORS_ID}`)).toBeDefined();
+      expect($(`#${Enums.WIDGET_CONFIG_COLORS_ID}`).prop('nonce')).toEqual('random');
       expect(normalize($(`#${Enums.WIDGET_CONFIG_COLORS_ID}`).text())).toBe(normalize(expectedStyle));
     });
   });

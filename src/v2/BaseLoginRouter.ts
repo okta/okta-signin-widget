@@ -183,8 +183,9 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
       const colors = {
         brand: this.settings.get('colors.brand'),
       };
+      const cspNonce = this.settings.get('cspNonce');
 
-      ColorsUtil.addStyle(colors);
+      ColorsUtil.addStyle(colors, cspNonce);
     }
 
     // Show before initial render

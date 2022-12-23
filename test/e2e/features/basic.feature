@@ -15,7 +15,7 @@ Feature: Widget Customization and Basic operations
       Then widget is removed from the page
 
     Scenario: User can customize the widget
-      When widget config is updated with colors and i18n
+      When widget config is updated with colors and i18n with CSP nonce
       Then widget background shows the updated color
       And widget displays customized title
 

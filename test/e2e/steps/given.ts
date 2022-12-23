@@ -189,13 +189,14 @@ Given(
 );
 
 Given(
-  /^widget config is updated with colors and i18n$/,
+  /^widget config is updated with colors and i18n with CSP nonce$/,
   async function() {
     const config = {
       ...interactionCodeFlowconfig,
       colors: {
         brand: '#008000'
       },
+      cspNonce: 'e2e', // nonce is set in webpack.config,
       i18n: {
         en: {
           'primaryauth.title': 'Sign In to Acme'

@@ -12,9 +12,3 @@ Feature: CSP
       When user triggers CSP failure in the test app: style-attr
       Then user sees the CSP error on the page
         | inline blocked due to CSP rule style-src-attr |
-
-    # TODO: implement this test OKTA-551378
-    # Scenario: User triggers CSP error: style-elem
-    #   When user triggers CSP failure in the test app: style-elem
-    #   Then user sees the CSP error on the page
-    #     | inline blocked due to CSP rule style-src-elem |

@@ -10,11 +10,10 @@ const DEV_SERVER_PORT = 3000;
 const { DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET } = process.env;
 
 // CSP settings
-const scriptSrc = `script-src http://localhost:${DEV_SERVER_PORT} https://global.oktacdn.com`;
-const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com`;
+const scriptSrc = `script-src http://localhost:${DEV_SERVER_PORT} https://global.oktacdn.com 'nonce-e2e'`;
+const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
 
-// TODO: remove this rule: OKTA-551378
-const styleSrcElem = `style-src-elem http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'unsafe-inline'`;
+const styleSrcElem = `style-src-elem http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
 const csp = `${scriptSrc}; ${styleSrc}; ${styleSrcElem}`;
 
 const webpackConfig = {

@@ -33,7 +33,7 @@ const headers = {};
 if (!process.env.DISABLE_CSP) {
   // Allow google domains for testing recaptcha
   const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`;
-  const styleSrc =  `style-src http://${HOST}:${DEV_SERVER_PORT}`;
+  const styleSrc =  `style-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground'`;
   const csp = `${scriptSrc}; ${styleSrc};`;
   headers['Content-Security-Policy'] = csp;
 }
