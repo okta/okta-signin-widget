@@ -13,7 +13,7 @@
 import { Box, Button as ButtonMui } from '@mui/material';
 import { h } from 'preact';
 
-import { useOnSubmit } from '../../hooks';
+import { useAutoFocus, useOnSubmit } from '../../hooks';
 import {
   ClickHandler,
   LaunchAuthenticatorButtonElement,
@@ -28,11 +28,14 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
   const onSubmitHandler = useOnSubmit();
   const {
     translations = [],
+    focus,
     options: {
       step,
       deviceChallengeUrl,
     },
   } = uischema;
+
+  const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
   const handleClick: ClickHandler = async () => {
     if (deviceChallengeUrl) {
@@ -51,6 +54,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
       variant="secondary"
       fullWidth
       onClick={handleClick}
+      ref={focusRef}
     >
       <Box
         display="flex"

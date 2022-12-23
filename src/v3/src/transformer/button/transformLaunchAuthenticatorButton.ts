@@ -33,6 +33,7 @@ export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ({
   const launchAuthenticatorButton: LaunchAuthenticatorButtonElement = {
     type: 'LaunchAuthenticatorButton',
     label: loc('oktaVerify.button', 'login'),
+    focus: false,
     options: {
       step: IDX_STEP.LAUNCH_AUTHENTICATOR,
     },
