@@ -36,8 +36,6 @@ const AuthContainer: FunctionComponent = ({ children }) => {
       justifyContent="center"
       alignItems="center"
       className={classes}
-      data-version={VERSION}
-      data-commit={COMMITHASH}
       lang={getLanguageCode(widgetProps)}
     >
       <Box

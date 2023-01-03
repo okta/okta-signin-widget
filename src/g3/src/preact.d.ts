@@ -16,18 +16,5 @@
  * limitations under the License.
  */
 
-import { loc as localize } from '@okta/courage';
-
-export const loc = (
-  key: string,
-  bundleName?: string,
-  params?: Array<string | number | boolean | unknown>,
-): string => {
-  const localizedText = localize(key, bundleName, params);
-
-  return localizedText
-    .replace('<$1>', '')
-    .replace('</$1>', '')
-    .replace('<span class="strong">', '')
-    .replace('</span>', '');
-};
+// eslint-disable-next-line
+import JSX = preact.JSX;

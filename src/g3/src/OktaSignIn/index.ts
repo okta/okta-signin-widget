@@ -40,23 +40,23 @@ export type RenderErrorCallback = {
 export type RenderResult = JsonObject;
 export type Tokens = JsonObject;
 
-console.debug(`${VERSION}-g${COMMITHASH.substring(0, 7)}`);
+// console.debug(`${VERSION}-g${COMMITHASH.substring(0, 7)}`);
 
 export default class OktaSignIn {
   /**
    * Version string
    */
-  readonly version: string;
+  // readonly version: string; // FIXME
 
   /**
    * Package version
    */
-  static readonly __version: string = VERSION;
+  // static readonly __version: string = VERSION; // FIXME
 
   /**
    * Commit SHA
    */
-  static readonly __commit: string = COMMITHASH;
+  // static readonly __commit: string = COMMITHASH; // FIXME
 
   /**
    * Okta Signin Widget options
@@ -78,7 +78,7 @@ export default class OktaSignIn {
   el: string | null;
 
   constructor(options: WidgetProps) {
-    this.version = VERSION;
+    // this.version = VERSION; // FIXME
     this.options = options;
     this.el = null;
 
@@ -129,7 +129,7 @@ export default class OktaSignIn {
       const userAgent = this.authClient._oktaUserAgent;
       if (userAgent) {
         userAgent.addEnvironment('okta-signin-widget-next');
-        userAgent.addEnvironment(COMMITHASH);
+        // userAgent.addEnvironment(COMMITHASH);
       }
 
       if (options.el) {
@@ -151,6 +151,7 @@ export default class OktaSignIn {
     this.el = el;
 
     return new Promise<RenderResult>((resolve, reject) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const onSuccessWrapper = (data: JsonObject): void => {
         onSuccess?.(data);
         resolve(data);
@@ -167,9 +168,9 @@ export default class OktaSignIn {
         if (target) {
           // @ts-ignore OKTA-508744
           render(h(Widget, {
-            events: this.events,
+            // events: this.events,
             authClient: this.authClient,
-            onSuccess: onSuccessWrapper,
+            // onSuccess: onSuccessWrapper,
             onError: onErrorWrapper,
             ...this.options,
           }), target);
@@ -186,6 +187,7 @@ export default class OktaSignIn {
   }
 
   showSignInToGetTokens(options = {}): Promise<Tokens> {
+    // @ts-expect-error Property 'isAuthorizationCodeFlow' does not exist on type 'OktaAuth'.ts(2339)
     if (this.authClient.isAuthorizationCodeFlow() && this.authClient.isPKCE()) {
       throw new Error('"showSignInToGetTokens()" should not be used for authorization_code flow. Use "showSignInAndRedirect()" instead');
     }

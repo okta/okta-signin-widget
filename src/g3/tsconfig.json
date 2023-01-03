@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "allowJs": false,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -16,7 +16,11 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "noEmit": true,
+    "noImplicitAny": false,
     "paths": {
+      "@okta/courage": [
+        "../../types/packages/@okta/courage-dist/types"
+      ],
       "@okta/mocks/*": [
         "../../playground/mocks/*"
       ],
@@ -26,23 +30,26 @@
       "nls/*": [
         "../../packages/@okta/i18n/src/json/*"
       ],
-      "@okta/courage": [
-        "../../packages/@okta/courage-dist"
-      ],
       "okta-i18n-bundles": [
         "../util/Bundles.ts"
       ],
       "react": [
-        "node_modules/preact/compat",
+        "node_modules/preact/compat"
       ],
       "react-dom": [
-        "node_modules/preact/compat",
+        "node_modules/preact/compat"
       ],
       "src/*": [
         "./src/*"
       ],
       "util/*": [
-        "../util/*"
+        "../../types/src/util/*"
+      ],
+      "v1/*": [
+        "../../types/src/v1/*"
+      ],
+      "v2/*": [
+        "../../types/src/v2/*"
       ]
     },
     "resolveJsonModule": true,
@@ -51,7 +58,6 @@
     "target": "ES5",
     "useDefineForClassFields": true
   },
-  "extends": "../../tsconfig.json",
   "files": [
     "global.d.ts",
     "vite.config.ts"

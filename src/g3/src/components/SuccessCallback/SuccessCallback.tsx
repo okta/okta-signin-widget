@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 
-// @ts-nocheck
 import { useEffect } from 'preact/hooks';
 import { UISchemaElementComponent } from 'src/types';
 
@@ -29,11 +28,10 @@ const SuccessCallback: UISchemaElementComponent = ({
 
   useEffect(() => {
     // we only want this to ever happen once (on initial component mount)
-    if (options.data && onSuccessCallback) {
+    if (options?.data && onSuccessCallback) {
       onSuccessCallback(options.data);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return null;
 };

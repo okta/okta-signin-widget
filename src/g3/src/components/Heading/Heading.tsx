@@ -26,6 +26,24 @@ const Heading: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const { options } = uischema;
 
+  const variant = {
+    1: 'h1',
+    2: 'h2',
+    3: 'h3',
+    4: 'h4',
+    5: 'h5',
+    6: 'h6',
+  }[options.level] ?? 'h2';
+
+  const component = {
+    1: 'h1',
+    2: 'h2',
+    3: 'h3',
+    4: 'h4',
+    5: 'h5',
+    6: 'h6',
+  }[options.visualLevel] ?? 'h3';
+
   return (
     <Box
       display="flex"
@@ -34,8 +52,8 @@ const Heading: UISchemaElementComponent<{
     >
       <Typography
         id={uischema.id}
-        variant={`h${options?.level ?? 2}`}
-        component={`h${options?.visualLevel ?? 3}`}
+        variant={variant}
+        component={component}
       >
         {options.content}
       </Typography>

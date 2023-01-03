@@ -57,7 +57,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   function renderAuthCoin() {
     return (showAuthCoin && authCoinProps) && (
       <AuthCoin
-        customClasses={style.authCoinOverlay}
+        customClasses={[style.authCoinOverlay].flat()}
         authenticatorKey={authCoinProps.authenticatorKey}
         url={authCoinProps.url}
         theme={authCoinProps.theme}
