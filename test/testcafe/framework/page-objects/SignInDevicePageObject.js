@@ -1,4 +1,5 @@
 import { Selector, userVariables } from 'testcafe';
+import { within } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class SignInDeviceViewPageObject extends BasePageObject {
@@ -20,9 +21,11 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
 
   getOVButtonIcon() {
     if (userVariables.v3) {
-      return this.form.getButtonIcon('Okta Verify Sign in with Okta FastPass').textContent;
+      return within(
+        this.form.getButton('Okta Verify Sign in with Okta FastPass')
+      ).queryByRole('img', { name: 'Okta Verify' });
     }
-    return this.body.find('.okta-verify-container [data-se="button"] span').getAttribute('class');
+    return this.body.find('.okta-verify-container [data-se="button"] span.icon.okta-verify-authenticator');
   }
 
   getOVButtonLabel() {
