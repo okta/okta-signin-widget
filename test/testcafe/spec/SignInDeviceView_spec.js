@@ -23,7 +23,7 @@ async function setup(t) {
 test('shows the correct content', async t => {
   const signInDevicePage = await setup(t);
   await t.expect(signInDevicePage.form.getTitle()).eql('Sign In');
-  if(userVariables.v3) {
+  if (userVariables.v3) {
     await t.expect(signInDevicePage.getOVButtonIcon()).eql('Okta Verify');
   } else {
     await t.expect(signInDevicePage.getOVButtonIcon()).eql('icon okta-verify-authenticator');
