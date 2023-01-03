@@ -35,37 +35,38 @@ export const transformAuthenticatorButton: TransformStepFnWithOptions = ({
       const { relatesTo, name: stepName } = nextStep!;
       const authenticatorKey = relatesTo?.value?.key;
       const params = getI18NParams(nextStep, authenticatorKey);
+      const buttonListElement = ele as AuthenticatorButtonListElement;
+      buttonListElement.options.buttons.forEach(
+        (authenticatorButtonElement: AuthenticatorButtonElement) => {
+          // try get i18nKey without methodType
+          let i18nKey = getI18nKey(`${stepName}.authenticator.${authenticatorButtonElement.options.key}`);
+          if (i18nKey) {
+            addTranslation({
+              element: authenticatorButtonElement, name: 'label', i18nKey, params,
+            });
+            return;
+          }
 
-      (ele as AuthenticatorButtonListElement).options.buttons.forEach((element) => {
-        const authenticatorButtonEle = element as AuthenticatorButtonElement;
-        // try get i18nKey without methodType
-        let i18nKey = getI18nKey(`${stepName}.authenticator.${authenticatorButtonEle.options.key}`);
-        if (i18nKey) {
+          // try get i18nKey with methodType
+          const methodType = authenticatorButtonElement.options.authenticator?.methods?.[0]?.type
+          || authenticatorButtonElement.options.actionParams?.['authenticator.methodType'];
+          i18nKey = getI18nKey(`${stepName}.authenticator.${authenticatorButtonElement.options.key}.${methodType}`);
+          if (i18nKey) {
+            addTranslation({
+              element: authenticatorButtonElement, name: 'label', i18nKey, params,
+            });
+            return;
+          }
+
+          // missing i18nKey, fallback to string in response
           addTranslation({
-            element, name: 'label', i18nKey, params,
+            element: authenticatorButtonElement,
+            name: 'label',
+            i18nKey: '',
+            defaultValue: authenticatorButtonElement.label,
           });
-          return;
-        }
-
-        // try get i18nKey with methodType
-        const methodType = authenticatorButtonEle.options.authenticator?.methods?.[0]?.type
-          || authenticatorButtonEle.options.actionParams?.['authenticator.methodType'];
-        i18nKey = getI18nKey(`${stepName}.authenticator.${authenticatorButtonEle.options.key}.${methodType}`);
-        if (i18nKey) {
-          addTranslation({
-            element, name: 'label', i18nKey, params,
-          });
-          return;
-        }
-
-        // missing i18nKey, fallback to string in response
-        addTranslation({
-          element,
-          name: 'label',
-          i18nKey: '',
-          defaultValue: element.label,
-        });
-      });
+        },
+      );
     },
   });
   return formbag;

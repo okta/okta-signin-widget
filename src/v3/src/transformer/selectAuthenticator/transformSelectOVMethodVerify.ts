@@ -81,7 +81,7 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
       type: 'AuthenticatorButtonList',
       options: { buttons: buttonElements },
     };
-    uischema.elements = uischema.elements.concat([authenticatorListElement]);
+    uischema.elements.push(authenticatorListElement);
 
     const titleElement: TitleElement = {
       type: 'Title',
