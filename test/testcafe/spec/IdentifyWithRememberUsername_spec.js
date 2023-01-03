@@ -10,19 +10,6 @@ import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 
-const identifyWithError = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentify)
-  .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(xhrPassword)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrErrorIdentify, 403);  
-
-const identifyWithPasswordError = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentifyWithPassword)
-  .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(xhrErrorIdentify, 403);  
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -49,14 +36,6 @@ const identifyWithEmailAuthenticator = RequestMock()
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
-
-const identifyWithEmailAuthenticatorError = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentify)
-  .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(emailVerification)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrErrorIdentify, 403);
 
 const identifyRequestLogger = RequestLogger(
   /idx\/identify|\/challenge/,
