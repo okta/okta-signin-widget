@@ -298,7 +298,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       data-se="enroll"
                       href="javascript:void(0)"
                     >
-                      Sign Up
+                      Sign up
                     </a>
                   </div>
                 </div>
@@ -610,7 +610,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       data-se="enroll"
                       href="javascript:void(0)"
                     >
-                      Sign Up
+                      Sign up
                     </a>
                   </div>
                 </div>
@@ -922,7 +922,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       data-se="enroll"
                       href="javascript:void(0)"
                     >
-                      Sign Up
+                      Sign up
                     </a>
                   </div>
                 </div>

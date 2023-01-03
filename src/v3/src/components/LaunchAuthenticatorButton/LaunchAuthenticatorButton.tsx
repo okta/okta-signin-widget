@@ -13,13 +13,15 @@
 import { Box, Button as ButtonMui } from '@mui/material';
 import { h } from 'preact';
 
-import { useOnSubmit } from '../../hooks';
+import Util from '../../../../util/Util';
+import { CHALLENGE_METHOD } from '../../constants';
+import { useAutoFocus, useOnSubmit } from '../../hooks';
 import {
   ClickHandler,
   LaunchAuthenticatorButtonElement,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { getTranslation, isAndroid } from '../../util';
 import { OktaVerifyIcon } from '../Icon';
 
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
@@ -28,12 +30,24 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
   const onSubmitHandler = useOnSubmit();
   const {
     translations = [],
+    focus,
     options: {
       step,
+      deviceChallengeUrl,
+      challengeMethod,
     },
   } = uischema;
 
+  const focusRef = useAutoFocus<HTMLButtonElement>(focus);
+
   const handleClick: ClickHandler = async () => {
+    if (deviceChallengeUrl) {
+      if (isAndroid() && challengeMethod !== CHALLENGE_METHOD.APP_LINK) {
+        Util.redirectWithFormGet(deviceChallengeUrl);
+      } else {
+        window.location.assign(deviceChallengeUrl);
+      }
+    }
     onSubmitHandler({
       step,
     });
@@ -47,6 +61,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
       variant="secondary"
       fullWidth
       onClick={handleClick}
+      ref={focusRef}
     >
       <Box
         display="flex"

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Launch Authenticator page transformer Tests should create Launch Authenticator button, title, and description elements for display 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "primaryauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oktaVerify.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oktaVerify.button",
+        "options": Object {
+          "challengeMethod": undefined,
+          "deviceChallengeUrl": undefined,
+          "step": "launch-authenticator",
+        },
+        "type": "LaunchAuthenticatorButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

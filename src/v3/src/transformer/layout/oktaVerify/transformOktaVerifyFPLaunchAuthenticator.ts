@@ -10,30 +10,39 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from '../../constants';
+import { IDX_STEP } from '../../../constants';
 import {
-  DividerElement, LaunchAuthenticatorButtonElement, TransformStepFnWithOptions,
-} from '../../types';
-import { loc } from '../../util';
+  DescriptionElement,
+  IdxStepTransformer,
+  LaunchAuthenticatorButtonElement,
+  TitleElement,
+} from '../../../types';
+import { loc } from '../../../util';
 
-export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ({
-  transaction,
-}) => (
+export const transformOktaVerifyFPLaunchAuthenticator: IdxStepTransformer = ({
   formBag,
-) => {
-  const { neededToProceed: remediations, nextStep, context } = transaction;
-  const containsLaunchAuthenticator = remediations.some(
-    (remediation) => remediation.name === IDX_STEP.LAUNCH_AUTHENTICATOR,
-  );
+  transaction,
+}) => {
+  const { uischema } = formBag;
+  const { context } = transaction;
 
-  if (!containsLaunchAuthenticator) {
-    return formBag;
-  }
+  const titleElement: TitleElement = {
+    type: 'Title',
+    options: {
+      content: loc('primaryauth.title', 'login'),
+    },
+  };
 
-  // When launch-authenticator is the required step, we handle the button in the layout transformer
-  if (nextStep?.name === IDX_STEP.LAUNCH_AUTHENTICATOR) {
-    return formBag;
-  }
+  const appLabel = context?.app?.value?.label;
+  const resourceLabel = appLabel ? loc('oktaVerify.appDescription', 'login', [appLabel])
+    : loc('oktaVerify.description', 'login');
+  const descriptionElement: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      content: resourceLabel,
+    },
+  };
 
   const launchAuthenticatorButton: LaunchAuthenticatorButtonElement = {
     type: 'LaunchAuthenticatorButton',
@@ -47,15 +56,11 @@ export const transformLaunchAuthenticatorButton: TransformStepFnWithOptions = ({
     },
   };
 
-  const dividerElement: DividerElement = {
-    type: 'Divider',
-    options: { text: loc('socialauth.divider.text', 'login') },
-  };
-
-  const titleIndex = formBag.uischema.elements.findIndex((element) => element.type === 'Title');
-  const pivButtonPos = titleIndex !== -1 ? titleIndex + 1 : 0;
-
-  formBag.uischema.elements.splice(pivButtonPos, 0, launchAuthenticatorButton, dividerElement);
+  uischema.elements = [
+    titleElement,
+    descriptionElement,
+    launchAuthenticatorButton,
+  ];
 
   return formBag;
 };

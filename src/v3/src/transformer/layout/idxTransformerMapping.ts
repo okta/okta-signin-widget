@@ -55,7 +55,10 @@ import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
 } from './googleAuthenticator';
-import { transformOktaVerifyDeviceChallengePoll } from './oktaVerify';
+import {
+  transformOktaVerifyDeviceChallengePoll,
+  transformOktaVerifyFPLaunchAuthenticator,
+} from './oktaVerify';
 import { transformPIVAuthenticator } from './piv';
 import {
   transformIdentityRecovery,
@@ -265,6 +268,15 @@ const TransformerMap: {
   [IDX_STEP.IDENTIFY_RECOVERY]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformIdentityRecovery,
+    },
+  },
+  [IDX_STEP.LAUNCH_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformOktaVerifyFPLaunchAuthenticator,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+      },
     },
   },
   [IDX_STEP.PIV_IDP]: {

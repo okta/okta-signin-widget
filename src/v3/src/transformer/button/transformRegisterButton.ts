@@ -27,10 +27,11 @@ export const transformRegisterButton: TransformStepFnWithOptions = ({
 }) => (
   formbag,
 ) => {
-  const { availableSteps, enabledFeatures } = transaction;
+  const { availableSteps, enabledFeatures, nextStep } = transaction;
   const hasIdentityStep = availableSteps?.some((s) => s.name === IDX_STEP.IDENTIFY);
+  const isLaunchAuthenticatorStep = nextStep?.name === IDX_STEP.LAUNCH_AUTHENTICATOR;
   const shouldAddDefaultButton = enabledFeatures?.includes(IdxFeature.REGISTRATION)
-    && hasIdentityStep;
+    && (hasIdentityStep || isLaunchAuthenticatorStep);
   const registerStep = availableSteps?.find(
     ({ name }) => name === IDX_STEP.SELECT_ENROLL_PROFILE,
   );
@@ -47,7 +48,7 @@ export const transformRegisterButton: TransformStepFnWithOptions = ({
     type: 'Link',
     contentType: 'footer',
     options: {
-      label: loc('signup', 'login'),
+      label: loc('registration.signup.text', 'login'),
       step,
     },
   };

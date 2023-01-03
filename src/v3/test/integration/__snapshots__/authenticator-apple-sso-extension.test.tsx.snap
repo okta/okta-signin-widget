@@ -179,7 +179,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       data-se="enroll"
                       href="javascript:void(0)"
                     >
-                      Sign Up
+                      Sign up
                     </a>
                   </div>
                 </div>
@@ -372,7 +372,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       data-se="enroll"
                       href="javascript:void(0)"
                     >
-                      Sign Up
+                      Sign up
                     </a>
                   </div>
                 </div>
@@ -565,7 +565,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       data-se="enroll"
                       href="javascript:void(0)"
                     >
-                      Sign Up
+                      Sign up
                     </a>
                   </div>
                 </div>
