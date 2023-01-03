@@ -24,7 +24,6 @@ import {
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-import { FunctionComponent } from 'preact';
 
 import { IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
@@ -140,6 +139,9 @@ export interface UISchemaElement {
    * view/step within the {@link StepperLayout} this element belongs to.
    */
   viewIndex?: number;
+
+  // FIXME make UISchemaElement type generic for options
+  options?: any;
 }
 
 export interface UISchemaLayout {
@@ -357,7 +359,7 @@ export interface ImageWithTextElement extends UISchemaElement {
   type: 'ImageWithText';
   options: {
     id: string;
-    SVGIcon: FunctionComponent;
+    SVGIcon: string;
     textContent?: string;
     alignment?: string;
   };

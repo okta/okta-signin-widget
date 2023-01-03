@@ -16,18 +16,23 @@
  * limitations under the License.
  */
 
-import { loc as localize } from '@okta/courage';
+import { config } from '../widgetrc';
+import OktaSignIn from './OktaSignIn';
 
-export const loc = (
-  key: string,
-  bundleName?: string,
-  params?: Array<string | number | boolean | unknown>,
-): string => {
-  const localizedText = localize(key, bundleName, params);
+// if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+//   import('./mocks/browser')
+//     .then(({ getWorker }) => getWorker())
+//     .then((worker) => worker?.start());
+// }
 
-  return localizedText
-    .replace('<$1>', '')
-    .replace('</$1>', '')
-    .replace('<span class="strong">', '')
-    .replace('</span>', '');
-};
+if (window) {
+  // window.VERSION = 'local';
+  // window.COMMITHASH = '792ea5797a4191a30b8ce0e24566bee3288e961e';
+
+  // @ts-ignore OKTA-487668
+  window.OktaSignIn = OktaSignIn;
+
+  // @ts-expect-error use ../../types
+  const siw = new OktaSignIn(config);
+  console.log(siw);
+}

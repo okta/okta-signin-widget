@@ -17,9 +17,10 @@
  */
 
 import { HttpResponse, RawIdxResponse } from '@okta/okta-auth-js';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import IonResponseHelper from 'v2/ion/IonResponseHelper';
 
 import Util from '../../../util/Util';
-import IonResponseHelper from '../../../v2/ion/IonResponseHelper';
 import { loc } from './locUtil';
 
 export const formatError = (
@@ -32,5 +33,9 @@ export const formatError = (
   }
 
   Util.logConsoleError(data);
-  return { responseJSON: { errorSummary: loc('error.unsupported.response', 'login') } };
+  return {
+    responseJSON: {
+      errorSummary: loc('error.unsupported.response', 'login'),
+    },
+  };
 };

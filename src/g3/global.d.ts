@@ -16,4 +16,6 @@
  * limitations under the License.
  */
 
-import 'jest-extended';
+declare var COMMITHASH: string;
+declare var VERSION: string;
+declare var DEBUG: boolean;

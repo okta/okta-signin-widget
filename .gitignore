@@ -24,10 +24,12 @@ packages/@okta/i18n/dist/
 test-reports/
 package-lock.json
 .eslintcache
-types/
+/types
+/src/types
 .codegen.sum
 
 # Test dist package
 node_modules2
 /test/package/**/yarn.lock
 
+/src/g3/widgetrc.ts

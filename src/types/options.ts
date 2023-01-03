@@ -1,4 +1,4 @@
-// Minimum TypeScript Version: 3.8
+// minimum typescript version: 3.8
 
 import { OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
 import {
@@ -9,52 +9,48 @@ import {
 import { RegistrationOptions } from './registration';
 
 export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
-  'issuer' | 
-  'clientId' | 
+  'issuer' |
+  'clientId' |
   'redirectUri' |
-  'state' | 
+  'state' |
   'scopes' |
   'codeChallenge' |
   'codeChallengeMethod' |
   'flow'
 >> {
   el?: string;
-  
-  // OIDC
+
+  // oidc
   oAuthTimeout?: number;
 
-  // Auth client
+  // auth client
   authParams?: AuthParams;
   authClient?: OktaAuth;
 
-  // Basic config options
+  // basic config options
   baseUrl?: string;
   logo?: string;
   logoText?: string;
   helpSupportNumber?: string;
   brandName?: string;
-  // Username and password
+
+  // username and password
   username?: string;
   transformUsername?: (username: string, operation: UserOperation) => string;
   processCreds?: (creds: Creds, callback?: SimpleCallback) => void;
-  // Language and text
+
+  // language and text
   language?: LanguageCode | LanguageCallback | string;
-  i18n?: any; // TODO
-  // {
-  //   [languageCode in LanguageCode]?: {
-  //     [propertyKey: string]: string;
-  //   };
-  // };
+  i18n?: Record<LanguageCode, Record<string, string>>;
   assets?: {
     baseUrl?: string;
     rewrite?: (assetPath: string) => string;
   };
-  // Colors
-  colors?: any; // TODO
-  // {
-  //   [colorKey in ColorKey]?: string;
-  // };
-  // Links
+
+  // colors
+  colors?: Record<ColorKey, string>;
+
+  // links
   helpLinks?: {
     help?: string;
     forgotPassword?: string;
@@ -62,45 +58,61 @@ export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
     unlock?: string;
     custom?: Array<Link>;
   };
+
+  // sign out link
   signOutLink?: string;
-  // Buttons
+
+  // buttons
   customButtons?: Array<CustomButton>;
-  // Registration
+
+  // registration
   registration?: RegistrationOptions;
   policyId?: string;
-  // Feature flags
-  features?: any; // TODO
-  // {
-  //   [featureKey in Feature]?: boolean;
-  // };
 
-  // IdP
+  // feature flags
+  features?: Record<Feature, boolean>;
+
+  // idp
   idps?: Array<SocialIdp | CustomIdp>;
   idpDisplay?: IdpDisplay;
   idpDiscovery?: {
     requestContext?: string;
   };
-  // Smart Card IdP (X509)
+  // smart card idp (x509)
   piv?: Piv;
-  // Bootstrapping
+
+  // bootstrapping
   recoveryToken?: string;
   stateToken?: string;
   relayState?: string;
-  // Callbacks
+
+  // callbacks
   globalSuccessFn?: (res: RenderResult) => void;
   globalErrorFn?: (res: RenderError) => void;
-  // IDX
+
+  // idx
   apiVersion?: string;
-  // Consent
+
+  // consent
   consent?: {
     cancel?: SimpleCallback;
   };
+
+  /**
+   * @deprecated see useClassicEngine
+   */
   useInteractionCodeFlow?: boolean;
+
+  /**
+   * @default false
+   */
+  useClassicEngine?: boolean;
+
   hooks?: HooksOptions;
   proxyIdxResponse?: any;
 }
 
-// Auth params
+// auth params
 export interface AuthParams extends OktaAuthOptions {
   display?: Display;
   nonce?: string;
@@ -110,13 +122,13 @@ type Display =
   'popup' |
   'page';
 
-// Render options
+// render options
 export type RenderOptions = Omit<WidgetOptions,
   'authClient' |
   'hooks'
 >
 
-// IdPs
+// idps
 interface SocialIdp {
   type: string;
   id: string;
@@ -136,7 +148,7 @@ interface Piv {
   isCustomDomain?: boolean;
 }
 
-// Types for config
+// types for config
 type UserOperation =
   'PRIMARY_AUTH' |
   'FORGOT_PASSWORD' |

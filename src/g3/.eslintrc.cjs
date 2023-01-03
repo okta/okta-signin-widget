@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 
+const { resolve } = require('path');
+
 const year = new Date().getUTCFullYear().toString();
 
 const pattern = '\\* Copyright \\(c\\) \\d{4}-present, Okta, Inc\\. All rights reserved\\.';
@@ -56,7 +58,10 @@ module.exports = {
     'import/resolver': {
       alias: {
         map: [
-          ['src', './src'],
+          ['src', resolve(__dirname, './src')],
+          ['v1', resolve(__dirname, '../v1')],
+          ['v2', resolve(__dirname, '../v2')],
+          ['util', resolve(__dirname, '../util')],
         ],
         extensions: [
           '.cjs',
@@ -113,15 +118,12 @@ module.exports = {
       rules: {
         // config files often use devDependencies
         'import/no-extraneous-dependencies': ['off'],
-
-        // all or no quotes on object keys
-        'quote-props': ['warn', 'consistent'],
       },
     },
     {
       // js configs
       env: { node: true, jest: true },
-      files: ['.*.cjs', '*.cjs'],
+      files: ['.*.cjs', '*.cjs', 'src/bin/properties-to-json.js'],
       rules: {
         'import/no-extraneous-dependencies': ['off'],
       },
@@ -151,6 +153,11 @@ module.exports = {
         'preact',
       ],
       rules: {
+        // FIXME disable these overrides
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        'no-console': 'off',
+
         // disable prop-type checks
         'react/prop-types': 'off',
 
@@ -181,8 +188,10 @@ module.exports = {
         // prefer named exports
         'import/named': 'error',
         'import/prefer-default-export': 'off',
-        // TODO enable eslint rule: import/no-default-export
+
+        // FIXME enable eslint rule: import/no-default-export
         // 'import/no-default-export': 'error',
+
         'import/no-unresolved': 'error',
 
         // prevent conflicts with ts lint rule
@@ -211,8 +220,6 @@ module.exports = {
           'ts-check': 'allow-with-description',
           minimumDescriptionLength: 8,
         }],
-
-        'quote-props': ['warn', 'consistent'],
       },
       globals: {
         COMMITHASH: false,
@@ -248,6 +255,11 @@ module.exports = {
         'preact',
       ],
       rules: {
+        // FIXME disable these overrides
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        'no-console': 'off',
+
         // test utils often spread props
         'react/jsx-props-no-spreading': 'off',
         // prefer .toBe(true|false)

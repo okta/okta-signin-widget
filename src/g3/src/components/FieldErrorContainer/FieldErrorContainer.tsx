@@ -22,7 +22,7 @@ import { FunctionComponent, h } from 'preact';
 import { buildErrorMessageIds } from '../../util';
 
 type FieldErrorProps = {
-  errors: string[];
+  errors?: string[];
   fieldName: string;
 };
 
@@ -30,13 +30,15 @@ const FieldErrorContainer: FunctionComponent<FieldErrorProps> = (props) => {
   const { fieldName, errors } = props;
 
   const buildElementId = (errorIndex: number): string => {
-    const errorIdStr = buildErrorMessageIds(errors, fieldName);
+    const errorIdStr = errors
+      ? buildErrorMessageIds(errors, fieldName)
+      : '';
     return errorIdStr.split(' ')[errorIndex];
   };
 
   return (
     <Box>
-      {errors.map((error: string, index: number) => (
+      {errors?.map((error: string, index: number) => (
         <FormHelperText
           key={error}
           id={buildElementId(index)}

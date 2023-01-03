@@ -174,7 +174,10 @@ const AuthenticatorButton: UISchemaElementComponent<{
           >
             {ctaLabel}
           </Box>
-          <ArrowRight />
+          <img
+            src={ArrowRight}
+            alt=""
+          />
         </Box>
       </Box>
     </Box>

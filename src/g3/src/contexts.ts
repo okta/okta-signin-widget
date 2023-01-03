@@ -21,7 +21,7 @@ import { StateUpdater, useContext } from 'preact/hooks';
 
 import { IWidgetContext } from './types';
 
-const createWidgetContext = <T extends unknown>() => {
+const createWidgetContext = <T>() => {
   // Create a context with a generic parameter or undefined
   const genericContext = createContext<T | undefined>(undefined);
 
