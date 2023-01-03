@@ -39,11 +39,10 @@ test('clicking the launch Okta Verify button takes user to the right UI', async 
   await t.expect(header.textContent).eql('Click "Open Okta Verify" on the browser prompt');
 });
 
-test('shows the correct footer links', async t => {
+// OKTA-465319 Help link is not supported in v3
+test.meta('v3', false)('shows the correct footer links', async t => {
   const signInDevicePage = await setup(t);
   await t.expect(signInDevicePage.getEnrollFooterLink().exists).eql(true);
-  if(!userVariables.v3) {
-    await t.expect(signInDevicePage.getHelpFooterLink().innerText).eql('Help');
-  }
+  await t.expect(signInDevicePage.getHelpFooterLink().innerText).eql('Help');
   await t.expect(signInDevicePage.getSignOutFooterLink().exists).eql(false);
 });
