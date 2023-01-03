@@ -14,10 +14,6 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
     return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
 
-  getHeader() {
-    return this.form.getTitle();
-  }
-
   getContentText() {
     return this.form.getByText('To access Microsoft Office 365, your organization requires you to sign in with Okta FastPass.');
   }
