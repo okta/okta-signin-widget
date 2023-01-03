@@ -5,7 +5,6 @@ import { renderWidget as rerenderWidget } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrIdentifyWithUsername from '../../../playground/mocks/data/idp/idx/identify-with-username';
 import xhrPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
-import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
