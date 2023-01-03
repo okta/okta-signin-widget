@@ -11,7 +11,7 @@
  */
 
 import { Input } from '@okta/okta-auth-js';
-import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 import { ButtonType } from 'src/types';
 
@@ -191,7 +191,6 @@ describe('Select Authenticator Utility Tests', () => {
         expect(currentOption?.label).toBe(option.label);
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.verify.authenticator.button.text');
-        // @ts-expect-error OKTA-555811
         expect(currentOption?.options.description).toBe(option.relatesTo?.profile?.phoneNumber);
       });
     });
@@ -283,7 +282,6 @@ describe('Select Authenticator Utility Tests', () => {
             methods: [{ type: '' }],
             displayName: '',
             key: AUTHENTICATOR_KEY.OV,
-            // @ts-ignore OKTA-541266 - deviceKnown missing from type
             deviceKnown: true,
           },
         },
@@ -296,7 +294,6 @@ describe('Select Authenticator Utility Tests', () => {
             methods: [{ type: '' }],
             displayName: '',
             key: AUTHENTICATOR_KEY.PHONE,
-            // @ts-expect-error OKTA-555811
             profile: { phoneNumber: '216XXXXX43' },
           },
         },
@@ -358,7 +355,6 @@ describe('Select Authenticator Utility Tests', () => {
             methods: [{ type: '' }],
             displayName: '',
             key: AUTHENTICATOR_KEY.PHONE,
-            // @ts-expect-error OKTA-555811
             profile: { phoneNumber: '216XXXXX43' },
           },
         },
@@ -413,7 +409,6 @@ describe('Select Authenticator Utility Tests', () => {
             methods: [{ type: '' }],
             displayName: '',
             key: AUTHENTICATOR_KEY.PHONE,
-            // @ts-expect-error OKTA-555811
             profile: { phoneNumber: '216XXXXX43' },
           },
         },
@@ -465,7 +460,6 @@ describe('Select Authenticator Utility Tests', () => {
             methods: [{ type: '' }],
             displayName: '',
             key: AUTHENTICATOR_KEY.PHONE,
-            // @ts-expect-error error OKTA-555811
             profile: { phoneNumber: '216XXXXX43' },
           },
         },

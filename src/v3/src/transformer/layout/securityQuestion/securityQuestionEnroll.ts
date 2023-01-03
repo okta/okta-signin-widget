@@ -11,7 +11,7 @@
  */
 
 import { Input, NextStep } from '@okta/okta-auth-js';
-import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 
 import {
   ButtonElement,
@@ -19,6 +19,7 @@ import {
   FieldElement,
   FormBag,
   IdxStepTransformer,
+  IWidgetContext,
   StepperLayout,
   StepperRadioElement,
   TitleElement,
@@ -133,7 +134,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   const customOptions: StepperRadioElement['options']['customOptions'] = [{
     value: 'predefined',
     label: loc('oie.security.question.questionKey.label', 'login'),
-    callback: (widgetContext, stepIndex) => {
+    callback: (widgetContext: IWidgetContext, stepIndex: number) => {
       const { dataSchemaRef, setData } = widgetContext;
       dataSchemaRef.current!.submit = predefinedSubmitButton.options;
       dataSchemaRef.current!.fieldsToValidate = ['credentials.answer', QUESTION_KEY_INPUT_NAME];
@@ -151,7 +152,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     key: 'credentials.questionKey',
     value: 'custom',
     label: loc('oie.security.question.createQuestion.label', 'login'),
-    callback: (widgetContext, stepIndex) => {
+    callback: (widgetContext: IWidgetContext, stepIndex: number) => {
       const { dataSchemaRef } = widgetContext;
       dataSchemaRef.current!.submit = customQuestionSubmitButton.options;
       dataSchemaRef.current!.fieldsToValidate = ['credentials.question', 'credentials.answer'];

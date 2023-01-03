@@ -15,7 +15,6 @@ import {
   IdxAuthenticator,
   OktaAuth,
   RawIdxResponse,
-  // @ts-expect-error OKTA-554038
   WebauthnAPI,
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
@@ -56,7 +55,6 @@ describe('WebAuthN Util Tests', () => {
       ),
       getAttestation: jest.fn(),
     };
-    // @ts-expect-error OKTA-554038
     OktaAuth.webauthn = mockedWebauthn;
   });
 

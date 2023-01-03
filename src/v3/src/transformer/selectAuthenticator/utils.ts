@@ -11,7 +11,7 @@
  */
 
 import { Input } from '@okta/okta-auth-js';
-import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 
 import {
   AUTHENTICATOR_ALLOWED_FOR_OPTIONS,
@@ -62,7 +62,6 @@ const reorderAuthenticatorButtons = (
   // Re-arrange fastpass in options based on deviceKnown
   // If deviceKnown is set, set fastpass as the first option in the list
   // otherwise, place it as the last item in the list of OV options
-  // @ts-ignore OKTA-541266 - deviceKnown missing from type
   if (ovRemediation?.relatesTo?.deviceKnown) {
     updatedAuthenticatorBtns.unshift(fastpassAuthenticator);
   } else {
@@ -171,7 +170,6 @@ const getAuthenticatorDescription = (
   }
 
   if (authenticatorKey === AUTHENTICATOR_KEY.PHONE) {
-    // @ts-expect-error OKTA-554038
     return option.relatesTo?.profile?.phoneNumber as string || undefined;
   }
 
