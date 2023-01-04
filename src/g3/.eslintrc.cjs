@@ -222,8 +222,8 @@ module.exports = {
         }],
       },
       globals: {
-        COMMITHASH: false,
-        VERSION: false,
+        OKTA_SIW_COMMIT_HASH: false,
+        OKTA_SIW_VERSION: false,
       },
     },
     // unit test files in src

@@ -26,9 +26,6 @@ import OktaSignIn from './OktaSignIn';
 // }
 
 if (window) {
-  // window.VERSION = 'local';
-  // window.COMMITHASH = '792ea5797a4191a30b8ce0e24566bee3288e961e';
-
   // @ts-ignore OKTA-487668
   window.OktaSignIn = OktaSignIn;
 

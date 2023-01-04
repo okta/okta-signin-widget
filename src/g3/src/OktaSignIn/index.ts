@@ -16,12 +16,20 @@
  * limitations under the License.
  */
 
-import { OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
+import {
+  OktaAuth,
+  OktaAuthOptions,
+  Tokens,
+} from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 
+import {
+  RenderErrorCallback,
+  RenderResult,
+  RenderSuccessCallback,
+} from '../../../types';
 import { Widget } from '../components/Widget';
-import { JsonObject } from '../types';
 import {
   OktaWidgetEventHandler,
   OktaWidgetEventType,
@@ -29,34 +37,21 @@ import {
   WidgetProps,
 } from '../types/widget';
 
-// TODO: Once SIW is merged into okta-signin-widget repo, remove these.
-export type RenderSuccessCallback = {
-  (res: JsonObject): void;
-};
-export type RenderErrorCallback = {
-  (args: Error): void;
-};
-// TODO: Once SIW is merged into okta-signin-widget repo, remove these
-export type RenderResult = JsonObject;
-export type Tokens = JsonObject;
-
-// console.debug(`${VERSION}-g${COMMITHASH.substring(0, 7)}`);
-
 export default class OktaSignIn {
   /**
    * Version string
    */
-  // readonly version: string; // FIXME
+  readonly version: string;
 
   /**
    * Package version
    */
-  // static readonly __version: string = VERSION; // FIXME
+  static readonly __version: string = OKTA_SIW_VERSION;
 
   /**
    * Commit SHA
    */
-  // static readonly __commit: string = COMMITHASH; // FIXME
+  static readonly __commit: string = OKTA_SIW_COMMIT_HASH;
 
   /**
    * Okta Signin Widget options
@@ -78,7 +73,7 @@ export default class OktaSignIn {
   el: string | null;
 
   constructor(options: WidgetProps) {
-    // this.version = VERSION; // FIXME
+    this.version = `${OKTA_SIW_VERSION}-g${OKTA_SIW_COMMIT_HASH.substring(0, 7)}`;
     this.options = options;
     this.el = null;
 
@@ -129,7 +124,7 @@ export default class OktaSignIn {
       const userAgent = this.authClient._oktaUserAgent;
       if (userAgent) {
         userAgent.addEnvironment('okta-signin-widget-next');
-        // userAgent.addEnvironment(COMMITHASH);
+        // userAgent.addEnvironment(OKTA_SIW_COMMIT_HASH);
       }
 
       if (options.el) {
@@ -152,7 +147,7 @@ export default class OktaSignIn {
 
     return new Promise<RenderResult>((resolve, reject) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const onSuccessWrapper = (data: JsonObject): void => {
+      const onSuccessWrapper = (data: RenderResult): void => {
         onSuccess?.(data);
         resolve(data);
       };
@@ -196,7 +191,8 @@ export default class OktaSignIn {
       ...this.buildRenderOptions(options),
       redirect: 'never',
     })
-      .then((res) => res.tokens as JsonObject); // Remove this cast once merged into okta-signin-widget
+      // @ts-expect-error Property 'tokens' does not exist on type 'RenderResult'.
+      .then((res) => ({ ...res.tokens }));
   }
 
   showSignInAndRedirect(options = {}): Promise<void> {
@@ -249,7 +245,7 @@ export default class OktaSignIn {
     options: WidgetProps & Record<string, string> = {},
   ): RenderOptions {
     const widgetOptions = this.options;
-    // @ts-ignore OKTA-508744
+    // @ts-expect-error OKTA-508744
     const authParams: OktaAuthOptions = {
       ...widgetOptions.authParams,
       ...{
