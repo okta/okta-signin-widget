@@ -82,10 +82,12 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     }
   };
 
+  /* eslint-disable no-await-in-loop, no-continue */
   useEffect(() => {
     const doLoopback = async () => {
       let foundPort = false;
       // loop over each port
+      // eslint-disable-next-line no-restricted-syntax
       for (const port of ports) {
         try {
           // probe the port
@@ -165,6 +167,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     doLoopback();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  /* eslint-enable no-await-in-loop, no-continue */
 
   return null;
 };
