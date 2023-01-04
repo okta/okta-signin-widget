@@ -141,6 +141,14 @@ export default class BaseFormObject {
     return within(this.el).getByRole('button', options);
   }
 
+    /**
+   * @param {string} name the text of the button to return
+   */
+    queryButton(name) {
+      const options = userVariables.v3 ? { name } : { value: name };
+      return within(this.el).queryByRole('button', options);
+    }
+
   /**
    * @param {string} name the text of the button to click
    */
@@ -221,7 +229,7 @@ export default class BaseFormObject {
   }
 
   hasErrorBox() {
-    return within(this.el).getByRole('alert').exists;
+    return within(this.el).queryByRole('alert').exists;
   }
 
   getAllErrorBoxTexts() {
