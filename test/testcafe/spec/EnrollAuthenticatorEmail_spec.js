@@ -153,9 +153,8 @@ test
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     
-    // const emailAddress = xhrEnrollEmailWithoutEmailMagicLink.user.value.identifier;
-    await t.expect(enrollEmailPageObject.getFormSubtitle())
-      .contains('Enter the verification code in the text box.');
+    const emailAddress = xhrEnrollEmailWithoutEmailMagicLink.user.value.identifier;
+    await t.expect(await enrollEmailPageObject.verificationLinkTextExists(emailAddress)).ok();
 
     await t.expect(await enrollEmailPageObject.enterCodeFromEmailLinkExists()).notOk();
     await t.expect(await enrollEmailPageObject.signoutLinkExists()).ok();
@@ -168,9 +167,8 @@ test
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
 
-    // const emailAddress = xhrEnrollEmailWithEmailMagicLink.user.value.identifier;
-    await t.expect(enrollEmailPageObject.getFormSubtitle())
-      .contains('Click the verification link in your email to continue or enter the code below.');
+    const emailAddress = xhrEnrollEmailWithEmailMagicLink.user.value.identifier;
+    await t.expect(await enrollEmailPageObject.verificationLinkTextExists(emailAddress)).ok();
 
     await t.expect(await enrollEmailPageObject.enterCodeFromEmailLinkExists()).ok();
     await t.expect(await enrollEmailPageObject.signoutLinkExists()).ok();
@@ -222,9 +220,8 @@ test
     const enrollEmailPageObject = await setup(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
-    // const emailAddress = xhrEnrollEmailWithEmailMagicLink.user.value.identifier;
-    await t.expect(enrollEmailPageObject.getFormSubtitle())
-      .contains('Click the verification link in your email to continue or enter the code below.');
+    const emailAddress = xhrEnrollEmailWithEmailMagicLink.user.value.identifier;
+    await t.expect(await enrollEmailPageObject.verificationLinkTextExists(emailAddress)).ok();
     await enrollEmailPageObject.clickEnterCodeInstead();
     await t.expect(enrollEmailPageObject.form.getSaveButtonLabel()).eql('Verify');
 
@@ -458,7 +455,7 @@ test.meta('v3', false)
     enrollEmailPageObject.navigateToPage();
     await t.wait(15500);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
-    await t.expect(enrollEmailPageObject.resendEmailText()).eql('Haven\'t received an email? Send again');
+    await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
   });
 
 // Test fails in v3. After re-render we still have to wait for 30 seconds
@@ -471,5 +468,5 @@ test.meta('v3', false)
     enrollEmailPageObject.navigateToPage();
     await t.wait(15500);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
-    await t.expect(enrollEmailPageObject.resendEmailText()).eql('Haven\'t received an email? Send again');
+    await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
   });

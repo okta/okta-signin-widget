@@ -23,12 +23,9 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   async enterCodeFromEmailLinkExists() {
     if (userVariables.v3) {
-      const elCount = await Selector('[type="button"]').count;
-      return elCount === 1;
-    } else {
-      const elCount = await Selector(ENTER_CODE_FROM_EMAIL_CLASS).count;
-      return elCount === 1;
-    }
+     return this.form.queryButton(ENTER_CODE_FROM_EMAIL_TEXT).exists;
+    } 
+    return Selector(ENTER_CODE_FROM_EMAIL_CLASS).exists;
   }
 
   async clickElement(selector) {
@@ -45,7 +42,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   async resendEmailExists() {
     if (userVariables.v3) {
-      return Selector('[role="alert"]').exists;
+      return this.form.hasErrorBox();
     }
 
     const isHidden = await Selector(RESEND_EMAIL).hasClass('hide')
@@ -72,5 +69,16 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   clickVerifyButton() {
     return this.form.clickSaveButton('Verify');
+  }
+
+  async verificationLinkTextExists(emailAddress) {
+    const text = await this.form.getSubtitle();
+
+    if (userVariables.v3) {
+      return text.includes('We sent you a verification email.');
+    }
+    else {
+      return text.includes(`We sent an email to ${emailAddress}.`);
+    }
   }
 }
