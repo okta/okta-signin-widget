@@ -119,6 +119,6 @@
     "vite": "^4.0.3"
   },
   "msw": {
-    "workerDirectory": "src/static"
+    "workerDirectory": "public"
   }
 }
