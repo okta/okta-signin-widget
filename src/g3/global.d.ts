@@ -16,6 +16,6 @@
  * limitations under the License.
  */
 
-declare var COMMITHASH: string;
-declare var VERSION: string;
+declare var OKTA_SIW_COMMIT_HASH: string;
+declare var OKTA_SIW_VERSION: string;
 declare var DEBUG: boolean;

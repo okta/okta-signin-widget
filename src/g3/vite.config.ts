@@ -27,8 +27,8 @@ export default defineConfig({
     preact(),
   ],
   define: {
-    // VERSION: '"0.0.0"',
-    // COMMITHASH: '"67f7d01358bee1853391565b300f196dc5291ce2"',
+    OKTA_SIW_VERSION: '"0.0.0"',
+    OKTA_SIW_COMMIT_HASH: '"67f7d01358bee1853391565b300f196dc5291ce2"',
     DEBUG: true,
   },
   resolve: {
@@ -57,9 +57,8 @@ export default defineConfig({
           cert: readFileSync(resolve(__dirname, '.https/localhost-cert.pem')),
         };
       } catch (err) {
-        throw new Error('Generate certs to enable https by running scripts/gen-certs');
+        throw new Error('run scripts/generate-certs');
       }
     })(),
   },
-
 });
