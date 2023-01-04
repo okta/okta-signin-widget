@@ -10,9 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// Allow this shadow dependency from auth-js because it is temporary
-// eslint-disable-next-line import/no-extraneous-dependencies
-import crossFetch from 'cross-fetch';
+import fetch from 'cross-fetch';
 import { FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 
@@ -29,7 +27,7 @@ type RequestOptions = {
 };
 
 /**
- * Temporary request client to be removed once this functionality is added
+ * Temporary request client can be removed if this functionality is added
  * to auth-js library.
  * @see https://oktainc.atlassian.net/browse/OKTA-561852
  * @returns Promise<Response>
@@ -39,7 +37,6 @@ const makeRequest = async ({
 }: RequestOptions) => {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
-  const fetch = global.fetch || crossFetch;
 
   const response = await fetch(url, {
     method,
