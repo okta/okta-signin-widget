@@ -7,7 +7,7 @@
 *.cert
 *.crt
 *.local
-*.log
+*.log*
 *.njsproj
 *.ntvs*
 *.pem
@@ -16,6 +16,8 @@
 *.sw?
 dist
 dist-ssr
-*.log*
 logs
 node_modules
+stats.html
+stats.json
+stats.yml
