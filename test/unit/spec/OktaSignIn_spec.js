@@ -731,4 +731,38 @@ describe('OktaSignIn object API', function() {
       });
     });
   });
+
+  describe('options.stateToken', () => {
+    // see routerClassFactory for more info
+    it('defaults to window value if value exists', () => {
+      global.oktaData = {
+        signIn: {
+          stateToken: 'oieV2stateToken'
+        }
+      };
+      signIn = new Widget({
+        baseUrl: url,
+      });
+      expect(signIn.options.stateToken).toEqual('oieV2stateToken');
+    });
+    it('is undefined if not set in options or window', () => {
+      global.oktaData = {};
+      signIn = new Widget({
+        baseUrl: url,
+      });
+      expect(signIn.options.stateToken).toEqual(undefined);
+    });
+    it('can be set as an option', () => {
+      global.oktaData = {
+        signIn: {
+          stateToken: 'oieV2stateToken'
+        }
+      };
+      signIn = new Widget({
+        baseUrl: url,
+        stateToken: 'myStateToken'
+      });
+      expect(signIn.options.stateToken).toEqual('myStateToken');
+    });
+  });
 });

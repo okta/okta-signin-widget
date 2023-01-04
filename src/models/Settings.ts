@@ -26,16 +26,9 @@ import Logger from 'util/Logger';
 import Util from 'util/Util';
 import CountryUtil from 'util/CountryUtil';
 import { OktaAuth } from '@okta/okta-auth-js';
-import { OktaData } from '../types';
 
 const SharedUtil = internal.util.Util;
 const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
-
-declare global {
-  interface Window {
-    oktaData?: OktaData;
-  }
-}
 
 const local: Record<string, ModelProperty> = {
   authClient: ['object', false, undefined],
@@ -412,12 +405,8 @@ export default class Settings extends Model {
 
   initialize(options) {
     options = options || {};
-    const { colors, authClient, stateToken } = options;
+    const { colors, authClient } = options;
     let { baseUrl } = options;
-
-    if (!stateToken) {
-      this.set('stateToken', window?.oktaData?.signIn?.stateToken); // oktaData is available on Okta hosted custom domain
-    }
 
     if (!baseUrl) {
       // infer baseUrl from the issuer

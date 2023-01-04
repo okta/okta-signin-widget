@@ -22,11 +22,17 @@ import {
   EventName,
   RouterClassFactory,
   AbstractRouter,
-  RouterConstructor
+  RouterConstructor,
+  OktaData,
 } from '../types';
 import { Tokens } from '@okta/okta-auth-js';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
+declare global {
+  interface Window {
+    oktaData?: OktaData;
+  }
+}
 
 export function createOktaSignIn
 (
@@ -47,7 +53,9 @@ export function createOktaSignIn
           When you are ready to publish your app, embed the minified version to turn on production mode.
           See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
         `);
-
+      if (!options.stateToken) {
+        options.stateToken = window?.oktaData?.signIn?.stateToken;
+      }
       this.options = options;
       this.authClient = getAuthClient(authClientConstructor, options);
 
