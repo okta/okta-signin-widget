@@ -2,7 +2,7 @@
 
 # Monolith version to test against
 # TODO: auto-select a recent stable version OKTA-561403
-export MONOLITH_BUILDVERSION=2022.12.2-begin-263-gf27ee20e1cf5
+export MONOLITH_BUILDVERSION=2022.12.3-begin-75-ge12fe65f6ab9
 
 export WIDGET_HOME="$(readlink -f "$(dirname "$0")/..")"
 export LOCAL_MONOLITH=true
