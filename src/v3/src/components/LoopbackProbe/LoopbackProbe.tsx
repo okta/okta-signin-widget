@@ -18,7 +18,7 @@ import { useEffect } from 'preact/hooks';
 
 import Logger from '../../../../util/Logger';
 import { useOnSubmit } from '../../hooks';
-import { LoopbackProbeElement } from '../../types';
+import { ActionParams, LoopbackProbeElement } from '../../types';
 import { isAndroid } from '../../util';
 
 type RequestOptions = {
@@ -72,7 +72,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   const { domain } = deviceChallengePayload;
   const { challengeRequest } = deviceChallengePayload;
 
-  const cancelHandler = (params?: Record<string, unknown> | undefined) => {
+  const cancelHandler = (params?: ActionParams) => {
     if (typeof cancelStep !== 'undefined') {
       onSubmitHandler({
         isActionStep: true,
