@@ -65,7 +65,7 @@ export const transformSelectAuthenticatorVerify: IdxStepTransformer = ({
     type: 'AuthenticatorButtonList',
     options: { buttons: authenticatorButtonElements },
   };
-  uischema.elements = uischema.elements.concat([authenticatorListElement]);
+  uischema.elements.push(authenticatorListElement);
 
   const isPwRecovery = isPasswordRecovery(transaction);
   const titleElement: TitleElement = {
