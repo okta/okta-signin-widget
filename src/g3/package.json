@@ -109,6 +109,6 @@
     "node": ">=14"
   },
   "msw": {
-    "workerDirectory": "src/static"
+    "workerDirectory": "public"
   }
 }
