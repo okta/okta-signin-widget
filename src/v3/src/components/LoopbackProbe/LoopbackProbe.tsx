@@ -69,8 +69,8 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   const probeTimeoutMillis: number = typeof deviceChallengePayload.probeTimeoutMillis === 'undefined'
     ? 100 : deviceChallengePayload.probeTimeoutMillis;
   const ports: number[] = deviceChallengePayload.ports || [];
-  const domain: string = deviceChallengePayload.domain;
-  const challengeRequest: string = deviceChallengePayload.challengeRequest;
+  const { domain } = deviceChallengePayload;
+  const { challengeRequest } = deviceChallengePayload;
 
   const cancelHandler = (params?: Record<string, unknown> | undefined) => {
     if (typeof cancelStep !== 'undefined') {
@@ -84,7 +84,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
 
   useEffect(() => {
     const doLoopback = async () => {
-      let foundPort: boolean = false;
+      let foundPort = false;
       // loop over each port
       for (const port of ports) {
         try {
@@ -142,7 +142,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
           // only for unexpected error conditions (e.g. fetch throws an error)
           Logger.error(`Something unexpected happened while we were checking port ${port}`);
         }
-      };
+      }
 
       if (foundPort) {
         // success condition

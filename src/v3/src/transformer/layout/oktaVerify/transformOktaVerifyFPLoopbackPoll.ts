@@ -35,12 +35,12 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     type: 'Spinner',
   } as SpinnerElement);
 
-  const cancelStep = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL ?
-    'authenticatorChallenge-cancel' : 'currentAuthenticator-cancel';
-  const deviceChallengePayload = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL ?
-    transaction.nextStep?.relatesTo?.value :
+  const cancelStep = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL
+    ? 'authenticatorChallenge-cancel' : 'currentAuthenticator-cancel';
+  const deviceChallengePayload = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL
+    ? transaction.nextStep?.relatesTo?.value
     // @ts-expect-error challenge is not defined on contextualData
-    transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
+    : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
 
   uischema.elements.push({
     type: 'LoopbackProbe',

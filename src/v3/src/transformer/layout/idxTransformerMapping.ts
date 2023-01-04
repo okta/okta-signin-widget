@@ -57,8 +57,8 @@ import {
 } from './googleAuthenticator';
 import {
   transformOktaVerifyDeviceChallengePoll,
-  transformOktaVerifyFPLoopbackPoll,
   transformOktaVerifyFPLaunchAuthenticator,
+  transformOktaVerifyFPLoopbackPoll,
 } from './oktaVerify';
 import { transformPIVAuthenticator } from './piv';
 import {

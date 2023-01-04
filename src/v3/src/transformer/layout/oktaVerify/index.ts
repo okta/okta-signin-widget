@@ -11,5 +11,5 @@
  */
 
 export * from './transformOktaVerifyDeviceChallengePoll';
-export * from './transformOktaVerifyFPLoopbackPoll';
 export * from './transformOktaVerifyFPLaunchAuthenticator';
+export * from './transformOktaVerifyFPLoopbackPoll';

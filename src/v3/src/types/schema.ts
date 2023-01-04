@@ -15,7 +15,6 @@ import {
   IdxMessage,
   IdxTransaction,
   Input,
-  NextStep,
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
