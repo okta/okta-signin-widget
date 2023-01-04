@@ -14,10 +14,10 @@ import {
   Box,
   InputAdornment,
   InputLabel,
-  OutlinedInput,
   Select,
   SelectChangeEvent,
 } from '@mui/material';
+import { InputBase } from '@okta/odyssey-react-mui';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import {
@@ -121,7 +121,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     showExtension && (
       <Box width={0.25}>
         <InputLabel htmlFor="phoneExtension">{extensionLabel}</InputLabel>
-        <OutlinedInput
+        <InputBase
           value={extension}
           type="text"
           name="extension"
@@ -200,7 +200,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
           >
             {mainLabel}
           </InputLabel>
-          <OutlinedInput
+          <InputBase
             type="tel"
             name={fieldName}
             id={fieldName}

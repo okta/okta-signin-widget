@@ -39,7 +39,7 @@ const AuthContainer: FunctionComponent = ({ children }) => {
         flexDirection="column"
         border={isMobileWidth ? 0 : 1}
         borderRadius={1}
-        borderColor="grey.200"
+        borderColor="grey.400"
         bgcolor="common.white"
         fontFamily="fontFamily"
         className={style.siwContainer}

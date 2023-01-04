@@ -15,10 +15,9 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  OutlinedInput,
   Tooltip,
 } from '@mui/material';
-import { EyeIcon, EyeOffIcon } from '@okta/odyssey-react-mui';
+import { EyeIcon, EyeOffIcon, InputBase } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
@@ -83,7 +82,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
       >
         {label}
       </InputLabel>
-      <OutlinedInput
+      <InputBase
         id={name}
         name={name}
         error={hasErrors}

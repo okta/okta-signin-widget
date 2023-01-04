@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { withTheme } from '@okta/odyssey-react-theme';
 import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
@@ -18,7 +18,7 @@ import { AuthCoinProps } from 'src/types';
 
 import AuthCoin from '../AuthCoin/AuthCoin';
 import AuthCoinByAuthenticatorKeyConfig from '../AuthCoin/AuthCoinConfig';
-import { theme } from './AuthHeader.theme';
+import { theme as authHeaderTheme } from './AuthHeader.theme';
 import style from './style.module.css';
 
 const cx = classNames.bind(style);
@@ -60,7 +60,17 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   }
 
   return (
-    <div className={containerClasses}>
+    <Box
+      className={containerClasses}
+      borderBottom="1px solid"
+      borderColor="grey.400"
+      sx={{
+        paddingBlockStart: (theme) => theme.spacing(4),
+        paddingInlineEnd: (theme) => theme.spacing(5),
+        paddingBlockEnd: (theme) => theme.spacing(showAuthCoin ? 0 : 4),
+        paddingInlineStart: (theme) => theme.spacing(5),
+      }}
+    >
       <Typography variant="h1">
         { logo && (
           <img
@@ -71,8 +81,8 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
         )}
       </Typography>
       { renderAuthCoin() }
-    </div>
+    </Box>
   );
 };
 
-export default withTheme(theme, style)(AuthHeader);
+export default withTheme(authHeaderTheme, style)(AuthHeader);
