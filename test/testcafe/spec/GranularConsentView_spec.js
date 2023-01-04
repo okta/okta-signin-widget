@@ -70,7 +70,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should show only mandator
 test.requestHooks(requestLogger, consentGranularMock)('should display correct title text', async t => {
   const consentPage  = await setup(t);
   await t.expect(await consentPage.getGranularHeaderClientName()).eql('Native client');
-  await t.expect(await consentPage.getGranularHeaderText()).eql('requests access to');
+  await t.expect(await consentPage.getGranularHeaderText()).eql('wants to access');
 });
 
 test.requestHooks(requestLogger, consentGranularMock)('should display correct agreement text', async t => {

@@ -115,7 +115,7 @@ Expect.describe('GranularConsent', function() {
 
     itp('has the correct text in the title', function() {
       return setup().then(function(test) {
-        expect(test.form.consentTitleText().text().trim()).toBe('requests access to your account');
+        expect(test.form.consentTitleText().text().trim()).toBe('wants to access your account');
       });
     });
 
