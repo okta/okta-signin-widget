@@ -31,30 +31,37 @@ Object {
         "type": "Description",
       },
       Object {
-        "label": "Get a push notification",
         "options": Object {
-          "actionParams": Object {
-            "authenticator.methodType": "push",
-          },
-          "ctaLabel": "Select",
-          "key": "okta_verify",
-          "step": "select-authenticator-authenticate",
-          "type": "button",
+          "buttons": Array [
+            Object {
+              "label": "Get a push notification",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.methodType": "push",
+                },
+                "ctaLabel": "Select",
+                "key": "okta_verify",
+                "step": "select-authenticator-authenticate",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+            Object {
+              "label": "Enter a code",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.methodType": "totp",
+                },
+                "ctaLabel": "Select",
+                "key": "okta_verify",
+                "step": "select-authenticator-authenticate",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
         },
-        "type": "AuthenticatorButton",
-      },
-      Object {
-        "label": "Enter a code",
-        "options": Object {
-          "actionParams": Object {
-            "authenticator.methodType": "totp",
-          },
-          "ctaLabel": "Select",
-          "key": "okta_verify",
-          "step": "select-authenticator-authenticate",
-          "type": "button",
-        },
-        "type": "AuthenticatorButton",
+        "type": "AuthenticatorButtonList",
       },
     ],
     "type": "VerticalLayout",

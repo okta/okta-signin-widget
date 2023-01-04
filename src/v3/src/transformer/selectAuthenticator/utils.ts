@@ -88,6 +88,7 @@ const buildOktaVerifyOptions = (
     const authenticatorButton: AuthenticatorButtonElement = {
       type: 'AuthenticatorButton',
       label: option.label,
+      id: `auth_btn_${AUTHENTICATOR_KEY.OV}_${option.value || id}`,
       options: {
         type: ButtonType.BUTTON,
         key: AUTHENTICATOR_KEY.OV,
@@ -241,6 +242,7 @@ const formatAuthenticatorOptions = (
       return {
         type: 'AuthenticatorButton',
         label: option.label,
+        id: `auth_btn_${authenticatorKey}_${enrollmentId || id}`,
         options: {
           type: ButtonType.BUTTON,
           key: authenticatorKey,
@@ -306,6 +308,7 @@ export const getOVMethodTypeAuthenticatorButtonElements = (
   return options.map((option) => ({
     type: 'AuthenticatorButton',
     label: option.label,
+    id: `auth_btn_${AUTHENTICATOR_KEY.OV}_${option.value as string}`,
     options: {
       type: ButtonType.BUTTON,
       key: AUTHENTICATOR_KEY.OV,

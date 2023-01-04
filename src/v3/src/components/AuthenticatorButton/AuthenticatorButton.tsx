@@ -61,10 +61,10 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const onValidationHandler = useOnSubmitValidation();
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
   const describedByIds = [
-    `${iconName}-ctaLabel`,
+    ariaDescribedBy,
     description && `${iconName}-description`,
     usageDescription && `${iconName}-usageDescription`,
-    ariaDescribedBy,
+    `${iconName}-ctaLabel`,
   ].filter(Boolean).join(' ');
 
   const onClick: ClickHandler = async () => {

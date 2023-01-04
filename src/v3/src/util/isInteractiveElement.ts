@@ -14,7 +14,7 @@ const interactiveTypes = new Set([
   'Field',
   'StepperRadio',
   'Button',
-  'AuthenticatorButton',
+  'AuthenticatorButtonList',
   'WebAuthNSubmitButton',
   'Link',
   'StepperButton',

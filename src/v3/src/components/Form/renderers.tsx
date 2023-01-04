@@ -13,7 +13,7 @@
 import { Input } from '@okta/okta-auth-js';
 
 import { FieldElement, Renderer } from '../../types';
-import AuthenticatorButton from '../AuthenticatorButton';
+import AuthenticatorButtonList from '../AuthenticatorButton';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
@@ -72,6 +72,10 @@ export default [
   {
     tester: ({ type }) => type === 'Heading',
     renderer: Heading,
+  },
+  {
+    tester: ({ type }) => type === 'AuthenticatorButtonList',
+    renderer: AuthenticatorButtonList,
   },
   {
     tester: ({ type }) => type === 'PasswordRequirements',
@@ -193,10 +197,6 @@ export default [
   {
     tester: ({ options: { inputMeta: { type } = {} as Input } }: FieldElement) => type === 'boolean',
     renderer: Checkbox,
-  },
-  {
-    tester: ({ type }) => type === 'AuthenticatorButton',
-    renderer: AuthenticatorButton,
   },
   {
     tester: ({ type }) => type === 'Button',

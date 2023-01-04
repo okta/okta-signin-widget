@@ -10,6 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import AuthenticatorButton from './AuthenticatorButton';
+import AuthenticatorButtonList from './AuthenticatorButtonList';
 
-export default AuthenticatorButton;
+export default AuthenticatorButtonList;

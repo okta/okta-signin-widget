@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Verify Authenticator Selector Transformer Tests should add UI elements for verification authenticator selector when in password recovery flow 1`] = `
+exports[`Authenticator Button transformer tests should add translations for Custom Authenticator button 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -16,36 +16,37 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "password.reset.title.generic",
+          "content": "Sign in",
         },
         "type": "Title",
-      },
-      Object {
-        "contentType": "subtitle",
-        "options": Object {
-          "content": "oie.password.reset.verification",
-        },
-        "type": "Description",
       },
       Object {
         "options": Object {
           "buttons": Array [
             Object {
-              "label": "Email",
+              "label": "My custom authenticator app",
               "options": Object {
-                "actionParams": Object {
-                  "authenticator.id": "123abc",
-                },
-                "ctaLabel": "Select",
-                "key": "okta_email",
-                "step": "select-authenticator-authenticate",
-                "type": "button",
+                "ctaLabel": "Verify",
+                "key": "custom_app",
               },
+              "translations": Array [
+                Object {
+                  "i18nKey": "",
+                  "name": "label",
+                  "value": "My custom authenticator app",
+                },
+              ],
               "type": "AuthenticatorButton",
             },
           ],
         },
         "type": "AuthenticatorButtonList",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
       },
     ],
     "type": "VerticalLayout",
@@ -53,7 +54,7 @@ Object {
 }
 `;
 
-exports[`Verify Authenticator Selector Transformer Tests should add UI elements for verification authenticator selector when in password recovery flow and brand name is provided 1`] = `
+exports[`Authenticator Button transformer tests should add translations for Email Authenticator button 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -69,36 +70,37 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "password.reset.title.specific",
+          "content": "Sign in",
         },
         "type": "Title",
-      },
-      Object {
-        "contentType": "subtitle",
-        "options": Object {
-          "content": "oie.password.reset.verification",
-        },
-        "type": "Description",
       },
       Object {
         "options": Object {
           "buttons": Array [
             Object {
-              "label": "Email",
+              "label": "Okta Email",
               "options": Object {
-                "actionParams": Object {
-                  "authenticator.id": "123abc",
-                },
-                "ctaLabel": "Select",
+                "ctaLabel": "Verify",
                 "key": "okta_email",
-                "step": "select-authenticator-authenticate",
-                "type": "button",
               },
+              "translations": Array [
+                Object {
+                  "i18nKey": "oie.email.label",
+                  "name": "label",
+                  "value": "oie.email.label",
+                },
+              ],
               "type": "AuthenticatorButton",
             },
           ],
         },
         "type": "AuthenticatorButtonList",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
       },
     ],
     "type": "VerticalLayout",
@@ -106,7 +108,7 @@ Object {
 }
 `;
 
-exports[`Verify Authenticator Selector Transformer Tests should add UI elements for verification authenticator selector when not in password recovery flow 1`] = `
+exports[`Authenticator Button transformer tests should add translations for OV button with Method type 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -122,36 +124,40 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "oie.select.authenticators.verify.title",
+          "content": "Sign in",
         },
         "type": "Title",
-      },
-      Object {
-        "contentType": "subtitle",
-        "options": Object {
-          "content": "oie.select.authenticators.verify.subtitle",
-        },
-        "type": "Description",
       },
       Object {
         "options": Object {
           "buttons": Array [
             Object {
-              "label": "Email",
+              "label": "Okta Verify",
               "options": Object {
                 "actionParams": Object {
-                  "authenticator.id": "123abc",
+                  "authenticator.methodType": "push",
                 },
-                "ctaLabel": "Select",
-                "key": "okta_email",
-                "step": "select-authenticator-authenticate",
-                "type": "button",
+                "ctaLabel": "Verify",
+                "key": "okta_verify",
               },
+              "translations": Array [
+                Object {
+                  "i18nKey": "oie.okta_verify.push.title",
+                  "name": "label",
+                  "value": "oie.okta_verify.push.title",
+                },
+              ],
               "type": "AuthenticatorButton",
             },
           ],
         },
         "type": "AuthenticatorButtonList",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
       },
     ],
     "type": "VerticalLayout",

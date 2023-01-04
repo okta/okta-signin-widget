@@ -15,6 +15,7 @@ import { AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   AuthenticatorButtonElement,
+  AuthenticatorButtonListElement,
   ButtonElement,
   ButtonType,
   DescriptionElement,
@@ -105,10 +106,12 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe('oie.select.authenticators.enroll.subtitle');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.optional');
-    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
-    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
-      .options.actionParams?.['authenticator.id'])).toBe('123abc');
-
+    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButtonList');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons.length)).toBe(1);
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.actionParams?.['authenticator.id'])
+      .toBe('123abc');
     expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
       .toBe('oie.optional.authenticator.button.title');
@@ -133,13 +136,17 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe('oie.select.authenticators.enroll.subtitle');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.required');
-    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
-    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.step)
+    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButtonList');
+    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons.length).toBe(1);
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.step)
       .toBe('select-authenticator-enroll');
-    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.type)
-      .toBe(ButtonType.BUTTON);
-    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
-      .options.actionParams?.['authenticator.id'])).toBe('123abc');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.type).toBe(ButtonType.BUTTON);
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.actionParams?.['authenticator.id'])
+      .toBe('123abc');
   });
 
   it('should transform authenticator elements when step is skippable and brandName is provided', () => {
@@ -160,12 +167,15 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe('oie.select.authenticators.enroll.subtitle.custom');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.optional');
-    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
-    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
-      .options.actionParams?.['authenticator.id'])).toBe('123abc');
-    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.step)
+    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButtonList');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement)
+      .options.actionParams?.['authenticator.id']).toBe('123abc');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.step)
       .toBe('select-authenticator-enroll');
-    expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement).options.type)
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.type)
       .toBe(ButtonType.BUTTON);
     expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)

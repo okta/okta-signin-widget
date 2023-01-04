@@ -13,6 +13,7 @@
 import { NextStep } from '@okta/okta-auth-js';
 
 import {
+  AuthenticatorButtonListElement,
   ButtonElement,
   ButtonType,
   DescriptionElement,
@@ -68,6 +69,10 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       content: skipStep ? loc('oie.setup.optional', 'login') : loc('oie.setup.required', 'login'),
     },
   };
+  const authenticatorListElement: AuthenticatorButtonListElement = {
+    type: 'AuthenticatorButtonList',
+    options: { buttons: authenticatorButtons },
+  };
   const skipButton: ButtonElement = {
     type: 'Button',
     label: loc('oie.optional.authenticator.button.title', 'login'),
@@ -81,7 +86,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     title,
     informationalText,
     description,
-    ...authenticatorButtons,
+    authenticatorListElement,
     ...(skipStep ? [skipButton] : []),
   ];
 

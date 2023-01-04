@@ -13,6 +13,7 @@
 import { Input, NextStep } from '@okta/okta-auth-js';
 
 import {
+  AuthenticatorButtonListElement,
   ButtonElement,
   ButtonType,
   DescriptionElement,
@@ -76,7 +77,11 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
       'authenticator.methodType',
       uischema.elements as UISchemaElement[],
     );
-    uischema.elements = uischema.elements.concat(buttonElements);
+    const authenticatorListElement: AuthenticatorButtonListElement = {
+      type: 'AuthenticatorButtonList',
+      options: { buttons: buttonElements },
+    };
+    uischema.elements.push(authenticatorListElement);
 
     const titleElement: TitleElement = {
       type: 'Title',
