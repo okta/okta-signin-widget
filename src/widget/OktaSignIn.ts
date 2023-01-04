@@ -54,6 +54,9 @@ export function createOktaSignIn
           See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
         `);
       if (!options.stateToken) {
+        // need to set stateToken here vs in Settings to determine Router.
+        // oktaData is only available to SIW on custom domains.
+        // set stateToken in case user wipes out stateToken when overriding options.
         options.stateToken = window?.oktaData?.signIn?.stateToken;
       }
       this.options = options;

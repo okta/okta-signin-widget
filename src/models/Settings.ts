@@ -26,7 +26,6 @@ import Logger from 'util/Logger';
 import Util from 'util/Util';
 import CountryUtil from 'util/CountryUtil';
 import { OktaAuth } from '@okta/okta-auth-js';
-
 const SharedUtil = internal.util.Util;
 const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
 
