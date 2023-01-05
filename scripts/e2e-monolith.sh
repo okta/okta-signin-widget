@@ -1,8 +1,10 @@
 #!/bin/bash -x
 
 # Monolith version to test against
-export MONOLITH_BUILDVERSION=2022.10.1-begin-254-gaefef87dfc4e
+# TODO: auto-select a recent stable version OKTA-561403
+export MONOLITH_BUILDVERSION=2023.01.0-begin-28-g616122a68e33
 
+export WIDGET_HOME="$(readlink -f "$(dirname "$0")/..")"
 export LOCAL_MONOLITH=true
 export CI=true
 export TEST_SUITE_TYPE="junit"
@@ -16,6 +18,14 @@ source $OKTA_HOME/$REPO/scripts/setup.sh
 set -e
 cd $OKTA_HOME/$REPO
 
+create_log_group "Build Widget"
+  # Build
+  if ! yarn build:release; then
+    echo "build failed! Exiting..."
+    exit ${TEST_FAILURE}
+  fi
+finish_log_group $?
+
 # Start monolith
 create_log_group "Start Monolith"
 source ./scripts/monolith/install-dockolith.sh
@@ -27,17 +37,10 @@ create_log_group "Create Test Org"
 # Add widget test host to /etc/hosts
 export TEST_ORG_SUBDOMAIN="siw-test-1"
 echo "${DOCKER_HOST_CONTAINER_IP} ${TEST_ORG_SUBDOMAIN}.okta1.com" >> /etc/hosts
+echo "${DOCKER_HOST_CONTAINER_IP} ${TEST_ORG_SUBDOMAIN}-admin.okta1.com" >> /etc/hosts
 cat /etc/hosts
 source ./scripts/monolith/create-testenv.sh
 export ORG_OIE_ENABLED=true
-finish_log_group $?
-
-# Build Widget
-create_log_group "Build Widget"
-if ! yarn build:release; then
-  echo "build failed! Exiting..."
-  exit ${TEST_FAILURE}
-fi
 finish_log_group $?
 
 # Setup E2E environment

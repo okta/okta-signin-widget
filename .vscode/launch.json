@@ -52,7 +52,10 @@
       ],
       "autoAttachChildProcesses": true,
       "console": "integratedTerminal",
-      "cwd": "${workspaceRoot}/test/e2e"
+      "cwd": "${workspaceRoot}/test/e2e",
+      "env": {
+        "DEBUG": "1"
+      }
     },
     {
       "type": "node",
@@ -67,7 +70,10 @@
       ],
       "autoAttachChildProcesses": true,
       "console": "integratedTerminal",
-      "cwd": "${workspaceRoot}/test/e2e"
+      "cwd": "${workspaceRoot}/test/e2e",
+      "env": {
+        "DEBUG": "1"
+      }
     }
 
   ]

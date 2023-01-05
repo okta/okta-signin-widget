@@ -10,7 +10,8 @@ import {
   setPolicyForApp,
   disableStepUpForPasswordRecovery,
   getCatchAllRule,
-  getDefaultAuthorizationServer
+  getDefaultAuthorizationServer,
+  enableEmbeddedLogin
 } from '@okta/dockolith';
 import { writeFileSync } from 'fs';
 import path from 'path';
@@ -20,118 +21,6 @@ import path from 'path';
 async function bootstrap() {
   const subDomain = process.env.TEST_ORG_SUBDOMAIN || 'siw-test-' + Date.now();
   const outputFilePath = path.join(__dirname, '../../../../', 'testenv.local');
-
-  console.error(`Bootstrap starting: ${subDomain}`);
-
-  const config = await createTestOrg({
-    subDomain,
-    edition: 'Test',
-    userCount: 3,
-    activateUsers: true,
-    skipFirstTimeLogin: true,
-    testName: subDomain
-  });
-
-  console.error('Org: ', config.orgUrl);
-  console.error('Token: ', config.token);
-
-  const oktaClient = getClient(config);
-  const { id: orgId } = await oktaClient.getOrgSettings();
-
-  await enableOIE(orgId);
-  await activateOrgFactor(config, 'okta_email');
-  await disableStepUpForPasswordRecovery(config);
-
-  // Enable interaction_code grant on the default authorization server
-  const authServer = await getDefaultAuthorizationServer(config);
-  await authServer.listPolicies().each(async (policy) => {
-    if (policy.name === 'Default Policy') {
-      await policy.listPolicyRules(authServer.id).each(async (rule) => {
-        if (rule.name === 'Default Policy Rule') {
-          rule.conditions.grantTypes = {
-            include: [
-              'implicit',
-              'client_credentials',
-              'password',
-              'authorization_code',
-              'interaction_code' // need to add interaction_code grant or user will see no_matching_policy error
-            ]
-          };
-          await rule.update(policy.id, authServer.id);
-        }
-      });
-    }
-  });
-
-  const mfaGroup = await oktaClient.createGroup({
-    profile: {
-      name: 'MFA Required'
-    }
-  });
-
-  const spaPolicy = await oktaClient.createPolicy({
-    name: 'Widget SPA Policy',
-    type: 'ACCESS_POLICY',
-    status : 'ACTIVE'
-  });
-
-  const spaProfileEnrollmentPolicy = await oktaClient.createPolicy({
-    name: 'Widget SPA Profile Enrollment Policy',
-    type: 'PROFILE_ENROLLMENT',
-    status : 'ACTIVE'
-  });
-
-  // Modify catch-all rule to enforce password only
-  const catchAll = await getCatchAllRule(config, spaPolicy.id);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  catchAll.actions.appSignOn = {
-    access: 'ALLOW',
-    verificationMethod: {
-        factorMode: '1FA',
-        type: 'ASSURANCE',
-        reauthenticateIn: 'PT12H',
-        constraints: [{
-          knowledge: {
-            types: [
-              'password'
-            ]
-          }
-        }]
-    }
-  };
-  catchAll.update(spaPolicy.id);
-
-  spaPolicy.createRule({
-    name: 'MFA Required',
-    type: 'ACCESS_POLICY',
-    conditions: {
-      people: {
-          groups: {
-              include: [
-                mfaGroup.id
-              ]
-          }
-      },
-    },
-    actions: {
-      appSignOn: {
-        access: 'ALLOW',
-        verificationMethod: {
-          factorMode: '2FA',
-          type: 'ASSURANCE',
-          reauthenticateIn: 'PT2H',
-          constraints: [{
-            knowledge: {
-              types: ['password'],
-              reauthenticateIn: 'PT2H'
-            }
-          }]
-        }
-      }
-    }
-  });
-
   const options = {
     enableFFs: [
       'API_ACCESS_MANAGEMENT',
@@ -178,6 +67,29 @@ async function bootstrap() {
     ]
   };
 
+  console.error(`Bootstrap starting: ${subDomain}`);
+
+  const config = await createTestOrg({
+    subDomain,
+    edition: 'Test',
+    userCount: 3,
+    activateUsers: true,
+    skipFirstTimeLogin: true,
+    testName: subDomain
+  });
+
+  console.error('Org: ', config.orgUrl);
+  console.error('Token: ', config.token);
+
+  const oktaClient = getClient(config);
+  const { id: orgId } = await oktaClient.getOrgSettings();
+
+  await enableOIE(orgId);
+  console.error('Activating okta_email factor');
+  await activateOrgFactor(config, 'okta_email');
+  console.error('Disabling step up for password recovery');
+  await disableStepUpForPasswordRecovery(config);
+
   // Set Feature flags
   console.error('Setting feature flags...')
   for (const option of options.enableFFs) {
@@ -186,6 +98,31 @@ async function bootstrap() {
   for (const option of options.disableFFs) {
     await disableFeatureFlag(config, orgId, option);
   }
+
+  console.error('Enabling embedded login');
+  await enableEmbeddedLogin(config);
+
+  // Enable interaction_code grant on the default authorization server
+  console.error('Enabling interaction_code grant on the default authorization server');
+  const authServer = await getDefaultAuthorizationServer(config);
+  await authServer.listPolicies().each(async (policy) => {
+    if (policy.name === 'Default Policy') {
+      await policy.listPolicyRules(authServer.id).each(async (rule) => {
+        if (rule.name === 'Default Policy Rule') {
+          rule.conditions.grantTypes = {
+            include: [
+              'implicit',
+              'client_credentials',
+              'password',
+              'authorization_code',
+              'interaction_code' // need to add interaction_code grant or user will see no_matching_policy error
+            ]
+          };
+          await rule.update(policy.id, authServer.id);
+        }
+      });
+    }
+  });
 
   // Add Trusted origins
   for (const option of options.origins) {
@@ -250,11 +187,87 @@ async function bootstrap() {
   const webApp = createdApps[0];
   const spaApp = createdApps[1];
 
-  // Assign sign-on policy to SPA app
-  setPolicyForApp(config, spaApp.id, spaPolicy.id);
+  // set policy on apps
+  const mfaGroup = await oktaClient.createGroup({
+    profile: {
+      name: 'MFA Required'
+    }
+  });
+  for (const app of createdApps) {
+    console.error(`Creating app sign on policy for "${app.label}"`);
+    const signOnPolicy = await oktaClient.createPolicy({
+      name: `${app.label} Sign On Policy`,
+      type: 'ACCESS_POLICY',
+      status : 'ACTIVE'
+    });
 
-  // Assign profile enrollment policy to SPA app
-  setPolicyForApp(config, spaApp.id, spaProfileEnrollmentPolicy.id);
+    console.error(`Creating app profile enrollment policy for "${app.label}"`);
+    const profileEnrollmentPolicy = await oktaClient.createPolicy({
+      name: `${app.label} Profile Enrollment Policy`,
+      type: 'PROFILE_ENROLLMENT',
+      status : 'ACTIVE'
+    });
+
+    // Modify catch-all rule to enforce password only
+    console.error(`Modifying catch-all rule to require only password for app "${app.label}"`);
+    const catchAll = await getCatchAllRule(config, signOnPolicy.id);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    catchAll.actions.appSignOn = {
+      access: 'ALLOW',
+      verificationMethod: {
+          factorMode: '1FA',
+          type: 'ASSURANCE',
+          reauthenticateIn: 'PT12H',
+          constraints: [{
+            knowledge: {
+              types: [
+                'password'
+              ]
+            }
+          }]
+      }
+    };
+    catchAll.update(signOnPolicy.id);
+
+    // Require MFA if user is in MFA group
+    console.error(`Setting MFA policy for users in MFA group for app "${app.label}"`);
+    signOnPolicy.createRule({
+      name: 'MFA Required',
+      type: 'ACCESS_POLICY',
+      conditions: {
+        people: {
+            groups: {
+                include: [
+                  mfaGroup.id
+                ]
+            }
+        },
+      },
+      actions: {
+        appSignOn: {
+          access: 'ALLOW',
+          verificationMethod: {
+            factorMode: '2FA',
+            type: 'ASSURANCE',
+            reauthenticateIn: 'PT2H',
+            constraints: [{
+              knowledge: {
+                types: ['password'],
+                reauthenticateIn: 'PT2H'
+              }
+            }]
+          }
+        }
+      }
+    });
+
+    // Assign sign-on policy to SPA app
+    setPolicyForApp(config, app.id, signOnPolicy.id);
+
+    // Assign profile enrollment policy to SPA app
+    setPolicyForApp(config, app.id, profileEnrollmentPolicy.id);
+  }
 
   // Delete users if they exist
   await oktaClient.listUsers().each(async (user) => {

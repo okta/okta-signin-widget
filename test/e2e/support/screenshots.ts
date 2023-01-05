@@ -5,8 +5,9 @@ import fs from 'fs';
 
 
 export async function saveScreenshot(fileName?: string) {
+  const timeStamp = Date.now();
   fileName = fileName || 'shot';
-  fileName = `${fileName}.png`;
+  fileName = `${timeStamp}-${fileName}.png`;
   fileName = fileName.replace(/[^a-z0-9.-]/gi, '-'); // sanitize filename
   const { TMP_LOGS_LOCATION } = process.env;
   const baseDir = TMP_LOGS_LOCATION || path.resolve(__dirname, '../../../build2');
