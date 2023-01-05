@@ -120,7 +120,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
     }
   } else if (selectedMethod.type === 'signed_nonce') {
     if (relatesTo?.value.type === 'app') {
-      // selectedMethod.type === 'app' reflects a FastPass OV Loopback flow
+      // relatesTo.value.type === 'app' reflects a FastPass OV Loopback flow
       return transformOktaVerifyFPLoopbackPoll(options);
     }
     // selectedMethod.type === 'signed_nonce' reflects a FastPass OV flow
