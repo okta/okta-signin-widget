@@ -16,20 +16,21 @@
  * limitations under the License.
  */
 
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
 import { readFileSync } from 'fs';
 import { visualizer } from 'rollup-plugin-visualizer';
+import legacy from '@vitejs/plugin-legacy';
+import { browserslist } from './package.json';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     preact(),
-    visualizer({
-      sourcemap: true,
-      template: 'raw-data',
-    }),
+    splitVendorChunkPlugin(),
+    legacy({ targets: browserslist ?? [] }),
+    visualizer(),
   ],
   define: {
     OKTA_SIW_VERSION: '"0.0.0"',
@@ -50,6 +51,38 @@ export default defineConfig({
       util: resolve(__dirname, '../util'),
       v1: resolve(__dirname, '../v1'),
       v2: resolve(__dirname, '../v2'),
+    },
+  },
+  build: {
+    sourcemap: true,
+    // https://rollupjs.org/guide/en/#big-list-of-options
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          lodash: [
+            'lodash',
+          ],
+          mui: [
+            '@mui/icons-material',
+            '@mui/material',
+          ],
+          courage: [
+            '@okta/courage',
+          ],
+          chroma: [
+            'chroma-js',
+          ],
+          authjs: [
+            '@okta/okta-auth-js',
+          ],
+          odyssey: [
+            '@okta/odyssey-design-tokens',
+            '@okta/odyssey-react',
+            '@okta/odyssey-react-mui',
+            '@okta/odyssey-react-theme',
+          ],
+        },
+      },
     },
   },
   server: {
