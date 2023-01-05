@@ -11,8 +11,8 @@
  */
 
 /* eslint complexity: [2, 8] */
-import { _, loc, internal, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { _, loc, internal, View } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import CountryUtil from 'util/CountryUtil';
 import Enums from 'util/Enums';
 import FormController from 'v1/util/FormController';

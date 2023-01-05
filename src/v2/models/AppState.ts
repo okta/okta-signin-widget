@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Model, ModelProperty } from 'okta';
+import { Model, ModelProperty } from '@okta/courage';
 import Logger from 'util/Logger';
 import {
   FORMS_WITHOUT_SIGNOUT,

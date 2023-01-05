@@ -9,8 +9,8 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { loc, View, createButton, _ } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { loc, View, createButton, _ } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
 import Util from 'util/Util';
 import {

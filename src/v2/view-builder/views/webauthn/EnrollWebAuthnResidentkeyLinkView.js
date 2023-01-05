@@ -1,6 +1,6 @@
-import { View } from 'okta';
+import { View } from '@okta/courage';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 
 export default View.extend({
   className: 'setup-webauthn-residentkey-text',

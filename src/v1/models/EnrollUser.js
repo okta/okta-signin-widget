@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, loc } from 'okta';
+import { _, loc } from '@okta/courage';
 import BaseLoginModel from './BaseLoginModel';
 export default BaseLoginModel.extend({
   initialize: function(options) {

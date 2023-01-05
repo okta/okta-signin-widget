@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View, _ } from 'okta';
-import hbs from 'handlebars-inline-precompile';
-import 'qtip';
+import { View, _ } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
+import '@okta/qtip';
 
 export default View.extend({
   className: 'scope-item',

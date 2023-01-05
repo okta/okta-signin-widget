@@ -1,5 +1,5 @@
-import { View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { View } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 
 export default View.extend({

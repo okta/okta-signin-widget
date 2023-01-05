@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, loc } from 'okta';
+import { _, loc } from '@okta/courage';
 import PrimaryAuthForm from 'v1/views/primary-auth/PrimaryAuthForm';
 export default PrimaryAuthForm.extend({
   className: 'idp-discovery-form',

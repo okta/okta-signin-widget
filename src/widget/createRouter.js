@@ -1,4 +1,4 @@
-import { $ } from 'okta';
+import { $ } from '@okta/courage';
 import Enums from 'util/Enums';
 
 export default function createRouter(Router, widgetOptions, renderOptions, authClient, successFn, errorFn, hooks) {

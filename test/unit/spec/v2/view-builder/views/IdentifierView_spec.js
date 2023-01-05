@@ -1,4 +1,4 @@
-import { Model, $ } from 'okta';
+import { Model, $ } from '@okta/courage';
 import IdentifierView from 'v2/view-builder/views/IdentifierView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';

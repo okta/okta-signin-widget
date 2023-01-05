@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { internal } from 'okta';
+import { internal } from '@okta/courage';
 const Cookie = internal.util.Cookie;
 const LAST_USERNAME_COOKIE_NAME = 'ln';
 const DAYS_SAVE_REMEMBER = 365;

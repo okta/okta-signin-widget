@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc, internal } from 'okta';
+import { loc, internal } from '@okta/courage';
 import EnrollCustomFactorController from './EnrollCustomFactorController';
 import Factor from 'v1/models/Factor';
 import FormType from 'v1/util/FormType';

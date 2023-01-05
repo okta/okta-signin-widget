@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { View } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import FormController from 'v1/util/FormController';
 import RouterUtil from 'v1/util/RouterUtil';
 import EnterPasscodeForm from 'v1/views/enroll-factors/EnterPasscodeForm';

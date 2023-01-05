@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, loc, Model } from 'okta';
+import { _, loc, Model } from '@okta/courage';
 import CookieUtil from 'util/CookieUtil';
 import Enums from 'util/Enums';
 import BaseLoginModel from './BaseLoginModel';

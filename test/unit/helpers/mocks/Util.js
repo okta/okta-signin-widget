@@ -1,6 +1,6 @@
 /* eslint no-global-assign: 0, max-statements: 0 */
-import { _, $, Backbone, internal } from 'okta';
-import Duo from 'duo';
+import { _, $, Backbone, internal } from '@okta/courage';
+import Duo from '@okta/duo';
 import 'jasmine-ajax';
 import Q from 'q';
 import Bundles from 'util/Bundles';

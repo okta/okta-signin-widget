@@ -1,5 +1,5 @@
 /* eslint max-params:[0, 2] */
-import { $ } from 'okta';
+import { $ } from '@okta/courage';
 import IdentifierForm from 'helpers/dom/v2/IdentifierForm';
 import TerminalView from 'helpers/dom/v2/TerminalView';
 import MockUtil from 'helpers/mocks/Util';

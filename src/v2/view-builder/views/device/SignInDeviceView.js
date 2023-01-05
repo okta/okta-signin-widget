@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc } from '@okta/courage';
 import { BaseForm, BaseView } from '../../internals';
 import IdentifierFooter from '../../components/IdentifierFooter';
 import SignInWithDeviceOption from '../signin/SignInWithDeviceOption';

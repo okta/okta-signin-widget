@@ -1,5 +1,5 @@
-import { View, _ } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { View, _ } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 
 export default View.extend({
   template: hbs`

@@ -1,5 +1,5 @@
-import { loc, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { loc, View } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const BaseAuthenticatorEmailForm = BaseAuthenticatorView.prototype.Body;

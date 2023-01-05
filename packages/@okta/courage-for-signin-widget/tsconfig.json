@@ -14,8 +14,8 @@
     "target": "ES6",
     "paths": {
       "vendor/*": ["./src/courage/vendor/*"],
-      "handlebars-inline-precompile": ["./src/util/handlebars-inline-precompile"],
-      "okta-i18n-bundles": ["./src/courage/okta-i18n-bundles.js"],
+      "@okta/handlebars-inline-precompile": ["./src/util/handlebars-inline-precompile"],
+      "@okta/okta-i18n-bundles": ["./src/courage/okta-i18n-bundles.js"],
       "moment": ["./src/courage/vendor/lib/moment-with-locales"]
     }
   },

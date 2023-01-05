@@ -1,4 +1,4 @@
-import { _ } from 'okta';
+import { _ } from '@okta/courage';
 import getAuthClient from 'helpers/getAuthClient';
 import LoginRouter from 'v1/LoginRouter';
 import AdminConsentRequiredForm from 'helpers/dom/AdminConsentRequiredForm';

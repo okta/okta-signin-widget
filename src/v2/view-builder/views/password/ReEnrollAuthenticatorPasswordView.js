@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc } from '@okta/courage';
 import EnrollAuthenticatorPasswordView from './EnrollAuthenticatorPasswordView';
 
 const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({

@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, ListView, View, createButton, loc } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { _, ListView, View, createButton, loc } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import FactorUtil from 'util/FactorUtil';
 import RouterUtil from 'v1/util/RouterUtil';
 const cardinalityTextTpl = hbs('<span class="factor-cardinality">{{cardinalityText}}</span>');

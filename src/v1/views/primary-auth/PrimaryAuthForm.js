@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Form, loc } from 'okta';
+import { Form, loc } from '@okta/courage';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';
 import TypingUtil from 'v1/util/TypingUtil';
 import Util from 'util/Util';

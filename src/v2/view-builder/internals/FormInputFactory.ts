@@ -1,4 +1,4 @@
-import { Collection, _, loc, createButton, InputOptions } from 'okta';
+import { Collection, _, loc, createButton, InputOptions } from '@okta/courage';
 
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';

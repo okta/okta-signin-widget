@@ -1,5 +1,5 @@
-import { createCallout } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { createCallout } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import BaseResendView from '../shared/BaseResendView';
 
 export default BaseResendView.extend({

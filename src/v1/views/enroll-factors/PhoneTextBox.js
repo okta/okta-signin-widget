@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, internal } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { _, internal } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 let { TextBox } = internal.views.forms.inputs;
 export default TextBox.extend({
   template: hbs(

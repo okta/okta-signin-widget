@@ -11,8 +11,8 @@
  */
 
 /* eslint complexity:[2, 10], max-params: [2, 11] */
-import { _, loc, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { _, loc, View } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import Q from 'q';
 import CryptoUtil from 'util/CryptoUtil';
 import { WebauthnAbortError, WebAuthnError } from 'util/Errors';

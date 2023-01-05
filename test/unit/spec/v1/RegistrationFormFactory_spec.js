@@ -1,5 +1,5 @@
 /* eslint max-statements: [2, 22]*/
-import { internal } from 'okta';
+import { internal } from '@okta/courage';
 import RegistrationFormFactory from 'v1/util/RegistrationFormFactory';
 let { SchemaProperty } = internal.models;
 

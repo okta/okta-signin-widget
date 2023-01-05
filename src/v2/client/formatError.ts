@@ -16,7 +16,7 @@ import {
   IdxResponse,
   RawIdxResponse
 } from '@okta/okta-auth-js';
-import { loc } from 'okta';
+import { loc } from '@okta/courage';
 
 export interface LegacyIdxError {
   error: string;

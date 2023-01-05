@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, loc } from 'okta';
+import { _, loc } from '@okta/courage';
 import FormController from 'v1/util/FormController';
 import ValidationUtil from 'v1/util/ValidationUtil';
 import Footer from 'v1/views/enroll-factors/Footer';

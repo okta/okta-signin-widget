@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, View, loc, internal } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { _, View, loc, internal } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import Enums from 'util/Enums';
 const { Util } = internal.util;
 export default View.extend({

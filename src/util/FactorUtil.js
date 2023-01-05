@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity: [2, 38], max-statements: [2, 38] */
-import { _, loc } from 'okta';
+import { _, loc } from '@okta/courage';
 import TimeUtil from 'util/TimeUtil';
 const fn = {};
 const factorData = {

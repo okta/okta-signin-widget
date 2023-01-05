@@ -1,4 +1,4 @@
-import { _ } from 'okta';
+import { _ } from '@okta/courage';
 import { MS_PER_SEC } from '../../utils/Constants';
 
 export default {

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from 'okta';
+import { View } from '@okta/courage';
 export default View.extend({
   className: 'okta-waiting-spinner',
   attributes: {

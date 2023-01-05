@@ -1,4 +1,4 @@
-import { loc, Model, _ } from 'okta';
+import { loc, Model, _ } from '@okta/courage';
 import { BaseForm, BaseFooter, BaseView, createIdpButtons } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { getPasswordComplexityDescriptionForHtmlList } from '../utils/AuthenticatorUtil';

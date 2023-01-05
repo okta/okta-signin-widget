@@ -4,12 +4,12 @@ import * as tsModuleResolver from 'babel-plugin-tsconfig-paths-module-resolver';
 const createResolvePath = tsModuleResolver.default.createResolvePath;
 const defaultResolvePath = createResolvePath();
 function customResolvePath(sourceFile, currentFile, opts) {
-  // Do not transform handlebars-inline-precompile
-  if (sourceFile === 'handlebars-inline-precompile') {
+  // Do not transform @okta/handlebars-inline-precompile
+  if (sourceFile === '@okta/handlebars-inline-precompile') {
     return sourceFile;
   }
   // Bundles are external and setup by top-level webpack
-  if (sourceFile === 'okta-i18n-bundles') {
+  if (sourceFile === '@okta/okta-i18n-bundles') {
     return sourceFile;
   }
   return defaultResolvePath(sourceFile, currentFile, opts);

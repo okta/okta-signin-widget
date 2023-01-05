@@ -39,11 +39,11 @@ module.exports = {
 
     // General remapping
     '^nls/(.*)': '@okta/i18n/src/json/$1',
-    '^okta$': `${LOCAL_PACKAGES}/@okta/courage-dist/esm/src/index.js`,
-    '^okta-i18n-bundles$': `${ROOT}/src/util/Bundles`,
-    '^qtip$': '@okta/qtip2/dist/jquery.qtip.js',
-    '^duo$': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
-    '^typingdna$': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
+    '^@okta/courage$': `${LOCAL_PACKAGES}/@okta/courage-dist/esm/src/index.js`,
+    '^@okta/okta-i18n-bundles$': `${ROOT}/src/util/Bundles`,
+    '^@okta/qtip$': '@okta/qtip2/dist/jquery.qtip.js',
+    '^@okta/duo$': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
+    '^@okta/typingdna$': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
     '^LoginRouter$': `${ROOT}/src/LoginRouter`,
   },
   setupFiles: [

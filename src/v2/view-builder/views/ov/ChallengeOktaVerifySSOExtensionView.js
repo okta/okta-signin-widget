@@ -1,6 +1,6 @@
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { BaseForm } from '../../internals';
-import { loc, createCallout, _ } from 'okta';
+import { loc, createCallout, _ } from '@okta/courage';
 import { getBiometricsErrorOptions } from '../../utils/ChallengeViewUtil';
 
 // for EA,

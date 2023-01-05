@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 210], camelcase:0 */
-import { _, $, Backbone, Router, internal } from 'okta';
+import { _, $, Backbone, Router, internal } from '@okta/courage';
 import getAuthClient from 'helpers/getAuthClient';
 import LoginRouter from 'v1/LoginRouter';
 import PrimaryAuthController from 'v1/controllers/PrimaryAuthController';

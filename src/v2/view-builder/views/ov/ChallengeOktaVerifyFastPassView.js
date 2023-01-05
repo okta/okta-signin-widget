@@ -1,4 +1,4 @@
-import { _, createCallout } from 'okta';
+import { _, createCallout } from '@okta/courage';
 import { BaseOktaVerifyChallengeView } from '../../internals';
 import { getBiometricsErrorOptions } from '../../utils/ChallengeViewUtil';
 

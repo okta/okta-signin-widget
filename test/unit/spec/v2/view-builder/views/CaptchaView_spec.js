@@ -1,4 +1,4 @@
-import { Model } from 'okta';
+import { Model } from '@okta/courage';
 import CaptchaView from 'v2/view-builder/views/captcha/CaptchaView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';

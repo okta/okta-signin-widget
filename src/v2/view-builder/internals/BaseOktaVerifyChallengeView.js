@@ -1,4 +1,4 @@
-import { $ } from 'okta';
+import { $ } from '@okta/courage';
 import { BaseFormWithPolling } from '../internals';
 import Logger from 'util/Logger';
 import {

@@ -1,5 +1,5 @@
-import { View, createButton } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { View, createButton } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 
 export default View.extend({
   className: 'sign-in-with-idp',

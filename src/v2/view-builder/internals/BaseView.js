@@ -1,9 +1,9 @@
-import { _, View } from 'okta';
+import { _, View } from '@okta/courage';
 import BaseHeader from './BaseHeader';
 import BaseForm from './BaseForm';
 import BaseModel from './BaseModel';
 import BaseFooter from './BaseFooter';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import {getClassNameMapping} from '../../ion/ViewClassNamesFactory';
 
 export default View.extend({

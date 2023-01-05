@@ -74,17 +74,17 @@ module.exports = function({
       alias: {
         // General remapping
         'nls': '@okta/i18n/src/json',
-        // 'okta': `${LOCAL_PACKAGES}/@okta/courage-dist`,
-        'okta-i18n-bundles': 'util/Bundles',
+        // '@okta/courage': `${LOCAL_PACKAGES}/@okta/courage-dist`,
+        '@okta/okta-i18n-bundles': 'util/Bundles',
 
         // Vendor files from courage that
         'handlebars/runtime': `${COURAGE_DIST}/lib/handlebars/dist/cjs/handlebars.runtime`,
         'handlebars$': `${COURAGE_DIST}/lib/handlebars/dist/cjs/handlebars.runtime`,
 
-        'qtip': '@okta/qtip2/dist/jquery.qtip.js',
+        '@okta/qtip': '@okta/qtip2/dist/jquery.qtip.js',
 
-        'duo': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
-        'typingdna': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
+        '@okta/duo': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
+        '@okta/typingdna': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
       }
     },
 

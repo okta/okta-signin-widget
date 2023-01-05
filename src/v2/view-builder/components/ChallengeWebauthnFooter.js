@@ -9,8 +9,8 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { loc, View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { loc, View } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import AuthenticatorFooter from './AuthenticatorFooter';
 
 const OKTA_AUTHENTICATOR = 'Okta_Authenticator';

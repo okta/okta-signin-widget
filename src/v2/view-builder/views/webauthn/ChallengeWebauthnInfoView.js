@@ -1,5 +1,5 @@
-import { loc, View, createCallout } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { loc, View, createCallout } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 
 export default View.extend({
   // eslint-disable-next-line max-len

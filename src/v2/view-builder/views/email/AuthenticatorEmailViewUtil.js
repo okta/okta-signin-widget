@@ -1,5 +1,5 @@
-import hbs from 'handlebars-inline-precompile';
-import { View } from 'okta';
+import hbs from '@okta/handlebars-inline-precompile';
+import { View } from '@okta/courage';
 
 // Courage doesn't support HTML, hence creating a subtitle here.
 const CheckYourEmailTitle = View.extend({

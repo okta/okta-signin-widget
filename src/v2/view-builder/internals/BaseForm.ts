@@ -1,6 +1,6 @@
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 
-import { _, Form, loc, internal, createCallout, View } from 'okta';
+import { _, Form, loc, internal, createCallout, View } from '@okta/courage';
 import * as FormInputFactory from './FormInputFactory';
 
 const { FormUtil } = internal.views.forms.helpers;

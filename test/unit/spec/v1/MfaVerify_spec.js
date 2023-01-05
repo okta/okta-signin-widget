@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint camelcase: 0 */
-import { _, $, internal } from 'okta';
+import { _, $, internal } from '@okta/courage';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
-import Duo from 'duo';
+import Duo from '@okta/duo';
 import Beacon from 'helpers/dom/Beacon';
 import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
 import Util from 'helpers/mocks/Util';

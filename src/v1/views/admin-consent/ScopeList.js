@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* eslint max-len: [2, 131] */
-import hbs from 'handlebars-inline-precompile';
-import { _, View, loc } from 'okta';
+import hbs from '@okta/handlebars-inline-precompile';
+import { _, View, loc } from '@okta/courage';
 import ScopeItem from './ScopeItem';
 
 const SCOPE_N_GROUP_CONFIG = {

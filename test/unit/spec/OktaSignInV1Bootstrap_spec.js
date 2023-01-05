@@ -1,4 +1,4 @@
-import { $ } from 'okta';
+import { $ } from '@okta/courage';
 import PrimaryAuthForm from 'helpers/dom/PrimaryAuthForm';
 import Expect from 'helpers/util/Expect';
 import errorResponse from 'helpers/xhr/ERROR_invalid_token';

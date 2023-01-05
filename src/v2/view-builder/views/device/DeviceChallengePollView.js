@@ -1,4 +1,4 @@
-import { loc, createCallout } from 'okta';
+import { loc, createCallout } from '@okta/courage';
 import { BaseFooter, BaseView, BaseOktaVerifyChallengeView } from '../../internals';
 import Enums from '../../../../util/Enums';
 import {

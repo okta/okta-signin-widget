@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from 'okta';
+import { loc } from '@okta/courage';
 import PrimaryAuthModel from 'v1/models/PrimaryAuth';
 import CookieUtil from 'util/CookieUtil';
 import Enums from 'util/Enums';

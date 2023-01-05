@@ -1,9 +1,9 @@
-import { loc, View } from 'okta';
+import { loc, View } from '@okta/courage';
 import { BaseFooter } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { getForgotPasswordLink, getSignUpLink } from '../utils/LinksUtil';
 import Link from './Link';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 
 export default BaseFooter.extend({
 

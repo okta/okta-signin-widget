@@ -11,7 +11,7 @@
  */
 
 // TODO: Use AuthJS for device fingerprinting: OKTA-418160
-import { $ } from 'okta';
+import { $ } from '@okta/courage';
 
 function getUserAgent() {
   return navigator.userAgent;

@@ -1,6 +1,6 @@
 import { emailVerifyCallback } from 'v2/client/emailVerifyCallback';
 import TerminalOTPOnly from '../../../../../playground/mocks/data/idp/idx/terminal-return-otp-only-no-location.json';
-import { Model } from 'okta';
+import { Model } from '@okta/courage';
 
 describe('email verify callback', () => {
   let testContext;

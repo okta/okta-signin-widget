@@ -1,8 +1,8 @@
-import { loc } from 'okta';
+import { loc } from '@okta/courage';
 import { BaseForm } from '../../internals';
 import ConsentViewForm from './ConsentViewForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import hbs from 'handlebars-inline-precompile';
+import hbs from '@okta/handlebars-inline-precompile';
 import EmailAuthenticatorHeader from '../../components/EmailAuthenticatorHeader';
 
 const getInfo = hbs`

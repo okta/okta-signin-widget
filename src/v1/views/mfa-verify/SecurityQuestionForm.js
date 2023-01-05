@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, Form, loc } from 'okta';
+import { _, Form, loc } from '@okta/courage';
 export default Form.extend({
   className: 'mfa-verify-question',
   autoSave: true,

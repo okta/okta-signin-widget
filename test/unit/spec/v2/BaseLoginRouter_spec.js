@@ -1,4 +1,4 @@
-import { Controller, _ } from 'okta';
+import { Controller, _ } from '@okta/courage';
 import Util from 'helpers/mocks/Util';
 import BaseLoginRouter from 'v2/BaseLoginRouter';
 import FormController from 'v2/controllers/FormController';

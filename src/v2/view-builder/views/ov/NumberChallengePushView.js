@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc } from '@okta/courage';
 import { BaseFormWithPolling } from '../../internals';
 import polling from '../shared/polling';
 import ResendNumberChallengeView from './ResendNumberChallengeView';

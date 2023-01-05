@@ -15,8 +15,8 @@ const I18N_DIR = path.resolve(NODE_MODULES_DEST, 'i18n');
 
 const extensions = ['.js', '.ts'];
 const external = [
-  'qtip',
-  'okta-i18n-bundles',
+  '@okta/qtip',
+  '@okta/okta-i18n-bundles',
   'clipboard'
 ];
 

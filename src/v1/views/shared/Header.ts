@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { View } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import Animations from 'util/Animations';
 import LoadingBeacon from 'v1/views/shared/LoadingBeacon';
 const NO_BEACON_CLS = 'no-beacon';

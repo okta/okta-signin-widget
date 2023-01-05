@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, View, loc } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { _, View, loc } from '@okta/courage';
+import hbs from '@okta/handlebars-inline-precompile';
 import FactorUtil from 'util/FactorUtil';
 import RouterUtil from 'v1/util/RouterUtil';
 export default View.extend({

@@ -1,4 +1,4 @@
-import { _, $ } from 'okta';
+import { _, $ } from '@okta/courage';
 import Form from './Form';
 const USERNAME_FIELD = 'username';
 const USERNAME_LABEL = 'label[for="okta-signin-username"]';
