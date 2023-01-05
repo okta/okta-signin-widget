@@ -22,6 +22,7 @@ import {
   SpinnerElement,
   TitleElement,
 } from '../../types';
+import { CHALLENGE_METHOD } from '../../constants';
 import { loc } from '../../util';
 import { transformOktaVerifyDeviceChallengePoll, transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 import { getUIElementWithName } from '../utils';
@@ -119,11 +120,12 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
       } as SpinnerElement);
     }
   } else if (selectedMethod.type === 'signed_nonce') {
-    if (relatesTo?.value.type === 'app') {
-      // relatesTo.value.type === 'app' reflects a FastPass OV Loopback flow
+    // selectedMethod.type === 'signed_nonce' reflects a FastPass OV flow
+    // @ts-expect-error ts(2339) Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
+    const challengeMethod = relatesTo?.value?.contextualData?.challenge?.value?.challengeMethod;
+    if (challengeMethod === CHALLENGE_METHOD.LOOPBACK) {
       return transformOktaVerifyFPLoopbackPoll(options);
     }
-    // selectedMethod.type === 'signed_nonce' reflects a FastPass OV flow
     return transformOktaVerifyDeviceChallengePoll(options);
   }
 
