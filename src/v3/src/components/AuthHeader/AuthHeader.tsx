@@ -11,14 +11,12 @@
  */
 
 import { Box, Typography } from '@mui/material';
-import { withTheme } from '@okta/odyssey-react-theme';
 import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
 import AuthCoin from '../AuthCoin/AuthCoin';
 import AuthCoinByAuthenticatorKeyConfig from '../AuthCoin/AuthCoinConfig';
-import { theme as authHeaderTheme } from './AuthHeader.theme';
 import style from './style.module.css';
 
 const cx = classNames.bind(style);
@@ -85,4 +83,4 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   );
 };
 
-export default withTheme(authHeaderTheme, style)(AuthHeader);
+export default AuthHeader;

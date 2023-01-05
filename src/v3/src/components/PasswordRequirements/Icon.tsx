@@ -11,16 +11,11 @@
  */
 
 import { Box } from '@mui/material';
-import { Icon as OdyIcon } from '@okta/odyssey-react';
-import { withTheme } from '@okta/odyssey-react-theme';
+import { Icon as OdyIcon } from '@okta/odyssey-react-mui';
 import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementStatus } from '../../types';
-import { theme } from './PasswordRequirements.theme';
-import style from './style.module.css';
-
-const cx = classNames.bind(style);
 
 type PasswordRequirementIconProps = {
   status: PasswordRequirementStatus;
@@ -30,25 +25,25 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
   props,
 ) => {
   const { status } = props;
-  const statusToIconName = {
-    incomplete: 'close',
-    complete: 'check-circle-filled',
-    info: 'information-circle-filled',
+  const statusToIconProps = {
+    incomplete: { name: 'close', color: 'grey.500' },
+    complete: { name: 'check-circle-filled', color: 'success' },
+    info: { name: 'information-circle', color: 'info' },
   };
-  const iconClasses = cx('passwordRequirementIcon', {
-    complete: status === 'complete',
-    incomplete: status === 'incomplete',
-    info: status === 'info',
-  });
+  const iconClasses = classNames('passwordRequirementIcon');
 
   return (
-    <Box className={iconClasses}>
+    <Box
+      className={iconClasses}
+      marginRight={1}
+    >
       <OdyIcon
         // TODO: OKTA-556721 - Create and use loc string here for requirement status
         title={status}
-        name={statusToIconName[status]}
+        name={statusToIconProps[status].name}
+        color={statusToIconProps[status].color}
       />
     </Box>
   );
 };
-export default withTheme(theme, style)(Icon);
+export default Icon;

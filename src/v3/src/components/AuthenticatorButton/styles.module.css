@@ -1,6 +1,6 @@
 .authButton:hover {
   cursor: pointer;
-  border-color: var(--ColorBorderPrimaryBase, #1662dd);
+  border-color: var(--ColorPrimaryBase, #1662dd);
 }
 .authButton:hover .actionName {
   color: var(--ColorHover);
@@ -30,5 +30,4 @@
 
 .actionName svg {
   margin: 0 0 0 5px;
-  fill: currentColor;
 }

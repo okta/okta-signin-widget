@@ -12,7 +12,6 @@
 
 import { Box, Typography } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
-import { withTheme } from '@okta/odyssey-react-theme';
 import classNames from 'classnames';
 import { h } from 'preact';
 
@@ -25,8 +24,7 @@ import {
 } from '../../types';
 import { getTranslation, getValidationMessages } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
-import ArrowRight from './arrow-right.svg';
-import { theme } from './AuthenticatorButton.theme';
+import { RightArrowIcon } from '../Icon';
 import style from './styles.module.css';
 
 const AuthenticatorButton: UISchemaElementComponent<{
@@ -36,7 +34,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const buttonClasses = classNames('authenticator-row', style.authButton);
   const buttonDescrClasses = classNames('authenticator-description', style.infoSection);
   const {
-    translations,
+    translations = [],
     focus,
     ariaDescribedBy,
     options: {
@@ -55,7 +53,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       includeImmutableData,
     },
   } = uischema;
-  const label = getTranslation(translations!, 'label');
+  const label = getTranslation(translations, 'label');
   const { dataSchemaRef, data, loading } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const onValidationHandler = useOnSubmitValidation();
@@ -91,7 +89,16 @@ const AuthenticatorButton: UISchemaElementComponent<{
     <Box
       component="button"
       type={type}
-      sx={{ width: 1, backgroundColor: 'inherit' }}
+      sx={(theme) => ({
+        '--ColorHover': theme.palette.primary.dark,
+        '--ColorPrimaryBase': theme.palette.primary.main,
+        '--FocusOutlineColor': Tokens.FocusOutlineColorPrimary,
+        '--FocusOutlineOffset': Tokens.FocusOutlineOffsetBase,
+        '--FocusOutlineStyle': Tokens.FocusOutlineStyle,
+        '--FocusOutlineWidth': Tokens.FocusOutlineWidthBase,
+        width: 1,
+        backgroundColor: 'inherit',
+      })}
       display="flex"
       padding={2}
       border={1}
@@ -168,10 +175,13 @@ const AuthenticatorButton: UISchemaElementComponent<{
           >
             {ctaLabel}
           </Box>
-          <ArrowRight />
+          <RightArrowIcon
+            name="arrow-right"
+            description={ctaLabel}
+          />
         </Box>
       </Box>
     </Box>
   );
 };
-export default withTheme(theme, style)(AuthenticatorButton);
+export default AuthenticatorButton;

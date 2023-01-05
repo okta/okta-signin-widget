@@ -6,11 +6,6 @@
   padding: 0 3px 0 3px;
 }
 
-.customAuthImage {
-  width: var(--CustomAuthImageWidth);
-  height: var(--CustomAuthImageHeight);
-}
-
 :global(.siwFillPrimary) {
   fill: var(--PrimaryFill);
 }
