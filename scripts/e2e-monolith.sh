@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 # Monolith version to test against
-export MONOLITH_BUILDVERSION=2022.10.1-begin-254-gaefef87dfc4e
+export MONOLITH_BUILDVERSION=2023.01.0-begin-28-g616122a68e33
 
 export LOCAL_MONOLITH=true
 export CI=true
