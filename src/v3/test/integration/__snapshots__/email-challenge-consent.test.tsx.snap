@@ -138,7 +138,7 @@ exports[`email-challenge-consent should render form 1`] = `
                     class="MuiBox-root emotion-9"
                   >
                     <span
-                      class="ods-WBGspT ods-CiGkPi ods-tuhtxM ods-A5HkWn ods-hyqora ods-Mnvr8T ods-Xt1deP ods-e4Unrq ods-HRHaLb"
+                      class="MuiTypography-root MuiTypography-body1 emotion-20"
                     >
                       CHROME
                     </span>
@@ -161,7 +161,7 @@ exports[`email-challenge-consent should render form 1`] = `
                     class="MuiBox-root emotion-9"
                   >
                     <span
-                      class="ods-WBGspT ods-CiGkPi ods-tuhtxM ods-A5HkWn ods-hyqora ods-Mnvr8T ods-Xt1deP ods-e4Unrq ods-HRHaLb"
+                      class="MuiTypography-root MuiTypography-body1 emotion-20"
                     >
                       Okta Dashboard
                     </span>
@@ -173,7 +173,7 @@ exports[`email-challenge-consent should render form 1`] = `
               >
                 <button
                   aria-describedby="email-challenge-consent_Title_Did_you_just_try_to_sign_in_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth emotion-25"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth emotion-27"
                   data-type="cancel"
                   tabindex="0"
                   type="button"
@@ -186,7 +186,7 @@ exports[`email-challenge-consent should render form 1`] = `
               >
                 <button
                   aria-describedby="email-challenge-consent_Title_Did_you_just_try_to_sign_in_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth emotion-25"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth emotion-27"
                   data-type="save"
                   tabindex="0"
                   type="button"

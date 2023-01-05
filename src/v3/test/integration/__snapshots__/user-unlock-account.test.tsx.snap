@@ -158,7 +158,7 @@ exports[`user-unlock-account renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="okta_email_0-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -167,7 +167,7 @@ exports[`user-unlock-account renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="okta_email_0-arrow-right"
                             >
                               Select
                             </title>
@@ -264,7 +264,7 @@ exports[`user-unlock-account renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="phone_number_1-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -273,7 +273,7 @@ exports[`user-unlock-account renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="phone_number_1-arrow-right"
                             >
                               Select
                             </title>

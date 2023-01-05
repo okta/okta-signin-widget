@@ -12,8 +12,7 @@
 
 import './style.module.css';
 
-import { Box } from '@mui/material';
-import { Text } from '@okta/odyssey-react';
+import { Box, Typography } from '@mui/material';
 import { h } from 'preact';
 import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
 
@@ -43,7 +42,7 @@ const ImageWithText: UISchemaElementComponent<{
         textContent
         && (
         <Box>
-          <Text as="span">{textContent}</Text>
+          <Typography component="span">{textContent}</Typography>
         </Box>
         )
       }

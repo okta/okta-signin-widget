@@ -181,7 +181,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="okta_password_0-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -190,7 +190,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="okta_password_0-arrow-right"
                             >
                               Select
                             </title>
@@ -297,7 +297,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="webauthn_1-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -306,7 +306,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="webauthn_1-arrow-right"
                             >
                               Select
                             </title>
@@ -393,7 +393,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="okta_email_2-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -402,7 +402,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="okta_email_2-arrow-right"
                             >
                               Select
                             </title>
@@ -506,7 +506,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="phone_number_3-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -515,7 +515,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="phone_number_3-arrow-right"
                             >
                               Select
                             </title>
@@ -619,7 +619,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="phone_number_4-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -628,7 +628,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="phone_number_4-arrow-right"
                             >
                               Select
                             </title>
@@ -715,7 +715,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="security_question_5-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -724,7 +724,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="security_question_5-arrow-right"
                             >
                               Select
                             </title>
@@ -815,7 +815,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="okta_verify_6-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -824,7 +824,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="okta_verify_6-arrow-right"
                             >
                               Select
                             </title>
@@ -983,7 +983,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="google_otp_7-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -992,7 +992,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="google_otp_7-arrow-right"
                             >
                               Select
                             </title>
@@ -1079,7 +1079,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="onprem_mfa_8-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1088,7 +1088,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="onprem_mfa_8-arrow-right"
                             >
                               Select
                             </title>
@@ -1169,7 +1169,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="rsa_token_9-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1178,7 +1178,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="rsa_token_9-arrow-right"
                             >
                               Select
                             </title>
@@ -1261,7 +1261,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="duo_10-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1270,7 +1270,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="duo_10-arrow-right"
                             >
                               Select
                             </title>
@@ -1362,7 +1362,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="external_idp_11-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1371,7 +1371,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="external_idp_11-arrow-right"
                             >
                               Select
                             </title>
@@ -1463,7 +1463,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="custom_otp_12-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1472,7 +1472,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="custom_otp_12-arrow-right"
                             >
                               Select
                             </title>
@@ -1561,7 +1561,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="symantec_vip_13-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1570,7 +1570,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="symantec_vip_13-arrow-right"
                             >
                               Select
                             </title>
@@ -1659,7 +1659,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="yubikey_token_14-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1668,7 +1668,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="yubikey_token_14-arrow-right"
                             >
                               Select
                             </title>
@@ -1735,7 +1735,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="custom_app_15-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1744,7 +1744,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="custom_app_15-arrow-right"
                             >
                               Select
                             </title>

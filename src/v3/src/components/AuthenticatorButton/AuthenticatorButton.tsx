@@ -176,7 +176,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             {ctaLabel}
           </Box>
           <RightArrowIcon
-            name="arrow-right"
+            name={`${iconName}-arrow-right`}
             description={ctaLabel}
           />
         </Box>

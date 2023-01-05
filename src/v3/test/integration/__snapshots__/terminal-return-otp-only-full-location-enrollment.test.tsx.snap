@@ -178,7 +178,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                     class="MuiBox-root emotion-9"
                   >
                     <span
-                      class="ods-WBGspT ods-CiGkPi ods-tuhtxM ods-A5HkWn ods-hyqora ods-Mnvr8T ods-Xt1deP ods-e4Unrq ods-HRHaLb"
+                      class="MuiTypography-root MuiTypography-body1 emotion-29"
                     >
                       FIREFOX on iOS
                     </span>
@@ -201,7 +201,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                     class="MuiBox-root emotion-9"
                   >
                     <span
-                      class="ods-WBGspT ods-CiGkPi ods-tuhtxM ods-A5HkWn ods-hyqora ods-Mnvr8T ods-Xt1deP ods-e4Unrq ods-HRHaLb"
+                      class="MuiTypography-root MuiTypography-body1 emotion-29"
                     >
                       my 3rd magic link spa
                     </span>
@@ -224,7 +224,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                     class="MuiBox-root emotion-9"
                   >
                     <span
-                      class="ods-WBGspT ods-CiGkPi ods-tuhtxM ods-A5HkWn ods-hyqora ods-Mnvr8T ods-Xt1deP ods-e4Unrq ods-HRHaLb"
+                      class="MuiTypography-root MuiTypography-body1 emotion-29"
                     >
                       Toronto, Ontario, Canada
                     </span>

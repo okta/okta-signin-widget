@@ -194,7 +194,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-9"
                   >
                     <span
-                      class="ods-WBGspT ods-CiGkPi ods-tuhtxM ods-A5HkWn ods-hyqora ods-Mnvr8T ods-Xt1deP ods-e4Unrq ods-HRHaLb"
+                      class="MuiTypography-root MuiTypography-body1 emotion-23"
                     >
                       52
                     </span>
@@ -205,21 +205,21 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                 class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-32"
+                  class="MuiBox-root emotion-33"
                 >
                   <span
                     aria-label="Loading..."
                     aria-valuetext="Loading..."
-                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-33"
+                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-34"
                     role="progressbar"
                     style="width: 1.14285714rem; height: 1.14285714rem;"
                   >
                     <svg
-                      class="MuiCircularProgress-svg emotion-34"
+                      class="MuiCircularProgress-svg emotion-35"
                       viewBox="22 22 44 44"
                     >
                       <circle
-                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-35"
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-36"
                         cx="44"
                         cy="44"
                         fill="none"
@@ -234,7 +234,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >

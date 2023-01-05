@@ -203,7 +203,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="okta_password_0-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -212,7 +212,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="okta_password_0-arrow-right"
                             >
                               Set up
                             </title>
@@ -316,7 +316,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="phone_number_1-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -325,7 +325,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="phone_number_1-arrow-right"
                             >
                               Set up
                             </title>
@@ -439,7 +439,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="webauthn_2-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -448,7 +448,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="webauthn_2-arrow-right"
                             >
                               Set up
                             </title>
@@ -542,7 +542,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="security_question_3-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -551,7 +551,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="security_question_3-arrow-right"
                             >
                               Set up
                             </title>
@@ -642,7 +642,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="okta_verify_4-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -651,7 +651,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="okta_verify_4-arrow-right"
                             >
                               Set up
                             </title>
@@ -817,7 +817,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="google_otp_5-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -826,7 +826,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="google_otp_5-arrow-right"
                             >
                               Set up
                             </title>
@@ -920,7 +920,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="onprem_mfa_6-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -929,7 +929,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="onprem_mfa_6-arrow-right"
                             >
                               Set up
                             </title>
@@ -1017,7 +1017,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="rsa_token_7-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1026,7 +1026,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="rsa_token_7-arrow-right"
                             >
                               Set up
                             </title>
@@ -1116,7 +1116,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="duo_8-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1125,7 +1125,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="duo_8-arrow-right"
                             >
                               Set up
                             </title>
@@ -1224,7 +1224,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="external_idp_9-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1233,7 +1233,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="external_idp_9-arrow-right"
                             >
                               Set up
                             </title>
@@ -1332,7 +1332,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="custom_otp_10-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1341,7 +1341,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="custom_otp_10-arrow-right"
                             >
                               Set up
                             </title>
@@ -1437,7 +1437,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="symantec_vip_11-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1446,7 +1446,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="symantec_vip_11-arrow-right"
                             >
                               Set up
                             </title>
@@ -1542,7 +1542,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             Set up
                           </span>
                           <svg
-                            aria-labelledby="arrow-right"
+                            aria-labelledby="yubikey_token_12-arrow-right"
                             fill="currentColor"
                             height="11"
                             role="img"
@@ -1551,7 +1551,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <title
-                              id="arrow-right"
+                              id="yubikey_token_12-arrow-right"
                             >
                               Set up
                             </title>
