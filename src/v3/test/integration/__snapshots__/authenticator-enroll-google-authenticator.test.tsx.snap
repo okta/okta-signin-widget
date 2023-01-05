@@ -144,7 +144,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -230,7 +230,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_3_1"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth emotion-24"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-24"
                     tabindex="0"
                     type="button"
                   >
@@ -242,7 +242,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_3_1"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-26"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                     tabindex="0"
                     type="button"
                   >
@@ -425,7 +425,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -500,13 +500,14 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     class="MuiBox-root emotion-9"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
+                      class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
                       for="credentials.passcode"
                     >
                       Enter code
                     </label>
                     <div
                       class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
+                      required="true"
                     >
                       <input
                         aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_10_3"
@@ -517,6 +518,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                         id="credentials.passcode"
                         inputmode="numeric"
                         name="credentials.passcode"
+                        required=""
                         type="text"
                       />
                     </div>
@@ -527,15 +529,12 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_10_3"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-26"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                     data-type="save"
                     tabindex="0"
                     type="submit"
                   >
                     Verify
-                    <span
-                      class="MuiTouchRipple-root emotion-27"
-                    />
                   </button>
                 </div>
               </div>
@@ -543,7 +542,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -554,7 +553,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -714,7 +713,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -802,14 +801,11 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_To_set_up_manually_enter_your_Okta_Account_username_and_then_input_the_following_in_the_Secret_Key_Field_google_otp_aut2m5drzzUlo4Bn81d7_7_2 enroll-authenticator_Description_K_A_G_W_B_I_X_A_K_O_L_P_E_F_M_Y_google_otp_aut2m5drzzUlo4Bn81d7_8_2"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-24"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-24"
                     tabindex="0"
                     type="button"
                   >
                     Next
-                    <span
-                      class="MuiTouchRipple-root emotion-25"
-                    />
                   </button>
                 </div>
               </div>
@@ -817,7 +813,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -828,7 +824,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -988,7 +984,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -1063,13 +1059,14 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiBox-root emotion-9"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
+                      class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
                       for="credentials.passcode"
                     >
                       Enter code
                     </label>
                     <div
                       class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
+                      required="true"
                     >
                       <input
                         aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_10_3"
@@ -1080,6 +1077,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                         id="credentials.passcode"
                         inputmode="numeric"
                         name="credentials.passcode"
+                        required=""
                         type="text"
                       />
                     </div>
@@ -1090,15 +1088,12 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_10_3"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-26"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                     data-type="save"
                     tabindex="0"
                     type="submit"
                   >
                     Verify
-                    <span
-                      class="MuiTouchRipple-root emotion-27"
-                    />
                   </button>
                 </div>
               </div>
@@ -1106,7 +1101,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1117,7 +1112,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

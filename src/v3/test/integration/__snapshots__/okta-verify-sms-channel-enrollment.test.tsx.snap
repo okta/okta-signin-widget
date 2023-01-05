@@ -69,7 +69,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -129,7 +129,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                     class="MuiBox-root emotion-13"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
+                      class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
                       for="countryList"
                       id="countryLabel"
                     >
@@ -1373,13 +1373,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                       class="MuiBox-root emotion-24"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
                         for="phoneNumber"
                       >
                         Phone number
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-26"
+                        required="true"
                       >
                         <span
                           class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-27"
@@ -1399,6 +1400,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                           id="phoneNumber"
                           inputmode="tel"
                           name="phoneNumber"
+                          required=""
                           type="tel"
                         />
                       </div>
@@ -1426,7 +1428,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
               >
                 <button
                   aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-34"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
                   data-type="save"
                   tabindex="0"
                   type="submit"

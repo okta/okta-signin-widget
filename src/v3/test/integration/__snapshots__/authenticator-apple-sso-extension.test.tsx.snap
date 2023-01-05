@@ -56,13 +56,14 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                   class="MuiBox-root emotion-11"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-12"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
                     for="identifier"
                   >
                     Username
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                    required="true"
                   >
                     <input
                       aria-describedby="identify_Title_Sign_In_1"
@@ -72,6 +73,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       data-se="identifier"
                       id="identifier"
                       name="identifier"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -88,7 +90,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-17"
                   >
                     <span
-                      class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-18"
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-18"
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-19"
@@ -123,7 +125,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
               >
                 <button
                   aria-describedby="identify_Title_Sign_In_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-23"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -233,13 +235,14 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                   class="MuiBox-root emotion-11"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-12"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
                     for="identifier"
                   >
                     Username
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                    required="true"
                   >
                     <input
                       aria-describedby="identify_Title_Sign_In_1"
@@ -249,6 +252,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       data-se="identifier"
                       id="identifier"
                       name="identifier"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -265,7 +269,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-17"
                   >
                     <span
-                      class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-18"
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-18"
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-19"
@@ -300,7 +304,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
               >
                 <button
                   aria-describedby="identify_Title_Sign_In_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-23"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -410,13 +414,14 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                   class="MuiBox-root emotion-11"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-12"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
                     for="identifier"
                   >
                     Username
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                    required="true"
                   >
                     <input
                       aria-describedby="identify_Title_Sign_In_1"
@@ -426,6 +431,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       data-se="identifier"
                       id="identifier"
                       name="identifier"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -442,7 +448,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-17"
                   >
                     <span
-                      class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-18"
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-18"
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-19"
@@ -477,7 +483,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
               >
                 <button
                   aria-describedby="identify_Title_Sign_In_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-23"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
                   data-type="save"
                   tabindex="0"
                   type="submit"

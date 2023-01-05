@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { CircularProgress } from '@mui/material';
-import { Box, Button as OdyButton } from '@okta/odyssey-react-mui';
+import { Box, Button as OdyButton, CircularProgress } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 

@@ -11,7 +11,9 @@
  */
 
 import {
-  ListItem, ListItemIcon, ListItemText,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 

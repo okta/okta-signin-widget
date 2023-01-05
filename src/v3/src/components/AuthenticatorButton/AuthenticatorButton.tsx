@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Typography } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
+import { Box, Typography } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
 import { h } from 'preact';
 
@@ -92,7 +92,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       sx={(theme) => ({
         '--ColorHover': theme.palette.primary.dark,
         '--ColorPrimaryBase': theme.palette.primary.main,
-        '--FocusOutlineColor': Tokens.FocusOutlineColorPrimary,
+        '--FocusOutlineColor': theme.palette.primary.main,
         '--FocusOutlineOffset': Tokens.FocusOutlineOffsetBase,
         '--FocusOutlineStyle': Tokens.FocusOutlineStyle,
         '--FocusOutlineWidth': Tokens.FocusOutlineWidthBase,

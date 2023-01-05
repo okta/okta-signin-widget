@@ -69,7 +69,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -126,13 +126,14 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                   class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
                     for="email"
                   >
                     Email
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-19"
+                    required="true"
                   >
                     <input
                       aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_email_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
@@ -143,6 +144,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                       id="email"
                       inputmode="email"
                       name="email"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -168,7 +170,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
               >
                 <button
                   aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_email_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-25"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
                   data-type="save"
                   tabindex="0"
                   type="submit"

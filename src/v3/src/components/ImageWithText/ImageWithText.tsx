@@ -12,7 +12,7 @@
 
 import './style.module.css';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
 

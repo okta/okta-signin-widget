@@ -12,6 +12,7 @@
 
 import { ScopedCssBaseline } from '@mui/material';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { MuiThemeProvider as OdysseyMuiThemeProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
   AuthenticatorKey,
@@ -280,22 +281,24 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       <MuiThemeProvider theme={mapMuiThemeFromBrand(brandColors)}>
         {/* the style is to allow the widget to inherit the parent's bg color */}
         <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
-          <AuthContainer>
-            <AuthHeader
-              logo={logo}
-              logoText={logoText}
-              brandName={brandName}
-              authCoinProps={buildAuthCoinProps(idxTransaction)}
-            />
-            <AuthContent>
-              <IdentifierContainer />
-              {
-                uischema.elements.length > 0
-                  ? <Form uischema={uischema as UISchemaLayout} />
-                  : <Spinner />
-              }
-            </AuthContent>
-          </AuthContainer>
+          <OdysseyMuiThemeProvider theme={mapMuiThemeFromBrand(brandColors)}>
+            <AuthContainer>
+              <AuthHeader
+                logo={logo}
+                logoText={logoText}
+                brandName={brandName}
+                authCoinProps={buildAuthCoinProps(idxTransaction)}
+              />
+              <AuthContent>
+                <IdentifierContainer />
+                {
+                  uischema.elements.length > 0
+                    ? <Form uischema={uischema as UISchemaLayout} />
+                    : <Spinner />
+                }
+              </AuthContent>
+            </AuthContainer>
+          </OdysseyMuiThemeProvider>
         </ScopedCssBaseline>
       </MuiThemeProvider>
     </WidgetContextProvider>

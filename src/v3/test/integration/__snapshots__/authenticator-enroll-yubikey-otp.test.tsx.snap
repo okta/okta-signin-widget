@@ -74,7 +74,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -160,13 +160,14 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                   class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-24"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-24"
                     for="credentials.passcode"
                   >
                     Insert then tap your YubiKey
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-25"
+                    required="true"
                   >
                     <input
                       aria-describedby="enroll-authenticator_Title_Set_up_YubiKey_yubikey_token_aut10faWWbNaNWBaH0g4_2 enroll-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_aut10faWWbNaNWBaH0g4_3"
@@ -176,10 +177,11 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                       data-se="credentials.passcode"
                       id="credentials.passcode"
                       name="credentials.passcode"
+                      required=""
                       type="password"
                     />
                     <div
-                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-27"
+                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-27"
                     >
                       <button
                         aria-controls="credentials.passcode"
@@ -192,7 +194,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-29"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-29"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 16 16"
@@ -205,9 +207,6 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                             fill-rule="evenodd"
                           />
                         </svg>
-                        <span
-                          class="MuiTouchRipple-root emotion-30"
-                        />
                       </button>
                     </div>
                   </div>
@@ -218,7 +217,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
               >
                 <button
                   aria-describedby="enroll-authenticator_Title_Set_up_YubiKey_yubikey_token_aut10faWWbNaNWBaH0g4_2 enroll-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_aut10faWWbNaNWBaH0g4_3"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-32"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-31"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -230,7 +229,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -241,7 +240,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

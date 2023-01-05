@@ -13,9 +13,9 @@
 import {
   Box,
   FormHelperText,
+  InputBase,
   InputLabel,
-} from '@mui/material';
-import { InputBase } from '@okta/odyssey-react-mui';
+} from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';

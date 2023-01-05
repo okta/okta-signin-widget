@@ -56,13 +56,14 @@ exports[`user-unlock-account renders form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-12"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
                     for="identifier"
                   >
                     Username
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                    required="true"
                   >
                     <input
                       aria-describedby="select-authenticator-unlock-account_Title_Unlock_account_1"
@@ -72,6 +73,7 @@ exports[`user-unlock-account renders form 1`] = `
                       data-se="identifier"
                       id="identifier"
                       name="identifier"
+                      required=""
                       type="text"
                     />
                   </div>

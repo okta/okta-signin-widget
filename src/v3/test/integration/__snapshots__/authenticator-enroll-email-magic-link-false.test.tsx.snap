@@ -72,7 +72,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -147,13 +147,14 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                   class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
                     for="credentials.passcode"
                   >
                     Enter Code
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
+                    required="true"
                   >
                     <input
                       aria-describedby="enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_2"
@@ -164,6 +165,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                       id="credentials.passcode"
                       inputmode="numeric"
                       name="credentials.passcode"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -174,7 +176,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
               >
                 <button
                   aria-describedby="enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_2"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-26"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                   data-type="save"
                   tabindex="0"
                   type="submit"

@@ -44,12 +44,16 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   <svg
                     aria-hidden="true"
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-9"
-                    data-testid="ErrorOutlineIcon"
+                    fill="none"
                     focusable="false"
-                    viewBox="0 0 24 24"
+                    viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                      clip-rule="evenodd"
+                      d="M13.983 14.6471C13.4706 15 12.6329 15 10.9575 15H5.04248C3.36707 15 2.52937 15 2.01699 14.6471C1.56939 14.3387 1.26655 13.8615 1.17816 13.3252C1.07698 12.7114 1.43367 11.9534 2.14706 10.4374L5.10455 4.15277C6.02878 2.18879 6.49089 1.2068 7.12576 0.898255C7.6777 0.630012 8.32225 0.630012 8.87419 0.898255C9.50906 1.2068 9.97117 2.18879 10.8954 4.15277L13.8529 10.4374C14.5663 11.9534 14.923 12.7114 14.8218 13.3252C14.7334 13.8615 14.4306 14.3387 13.983 14.6471ZM7.99998 10C7.72383 10 7.49998 9.77614 7.49998 9.5L7.49998 5H8.49998L8.49998 9.5C8.49998 9.77614 8.27612 10 7.99998 10ZM7.99998 13C8.14831 13 8.29332 12.956 8.41665 12.8736C8.53999 12.7912 8.63612 12.6741 8.69288 12.537C8.74965 12.4 8.7645 12.2492 8.73556 12.1037C8.70662 11.9582 8.6352 11.8246 8.53031 11.7197C8.42542 11.6148 8.29178 11.5434 8.14629 11.5144C8.00081 11.4855 7.85001 11.5003 7.71296 11.5571C7.57592 11.6139 7.45878 11.71 7.37637 11.8333C7.29396 11.9567 7.24998 12.1017 7.24998 12.25C7.24998 12.4489 7.32899 12.6397 7.46964 12.7803C7.6103 12.921 7.80106 13 7.99998 13Z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
                     />
                   </svg>
                 </div>
@@ -85,13 +89,13 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-16"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
                     for="userProfile.firstName"
                   >
                     First name
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-18"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-18"
                     >
                        
                       *
@@ -99,6 +103,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-19"
+                    required="true"
                   >
                     <input
                       aria-describedby=" userProfile.firstName-error enroll-profile_Title_Sign_up_1 "
@@ -108,6 +113,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       data-se="userProfile.firstName"
                       id="userProfile.firstName"
                       name="userProfile.firstName"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -132,13 +138,13 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-16"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
                     for="userProfile.lastName"
                   >
                     Last name
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-18"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-18"
                     >
                        
                       *
@@ -146,6 +152,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-19"
+                    required="true"
                   >
                     <input
                       aria-describedby=" userProfile.lastName-error enroll-profile_Title_Sign_up_1 "
@@ -155,6 +162,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       data-se="userProfile.lastName"
                       id="userProfile.lastName"
                       name="userProfile.lastName"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -179,13 +187,13 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-16"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
                     for="userProfile.email"
                   >
                     Email
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-18"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-18"
                     >
                        
                       *
@@ -193,6 +201,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-19"
+                    required="true"
                   >
                     <input
                       aria-describedby=" userProfile.email-error enroll-profile_Title_Sign_up_1 "
@@ -203,6 +212,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       id="userProfile.email"
                       inputmode="email"
                       name="userProfile.email"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -227,25 +237,24 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-40"
                 >
                   <label
-                    class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error Mui-required emotion-41"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-41"
                     for="userProfile.country"
                   >
                     Country
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk Mui-error emotion-18"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk Mui-error emotion-18"
                     >
                        
                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-43"
+                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-43"
                     required="true"
                   >
                     <select
                       aria-describedby=" userProfile.country-error enroll-profile_Title_Sign_up_1 "
-                      aria-invalid="true"
                       class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-44"
                       data-se="userProfile.country"
                       id="userProfile.country"
@@ -1496,13 +1505,13 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-16"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
                     for="userProfile.countryCode"
                   >
                     Country code
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-18"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-18"
                     >
                        
                       *
@@ -1510,6 +1519,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-19"
+                    required="true"
                   >
                     <input
                       aria-describedby=" userProfile.countryCode-error enroll-profile_Title_Sign_up_1 "
@@ -1518,6 +1528,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       data-se="userProfile.countryCode"
                       id="userProfile.countryCode"
                       name="userProfile.countryCode"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -1542,25 +1553,24 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-40"
                 >
                   <label
-                    class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error Mui-required emotion-41"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-41"
                     for="userProfile.timezone"
                   >
                     Time zone
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk Mui-error emotion-18"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk Mui-error emotion-18"
                     >
                        
                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-43"
+                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-43"
                     required="true"
                   >
                     <select
                       aria-describedby=" userProfile.timezone-error enroll-profile_Title_Sign_up_1 "
-                      aria-invalid="true"
                       class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-44"
                       data-se="userProfile.timezone"
                       id="userProfile.timezone"
@@ -1769,26 +1779,23 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
               >
                 <button
                   aria-describedby="enroll-profile_Title_Sign_up_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-66"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-66"
                   data-type="save"
                   tabindex="0"
                   type="submit"
                 >
                   Sign Up
-                  <span
-                    class="MuiTouchRipple-root emotion-67"
-                  />
                 </button>
               </div>
               <div
                 class="MuiBox-root emotion-12"
               >
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-69"
+                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-68"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-70"
+                class="MuiBox-root emotion-69"
               >
                 <div
                   class="MuiBox-root emotion-12"
@@ -1797,7 +1804,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-13"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-73"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-72"
                       data-se="haveaccount"
                       id="enroll-profile_Description_Already_have_an_account_11"
                     >
@@ -1809,7 +1816,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-12"
                 >
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-75"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-74"
                     data-se="back"
                     href="javascript:void(0)"
                   >
@@ -1882,13 +1889,13 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-12"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
                     for="userProfile.firstName"
                   >
                     First name
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-13"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-13"
                     >
                        
                       *
@@ -1896,6 +1903,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-14"
+                    required="true"
                   >
                     <input
                       aria-describedby="enroll-profile_Title_Sign_up_1"
@@ -1905,6 +1913,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       data-se="userProfile.firstName"
                       id="userProfile.firstName"
                       name="userProfile.firstName"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -1917,13 +1926,13 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-12"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
                     for="userProfile.lastName"
                   >
                     Last name
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-13"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-13"
                     >
                        
                       *
@@ -1931,6 +1940,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-14"
+                    required="true"
                   >
                     <input
                       aria-describedby="enroll-profile_Title_Sign_up_1"
@@ -1940,6 +1950,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       data-se="userProfile.lastName"
                       id="userProfile.lastName"
                       name="userProfile.lastName"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -1952,13 +1963,13 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-12"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
                     for="userProfile.email"
                   >
                     Email
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-13"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-13"
                     >
                        
                       *
@@ -1966,6 +1977,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-14"
+                    required="true"
                   >
                     <input
                       aria-describedby="enroll-profile_Title_Sign_up_1"
@@ -1976,6 +1988,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       id="userProfile.email"
                       inputmode="email"
                       name="userProfile.email"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -1988,25 +2001,24 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-29"
                 >
                   <label
-                    class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-30"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-30"
                     for="userProfile.country"
                   >
                     Country
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-13"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-13"
                     >
                        
                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-32"
+                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-32"
                     required="true"
                   >
                     <select
                       aria-describedby="enroll-profile_Title_Sign_up_1"
-                      aria-invalid="false"
                       class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-33"
                       data-se="userProfile.country"
                       id="userProfile.country"
@@ -3245,13 +3257,13 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-12"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
                     for="userProfile.countryCode"
                   >
                     Country code
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-13"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-13"
                     >
                        
                       *
@@ -3259,6 +3271,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-14"
+                    required="true"
                   >
                     <input
                       aria-describedby="enroll-profile_Title_Sign_up_1"
@@ -3267,6 +3280,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       data-se="userProfile.countryCode"
                       id="userProfile.countryCode"
                       name="userProfile.countryCode"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -3279,25 +3293,24 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-29"
                 >
                   <label
-                    class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-30"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-30"
                     for="userProfile.timezone"
                   >
                     Time zone
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-13"
+                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-13"
                     >
                        
                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-32"
+                    class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-32"
                     required="true"
                   >
                     <select
                       aria-describedby="enroll-profile_Title_Sign_up_1"
-                      aria-invalid="false"
                       class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-33"
                       data-se="userProfile.timezone"
                       id="userProfile.timezone"
@@ -3494,7 +3507,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
               >
                 <button
                   aria-describedby="enroll-profile_Title_Sign_up_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-49"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-49"
                   data-type="save"
                   tabindex="0"
                   type="submit"

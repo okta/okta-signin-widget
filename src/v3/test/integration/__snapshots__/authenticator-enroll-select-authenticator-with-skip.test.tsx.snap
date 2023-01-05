@@ -35,7 +35,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                 class="userIconContainer MuiBox-root emotion-8"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-9"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -467,7 +467,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
               >
                 <button
                   aria-describedby="select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_optional_3"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-51"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-51"
                   data-type="save"
                   tabindex="0"
                   type="submit"

@@ -69,7 +69,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -133,7 +133,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                     class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-19"
                   >
                     <span
-                      class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-20"
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-20"
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-21"

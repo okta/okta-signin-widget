@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
+import { Box } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { QRCodeElement, UISchemaElementComponent } from '../../types';

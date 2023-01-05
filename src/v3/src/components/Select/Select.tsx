@@ -11,11 +11,10 @@
  */
 
 import {
-  FormControl,
-  InputLabel,
   Select as MuiSelect,
   SelectChangeEvent,
 } from '@mui/material';
+import { FormControl, InputLabel } from '@okta/odyssey-react-mui';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { h } from 'preact';
 

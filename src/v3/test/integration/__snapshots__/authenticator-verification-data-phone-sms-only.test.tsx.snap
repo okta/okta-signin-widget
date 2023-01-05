@@ -82,7 +82,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -167,7 +167,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
               >
                 <button
                   aria-describedby="authenticator-verification-data_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_1 authenticator-verification-data_Description_Send_a_code_via_SMS_to_1_XXX-XXX-4601_phone_number_sms4bvjioge7Sdu3p5d7_2 authenticator-verification-data_Description_Carrier_messaging_charges_may_apply_phone_number_sms4bvjioge7Sdu3p5d7_3"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-23"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
                   data-type="save"
                   tabindex="0"
                   type="submit"

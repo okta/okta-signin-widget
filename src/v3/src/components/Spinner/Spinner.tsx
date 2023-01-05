@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 const Spinner: FunctionComponent<{

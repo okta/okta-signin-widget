@@ -72,7 +72,7 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -148,7 +148,7 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_okta_email_aut2m2nnGGzJy8uO80g4_7 enroll-authenticator_Title_enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_okta_email_aut2m2nnGGzJy8uO80g4_7"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth emotion-22"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-22"
                     tabindex="0"
                     type="button"
                   >

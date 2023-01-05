@@ -11,13 +11,15 @@
  */
 
 import {
-  Box,
-  InputAdornment,
-  InputLabel,
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { InputBase } from '@okta/odyssey-react-mui';
+import {
+  Box,
+  InputAdornment,
+  InputBase,
+  InputLabel,
+} from '@okta/odyssey-react-mui';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import {

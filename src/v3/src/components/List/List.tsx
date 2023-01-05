@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
 import {
   List as ListOdyssey,
   Text,
 } from '@okta/odyssey-react';
+import { Box } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { ListElement, UISchemaElementComponent } from 'src/types';
+
+import { ListElement, UISchemaElementComponent } from '../../types';
 
 const List: UISchemaElementComponent<{
   uischema: ListElement

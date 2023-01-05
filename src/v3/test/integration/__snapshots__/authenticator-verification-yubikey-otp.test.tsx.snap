@@ -74,7 +74,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -146,13 +146,14 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                   class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-21"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-21"
                     for="credentials.passcode"
                   >
                     Insert then tap your YubiKey
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-22"
+                    required="true"
                   >
                     <input
                       aria-describedby="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1 challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
@@ -162,10 +163,11 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                       data-se="credentials.passcode"
                       id="credentials.passcode"
                       name="credentials.passcode"
+                      required=""
                       type="password"
                     />
                     <div
-                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-24"
+                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-24"
                     >
                       <button
                         aria-controls="credentials.passcode"
@@ -178,7 +180,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-26"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-26"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 16 16"
@@ -191,9 +193,6 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                             fill-rule="evenodd"
                           />
                         </svg>
-                        <span
-                          class="MuiTouchRipple-root emotion-27"
-                        />
                       </button>
                     </div>
                   </div>
@@ -204,7 +203,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
               >
                 <button
                   aria-describedby="challenge-authenticator_Title_Verify_with_YubiKey_yubikey_token_ykf16jdolQhTHA5yp0g4_1 challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-29"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-28"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -216,7 +215,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

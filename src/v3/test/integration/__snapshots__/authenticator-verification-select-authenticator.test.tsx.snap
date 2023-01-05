@@ -35,7 +35,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 class="userIconContainer MuiBox-root emotion-8"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-9"
                   fill="none"
                   focusable="false"
                   role="img"

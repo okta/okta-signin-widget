@@ -56,13 +56,14 @@ exports[`identify-recovery renders form 1`] = `
                   class="MuiBox-root emotion-11"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-12"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
                     for="identifier"
                   >
                     Email or Username
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                    required="true"
                   >
                     <input
                       aria-describedby="identify-recovery_Title_Reset_your_password_1"
@@ -72,6 +73,7 @@ exports[`identify-recovery renders form 1`] = `
                       data-se="identifier"
                       id="identifier"
                       name="identifier"
+                      required=""
                       type="text"
                     />
                   </div>
@@ -82,7 +84,7 @@ exports[`identify-recovery renders form 1`] = `
               >
                 <button
                   aria-describedby="identify-recovery_Title_Reset_your_password_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-16"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-16"
                   data-type="save"
                   tabindex="0"
                   type="submit"
