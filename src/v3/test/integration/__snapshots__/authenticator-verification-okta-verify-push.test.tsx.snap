@@ -69,9 +69,10 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -81,6 +82,9 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -98,16 +102,16 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="authenticator-verification-data_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   >
@@ -116,20 +120,20 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <fieldset
                   aria-describedby="authenticator-verification-data_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
-                  class="MuiFormControl-root MuiFormControl-marginNormal emotion-16"
+                  class="MuiFormControl-root MuiFormControl-marginNormal emotion-17"
                 >
                   <label
-                    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-17"
+                    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-18"
                   >
                     <span
-                      class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-18"
+                      class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root emotion-19"
                     >
                       <input
-                        class="PrivateSwitchBase-input emotion-19"
+                        class="PrivateSwitchBase-input emotion-20"
                         data-se="authenticator.autoChallenge"
                         data-se-for-name="authenticator.autoChallenge"
                         id="authenticator.autoChallenge"
@@ -138,7 +142,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                       />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-20"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-21"
                         data-testid="CheckBoxOutlineBlankIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -149,7 +153,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                       </svg>
                     </span>
                     <span
-                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-21"
+                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
                     >
                       Send push automatically
                     </span>
@@ -157,11 +161,11 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                 </fieldset>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <button
                   aria-describedby="authenticator-verification-data_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-23"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-24"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -170,10 +174,10 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -181,10 +185,10 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

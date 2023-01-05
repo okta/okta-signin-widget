@@ -35,9 +35,10 @@ exports[`unlock-account-success renders form 1`] = `
                 class="userIconContainer MuiBox-root emotion-8"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -47,6 +48,9 @@ exports[`unlock-account-success renders form 1`] = `
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -64,16 +68,16 @@ exports[`unlock-account-success renders form 1`] = `
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-10"
+              class="MuiBox-root emotion-11"
             >
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-13"
+                    class="MuiTypography-root MuiTypography-h4 emotion-14"
                     data-se="o-form-head"
                   >
                     Account successfully unlocked!
@@ -81,13 +85,13 @@ exports[`unlock-account-success renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
                     data-se="o-form-explain"
                   >
                     You can log in using your existing username and password.
@@ -95,10 +99,10 @@ exports[`unlock-account-success renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

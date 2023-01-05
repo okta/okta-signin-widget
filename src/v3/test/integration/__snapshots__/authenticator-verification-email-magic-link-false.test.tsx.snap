@@ -72,9 +72,10 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -84,6 +85,9 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -101,19 +105,19 @@ exports[`Email authenticator verification when email magic link = false Tests sh
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               />
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-14"
+                  class="MuiBox-root emotion-15"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-16"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_2"
                   >
@@ -122,13 +126,13 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-14"
+                  class="MuiBox-root emotion-15"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                     data-se="o-form-explain"
                     id="challenge-authenticator_Description_We_sent_an_email_to_f****************e@examplecom_Enter_the_verification_code_in_the_text_box_okta_email_eae1egri5eK5zce0V1d7_3"
                   >
@@ -137,25 +141,25 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
                   class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-21"
+                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
                     for="credentials.passcode"
                   >
                     Enter Code
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
                   >
                     <input
                       aria-describedby="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_2 challenge-authenticator_Description_We_sent_an_email_to_f****************e@examplecom_Enter_the_verification_code_in_the_text_box_okta_email_eae1egri5eK5zce0V1d7_3"
                       aria-invalid="false"
                       autocomplete="off"
-                      class="MuiInputBase-input emotion-23"
+                      class="MuiInputBase-input emotion-24"
                       data-se="credentials.passcode"
                       id="credentials.passcode"
                       inputmode="numeric"
@@ -166,11 +170,11 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <button
                   aria-describedby="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_2 challenge-authenticator_Description_We_sent_an_email_to_f****************e@examplecom_Enter_the_verification_code_in_the_text_box_okta_email_eae1egri5eK5zce0V1d7_3"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-25"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-26"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -179,10 +183,10 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

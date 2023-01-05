@@ -72,9 +72,10 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -84,6 +85,9 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -101,16 +105,16 @@ exports[`authenticator-verification-security-question renders form 1`] = `
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Verify_with_your_Security_Question_security_question_qae4ks1ygweGSuDPk5d7_1"
                   >
@@ -119,45 +123,45 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
                   class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-18"
                     for="credentials.answer"
                   >
                     What is the food you least liked as a child?
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-18"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-19"
                   >
                     <input
                       aria-describedby="challenge-authenticator_Title_Verify_with_your_Security_Question_security_question_qae4ks1ygweGSuDPk5d7_1"
                       aria-invalid="false"
                       autocomplete="off"
-                      class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-19"
+                      class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-20"
                       data-se="credentials.answer"
                       id="credentials.answer"
                       name="credentials.answer"
                       type="password"
                     />
                     <div
-                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-20"
+                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-21"
                     >
                       <button
                         aria-controls="credentials.answer"
                         aria-label="Show answer"
                         aria-pressed="false"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-21"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-22"
                         data-mui-internal-clone-element="true"
                         tabindex="0"
                         type="button"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-22"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-23"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 16 16"
@@ -171,7 +175,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                           />
                         </svg>
                         <span
-                          class="MuiTouchRipple-root emotion-23"
+                          class="MuiTouchRipple-root emotion-24"
                         />
                       </button>
                     </div>
@@ -179,11 +183,11 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <button
                   aria-describedby="challenge-authenticator_Title_Verify_with_your_Security_Question_security_question_qae4ks1ygweGSuDPk5d7_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-25"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-26"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -192,10 +196,10 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

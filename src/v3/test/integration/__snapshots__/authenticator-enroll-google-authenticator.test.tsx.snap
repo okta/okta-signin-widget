@@ -144,9 +144,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -156,6 +157,9 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -173,16 +177,16 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                   >
@@ -191,16 +195,16 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <div
-                    class="MuiBox-root emotion-13"
+                    class="MuiBox-root emotion-14"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                       data-se="o-form-explain"
                       id="enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_3_1"
                     >
@@ -209,24 +213,24 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <div
-                    class="qrContainer MuiBox-root emotion-20"
+                    class="qrContainer MuiBox-root emotion-21"
                   >
                     <img
                       alt="QR code"
-                      class="qrImg MuiBox-root emotion-21"
+                      class="qrImg MuiBox-root emotion-22"
                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAE7ElEQVR42u3dwWrsMAwF0Pz/T7/uC29RYklXzrnQ1ZQh4/gEFDvK809E/pvHEIgAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIIL+/6Hla/04f718/rx6v0+Ndff5umx+AAAIIIIAAAggggOwDUj2h3k64r4N9O17pFxxAAAEEEEAAAQQQQAB5O+HSiubTYKrHo3p8TwNKmR+AAAIIIIAAAggggABS9f1vJ3BaEV+9sAcIIIAAAggggAACCCCK9FmQ1UX5NAhAAAEEEEAAAQQQQADZBqQbYPUJOl20Vx9/90Jn2vwABBBAAAEEEEAAAeR+INsnmM/vugAB4nNAADHBAAEEEEDuA5KW6QeQqv8/feHzmnkECCCAAAIIIIAAAkgskO4ivPsBpemisvqBp9Pjvb0RHSCAAAIIIIAAAggg+4CcPmGpA5gygbvHa/oCBwgggAACCCCAAAIIIGnNnKebXXc3jqsez+nvnwoggAACCCCAAAIIILlA0ovW9KKwu/n29E2PLYAAAQQQQAABBBBAANkDpLvIvA3k6QtO+gRO3bwICCCAAAIIIIAAAsgeILe9VLP7ga9tmz+rjx8QQAABBBBAAAEEEEC6i/juE5S22bD6psH0wlzq8QECCCCAAAIIIIAAkgvk600SqhuzpT+QdmtTDkAAAQQQQAABBBBA9hTp3UVz2kLWdLPn6c2ctwQQQAABBBBAAAEEkL1AtoPqPv7pInZ682XKTSJAAAEEEEAAAQQQQO4FUg3u9E2GbS+EmW5SseUBKUAAAQQQQAABBBBAvrNZcfoFL9MLidXjUX3BuqVJAyCAAAIIIIAAAggge4v00z94+qH+6SK9e/Nm98Le57uaAAIIIIAAAggggAASV7RPT5i0hbPuCT1dtFfPN0AAAQQQQAABBBBA9gNJW1iaLiKnP0/7vvRm2oAAAggggAACCCCA5ANJWzibLuKnx2/6pkk1uHVFOiCAAAIIIIAAAggg5UCqP59eiEt7QOj0+GxrXg0IIIAAAggggAACCCDbiuDu39+9+TCtacPp8wMIIIAAAggggAACCCDpRf40iNMLhbc1rrt+syIggAACCCCAAAIIIOVFW9qE6v593UVv9QVu200FQAABBBBAAAEEEEC+17RhWxFbfVOhewJ3j2faBQgQQAABBBBAAAEEkPuAfL2JQvdNhfTNgt1Ar+tqAggggAACCCCAAAJIeVHYXRSnvYAm7QJw++8HxATx+wEBBBBAAAHkfiDdAzLdTHv6gpIGcAsIQAABBBBAAAEEEEDuBTLdPLl74S6tyE1r/v35hUJAAAEEEEAAAQQQQNYlrXHa9AuBTt9ESbtJAwgggAACCCCAAAIIINMvkUwruqubeXcff1rTjPULhYAAAggggAACCCCAjBdp1QuRaQCmFxqrN4cq0gEBBBBAAAEEEEAAmQYy3Ugu/QU3ad/Xvfk0BQQggAACCCCAAAIIIIB0nfBuANtfINQ9X6ZuEgECCCCAAAIIIIAAAsiWonM6aUXv9E0WQAABBBBAAAEEEEC8H2S6qEsDPv3/08eX+kIfQAABBBBAAAEEEED2ANnezDh9IS/tb2oCry3SAQEEEEAAAQQQQAAREUBEABEBRAQQEUBEABEBRAQQEUBEBBARQEQAEQFEBBARQEQAEQFE5Ob8AIHb9L3GGLlfAAAAAElFTkSuQmCC"
                     />
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_3_1"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth emotion-23"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth emotion-24"
                     tabindex="0"
                     type="button"
                   >
@@ -234,11 +238,11 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                   </button>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_3_1"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-25"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-26"
                     tabindex="0"
                     type="button"
                   >
@@ -247,10 +251,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -258,10 +262,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -421,9 +425,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -433,6 +438,9 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -450,16 +458,16 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                   >
@@ -468,16 +476,16 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <div
-                    class="MuiBox-root emotion-13"
+                    class="MuiBox-root emotion-14"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                       data-se="o-form-explain"
                       id="enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_10_3"
                     >
@@ -486,25 +494,25 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <div
                     class="MuiBox-root emotion-9"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-21"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
                       for="credentials.passcode"
                     >
                       Enter code
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
                     >
                       <input
                         aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_10_3"
                         aria-invalid="false"
                         autocomplete="off"
-                        class="MuiInputBase-input emotion-23"
+                        class="MuiInputBase-input emotion-24"
                         data-se="credentials.passcode"
                         id="credentials.passcode"
                         inputmode="numeric"
@@ -515,27 +523,27 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_10_3"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-25"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-26"
                     data-type="save"
                     tabindex="0"
                     type="submit"
                   >
                     Verify
                     <span
-                      class="MuiTouchRipple-root emotion-26"
+                      class="MuiTouchRipple-root emotion-27"
                     />
                   </button>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -543,10 +551,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -706,9 +714,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -718,6 +727,9 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -735,16 +747,16 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                   >
@@ -753,16 +765,16 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <div
-                    class="MuiBox-root emotion-13"
+                    class="MuiBox-root emotion-14"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                       data-se="o-form-explain"
                       id="enroll-authenticator_Description_To_set_up_manually_enter_your_Okta_Account_username_and_then_input_the_following_in_the_Secret_Key_Field_google_otp_aut2m5drzzUlo4Bn81d7_7_2"
                     >
@@ -771,13 +783,13 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <div
-                    class="MuiBox-root emotion-13"
+                    class="MuiBox-root emotion-14"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                       data-se="o-form-explain"
                       id="enroll-authenticator_Description_K_A_G_W_B_I_X_A_K_O_L_P_E_F_M_Y_google_otp_aut2m5drzzUlo4Bn81d7_8_2"
                     >
@@ -786,26 +798,26 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_To_set_up_manually_enter_your_Okta_Account_username_and_then_input_the_following_in_the_Secret_Key_Field_google_otp_aut2m5drzzUlo4Bn81d7_7_2 enroll-authenticator_Description_K_A_G_W_B_I_X_A_K_O_L_P_E_F_M_Y_google_otp_aut2m5drzzUlo4Bn81d7_8_2"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-23"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-24"
                     tabindex="0"
                     type="button"
                   >
                     Next
                     <span
-                      class="MuiTouchRipple-root emotion-24"
+                      class="MuiTouchRipple-root emotion-25"
                     />
                   </button>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -813,10 +825,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -976,9 +988,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -988,6 +1001,9 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -1005,16 +1021,16 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                   >
@@ -1023,16 +1039,16 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <div
-                    class="MuiBox-root emotion-13"
+                    class="MuiBox-root emotion-14"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                       data-se="o-form-explain"
                       id="enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_10_3"
                     >
@@ -1041,25 +1057,25 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <div
                     class="MuiBox-root emotion-9"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-21"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
                       for="credentials.passcode"
                     >
                       Enter code
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
                     >
                       <input
                         aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_10_3"
                         aria-invalid="false"
                         autocomplete="off"
-                        class="MuiInputBase-input emotion-23"
+                        class="MuiInputBase-input emotion-24"
                         data-se="credentials.passcode"
                         id="credentials.passcode"
                         inputmode="numeric"
@@ -1070,27 +1086,27 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_10_3"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-25"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-26"
                     data-type="save"
                     tabindex="0"
                     type="submit"
                   >
                     Verify
                     <span
-                      class="MuiTouchRipple-root emotion-26"
+                      class="MuiTouchRipple-root emotion-27"
                     />
                   </button>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1098,10 +1114,10 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

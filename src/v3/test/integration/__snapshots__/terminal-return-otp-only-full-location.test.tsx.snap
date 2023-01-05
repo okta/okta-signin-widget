@@ -72,9 +72,10 @@ exports[`terminal-return-otp-only-full-location renders form 1`] = `
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -84,6 +85,9 @@ exports[`terminal-return-otp-only-full-location renders form 1`] = `
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -101,16 +105,16 @@ exports[`terminal-return-otp-only-full-location renders form 1`] = `
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                   >
                     Your verification code
@@ -118,13 +122,13 @@ exports[`terminal-return-otp-only-full-location renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
                   >
                     Enter this code on the sign-in page.
@@ -132,26 +136,26 @@ exports[`terminal-return-otp-only-full-location renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-19"
+                  class="MuiBox-root emotion-20"
                 >
                   <h3
-                    class="MuiTypography-root MuiTypography-h3 emotion-20"
+                    class="MuiTypography-root MuiTypography-h3 emotion-21"
                   >
                     123456
                   </h3>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
                   >
                     Request from:
@@ -159,14 +163,14 @@ exports[`terminal-return-otp-only-full-location renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-25"
+                  class="MuiBox-root emotion-26"
                   id="browser"
                 >
                   <div
-                    class="MuiBox-root emotion-26"
+                    class="MuiBox-root emotion-27"
                   >
                     <mocksvgicon />
                   </div>
@@ -182,14 +186,14 @@ exports[`terminal-return-otp-only-full-location renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-25"
+                  class="MuiBox-root emotion-26"
                   id="app"
                 >
                   <div
-                    class="MuiBox-root emotion-26"
+                    class="MuiBox-root emotion-27"
                   >
                     <mocksvgicon />
                   </div>
@@ -205,14 +209,14 @@ exports[`terminal-return-otp-only-full-location renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-25"
+                  class="MuiBox-root emotion-26"
                   id="location"
                 >
                   <div
-                    class="MuiBox-root emotion-26"
+                    class="MuiBox-root emotion-27"
                   >
                     <mocksvgicon />
                   </div>
@@ -228,13 +232,13 @@ exports[`terminal-return-otp-only-full-location renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
                   >
                     If you didn’t request this code, you can ignore this message. Your account is safe and can only be accessed with this code.

@@ -39,7 +39,7 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
     >
       <OdyIcon
         // TODO: OKTA-556721 - Create and use loc string here for requirement status
-        title={status}
+        titleAccess={status}
         name={statusToIconProps[status].name}
         color={statusToIconProps[status].color}
       />

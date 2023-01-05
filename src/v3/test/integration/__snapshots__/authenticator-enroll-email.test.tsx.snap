@@ -72,9 +72,10 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -84,6 +85,9 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -101,22 +105,22 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 />
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-15"
+                    class="MuiBox-root emotion-16"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 emotion-16"
+                      class="MuiTypography-root MuiTypography-h4 emotion-17"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_okta_email_aut2m2nnGGzJy8uO80g4_7"
                     >
@@ -125,13 +129,13 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-15"
+                    class="MuiBox-root emotion-16"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-20"
                       data-se="o-form-explain"
                       id="enroll-authenticator_Description_enroll-authenticator_Description_We_sent_you_a_verification_email_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_aut2m2nnGGzJy8uO80g4_okta_email_aut2m2nnGGzJy8uO80g4_8"
                     >
@@ -140,11 +144,11 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_okta_email_aut2m2nnGGzJy8uO80g4_7 enroll-authenticator_Title_enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_okta_email_aut2m2nnGGzJy8uO80g4_7"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth emotion-21"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-fullWidth emotion-22"
                     tabindex="0"
                     type="button"
                   >
@@ -153,10 +157,10 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -164,10 +168,10 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

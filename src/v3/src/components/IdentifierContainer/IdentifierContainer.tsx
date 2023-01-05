@@ -11,7 +11,7 @@
  */
 
 import { Box } from '@mui/material';
-import { Icon } from '@okta/odyssey-react';
+import { Icon } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
@@ -78,7 +78,11 @@ const IdentifierContainer: FunctionComponent = () => {
           component="span"
           className={iconContainerClasses}
         >
-          <Icon name="user" />
+          <Icon
+            name="user"
+            titleAccess="User"
+            sx={{ width: '16px', height: '16px' }}
+          />
         </Box>
         <Box
           component="span"

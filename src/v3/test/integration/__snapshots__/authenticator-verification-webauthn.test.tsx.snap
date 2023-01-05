@@ -92,9 +92,10 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -104,6 +105,9 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -121,16 +125,16 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                   >
@@ -139,13 +143,13 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
                     id="challenge-authenticator_Description_Security_key_or_biometric_authenticator_is_not_supported_on_this_browser_Contact_your_admin_for_assistance_webauthn_aut2h3f9ovE2RV96P1d7_2"
                   >
@@ -157,35 +161,35 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                 class="MuiBox-root emotion-9"
               >
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAccordion-root MuiAccordion-rounded emotion-19"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAccordion-root MuiAccordion-rounded emotion-20"
                 >
                   <div
                     aria-controls="cant-verify-content"
                     aria-expanded="false"
-                    class="MuiButtonBase-root MuiAccordionSummary-root emotion-20"
+                    class="MuiButtonBase-root MuiAccordionSummary-root emotion-21"
                     id="cant-verify-header"
                     role="button"
                     tabindex="0"
                   >
                     <div
-                      class="MuiAccordionSummary-content emotion-21"
+                      class="MuiAccordionSummary-content emotion-22"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-22"
+                        class="MuiTypography-root MuiTypography-body1 emotion-23"
                       >
                         Can't verify?
                       </p>
                     </div>
                   </div>
                   <div
-                    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-23"
+                    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-24"
                     style="min-height: 0px;"
                   >
                     <div
-                      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-24"
+                      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-25"
                     >
                       <div
-                        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-25"
+                        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-26"
                       >
                         <div
                           aria-labelledby="cant-verify-header"
@@ -194,32 +198,32 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                           role="region"
                         >
                           <div
-                            class="MuiAccordionDetails-root emotion-26"
+                            class="MuiAccordionDetails-root emotion-27"
                           >
                             <div
-                              class="MuiBox-root emotion-11"
+                              class="MuiBox-root emotion-12"
                             >
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-29"
+                                  class="MuiBox-root emotion-30"
                                 >
                                   <h3
-                                    class="MuiTypography-root MuiTypography-h6 emotion-30"
+                                    class="MuiTypography-root MuiTypography-h6 emotion-31"
                                   >
                                     Are you trying to use a biometric authenticator?
                                   </h3>
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-13"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                                     data-se="o-form-explain"
                                   >
                                     Biometric authenticators (fingerprint, face recognition, PIN) will only work on the same device on which they were set up.
@@ -227,13 +231,13 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-13"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                                     data-se="o-form-explain"
                                   >
                                     If available, set up another security method on the device you used to set up your biometric authenticator.
@@ -241,26 +245,26 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-29"
+                                  class="MuiBox-root emotion-30"
                                 >
                                   <h3
-                                    class="MuiTypography-root MuiTypography-h6 emotion-30"
+                                    class="MuiTypography-root MuiTypography-h6 emotion-31"
                                   >
                                     Are you trying to use a security key?
                                   </h3>
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-13"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                                     data-se="o-form-explain"
                                   >
                                     If you have set up a security key, insert it in a USB port when prompted by the browser and tap on the button or gold disk. Security keys can work on multiple devices.
@@ -276,10 +280,10 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -287,10 +291,10 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -398,9 +402,10 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -410,6 +415,9 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -427,16 +435,16 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                   >
@@ -445,13 +453,13 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
                     id="challenge-authenticator_Description_You_will_be_prompted_to_use_a_security_key_or_biometric_verification_(Windows_Hello,_Touch_ID,_etc)_Follow_the_instructions_to_complete_verification_webauthn_aut2h3f9ovE2RV96P1d7_2"
                   >
@@ -460,14 +468,14 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-19"
+                  class="MuiBox-root emotion-20"
                 >
                   <button
                     aria-describedby="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 challenge-authenticator_Description_You_will_be_prompted_to_use_a_security_key_or_biometric_verification_(Windows_Hello,_Touch_ID,_etc)_Follow_the_instructions_to_complete_verification_webauthn_aut2h3f9ovE2RV96P1d7_2"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium emotion-20"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium emotion-21"
                     data-se="button"
                     tabindex="0"
                     type="button"
@@ -481,35 +489,35 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                 class="MuiBox-root emotion-9"
               >
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAccordion-root MuiAccordion-rounded emotion-22"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAccordion-root MuiAccordion-rounded emotion-23"
                 >
                   <div
                     aria-controls="cant-verify-content"
                     aria-expanded="false"
-                    class="MuiButtonBase-root MuiAccordionSummary-root emotion-23"
+                    class="MuiButtonBase-root MuiAccordionSummary-root emotion-24"
                     id="cant-verify-header"
                     role="button"
                     tabindex="0"
                   >
                     <div
-                      class="MuiAccordionSummary-content emotion-24"
+                      class="MuiAccordionSummary-content emotion-25"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 emotion-26"
                       >
                         Can't verify?
                       </p>
                     </div>
                   </div>
                   <div
-                    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-26"
+                    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-27"
                     style="min-height: 0px;"
                   >
                     <div
-                      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-27"
+                      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-28"
                     >
                       <div
-                        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-28"
+                        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-29"
                       >
                         <div
                           aria-labelledby="cant-verify-header"
@@ -518,32 +526,32 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                           role="region"
                         >
                           <div
-                            class="MuiAccordionDetails-root emotion-29"
+                            class="MuiAccordionDetails-root emotion-30"
                           >
                             <div
-                              class="MuiBox-root emotion-11"
+                              class="MuiBox-root emotion-12"
                             >
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-32"
+                                  class="MuiBox-root emotion-33"
                                 >
                                   <h3
-                                    class="MuiTypography-root MuiTypography-h6 emotion-33"
+                                    class="MuiTypography-root MuiTypography-h6 emotion-34"
                                   >
                                     Are you trying to use a biometric authenticator?
                                   </h3>
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-13"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                                     data-se="o-form-explain"
                                   >
                                     Biometric authenticators (fingerprint, face recognition, PIN) will only work on the same device on which they were set up.
@@ -551,13 +559,13 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-13"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                                     data-se="o-form-explain"
                                   >
                                     If available, set up another security method on the device you used to set up your biometric authenticator.
@@ -565,26 +573,26 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-32"
+                                  class="MuiBox-root emotion-33"
                                 >
                                   <h3
-                                    class="MuiTypography-root MuiTypography-h6 emotion-33"
+                                    class="MuiTypography-root MuiTypography-h6 emotion-34"
                                   >
                                     Are you trying to use a security key?
                                   </h3>
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-13"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                                     data-se="o-form-explain"
                                   >
                                     If you have set up a security key, insert it in a USB port when prompted by the browser and tap on the button or gold disk. Security keys can work on multiple devices.
@@ -600,10 +608,10 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-47"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -611,10 +619,10 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-47"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -722,9 +730,10 @@ exports[`authenticator-verification-webauthn should render form with required us
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -734,6 +743,9 @@ exports[`authenticator-verification-webauthn should render form with required us
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -751,16 +763,16 @@ exports[`authenticator-verification-webauthn should render form with required us
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                   >
@@ -769,13 +781,13 @@ exports[`authenticator-verification-webauthn should render form with required us
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
                     id="challenge-authenticator_Description_You_will_be_prompted_to_use_a_security_key_or_biometric_verification_(Windows_Hello,_Touch_ID,_etc)_Follow_the_instructions_to_complete_verification_webauthn_aut2h3f9ovE2RV96P1d7_2"
                   >
@@ -784,14 +796,14 @@ exports[`authenticator-verification-webauthn should render form with required us
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-19"
+                  class="MuiBox-root emotion-20"
                 >
                   <button
                     aria-describedby="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 challenge-authenticator_Description_You_will_be_prompted_to_use_a_security_key_or_biometric_verification_(Windows_Hello,_Touch_ID,_etc)_Follow_the_instructions_to_complete_verification_webauthn_aut2h3f9ovE2RV96P1d7_2"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium emotion-20"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium emotion-21"
                     data-se="button"
                     tabindex="0"
                     type="button"
@@ -805,35 +817,35 @@ exports[`authenticator-verification-webauthn should render form with required us
                 class="MuiBox-root emotion-9"
               >
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAccordion-root MuiAccordion-rounded emotion-22"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAccordion-root MuiAccordion-rounded emotion-23"
                 >
                   <div
                     aria-controls="cant-verify-content"
                     aria-expanded="false"
-                    class="MuiButtonBase-root MuiAccordionSummary-root emotion-23"
+                    class="MuiButtonBase-root MuiAccordionSummary-root emotion-24"
                     id="cant-verify-header"
                     role="button"
                     tabindex="0"
                   >
                     <div
-                      class="MuiAccordionSummary-content emotion-24"
+                      class="MuiAccordionSummary-content emotion-25"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                        class="MuiTypography-root MuiTypography-body1 emotion-26"
                       >
                         Can't verify?
                       </p>
                     </div>
                   </div>
                   <div
-                    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-26"
+                    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-27"
                     style="min-height: 0px;"
                   >
                     <div
-                      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-27"
+                      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-28"
                     >
                       <div
-                        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-28"
+                        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-29"
                       >
                         <div
                           aria-labelledby="cant-verify-header"
@@ -842,32 +854,32 @@ exports[`authenticator-verification-webauthn should render form with required us
                           role="region"
                         >
                           <div
-                            class="MuiAccordionDetails-root emotion-29"
+                            class="MuiAccordionDetails-root emotion-30"
                           >
                             <div
-                              class="MuiBox-root emotion-11"
+                              class="MuiBox-root emotion-12"
                             >
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-32"
+                                  class="MuiBox-root emotion-33"
                                 >
                                   <h3
-                                    class="MuiTypography-root MuiTypography-h6 emotion-33"
+                                    class="MuiTypography-root MuiTypography-h6 emotion-34"
                                   >
                                     Are you trying to use a biometric authenticator?
                                   </h3>
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-13"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                                     data-se="o-form-explain"
                                   >
                                     Biometric authenticators (fingerprint, face recognition, PIN) will only work on the same device on which they were set up.
@@ -875,13 +887,13 @@ exports[`authenticator-verification-webauthn should render form with required us
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-13"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                                     data-se="o-form-explain"
                                   >
                                     If available, set up another security method on the device you used to set up your biometric authenticator.
@@ -889,26 +901,26 @@ exports[`authenticator-verification-webauthn should render form with required us
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-32"
+                                  class="MuiBox-root emotion-33"
                                 >
                                   <h3
-                                    class="MuiTypography-root MuiTypography-h6 emotion-33"
+                                    class="MuiTypography-root MuiTypography-h6 emotion-34"
                                   >
                                     Are you trying to use a security key?
                                   </h3>
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-12"
+                                class="MuiBox-root emotion-13"
                               >
                                 <div
-                                  class="MuiBox-root emotion-13"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                                     data-se="o-form-explain"
                                   >
                                     If you have set up a security key, insert it in a USB port when prompted by the browser and tap on the button or gold disk. Security keys can work on multiple devices.
@@ -924,10 +936,10 @@ exports[`authenticator-verification-webauthn should render form with required us
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-47"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -935,10 +947,10 @@ exports[`authenticator-verification-webauthn should render form with required us
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-47"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

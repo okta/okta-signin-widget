@@ -69,9 +69,10 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -81,6 +82,9 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -98,16 +102,16 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   >
@@ -116,29 +120,29 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-12"
+                    class="MuiBox-root emotion-13"
                   >
                     <label
-                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
+                      class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
                       for="countryList"
                       id="countryLabel"
                     >
                       Country
                     </label>
                     <div
-                      class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-19"
+                      class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-20"
                       required="true"
                     >
                       <select
                         aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                         autocomplete="tel-country-code"
-                        class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-20"
+                        class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-21"
                         data-se="countryList"
                         id="countryList"
                         required=""
@@ -1351,7 +1355,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                       </select>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-21"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-22"
                         data-testid="ArrowDropDownIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -1363,25 +1367,25 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-22"
+                    class="MuiBox-root emotion-23"
                   >
                     <div
-                      class="MuiBox-root emotion-23"
+                      class="MuiBox-root emotion-24"
                     >
                       <label
-                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
+                        class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-19"
                         for="phoneNumber"
                       >
                         Phone number
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-25"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-26"
                       >
                         <span
-                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-26"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-27"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-27"
+                            class="MuiTypography-root MuiTypography-body1 emotion-28"
                           >
                             +1
                           </p>
@@ -1390,7 +1394,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                           aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                           aria-invalid="false"
                           autocomplete="tel-national"
-                          class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-28"
+                          class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-29"
                           data-se="phoneNumber"
                           id="phoneNumber"
                           inputmode="tel"
@@ -1403,13 +1407,13 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-32"
                     data-se="o-form-explain"
                     id="enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                   >
@@ -1418,11 +1422,11 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <button
                   aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-33"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-34"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -1431,7 +1435,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
                   class="MuiBox-root emotion-9"
@@ -1451,10 +1455,10 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1462,10 +1466,10 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

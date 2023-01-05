@@ -35,9 +35,10 @@ exports[`enroll-profile-update fails client side validation with empty required 
                 class="userIconContainer MuiBox-root emotion-8"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -47,6 +48,9 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -64,18 +68,18 @@ exports[`enroll-profile-update fails client side validation with empty required 
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-10"
+              class="MuiBox-root emotion-11"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-11"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-12"
                 role="alert"
               >
                 <div
-                  class="MuiAlert-icon emotion-12"
+                  class="MuiAlert-icon emotion-13"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
                     data-testid="ErrorOutlineIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -86,23 +90,23 @@ exports[`enroll-profile-update fails client side validation with empty required 
                   </svg>
                 </div>
                 <div
-                  class="MuiAlert-message emotion-14"
+                  class="MuiAlert-message emotion-15"
                 >
                   We found some errors. Please review the form and make corrections.
                 </div>
               </div>
             </div>
             <div
-              class="MuiBox-root emotion-15"
+              class="MuiBox-root emotion-16"
             >
               <div
-                class="MuiBox-root emotion-16"
+                class="MuiBox-root emotion-17"
               >
                 <div
-                  class="MuiBox-root emotion-17"
+                  class="MuiBox-root emotion-18"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-18"
+                    class="MuiTypography-root MuiTypography-h4 emotion-19"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_in_1"
                   >
@@ -111,31 +115,31 @@ exports[`enroll-profile-update fails client side validation with empty required 
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-16"
+                class="MuiBox-root emotion-17"
               >
                 <div
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-21"
+                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-22"
                     for="userProfile.favoriteSport"
                   >
                     Favorite sport
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-22"
+                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-23"
                     >
                        
                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-23"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-24"
                   >
                     <input
                       aria-describedby=" userProfile.favoriteSport-error enroll-profile_Title_Sign_in_1 "
                       aria-invalid="true"
-                      class="MuiInputBase-input emotion-24"
+                      class="MuiInputBase-input emotion-25"
                       data-se="userProfile.favoriteSport"
                       id="userProfile.favoriteSport"
                       name="userProfile.favoriteSport"
@@ -146,7 +150,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiFormHelperText-root Mui-error emotion-26"
+                      class="MuiFormHelperText-root Mui-error emotion-27"
                       data-se="userProfile.favoriteSport-error"
                       id="userProfile.favoriteSport-error"
                       role="alert"
@@ -157,31 +161,31 @@ exports[`enroll-profile-update fails client side validation with empty required 
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-16"
+                class="MuiBox-root emotion-17"
               >
                 <div
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-21"
+                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-22"
                     for="userProfile.newAttribute"
                   >
                     Custom attribute
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-22"
+                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-23"
                     >
                        
                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-23"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-24"
                   >
                     <input
                       aria-describedby=" userProfile.newAttribute-error enroll-profile_Title_Sign_in_1 "
                       aria-invalid="true"
-                      class="MuiInputBase-input emotion-24"
+                      class="MuiInputBase-input emotion-25"
                       data-se="userProfile.newAttribute"
                       id="userProfile.newAttribute"
                       name="userProfile.newAttribute"
@@ -192,7 +196,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiFormHelperText-root Mui-error emotion-26"
+                      class="MuiFormHelperText-root Mui-error emotion-27"
                       data-se="userProfile.newAttribute-error"
                       id="userProfile.newAttribute-error"
                       role="alert"
@@ -203,18 +207,18 @@ exports[`enroll-profile-update fails client side validation with empty required 
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-16"
+                class="MuiBox-root emotion-17"
               >
                 <button
                   aria-describedby="enroll-profile_Title_Sign_in_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-36"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-37"
                   data-type="save"
                   tabindex="0"
                   type="submit"
                 >
                   Submit
                   <span
-                    class="MuiTouchRipple-root emotion-37"
+                    class="MuiTouchRipple-root emotion-38"
                   />
                 </button>
               </div>
@@ -262,9 +266,10 @@ exports[`enroll-profile-update should render form 1`] = `
                 class="userIconContainer MuiBox-root emotion-8"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -274,6 +279,9 @@ exports[`enroll-profile-update should render form 1`] = `
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -291,16 +299,16 @@ exports[`enroll-profile-update should render form 1`] = `
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-10"
+              class="MuiBox-root emotion-11"
             >
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-13"
+                    class="MuiTypography-root MuiTypography-h4 emotion-14"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_in_1"
                   >
@@ -309,31 +317,31 @@ exports[`enroll-profile-update should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-16"
+                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-17"
                     for="userProfile.favoriteSport"
                   >
                     Favorite sport
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-17"
+                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-18"
                     >
                        
                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-18"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-19"
                   >
                     <input
                       aria-describedby="enroll-profile_Title_Sign_in_1"
                       aria-invalid="false"
-                      class="MuiInputBase-input emotion-19"
+                      class="MuiInputBase-input emotion-20"
                       data-se="userProfile.favoriteSport"
                       id="userProfile.favoriteSport"
                       name="userProfile.favoriteSport"
@@ -343,31 +351,31 @@ exports[`enroll-profile-update should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-16"
+                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required emotion-17"
                     for="userProfile.newAttribute"
                   >
                     Custom attribute
                     <span
                       aria-hidden="true"
-                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-17"
+                      class="MuiInputLabel-asterisk MuiFormLabel-asterisk emotion-18"
                     >
                        
                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-18"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-19"
                   >
                     <input
                       aria-describedby="enroll-profile_Title_Sign_in_1"
                       aria-invalid="false"
-                      class="MuiInputBase-input emotion-19"
+                      class="MuiInputBase-input emotion-20"
                       data-se="userProfile.newAttribute"
                       id="userProfile.newAttribute"
                       name="userProfile.newAttribute"
@@ -377,11 +385,11 @@ exports[`enroll-profile-update should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <button
                   aria-describedby="enroll-profile_Title_Sign_in_1"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-27"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-28"
                   data-type="save"
                   tabindex="0"
                   type="submit"

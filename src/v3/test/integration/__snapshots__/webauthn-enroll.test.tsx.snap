@@ -92,9 +92,10 @@ exports[`webauthn-enroll should render form 1`] = `
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -104,6 +105,9 @@ exports[`webauthn-enroll should render form 1`] = `
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -121,16 +125,16 @@ exports[`webauthn-enroll should render form 1`] = `
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                   >
@@ -139,13 +143,13 @@ exports[`webauthn-enroll should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
                     id="enroll-authenticator_Description_You_will_be_prompted_to_register_a_security_key_or_biometric_authenticator_(Windows_Hello,_Touch_ID,_Face_ID,_etc)_Follow_the_instructions_to_complete_set_up_webauthn_aut2h3f9ovE2RV96P1d7_2"
                   >
@@ -154,14 +158,14 @@ exports[`webauthn-enroll should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-19"
+                  class="MuiBox-root emotion-20"
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 enroll-authenticator_Description_You_will_be_prompted_to_register_a_security_key_or_biometric_authenticator_(Windows_Hello,_Touch_ID,_Face_ID,_etc)_Follow_the_instructions_to_complete_set_up_webauthn_aut2h3f9ovE2RV96P1d7_2"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium emotion-20"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium emotion-21"
                     data-se="button"
                     tabindex="0"
                     type="button"
@@ -172,10 +176,10 @@ exports[`webauthn-enroll should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -183,10 +187,10 @@ exports[`webauthn-enroll should render form 1`] = `
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -294,9 +298,10 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -306,6 +311,9 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -323,16 +331,16 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                   >
@@ -341,13 +349,13 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
                     id="enroll-authenticator_Description_Security_key_or_biometric_authenticator_is_not_supported_on_this_browser_Contact_your_admin_for_assistance_webauthn_aut2h3f9ovE2RV96P1d7_2"
                   >
@@ -356,10 +364,10 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -367,10 +375,10 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -478,9 +486,10 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -490,6 +499,9 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -507,16 +519,16 @@ exports[`webauthn-enroll should render form with user verification and edge brow
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                   >
@@ -525,13 +537,13 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
                     id="enroll-authenticator_Description_You_will_be_prompted_to_register_a_security_key_or_biometric_authenticator_(Windows_Hello,_Touch_ID,_Face_ID,_etc)_Follow_the_instructions_to_complete_set_up_webauthn_aut2h3f9ovE2RV96P1d7_2"
                   >
@@ -540,13 +552,13 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
                     id="enroll-authenticator_Description_Note:_If_you_are_enrolling_a_security_key_and_Windows_Hello_or_PIN_is_enabled,_you_will_need_to_select_Cancel_in_the_prompt_before_continuing_webauthn_aut2h3f9ovE2RV96P1d7_3"
                   >
@@ -555,14 +567,14 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-22"
+                  class="MuiBox-root emotion-23"
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 enroll-authenticator_Description_You_will_be_prompted_to_register_a_security_key_or_biometric_authenticator_(Windows_Hello,_Touch_ID,_Face_ID,_etc)_Follow_the_instructions_to_complete_set_up_webauthn_aut2h3f9ovE2RV96P1d7_2 enroll-authenticator_Description_Note:_If_you_are_enrolling_a_security_key_and_Windows_Hello_or_PIN_is_enabled,_you_will_need_to_select_Cancel_in_the_prompt_before_continuing_webauthn_aut2h3f9ovE2RV96P1d7_3"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium emotion-23"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium emotion-24"
                     data-se="button"
                     tabindex="0"
                     type="button"
@@ -573,10 +585,10 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -584,10 +596,10 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

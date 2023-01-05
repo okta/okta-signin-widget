@@ -82,9 +82,10 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -94,6 +95,9 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -111,19 +115,19 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               />
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-14"
+                  class="MuiBox-root emotion-15"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-16"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_2"
                   >
@@ -132,13 +136,13 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-14"
+                  class="MuiBox-root emotion-15"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                     data-se="o-form-explain"
                     id="enroll-authenticator_Description_A_code_was_sent_to_your_phone_Enter_the_code_below_to_verify_phone_number_aut2h3fft10VeLDPD1d7_3"
                   >
@@ -147,13 +151,13 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-14"
+                  class="MuiBox-root emotion-15"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                     data-se="o-form-explain"
                     id="enroll-authenticator_Description_Carrier_messaging_charges_may_apply_phone_number_aut2h3fft10VeLDPD1d7_4"
                   >
@@ -162,25 +166,25 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
                   class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-24"
+                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                     for="credentials.passcode"
                   >
                     Enter Code
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-25"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
                   >
                     <input
                       aria-describedby="enroll-authenticator_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_2 enroll-authenticator_Description_A_code_was_sent_to_your_phone_Enter_the_code_below_to_verify_phone_number_aut2h3fft10VeLDPD1d7_3 enroll-authenticator_Description_Carrier_messaging_charges_may_apply_phone_number_aut2h3fft10VeLDPD1d7_4"
                       aria-invalid="false"
                       autocomplete="off"
-                      class="MuiInputBase-input emotion-26"
+                      class="MuiInputBase-input emotion-27"
                       data-se="credentials.passcode"
                       id="credentials.passcode"
                       inputmode="numeric"
@@ -191,11 +195,11 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <button
                   aria-describedby="enroll-authenticator_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_2 enroll-authenticator_Description_A_code_was_sent_to_your_phone_Enter_the_code_below_to_verify_phone_number_aut2h3fft10VeLDPD1d7_3 enroll-authenticator_Description_Carrier_messaging_charges_may_apply_phone_number_aut2h3fft10VeLDPD1d7_4"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-28"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-29"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -204,10 +208,10 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -215,10 +219,10 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

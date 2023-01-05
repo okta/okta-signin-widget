@@ -69,9 +69,10 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 class="userIconContainer MuiBox-root emotion-9"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -81,6 +82,9 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -98,16 +102,16 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-11"
+              class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   >
@@ -116,25 +120,25 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
                   class="MuiBox-root emotion-9"
                 >
                   <label
-                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
+                    class="MuiInputLabel-root MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
                     for="email"
                   >
                     Email
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-18"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-19"
                   >
                     <input
                       aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_email_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                       aria-invalid="false"
                       autocomplete="email"
-                      class="MuiInputBase-input emotion-19"
+                      class="MuiInputBase-input emotion-20"
                       data-se="email"
                       id="email"
                       inputmode="email"
@@ -145,13 +149,13 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
                     data-se="o-form-explain"
                     id="enrollment-channel-data_Description_Make_sure_you_can_access_the_email_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                   >
@@ -160,11 +164,11 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <button
                   aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_email_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-24"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-25"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -173,7 +177,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 </button>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <div
                   class="MuiBox-root emotion-9"
@@ -193,10 +197,10 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -204,10 +208,10 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 </a>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

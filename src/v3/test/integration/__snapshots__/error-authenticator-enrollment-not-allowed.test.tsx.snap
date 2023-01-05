@@ -35,9 +35,10 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                 class="userIconContainer MuiBox-root emotion-8"
               >
                 <svg
-                  class="ods-3V3gNn"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
                   fill="none"
-                  role="presentation"
+                  focusable="false"
+                  role="img"
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -47,6 +48,9 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                     fill="currentColor"
                     fill-rule="evenodd"
                   />
+                  <title>
+                    User
+                  </title>
                 </svg>
               </span>
               <span
@@ -64,26 +68,26 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
             style="max-width: 100%; word-break: break-word;"
           >
             <div
-              class="MuiBox-root emotion-10"
+              class="MuiBox-root emotion-11"
             >
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <div
-                  class="MuiBox-root emotion-12"
+                  class="MuiBox-root emotion-13"
                   data-se="message"
                 >
                   <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-13"
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-14"
                     data-se="callout"
                     role="alert"
                   >
                     <div
-                      class="MuiAlert-icon emotion-14"
+                      class="MuiAlert-icon emotion-15"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
                         data-testid="ErrorOutlineIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -94,7 +98,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                       </svg>
                     </div>
                     <div
-                      class="MuiAlert-message emotion-16"
+                      class="MuiAlert-message emotion-17"
                     >
                       Authenticator enrollment is not allowed at this time. Please contact support for assistance.
                     </div>
@@ -102,10 +106,10 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-11"
+                class="MuiBox-root emotion-12"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
