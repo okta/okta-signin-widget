@@ -15,18 +15,18 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 import * as cookieUtils from '../../src/util/cookieUtils';
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
-import { LanguageCode } from '../../../types';
+import { WidgetOptions } from '../../../types';
 
 describe('identify-with-password', () => {
   it('should display Identifier & Password hint labels', async () => {
     const usernameHint = 'This is your username';
     const passwordHint = 'This is your password';
-    const hintOverrides = {
+    const hintOverrides: WidgetOptions['i18n'] = {
       en: {
         'primaryauth.username.tooltip': usernameHint,
         'primaryauth.password.tooltip': passwordHint,
       },
-    } as unknown as Record<LanguageCode, { [i18nKey: string]: string }>;
+    };
     const {
       findByTestId, findByText,
     } = await setup({

@@ -36,7 +36,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { buildInputDescribedByValue, getTranslation } from '../../util';
 import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
@@ -61,12 +61,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const explain = getTranslation(translations, 'bottomExplain');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
-  const hintEleId = `${name}-hint`;
-  const explainEleId = `${name}-explain`;
-  const hintAndExplainIds = `${explain ? ` ${explainEleId} ` : ''}${hint ? ` ${hintEleId}` : ''}`;
-  const updatedDescribedByIds = typeof describedByIds !== 'undefined'
-    ? `${describedByIds}${hintAndExplainIds}`
-    : `${hintAndExplainIds}`;
+  const hintId = hint && `${name}-hint`;
+  const explainId = explain && `${name}-explain`;
+  const updatedDescribedByIds = buildInputDescribedByValue(describedByIds, hintId, explainId);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -95,8 +92,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
       </InputLabel>
       {hint && (
         <FormHelperText
-          id={hintEleId}
-          data-se={hintEleId}
+          id={hintId}
+          className="o-form-explain"
+          data-se={hintId}
         >
           {hint}
         </FormHelperText>
@@ -113,7 +111,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         fullWidth
         inputProps={{
           'data-se': name,
-          'aria-describedby': updatedDescribedByIds || undefined,
+          'aria-describedby': updatedDescribedByIds,
           ...attributes,
         }}
         endAdornment={(
@@ -148,8 +146,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
       )}
       {explain && (
         <FormHelperText
-          id={explainEleId}
-          data-se={explainEleId}
+          id={explainId}
+          className="o-form-explain"
+          data-se={explainId}
         >
           {explain}
         </FormHelperText>

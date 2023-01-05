@@ -23,7 +23,7 @@ import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent, UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { buildInputDescribedByValue, getTranslation } from '../../util';
 import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
@@ -50,12 +50,9 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
-  const hintEleId = `${name}-hint`;
-  const explainEleId = `${name}-explain`;
-  const hintAndExplainIds = `${explain ? ` ${explainEleId} ` : ''}${hint ? ` ${hintEleId}` : ''}`;
-  const updatedDescribedByIds = typeof describedByIds !== 'undefined'
-    ? `${describedByIds}${hintAndExplainIds}`
-    : `${hintAndExplainIds}`;
+  const hintId = hint && `${name}-hint`;
+  const explainId = explain && `${name}-explain`;
+  const updatedDescribedByIds = buildInputDescribedByValue(describedByIds, hintId, explainId);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched?.(true);
@@ -74,8 +71,9 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       {
         hint && (
           <FormHelperText
-            id={hintEleId}
-            data-se={hintEleId}
+            id={hintId}
+            className="o-form-explain"
+            data-se={hintId}
           >
             {hint}
           </FormHelperText>
@@ -92,7 +90,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         fullWidth
         inputProps={{
           'data-se': dataSe,
-          'aria-describedby': updatedDescribedByIds || undefined,
+          'aria-describedby': updatedDescribedByIds,
           ...attributes,
         }}
         inputRef={focusRef}
@@ -106,8 +104,9 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       {
         explain && (
           <FormHelperText
-            id={explainEleId}
-            data-se={explainEleId}
+            id={explainId}
+            className="o-form-explain"
+            data-se={explainId}
           >
             {explain}
           </FormHelperText>

@@ -4,6 +4,7 @@ import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 
 const FORGOT_PASSWORD_SELECTOR = '[data-se="forgot-password"]';
 const PASSWORD_FIELD = 'credentials\\.passcode';
+const SUB_LABEL_SELECTOR = '.o-form-explain';
 
 export default class ChallengePasswordPageObject extends ChallengeFactorPageObject {
   constructor(t) {
@@ -14,8 +15,8 @@ export default class ChallengePasswordPageObject extends ChallengeFactorPageObje
     return this.form.getTextBoxErrorMessage(PASSWORD_FIELD);
   }
 
-  hasSubLabelText(text) {
-    return this.hasText(text);
+  getPasswordSubLabelValue() {
+    return Selector(SUB_LABEL_SELECTOR).nth(0).textContent;
   }
 
   getForgotPasswordLabelValue() {
