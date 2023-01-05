@@ -78,12 +78,9 @@ scenario('unlock-account-email-poll-with-webauthn-challenge', (rest) => ([
   // polling request
   rest.post('*/idp/idx/challenge/poll', async (req, res, ctx) => {
     POLL_COUNTER += 1;
-    let response = null;
-    if (POLL_COUNTER <= ATTEMPTS_BEFORE_SUCCESS) {
-      response = (await import('../response/idp/idx/challenge/unlock-account-email.json')).default;
-    } else {
-      response = (await import('../response/idp/idx/challenge/unlock-account-sms-verify-webauthn.json')).default;
-    }
+    const response = POLL_COUNTER <= ATTEMPTS_BEFORE_SUCCESS
+      ? (await import('../response/idp/idx/challenge/unlock-account-email.json')).default
+      : (await import('../response/idp/idx/challenge/unlock-account-sms-verify-webauthn.json')).default
     return res(
       ctx.status(200),
       ctx.json(response),

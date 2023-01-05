@@ -1,40 +1,41 @@
 /*
- * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
- * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ * Copyright (c) 2022-present, Okta, Inc. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant
+ * to the Apache License, Version 2.0 (the "License.")
  *
- * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *
- * See the License for the specific language governing permissions and limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import { OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
+import {
+  OktaAuth,
+  OktaAuthOptions,
+  Tokens,
+} from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 
+import {
+  RenderErrorCallback,
+  RenderResult,
+  RenderSuccessCallback,
+} from '../../../types';
 import { Widget } from '../components/Widget';
-import { JsonObject } from '../types';
 import {
   OktaWidgetEventHandler,
   OktaWidgetEventType,
   RenderOptions,
   WidgetProps,
 } from '../types/widget';
-
-// TODO: Once SIW is merged into okta-signin-widget repo, remove these.
-export type RenderSuccessCallback = {
-  (res: JsonObject): void;
-};
-export type RenderErrorCallback = {
-  (args: Error): void;
-};
-// TODO: Once SIW is merged into okta-signin-widget repo, remove these
-export type RenderResult = JsonObject;
-export type Tokens = JsonObject;
-
-console.debug(`${VERSION}-g${COMMITHASH.substring(0, 7)}`);
 
 export default class OktaSignIn {
   /**
@@ -45,12 +46,12 @@ export default class OktaSignIn {
   /**
    * Package version
    */
-  static readonly __version: string = VERSION;
+  static readonly __version: string = OKTA_SIW_VERSION;
 
   /**
    * Commit SHA
    */
-  static readonly __commit: string = COMMITHASH;
+  static readonly __commit: string = OKTA_SIW_COMMIT_HASH;
 
   /**
    * Okta Signin Widget options
@@ -72,7 +73,7 @@ export default class OktaSignIn {
   el: string | null;
 
   constructor(options: WidgetProps) {
-    this.version = VERSION;
+    this.version = `${OKTA_SIW_VERSION}-g${OKTA_SIW_COMMIT_HASH.substring(0, 7)}`;
     this.options = options;
     this.el = null;
 
@@ -123,7 +124,7 @@ export default class OktaSignIn {
       const userAgent = this.authClient._oktaUserAgent;
       if (userAgent) {
         userAgent.addEnvironment('okta-signin-widget-next');
-        userAgent.addEnvironment(COMMITHASH);
+        // userAgent.addEnvironment(OKTA_SIW_COMMIT_HASH);
       }
 
       if (options.el) {
@@ -145,7 +146,8 @@ export default class OktaSignIn {
     this.el = el;
 
     return new Promise<RenderResult>((resolve, reject) => {
-      const onSuccessWrapper = (data: JsonObject): void => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const onSuccessWrapper = (data: RenderResult): void => {
         onSuccess?.(data);
         resolve(data);
       };
@@ -161,9 +163,9 @@ export default class OktaSignIn {
         if (target) {
           // @ts-ignore OKTA-508744
           render(h(Widget, {
-            events: this.events,
+            // events: this.events,
             authClient: this.authClient,
-            onSuccess: onSuccessWrapper,
+            // onSuccess: onSuccessWrapper,
             onError: onErrorWrapper,
             ...this.options,
           }), target);
@@ -180,6 +182,7 @@ export default class OktaSignIn {
   }
 
   showSignInToGetTokens(options = {}): Promise<Tokens> {
+    // @ts-expect-error Property 'isAuthorizationCodeFlow' does not exist on type 'OktaAuth'.ts(2339)
     if (this.authClient.isAuthorizationCodeFlow() && this.authClient.isPKCE()) {
       throw new Error('"showSignInToGetTokens()" should not be used for authorization_code flow. Use "showSignInAndRedirect()" instead');
     }
@@ -188,7 +191,8 @@ export default class OktaSignIn {
       ...this.buildRenderOptions(options),
       redirect: 'never',
     })
-      .then((res) => res.tokens as JsonObject); // Remove this cast once merged into okta-signin-widget
+      // @ts-expect-error Property 'tokens' does not exist on type 'RenderResult'.
+      .then((res) => ({ ...res.tokens }));
   }
 
   showSignInAndRedirect(options = {}): Promise<void> {
@@ -241,7 +245,7 @@ export default class OktaSignIn {
     options: WidgetProps & Record<string, string> = {},
   ): RenderOptions {
     const widgetOptions = this.options;
-    // @ts-ignore OKTA-508744
+    // @ts-expect-error OKTA-508744
     const authParams: OktaAuthOptions = {
       ...widgetOptions.authParams,
       ...{
