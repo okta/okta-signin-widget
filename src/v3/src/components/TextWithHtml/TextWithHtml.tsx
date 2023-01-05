@@ -57,6 +57,11 @@ const TextWithHtml: UISchemaElementComponent<{
   return (
     <Box>
       <Box
+        sx={(theme) => ({
+          [`& .${contentClassname}`]: {
+            color: theme.palette.primary.main,
+          },
+        })}
         onClick={handleClick}
         dangerouslySetInnerHTML={{ __html: content }}
       />

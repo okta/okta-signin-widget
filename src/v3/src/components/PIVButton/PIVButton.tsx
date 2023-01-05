@@ -76,7 +76,7 @@ const PIVButton: UISchemaElementComponent<{
               onClick={handleClick}
               variant="primary"
               aria-describedby={ariaDescribedBy}
-              wide
+              fullWidth
             >
               { btnLabel }
             </OdyButton>

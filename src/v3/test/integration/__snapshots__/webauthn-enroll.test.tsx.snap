@@ -165,11 +165,10 @@ exports[`webauthn-enroll should render form 1`] = `
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 enroll-authenticator_Description_You_will_be_prompted_to_register_a_security_key_or_biometric_authenticator_(Windows_Hello,_Touch_ID,_Face_ID,_etc)_Follow_the_instructions_to_complete_set_up_webauthn_aut2h3f9ovE2RV96P1d7_2"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium emotion-21"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-21"
                     data-se="button"
                     tabindex="0"
                     type="button"
-                    wide="true"
                   >
                     Set up
                   </button>
@@ -574,11 +573,10 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                 >
                   <button
                     aria-describedby="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 enroll-authenticator_Description_You_will_be_prompted_to_register_a_security_key_or_biometric_authenticator_(Windows_Hello,_Touch_ID,_Face_ID,_etc)_Follow_the_instructions_to_complete_set_up_webauthn_aut2h3f9ovE2RV96P1d7_2 enroll-authenticator_Description_Note:_If_you_are_enrolling_a_security_key_and_Windows_Hello_or_PIN_is_enabled,_you_will_need_to_select_Cancel_in_the_prompt_before_continuing_webauthn_aut2h3f9ovE2RV96P1d7_3"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium emotion-24"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-fullWidth emotion-24"
                     data-se="button"
                     tabindex="0"
                     type="button"
-                    wide="true"
                   >
                     Set up
                   </button>

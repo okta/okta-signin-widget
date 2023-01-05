@@ -183,7 +183,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-28"
                   >
                     Or 
                     <a

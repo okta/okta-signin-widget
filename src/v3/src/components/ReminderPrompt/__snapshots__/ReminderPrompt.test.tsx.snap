@@ -77,7 +77,7 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
           class="MuiBox-root emotion-5"
         >
           <div
-            class="MuiBox-root emotion-5"
+            class="MuiBox-root emotion-6"
           >
             Didn't receive the email? Click 
             <a

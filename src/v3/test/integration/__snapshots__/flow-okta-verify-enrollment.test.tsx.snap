@@ -457,7 +457,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-38"
                   >
                     Or 
                     <a
@@ -684,7 +684,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-28"
                   >
                     Or 
                     <a
@@ -867,7 +867,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           class="MuiBox-root emotion-9"
                         >
                           <div
-                            class="MuiBox-root emotion-9"
+                            class="MuiBox-root emotion-21"
                           >
                             Haven’t received an email? Check your spam folder or 
                             <a
@@ -919,7 +919,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-9"
                   >
                     <div
-                      class="MuiBox-root emotion-9"
+                      class="MuiBox-root emotion-30"
                     >
                       Or 
                       <a
@@ -1902,7 +1902,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-38"
                   >
                     Or 
                     <a
@@ -3387,7 +3387,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-37"
                   >
                     Or 
                     <a
@@ -3570,7 +3570,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           class="MuiBox-root emotion-9"
                         >
                           <div
-                            class="MuiBox-root emotion-9"
+                            class="MuiBox-root emotion-21"
                           >
                             Haven’t received an SMS? 
                             <a
@@ -3622,7 +3622,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-9"
                   >
                     <div
-                      class="MuiBox-root emotion-9"
+                      class="MuiBox-root emotion-30"
                     >
                       Or 
                       <a

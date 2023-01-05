@@ -106,7 +106,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
               onClick={handleClick}
               variant="primary"
               aria-describedby={ariaDescribedBy}
-              wide
+              fullWidth
             >
               { label }
             </OdyButton>
