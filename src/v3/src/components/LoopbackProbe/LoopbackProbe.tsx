@@ -35,21 +35,43 @@ type RequestOptions = {
 const makeRequest = async ({
   url, timeout, method, data,
 }: RequestOptions) => {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
+  // Modern browsers support AbortController, so use it
+  if (window?.AbortController) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
 
-  const response = await fetch(url, {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      ...(typeof data === 'string' ? { body: data } : {}),
+      signal: controller.signal,
+    });
+
+    clearTimeout(id);
+
+    return response;
+  }
+
+  // IE11 does not support AbortController, so use an alternate
+  // timeout mechanism
+  const responsePromise = fetch(url, {
     method,
     headers: {
       'Content-Type': 'application/json',
     },
     ...(typeof data === 'string' ? { body: data } : {}),
-    signal: controller.signal,
+  });
+  const timeoutPromise = new Promise<Response>((_, reject) => {
+    setTimeout(() => {
+      const abortError = new Error('Aborted');
+      abortError.name = 'AbortError';
+      reject(abortError);
+    }, timeout);
   });
 
-  clearTimeout(id);
-
-  return response;
+  return Promise.race([responsePromise, timeoutPromise]);
 };
 
 const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
