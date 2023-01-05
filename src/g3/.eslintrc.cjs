@@ -19,11 +19,8 @@
 const { resolve } = require('path');
 
 const year = new Date().getUTCFullYear().toString();
-
 const pattern = '\\* Copyright \\(c\\) \\d{4}-present, Okta, Inc\\. All rights reserved\\.';
-
 const template = ` * Copyright (c) ${year}-present, Okta, Inc. All rights reserved.`;
-
 const header = `\
  * The Okta software accompanied by this notice is provided pursuant
  * to the Apache License, Version 2.0 (the "License.")
@@ -153,10 +150,9 @@ module.exports = {
         'preact',
       ],
       rules: {
-        // FIXME disable these overrides
-        '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/no-non-null-assertion': 'off',
-        'no-console': 'off',
+        '@typescript-eslint/no-explicit-any': 'warn', // FIXME
+        '@typescript-eslint/no-non-null-assertion': 'warn', // FIXME
+        'no-console': 'warn', // FIXME
 
         // disable prop-type checks
         'react/prop-types': 'off',
@@ -165,19 +161,23 @@ module.exports = {
         'react/no-unknown-property': ['error', {
           ignore: ['class'],
         }],
+
         // force props to be on separate lines for readability
         'react/jsx-max-props-per-line': ['error', {
           maximum: 1,
           when: 'always',
         }],
+
         // prevent hardcoded strings
         'react/jsx-no-literals': ['error', {
           noStrings: true,
           ignoreProps: true,
           noAttributeStrings: true,
         }],
+
         // check hooks deps
         'react-hooks/exhaustive-deps': 'error',
+
         // enforce simple-import-sort recommendations
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',
@@ -189,9 +189,10 @@ module.exports = {
         'import/named': 'error',
         'import/prefer-default-export': 'off',
 
-        // FIXME enable eslint rule: import/no-default-export
-        // 'import/no-default-export': 'error',
+        // prevent export default
+        'import/no-default-export': 'warn',
 
+        // check deps can be resolved
         'import/no-unresolved': 'error',
 
         // prevent conflicts with ts lint rule
@@ -205,12 +206,9 @@ module.exports = {
         'no-unused-vars': 'off',
 
         // allow '_' prefix for unuse vars
-        '@typescript-eslint/no-unused-vars': [
-          'error',
-          {
-            argsIgnorePattern: '^_',
-          },
-        ],
+        '@typescript-eslint/no-unused-vars': ['error', {
+          argsIgnorePattern: '^_',
+        }],
 
         // allow ts-directives with a description >= 8 chars
         '@typescript-eslint/ban-ts-comment': ['warn', {
@@ -228,7 +226,11 @@ module.exports = {
     },
     // unit test files in src
     {
-      env: { browser: true, jest: true, node: true },
+      env: {
+        browser: true,
+        jest: true,
+        node: true,
+      },
       files: [
         'src/**/*.test.ts',
         'src/**/*.spec.ts',
@@ -255,13 +257,13 @@ module.exports = {
         'preact',
       ],
       rules: {
-        // FIXME disable these overrides
-        '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/no-non-null-assertion': 'off',
-        'no-console': 'off',
+        '@typescript-eslint/no-explicit-any': 'warn', // FIXME
+        '@typescript-eslint/no-non-null-assertion': 'warn', // FIXME
+        'no-console': 'warn', // FIXME
 
         // test utils often spread props
         'react/jsx-props-no-spreading': 'off',
+
         // prefer .toBe(true|false)
         'jest/no-restricted-matchers': [
           'error',
