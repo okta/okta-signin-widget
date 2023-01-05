@@ -107,6 +107,7 @@ export const getMockCreateCredentialsResponse = (): PublicKeyCredential => (
     type: 'test',
     rawId: new ArrayBuffer(10),
     getClientExtensionResults: jest.fn(),
+    authenticatorAttachment: null,
     response: {
       clientDataJSON: new ArrayBuffer(10),
       attestationObject: new ArrayBuffer(10),
