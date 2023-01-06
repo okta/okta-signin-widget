@@ -59,8 +59,8 @@ const PasswordMatches: UISchemaElementComponent<{
   return (
     <Box data-se="password-authenticator--matches">
       <List
-        listType="unordered"
-        unstyled
+        id="credentials.newPassword-list"
+        dense
       >
         <PasswordRequirementListItem
           status={isMatching ? 'complete' : 'incomplete'}
