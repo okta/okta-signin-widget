@@ -1,6 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Transform Okta Verify Device Challenge Poll Tests should transform elements when challengeMethod is CUSTOM_URI 1`] = `
+exports[`Transform Okta Verify Device Challenge Poll Tests where remediation is challenge-poll should transform elements when challengeMethod is CUSTOM_URI 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "customUri.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "customUri.required.content.prompt",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "href": "okta-verify.html",
+          "step": "challenge-poll",
+        },
+        "type": "OpenOktaVerifyFPButton",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "customUri.required.content.download.title",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "href": "https://apps.apple.com/us/app/okta-verify/id490179405",
+          "label": "customUri.required.content.download.linkText",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Device Challenge Poll Tests where remediation is device-challenge-poll should transform elements when challengeMethod is CUSTOM_URI 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
