@@ -80,9 +80,9 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
                   challengeMethod: 'CUSTOM_URI',
                   href: 'okta-verify.html',
                   downloadHref: 'https://apps.apple.com/us/app/okta-verify/id490179405',
-                }
-              }
-            }
+                },
+              },
+            },
           },
         },
       };
