@@ -1,5 +1,5 @@
 import BasePageObject from './BasePageObject';
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 
 const PASSCODE_FIELD_NAME = 'credentials.passcode';
 const SWITCH_FACTOR_SELECTOR = '.auth-footer .js-switchFactor';
@@ -26,7 +26,11 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return Selector(SWITCH_AUTHENTICATOR_SELECTOR).textContent;
   }
 
-  clickNextButton() {
+  clickNextButton(name) {
+    if (userVariables.v3) {
+      return this.form.clickSaveButton(name);
+    }
+    
     return this.form.clickSaveButton();
   }
 
@@ -74,7 +78,7 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     await this.form.clickElement('.resend-email-view a.resend-link');
   }
 
-  getSaveButtonLabel() {
-    return this.form.getElement('.button-primary').value;
-  }
+  // getSaveButtonLabel() {
+  //   return this.form.getElement('.button-primary').value;
+  // }
 }

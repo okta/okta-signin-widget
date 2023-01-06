@@ -45,8 +45,11 @@ export default class BaseFormObject {
     }).innerText;
   }
 
-  getSubtitle() {
-    return this.el.find('[data-se="o-form-explain"]').innerText;
+  getSubtitle(index) {
+    if (index === undefined) {
+      index = 0;
+    }
+    return this.el.find('[data-se="o-form-explain"]').nth(index).innerText;
   }
 
   getSelectFormButtonLabel(selector) {
@@ -214,7 +217,7 @@ export default class BaseFormObject {
 
   getErrorBoxCount() {
     if (userVariables.v3) {
-      return within(this.el).getAllByRole('alert').count;
+      return within(this.el).queryAllByRole('alert').count;
     }
 
     return this.el.find(FORM_INFOBOX_ERROR).count;
