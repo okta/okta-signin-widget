@@ -45,8 +45,11 @@ export default class BaseFormObject {
     }).innerText;
   }
 
-  getSubtitle() {
-    return this.el.find('[data-se="o-form-explain"]').innerText;
+  getSubtitle(index) {
+    if (index === undefined) {
+      index = 0;
+    }
+    return this.el.find('[data-se="o-form-explain"]').nth(index).innerText;
   }
 
   getSelectFormButtonLabel(selector) {
