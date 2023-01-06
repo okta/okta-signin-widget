@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { Icon as OdyIcon } from '@okta/odyssey-react-mui';
+import { Box, Icon as OdyIcon } from '@okta/odyssey-react-mui';
 import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
 
@@ -36,6 +35,7 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
     <Box
       className={iconClasses}
       marginRight={1}
+      display="flex"
     >
       <OdyIcon
         // TODO: OKTA-556721 - Create and use loc string here for requirement status

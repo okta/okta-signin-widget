@@ -14,11 +14,10 @@ import {
   AccordionDetails,
   AccordionSummary,
   AccordionSummaryProps,
-  Box,
-  Typography,
 } from '@mui/material';
 import MuiAccordion from '@mui/material/Accordion';
 import { styled } from '@mui/material/styles';
+import { Box, Typography } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { AccordionLayout } from '../../types';
