@@ -12,7 +12,10 @@
 
 import { ScopedCssBaseline } from '@mui/material';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import { MuiThemeProvider as OdysseyMuiThemeProvider } from '@okta/odyssey-react-mui';
+import {
+  MuiThemeProvider as OdysseyMuiThemeProvider,
+  OdysseyCacheProvider,
+} from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
   AuthenticatorKey,
@@ -33,7 +36,10 @@ import Bundles from '../../../../util/Bundles';
 import { WidgetContextProvider } from '../../contexts';
 import { usePolling } from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
-import { transformTerminalTransaction, transformUnhandledErrors } from '../../transformer/terminal';
+import {
+  transformTerminalTransaction,
+  transformUnhandledErrors,
+} from '../../transformer/terminal';
 import { createForm } from '../../transformer/utils';
 import {
   FormBag,
@@ -89,6 +95,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
+  const brandedTheme = mapMuiThemeFromBrand(brandColors);
 
   useEffect(() => {
     // If we need to load a language (or apply custom i18n overrides), do
@@ -278,27 +285,29 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}
-      <MuiThemeProvider theme={mapMuiThemeFromBrand(brandColors)}>
+      <MuiThemeProvider theme={brandedTheme}>
         {/* the style is to allow the widget to inherit the parent's bg color */}
         <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
-          <OdysseyMuiThemeProvider theme={mapMuiThemeFromBrand(brandColors)}>
-            <AuthContainer>
-              <AuthHeader
-                logo={logo}
-                logoText={logoText}
-                brandName={brandName}
-                authCoinProps={buildAuthCoinProps(idxTransaction)}
-              />
-              <AuthContent>
-                <IdentifierContainer />
-                {
-                  uischema.elements.length > 0
-                    ? <Form uischema={uischema as UISchemaLayout} />
-                    : <Spinner />
-                }
-              </AuthContent>
-            </AuthContainer>
-          </OdysseyMuiThemeProvider>
+          <OdysseyCacheProvider>
+            <OdysseyMuiThemeProvider theme={brandedTheme}>
+              <AuthContainer>
+                <AuthHeader
+                  logo={logo}
+                  logoText={logoText}
+                  brandName={brandName}
+                  authCoinProps={buildAuthCoinProps(idxTransaction)}
+                />
+                <AuthContent>
+                  <IdentifierContainer />
+                  {
+                    uischema.elements.length > 0
+                      ? <Form uischema={uischema as UISchemaLayout} />
+                      : <Spinner />
+                  }
+                </AuthContent>
+              </AuthContainer>
+            </OdysseyMuiThemeProvider>
+          </OdysseyCacheProvider>
         </ScopedCssBaseline>
       </MuiThemeProvider>
     </WidgetContextProvider>
