@@ -12,6 +12,7 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
+import { CHALLENGE_METHOD } from '../../constants';
 import PhoneSvg from '../../img/phone-icon.svg';
 import {
   DescriptionElement,
@@ -22,7 +23,6 @@ import {
   SpinnerElement,
   TitleElement,
 } from '../../types';
-import { CHALLENGE_METHOD } from '../../constants';
 import { loc } from '../../util';
 import { transformOktaVerifyDeviceChallengePoll, transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 import { getUIElementWithName } from '../utils';

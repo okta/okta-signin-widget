@@ -63,7 +63,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     type: 'Link',
     options: {
       label: loc('customUri.required.content.download.linkText', 'login'),
-      href: deviceChallengePayload.downloadHref
+      href: deviceChallengePayload.downloadHref,
     },
   } as LinkElement);
 
