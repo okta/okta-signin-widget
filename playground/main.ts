@@ -18,7 +18,7 @@ declare global {
     OktaSignIn: OktaSignInConstructor;
     
     // from <script src="/js/okta-plugin-a11y.js">
-    OktaPluginA11y: (widget: OktaSignInAPI, options: Record<string, unknown>) => void;
+    OktaPluginA11y: { init: (widget: OktaSignInAPI) => void };
 
     // added in this file
     getWidgetInstance: () => OktaSignInAPI;
@@ -54,9 +54,7 @@ const renderPlaygroundWidget = (options = {}) => {
   createWidgetInstance(options);
 
   if (window.OktaPluginA11y) {
-    window.OktaPluginA11y(signIn, {
-      companyName: 'Widgico'
-    });
+    window.OktaPluginA11y.init(signIn);
   }
 
   signIn.renderEl(
