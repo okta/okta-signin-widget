@@ -88,8 +88,10 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   const probeTimeoutMillis: number = typeof deviceChallengePayload.probeTimeoutMillis === 'undefined'
     ? 100 : deviceChallengePayload.probeTimeoutMillis;
   const ports: string[] = deviceChallengePayload.ports || [];
-  const { domain } = deviceChallengePayload;
-  const { challengeRequest } = deviceChallengePayload;
+  const {
+    domain,
+    challengeRequest,
+  } = deviceChallengePayload;
 
   const cancelHandler = (params?: ActionParams) => {
     if (typeof cancelStep !== 'undefined') {
