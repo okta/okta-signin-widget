@@ -260,7 +260,7 @@ export interface LoopbackProbeElement extends UISchemaElement {
   type: 'LoopbackProbe';
   options: {
     deviceChallengePayload: {
-      ports: number[];
+      ports: string[];
       domain: string;
       challengeRequest: string;
       probeTimeoutMillis?: number;

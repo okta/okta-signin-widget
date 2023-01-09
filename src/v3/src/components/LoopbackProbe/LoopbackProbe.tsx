@@ -87,7 +87,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
 
   const probeTimeoutMillis: number = typeof deviceChallengePayload.probeTimeoutMillis === 'undefined'
     ? 100 : deviceChallengePayload.probeTimeoutMillis;
-  const ports: number[] = deviceChallengePayload.ports || [];
+  const ports: string[] = deviceChallengePayload.ports || [];
   const { domain } = deviceChallengePayload;
   const { challengeRequest } = deviceChallengePayload;
 
@@ -144,13 +144,13 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
             // the wrong OS profile responds to the challenge request
             if (challengeResponse.status !== 503) {
               // when challenge response with other error statuses,
-              // cancel polling and return
+              // cancel polling and return immediately
               cancelHandler({
                 reason: 'OV_RETURNED_ERROR',
                 statusCode: challengeResponse.status,
               });
 
-              break;
+              return;
             }
             // no errors but this is not the port we're looking for
             // continue with next loop iteration
