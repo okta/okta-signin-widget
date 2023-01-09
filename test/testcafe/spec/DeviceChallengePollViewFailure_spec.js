@@ -145,7 +145,7 @@ test.requestHooks(logger, mock)('probing and polling APIs are sent and responded
 });
 
 test
-  .meta('v3', false) // Need to add title when this specific type of error is returned (OKTA-TICKET?)
+  .meta('v3', false) // Need to add title when this specific type of error is returned (OKTA-564968)
   .requestHooks(logger, deviceInvalidatedErrorMsg)('add title when device or account is invalidated', async t => {
     mockCalls = 0;
     const deviceChallengePollPageObject = await setup(t);
@@ -154,7 +154,7 @@ test
   });
 
 test
-  .meta('v3', false) // Need to handle this error case correctly (OKTA-TICKET?)
+  .meta('v3', false) // Need to handle this error case correctly (OKTA-564970)
   .requestHooks(logger, nonIdxError)('Non IDX error', async t => {
     mockCalls = 0;
     const deviceChallengePollPageObject = await setup(t);
