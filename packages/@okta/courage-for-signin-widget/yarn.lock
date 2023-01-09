@@ -487,10 +487,10 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@okta/courage@4.5.0-7508-g9ac6f5c":
-  version "4.5.0-7508-g9ac6f5c"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-7508-g9ac6f5c.tgz#cb440be63dc73b9c8a6c89efb66b9a0a311be3a4"
-  integrity sha1-y0QL5j3HO5yKbInvtmuaCjEb46Q=
+"@okta/courage@4.5.0-7562-gc13ed57":
+  version "4.5.0-7562-gc13ed57"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-7562-gc13ed57.tgz#0a2b6831ac944ed74db2ef02d020da2741af49e5"
+  integrity sha1-CitoMayUTtdNsu8C0CDaJ0GvSeU=
   dependencies:
     "@okta/jquery.simplemodal" "1.4.19-g8b711ea"
     "@types/backbone" "^1.4.10"
@@ -501,7 +501,7 @@
     backbone "1.4.0"
     clipboard "^1.5.16"
     handlebars "4.7.7"
-    selectize "0.12.4"
+    selectize "0.12.6"
     underscore "1.13.1"
 
 "@okta/eslint-plugin-okta-ui@0.1.0-beta.4181.g1f38f27":
@@ -3140,10 +3140,10 @@ select@^1.1.2:
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
-selectize@0.12.4:
-  version "0.12.4"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/selectize/-/selectize-0.12.4.tgz#50c697526b609dea11da153cf7252b98948f4c0e"
-  integrity sha1-UMaXUmtgneoR2hU89yUrmJSPTA4=
+selectize@0.12.6:
+  version "0.12.6"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/selectize/-/selectize-0.12.6.tgz#c2cf08cbaa4cb06c5e99bb452919d71b080690d6"
+  integrity sha1-ws8Iy6pMsGxembtFKRnXGwgGkNY=
   dependencies:
     microplugin "0.0.3"
     sifter "^0.5.1"
