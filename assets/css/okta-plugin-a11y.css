@@ -53,7 +53,6 @@ a:active {
 #okta-sign-in.auth-container .chzn-single span,
 #okta-sign-in.auth-container .chzn-drop,
 #okta-sign-in.auth-container .chzn-search,
-/* TODO chosen dropdown search results */
 #okta-sign-in.auth-container .chzn-container > .chzn-drop > ul.chzn-results > li,
 #okta-sign-in .chzn-container {
   color: #000!important;
@@ -67,12 +66,6 @@ a:active {
 #okta-sign-in input[type=checkbox], #okta-sign-in input[type=radio] {
   border-color: #888!important;
 }
-/*
- * NOTE difficult to find 3 colors (background color, body text color, 
- * link color) that have sufficient contrast without turning link color 
- * too dark
- * https://webaim.org/resources/linkcontrastchecker/?fcolor=666666&bcolor=007BBD
- */
 a.link,
 a.resend-link {
   color: #3C76C8;
