@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// TODO: Link exported from ODY does not have the focus() function so breaks auto focus functionality
+// TODO: OKTA-564568 Link exported from ODY does not have the focus() function and breaks autofocus
 import { Link as LinkMui } from '@mui/material';
 import { h } from 'preact';
 

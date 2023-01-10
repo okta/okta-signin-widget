@@ -284,7 +284,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setWidgetRendered,
     }}
     >
-      {/* Note that we need two theme providers until we fully migrate to odyssey-mui */}
+      {/* Note: we need to keep both themeproviders (MUI/ODS) until ODS exports all MUI components */}
       <MuiThemeProvider theme={brandedTheme}>
         {/* the style is to allow the widget to inherit the parent's bg color */}
         <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
