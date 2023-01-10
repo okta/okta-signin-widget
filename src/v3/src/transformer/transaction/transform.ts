@@ -35,7 +35,7 @@ const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => 
   });
 
   // update nextStep step name if applicable
-  // @ts-expect-error type is missing from NextStep interface
+  // @ts-expect-error OKTA-565392 type missing from NextStep type
   const isPivType = nextStep?.type === PIV_TYPE;
   if (nextStep?.name === IDX_STEP.REDIRECT_IDP && isPivType) {
     nextStep.name = IDX_STEP.PIV_IDP;
