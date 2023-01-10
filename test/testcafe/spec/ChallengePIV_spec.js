@@ -48,7 +48,7 @@ test
   .requestHooks(logger, verifyWithSelectPIVIdpMock)('verify with PIV IdP from identify form', async t => {
     const identityPage = await setup(t);
     
-    await t.expect(identityPage.identifierFieldExists('[data-se="identifier"]')).eql(true);
+    await t.expect(identityPage.identifierFieldExistsForPIVView()).eql(true);
     await t.expect(identityPage.getIdpButton('.piv-button').textContent).eql('Sign in with PIV / CAC card');
     await identityPage.clickIdpButton('.piv-button');
 

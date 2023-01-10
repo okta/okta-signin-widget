@@ -177,6 +177,13 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.elementExist(selector);
   }
 
+  identifierFieldExistsForPIVView() {
+    if (userVariables.v3) {
+      return this.identifierFieldExists('[data-se="identifier"]');
+    }
+    return this.identifierFieldExists('.o-form-input .input-fix input');
+  }
+
   getCustomForgotPasswordLink() {
     return Selector(FORGOT_PASSWORD_SELECTOR).getAttribute('href');
   }
