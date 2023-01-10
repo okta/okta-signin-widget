@@ -113,8 +113,8 @@ export const mapMuiThemeFromBrand = (brand: BrandColors | undefined): Theme => {
       odysseyThemeCopy.palette.text.primary = derivedTheme.textColor;
     }
   }
-  // TODO: Error thrown from the Theme type components property
-  return odysseyThemeCopy as unknown as Theme;
+  // @ts-expect-error Error thrown from difference of component props between ODS and MUI
+  return odysseyThemeCopy;
 };
 
 export const mapThemeFromBrand = (brand: BrandColors | undefined): PartialTheme => {
