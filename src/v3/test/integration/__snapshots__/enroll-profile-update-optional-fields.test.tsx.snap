@@ -131,7 +131,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     required="true"
                   >
                     <input
-                      aria-describedby="profile-update_Title_Additional_Profile_information_1 userProfile.secondEmail-explain "
+                      aria-describedby="profile-update_Title_Additional_Profile_information_1 userProfile.secondEmail-explain"
                       aria-invalid="false"
                       class="MuiInputBase-input emotion-19"
                       data-se="userProfile.secondEmail"
@@ -142,7 +142,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     />
                   </div>
                   <p
-                    class="MuiFormHelperText-root emotion-25"
+                    class="MuiFormHelperText-root o-form-explain emotion-25"
                     data-se="userProfile.secondEmail-explain"
                     id="userProfile.secondEmail-explain"
                   >
