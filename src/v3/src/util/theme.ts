@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Theme } from '@mui/material/styles';
+import { Theme } from '@mui/material/styles/createTheme';
 import { Button } from '@okta/odyssey-react';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { PartialTheme } from '@okta/odyssey-react-theme/dist/ThemeProvider/context';
@@ -113,15 +113,10 @@ export const mapMuiThemeFromBrand = (brand: BrandColors | undefined): Theme => {
       odysseyThemeCopy.palette.text.primary = derivedTheme.textColor;
     }
   }
-  // @ts-expect-error throwing an error because of the MUI components props are not equvalent to those exported from ODS
-  return odysseyThemeCopy;
+  // TODO: Error thrown from the Theme type components property
+  return odysseyThemeCopy as unknown as Theme;
 };
 
-/**
- *
- * @deprecated This function should no longer be used since we are now on ODS MUI
- * instead of legacy ODS React
- */
 export const mapThemeFromBrand = (brand: BrandColors | undefined): PartialTheme => {
   if (brand) {
     const derivedTheme = deriveThemeFromBrand(brand);
