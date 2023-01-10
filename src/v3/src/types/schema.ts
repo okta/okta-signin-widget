@@ -68,7 +68,7 @@ export type InputAttributes = {
 
 // flat params
 export type ActionParams = {
-  [key: string]: string | boolean | number;
+  [key: string]: string | boolean | number | null;
 };
 
 export interface ActionOptions {
@@ -253,6 +253,20 @@ export interface OpenOktaVerifyFPButtonElement extends UISchemaElement {
   options: {
     step: string;
     href?: string;
+  };
+}
+
+export interface LoopbackProbeElement extends UISchemaElement {
+  type: 'LoopbackProbe';
+  options: {
+    deviceChallengePayload: {
+      ports: string[];
+      domain: string;
+      challengeRequest: string;
+      probeTimeoutMillis?: number;
+    };
+    step: string;
+    cancelStep: string;
   };
 }
 

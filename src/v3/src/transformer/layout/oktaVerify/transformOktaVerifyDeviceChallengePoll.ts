@@ -27,8 +27,12 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   formBag,
 }) => {
   const { nextStep = {} as NextStep } = transaction;
-  const { relatesTo } = nextStep;
   const { uischema } = formBag;
+
+  const deviceChallengePayload = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL
+    ? transaction.nextStep?.relatesTo?.value
+    // @ts-expect-error challenge is not defined on contextualData
+    : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
 
   uischema.elements.unshift({
     type: 'Title',
@@ -44,9 +48,8 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   uischema.elements.push({
     type: 'OpenOktaVerifyFPButton',
     options: {
-      step: IDX_STEP.DEVICE_CHALLENGE_POLL,
-      // @ts-expect-error Property 'href' does not exist on type 'IdxAuthenticator'.
-      href: relatesTo?.value.href,
+      step: nextStep.name,
+      href: deviceChallengePayload.href,
     },
   } as OpenOktaVerifyFPButtonElement);
 
@@ -60,8 +63,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     type: 'Link',
     options: {
       label: loc('customUri.required.content.download.linkText', 'login'),
-      // @ts-expect-error Property 'downloadHref' does not exist on type 'IdxAuthenticator'.
-      href: relatesTo?.value.downloadHref,
+      href: deviceChallengePayload.downloadHref,
     },
   } as LinkElement);
 

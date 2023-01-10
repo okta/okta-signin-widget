@@ -26,41 +26,89 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
   const formBag = getStubFormBag();
   const widgetProps: WidgetProps = {};
 
-  beforeEach(() => {
-    formBag.uischema.elements = [];
-    transaction.nextStep = {
-      name: '',
-      relatesTo: {
-        value: {
-          // @ts-expect-error Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
-          challengeMethod: 'CUSTOM_URI',
-          href: 'okta-verify.html',
-          downloadHref: 'https://apps.apple.com/us/app/okta-verify/id490179405',
+  describe('where remediation is device-challenge-poll', () => {
+    beforeEach(() => {
+      formBag.uischema.elements = [];
+      transaction.nextStep = {
+        name: 'device-challenge-poll',
+        relatesTo: {
+          value: {
+            // @ts-expect-error Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
+            challengeMethod: 'CUSTOM_URI',
+            href: 'okta-verify.html',
+            downloadHref: 'https://apps.apple.com/us/app/okta-verify/id490179405',
+          },
         },
-      },
-    };
-  });
-
-  it('should transform elements when challengeMethod is CUSTOM_URI', () => {
-    const updatedFormBag = transformOktaVerifyDeviceChallengePoll({
-      transaction,
-      formBag,
-      widgetProps,
+      };
     });
 
-    expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-      .toBe('customUri.title');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe('customUri.required.content.prompt');
-    expect((updatedFormBag.uischema.elements[2] as OpenOktaVerifyFPButtonElement).options.href)
-      .toBe('okta-verify.html');
-    expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options.content)
-      .toBe('customUri.required.content.download.title');
-    expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
-      .toBe('customUri.required.content.download.linkText');
-    expect((updatedFormBag.uischema.elements[4] as LinkElement).options.href)
-      .toBe('https://apps.apple.com/us/app/okta-verify/id490179405');
+    it('should transform elements when challengeMethod is CUSTOM_URI', () => {
+      const updatedFormBag = transformOktaVerifyDeviceChallengePoll({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('customUri.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('customUri.required.content.prompt');
+      expect((updatedFormBag.uischema.elements[2] as OpenOktaVerifyFPButtonElement).options.href)
+        .toBe('okta-verify.html');
+      expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options.content)
+        .toBe('customUri.required.content.download.title');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
+        .toBe('customUri.required.content.download.linkText');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.href)
+        .toBe('https://apps.apple.com/us/app/okta-verify/id490179405');
+    });
+  });
+
+  describe('where remediation is challenge-poll', () => {
+    beforeEach(() => {
+      formBag.uischema.elements = [];
+      transaction.nextStep = {
+        name: 'challenge-poll',
+        relatesTo: {
+          value: {
+            contextualData: {
+              // @ts-expect-error Property 'challenge' does not exist
+              challenge: {
+                value: {
+                  challengeMethod: 'CUSTOM_URI',
+                  href: 'okta-verify.html',
+                  downloadHref: 'https://apps.apple.com/us/app/okta-verify/id490179405',
+                },
+              },
+            },
+          },
+        },
+      };
+    });
+
+    it('should transform elements when challengeMethod is CUSTOM_URI', () => {
+      const updatedFormBag = transformOktaVerifyDeviceChallengePoll({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('customUri.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+        .toBe('customUri.required.content.prompt');
+      expect((updatedFormBag.uischema.elements[2] as OpenOktaVerifyFPButtonElement).options.href)
+        .toBe('okta-verify.html');
+      expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options.content)
+        .toBe('customUri.required.content.download.title');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
+        .toBe('customUri.required.content.download.linkText');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.href)
+        .toBe('https://apps.apple.com/us/app/okta-verify/id490179405');
+    });
   });
 });

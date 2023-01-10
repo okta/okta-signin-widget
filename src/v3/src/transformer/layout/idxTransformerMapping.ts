@@ -58,6 +58,7 @@ import {
 import {
   transformOktaVerifyDeviceChallengePoll,
   transformOktaVerifyFPLaunchAuthenticator,
+  transformOktaVerifyFPLoopbackPoll,
 } from './oktaVerify';
 import { transformPIVAuthenticator } from './piv';
 import {
@@ -182,6 +183,13 @@ const TransformerMap: {
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: true,
+      },
+    },
+    [CHALLENGE_METHOD.LOOPBACK]: {
+      transform: transformOktaVerifyFPLoopbackPoll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
       },
     },
   },

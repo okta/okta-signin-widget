@@ -12,6 +12,7 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
+import { CHALLENGE_METHOD } from '../../constants';
 import PhoneSvg from '../../img/phone-icon.svg';
 import {
   DescriptionElement,
@@ -23,7 +24,7 @@ import {
   TitleElement,
 } from '../../types';
 import { loc } from '../../util';
-import { transformOktaVerifyDeviceChallengePoll } from '../layout/oktaVerify';
+import { transformOktaVerifyDeviceChallengePoll, transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 import { getUIElementWithName } from '../utils';
 
 export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) => {
@@ -120,6 +121,11 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
     }
   } else if (selectedMethod.type === 'signed_nonce') {
     // selectedMethod.type === 'signed_nonce' reflects a FastPass OV flow
+    // @ts-expect-error ts(2339) Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
+    const challengeMethod = relatesTo?.value?.contextualData?.challenge?.value?.challengeMethod;
+    if (challengeMethod === CHALLENGE_METHOD.LOOPBACK) {
+      return transformOktaVerifyFPLoopbackPoll(options);
+    }
     return transformOktaVerifyDeviceChallengePoll(options);
   }
 

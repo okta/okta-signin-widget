@@ -21,9 +21,11 @@ import {
 } from 'src/types';
 
 import { transformOktaVerifyDeviceChallengePoll } from '../layout/oktaVerify/transformOktaVerifyDeviceChallengePoll';
+import { transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify/transformOktaVerifyFPLoopbackPoll';
 import { transformOktaVerifyChallengePoll } from './transformOktaVerifyChallengePoll';
 
 jest.mock('../layout/oktaVerify/transformOktaVerifyDeviceChallengePoll');
+jest.mock('../layout/oktaVerify/transformOktaVerifyFPLoopbackPoll');
 
 describe('Transform Okta Verify Challenge Poll Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -167,6 +169,34 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
 
     expect(transformOktaVerifyDeviceChallengePoll).toHaveBeenCalledTimes(1);
     expect(transformOktaVerifyDeviceChallengePoll).toHaveBeenLastCalledWith({
+      transaction,
+      formBag,
+      widgetProps,
+    });
+  });
+
+  it('should call FP loopback poll transformer when selected authenticator method is signed_nonce AND challengeMethod is loopback', () => {
+    transaction.nextStep = {
+      name: '',
+      relatesTo: {
+        value: {
+          methods: [{ type: 'signed_nonce' }],
+          contextualData: {
+            // @ts-expect-error challenge is not on contextualData
+            challenge: {
+              value: {
+                challengeMethod: 'LOOPBACK',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
+
+    expect(transformOktaVerifyFPLoopbackPoll).toHaveBeenCalledTimes(1);
+    expect(transformOktaVerifyFPLoopbackPoll).toHaveBeenLastCalledWith({
       transaction,
       formBag,
       widgetProps,

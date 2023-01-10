@@ -28,6 +28,7 @@ import InputText from '../InputText';
 import LaunchAuthenticatorButton from '../LaunchAuthenticatorButton';
 import Link from '../Link';
 import List from '../List';
+import LoopbackProbe from '../LoopbackProbe';
 import OpenOktaVerifyFPButton from '../OpenOktaVerifyFPButton';
 import PasswordRequirements from '../PasswordRequirements';
 import PasswordMatches from '../PasswordRequirements/PasswordMatches';
@@ -118,6 +119,10 @@ export default [
   {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',
     renderer: WebAuthNSubmitButton,
+  },
+  {
+    tester: ({ type }) => type === 'LoopbackProbe',
+    renderer: LoopbackProbe,
   },
   {
     tester: ({ type }) => type === 'PIVButton',

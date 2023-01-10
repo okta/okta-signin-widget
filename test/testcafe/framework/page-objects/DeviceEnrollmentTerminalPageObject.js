@@ -8,7 +8,6 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   constructor(t) {
     super(t);
     this.t = t;
-    this.beacon = new Selector('.beacon-container');
     this.body = new Selector('.device-enrollment-terminal');
     this.footer = new Selector('.auth-footer');
   }
@@ -35,10 +34,6 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
 
   getBackLinkText() {
     return this.getBackLink().innerText;
-  }
-
-  getBeaconClass() {
-    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
 
   getHeader() {

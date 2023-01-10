@@ -1,4 +1,4 @@
-import { RequestLogger, RequestMock, Selector, userVariables } from 'testcafe';
+import { RequestLogger, RequestMock, Selector } from 'testcafe';
 import SignInDevicePageObject from '../framework/page-objects/SignInDevicePageObject';
 import smartProbingRequired from '../../../playground/mocks/data/idp/idx/smart-probing-required';
 import launchAuthenticatorOption from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';

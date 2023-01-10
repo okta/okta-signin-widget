@@ -10,6 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './transformOktaVerifyDeviceChallengePoll';
-export * from './transformOktaVerifyFPLaunchAuthenticator';
-export * from './transformOktaVerifyFPLoopbackPoll';
+import LoopbackProbe from './LoopbackProbe';
+
+export default LoopbackProbe;

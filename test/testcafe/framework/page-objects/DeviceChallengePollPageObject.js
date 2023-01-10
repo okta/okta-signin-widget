@@ -7,13 +7,8 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   constructor(t) {
     super(t);
     this.t = t;
-    this.beacon = new Selector('.beacon-container');
     this.body = new Selector('.device-challenge-poll');
     this.footer = new Selector('.auth-footer');
-  }
-
-  getBeaconClass() {
-    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
 
   /**
@@ -40,7 +35,10 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   getFooterCancelPollingLink() {
-    return this.footer.find('[data-se="cancel-authenticator-challenge"]');
+    if (userVariables.v3) {
+      return this.getCancelLink();
+    }
+    return this.form.getLink('Cancel and take me to sign in');
   }
 
   getFooterSwitchAuthenticatorLink() {
@@ -48,6 +46,9 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   getFooterSignOutLink() {
+    if (userVariables.v3) {
+      return this.getCancelLink();
+    }
     return this.footer.find('[data-se="cancel"]');
   }
 
@@ -59,12 +60,18 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     await this.t.click(this.getFooterSwitchAuthenticatorLink());
   }
 
-  getSpinner() {
-    return this.body.find('.spinner');
+  async hasSpinner() {
+    if (userVariables.v3) {
+      return this.form.getSpinner().exists;
+    }
+
+    const display = await this.body.find('.spinner').getStyleProperty('display');
+
+    return display === 'block';
   }
 
   getDownloadOktaVerifyLink() {
-    return this.body.find('#download-ov').getAttribute('href');
+    return this.form.getLink('Download here').getAttribute('href');
   }
 
   getPrimaryButtonText() {
@@ -76,7 +83,11 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   async clickCancelAndGoBackLink() {
-    await this.t.click(Selector('a[data-se="cancel-authenticator-challenge"]'));
+    if (userVariables.v3) {
+      await this.t.click(this.getCancelLink());
+    } else {
+      await this.t.click(Selector('a[data-se="cancel-authenticator-challenge"]'));
+    }
   }
 
   async clickUniversalLink() {
