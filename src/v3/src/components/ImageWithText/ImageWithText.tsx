@@ -10,14 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { Text } from '@okta/odyssey-react';
-import { withTheme } from '@okta/odyssey-react-theme';
+import './style.module.css';
+
+import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
-
-import { theme } from './ImageWithText.theme';
-import style from './style.module.css';
 
 const ImageWithText: UISchemaElementComponent<{
   uischema: ImageWithTextElement
@@ -32,6 +29,11 @@ const ImageWithText: UISchemaElementComponent<{
       justifyContent={alignment}
       alignItems="center"
       flexWrap="wrap"
+      sx={(theme) => ({
+        '--PrimaryFill': theme.palette.primary.main,
+        '--PrimaryDarkFill': theme.palette.primary.dark,
+        '--SecondaryFill': theme.palette.primary.light,
+      })}
     >
       <Box marginRight={2}>
         <Icon />
@@ -40,7 +42,7 @@ const ImageWithText: UISchemaElementComponent<{
         textContent
         && (
         <Box>
-          <Text as="span">{textContent}</Text>
+          <Typography component="span">{textContent}</Typography>
         </Box>
         )
       }
@@ -48,4 +50,4 @@ const ImageWithText: UISchemaElementComponent<{
   );
 };
 
-export default withTheme(theme, style)(ImageWithText);
+export default ImageWithText;

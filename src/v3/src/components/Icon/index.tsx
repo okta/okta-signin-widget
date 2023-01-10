@@ -20,6 +20,7 @@ export * from './OktaVerifyIcon';
 export * from './OnPremMFAIcon';
 export * from './PasswordIcon';
 export * from './PhoneIcon';
+export * from './RightArrowIcon';
 export * from './RSAIcon';
 export * from './SecurityKeyOrBiometricsIcon';
 export * from './SecurityQuestionIcon';

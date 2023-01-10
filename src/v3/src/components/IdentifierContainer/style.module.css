@@ -9,4 +9,5 @@
 
 .userIconContainer {
   color: var(--PrimaryFill);
+  vertical-align: middle;
 }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button as ButtonMui } from '@mui/material';
+import { Box, Button as OdyButton } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import Util from '../../../../util/Util';
@@ -57,7 +57,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
   const iconDescription = getTranslation(translations, 'icon-description') || '';
 
   return (
-    <ButtonMui
+    <OdyButton
       variant="secondary"
       fullWidth
       onClick={handleClick}
@@ -80,7 +80,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
         />
         {label}
       </Box>
-    </ButtonMui>
+    </OdyButton>
   );
 };
 

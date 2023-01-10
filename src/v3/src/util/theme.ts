@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Theme } from '@mui/material/styles';
+import { Theme } from '@mui/material/styles/createTheme';
 import { Button } from '@okta/odyssey-react';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { PartialTheme } from '@okta/odyssey-react-theme/dist/ThemeProvider/context';
@@ -113,6 +113,7 @@ export const mapMuiThemeFromBrand = (brand: BrandColors | undefined): Theme => {
       odysseyThemeCopy.palette.text.primary = derivedTheme.textColor;
     }
   }
+  // @ts-expect-error Error thrown from difference of component props between ODS and MUI
   return odysseyThemeCopy;
 };
 

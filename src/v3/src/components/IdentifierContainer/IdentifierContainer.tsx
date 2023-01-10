@@ -10,15 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { Icon } from '@okta/odyssey-react';
-import { withTheme } from '@okta/odyssey-react-theme';
+import { Box, Icon } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
-import { theme } from './IdentifierContainer.theme';
 import style from './style.module.css';
 
 const shouldHideIdentifier = (
@@ -63,6 +60,10 @@ const IdentifierContainer: FunctionComponent = () => {
       alignItems="center"
       marginBottom={4}
       className={mainContainerClasses}
+      sx={(theme) => ({
+        '--PrimaryFill': theme.palette.primary.main,
+        '--BackgroundFill': theme.palette.grey[50],
+      })}
     >
       <Box
         flex="auto"
@@ -76,7 +77,11 @@ const IdentifierContainer: FunctionComponent = () => {
           component="span"
           className={iconContainerClasses}
         >
-          <Icon name="user" />
+          <Icon
+            name="user"
+            titleAccess="User"
+            sx={{ width: '16px', height: '16px' }}
+          />
         </Box>
         <Box
           component="span"
@@ -90,4 +95,4 @@ const IdentifierContainer: FunctionComponent = () => {
   );
 };
 
-export default withTheme(theme, style)(IdentifierContainer);
+export default IdentifierContainer;

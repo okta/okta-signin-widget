@@ -10,13 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { withTheme } from '@okta/odyssey-react-theme';
+import { Box } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
-import { AuthCoinProps } from 'src/types';
 
-import { theme } from './AuthCoin.theme';
+import { AuthCoinProps } from '../../types';
 import AuthCoinByAuthenticatorKey from './AuthCoinConfig';
 import style from './style.module.css';
 
@@ -36,10 +34,6 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     authCoinConfig?.iconClassName,
     customClasses,
   );
-  const customLogoClasses = classNames(
-    style.customAuthImage,
-    'custom-logo',
-  );
 
   function createAuthCoinIcon() {
     // TODO: OKTA-467022 - Add warning when attempted to customize non-customizeable authenticator
@@ -47,10 +41,15 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     // key that can be customized or custom push app
     if (url && (authCoinConfig?.customizable || !authCoinConfig?.icon)) {
       return (
-        <img
+        <Box
+          as="img"
           src={url}
           alt={authCoinConfig.description}
-          className={customLogoClasses}
+          className="custom-logo"
+          sx={{
+            width: (theme) => theme.spacing(6),
+            height: (theme) => theme.spacing(6),
+          }}
         />
       );
     }
@@ -69,10 +68,15 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     <Box
       className={containerClasses}
       data-se="factor-beacon"
+      sx={(theme) => ({
+        '--PrimaryFill': theme.palette.primary.dark,
+        '--SecondaryFill': theme.palette.primary.light,
+        '--BackgroundFill': theme.palette.grey[50],
+      })}
     >
       { createAuthCoinIcon() }
     </Box>
   );
 };
 
-export default withTheme(theme, style)(AuthCoin);
+export default AuthCoin;

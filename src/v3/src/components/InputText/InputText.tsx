@@ -13,9 +13,9 @@
 import {
   Box,
   FormHelperText,
+  InputBase,
   InputLabel,
-  OutlinedInput,
-} from '@mui/material';
+} from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -81,7 +81,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           </FormHelperText>
         )
       }
-      <OutlinedInput
+      <InputBase
         value={value}
         type={type || 'text'}
         id={name}

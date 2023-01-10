@@ -14,16 +14,16 @@ import {
   Checkbox as CheckboxMui,
   FormControl,
   FormControlLabel,
-} from '@mui/material';
+} from '@okta/odyssey-react-mui';
 import { h } from 'preact';
+
+import { useWidgetContext } from '../../contexts';
+import { useAutoFocus, useOnChange, useValue } from '../../hooks';
 import {
   ChangeEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
-} from 'src/types';
-
-import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useOnChange, useValue } from '../../hooks';
+} from '../../types';
 import { getTranslation } from '../../util';
 import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';

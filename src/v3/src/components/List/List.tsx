@@ -10,13 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import {
-  List as ListOdyssey,
-  Text,
-} from '@okta/odyssey-react';
+import { List as ListOdyssey } from '@okta/odyssey-react';
+import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { ListElement, UISchemaElementComponent } from 'src/types';
+
+import { ListElement, UISchemaElementComponent } from '../../types';
 
 const List: UISchemaElementComponent<{
   uischema: ListElement
@@ -29,7 +27,7 @@ const List: UISchemaElementComponent<{
       justifyContent="flex-start"
       marginBottom={4}
     >
-      { options.description && <Text as="p">{options.description}</Text> }
+      { options.description && <Typography component="p">{options.description}</Typography> }
       <ListOdyssey listType={options.type ?? 'unordered'}>
         {
           options.items.map((item: string) => (

@@ -12,13 +12,14 @@
 
 import {
   Box,
+  EyeIcon,
+  EyeOffIcon,
   IconButton,
   InputAdornment,
+  InputBase,
   InputLabel,
-  OutlinedInput,
   Tooltip,
-} from '@mui/material';
-import { EyeIcon, EyeOffIcon } from '@okta/odyssey-react-mui';
+} from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
@@ -83,7 +84,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
       >
         {label}
       </InputLabel>
-      <OutlinedInput
+      <InputBase
         id={name}
         name={name}
         error={hasErrors}
@@ -109,6 +110,12 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
                 edge="end"
+                sx={{
+                  '&.Mui-focusVisible': {
+                    outlineStyle: 'solid',
+                    outlineWidth: '1px',
+                  },
+                }}
               >
                 {showPassword ? <EyeOffIcon /> : <EyeIcon />}
               </IconButton>

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
+import { Box } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -57,6 +57,11 @@ const TextWithHtml: UISchemaElementComponent<{
   return (
     <Box>
       <Box
+        sx={(theme) => ({
+          [`& .${contentClassname}`]: {
+            color: theme.palette.primary.main,
+          },
+        })}
         onClick={handleClick}
         dangerouslySetInnerHTML={{ __html: content }}
       />

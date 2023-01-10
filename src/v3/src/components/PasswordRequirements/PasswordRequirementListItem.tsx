@@ -11,15 +11,14 @@
  */
 
 import {
-  ListItem, ListItemIcon, ListItemText,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
-import { withTheme } from '@okta/odyssey-react-theme';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementProps } from '../../types';
 import Icon from './Icon';
-import { theme } from './PasswordRequirements.theme';
-import style from './style.module.css';
 
 const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> = (
   props,
@@ -38,4 +37,4 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
     </ListItem>
   );
 };
-export default withTheme(theme, style)(PasswordRequirementListItem);
+export default PasswordRequirementListItem;

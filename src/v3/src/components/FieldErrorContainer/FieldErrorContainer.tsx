@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, FormHelperText } from '@mui/material';
+import { Box, FormHelperText } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { buildErrorMessageIds } from '../../util';

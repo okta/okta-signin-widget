@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button as ButtonMui, CircularProgress } from '@mui/material';
+import { Box, Button as OdyButton, CircularProgress } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -65,7 +65,7 @@ const Button: UISchemaElementComponent<{
   };
 
   return (
-    <ButtonMui
+    <OdyButton
       type={type}
       variant={variant ?? 'primary'}
       fullWidth={wide ?? true}
@@ -104,7 +104,7 @@ const Button: UISchemaElementComponent<{
         ) : label
       }
 
-    </ButtonMui>
+    </OdyButton>
   );
 };
 

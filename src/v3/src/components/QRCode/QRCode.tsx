@@ -10,30 +10,49 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { withTheme } from '@okta/odyssey-react-theme';
+import * as Tokens from '@okta/odyssey-design-tokens';
+import { Box } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { QRCodeElement, UISchemaElementComponent } from 'src/types';
 
+import { QRCodeElement, UISchemaElementComponent } from '../../types';
 import { getTranslation } from '../../util';
-import { theme } from './QRCode.theme';
-import styles from './styles.module.css';
 
 const QRCode: UISchemaElementComponent<{
   uischema: QRCodeElement
 }> = ({
   uischema,
 }) => {
-  const label = getTranslation(uischema.translations!, 'label');
+  const { translations = [], options: { data } } = uischema;
+  const label = getTranslation(translations, 'label');
   return (
-    <Box className={styles.qrContainer}>
-      <img
-        class={styles.qrImg}
-        src={uischema.options?.data}
+    <Box
+      className="qrContainer"
+      sx={(theme) => ({
+        marginBlockStart: theme.spacing(4),
+        marginBlockEnd: theme.spacing(4),
+        marginInlineStart: theme.spacing(0),
+        marginInlineEnd: theme.spacing(0),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      })}
+    >
+      <Box
+        as="img"
+        className="qrImg"
+        sx={{
+          width: '224px',
+          height: '224px',
+          borderWidth: Tokens.BorderWidthBase,
+          borderStyle: Tokens.BorderStyleBase,
+          borderColor: Tokens.ColorBorderDisplay,
+          borderRadius: Tokens.BorderRadiusBase,
+        }}
+        src={data}
         alt={label}
       />
     </Box>
   );
 };
 
-export default withTheme(theme, styles)(QRCode);
+export default QRCode;

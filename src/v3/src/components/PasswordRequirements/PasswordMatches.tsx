@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, List } from '@mui/material';
+import { List } from '@mui/material';
+import { Box } from '@okta/odyssey-react-mui';
 import debounce from 'lodash/debounce';
 import { h } from 'preact';
 import {
@@ -58,8 +59,8 @@ const PasswordMatches: UISchemaElementComponent<{
   return (
     <Box data-se="password-authenticator--matches">
       <List
-        listType="unordered"
-        unstyled
+        id="credentials.newPassword-list"
+        dense
       >
         <PasswordRequirementListItem
           status={isMatching ? 'complete' : 'incomplete'}

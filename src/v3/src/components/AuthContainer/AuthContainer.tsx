@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
+import { Box } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
@@ -39,7 +40,7 @@ const AuthContainer: FunctionComponent = ({ children }) => {
         flexDirection="column"
         border={isMobileWidth ? 0 : 1}
         borderRadius={1}
-        borderColor="grey.200"
+        borderColor="grey.400"
         bgcolor="common.white"
         fontFamily="fontFamily"
         className={style.siwContainer}
