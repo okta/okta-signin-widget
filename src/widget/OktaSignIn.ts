@@ -22,17 +22,11 @@ import {
   EventName,
   RouterClassFactory,
   AbstractRouter,
-  RouterConstructor,
-  OktaData,
+  RouterConstructor
 } from '../types';
 import { Tokens } from '@okta/okta-auth-js';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
-declare global {
-  interface Window {
-    oktaData?: OktaData;
-  }
-}
 
 export function createOktaSignIn
 (
@@ -53,12 +47,7 @@ export function createOktaSignIn
           When you are ready to publish your app, embed the minified version to turn on production mode.
           See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
         `);
-      if (!options.stateToken) {
-        // need to set stateToken here vs in Settings to determine Router.
-        // oktaData is only available to SIW on custom domains.
-        // set stateToken in case user wipes out stateToken when overriding options.
-        options.stateToken = window?.oktaData?.signIn?.stateToken;
-      }
+
       this.options = options;
       this.authClient = getAuthClient(authClientConstructor, options);
 
