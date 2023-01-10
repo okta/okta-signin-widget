@@ -25,6 +25,7 @@ import { transformI18n } from './i18n';
 import { transformLayout } from './layout';
 import { transformMessages } from './messages';
 import { transformTestAttribute } from './testAttribute';
+import { transformTransactionData } from './transaction';
 import { transformUISchema } from './uischema';
 
 // use this function after each transformation step to log the formbag output
@@ -37,6 +38,7 @@ const logger: TransformStepFn = (formbag) => {
 
 export const transformIdxTransaction = (options: TransformationOptions): FormBag => {
   const transformationStepFns: TransformStepFn[] = [
+    transformTransactionData(options),
     transformFields(options),
     transformLayout(options),
     transformButtons(options),

@@ -33,6 +33,7 @@ const verifyErrorMock = RequestMock()
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify'
@@ -40,12 +41,14 @@ async function setup(t) {
   return identityPage;
 }
 
-fixture('Verify PIV IdP');
+fixture('Verify PIV IdP')
+  .meta('v3', true);
+
 test
   .requestHooks(logger, verifyWithSelectPIVIdpMock)('verify with PIV IdP from identify form', async t => {
     const identityPage = await setup(t);
     
-    await t.expect(identityPage.identifierFieldExists('.o-form-input .input-fix input')).eql(true);
+    await t.expect(identityPage.identifierFieldExists('[data-se="identifier"]')).eql(true);
     await t.expect(identityPage.getIdpButton('.piv-button').textContent).eql('Sign in with PIV / CAC card');
     await identityPage.clickIdpButton('.piv-button');
 
@@ -59,7 +62,7 @@ test
     const pivPageObject = new PIVPageObject(t);
     await pivPageObject.navigateToPage();
     // wait for save to be triggered automatically
-    await t.wait(2000);
+    await t.wait(3000);
     // automatically prompts for cert when piv is the only remediation
     const pageUrl = await pivPageObject.getPageUrl();
     await t.expect(pageUrl)
@@ -70,6 +73,7 @@ test
   .requestHooks(logger, verifyErrorMock)('verify with PIV IdP surfaces error messages', async t => {
     const pivPageObject = new PIVPageObject(t);
     await pivPageObject.navigateToPage();
+    await t.expect(pivPageObject.formExists()).eql(true);
 
     await t.expect(pivPageObject.getPageTitle()).eql('PIV / CAC card');
     const subtitle = await pivPageObject.getPageSubtitle();

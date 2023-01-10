@@ -31,6 +31,7 @@ const PIVButton: UISchemaElementComponent<{
   const btnLabel = getTranslation(translations, 'label');
 
   const { setMessage, loading, idxTransaction } = useWidgetContext();
+  const { messages, nextStep } = idxTransaction || {};
   const [waiting, setWaiting] = useState<boolean>(false);
 
   const showLoading = waiting || loading;
@@ -39,7 +40,7 @@ const PIVButton: UISchemaElementComponent<{
     setWaiting(true);
     setMessage(undefined);
 
-    Util.redirectWithFormGet(idxTransaction?.nextStep?.href);
+    Util.redirectWithFormGet(nextStep?.href);
   };
 
   const handleClick: ClickHandler = (event) => {
@@ -48,6 +49,11 @@ const PIVButton: UISchemaElementComponent<{
   };
 
   useEffect(() => {
+    // If messages exists, assume an error and display button (do not auto trigger)
+    if (messages?.length) {
+      setWaiting(false);
+      return;
+    }
     initCertPrompt();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
