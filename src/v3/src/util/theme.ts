@@ -113,9 +113,15 @@ export const mapMuiThemeFromBrand = (brand: BrandColors | undefined): Theme => {
       odysseyThemeCopy.palette.text.primary = derivedTheme.textColor;
     }
   }
+  // @ts-expect-error throwing an error because of the MUI components props are not equvalent to those exported from ODS
   return odysseyThemeCopy;
 };
 
+/**
+ *
+ * @deprecated This function should no longer be used since we are now on ODS MUI
+ * instead of legacy ODS React
+ */
 export const mapThemeFromBrand = (brand: BrandColors | undefined): PartialTheme => {
   if (brand) {
     const derivedTheme = deriveThemeFromBrand(brand);
