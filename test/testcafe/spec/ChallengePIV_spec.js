@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import PIVPageObject from '../framework/page-objects/PIVPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import xhrIdentifyWithThirdPartyIdps from '../../../playground/mocks/data/idp/idx/identify-with-third-party-idps';
@@ -44,6 +45,7 @@ fixture('Verify PIV IdP');
 test
   .requestHooks(logger, verifyWithSelectPIVIdpMock)('verify with PIV IdP from identify form', async t => {
     const identityPage = await setup(t);
+    await checkA11y(t);
     
     await t.expect(identityPage.identifierFieldExists('.o-form-input .input-fix input')).eql(true);
     await t.expect(identityPage.getIdpButton('.piv-button').textContent).eql('Sign in with PIV / CAC card');

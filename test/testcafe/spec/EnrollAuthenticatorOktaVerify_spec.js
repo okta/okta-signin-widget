@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import EnrollOktaVerifyPageObject from '../framework/page-objects/EnrollOktaVerifyPageObject';
 import SwitchOVEnrollChannelPageObject from '../framework/page-objects/SwitchOVEnrollChannelPageObject';
 import EnrollOVViaEmailPageObject from '../framework/page-objects/EnrollOVViaEmailPageObject';
@@ -192,6 +193,7 @@ async function setup(t) {
 
 test.requestHooks(logger, enrollViaQRcodeMocks)('should be able to enroll via qrcode', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
   await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(true);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
@@ -217,6 +219,7 @@ test.requestHooks(logger, enrollViaQRcodeMocks)('should be able to enroll via qr
 
 test.requestHooks(mock)('should render switch channel view when Can\'t scan is clicked in qr code flow', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getSwitchChannelText()).eql('Can\'t scan?');
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
@@ -236,6 +239,7 @@ test.requestHooks(mock)('should render switch channel view when Can\'t scan is c
 
 test.requestHooks(resendEmailMocks)('should render switch channel view when "try different way" is clicked when in email flow', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getSwitchChannelText()).eql('try a different way');
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
@@ -255,6 +259,7 @@ test.requestHooks(resendEmailMocks)('should render switch channel view when "try
 
 test.requestHooks(resendSmsMocks)('should render switch channel view when "try different way" is clicked when in sms flow', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
@@ -268,6 +273,7 @@ test.requestHooks(resendSmsMocks)('should render switch channel view when "try d
 
 test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
@@ -294,6 +300,7 @@ test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async 
 
 test.requestHooks(resendEmailMocks)('after timeout should be able see and click send again link when enrolling via email', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql(emailInstruction);
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.wait(30000);
@@ -307,6 +314,7 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
 
 test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
@@ -336,6 +344,7 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
 
 test.requestHooks(resendSmsMocks)('after timeout should be able see and click send again link when enrolling via sms', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getSmsInstruction()).eql(smsInstruction);
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.wait(30000);
@@ -351,6 +360,7 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
 const testSmsMsg = async (t, isIos) => {
   const message = isIos ? fipsUpgradeMessage: fipsUpgradeMessageNonIos;
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
@@ -393,6 +403,7 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksNonIos)('should see ov 
 const testEmailMsg = async (t, isIos) => {
   const message = isIos ? fipsUpgradeMessage: fipsUpgradeMessageNonIos;
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
@@ -432,6 +443,7 @@ test.requestHooks(enrollViaEmailVersionUpgradeMocksNonIos)('should see ov upgrad
 const testQRcodeMsg = async (t, isIos) => {
   const message = isIos ? fipsUpgradeMessage: fipsUpgradeMessageNonIos;
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
   await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(true);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
@@ -463,6 +475,7 @@ test.requestHooks(logger, enrollViaQRcodeVersionUpgradeMocksNonIos)('should see 
 
 test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack)('should not show version upgrade message after user hits go back', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
@@ -495,6 +508,7 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack)('should not sho
 
 test.requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks)('should see ov enable biometrics message during enroll via QR code', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
   await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(true);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
@@ -518,6 +532,7 @@ test.requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks)('should see ov e
 
 test.requestHooks(enrollViaEmailEnableBiometricsMocks)('should see ov enable biometrics message during enroll via email', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
@@ -548,6 +563,7 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks)('should see ov enable bio
 
 test.requestHooks(logger, enrollViaSMSEnableBiometricsMocks)('should see ov enable biometrics message during enroll via sms', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');

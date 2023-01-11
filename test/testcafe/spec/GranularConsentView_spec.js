@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 import ConsentPageObject from '../framework/page-objects/ConsentPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -44,6 +45,7 @@ fixture('GranularConsent');
 
 test.requestHooks(requestLogger, consentGranularMock)('should show scopes list', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
   await t.expect(consentPage.getScopeCheckBoxLabels()).eql([
     'View your mobile phone data plan.\n\n' +
         'This allows the app to view your mobile phone data plan.',
@@ -59,6 +61,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should show scopes list',
 
 test.requestHooks(requestLogger, consentGranularMock)('should show only mandatory scopes as disabled', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
   await t.expect(consentPage.getDisabledCheckBoxLabels()).eql([
     'openid\n\n' +
         'Signals that a request is an OpenID request.',
@@ -69,23 +72,27 @@ test.requestHooks(requestLogger, consentGranularMock)('should show only mandator
 
 test.requestHooks(requestLogger, consentGranularMock)('should display correct title text', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
   await t.expect(await consentPage.getGranularHeaderClientName()).eql('Native client');
   await t.expect(await consentPage.getGranularHeaderText()).eql('wants to access');
 });
 
 test.requestHooks(requestLogger, consentGranularMock)('should display correct agreement text', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
   await t.expect(await consentPage.getConsentAgreementText()).eql('Allowing access will share');
 });
 
 test.requestHooks(requestLogger, consentGranularMock)('should display correct consent button labels', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
   await t.expect(await consentPage.getAllowButtonLabel()).eql('Allow Access');
   await t.expect(await consentPage.getDontAllowButtonLabel()).eql('Cancel');
 });
 
 test.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await consentPage.setScopeCheckBox('optedScopes.custom1', false);
   await consentPage.setScopeCheckBox('optedScopes.email', false);
@@ -108,6 +115,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
 
 test.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Cancel" click', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await consentPage.clickDontAllowButton();
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
@@ -122,6 +130,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
 
 test.requestHooks(requestLogger, consentGranularFailedMock)('should go to Terminal View after giving consent and failed', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await consentPage.clickDontAllowButton();
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];

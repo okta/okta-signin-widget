@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollGoogleAuthenticatorPageObject from '../framework/page-objects/EnrollGoogleAuthenticatorPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -48,6 +49,7 @@ async function setup(t) {
 test
   .requestHooks(invalidOTPMock)('enroll with Barcode with invalid OTP', async t => {
     const enrollGoogleAuthenticatorPageObject = await setup(t);
+    await checkA11y(t);
 
 
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
@@ -71,6 +73,7 @@ test
 test
   .requestHooks(invalidOTPMock)('enroll with manual setup with invalid OTP', async t => {
     const enrollGoogleAuthenticatorPageObject = await setup(t);
+    await checkA11y(t);
 
     await enrollGoogleAuthenticatorPageObject.goTomanualSetup();
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
@@ -92,6 +95,7 @@ test
 test
   .requestHooks(logger, validOTPmock)('enroll with Barcode with valid OTP', async t => {
     const enrollGoogleAuthenticatorPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
@@ -119,6 +123,7 @@ test
 test
   .requestHooks(logger, validOTPmock)('enroll with manual setup with valid OTP', async t => {
     const enrollGoogleAuthenticatorPageObject = await setup(t);
+    await checkA11y(t);
 
     await enrollGoogleAuthenticatorPageObject.goTomanualSetup();
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');

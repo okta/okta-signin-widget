@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import xhrAuthenticatorRequiredRsa from '../../../playground/mocks/data/idp/idx/authenticator-verification-rsa';
 import xhrInvalidPasscode from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-rsa';
 import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-passcode-change-rsa';
@@ -35,6 +36,7 @@ async function setup(t) {
 
 test.requestHooks(mockChallengeAuthenticatorRsa)('challenge RSA authenticator', async t => {
   const challengeRsaPage = await setup(t);
+  await checkA11y(t);
 
   await checkConsoleMessages({
     controller: 'mfa-verify-totp',
@@ -65,6 +67,7 @@ test.requestHooks(mockChallengeAuthenticatorRsa)('challenge RSA authenticator', 
 
 test.requestHooks(mockChallengeAuthenticatorRsa)('passcode is required', async t => {
   const challengeRsaPage = await setup(t);
+  await checkA11y(t);
 
   // verify passcode
   await challengeRsaPage.verifyFactor('credentials.passcode', '');
@@ -76,6 +79,7 @@ test.requestHooks(mockChallengeAuthenticatorRsa)('passcode is required', async t
 
 test.requestHooks(mockInvalidPasscode)('challege RSA authenticator with invalid passcode', async t => {
   const challengeRsaPage = await setup(t);
+  await checkA11y(t);
   await challengeRsaPage.verifyFactor('credentials.passcode', 'test');
   await challengeRsaPage.clickNextButton();
 
@@ -85,6 +89,7 @@ test.requestHooks(mockInvalidPasscode)('challege RSA authenticator with invalid 
 
 test.requestHooks(mockPasscodeChange)('displays error and clears passcode when passcode change response', async t => {
   const challengeRsaPage = await setup(t);
+  await checkA11y(t);
   await challengeRsaPage.verifyFactor('credentials.passcode', 'test');
   await challengeRsaPage.clickNextButton();
 
@@ -96,6 +101,7 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
 
 test.requestHooks(mockPasscodeChange)('should show custom factor page link', async t => {
   const challengeRsaPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {

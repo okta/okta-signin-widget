@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
@@ -46,6 +47,7 @@ async function setup(t) {
 
 test.requestHooks(identifyWithPasswordMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
@@ -65,6 +67,7 @@ test.requestHooks(identifyWithPasswordMock)('should show errors if required fiel
 
 test.requestHooks(identifyWithPasswordMock)('should show customized error if required field password is empty', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     i18n: {
       en: {
@@ -93,6 +96,7 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field, password toggle, and forgot password link', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
@@ -120,6 +124,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password toggle if features.showPasswordToggleOnSignInPage is true', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     features: { showPasswordToggleOnSignInPage: true },
   });
@@ -128,6 +133,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     features: { showPasswordToggleOnSignInPage: false },
   });
@@ -136,6 +142,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     'features.showPasswordToggleOnSignInPage': false,
   });
@@ -144,6 +151,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
 
 test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     i18n: {
       en: {
@@ -158,6 +166,7 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
 
 test.requestHooks(identifyWithPasswordErrorMock)('should show custom access denied error message', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('adasdas');

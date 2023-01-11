@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import terminalReturnEmail from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import terminalTransferEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
 import terminalReturnExpiredEmail from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
@@ -89,6 +90,7 @@ async function setup(t) {
   test
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
+      await checkA11y(t);
       await t.expect(terminalViewPage.getBeaconClass()).contains('mfa-okta-email');
     });
 });
@@ -105,6 +107,7 @@ async function setup(t) {
   test
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
+      await checkA11y(t);
       await t.expect(terminalViewPage.getIdentifier()).contains('testUser@okta.com');
     });
 });
@@ -121,6 +124,7 @@ async function setup(t) {
   test
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
+      await checkA11y(t);
       await t.expect(await terminalViewPage.goBackLinkExists()).ok();
     });
 });
@@ -134,6 +138,7 @@ async function setup(t) {
   test
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
+      await checkA11y(t);
       await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
     });
 });
@@ -145,6 +150,7 @@ async function setup(t) {
   test
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
+      await checkA11y(t);
       await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
     });
@@ -152,6 +158,7 @@ async function setup(t) {
 
 test.requestHooks(terminalMultipleErrorsMock)('should render each error message when there are multiple', async t => {
   const terminalViewPage = await setup(t);
+  await checkA11y(t);
 
   const errors = terminalViewPage.form.getAllErrorBoxTexts();
   await t.expect(errors).eql([
@@ -163,6 +170,7 @@ test.requestHooks(terminalMultipleErrorsMock)('should render each error message 
 
 test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
   const terminalViewPage = await setup(t);
+  await checkA11y(t);
 
   await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');
 });

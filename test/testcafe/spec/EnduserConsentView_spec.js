@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 import ConsentPageObject from '../framework/page-objects/ConsentPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -51,6 +52,7 @@ fixture('EnduserConsent');
 
 test.requestHooks(requestLogger, consentEnduserMock)('should render scopes', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await t.expect(consentPage.getScopeItemTexts()).eql([
     'View your email address.',
@@ -60,6 +62,7 @@ test.requestHooks(requestLogger, consentEnduserMock)('should render scopes', asy
 
 test.requestHooks(requestLogger, consentEnduserCustomScopesMock)('should render custom scopes', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await t.expect(consentPage.getScopeItemTexts()).eql([
     'View your mobile phone data plan.',
@@ -69,12 +72,14 @@ test.requestHooks(requestLogger, consentEnduserCustomScopesMock)('should render 
 
 test.requestHooks(requestLogger, consentEnduserCustomScopesMock)('should display correct titleText', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await t.expect(await consentPage.getHeaderTitleText()).eql('would like to:');
 });
 
 test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and send {consent: true} on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await consentPage.clickAllowButton();
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
@@ -89,6 +94,7 @@ test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and s
 
 test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and send {consent: false} on "Don\'t Allow" click', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await consentPage.clickDontAllowButton();
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
@@ -103,6 +109,7 @@ test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and s
 
 test.requestHooks(requestLogger, consentEnduserFailedMock)('should go to Terminal View after giving consent and failed', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await consentPage.clickDontAllowButton();
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];

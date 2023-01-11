@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollSecurityQuestionPageObject from '../framework/page-objects/EnrollSecurityQuestionPageObject';
@@ -52,6 +53,7 @@ async function setup(t) {
 
 test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)('enroll security question', async t => {
   const enrollSecurityQuestionPage = await setup(t);
+  await checkA11y(t);
 
   const radioOptionLabel = await enrollSecurityQuestionPage.clickChooseSecurityQuestion();
   // select 'Choose a security question' option
@@ -90,6 +92,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(
 
 test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)('enroll custom security question', async t => {
   const enrollSecurityQuestionPage = await setup(t);
+  await checkA11y(t);
 
   const radioOptionLabel = await enrollSecurityQuestionPage.clickCreateYouOwnQuestion();
   await t.expect(radioOptionLabel).eql('Create my own security question');
@@ -120,6 +123,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(
 
 test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorMock)('enroll security question error', async t => {
   const enrollSecurityQuestionPage = await setup(t);
+  await checkA11y(t);
 
   const radioOptionLabel = await enrollSecurityQuestionPage.clickChooseSecurityQuestion();
   // select 'Choose a security question' option
@@ -181,6 +185,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
 
 test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionCreateQuestionErrorMock)('enroll custom security question error', async t => {
   const enrollSecurityQuestionPage = await setup(t);
+  await checkA11y(t);
 
   const radioOptionLabel = await enrollSecurityQuestionPage.clickCreateYouOwnQuestion();
   await t.expect(radioOptionLabel).eql('Create my own security question');

@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import PollingPageObject from '../framework/page-objects/PollingPageObject';
 
@@ -34,6 +35,7 @@ async function setup(t) {
 
 test.requestHooks(requestLogger, identifyMock)('should make request based on timer in response', async t => {
   let identityPage  = await setup(t);
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('username');
   await identityPage.fillPasswordField('password');
@@ -51,6 +53,7 @@ test.requestHooks(requestLogger, identifyMock)('should make request based on tim
 
 test.requestHooks(requestLogger, identifyPollErrorMock)('not poll on error', async t => {
   let identityPage  = await setup(t);
+  await checkA11y(t);
   await identityPage.fillIdentifierField('username');
   await identityPage.fillPasswordField('password');
   await identityPage.clickNextButton();

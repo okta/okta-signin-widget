@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import DuoPageObject from '../framework/page-objects/DuoPageObject';
@@ -52,6 +53,7 @@ async function setup(t) {
 test
   .requestHooks(mock)('renders an iframe for Duo', async t => {
     const challengeDuoPage = await setup(t);
+    await checkA11y(t);
 
     await checkConsoleMessages({
       controller: 'mfa-verify-duo',
@@ -74,6 +76,7 @@ test
 test
   .requestHooks(mock)('renders an iframe for Duo without sign-out link', async t => {
     const challengeDuoPage = await setup(t);
+    await checkA11y(t);
     await renderWidget({
       features: { hideSignOutLinkInMFA: true },
     });
@@ -86,6 +89,7 @@ test
 
 test.requestHooks(answerRequestLogger, mock)('verifies successfully', async t => {
   const challengeDuoPage = await setup(t);
+  await checkA11y(t);
   const successPage = new SuccessPageObject(t);
 
   await challengeDuoPage.clickDuoMockLink();
@@ -109,6 +113,7 @@ test.requestHooks(answerRequestLogger, mock)('verifies successfully', async t =>
 
 test.requestHooks(answerRequestLogger, verificationTimeoutMock)('verification timeout', async t => {
   const challengeDuoPage = await setup(t);
+  await checkA11y(t);
   const duoPageObject = new DuoPageObject(t);
 
   await challengeDuoPage.clickDuoMockLink();
@@ -119,6 +124,7 @@ test.requestHooks(answerRequestLogger, verificationTimeoutMock)('verification ti
 
 test.requestHooks(answerRequestLogger, verificationFailedMock)('verification failed', async t => {
   const challengeDuoPage = await setup(t);
+  await checkA11y(t);
   const duoPageObject = new DuoPageObject(t);
 
   await challengeDuoPage.clickDuoMockLink();
@@ -129,6 +135,7 @@ test.requestHooks(answerRequestLogger, verificationFailedMock)('verification fai
 
 test.requestHooks(mock)('should show custom factor page link', async t => {
   const challengeDuoPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {

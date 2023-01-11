@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/ChallengeOktaVerifyPushPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
@@ -36,6 +37,7 @@ test.requestHooks(mockOktaVerifySendPushOnly)(
   'should load view with a button and a checkbox when push is the only method type and has auto challenge schema',
   async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(await challengeOktaVerifyPushPageObject.isOktaVerifySendPushForm()).ok();
     await t.expect(challengeOktaVerifyPushPageObject.getFormTitle()).eql('Get a push notification');
     await t.expect(challengeOktaVerifyPushPageObject.subtitleExists()).notOk();
@@ -61,6 +63,7 @@ test.requestHooks(mockOktaVerifySendPushOnly)(
 test.requestHooks(requestLogger, mockChallengeOVSendPush)(
   'should navigate to okta verify push page on clicking send push button', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(challengeOktaVerifyPushPageObject.getFormTitle()).eql('Get a push notification');
 
     challengeOktaVerifyPushPageObject.clickSendPushButton();

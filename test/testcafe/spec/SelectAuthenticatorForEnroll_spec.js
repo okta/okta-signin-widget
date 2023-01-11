@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
@@ -63,6 +64,7 @@ async function setup(t) {
 
 test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authenticator list', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
     'Security methods help protect your account by ensuring only you have access.');
@@ -169,6 +171,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
 
 test.requestHooks(mockEnrollAuthenticatorWithUsageInfo)('should load select authenticator list with or without usage text based on allowedFor value', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
     'Security methods help protect your account by ensuring only you have access.');
@@ -209,6 +212,7 @@ test.requestHooks(mockEnrollAuthenticatorWithUsageInfo)('should load select auth
 
 test.requestHooks(mockEnrollAuthenticatorPassword)('should navigate to password enrollment page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 
   selectFactorPage.selectFactorByIndex(0);
@@ -219,6 +223,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should navigate to password 
 
 test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 
   selectFactorPage.selectFactorByIndex(0);
@@ -249,6 +254,7 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
 
 test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enrollment and go to success', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 
   selectFactorPage.skipOptionalEnrollment();
@@ -260,6 +266,7 @@ test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enr
 
 test.requestHooks(mockEnrollAuthenticatorCustomOTP)('enroll custom OTP authenticator shows error on select authenticator enroll page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await selectFactorPage.clickCustomOTP();
   const error = await selectFactorPage.getErrorFromErrorBox();
   // custom OTP is blocked for enduser. Can only be enrolled by admin

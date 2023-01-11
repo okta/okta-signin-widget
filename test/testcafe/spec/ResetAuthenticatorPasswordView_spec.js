@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -36,6 +37,7 @@ async function setup(t) {
 test
   .requestHooks(logger, mock)('Should have the correct labels', async t => {
     const resetPasswordPage = await setup(t);
+    await checkA11y(t);
     await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your password');
     await t.expect(resetPasswordPage.getSaveButtonLabel()).eql('Reset Password');
     await t.expect(resetPasswordPage.getRequirements()).contains('Password requirements:');
@@ -51,6 +53,7 @@ test
 test
   .requestHooks(logger, mock)('should have both password and confirmPassword fields and both are required', async t => {
     const resetPasswordPage = await setup(t);
+    await checkA11y(t);
     await t.expect(resetPasswordPage.passwordFieldExists()).eql(true);
     await t.expect(resetPasswordPage.confirmPasswordFieldExists()).eql(true);
 
@@ -74,6 +77,7 @@ test
 test
   .requestHooks(logger, mock)('should succeed when passwords match and should send password in payload', async t => {
     const resetPasswordPage = await setup(t);
+    await checkA11y(t);
     const successPage = new SuccessPageObject(t);
 
     await resetPasswordPage.fillPassword('abcdabcd');

@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger, Selector } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrIdentifyRecoveryWithRecaptcha from '../../../playground/mocks/data/idp/idx/identify-recovery-with-recaptcha-v2';
@@ -48,6 +49,7 @@ async function setup(t) {
 
 test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   
   await identityPage.fillIdentifierField('test.identifier');
   
@@ -66,6 +68,7 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyRecover
 // TODO: enable this test OKTA-504996
 test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock)('should be able to submit identifier with hCaptcha enabled', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   // Wait for the hCaptcha container to appear in the DOM and become visible.
   const captchaContainer = Selector('#captcha-container iframe');

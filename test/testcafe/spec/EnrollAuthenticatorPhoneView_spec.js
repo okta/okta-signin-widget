@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import EnrollPhonePageObject from '../framework/page-objects/EnrollPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -47,6 +48,7 @@ async function setup(t) {
 test
   .requestHooks(smsMock)('SMS mode - has the right labels', async t => {
     const enrollPhonePageObject = await setup(t);
+    await checkA11y(t);
 
     await checkConsoleMessages({
       controller: 'enroll-sms',
@@ -70,6 +72,7 @@ test
 test
   .requestHooks(voiceMock)('Voice mode - has the right labels', async t => {
     const enrollPhonePageObject = await setup(t);
+    await checkA11y(t);
 
     await checkConsoleMessages({
       controller: 'enroll-call',
@@ -93,6 +96,7 @@ test
 test
   .requestHooks(logger, smsMock)('SMS flow', async t => {
     const enrollPhonePageObject = await setup(t);
+    await checkA11y(t);
     await enrollPhonePageObject.clickNextButton();
 
     await enrollPhonePageObject.verifyFactor('credentials.passcode', '1234');
@@ -116,6 +120,7 @@ test
 test
   .requestHooks(logger, voiceMock)('Voice flow', async t => {
     const enrollPhonePageObject = await setup(t);
+    await checkA11y(t);
     await enrollPhonePageObject.clickNextButton();
 
     await enrollPhonePageObject.verifyFactor('credentials.passcode', '1234');
@@ -139,6 +144,7 @@ test
 test
   .requestHooks(invalidCodeMock)('Entering invalid passcode results in an error', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.verifyFactor('credentials.passcode', 'abcd');
     await challengePhonePageObject.clickNextButton();
     await challengePhonePageObject.waitForErrorBox();
@@ -153,6 +159,7 @@ test
 test
   .requestHooks(smsMock)('Callout appears after 30 seconds in sms mode', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickNextButton();
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(30500);
@@ -164,6 +171,7 @@ test
 test
   .requestHooks(voiceMock)('Callout appears after 30 seconds in voice mode', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickNextButton();
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(30500);
@@ -175,6 +183,7 @@ test
 test
   .requestHooks(smsMock)('Callout appears after 30 seconds at most even after re-render', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickNextButton();
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(15000);

@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import YubiKeyAuthenticatorPageObject from '../framework/page-objects/YubiKeyAuthenticatorPageObject';
 import xhrEnrollYubiKeyAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-yubikey';
@@ -39,6 +40,7 @@ fixture('Enroll YubiKey Authenticator');
 test
   .requestHooks(logger, enrollMock)('enroll with YubiKey authenticator', async t => {
     const pageObject = await setup(t);
+    await checkA11y(t);
 
     await checkConsoleMessages({
       controller: 'enroll-yubikey',
@@ -61,6 +63,7 @@ test
 test
   .requestHooks(logger, enrollMock)('enroll with YubiKey authenticator outputs form errors', async t => {
     const pageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(pageObject.getFormTitle()).eql('Set up YubiKey');
     
@@ -75,6 +78,7 @@ fixture('Verify YubiKey Authenticator');
 test
   .requestHooks(logger, verifyMock)('verify with YubiKey authenticator', async t => {
     const pageObject = await setup(t);
+    await checkA11y(t);
 
     await checkConsoleMessages({
       controller: 'mfa-verify',
@@ -97,6 +101,7 @@ test
 test
   .requestHooks(logger, verifyMock)('verify with YubiKey authenticator outputs form errors', async t => {
     const pageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(pageObject.getFormTitle()).eql('Verify with YubiKey');
     
@@ -108,6 +113,7 @@ test
 
 test.requestHooks(verifyMock)('should show custom factor page link', async t => {
   const pageObject = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {

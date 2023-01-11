@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import IdentityPageObject from  '../framework/page-objects/IdentityPageObject';
@@ -62,6 +63,7 @@ async function setup(t) {
 test
   .requestHooks(logger, mock)('Should have the correct labels', async t => {
     const expiredPasswordPage = await setup(t);
+    await checkA11y(t);
     await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
     await t.expect(expiredPasswordPage.getSaveButtonLabel()).eql('Change Password');
     await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');
@@ -77,6 +79,7 @@ test
 test
   .requestHooks(logger, noComplexityMock)('Should not show any password requirements', async t => {
     const expiredPasswordPage = await setup(t);
+    await checkA11y(t);
     await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
     await t.expect(expiredPasswordPage.getSaveButtonLabel()).eql('Change Password');
     await t.expect(expiredPasswordPage.requirementsExist()).eql(false);
@@ -85,6 +88,7 @@ test
 test
   .requestHooks(logger, complexityInEnrollmentAuthenticatorMock)('Should show password requirements as per enrollmentAuthenticator object', async t => {
     const expiredPasswordPage = await setup(t);
+    await checkA11y(t);
     await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
     await t.expect(expiredPasswordPage.getSaveButtonLabel()).eql('Change Password');
     await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');
@@ -98,6 +102,7 @@ test
 test
   .requestHooks(logger, mock)('should have both password and confirmPassword fields and both are required', async t => {
     const expiredPasswordPage = await setup(t);
+    await checkA11y(t);
     await t.expect(expiredPasswordPage.passwordFieldExists()).eql(true);
     await t.expect(expiredPasswordPage.confirmPasswordFieldExists()).eql(true);
 
@@ -121,6 +126,7 @@ test
 test
   .requestHooks(logger, mock)('should succeed when passwords match and should send password in payload', async t => {
     const expiredPasswordPage = await setup(t);
+    await checkA11y(t);
     const successPage = new SuccessPageObject(t);
 
     await expiredPasswordPage.fillPassword('abcdabcd');
@@ -144,6 +150,7 @@ test
 test
   .requestHooks(logger, errorPostPasswordUpdateMock)('Shows an error if password cannot be udpated; user can cancel', async t => {
     const expiredPasswordPage = await setup(t);
+    await checkA11y(t);
     const terminalPageObject = new TerminalPageObject(t);
     const identityPage = new IdentityPageObject(t);
 

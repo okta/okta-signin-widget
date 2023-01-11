@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import xhrAuthenticatorRequiredOnPrem from '../../../playground/mocks/data/idp/idx/authenticator-verification-on-prem';
 import xhrInvalidPasscode from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-on-prem';
 import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-passcode-change-on-prem';
@@ -41,6 +42,7 @@ async function setup(t) {
 
 test.requestHooks(mockChallengeAuthenticatorOnPrem)('challenge on prem authenticator', async t => {
   const challengeOnPremPage = await setup(t);
+  await checkA11y(t);
   const pageTitle = challengeOnPremPage.getPageTitle();
   const saveBtnText = challengeOnPremPage.getSaveButtonLabel();
   await t.expect(saveBtnText).contains('Verify');
@@ -63,6 +65,7 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('challenge on prem authentic
 
 test.requestHooks(mockChallengeAuthenticatorOnPrem)('passcode is required', async t => {
   const challengeOnPremPage = await setup(t);
+  await checkA11y(t);
 
   // verify passcode
   await challengeOnPremPage.verifyFactor('credentials.passcode', '');
@@ -74,6 +77,7 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('passcode is required', asyn
 
 test.requestHooks(mockInvalidPasscode)('challege on prem authenticator with invalid passcode', async t => {
   const challengeOnPremPage = await setup(t);
+  await checkA11y(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
   await challengeOnPremPage.clickNextButton();
 
@@ -83,6 +87,7 @@ test.requestHooks(mockInvalidPasscode)('challege on prem authenticator with inva
 
 test.requestHooks(mockPasscodeChange)('displays error and clears passcode when passcode change response', async t => {
   const challengeOnPremPage = await setup(t);
+  await checkA11y(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
   await challengeOnPremPage.clickNextButton();
 
@@ -94,6 +99,7 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
 
 test.requestHooks(mockChallengeAuthenticatorOnPrem)('should show custom factor page link', async t => {
   const challengeOnPremPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {

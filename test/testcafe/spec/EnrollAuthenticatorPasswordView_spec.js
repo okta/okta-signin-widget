@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -42,6 +43,7 @@ async function setup(t) {
 
 test.requestHooks(successMock)('should have both password and confirmPassword fields and both are required', async t => {
   const enrollPasswordPage = await setup(t);
+  await checkA11y(t);
 
   // Check title
   await t.expect(enrollPasswordPage.getFormTitle()).eql('Set up password');
@@ -74,6 +76,7 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
 
 test.requestHooks(logger, successMock)('should succeed when same values are filled', async t => {
   const enrollPasswordPage = await setup(t);
+  await checkA11y(t);
   const successPage = new SuccessPageObject(t);
 
   await enrollPasswordPage.fillPassword('abcdabcd');
@@ -100,6 +103,7 @@ test.requestHooks(logger, successMock)('should succeed when same values are fill
 
 test.requestHooks(logger, successMock)('should succeed when session revocation is checked', async t => {
   const enrollPasswordPage = await setup(t);
+  await checkA11y(t);
   const successPage = new SuccessPageObject(t);
 
   await enrollPasswordPage.fillPassword('abcdabcd');
@@ -128,6 +132,7 @@ test.requestHooks(logger, successMock)('should succeed when session revocation i
 
 test.requestHooks(errorMock)('should show a callout when server-side field errors are received', async t => {
   const enrollPasswordPage = await setup(t);
+  await checkA11y(t);
 
   await enrollPasswordPage.fillPassword('abcdabcd');
   await enrollPasswordPage.fillConfirmPassword('abcdabcd');
@@ -140,6 +145,7 @@ test.requestHooks(errorMock)('should show a callout when server-side field error
 
 test.requestHooks(successMock)('should have the correct reqiurements', async t => {
   const enrollPasswordPage = await setup(t);
+  await checkA11y(t);
   await t.expect(enrollPasswordPage.getRequirements()).contains('Password requirements:');
   await t.expect(enrollPasswordPage.getRequirements()).contains('At least 8 characters');
   await t.expect(enrollPasswordPage.getRequirements()).contains('An uppercase letter');

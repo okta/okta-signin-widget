@@ -1,4 +1,5 @@
 import { RequestLogger, RequestMock, ClientFunction } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import { renderWidget, Constants } from '../framework/shared';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -291,6 +292,7 @@ async function setupLoopbackFallback(t) {
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
@@ -335,6 +337,7 @@ test
   .requestHooks(loopbackUserCancelLogger, loopbackUserCancelLoggerMock)('request body has reason value of true when user clicks cancel and go back link', async t => {
     loopbackPollMockLogger.clear();
     const deviceChallengePollingPage = await setup(t);
+    await checkA11y(t);
 
     deviceChallengePollingPage.clickCancelAndGoBackLink();
     await t.expect(loopbackUserCancelLogger.count(
@@ -349,6 +352,7 @@ test
   .requestHooks(loopbackPollMockLogger, loopbackPollFailedMock)('next poll should not start if previous is failed', async t => {
     loopbackPollMockLogger.clear();
     await setup(t);
+    await checka11y(t);
     await t.wait(10_000);
 
     await t.expect(loopbackPollMockLogger.count(
@@ -364,6 +368,7 @@ test
   .requestHooks(loopbackPollMockLogger, loopbackPollTimeoutMock).skip('new poll does not starts until last one is ended', async t => {
     loopbackPollMockLogger.clear();
     await setup(t);
+    await checka11y(t);
     // This test verify if new /poll calls are made only if the previous one was finished instead of polling with fixed interval.
     // Updating /poll response to take 5 sec to response.
     // Then counting the number of calls that should be done in time interval. Default Timeout for /poll is 2 sec.
@@ -378,6 +383,7 @@ test
 test
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
@@ -409,6 +415,7 @@ test
 test
   .requestHooks(loopbackChallengeWrongProfileLogger, loopbackChallengeWrongProfileMock)('in loopback server approach, will cancel polling when challenge errors out with non-503 status', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
@@ -448,6 +455,7 @@ test
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
 
     await t.expect(loopbackSuccessLogger.count(
@@ -548,6 +556,7 @@ test
 test
   .requestHooks(customURILogger, customURIMock)('in custom URI approach, Okta Verify is launched', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.wait(100); // opening the page in iframe takes just a moment
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/) // in iframe

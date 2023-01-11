@@ -1,4 +1,5 @@
 import { RequestLogger, RequestMock, Selector } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SignInWebAuthnPageObject from '../framework/page-objects/SignInWebAuthnPageObject';
 import identifyWithWebAuthn from '../../../playground/mocks/data/idp/idx/identify-with-webauthn-residentkey';
 import launchWebAuthnOption from '../../../playground/mocks/data/idp/idx/identify-with-webauthn-launch-authenticator';
@@ -22,12 +23,14 @@ async function setup(t) {
 
 test('shows sign in with webauthn button', async t => {
   const signInWebAuthnPage = await setup(t);
+  await checkA11y(t);
   await t.expect(signInWebAuthnPage.getWebAuthnButtonIcon()).eql('icon okta-webauthn-authenticator');
   await t.expect(signInWebAuthnPage.getWebAuthnButtonLabel()).eql('Sign in with security key or biometrics');
 });
 
 test('clicking the sign in with webauthn button takes user to the right UI', async t => {
   const signInWebAuthnPage = await setup(t);
+  await checkA11y(t);
   await signInWebAuthnPage.clickLaunchWebAuthnButton();
   const header = new Selector('h2[data-se="o-form-head"]');
   await t.expect(header.textContent).eql('Verify with Security Key or Biometric Authenticator');

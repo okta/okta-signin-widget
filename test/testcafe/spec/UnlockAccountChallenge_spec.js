@@ -1,4 +1,5 @@
 import { RequestMock, ClientFunction } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -56,12 +57,14 @@ async function setup(t) {
 
 test.requestHooks(identifyLockedUserMock)('should show unlock account link', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await t.expect(identityPage.getUnlockAccountLinkText()).eql('Unlock account?');
 });
 
 
 test.requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await rerenderWidget({
     helpLinks: {
@@ -80,6 +83,7 @@ test.requestHooks(identifyLockedUserMock)('should render custom Unlock account l
 
 test.requestHooks(identifyLockedUserMock)('should show unlock account authenticator selection list', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
@@ -105,6 +109,7 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
 
 test.requestHooks(errorUnlockAccount)('should show error if identifier is blank', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
   const selectFactorPage = new SelectFactorPageObject(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
@@ -114,6 +119,7 @@ test.requestHooks(errorUnlockAccount)('should show error if identifier is blank'
 
 test.requestHooks(errorUnlockAccount)('should show error when unlock account fails', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
   const selectFactorPage = new SelectFactorPageObject(t);
   await selectFactorPage.fillIdentifierField('username');
@@ -132,6 +138,7 @@ test.requestHooks(errorUnlockAccount)('should show error when unlock account fai
 
 test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account authenticator selection list before landing on App', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);

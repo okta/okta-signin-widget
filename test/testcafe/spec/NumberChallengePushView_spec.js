@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/ChallengeOktaVerifyPushPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 
@@ -45,6 +46,7 @@ async function setup(t) {
 test
   .requestHooks(numberChallengeSuccessMock)('number challenge screen has right labels', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
 
     await checkConsoleMessages({
       controller: 'mfa-verify',
@@ -59,6 +61,7 @@ test
 test
   .requestHooks(logger, numberChallengeWaitMock)('Calls resend when we click the resend link from within the warning modal', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     await t.wait(30500);
     let warningBox = challengeOktaVerifyPushPageObject.getWarningBox();
     await t.expect(warningBox.visible).ok();
@@ -81,6 +84,7 @@ test
 test
   .requestHooks(logger, serverErrorMock)('Stops polling if error is encountered', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     // wait and see that there is only one call for poll
     await t.wait(5000);
     let warningBox = challengeOktaVerifyPushPageObject.getWarningBox();

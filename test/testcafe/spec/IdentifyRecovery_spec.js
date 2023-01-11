@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrIdentifyRecovery from '../../../playground/mocks/data/idp/idx/identify-recovery';
@@ -41,6 +42,7 @@ async function setup(t) {
 test.requestHooks(identifyRecoveryMock)('should have correct display texts', async t => {
   // i18n values can be tested here.
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   const identityPageTitle = identityPage.getPageTitle();
   await t.expect(identityPageTitle).eql('Reset your password');
@@ -53,6 +55,7 @@ test.requestHooks(identifyRecoveryMock)('should have correct display texts', asy
 
 test.requestHooks(identifyRequestLogger, identifyRecoveryMock)('should be able to submit identifier', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('test.identifier');
   await identityPage.clickNextButton();
@@ -70,6 +73,7 @@ test.requestHooks(identifyRequestLogger, identifyRecoveryMock)('should be able t
 
 test.requestHooks(identifyRecoveryMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
@@ -80,6 +84,7 @@ test.requestHooks(identifyRecoveryMock)('should show errors if required fields a
 
 test.requestHooks(identifyRecoveryErrorMock)('global errors will display', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('test.identifier');
   await identityPage.clickNextButton();

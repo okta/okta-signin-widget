@@ -1,0 +1,40 @@
+/*
+ * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
+
+const { axeCheck, createReport } = require('@testcafe-community/axe');
+
+export const DEFAULT_A11Y_TAG_VALUES = [
+  'best-practice',
+  'wcag21aa',
+  'wcag2a',
+];
+export const IGNORED_RULES = [
+  'landmark-one-main',
+  'page-has-heading-one',
+  'presentation-role-conflict', // TODO OKTA-485565
+  'aria-allowed-role', // TODO OKTA-485564
+];
+
+export const checkA11y = async (t, options) => {
+  const ignoredRuleIds = new Set([
+    ...(options?.ignoredRuleIds ?? []),
+    ...IGNORED_RULES,
+  ]);
+
+  const { results } = await axeCheck(t);
+
+  const violations = results.violations
+    .filter((violation) => !ignoredRuleIds.has(violation.id));
+
+  await t.expect(violations.length === 0)
+    .ok(createReport(violations));
+};

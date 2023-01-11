@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import EnrollWebauthnPageObject from '../framework/page-objects/EnrollWebauthnPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-enroll-webauthn';
@@ -29,6 +30,7 @@ async function setup(t) {
 // that testcafe loads.
 test('should have webauthn not supported error if browser doesnt support', async t => {
   const enrollWebauthnPage = await setup(t);
+  await checkA11y(t);
   await t.expect(enrollWebauthnPage.getFormTitle()).eql('Set up security key or biometric authenticator');
   await t.expect(enrollWebauthnPage.hasEnrollInstruction()).eql(false);
   await t.expect(enrollWebauthnPage.hasWebauthnNotSupportedError()).eql(true);

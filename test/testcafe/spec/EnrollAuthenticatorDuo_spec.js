@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import DuoPageObject from '../framework/page-objects/DuoPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -29,6 +30,7 @@ async function setup(t) {
 
 test('should render an iframe for duo', async t => {
   const enrollDuoPage = await setup(t);
+  await checkA11y(t);
 
   // Check title
   await t.expect(enrollDuoPage.getFormTitle()).eql('Set up Duo Security');
@@ -41,6 +43,7 @@ test('should render an iframe for duo', async t => {
 
 test('should render an iframe for duo without sign-out link', async t => {
   const enrollDuoPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     features: { hideSignOutLinkInMFA: true },
   });
@@ -54,6 +57,7 @@ test('should render an iframe for duo without sign-out link', async t => {
 
 test('enrolls successfully', async t => {
   const enrollDuoPage = await setup(t);
+  await checkA11y(t);
   const successPage = new SuccessPageObject(t);
 
   await enrollDuoPage.clickDuoMockLink();

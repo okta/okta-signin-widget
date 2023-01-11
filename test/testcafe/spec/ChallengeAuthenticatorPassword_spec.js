@@ -1,4 +1,5 @@
 import { RequestLogger, RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrSSPRSuccess from '../../../playground/mocks/data/idp/idx/terminal-reset-password-success';
@@ -64,6 +65,7 @@ async function setup(t) {
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authenticator', async t => {
   const challengePasswordPage = await setup(t);
+  await checkA11y(t);
   // assert switch authenticator link
   await challengePasswordPage.switchAuthenticatorExists();
   await t.expect(challengePasswordPage.getSwitchAuthenticatorButtonText()).eql('Verify with something else');
@@ -86,6 +88,7 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authenticator with no sign-out link', async t => {
   const challengePasswordPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     features: { hideSignOutLinkInMFA: true },
   });
@@ -100,6 +103,7 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
 
 test.requestHooks(mockInvalidPassword)('challege password authenticator with invalid password', async t => {
   const challengePasswordPage = await setup(t);
+  await checkA11y(t);
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickNextButton();
@@ -130,6 +134,7 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
 
 test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator with expired session', async t => {
   const challengePasswordPage = await setup(t);
+  await checkA11y(t);
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickNextButton();
@@ -147,6 +152,7 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
 
 test.requestHooks(resetPasswordSuccess)('password changed successfully', async t => {
   const challengePasswordPage = await setup(t);
+  await checkA11y(t);
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickNextButton();
@@ -158,6 +164,7 @@ test.requestHooks(resetPasswordSuccess)('password changed successfully', async t
 
 test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {
   const challengePasswordPage = await setup(t);
+  await checkA11y(t);
   await challengePasswordPage.forgotPasswordLink.exists();
   await challengePasswordPage.forgotPasswordLink.click();
   // show form error once even click twice and trigger API request twice.
@@ -189,6 +196,7 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
   const challengePasswordPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     i18n: {
       en: {
@@ -202,6 +210,7 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor page link', async t => {
   const challengePasswordPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {

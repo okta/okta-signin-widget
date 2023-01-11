@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrInternalServerError from '../../../playground/mocks/data/idp/idx/error-internal-server-error';
@@ -31,6 +32,7 @@ async function setup(t) {
 
 test.requestHooks(introspectRequestLogger, introspectMock)('shall display error in terminal page', async t => {
   const terminalPageObject = await setup(t);
+  await checkA11y(t);
 
   const errors = terminalPageObject.getErrorMessages();
 

@@ -1,6 +1,16 @@
 {
   "browsers": [
-    "chrome"
+    "chrome:headless"
   ],
-  "src": "test/testcafe/spec/"
+  "clientScripts": [
+    {
+      "module": "axe-core/axe.min.js"
+    }
+  ],
+  "src": [
+    "test/testcafe/spec/*_spec.js"
+  ],
+  "userVariables": {
+    "v3": false
+  }
 }

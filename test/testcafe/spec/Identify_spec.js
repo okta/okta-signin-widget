@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
@@ -109,6 +110,7 @@ async function setup(t) {
 
 test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit identifier with rememberMe', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
   await identityPage.fillIdentifierField('Test Identifier');
@@ -145,6 +147,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
 
 test.requestHooks(identifyMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
@@ -156,6 +159,7 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
 
 test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error if server response is unsupported', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
@@ -164,6 +168,7 @@ test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error i
 
 test.requestHooks(identifyMock)('should show customized error if required field identifier is empty', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await rerenderWidget({
     i18n: {
       en: {
@@ -182,6 +187,7 @@ test.requestHooks(identifyMock)('should show customized error if required field 
 
 test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom error if password doesn\'t exist in remediation', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await rerenderWidget({
     i18n: {
       en: {
@@ -199,6 +205,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom e
 test.requestHooks(identifyMock)('should have correct display text', async t => {
   // i18n values can be tested here.
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   const identityPageTitle = identityPage.getPageTitle();
   await t.expect(identityPageTitle).eql('Sign In');
@@ -222,6 +229,7 @@ test.requestHooks(identifyMock)('should have correct display text', async t => {
 
 test.requestHooks(identifyLockedUserMock)('should show global error for invalid user', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
 
@@ -236,6 +244,7 @@ test.requestHooks(identifyLockedUserMock)('should show global error for invalid 
 
 test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen will not trigger "ready" event again', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
 
@@ -263,6 +272,7 @@ test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen
 
 test.requestHooks(identifyRequestLogger, identifyMock)('should transform identifier using settings.transformUsername', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await rerenderWidget({
     transformUsername: function(username, operation) {
@@ -286,6 +296,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should transform identif
 
 test.requestHooks(identifyMock)('should render custom Unlock account link', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await rerenderWidget({
     helpLinks: {
@@ -304,6 +315,7 @@ test.requestHooks(identifyMock)('should render custom Unlock account link', asyn
 
 test.requestHooks(identifyMock)('should not render custom forgot password link', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await rerenderWidget({
     helpLinks: {
       forgotPassword: '/forgotpassword'
@@ -315,6 +327,7 @@ test.requestHooks(identifyMock)('should not render custom forgot password link',
 
 test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should compute device fingerprint and add to header', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await rerenderWidget({
     features: {
@@ -344,6 +357,7 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should co
 
 test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('should continue to compute device fingerprint and add to header when there are API errors', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await rerenderWidget({
     features: {
@@ -368,6 +382,7 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('shou
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should pre-populate identifier field with username config', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await rerenderWidget({
     username: 'myTestUsername@okta.com'
   });
@@ -379,6 +394,7 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should pre-populate 
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should hide "Keep me signed in" checkbox with config', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await rerenderWidget({
     features: { showKeepMeSignedIn: false }
   });
@@ -390,6 +406,7 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should hide "Keep me
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should show "Keep me signed in" checkbox with config or by default', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await rerenderWidget({
     features: {}
   });
@@ -411,6 +428,7 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should show "Keep me
 test.requestHooks(identifyRequestLogger, identifyWithUserMock)('should never render user\'s identifier even if there is user context', async t => {
   // identifyWithUserMock comes up when a user enters invalid credentials and sign in returns an error, along with a user object
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   const identifierContainer = identityPage.form.getElement('.identifier-container').exists;
   await t.expect(identifierContainer).eql(false);
@@ -418,6 +436,7 @@ test.requestHooks(identifyRequestLogger, identifyWithUserMock)('should never ren
 
 test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each error message when there are multiple', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   const errors = identityPage.form.getAllErrorBoxTexts();
   await t.expect(errors).eql([
@@ -429,6 +448,7 @@ test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" form with config or by default', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await rerenderWidget({
     features: {}
   });

@@ -1,4 +1,5 @@
 import { ClientFunction, RequestLogger, RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import xhrEmailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import xhrSessionExpried from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';

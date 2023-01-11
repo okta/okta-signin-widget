@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/ChallengeOktaVerifyPushPageObject';
 
 import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
@@ -43,6 +44,7 @@ async function setup(t) {
 test
   .requestHooks(pushRejectMock)('challenge okta verify with rejected push', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
     const pageTitle = challengeOktaVerifyPushPageObject.getPageTitle();
     await t.expect(pageTitle).contains('Get a push notification');
@@ -62,6 +64,7 @@ test
 test
   .requestHooks(logger, pushRejectMock)('challenge okta verify resend push request', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
     await challengeOktaVerifyPushPageObject.clickResendPushButton();
 
@@ -88,6 +91,7 @@ test
 test
   .requestHooks(logger, pushOktaVerifyUpgradeMock)('challenge okta verify resend push with version upgrade message', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
     await t.expect(pageTitle).contains('Get a push notification');
@@ -103,6 +107,7 @@ test
 test
   .requestHooks(logger, pushEnableBiometricsMock)('challenge okta verify resend push with uv enable biometrics message', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
     await t.expect(pageTitle).contains('Get a push notification');
