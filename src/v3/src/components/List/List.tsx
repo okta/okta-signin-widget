@@ -14,7 +14,8 @@ import { List as ListOdyssey } from '@okta/odyssey-react';
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
-import { ListElement, UISchemaElementComponent } from '../../types';
+import { ListElement, UISchemaElementComponent, UISchemaLayout } from '../../types';
+import Layout from '../Form/Layout';
 
 const List: UISchemaElementComponent<{
   uischema: ListElement
@@ -30,8 +31,10 @@ const List: UISchemaElementComponent<{
       { options.description && <Typography component="p">{options.description}</Typography> }
       <ListOdyssey listType={options.type ?? 'unordered'}>
         {
-          options.items.map((item: string) => (
-            <ListOdyssey.Item key={item}>{item}</ListOdyssey.Item>
+          options.items.map((item: string | UISchemaLayout) => (
+            <ListOdyssey.Item>
+              {typeof item === 'string' ? item : <Layout uischema={item} /> }
+            </ListOdyssey.Item>
           ))
         }
       </ListOdyssey>

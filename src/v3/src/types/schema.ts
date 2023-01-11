@@ -325,7 +325,7 @@ export interface ReminderElement extends UISchemaElement {
 export interface ListElement extends UISchemaElement {
   type: 'List';
   options: {
-    items: string[];
+    items: (string | UISchemaLayout)[],
     type?: 'unordered' | 'ordered' | 'description';
     description?: string;
   };
