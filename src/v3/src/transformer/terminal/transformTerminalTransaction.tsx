@@ -15,9 +15,6 @@ import {
   IdxStatus,
   IdxTransaction,
 } from '@okta/okta-auth-js';
-import { Button } from '@okta/odyssey-react-mui';
-import { Box } from '@mui/material';
-import { h } from 'preact';
 
 import {
   DEVICE_CODE_ERROR_KEYS,
@@ -26,16 +23,11 @@ import {
   TERMINAL_TITLE_KEY,
 } from '../../constants';
 import {
-  ButtonElement,
-  ButtonType,
-  DescriptionElement,
   FormBag,
   LinkElement,
-  ListElement,
   SpinnerElement,
   TitleElement,
   UISchemaLayout,
-  UISchemaLayoutType,
   WidgetProps,
 } from '../../types';
 import {
@@ -55,6 +47,7 @@ import { redirectTransformer } from '../redirect';
 import { setFocusOnFirstElement } from '../uischema';
 import { createForm } from '../utils';
 import { transformTerminalMessages } from './transformTerminalMessages';
+import { transformOdaEnrollment} from './odaEnrollment';
 
 const getTitleKey = (messages?: IdxMessage[]): string | undefined => {
   if (!messages) {
@@ -265,133 +258,9 @@ export const transformTerminalTransaction = (
 
   const formBag: FormBag = createForm();
 
-  // @ts-ignore
-  console.warn('deviceEnrollment', transaction.context?.deviceEnrollment);
-  // @ts-ignore
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
-  if (deviceEnrollment?.name === 'oda') {
-    const { signInUrl, platform } = deviceEnrollment;
-
-    formBag.uischema.elements.push({
-      type: 'Title',
-      options: { content: loc('enroll.title.oda', 'login')},
-    } as TitleElement);
-      
-    formBag.uischema.elements.push({
-      type: 'Description',
-      options: { content: 'To sign in using Okta Verify, you will need to set up Okta Verify on this device.' },
-    } as DescriptionElement);
-
-    if (platform === 'IOS') {
-    } else {
-      // android
-    }
-
-    formBag.uischema.elements.push({
-      type: 'List',
-      noMargin: true,
-      options: {
-        type: 'ordered',
-        items: [
-          {
-            type: UISchemaLayoutType.VERTICAL,
-            elements: [
-              {
-                type: 'Description',
-                noMargin: true,
-                options: {
-                  content: 'Tap the Copy Link button below.',
-                },
-              } as DescriptionElement,
-              {
-                type: 'Button',
-                label: 'Copy link to clipboard',
-                options: {
-                  step: '',
-                  type: ButtonType.BUTTON,
-                  onClick: () => {},
-                  variant: 'secondary',
-                }
-              } as ButtonElement,
-            ]
-          } as UISchemaLayout,
-          {
-            type: UISchemaLayoutType.VERTICAL,
-            elements: [
-              {
-                type: 'Description',
-                noMargin: true,
-                options: {
-                  content: 'On this device, open your browser, then paste the copied link into the address bar.',
-                },
-              } as DescriptionElement,
-            ]
-          } as UISchemaLayout,
-          {
-            type: UISchemaLayoutType.VERTICAL,
-            elements: [
-              {
-                type: 'Description',
-                noMargin: true,
-                options: {
-                  content: 'Download the Okta Verify app.',
-                },
-              } as DescriptionElement,
-            ]
-          } as UISchemaLayout,
-          {
-            type: UISchemaLayoutType.VERTICAL,
-            elements: [
-              {
-                type: 'Description',
-                noMargin: true,
-                options: {
-                  content: 'Open Okta Verify and follow the steps to add your account',
-                },
-              } as DescriptionElement,
-            ]
-          } as UISchemaLayout,
-          {
-            type: UISchemaLayoutType.VERTICAL,
-            elements: [
-              {
-                type: 'Description',
-                noMargin: true,
-                options: {
-                  content: 'When prompted, choose Sign In, then enter the sign-in URL:',
-                },
-              } as DescriptionElement,
-              {
-                type: 'Description',
-                noMargin: true,
-                options: {
-                  content: signInUrl,
-                },
-              } as DescriptionElement,
-              {
-                type: 'Button',
-                label: 'Copy sign-in URL to clipboard',
-                options: {
-                  variant: 'secondary',
-                }
-              } as ButtonElement,
-            ]
-          } as UISchemaLayout,
-          {
-            type: UISchemaLayoutType.VERTICAL,
-            elements: [
-              {
-                type: 'Description',
-                noMargin: true,
-                options: {
-                  content: 'Finish setting up your account in Okta Verify, then try accessing this app again.',
-                },
-              } as DescriptionElement,
-            ]
-          } as UISchemaLayout,
-        ],
-      },
-    } as ListElement);
+  if (typeof deviceEnrollment !== 'undefined') {
+    return transformOdaEnrollment({ transaction, formBag, widgetProps });
   }
 
   appendTitleElement(formBag.uischema, messages);
