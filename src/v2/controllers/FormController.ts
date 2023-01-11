@@ -21,7 +21,6 @@ import { EventErrorContext } from 'types/events';
 import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
-import CookieUtil from '../../util/CookieUtil';
 
 export interface ContextData {
   controller: string;
@@ -238,16 +237,6 @@ export default Controller.extend({
 
     // Run hook: transform the user name (a.k.a identifier)
     const values = this.transformIdentifier(formName, model);
-
-    // widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
-    if (this.options.settings.get('features.rememberMe') && this.options.settings.get('features.rememberMyUsernameOnOIE')) {
-      if (values.identifier) {
-        CookieUtil.setUsernameCookie(values.identifier);
-      }
-    }
-    else {
-      CookieUtil.removeUsernameCookie();
-    }
 
     // Error out when this is not a remediation form. Unexpected Exception.
     if (!this.options.appState.hasRemediationObject(formName)) {
