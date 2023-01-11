@@ -5,10 +5,24 @@ import { renderWidget as rerenderWidget } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrIdentifyWithUsername from '../../../playground/mocks/data/idp/idx/identify-with-username';
 import xhrPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
+import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 
+const identifyWithError = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrErrorIdentify, 403);  
+
+const identifyWithPasswordError = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrErrorIdentify, 403);  
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -36,6 +50,14 @@ const identifyWithEmailAuthenticator = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
+const identifyWithEmailAuthenticatorError = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(emailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrErrorIdentify, 403);
+
 const identifyRequestLogger = RequestLogger(
   /idx\/identify|\/challenge/,
   {
@@ -59,6 +81,42 @@ async function setup(t, options) {
   await identityPage.navigateToPage(options || {});
   return identityPage;
 }
+
+test.requestHooks(identifyRequestLogger, identifyWithError)('identifer first flow - should NOT remember username after failed authentication', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget(baseConfig);
+
+  await identityPage.fillIdentifierField('test@okta.com');
+  await identityPage.clickNextButton();
+
+  await identityPage.fillPasswordField('testPassword');
+  await identityPage.clickNextButton();
+
+  await identityPage.waitForErrorBox();
+
+  // Ensure identifier field is not pre-filled
+  await identityPage.navigateToPage();
+  await rerenderWidget(baseConfig);  
+  const identifier = identityPage.getIdentifierValue();
+  await t.expect(identifier).eql('');
+});
+
+test.requestHooks(identifyRequestLogger, identifyWithPasswordError)('identifer with password - should NOT remember username after failed authentication', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget(baseConfig);
+
+  await identityPage.fillIdentifierField('test@okta.com');
+  await identityPage.fillPasswordField('testPassword');
+  await identityPage.clickNextButton();
+
+  await identityPage.waitForErrorBox();
+
+  // Ensure identifier field is not pre-filled
+  await identityPage.navigateToPage();
+  await rerenderWidget(baseConfig);  
+  const identifier = identityPage.getIdentifierValue();
+  await t.expect(identifier).eql('');
+});
 
 test.requestHooks(identifyRequestLogger, identifyMock)('identifer first flow - should remember username after successful authentication', async t => {
   const identityPage = await setup(t);
@@ -108,6 +166,27 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('identifer wi
   await rerenderWidget(baseConfig);  
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('testUser@okta.com');
+});
+
+test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticatorError)('identifer with email challenge - should NOT remember username after failed authentication', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget(baseConfig);
+
+  await identityPage.fillIdentifierField('testUser@okta.com');
+  await identityPage.clickNextButton();
+
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+  await challengeEmailPageObject.clickEnterCodeLink();
+
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
+  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.waitForErrorBox();
+
+  // Ensure identifier field is not pre-filled
+  await identityPage.navigateToPage();
+  await rerenderWidget(baseConfig);  
+  const identifier = identityPage.getIdentifierValue();
+  await t.expect(identifier).eql('');
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identifer with email challenge - should remember username after successful authentication', async t => {
@@ -212,27 +291,3 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
   await t.expect(identifier).eql('testUsername@okta.com');
 });
 
-
-test.requestHooks(identifyRequestLogger, identifyMock)('should store identifier in ln cookie when updated', async t => {
-  const identityPage = await setup(t);
-
-  await t.setCookies({name: 'ln', value: 'PREFILL VALUE', httpOnly: false});
-
-  await rerenderWidget({
-    features: {
-      rememberMe: true,
-      rememberMyUsernameOnOIE: true
-    }
-  });
-
-  await t.expect(identityPage.getIdentifierValue()).eql('PREFILL VALUE');
-
-  await identityPage.fillIdentifierField('TestIdentifier');
-  await identityPage.clickNextButton();
-
-  const cookie = await t.getCookies('ln');
-
-  await t
-    .expect(cookie[0].name).eql('ln')
-    .expect(cookie[0].value).eql('TestIdentifier');
-});
