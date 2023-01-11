@@ -75,7 +75,7 @@ test
     await pivPageObject.navigateToPage();
     await t.expect(pivPageObject.formExists()).eql(true);
 
-    await t.expect(pivPageObject.getPageTitle()).eql('PIV / CAC card');
+    await t.expect(pivPageObject.getFormTitle()).eql('PIV / CAC card');
     const subtitle = await pivPageObject.getPageSubtitle();
     const subtitleText = subtitle.trim();
     await t.expect(subtitleText).eql('Please insert your PIV / CAC card and select the user certificate.');

@@ -41,7 +41,7 @@ async function setup(t) {
 
 test.requestHooks(mockChallengeAuthenticatorOnPrem)('challenge on prem authenticator', async t => {
   const challengeOnPremPage = await setup(t);
-  const pageTitle = challengeOnPremPage.getPageTitle();
+  const pageTitle = challengeOnPremPage.getFormTitle();
   const saveBtnText = challengeOnPremPage.getSaveButtonLabel();
   await t.expect(saveBtnText).contains('Verify');
   await t.expect(pageTitle).contains('Verify with Atko Custom On-prem');

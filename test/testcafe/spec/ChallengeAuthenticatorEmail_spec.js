@@ -331,7 +331,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
-    const pageTitle = challengeEmailPageObject.getPageTitle();
+    const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
@@ -344,7 +344,7 @@ test
   .requestHooks(validOTPmockNoProfileNoEmailMagicLink)('challenge email authenticator screen has right labels when profile is null and email magic link does not exist', async t => {
     const challengeEmailPageObject = await setup(t);
 
-    const pageTitle = challengeEmailPageObject.getPageTitle();
+    const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
@@ -358,7 +358,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
-    const pageTitle = challengeEmailPageObject.getPageTitle();
+    const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');

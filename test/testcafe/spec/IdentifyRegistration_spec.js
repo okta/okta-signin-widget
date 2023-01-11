@@ -300,7 +300,7 @@ test.requestHooks(mock)('should call settings.registration.click on "Sign Up" cl
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
 
-  await t.expect(identityPage.getPageTitle()).eql('Sign In');
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
   await rerenderWidget({
     registration: {
       // eslint-disable-next-line
@@ -314,7 +314,7 @@ test.requestHooks(mock)('should call settings.registration.click on "Sign Up" cl
   await t.expect(log[log.length - 1]).eql('registration click handler fired');
 
   // will not navigate to register page
-  await t.expect(identityPage.getPageTitle()).eql('Sign In');
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
 });
 
 // TODO : OKTA-397225

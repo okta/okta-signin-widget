@@ -18,14 +18,6 @@ export default class IdentityPageObject extends BasePageObject {
     super(t);
   }
 
-  /**
-   * @deprecated
-   * @see BasePageObject.getFormTitle
-   */
-  getPageTitle() {
-    return this.getFormTitle();
-  }
-
   getOktaVerifyButtonText() {
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
   }
@@ -178,10 +170,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   identifierFieldExistsForPIVView() {
-    if (userVariables.v3) {
-      return this.identifierFieldExists('[data-se="identifier"]');
-    }
-    return this.identifierFieldExists('.o-form-input .input-fix input');
+    return this.form.fieldByLabelExists('Username');
   }
 
   getCustomForgotPasswordLink() {

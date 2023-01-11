@@ -8,10 +8,6 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
     super(t);
   }
 
-  getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
-  }
-
   getPageSubtitle() {
     return this.form.getElement('.okta-form-subtitle').textContent;
   }

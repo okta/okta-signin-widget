@@ -29,7 +29,6 @@ const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => 
     // TODO: OKTA-504638 Can Add IDP remediation name renaming logic here
     if (remediation.name === IDX_STEP.REDIRECT_IDP && remediation.type === PIV_TYPE) {
       // piv idp
-      // eslint-disable-next-line no-param-reassign
       remediation.name = IDX_STEP.PIV_IDP;
     }
   });
@@ -39,7 +38,6 @@ const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => 
   const isPivType = nextStep?.type === PIV_TYPE;
   if (nextStep?.name === IDX_STEP.REDIRECT_IDP && isPivType) {
     nextStep.name = IDX_STEP.PIV_IDP;
-    // eslint-disable-next-line no-param-reassign
     options.step = IDX_STEP.PIV_IDP;
   }
 

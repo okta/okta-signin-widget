@@ -34,14 +34,6 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.clickButton('Verify');
   }
 
-  /**
-   * @deprecated
-   * @see getTitle
-   */
-  getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
-  }
-
   waitForErrorBox() {
     return this.form.waitForErrorBox();
   }

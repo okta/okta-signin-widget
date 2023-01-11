@@ -51,7 +51,7 @@ test
       methodType: 'totp',
     });
 
-    const pageTitle = challengeOktaVerifyTOTPPageObject.getPageTitle();
+    const pageTitle = challengeOktaVerifyTOTPPageObject.getFormTitle();
     const saveBtnText = challengeOktaVerifyTOTPPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Enter a code');

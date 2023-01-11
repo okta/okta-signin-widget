@@ -73,7 +73,7 @@ test
       methodType: 'push',
     });
 
-    const pageTitle = challengeCustomAppPushPageObject.getPageTitle();
+    const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
@@ -98,7 +98,7 @@ test
       methodType: 'push',
     });
 
-    const pageTitle = challengeCustomAppPushPageObject.getPageTitle();
+    const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const checkboxLabel = challengeCustomAppPushPageObject.getAutoChallengeCheckboxLabel();
@@ -133,7 +133,7 @@ test
     const challengeCustomAppPushPageObject = await setup(t);
     
     // all UI elements should be present except the checkbox
-    const pageTitle = challengeCustomAppPushPageObject.getPageTitle();
+    const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const logoClass = challengeCustomAppPushPageObject.getBeaconClass();

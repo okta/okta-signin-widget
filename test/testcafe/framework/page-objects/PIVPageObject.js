@@ -18,10 +18,6 @@ export default class PIVPageObject extends BasePageObject {
     return this.form.clickElement(selector);
   }
 
-  getPageTitle() {
-    return this.getFormTitle();
-  }
-
   getPageSubtitle() {
     if (userVariables.v3) {
       return this.getFormSubtitle();
