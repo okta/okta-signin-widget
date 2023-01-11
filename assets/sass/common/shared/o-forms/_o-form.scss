@@ -113,7 +113,6 @@
         width: 32px;
         height: 32px;
         padding: 6px 8px;
-        opacity: 0.5;
         cursor: pointer;
       }
       .button-hide {
@@ -287,11 +286,11 @@
 
 .o-form-label-inline {
   padding: 6px 10px;
-  color: #999;
+  color: $dark-text-color;
   background-color: $component-bg-color-dark;
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px;
-  border: 1px solid #c8c8c8;
+  border: 1px solid $input-border-color;
   border-right-width: 0;
   font-weight: normal;
 }

@@ -1,3 +1,4 @@
+/* focus indicator */
 .password-toggle button {
   display: flex;
   justify-content: center;
@@ -9,68 +10,6 @@
 .password-toggle button:active {
   border-color: rgb(22, 98, 221);
 }
-button {
-  border: 0;
-  background: none;
-}
-
-a:link,
-a:visited,
-a:active {
-  text-decoration: underline;
-}
-
-#okta-sign-in.auth-container .link,
-#okta-sign-in.auth-container .link:active,
-#okta-sign-in.auth-container .link:hover,
-#okta-sign-in.auth-container .link:link,
-#okta-sign-in.auth-container .link:visited {
-  color: #222!important;
-}
-#okta-sign-in.auth-container.main-container {
-  color: #767676!important;
-}
-#okta-sign-in .siw-main-footer .footer-info .signup-info .signup-link .link {
-  color: #007BBD!important;
-}
-#okta-sign-in .o-form .input-fix .password-toggle .eyeicon {
-  opacity: 1.0!important;
-}
-#okta-sign-in .visibility-off-16:before,
-#okta-sign-in .visibility-16:before {
-  color: #777!important;
-}
-.authenticator-usage-text,
-#okta-sign-in.auth-container .okta-form-subtitle {
-  color: #757575!important;
-}
-#okta-sign-in a.resend-link {
-  color: #007BBD!important;
-}
-#okta-sign-in .phone-authenticator-enroll__phone-code {
-  color: #000!important;
-}
-#okta-sign-in.auth-container .chzn-single span,
-#okta-sign-in.auth-container .chzn-drop,
-#okta-sign-in.auth-container .chzn-search,
-#okta-sign-in.auth-container .chzn-container > .chzn-drop > ul.chzn-results > li,
-#okta-sign-in .chzn-container {
-  color: #000!important;
-}
-#okta-sign-in.auth-container .okta-form-input-field {
-  border-color: #888!important;
-}
-#okta-sign-in.auth-container .okta-form-input-field:hover {
-  border-color: #666!important;
-}
-#okta-sign-in input[type=checkbox], #okta-sign-in input[type=radio] {
-  border-color: #888!important;
-}
-a.link,
-a.resend-link {
-  color: #3C76C8;
-}
-
 #okta-sign-in.auth-container .button.button-primary.link-button-disabled:focus {
   box-shadow: 0 0 8px #51cbee!important;
 }
