@@ -12,15 +12,34 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
-import { IDX_STEP } from '../../../constants';
+import { CHALLENGE_METHOD, IDX_STEP } from '../../../constants';
 import {
   DescriptionElement,
   IdxStepTransformer,
   LinkElement,
   OpenOktaVerifyFPButtonElement,
+  SpinnerElement,
   TitleElement,
 } from '../../../types';
 import { loc } from '../../../util';
+
+const getTitleText = (challengeMethod = CHALLENGE_METHOD.CUSTOM_URI) => {
+  if (challengeMethod === CHALLENGE_METHOD.APP_LINK) {
+    return loc('appLink.title', 'login');
+  } if (challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
+    return loc('universalLink.title', 'login');
+  }
+  return loc('customUri.title', 'login');
+};
+
+const getDescriptionText = (challengeMethod = CHALLENGE_METHOD.CUSTOM_URI) => {
+  if (challengeMethod === CHALLENGE_METHOD.APP_LINK) {
+    return loc('appLink.content', 'login');
+  } if (challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
+    return loc('universalLink.content', 'login');
+  }
+  return loc('customUri.required.content.prompt', 'login');
+};
 
 export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   transaction,
@@ -34,15 +53,27 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     // @ts-expect-error challenge is not defined on contextualData
     : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
 
+  const { challengeMethod } = deviceChallengePayload;
   uischema.elements.unshift({
     type: 'Title',
-    options: { content: loc('customUri.title', 'login') },
+    options: {
+      content: getTitleText(challengeMethod),
+    },
   } as TitleElement);
+
+  if (challengeMethod === CHALLENGE_METHOD.APP_LINK
+    || challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
+    uischema.elements.push({
+      type: 'Spinner',
+    } as SpinnerElement);
+  }
 
   uischema.elements.push({
     type: 'Description',
     contentType: 'subtitle',
-    options: { content: loc('customUri.required.content.prompt', 'login') },
+    options: {
+      content: getDescriptionText(challengeMethod),
+    },
   } as DescriptionElement);
 
   uischema.elements.push({
@@ -50,22 +81,25 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     options: {
       step: nextStep.name,
       href: deviceChallengePayload.href,
+      challengeMethod,
     },
   } as OpenOktaVerifyFPButtonElement);
 
-  uischema.elements.push({
-    type: 'Description',
-    contentType: 'subtitle',
-    options: { content: loc('customUri.required.content.download.title', 'login') },
-  } as DescriptionElement);
+  if (challengeMethod === CHALLENGE_METHOD.CUSTOM_URI) {
+    uischema.elements.push({
+      type: 'Description',
+      contentType: 'subtitle',
+      options: { content: loc('customUri.required.content.download.title', 'login') },
+    } as DescriptionElement);
 
-  uischema.elements.push({
-    type: 'Link',
-    options: {
-      label: loc('customUri.required.content.download.linkText', 'login'),
-      href: deviceChallengePayload.downloadHref,
-    },
-  } as LinkElement);
+    uischema.elements.push({
+      type: 'Link',
+      options: {
+        label: loc('customUri.required.content.download.linkText', 'login'),
+        href: deviceChallengePayload.downloadHref,
+      },
+    } as LinkElement);
+  }
 
   return formBag;
 };

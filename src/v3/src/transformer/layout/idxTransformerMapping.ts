@@ -178,6 +178,13 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.DEVICE_CHALLENGE_POLL]: {
+    [CHALLENGE_METHOD.APP_LINK]: {
+      transform: transformOktaVerifyDeviceChallengePoll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: true,
+      },
+    },
     [CHALLENGE_METHOD.CUSTOM_URI]: {
       transform: transformOktaVerifyDeviceChallengePoll,
       buttonConfig: {
@@ -190,6 +197,13 @@ const TransformerMap: {
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: false,
+      },
+    },
+    [CHALLENGE_METHOD.UNIVERSAL_LINK]: {
+      transform: transformOktaVerifyDeviceChallengePoll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: true,
       },
     },
   },

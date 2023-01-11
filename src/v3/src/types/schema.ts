@@ -253,6 +253,7 @@ export interface OpenOktaVerifyFPButtonElement extends UISchemaElement {
   options: {
     step: string;
     href?: string;
+    challengeMethod?: string;
   };
 }
 
