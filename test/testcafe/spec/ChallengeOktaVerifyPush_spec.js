@@ -143,7 +143,7 @@ test
 test
   .requestHooks(logger, pushSuccessMock)('challenge okta verify push request', async t => {
     await setup(t);
-    await checka11y(t);
+    await checkA11y(t);
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)

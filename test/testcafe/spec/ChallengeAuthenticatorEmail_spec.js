@@ -646,7 +646,7 @@ test
 test
   .requestHooks(magicLinkReturnTabMock)('challenge email factor with magic link', async t => {
     await setup(t);
-    await checka11y(t);
+    await checkA11y(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getFormTitle()).contains('Success! Return to the original tab or window');
     await t.expect(terminalPageObject.getMessages()).contains('To continue, please return to the original browser tab or window you used to verify.');
@@ -660,7 +660,7 @@ test
 test
   .requestHooks(magicLinkTransfer)('show the correct content when transferred email', async t => {
     await setup(t);
-    await checka11y(t);
+    await checkA11y(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Flow continued in a new tab.');
   });
@@ -668,7 +668,7 @@ test
 test
   .requestHooks(magicLinkExpiredMock)('challenge email factor with expired magic link', async t => {
     await setup(t);
-    await checka11y(t);
+    await checkA11y(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
     await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
@@ -781,7 +781,7 @@ test.requestHooks(sendEmailMock)('should show custom factor page link', async t 
 
 test.requestHooks(terrminalConsentDeniedPollMock)('shows a terminal message when consent is denied in another tab', async t => {
   await setup(t);
-  await checka11y(t);
+  await checkA11y(t);
   await t.wait(1000); // wait for poll
   const terminalPageObject = new TerminalPageObject(t);
   await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);

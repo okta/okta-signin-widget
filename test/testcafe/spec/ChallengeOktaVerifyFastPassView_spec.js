@@ -236,7 +236,7 @@ test
 test
   .requestHooks(loopbackBiometricsNoResponseErrorLogger, loopbackBiometricsNoResponseErrorMock)('in loopback server, when user does not respond to biometrics request, cancel the polling', async t => {
     await setup(t);
-    await checka11y(t);
+    await checkA11y(t);
     const secondSelectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
     await t.expect(secondSelectAuthenticatorPageObject.getFormTitle()).eql('Verify it\'s you with a security method');
     await t.expect(loopbackBiometricsNoResponseErrorLogger.count(

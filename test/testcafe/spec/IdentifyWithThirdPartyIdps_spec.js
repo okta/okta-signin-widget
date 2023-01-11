@@ -129,7 +129,7 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
 
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
   await setup(t);
-  await checka11y(t);
+  await checkA11y(t);
 
   await checkConsoleMessages({
     controller: null,
@@ -162,7 +162,7 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
 
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
   await setup(t);
-  await checka11y(t);
+  await checkA11y(t);
 
   await checkConsoleMessages({
     controller: null,

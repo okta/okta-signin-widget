@@ -226,7 +226,7 @@ test
 test
   .requestHooks(logger, pushSuccessMock)('challenge Custom App push request', async t => {
     await setup(t);
-    await checka11y(t);
+    await checkA11y(t);
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
@@ -250,7 +250,7 @@ test
 test
   .requestHooks(logger, pushWaitMock)('challenge Custom App push polling', async t => {
     await setup(t);
-    await checka11y(t);
+    await checkA11y(t);
     await t.wait(4000);
     await t.expect(logger.count(() => true)).eql(1);
 
@@ -292,7 +292,7 @@ test
     await t.expect(checkboxLabel.textContent).eql('Send push automatically');
 
     await setup(t);
-    await checka11y(t);
+    await checkA11y(t);
     await t.wait(4000);
     await t.expect(logger.count(() => true)).eql(1);
 
