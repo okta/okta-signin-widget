@@ -77,7 +77,7 @@
     "test:e2e": "yarn workspace @okta/e2e test",
     "test:e2e:lang": "yarn workspace @okta/e2e test:lang",
     "test:testcafe-setup": "mkdir -p test-reports/testcafe && yarn start --mock mockDuo --open false",
-    "test:testcafe-run": "yarn test -t testcafe -c 2 chrome:headless --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
+    "test:testcafe-run": "yarn test -t testcafe -c 5 chrome:headless --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
     "test:testcafe-ci": "run-p -r test:testcafe-setup \"test:testcafe-run\" -- 2>/dev/null",
     "test:testcafe-en-leaks-setup": "mkdir -p test-reports/testcafe && grunt exec:pseudo-loc && yarn start --open false",
     "test:testcafe-run-en-leaks": "yarn test -t testcafe -c 2 chrome test/testcafe/spec-en-leaks/ --reporter spec",
