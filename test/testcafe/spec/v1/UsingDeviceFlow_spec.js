@@ -121,7 +121,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(true);
 });
@@ -138,7 +138,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
 });
@@ -152,7 +152,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(true);
 });
@@ -169,7 +169,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
 });
@@ -183,7 +183,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('no idp discover
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(true);
 });
@@ -200,7 +200,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('idp discovery a
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
 });
@@ -221,7 +221,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
   await t.click('.social-auth-google-button');
@@ -246,7 +246,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlo
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
   await t.click('.social-auth-google-button');
