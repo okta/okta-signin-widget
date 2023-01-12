@@ -10,6 +10,6 @@
 .password-toggle button:active {
   border-color: rgb(22, 98, 221);
 }
-#okta-sign-in.auth-container .button.button-primary.link-button-disabled:focus {
-  box-shadow: 0 0 8px #51cbee!important;
+.button.button-primary.link-button-disabled:focus {
+  box-shadow: 0 0 8px #51cbee;
 }

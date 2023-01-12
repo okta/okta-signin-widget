@@ -4,13 +4,13 @@ a {
   &:link,
   &:visited,
   &:active {
-    text-decoration: none;
+    // text-decoration: none;
     color: $medium-text-color;
   }
 
   &:hover,
   &:focus {
-    text-decoration: underline;
+    // text-decoration: underline;
     color: $medium-text-color;
   }
 }
