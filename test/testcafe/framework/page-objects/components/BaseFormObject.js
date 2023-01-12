@@ -141,13 +141,13 @@ export default class BaseFormObject {
     return within(this.el).getByRole('button', options);
   }
 
-    /**
+  /**
    * @param {string} name the text of the button to return
    */
-    queryButton(name) {
-      const options = userVariables.v3 ? { name } : { value: name };
-      return within(this.el).queryByRole('button', options);
-    }
+  queryButton(name) {
+    const options = userVariables.v3 ? { name } : { value: name };
+    return within(this.el).queryByRole('button', options);
+  }
 
   /**
    * @param {string} name the text of the button to click

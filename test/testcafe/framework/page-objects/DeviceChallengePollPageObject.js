@@ -27,6 +27,9 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   getAppLinkContent() {
+    if(userVariables.v3) {
+      return this.form.getByText('If Okta Verify did not open automatically, tap Open Okta Verify.').innerText;
+    }
     return this.getTextContent('.appLinkContent');
   }
 
@@ -74,11 +77,17 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.form.getLink('Download here').getAttribute('href');
   }
 
-  getPrimaryButtonText() {
-    return this.body.find('[data-se="o-form-fieldset-container"] .button-primary').innerText;
+  getPrimaryButton() {
+    if(userVariables.v3) {
+      return this.form.getButton('Open Okta Verify');
+    }
+    return this.form.getLink('Open Okta Verify');
   }
 
   waitForPrimaryButtonAfterSpinner() {
+    if (userVariables.v3) {
+      return this.form.getButton('Open Okta Verify');
+    }
     return Selector('[data-se="o-form-fieldset-container"] .button-primary', { timeout: 4500 });
   }
 
@@ -91,11 +100,19 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   async clickUniversalLink() {
-    await this.t.click(Selector('.ul-button'));
+    if(userVariables.v3) {
+      await this.form.clickButton('Open Okta Verify');
+    } else {
+      await this.t.click(this.form.getLink('Open Okta Verify'));
+    }
   }
 
   async clickAppLink() {
-    await this.t.click(Selector('.al-button'));
+    if(userVariables.v3) {
+      await this.form.clickButton('Open Okta Verify');
+    } else {
+      await this.t.click(this.form.getLink('Open Okta Verify'));
+    }
   }
 
   async clickLaunchOktaVerifyButton() {
