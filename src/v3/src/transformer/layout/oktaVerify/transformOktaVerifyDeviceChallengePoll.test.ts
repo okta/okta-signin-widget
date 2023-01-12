@@ -51,7 +51,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(6);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('customUri.title');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
@@ -64,6 +64,10 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('customUri.required.content.download.linkText');
       expect((updatedFormBag.uischema.elements[4] as LinkElement).options.href)
         .toBe('https://apps.apple.com/us/app/okta-verify/id490179405');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
+        .toBe('authenticatorChallenge-cancel');
     });
 
     it('should transform elements when challengeMethod is APP_LINK', () => {
@@ -76,7 +80,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('appLink.title');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
@@ -85,6 +89,10 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('appLink.content');
       expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
         .toBe('okta-verify.html');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+        .toBe('authenticatorChallenge-cancel');
     });
 
     it('should transform elements when challengeMethod is UNIVERSAL_LINK', () => {
@@ -97,7 +105,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('universalLink.title');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
@@ -106,6 +114,10 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('universalLink.content');
       expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
         .toBe('okta-verify.html');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+        .toBe('authenticatorChallenge-cancel');
     });
   });
 
@@ -139,7 +151,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(6);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('customUri.title');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
@@ -152,6 +164,10 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('customUri.required.content.download.linkText');
       expect((updatedFormBag.uischema.elements[4] as LinkElement).options.href)
         .toBe('https://apps.apple.com/us/app/okta-verify/id490179405');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
+        .toBe('currentAuthenticator-cancel');
     });
 
     it('should transform elements when challengeMethod is APP_LINK', () => {
@@ -164,7 +180,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('appLink.title');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
@@ -173,6 +189,10 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('appLink.content');
       expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
         .toBe('okta-verify.html');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+        .toBe('currentAuthenticator-cancel');
     });
 
     it('should transform elements when challengeMethod is UNIVERSAL_LINK', () => {
@@ -185,7 +205,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('universalLink.title');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
@@ -194,6 +214,10 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('universalLink.content');
       expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
         .toBe('okta-verify.html');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+        .toBe('currentAuthenticator-cancel');
     });
   });
 });

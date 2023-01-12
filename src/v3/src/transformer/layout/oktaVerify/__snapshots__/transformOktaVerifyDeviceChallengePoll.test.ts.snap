@@ -38,6 +38,19 @@ Object {
         },
         "type": "OpenOktaVerifyFPButton",
       },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "actionParams": Object {
+            "reason": "USER_CANCELED",
+            "statusCode": null,
+          },
+          "isActionStep": true,
+          "label": "goback",
+          "step": "currentAuthenticator-cancel",
+        },
+        "type": "Link",
+      },
     ],
     "type": "VerticalLayout",
   },
@@ -93,6 +106,19 @@ Object {
         },
         "type": "Link",
       },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "actionParams": Object {
+            "reason": "USER_CANCELED",
+            "statusCode": null,
+          },
+          "isActionStep": true,
+          "label": "goback",
+          "step": "currentAuthenticator-cancel",
+        },
+        "type": "Link",
+      },
     ],
     "type": "VerticalLayout",
   },
@@ -137,6 +163,19 @@ Object {
         },
         "type": "OpenOktaVerifyFPButton",
       },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "actionParams": Object {
+            "reason": "USER_CANCELED",
+            "statusCode": null,
+          },
+          "isActionStep": true,
+          "label": "goback",
+          "step": "currentAuthenticator-cancel",
+        },
+        "type": "Link",
+      },
     ],
     "type": "VerticalLayout",
   },
@@ -180,6 +219,19 @@ Object {
           "step": "device-challenge-poll",
         },
         "type": "OpenOktaVerifyFPButton",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "actionParams": Object {
+            "reason": "USER_CANCELED",
+            "statusCode": null,
+          },
+          "isActionStep": true,
+          "label": "goback",
+          "step": "authenticatorChallenge-cancel",
+        },
+        "type": "Link",
       },
     ],
     "type": "VerticalLayout",
@@ -236,6 +288,19 @@ Object {
         },
         "type": "Link",
       },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "actionParams": Object {
+            "reason": "USER_CANCELED",
+            "statusCode": null,
+          },
+          "isActionStep": true,
+          "label": "goback",
+          "step": "authenticatorChallenge-cancel",
+        },
+        "type": "Link",
+      },
     ],
     "type": "VerticalLayout",
   },
@@ -279,6 +344,19 @@ Object {
           "step": "device-challenge-poll",
         },
         "type": "OpenOktaVerifyFPButton",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "actionParams": Object {
+            "reason": "USER_CANCELED",
+            "statusCode": null,
+          },
+          "isActionStep": true,
+          "label": "goback",
+          "step": "authenticatorChallenge-cancel",
+        },
+        "type": "Link",
       },
     ],
     "type": "VerticalLayout",
