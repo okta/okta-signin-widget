@@ -77,11 +77,11 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.form.getLink('Download here').getAttribute('href');
   }
 
-  getPrimaryButton() {
+  getPrimaryButtonText() {
     if(userVariables.v3) {
-      return this.form.getButton('Open Okta Verify');
+      return this.form.getButton('Open Okta Verify').innerText;
     }
-    return this.form.getLink('Open Okta Verify');
+    return this.form.getLink('Open Okta Verify').innerText;
   }
 
   waitForPrimaryButtonAfterSpinner() {

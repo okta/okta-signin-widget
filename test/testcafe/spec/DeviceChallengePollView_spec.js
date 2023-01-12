@@ -543,7 +543,7 @@ test
 
     await t.expect(deviceChallengePollPageObject.getAppLinkContent())
       .contains('If Okta Verify did not open automatically, tap Open Okta Verify.');
-    await t.expect(deviceChallengePollPageObject.getPrimaryButton().exists).eql(true);
+    await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
     if(!userVariables.v3) {
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     }
@@ -581,7 +581,7 @@ test
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
-    await t.expect(deviceChallengePollPageObject.getPrimaryButton().exists).eql(true);
+    await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
     if(!userVariables.v3) {
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     }
