@@ -231,7 +231,19 @@ export default class BaseFormObject {
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
+  getAlertBoxText() {
+    if (userVariables.v3) {
+      return within(this.el).queryAllByRole('alert').nth(0).innerText;
+    } else {
+      // Not implemented/required in v2
+    }
+  }
+
   hasErrorBox() {
+    return within(this.el).queryByRole('alert').exists;
+  }
+
+  hasAlertBox() {
     return within(this.el).queryByRole('alert').exists;
   }
 

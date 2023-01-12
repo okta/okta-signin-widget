@@ -148,7 +148,7 @@ export default class IdentityPageObject extends BasePageObject {
 
   hasUnknownUserErrorCallout() {
     if(userVariables.v3) {
-      return this.form.hasErrorBox();
+      return this.form.hasAlertBox();
     }
     return this.form.getCallout(CALLOUT_SELECTOR).hasClass('infobox-error');
   }
