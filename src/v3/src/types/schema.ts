@@ -440,6 +440,14 @@ export interface StepperButtonElement {
   }
 }
 
+export interface AutoStepperElement {
+  type: 'AutoStepper',
+  options: {
+    nextStepIndex: number;
+    time: number; // time before changing index in milliseconds
+  }
+}
+
 export interface StepperRadioElement {
   type: 'StepperRadio',
   options: {

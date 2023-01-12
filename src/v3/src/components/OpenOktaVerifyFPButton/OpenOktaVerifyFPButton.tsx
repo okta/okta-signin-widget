@@ -66,7 +66,7 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
       step,
       onClick: () => {
         const isAppLinkMethod = challengeMethod === CHALLENGE_METHOD.APP_LINK;
-        const isUniversalLinkMethod = challengeMethod === CHALLENGE_METHOD.APP_LINK;
+        const isUniversalLinkMethod = challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK;
         if ((isAppLinkMethod || isUniversalLinkMethod) && href) {
           if (isAndroid() && !isAppLinkMethod) {
             Util.redirectWithFormGet(href);

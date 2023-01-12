@@ -182,14 +182,14 @@ const TransformerMap: {
       transform: transformOktaVerifyDeviceChallengePoll,
       buttonConfig: {
         showDefaultSubmit: false,
-        showDefaultCancel: true,
+        showDefaultCancel: false,
       },
     },
     [CHALLENGE_METHOD.CUSTOM_URI]: {
       transform: transformOktaVerifyDeviceChallengePoll,
       buttonConfig: {
         showDefaultSubmit: false,
-        showDefaultCancel: true,
+        showDefaultCancel: false,
       },
     },
     [CHALLENGE_METHOD.LOOPBACK]: {
@@ -203,7 +203,7 @@ const TransformerMap: {
       transform: transformOktaVerifyDeviceChallengePoll,
       buttonConfig: {
         showDefaultSubmit: false,
-        showDefaultCancel: true,
+        showDefaultCancel: false,
       },
     },
   },

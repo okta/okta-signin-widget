@@ -14,12 +14,15 @@ import { NextStep } from '@okta/okta-auth-js';
 
 import { CHALLENGE_METHOD, IDX_STEP } from '../../../constants';
 import {
+  AutoStepperElement,
   DescriptionElement,
   IdxStepTransformer,
   LinkElement,
   OpenOktaVerifyFPButtonElement,
   SpinnerElement,
   TitleElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
 } from '../../../types';
 import { loc } from '../../../util';
 
@@ -44,9 +47,11 @@ const getDescriptionText = (challengeMethod = CHALLENGE_METHOD.CUSTOM_URI) => {
 export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   transaction,
   formBag,
+  prevTransaction,
 }) => {
   const { nextStep = {} as NextStep } = transaction;
   const { uischema } = formBag;
+  const FASTPASS_FALLBACK_SPINNER_TIMEOUT = 4000;
 
   const deviceChallengePayload = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL
     ? transaction.nextStep?.relatesTo?.value
@@ -54,37 +59,94 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
 
   const { challengeMethod } = deviceChallengePayload;
-  uischema.elements.unshift({
+  const titleElement: TitleElement = {
     type: 'Title',
     options: {
       content: getTitleText(challengeMethod),
     },
-  } as TitleElement);
+  };
 
-  if (challengeMethod === CHALLENGE_METHOD.APP_LINK
-    || challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
-    uischema.elements.push({
-      type: 'Spinner',
-    } as SpinnerElement);
-  }
-
-  uischema.elements.push({
+  const descriptionElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     options: {
       content: getDescriptionText(challengeMethod),
     },
-  } as DescriptionElement);
+  };
 
-  uischema.elements.push({
+  const spinnerElement = {
+    type: 'Spinner',
+  } as SpinnerElement;
+
+  const openOktaVerifyButton: OpenOktaVerifyFPButtonElement = {
     type: 'OpenOktaVerifyFPButton',
     options: {
       step: nextStep.name,
       href: deviceChallengePayload.href,
       challengeMethod,
     },
-  } as OpenOktaVerifyFPButtonElement);
+  };
 
+  const cancelStep = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL
+    ? 'authenticatorChallenge-cancel' : 'currentAuthenticator-cancel';
+  const cancelLink: LinkElement = {
+    type: 'Link',
+    contentType: 'footer',
+    options: {
+      label: loc('goback', 'login'),
+      isActionStep: true,
+      step: cancelStep,
+      actionParams: {
+        reason: 'USER_CANCELED',
+        statusCode: null,
+      },
+    },
+  };
+
+  uischema.elements.unshift(titleElement);
+
+  // if the previous step was identify and the challenge method is APP_LINK,
+  // we delay displaying the content because of a cold start issue with Okta Verify
+  if (challengeMethod === CHALLENGE_METHOD.APP_LINK
+      && prevTransaction?.nextStep?.name === IDX_STEP.IDENTIFY) {
+    const autoStepperElement: AutoStepperElement = {
+      type: 'AutoStepper',
+      options: {
+        nextStepIndex: 1,
+        time: FASTPASS_FALLBACK_SPINNER_TIMEOUT,
+      },
+    };
+
+    uischema.elements.push({
+      type: UISchemaLayoutType.STEPPER,
+      elements: [
+        {
+          type: UISchemaLayoutType.VERTICAL,
+          elements: [
+            autoStepperElement,
+            spinnerElement,
+            cancelLink,
+          ],
+        } as UISchemaLayout,
+        {
+          type: UISchemaLayoutType.VERTICAL,
+          elements: [
+            descriptionElement,
+            openOktaVerifyButton,
+            cancelLink,
+          ],
+        } as UISchemaLayout],
+    });
+
+    return formBag;
+  }
+
+  if (challengeMethod === CHALLENGE_METHOD.APP_LINK
+    || challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
+    uischema.elements.push(spinnerElement);
+  }
+  uischema.elements.push(descriptionElement);
+  uischema.elements.push(openOktaVerifyButton);
   if (challengeMethod === CHALLENGE_METHOD.CUSTOM_URI) {
     uischema.elements.push({
       type: 'Description',
@@ -100,6 +162,8 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
       },
     } as LinkElement);
   }
+
+  uischema.elements.push(cancelLink);
 
   return formBag;
 };
