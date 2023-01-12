@@ -5,10 +5,6 @@ export default class IdPAuthenticatorPageObject extends BasePageObject {
     super(t);
   }
 
-  getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
-  }
-
   getPageSubtitle() {
     return this.form.getElement('.okta-form-subtitle').textContent;
   }

@@ -22,9 +22,7 @@ import {
 } from '../../types';
 import { loc } from '../../util';
 
-export const PIV_TYPE = 'X509';
-
-// TODO: Implement CUSTOM IDP Buttons here
+// TODO: OKTA-504638 Implement CUSTOM IDP Buttons here
 export const transformIDPButtons: TransformStepFnWithOptions = ({
   transaction,
   widgetProps,
@@ -33,9 +31,13 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
 ) => {
   const { neededToProceed: remediations } = transaction;
   const containsPivIDP = remediations.some(
-    (remediation) => remediation.name === IDX_STEP.REDIRECT_IDP && remediation.type === PIV_TYPE,
+    (remediation) => remediation.name === IDX_STEP.PIV_IDP,
   );
-  if (!containsPivIDP) {
+  const containsIdentifyStep = remediations.some(
+    (remediation) => remediation.name === IDX_STEP.IDENTIFY,
+  );
+  // To display button must be on identify page and contain PIV remediation
+  if (!(containsPivIDP && containsIdentifyStep) ) {
     return formbag;
   }
 
@@ -54,7 +56,7 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
       variant: 'secondary',
       onClick: (widgetContext: IWidgetContext) => {
         // To render the PIV view, we have to use a remediation that is provided on initial load
-        // This remeidation doesn't allow a network request, so we have to update the transaction
+        // This remediation doesn't allow a network request, so we have to update the transaction
         // to set the NextStep as the PIV remediation and change the step name to match what
         // the transaction transformers expect to render PIV View.
         // NOTE: IDPs and PIV share the same remediation step name, this is why we update the name
@@ -63,14 +65,8 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
         // to prevent the widget from displaying elements that are not related to PIV
         const { setIdxTransaction } = widgetContext;
         const pivRemediations = transaction.neededToProceed.filter(
-          (remediation) => (remediation.name === IDX_STEP.REDIRECT_IDP
-            && remediation.type === PIV_TYPE),
-        ).map((remediation) => {
-          if (remediation.name === IDX_STEP.REDIRECT_IDP) {
-            return { ...remediation, name: IDX_STEP.PIV_IDP };
-          }
-          return remediation;
-        });
+          (remediation) => (remediation.name === IDX_STEP.PIV_IDP),
+        );
         setIdxTransaction({
           ...transaction,
           messages: [],

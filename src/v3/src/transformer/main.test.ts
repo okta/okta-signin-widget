@@ -13,6 +13,9 @@
 import { TransformationOptions } from '../types';
 import { transformIdxTransaction } from './main';
 
+jest.mock('./transaction', () => ({
+  transformTransactionData: () => () => ({}),
+}));
 jest.mock('./field', () => ({
   transformFields: () => () => ({}),
 }));
@@ -39,6 +42,7 @@ jest.mock('./testAttribute', () => ({
 /* eslint-disable global-require */
 const mocked = {
   field: require('./field'),
+  transactionData: require('./transaction'),
   button: require('./button'),
   layout: require('./layout'),
   i18n: require('./i18n'),
@@ -50,6 +54,7 @@ const mocked = {
 
 describe('main transformer', () => {
   it('follows transformation steps', () => {
+    jest.spyOn(mocked.transactionData, 'transformTransactionData');
     jest.spyOn(mocked.field, 'transformFields');
     jest.spyOn(mocked.button, 'transformButtons');
     jest.spyOn(mocked.layout, 'transformLayout');
@@ -62,6 +67,8 @@ describe('main transformer', () => {
       transaction: {},
     } as TransformationOptions;
     transformIdxTransaction(mockOptions);
+    expect(mocked.transactionData.transformTransactionData)
+      .toHaveBeenCalledBefore(mocked.field.transformFields);
     expect(mocked.field.transformFields).toHaveBeenCalledBefore(mocked.layout.transformLayout);
     // FIXME: custom layout should pick elements from translated buttons
     // expect(mocked.button.transformButtons).toHaveBeenCalledBefore(mocked.layout.transformLayout);

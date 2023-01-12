@@ -18,14 +18,6 @@ export default class IdentityPageObject extends BasePageObject {
     super(t);
   }
 
-  /**
-   * @deprecated
-   * @see BasePageObject.getFormTitle
-   */
-  getPageTitle() {
-    return this.getFormTitle();
-  }
-
   getOktaVerifyButtonText() {
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
   }
@@ -175,6 +167,10 @@ export default class IdentityPageObject extends BasePageObject {
 
   identifierFieldExists(selector) {
     return this.form.elementExist(selector);
+  }
+
+  identifierFieldExistsForPIVView() {
+    return this.form.fieldByLabelExists('Username');
   }
 
   getCustomForgotPasswordLink() {

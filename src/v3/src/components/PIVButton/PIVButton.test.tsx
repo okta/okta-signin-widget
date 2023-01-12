@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxTransaction } from '@okta/okta-auth-js';
 import { render, waitFor } from '@testing-library/preact';
 import { h } from 'preact';
+import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import {
   PIVButtonElement,
@@ -24,11 +26,13 @@ jest.mock('../../../../util/Util', () => ({ redirectWithFormGet: jest.fn().mockI
 
 const setMessageMockFn = jest.fn();
 const mockLoading = jest.fn().mockReturnValue(false);
+const mockTransaction: IdxTransaction = getStubTransactionWithNextStep();
+mockTransaction.nextStep!.href = 'https://localhost:8080/mtls';
 jest.mock('../../contexts', () => ({
   useWidgetContext: () => ({
     setMessage: setMessageMockFn,
     loading: mockLoading(),
-    idxTransaction: { nextStep: { href: 'https://localhost:8080/mtls' } },
+    idxTransaction: mockTransaction,
   }),
 }));
 
@@ -37,12 +41,29 @@ describe('PIVButton Tests', () => {
 
   beforeEach(() => {
     mockLoading.mockReturnValue(false);
+    mockTransaction.messages = undefined;
     props = {
       uischema: {
         type: 'PIVButton',
         translations: [{ name: 'label', value: 'Verify', i18nKey: 'some.key' }],
       },
     };
+  });
+
+  it('should render PIV retry button w/o spinner when an error message exists in transaction', async () => {
+    mockTransaction.messages = [{ message: 'Unable to sign in', class: 'ERROR', i18n: { key: 'some.key' } }];
+    const { queryByTestId } = render(<PIVButton {...props} />);
+
+    const button = queryByTestId('button');
+    const spinner = queryByTestId('okta-spinner');
+
+    expect(button).toBeInTheDocument();
+    expect(spinner).toBeNull();
+
+    await waitFor(() => {
+      expect(setMessageMockFn).not.toBeCalled();
+      expect(mockRedirectFn).not.toBeCalled();
+    });
   });
 
   it('should render PIV button and trigger redirect with spinner visible', async () => {

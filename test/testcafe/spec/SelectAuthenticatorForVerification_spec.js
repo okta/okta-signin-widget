@@ -512,7 +512,7 @@ test.meta('v3', false).requestHooks(requestLogger, mockChallengeOVFastPass)('sho
 
   selectFactorPage.selectFactorByIndex(3);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Verifying your identity');
+  await t.expect(challengeFactorPage.getFormTitle()).eql('Verifying your identity');
 
   await t.expect(requestLogger.count(() => true)).eql(2);
   const req1 = requestLogger.requests[0].request;
@@ -537,7 +537,7 @@ test.meta('v3', false).requestHooks(mockChallengeOnPremMFA)('should navigate to 
 
   selectFactorPage.selectFactorByIndex(7);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with Atko Custom On-prem');
+  await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Atko Custom On-prem');
 });
 
 test.meta('v3', false).requestHooks(mockChallengeRsa)('should navigate to RSA challenge page', async t => {
@@ -547,7 +547,7 @@ test.meta('v3', false).requestHooks(mockChallengeRsa)('should navigate to RSA ch
 
   selectFactorPage.selectFactorByIndex(8);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with RSA SecurID');
+  await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with RSA SecurID');
 });
 
 test.meta('v3', false).requestHooks(mockChallengeDuo)('should navigate to Duo challenge page', async t => {
@@ -557,7 +557,7 @@ test.meta('v3', false).requestHooks(mockChallengeDuo)('should navigate to Duo ch
 
   selectFactorPage.selectFactorByIndex(8);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with Duo Security');
+  await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Duo Security');
 });
 
 test.meta('v3', false).requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challenge page', async t => {

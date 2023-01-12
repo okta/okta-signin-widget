@@ -43,7 +43,7 @@ test.requestHooks(identifyRecoveryMock)('should have correct display texts', asy
   // i18n values can be tested here.
   const identityPage = await setup(t);
 
-  const identityPageTitle = identityPage.getPageTitle();
+  const identityPageTitle = identityPage.getFormTitle();
   await t.expect(identityPageTitle).eql('Reset your password');
 
   const saveButtonText = identityPage.getSaveButtonLabel();

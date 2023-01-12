@@ -44,7 +44,7 @@ test
   .requestHooks(pushRejectMock)('challenge okta verify with rejected push', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
-    const pageTitle = challengeOktaVerifyPushPageObject.getPageTitle();
+    const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
     await t.expect(pageTitle).contains('Get a push notification');
     const errorBox = challengeOktaVerifyPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText).contains('You have chosen to reject this login.');

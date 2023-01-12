@@ -23,7 +23,7 @@ import {
   TitleElement,
   WidgetProps,
 } from '../../types';
-import { PIV_TYPE, transformIDPButtons } from './transformIDPButtons';
+import { transformIDPButtons } from './transformIDPButtons';
 
 describe('IDP Button transformer tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -42,11 +42,33 @@ describe('IDP Button transformer tests', () => {
     widgetProps = {};
   });
 
+  it('should not add PIV IDP button when PIV does not exist in remediation but Identify does', () => {
+    transaction.neededToProceed = [
+      { name: IDX_STEP.IDENTIFY },
+    ];
+    const updatedFormBag = transformIDPButtons({ transaction, widgetProps, step: '' })(formBag);
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag).toEqual(formBag);
+  });
+
+  it('should not add PIV IDP button when PIV remediation exists but identify does not', () => {
+    transaction.neededToProceed = [
+      { name: IDX_STEP.PIV_IDP, type: 'X509' },
+    ];
+    const updatedFormBag = transformIDPButtons({ transaction, widgetProps, step: '' })(formBag);
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag).toEqual(formBag);
+  });
+
   it('should add PIV/CAC IDP button when exists in remediation with default (PRIMARY) display', async () => {
-    transaction.neededToProceed = [{
-      name: IDX_STEP.REDIRECT_IDP,
-      type: PIV_TYPE,
-    }];
+    transaction.neededToProceed = [
+      { name: IDX_STEP.IDENTIFY },
+      { name: IDX_STEP.PIV_IDP, type: 'X509' },
+    ];
     const updatedFormBag = transformIDPButtons({ transaction, widgetProps, step: '' })(formBag);
 
     expect(updatedFormBag).toMatchSnapshot();
@@ -61,10 +83,10 @@ describe('IDP Button transformer tests', () => {
   });
 
   it('should add PIV/CAC IDP button when exists in remediation with SECONDARY display', async () => {
-    transaction.neededToProceed = [{
-      name: IDX_STEP.REDIRECT_IDP,
-      type: PIV_TYPE,
-    }];
+    transaction.neededToProceed = [
+      { name: IDX_STEP.IDENTIFY },
+      { name: IDX_STEP.PIV_IDP, type: 'X509' },
+    ];
     widgetProps = { idpDisplay: 'SECONDARY' };
     const updatedFormBag = transformIDPButtons({ transaction, widgetProps, step: '' })(formBag);
 
@@ -80,10 +102,10 @@ describe('IDP Button transformer tests', () => {
   });
 
   it('should execute PIV/CAC button function when clicked', async () => {
-    transaction.neededToProceed = [{
-      name: IDX_STEP.REDIRECT_IDP,
-      type: PIV_TYPE,
-    }];
+    transaction.neededToProceed = [
+      { name: IDX_STEP.IDENTIFY },
+      { name: IDX_STEP.PIV_IDP, type: 'X509' },
+    ];
     const updatedFormBag = transformIDPButtons({ transaction, widgetProps, step: '' })(formBag);
 
     const pivButton: ButtonElement = updatedFormBag.uischema.elements.find(
@@ -99,9 +121,9 @@ describe('IDP Button transformer tests', () => {
     expect(mockSetTransaction).toHaveBeenCalledWith({
       ...transaction,
       messages: [],
-      neededToProceed: [{ name: IDX_STEP.PIV_IDP, type: PIV_TYPE }],
-      availableSteps: [{ name: IDX_STEP.PIV_IDP, type: PIV_TYPE }],
-      nextStep: { name: IDX_STEP.PIV_IDP, type: PIV_TYPE },
+      neededToProceed: [{ name: IDX_STEP.PIV_IDP, type: 'X509' }],
+      availableSteps: [{ name: IDX_STEP.PIV_IDP, type: 'X509' }],
+      nextStep: { name: IDX_STEP.PIV_IDP, type: 'X509' },
     });
   });
 });

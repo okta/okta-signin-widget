@@ -152,7 +152,7 @@ test
       methodType: 'sms',
     });
 
-    const pageTitle = challengePhonePageObject.getPageTitle();
+    const pageTitle = challengePhonePageObject.getFormTitle();
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
     const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
@@ -228,7 +228,7 @@ test
       methodType: 'voice',
     });
 
-    const pageTitle = challengePhonePageObject.getPageTitle();
+    const pageTitle = challengePhonePageObject.getFormTitle();
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
     const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
@@ -248,7 +248,7 @@ test
 test
   .requestHooks(voiceOnlyMock)('Only one option - has only one primary button', async t => {
     const challengePhonePageObject = await setup(t);
-    const pageTitle = challengePhonePageObject.getPageTitle();
+    const pageTitle = challengePhonePageObject.getFormTitle();
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
     await t.expect(challengePhonePageObject.elementExists('.phone-authenticator-challenge__link')).notOk();
@@ -338,7 +338,7 @@ test
   .requestHooks(smsPrimaryMockNoProfile)('SMS views have the right labels when profile is null', async t => {
     const challengePhonePageObject = await setup(t);
 
-    const pageTitle = challengePhonePageObject.getPageTitle();
+    const pageTitle = challengePhonePageObject.getFormTitle();
     let pageSubtitle = challengePhonePageObject.getFormSubtitle();
     const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
     const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
@@ -365,7 +365,7 @@ test
   .requestHooks(voicePrimaryMockNoProfile)('Voice call views have the right labels when profile is null', async t => {
     const challengePhonePageObject = await setup(t);
 
-    const pageTitle = challengePhonePageObject.getPageTitle();
+    const pageTitle = challengePhonePageObject.getFormTitle();
     let pageSubtitle = challengePhonePageObject.getFormSubtitle();
     const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
     const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
@@ -392,7 +392,7 @@ test
   .requestHooks(smsPrimaryMockEmptyProfile)('SMS views have the right labels when profile is empty', async t => {
     const challengePhonePageObject = await setup(t);
 
-    const pageTitle = challengePhonePageObject.getPageTitle();
+    const pageTitle = challengePhonePageObject.getFormTitle();
     let pageSubtitle = challengePhonePageObject.getFormSubtitle();
     const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
     const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
@@ -419,7 +419,7 @@ test
   .requestHooks(voicePrimaryMockEmptyProfile)('Voice call views have the right labels when profile is empty', async t => {
     const challengePhonePageObject = await setup(t);
 
-    const pageTitle = challengePhonePageObject.getPageTitle();
+    const pageTitle = challengePhonePageObject.getFormTitle();
     let pageSubtitle = challengePhonePageObject.getFormSubtitle();
     const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
     const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
