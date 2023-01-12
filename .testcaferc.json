@@ -7,6 +7,7 @@
       "module": "axe-core/axe.min.js"
     }
   ],
+  "concurrency": 4,
   "src": [
     "test/testcafe/spec/*_spec.js"
   ],
