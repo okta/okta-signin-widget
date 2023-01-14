@@ -173,7 +173,15 @@ export default Controller.extend({
     }
 
     // Build options to invoke or throw error for invalid action
-    if (idx['neededToProceed'].find(item => item.name === actionPath)) {
+    if (FORMS.LAUNCH_AUTHENTICATOR === actionPath && actionParams) {
+      invokeOptions = {
+        ...invokeOptions,
+        actions: [{
+          name: actionPath,
+          params: actionParams
+        }]
+      };
+    } else if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       invokeOptions = { ...invokeOptions, step: actionPath };
     } else if (_.isFunction(idx['actions'][actionPath])) {
       invokeOptions = {
