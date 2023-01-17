@@ -20,12 +20,10 @@ const consentGranularFailedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/consent')
   .respond(terminalResetPasswordNotAllowed);
 
-const requestLogger = RequestLogger(/consent/,
-  {
-    logRequestBody: true,
-    stringifyRequestBody: true,
-  }
-);
+const requestLogger = RequestLogger(/consent/, {
+  logRequestBody: true,
+  stringifyRequestBody: true,
+});
 
 async function setup(t) {
   const consentPage = new ConsentPageObject(t);
