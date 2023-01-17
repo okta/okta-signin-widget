@@ -64,12 +64,7 @@ const InfoBox: UISchemaElementComponent<{
       >
         {title && <AlertTitle>{title}</AlertTitle>}
         {message}
-        {bullets?.length > 0
-        && (
-        <Box>
-          <List uischema={bulletList} />
-        </Box>
-        )}
+        {bullets?.length > 0 && <List uischema={bulletList} />}
       </Alert>
     </Box>
   );
