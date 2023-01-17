@@ -400,6 +400,7 @@ export interface InfoboxElement extends UISchemaElement {
     contentType: string;
     title?: string;
     dataSe?: string;
+    bullets?: string[];
   }
 }
 

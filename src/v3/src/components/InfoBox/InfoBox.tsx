@@ -10,16 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { AlertTitle } from '@mui/material';
 import { Alert, Box } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
 import {
   InfoboxElement,
+  ListElement,
   MessageType,
   MessageTypeVariant,
   UISchemaElementComponent,
 } from '../../types';
+import List from '../List';
 
 const InfoBox: UISchemaElementComponent<{
   uischema: InfoboxElement
@@ -34,8 +37,16 @@ const InfoBox: UISchemaElementComponent<{
       title,
       class: messageClass,
       dataSe,
+      bullets = [],
     },
   } = uischema;
+
+  const bulletList: ListElement = {
+    type: 'List',
+    options: {
+      items: bullets,
+    },
+  };
 
   return loading ? null : (
     <Box
@@ -51,7 +62,14 @@ const InfoBox: UISchemaElementComponent<{
         {...({ 'data-se': dataSe })}
         className={`infobox-${messageClass.toLowerCase()}`}
       >
+        {title && <AlertTitle>{title}</AlertTitle>}
         {message}
+        {bullets?.length > 0
+        && (
+        <Box>
+          <List uischema={bulletList} />
+        </Box>
+        )}
       </Alert>
     </Box>
   );

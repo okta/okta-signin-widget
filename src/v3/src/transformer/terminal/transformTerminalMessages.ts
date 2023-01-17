@@ -12,7 +12,11 @@
 
 import { IdxMessage } from '@okta/okta-auth-js';
 
-import { TERMINAL_KEY } from '../../constants';
+import {
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
+  TERMINAL_KEY,
+} from '../../constants';
 import {
   DescriptionElement,
   InfoboxElement,
@@ -57,10 +61,39 @@ const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[])
   });
 };
 
+const appendBiometricsErrorBox = (
+  uischema: UISchemaLayout,
+  isBiometricsRequiredDesktop = false,
+) => {
+  const bulletPoints = [
+    loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point1', 'login'),
+    loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point2', 'login'),
+    loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point3', 'login'),
+  ];
+
+  // Add an additional bullet point for desktop devices
+  if (isBiometricsRequiredDesktop) {
+    bulletPoints.push(
+      loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point4', 'login'),
+    );
+  }
+
+  uischema.elements.push({
+    type: 'InfoBox',
+    options: {
+      message: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description', 'login'),
+      title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'),
+      class: 'ERROR',
+      contentType: 'string',
+      dataSe: 'callout',
+      bullets: bulletPoints,
+    },
+  } as InfoboxElement);
+};
+
 export const transformTerminalMessages: TerminalKeyTransformer = (transaction, formBag) => {
   const { messages } = transaction;
   const { uischema } = formBag;
-
   if (transaction.error) {
     uischema.elements.push({
       type: 'InfoBox',
@@ -98,6 +131,12 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
     displayedMessages[0].message = loc(TERMINAL_KEY.SESSION_EXPIRED, 'login');
   } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, messages)) {
     return transformEmailMagicLinkOTPOnly(transaction, formBag);
+  } else if (containsMessageKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE, messages)) {
+    appendBiometricsErrorBox(uischema);
+    return formBag;
+  } else if (containsMessageKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP, messages)) {
+    appendBiometricsErrorBox(uischema, true);
+    return formBag;
   }
 
   appendMessageElements(uischema, messages);
