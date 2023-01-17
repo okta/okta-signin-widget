@@ -15,6 +15,7 @@ import voiceVerificationNoProfile from '../../../playground/mocks/data/idp/idx/a
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidCode from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
 import voiceRatelimitErrorMock from '../../../playground/mocks/data/idp/idx/error-authenticator-phone-voice-ratelimit';
+import interact from '../../../playground/mocks/data/oauth2/interact';
 
 const phoneVerificationSMSThenVoiceEmptyProfile = JSON.parse(JSON.stringify(phoneVerificationSMSThenVoiceNoProfile));
 // add empty profile to test
@@ -110,6 +111,8 @@ const ratelimitReachedMock = RequestMock()
   .respond(voiceRatelimitErrorMock, 429);
 
 const voiceSecondaryMock = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(interact)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(phoneVerificationSMSThenVoice)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')

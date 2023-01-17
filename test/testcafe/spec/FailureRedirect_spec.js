@@ -3,8 +3,11 @@ import { renderWidget } from '../framework/shared';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import PlaygroundErrorPageObject from '../framework/page-objects/PlaygroundErrorPageObject';
 import xhrErrorWithFailureRedirect from '../../../playground/mocks/data/idp/idx/error-with-failure-redirect';
+import interact from '../../../playground/mocks/data/oauth2/interact';
 
 const userNotAssignedMock = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(interact)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrErrorWithFailureRedirect);
 

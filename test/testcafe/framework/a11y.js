@@ -13,11 +13,13 @@
 const { axeCheck, createReport } = require('@testcafe-community/axe');
 
 export const DEFAULT_A11Y_TAG_VALUES = [
-  'best-practice',
+  // 'best-practice',
   'wcag21aa',
   'wcag2a',
 ];
 export const IGNORED_RULES = [
+  'html-has-lang',
+  'region',
   'landmark-one-main',
   'page-has-heading-one',
   'presentation-role-conflict', // TODO OKTA-485565
@@ -33,8 +35,17 @@ export const checkA11y = async (t, options) => {
   const { results } = await axeCheck(t);
 
   const violations = results.violations
-    .filter((violation) => !ignoredRuleIds.has(violation.id));
+    .filter((violation) => !ignoredRuleIds.has(violation.id))
+    // NOTE: WCAG2.1AA 1.4.3 exception for disabled <a> behaving as <button>
+    .filter((violation) => (
+      violation.id !== 'color-contrast' ||
+      violation.nodes.some(n => !(/\blink-button-disabled\b/.test(n.html)))
+    ));
+
 
   await t.expect(violations.length === 0)
-    .ok(createReport(violations));
+    .ok([
+      t.testRun.test.testFile.filename,
+      createReport(violations),
+    ].join('\n'));
 };

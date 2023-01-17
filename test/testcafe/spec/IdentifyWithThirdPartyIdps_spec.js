@@ -8,6 +8,7 @@ import identifyWithIdpsNoIdentify from '../../../playground/mocks/data/idp/idx/i
 import identifyOnlyOneIdp from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp';
 import identifyOnlyOneIdpAppUser from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp-app-user';
 import errorIdentifyOnlyOneIdp from '../../../playground/mocks/data/idp/idx/error-identify-with-only-one-third-party-idp';
+import interact from '../../../playground/mocks/data/oauth2/interact';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -25,6 +26,8 @@ const mockWithoutIdentify = RequestMock()
   .respond(identifyWithIdpsNoIdentify);
 
 const mockOnlyOneIdp = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(interact)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyOnlyOneIdp)
   .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
@@ -37,6 +40,8 @@ const mockOnlyOneIdpAppUser = RequestMock()
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 const mockIdpDiscoveryWithOneIdp = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(interact)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyWithName)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
@@ -145,6 +150,37 @@ test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP
 
 });
 
+// FIXME TESTCAFE_MOCKS
+/*
+   1) AssertionError: expected { Object (controller, formName) } to deeply equal { Object (controller, formName) }
+
+      + expected - actual
+
+       {
+         controller: null
+      -  formName: 'terminal'
+      +  formName: 'redirect-idp'
+       }
+
+
+      Browser: Firefox 108.0 / macOS 10.15
+
+         30 |      if (context[i].status === 'SUCCESS') {
+         31 |        await t.expect(parsedLog.status).eql('SUCCESS');
+         32 |        await t.expect(parsedLog.tokens.accessToken.accessToken).eql(context[i].accessToken);
+         33 |        await t.expect(parsedLog.tokens.idToken.idToken).eql(context[i].idToken);
+         34 |      } else {
+       > 35 |        await t.expect(parsedLog).eql(context[i]);
+         36 |      }
+         37 |    }
+         38 |    }
+         39 |  }
+         40 |}
+
+         at <anonymous> (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:35:35)
+         at asyncGeneratorStep (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:1:46)
+         at _next (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:1:46)
+ */
 test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect to 3rd party IDP on initial load', async t => {
   const identityPage = await setupDirectAuth(t);
 
@@ -197,6 +233,38 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto r
   await t.expect(logger.contains(record => record.response.statusCode === 200)).ok();
 });
 
+// FIXME TESTCAFE_MOCK
+/*
+   1) AssertionError: expected { Object (controller, formName) } to deeply equal { Object (controller, formName) }
+
+      + expected - actual
+
+       {
+      -  controller: null
+      -  formName: 'terminal'
+      +  controller: 'primary-auth'
+      +  formName: 'identify'
+       }
+
+
+      Browser: Firefox 108.0 / macOS 10.15
+
+         30 |      if (context[i].status === 'SUCCESS') {
+         31 |        await t.expect(parsedLog.status).eql('SUCCESS');
+         32 |        await t.expect(parsedLog.tokens.accessToken.accessToken).eql(context[i].accessToken);
+         33 |        await t.expect(parsedLog.tokens.idToken.idToken).eql(context[i].idToken);
+         34 |      } else {
+       > 35 |        await t.expect(parsedLog).eql(context[i]);
+         36 |      }
+         37 |    }
+         38 |    }
+         39 |  }
+         40 |}
+
+         at <anonymous> (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:35:35)
+         at asyncGeneratorStep (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:1:46)
+         at _next (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:1:46)
+ */
 test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setupDirectAuth(t);
 
