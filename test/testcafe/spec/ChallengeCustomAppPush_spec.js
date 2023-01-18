@@ -133,10 +133,12 @@ test
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const checkboxLabel = challengeCustomAppPushPageObject.getAutoChallengeCheckboxLabel();
     const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
+    const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
     await t.expect(logoClass).contains('custom-app-logo');
+    await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
     await t.expect(pageTitle).contains('Verify with Custom Push Authenticator');
     await t.expect(checkboxLabel.hasClass('checked')).ok();
     await t.expect(checkboxLabel.textContent).eql('Send push automatically');
@@ -166,10 +168,12 @@ test
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
+    const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
     await t.expect(logoClass).contains('custom-app-logo');
+    await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
     await t.expect(pageTitle).contains('Verify with Custom Push');
 
     // Verify links
@@ -196,10 +200,12 @@ test
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
+    const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
     await t.expect(logoClass).contains('custom-app-logo');
+    await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
     await t.expect(logoClass).notContains('mfa-custom-app');
     await t.expect(pageTitle).contains('Verify with Custom Push');
     await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).notOk();

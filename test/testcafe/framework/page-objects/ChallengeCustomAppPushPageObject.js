@@ -72,4 +72,8 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
     return this.beacon.find(FACTOR_BEACON).getAttribute('class');
   }
 
+  getBeaconBgImage() {
+    return this.beacon.find(FACTOR_BEACON).getStyleProperty('background-image');
+  }
+
 }
