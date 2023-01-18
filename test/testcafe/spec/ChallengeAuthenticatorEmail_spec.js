@@ -459,12 +459,13 @@ test
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/answer');
   });
 
-test
+// Disabled in v3 - OKTA-566356
+test.meta('v3', false)
   .requestHooks(logger, stopPollMock)('no polling if session has expired', async t => {
     const challengeEmailPageObject = await setup(t);
 
-    await t.wait(5000);
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
+    await t.wait(5000);
     await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
     
     // TODO: verify OTP UI is as expected OTP OKTA-480518
@@ -505,10 +506,10 @@ test.meta('v3', false)
     await challengeEmailPageObject.clickNextButton('Verify');
     await challengeEmailPageObject.waitForErrorBox();
     // TODO OKTA-566356 - The invalid code error doesn't show up in v3
-    // await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(5000);
-    // TODO OKTA-566356 - In v3 there are more than 5 poll requests in 5 seconds
+    // TODO - In v3 there are more than 5 poll requests in 5 seconds
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)

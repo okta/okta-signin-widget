@@ -10,7 +10,7 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
 
   resendEmailViewText() {
     if (userVariables.v3) {
-      return this.form.getAlertBoxText();
+      return this.form.getErrorBoxText();
     }
     return this.form.getElement(RESEND_EMAIL_VIEW_SELECTOR).innerText;
   }
