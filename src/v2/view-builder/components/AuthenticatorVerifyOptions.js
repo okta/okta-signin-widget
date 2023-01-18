@@ -12,15 +12,13 @@
 import { ListView, View, createButton, loc } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 
-// https://oktainc.atlassian.net/browse/OKTA-554392
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
   template: hbs`
     <div class="authenticator-icon-container">
       {{#if logoUri}}
         <div class="factor-icon authenticator-icon {{iconClassName}} custom-logo" role="img" 
-          aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"
-          style="background-image: url('{{logoUri}}')"></div>
+          aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"></div>
       {{else}}
         <div class="factor-icon authenticator-icon {{iconClassName}}" role="img" 
           aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"></div>
@@ -36,6 +34,13 @@ const AuthenticatorRow = View.extend({
       <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>
     </div>
   `,
+  postRender: function() {
+    View.prototype.postRender.apply(this, arguments);
+    const logoUri = this.model.get('logoUri');
+    if (logoUri) {
+      this.el.querySelector('.custom-logo').style.backgroundImage = `url(${logoUri})`;
+    }
+  },
   children: function(){
     return [[createButton({
       className: 'button select-factor',
