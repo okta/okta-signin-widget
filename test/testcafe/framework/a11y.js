@@ -13,7 +13,6 @@
 const { axeCheck, createReport } = require('@testcafe-community/axe');
 
 export const DEFAULT_A11Y_TAG_VALUES = [
-  // 'best-practice',
   'wcag21aa',
   'wcag2a',
 ];
