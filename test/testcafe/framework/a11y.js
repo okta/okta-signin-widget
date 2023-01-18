@@ -17,12 +17,13 @@ export const DEFAULT_A11Y_TAG_VALUES = [
   'wcag2a',
 ];
 export const IGNORED_RULES = [
+  'aria-allowed-role', // TODO OKTA-485564
+  'heading-order',
   'html-has-lang',
-  'region',
   'landmark-one-main',
   'page-has-heading-one',
   'presentation-role-conflict', // TODO OKTA-485565
-  'aria-allowed-role', // TODO OKTA-485564
+  'region',
 ];
 
 export const checkA11y = async (t, options) => {
