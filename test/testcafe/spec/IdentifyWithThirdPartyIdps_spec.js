@@ -145,37 +145,6 @@ test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP
 
 });
 
-// FIXME TESTCAFE_MOCKS
-/*
-   1) AssertionError: expected { Object (controller, formName) } to deeply equal { Object (controller, formName) }
-
-      + expected - actual
-
-       {
-         controller: null
-      -  formName: 'terminal'
-      +  formName: 'redirect-idp'
-       }
-
-
-      Browser: Firefox 108.0 / macOS 10.15
-
-         30 |      if (context[i].status === 'SUCCESS') {
-         31 |        await t.expect(parsedLog.status).eql('SUCCESS');
-         32 |        await t.expect(parsedLog.tokens.accessToken.accessToken).eql(context[i].accessToken);
-         33 |        await t.expect(parsedLog.tokens.idToken.idToken).eql(context[i].idToken);
-         34 |      } else {
-       > 35 |        await t.expect(parsedLog).eql(context[i]);
-         36 |      }
-         37 |    }
-         38 |    }
-         39 |  }
-         40 |}
-
-         at <anonymous> (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:35:35)
-         at asyncGeneratorStep (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:1:46)
-         at _next (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:1:46)
- */
 test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect to 3rd party IDP on initial load', async t => {
   const identityPage = await setupDirectAuth(t);
 
@@ -226,38 +195,6 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto r
   await t.expect(logger.contains(record => record.response.statusCode === 200)).ok();
 });
 
-// FIXME TESTCAFE_MOCK
-/*
-   1) AssertionError: expected { Object (controller, formName) } to deeply equal { Object (controller, formName) }
-
-      + expected - actual
-
-       {
-      -  controller: null
-      -  formName: 'terminal'
-      +  controller: 'primary-auth'
-      +  formName: 'identify'
-       }
-
-
-      Browser: Firefox 108.0 / macOS 10.15
-
-         30 |      if (context[i].status === 'SUCCESS') {
-         31 |        await t.expect(parsedLog.status).eql('SUCCESS');
-         32 |        await t.expect(parsedLog.tokens.accessToken.accessToken).eql(context[i].accessToken);
-         33 |        await t.expect(parsedLog.tokens.idToken.idToken).eql(context[i].idToken);
-         34 |      } else {
-       > 35 |        await t.expect(parsedLog).eql(context[i]);
-         36 |      }
-         37 |    }
-         38 |    }
-         39 |  }
-         40 |}
-
-         at <anonymous> (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:35:35)
-         at asyncGeneratorStep (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:1:46)
-         at _next (/Users/lesterchoi/okta/okta-signin-widget/test/testcafe/framework/shared/index.js:1:46)
- */
 test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setupDirectAuth(t);
 
