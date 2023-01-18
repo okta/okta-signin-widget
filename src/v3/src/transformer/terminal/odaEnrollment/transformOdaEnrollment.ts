@@ -34,87 +34,25 @@ export const transformOdaEnrollment: IdxStepTransformer = ({ formBag, transactio
   // @ts-expect-error deviceEnrollment does not exist on IdxTransaction.context
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
 
-  if (deviceEnrollment?.name === 'oda') {
-    const { signInUrl, platform: rawPlatform = '' } = deviceEnrollment;
-    const platform: string = rawPlatform.toLowerCase();
-    const isIOS = platform === 'ios';
-    const isAndroid = platform === 'android';
-    const challengeMethod = deviceEnrollment?.challengeMethod;
+  const { signInUrl, platform: rawPlatform = '' } = deviceEnrollment;
+  const platform: string = rawPlatform.toLowerCase();
+  const isIOS = platform === 'ios';
+  const isAndroid = platform === 'android';
+  const challengeMethod = deviceEnrollment?.challengeMethod;
 
-    formBag.uischema.elements.push({
-      type: 'Title',
-      options: { content: loc('enroll.title.oda', 'login')},
-    } as TitleElement);
-      
-    formBag.uischema.elements.push({
-      type: 'Description',
-      options: { content: loc('enroll.explanation.p1', 'login') },
-    } as DescriptionElement);
+  formBag.uischema.elements.push({
+    type: 'Title',
+    options: { content: loc('enroll.title.oda', 'login')},
+  } as TitleElement);
 
-    const listItems: (string | UISchemaLayout)[] = [];
+  formBag.uischema.elements.push({
+    type: 'Description',
+    options: { content: loc('enroll.explanation.p1', 'login') },
+  } as DescriptionElement);
 
-    if (isIOS) {
-      listItems.push({
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          {
-            type: 'Description',
-            noMargin: true,
-            options: {
-              content: loc('enroll.mdm.step.copyLink', 'login'),
-            },
-          } as DescriptionElement,
-          {
-            type: 'Button',
-            label: loc('enroll.mdm.copyLink'),
-            options: {
-              step: '',
-              type: ButtonType.BUTTON,
-              variant: 'secondary',
-              onClick: () => copyToClipboard('https://apps.apple.com/us/app/okta-verify/id490179405'),
-            }
-          } as ButtonElement,
-        ]
-      } as UISchemaLayout,
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          {
-            type: 'Description',
-            noMargin: true,
-            options: {
-              content: loc('enroll.mdm.step.pasteLink', 'login'),
-            },
-          } as DescriptionElement,
-        ]
-      } as UISchemaLayout,
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          {
-            type: 'Description',
-            noMargin: true,
-            options: {
-              content: loc('enroll.oda.step3', 'login'),
-            },
-          } as DescriptionElement,
-        ]
-      } as UISchemaLayout);
-    } else if (isAndroid && challengeMethod === CHALLENGE_METHOD.LOOPBACK) {
-      listItems.push({
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          {
-            type: 'Description',
-            noMargin: true,
-            options: {
-              content: loc('enroll.oda.android.step1', 'login'),
-            },
-          } as DescriptionElement,
-        ],
-      });
-    }
+  const listItems: (string | UISchemaLayout)[] = [];
 
+  if (isIOS) {
     listItems.push({
       type: UISchemaLayoutType.VERTICAL,
       elements: [
@@ -122,36 +60,17 @@ export const transformOdaEnrollment: IdxStepTransformer = ({ formBag, transactio
           type: 'Description',
           noMargin: true,
           options: {
-            content: loc('enroll.oda.step1', 'login'),
-          },
-        } as DescriptionElement,
-      ]
-    } as UISchemaLayout,
-    {
-      type: UISchemaLayoutType.VERTICAL,
-      elements: [
-        {
-          type: 'Description',
-          noMargin: true,
-          options: {
-            content: loc('enroll.oda.step2', 'login'),
-          },
-        } as DescriptionElement,
-        {
-          type: 'Description',
-          noMargin: true,
-          options: {
-            content: signInUrl,
+            content: loc('enroll.mdm.step.copyLink', 'login'),
           },
         } as DescriptionElement,
         {
           type: 'Button',
-          label: loc('enroll.oda.org.copyLink', 'login'),
+          label: loc('enroll.mdm.copyLink'),
           options: {
             step: '',
             type: ButtonType.BUTTON,
             variant: 'secondary',
-            onClick: () => copyToClipboard(deviceEnrollment?.signInUrl),
+            onClick: () => copyToClipboard('https://apps.apple.com/us/app/okta-verify/id490179405'),
           }
         } as ButtonElement,
       ]
@@ -163,21 +82,100 @@ export const transformOdaEnrollment: IdxStepTransformer = ({ formBag, transactio
           type: 'Description',
           noMargin: true,
           options: {
-            content: loc('enroll.oda.step6', 'login'),
+            content: loc('enroll.mdm.step.pasteLink', 'login'),
+          },
+        } as DescriptionElement,
+      ]
+    } as UISchemaLayout,
+    {
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [
+        {
+          type: 'Description',
+          noMargin: true,
+          options: {
+            content: loc('enroll.oda.step3', 'login'),
           },
         } as DescriptionElement,
       ]
     } as UISchemaLayout);
-
-    formBag.uischema.elements.push({
-      type: 'List',
-      noMargin: true,
-      options: {
-        type: 'ordered',
-        items: listItems,
-      },
-    } as ListElement);
+  } else if (isAndroid && challengeMethod === CHALLENGE_METHOD.LOOPBACK) {
+    listItems.push({
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [
+        {
+          type: 'Description',
+          noMargin: true,
+          options: {
+            content: loc('enroll.oda.android.step1', 'login'),
+          },
+        } as DescriptionElement,
+      ],
+    });
   }
+
+  listItems.push({
+    type: UISchemaLayoutType.VERTICAL,
+    elements: [
+      {
+        type: 'Description',
+        noMargin: true,
+        options: {
+          content: loc('enroll.oda.step1', 'login'),
+        },
+      } as DescriptionElement,
+    ]
+  } as UISchemaLayout,
+  {
+    type: UISchemaLayoutType.VERTICAL,
+    elements: [
+      {
+        type: 'Description',
+        noMargin: true,
+        options: {
+          content: loc('enroll.oda.step2', 'login'),
+        },
+      } as DescriptionElement,
+      {
+        type: 'Description',
+        noMargin: true,
+        options: {
+          content: signInUrl,
+        },
+      } as DescriptionElement,
+      {
+        type: 'Button',
+        label: loc('enroll.oda.org.copyLink', 'login'),
+        options: {
+          step: '',
+          type: ButtonType.BUTTON,
+          variant: 'secondary',
+          onClick: () => copyToClipboard(deviceEnrollment?.signInUrl),
+        }
+      } as ButtonElement,
+    ]
+  } as UISchemaLayout,
+  {
+    type: UISchemaLayoutType.VERTICAL,
+    elements: [
+      {
+        type: 'Description',
+        noMargin: true,
+        options: {
+          content: loc('enroll.oda.step6', 'login'),
+        },
+      } as DescriptionElement,
+    ]
+  } as UISchemaLayout);
+
+  formBag.uischema.elements.push({
+    type: 'List',
+    noMargin: true,
+    options: {
+      type: 'ordered',
+      items: listItems,
+    },
+  } as ListElement);
 
   return formBag;
 };
