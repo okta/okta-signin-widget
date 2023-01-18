@@ -258,6 +258,7 @@ export const transformTerminalTransaction = (
 
   const formBag: FormBag = createForm();
 
+  // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
   if (typeof deviceEnrollment !== 'undefined') {
     return transformOdaEnrollment({ transaction, formBag, widgetProps });

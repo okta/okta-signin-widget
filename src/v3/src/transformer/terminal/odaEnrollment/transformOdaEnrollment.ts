@@ -23,6 +23,13 @@ import {
 } from '../../../types';
 import { loc } from '../../../util';
 
+const copyToClipboard = (text: string) => {
+  if (typeof navigator.clipboard !== 'undefined') {
+    navigator.clipboard.writeText(text);
+  }
+  document.execCommand('copy', false, text);
+};
+
 export const transformOdaEnrollment: IdxStepTransformer = ({ formBag, transaction }) => {
   // @ts-expect-error deviceEnrollment does not exist on IdxTransaction.context
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
@@ -63,8 +70,8 @@ export const transformOdaEnrollment: IdxStepTransformer = ({ formBag, transactio
             options: {
               step: '',
               type: ButtonType.BUTTON,
-              onClick: () => {},
               variant: 'secondary',
+              onClick: () => copyToClipboard('https://apps.apple.com/us/app/okta-verify/id490179405'),
             }
           } as ButtonElement,
         ]
@@ -141,7 +148,10 @@ export const transformOdaEnrollment: IdxStepTransformer = ({ formBag, transactio
           type: 'Button',
           label: loc('enroll.oda.org.copyLink', 'login'),
           options: {
+            step: '',
+            type: ButtonType.BUTTON,
             variant: 'secondary',
+            onClick: () => copyToClipboard(deviceEnrollment?.signInUrl),
           }
         } as ButtonElement,
       ]
