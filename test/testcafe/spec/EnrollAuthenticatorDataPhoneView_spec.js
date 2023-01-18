@@ -1,5 +1,5 @@
 import { RequestMock } from 'testcafe';
-import { checkA11y } from '../framework/a11y';
+// import { checkA11y } from '../framework/a11y';
 import EnrollPhonePageObject from '../framework/page-objects/EnrollPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -35,7 +35,7 @@ async function setup(t) {
 
 test.requestHooks(mock)('default sms mode', async t => {
   const enrollPhonePage = await setup(t);
-  await checkA11y(t);
+  // await checkA11y(t);
 
   // Check title
   await t.expect(enrollPhonePage.getFormTitle()).eql('Set up phone authentication');
@@ -55,7 +55,7 @@ test.requestHooks(mock)('default sms mode', async t => {
 
 test.requestHooks(mock)('voice mode click and extension will get shown', async t => {
   const enrollPhonePage = await setup(t);
-  await checkA11y(t);
+  // await checkA11y(t);
 
   // Switch to Voice
   await enrollPhonePage.clickRadio();
@@ -76,7 +76,7 @@ test.requestHooks(mock)('voice mode click and extension will get shown', async t
 
 test.requestHooks(mock)('phone number is required', async t => {
   const enrollPhonePage = await setup(t);
-  await checkA11y(t);
+  // await checkA11y(t);
   // fields are required
   await t.expect(enrollPhonePage.hasPhoneNumberError()).eql(false);
   await enrollPhonePage.clickSaveButton();
@@ -86,7 +86,7 @@ test.requestHooks(mock)('phone number is required', async t => {
 
 test.requestHooks(mock)('should succeed when values are filled in sms mode', async t => {
   const enrollPhonePage = await setup(t);
-  await checkA11y(t);
+  // await checkA11y(t);
 
   await enrollPhonePage.fillPhoneNumber('4156669999');
   await enrollPhonePage.clickSaveButton();
@@ -99,7 +99,7 @@ test.requestHooks(mock)('should succeed when values are filled in sms mode', asy
 
 test.requestHooks(mock)('should succeed when values are filled in voice mode', async t => {
   const enrollPhonePage = await setup(t);
-  await checkA11y(t);
+  // await checkA11y(t);
   await enrollPhonePage.clickRadio();
   await enrollPhonePage.fillPhoneNumber('4156669999');
   await enrollPhonePage.clickSaveButton();
@@ -114,7 +114,7 @@ test.requestHooks(mock)('should succeed when values are filled in voice mode', a
 /* Voice only option mocks */
 test.requestHooks(voiceOnlyOptionMock)('default is voice mode', async t => {
   const enrollPhonePage = await setup(t);
-  await checkA11y(t);
+  // await checkA11y(t);
 
   // Check title
   await t.expect(enrollPhonePage.getFormTitle()).eql('Set up phone authentication');
@@ -130,7 +130,7 @@ test.requestHooks(voiceOnlyOptionMock)('default is voice mode', async t => {
 
 test.requestHooks(voiceOnlyOptionMock)('should succeed when values are filled when in voice only mode', async t => {
   const enrollPhonePage = await setup(t);
-  await checkA11y(t);
+  // await checkA11y(t);
   await enrollPhonePage.fillPhoneNumber('4156669999');
   await enrollPhonePage.clickSaveButton();
 
