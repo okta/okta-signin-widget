@@ -15,15 +15,13 @@ import skipAll from './SkipOptionalEnrollmentButton';
 import hbs from '@okta/handlebars-inline-precompile';
 import { AUTHENTICATOR_ALLOWED_FOR_OPTIONS } from '../utils/Constants';
 
-// https://oktainc.atlassian.net/browse/OKTA-554030
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
   template: hbs`
     <div class="authenticator-icon-container">
       {{#if logoUri}}
         <div class="factor-icon authenticator-icon custom-app-logo" role="img"
-          aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"
-          style="background-image: url('{{logoUri}}')"></div>
+          aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"></div>
       {{else}}
         <div class="factor-icon authenticator-icon {{iconClassName}}" role="img" 
           aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"></div>
@@ -40,6 +38,12 @@ const AuthenticatorRow = View.extend({
       <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>
     </div>
   `,
+  postRender: function() {
+    View.prototype.postRender.apply(this, arguments);
+    if (this.model.get('logoUri')) {
+      this.el.querySelector('.custom-app-logo').style.backgroundImage = `url(${this.model.get('logoUri')})`;
+    }
+  },
   children: function() {
     return [[createButton({
       className: 'button select-factor',
