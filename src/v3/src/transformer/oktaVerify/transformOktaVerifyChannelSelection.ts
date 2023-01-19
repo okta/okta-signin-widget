@@ -84,6 +84,7 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
       options: {
         content: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
         contentClassname: 'switch-channel-link',
+        submitOnClick: true,
         step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
       },
     };

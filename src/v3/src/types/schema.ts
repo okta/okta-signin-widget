@@ -301,6 +301,7 @@ export interface TextWithHtmlElement extends UISchemaElement {
   options: ActionOptions & {
     content: string;
     contentClassname: string;
+    submitOnClick: boolean;
     stepToRender?: string;
   };
 }

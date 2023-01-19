@@ -31,26 +31,29 @@ const TextWithHtml: UISchemaElementComponent<{
     actionParams,
     step,
     stepToRender,
+    submitOnClick,
     contentClassname,
     isActionStep,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
 
   const handleClick = async (e: Event) => {
-    e.preventDefault();
+    if (submitOnClick) {
+      e.preventDefault();
 
-    if (loading) {
-      return;
-    }
+      if (loading) {
+        return;
+      }
 
-    // only submit when className matches
-    if ((e.target as HTMLElement).className.includes(contentClassname)) {
-      onSubmitHandler({
-        step,
-        stepToRender,
-        params: actionParams,
-        isActionStep,
-      });
+      // only submit when className matches
+      if ((e.target as HTMLElement).className.includes(contentClassname)) {
+        onSubmitHandler({
+          step,
+          stepToRender,
+          params: actionParams,
+          isActionStep,
+        });
+      }
     }
   };
 
