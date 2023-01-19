@@ -436,7 +436,7 @@ export interface StepperButtonElement {
   label: string;
   options: Omit<ButtonElement['options'], 'step'>
   & {
-    nextStepIndex: number;
+    nextStepIndex: number | ((widgetContext: IWidgetContext) => number);
   }
 }
 
