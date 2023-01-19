@@ -26,11 +26,8 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.getTextContent('[data-se="o-form-fieldset-container"]');
   }
 
-  getAppLinkContent() {
-    if(userVariables.v3) {
-      return this.form.getByText('If Okta Verify did not open automatically, tap Open Okta Verify.').innerText;
-    }
-    return this.getTextContent('.appLinkContent');
+  hasAppLinkContent() {
+    return this.form.getByText('If Okta Verify did not open automatically, tap Open Okta Verify.').exists;
   }
 
   getFooterLink() {

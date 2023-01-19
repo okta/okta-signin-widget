@@ -15,6 +15,7 @@ import { useEffect } from 'preact/hooks';
 import { useStepperContext } from '../../contexts';
 import { StepperNavigatorElement, UISchemaElementComponent } from '../../types';
 
+// This component is used to execute a custom callback within a Stepper layout context
 const StepperNavigator: UISchemaElementComponent<{
   uischema: StepperNavigatorElement
 }> = ({ uischema }) => {

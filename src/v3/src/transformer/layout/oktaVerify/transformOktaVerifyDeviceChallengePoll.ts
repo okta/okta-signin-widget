@@ -27,19 +27,21 @@ import {
 } from '../../../types';
 import { loc } from '../../../util';
 
-const getTitleText = (challengeMethod = CHALLENGE_METHOD.CUSTOM_URI) => {
+const getTitleText = (challengeMethod: string) => {
   if (challengeMethod === CHALLENGE_METHOD.APP_LINK) {
     return loc('appLink.title', 'login');
-  } if (challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
+  }
+  if (challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
     return loc('universalLink.title', 'login');
   }
   return loc('customUri.title', 'login');
 };
 
-const getDescriptionText = (challengeMethod = CHALLENGE_METHOD.CUSTOM_URI) => {
+const getDescriptionText = (challengeMethod: string) => {
   if (challengeMethod === CHALLENGE_METHOD.APP_LINK) {
     return loc('appLink.content', 'login');
-  } if (challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
+  }
+  if (challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
     return loc('universalLink.content', 'login');
   }
   return loc('customUri.required.content.prompt', 'login');

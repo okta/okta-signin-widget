@@ -67,14 +67,19 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
       onClick: () => {
         const isAppLinkMethod = challengeMethod === CHALLENGE_METHOD.APP_LINK;
         const isUniversalLinkMethod = challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK;
+        const isCustomUriMethod = challengeMethod === CHALLENGE_METHOD.CUSTOM_URI;
         if ((isAppLinkMethod || isUniversalLinkMethod) && href) {
-          if (isAndroid() && !isAppLinkMethod) {
+          if (isAndroid() && isUniversalLinkMethod) {
             Util.redirectWithFormGet(href);
           } else {
             window.location.assign(href);
           }
         }
-        setKey(key + 1);
+        
+        // on button click in CUSTOM_URI method, this forces iframe to re-render and trigger the URL to load again
+        if (isCustomUriMethod) {
+          setKey(key + 1);
+        } 
       },
     },
   };

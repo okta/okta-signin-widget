@@ -511,7 +511,6 @@ test
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
-  .meta('v3', true)
   .requestHooks(loopbackFallbackLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -541,8 +540,7 @@ test
 
     await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
 
-    await t.expect(deviceChallengePollPageObject.getAppLinkContent())
-      .contains('If Okta Verify did not open automatically, tap Open Okta Verify.');
+    await t.expect(deviceChallengePollPageObject.hasAppLinkContent()).eql(true);
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
     if(!userVariables.v3) {
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
@@ -567,7 +565,6 @@ test
   });
 
 test
-  .meta('v3', true)
   .requestHooks(loopbackFallbackLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -590,7 +587,6 @@ test
   });
 
 test
-  .meta('v3', true)
   .requestHooks(loopbackFallbackLogger, universalLinkMock)('clicking the launch Okta Verify button opens the universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -662,7 +658,6 @@ test
   });
 
 test
-  .meta('v3', true)
   .requestHooks(LoginHintUniversalLinkMock)('expect login_hint not in UniversalLink engFastpassMultipleAccounts off', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -708,7 +703,6 @@ test
   });
 
 test
-  .meta('v3', true)
   .requestHooks(LoginHintAppLinkMock)('expect login_hint not in AppLink when engFastpassMultipleAccounts is off', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
