@@ -571,15 +571,15 @@ test
 test
   .requestHooks(customURILogger, customURIMock)('in custom URI approach, Okta Verify iframe should be single and hidden', async t => {
     const deviceChallengePollPageObject = await setup(t);
-    await t.wait(100); // opening the page in iframe takes just a moment
     let iframe = await deviceChallengePollPageObject.getIframe();
+    await t.expect(iframe.exists).ok({ timeout: 100 });
     let attributes = await deviceChallengePollPageObject.getIframeAttributes();
     await t.expect(attributes.src).contains('okta-verify.html');
     await t.expect(iframe.visible).eql(false);
 
     await deviceChallengePollPageObject.clickLaunchOktaVerifyLink();
-    await t.wait(100); // opening the page in iframe takes just a moment
     iframe = await deviceChallengePollPageObject.getIframe();
+    await t.expect(iframe.exists).ok({ timeout: 100 });
     attributes = await deviceChallengePollPageObject.getIframeAttributes();
     await t.expect(attributes.src).contains('okta-verify.html');
     await t.expect(iframe.visible).eql(false);
