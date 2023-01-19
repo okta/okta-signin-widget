@@ -14,7 +14,6 @@ import { Input } from '@okta/okta-auth-js';
 
 import { FieldElement, Renderer } from '../../types';
 import AuthenticatorButtonList from '../AuthenticatorButton';
-import StepperNavigator from '../StepperNavigator';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
@@ -42,6 +41,7 @@ import ReminderPrompt from '../ReminderPrompt';
 import Select from '../Select';
 import Spinner from '../Spinner';
 import StepperButton from '../StepperButton';
+import StepperNavigator from '../StepperNavigator';
 import StepperRadio from '../StepperRadio';
 import SuccessCallback from '../SuccessCallback';
 import TextWithHtml from '../TextWithHtml';

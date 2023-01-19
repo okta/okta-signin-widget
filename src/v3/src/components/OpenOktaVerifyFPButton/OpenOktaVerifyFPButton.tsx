@@ -75,11 +75,11 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
             window.location.assign(href);
           }
         }
-        
+
         // on button click in CUSTOM_URI method, this forces iframe to re-render and trigger the URL to load again
         if (isCustomUriMethod) {
           setKey(key + 1);
-        } 
+        }
       },
     },
   };
