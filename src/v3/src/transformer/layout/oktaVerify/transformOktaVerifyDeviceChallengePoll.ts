@@ -140,7 +140,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
             descriptionElement,
             openOktaVerifyButton,
             cancelLink,
-          ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
+          ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
         } as UISchemaLayout],
     });
 
