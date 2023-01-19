@@ -21,14 +21,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
-import { loc } from '../../../util';
-
-const copyToClipboard = (text: string) => {
-  if (typeof navigator.clipboard !== 'undefined') {
-    navigator.clipboard.writeText(text);
-  }
-  document.execCommand('copy', false, text);
-};
+import { copyToClipboard, loc } from '../../../util';
 
 export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, transaction, widgetProps }) => {
   // @ts-expect-error deviceEnrollment does not exist on IdxTransaction.context
