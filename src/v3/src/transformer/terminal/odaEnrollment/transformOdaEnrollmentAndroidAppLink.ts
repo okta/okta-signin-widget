@@ -43,6 +43,10 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({ formB
             options: { content: loc('enroll.title.oda.with.account', 'login')},
           } as TitleElement,
           {
+            type: 'Description',
+            options: { content: loc('enroll.subtitle.fastpass', 'login', [deviceEnrollment.orgName]) },
+          } as DescriptionElement,
+          {
             type: 'StepperRadio',
             options: {
               name: 'hasOVAccount',
