@@ -11,10 +11,11 @@
  */
 
 import { NextStep } from '@okta/okta-auth-js';
+import { IStepperContext } from '../../../contexts';
 
 import { CHALLENGE_METHOD, IDX_STEP } from '../../../constants';
 import {
-  AutoStepperElement,
+  StepperNavigatorElement,
   DescriptionElement,
   IdxStepTransformer,
   LinkElement,
@@ -109,11 +110,13 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   // we delay displaying the content because of a cold start issue with Okta Verify
   if (challengeMethod === CHALLENGE_METHOD.APP_LINK
       && prevTransaction?.nextStep?.name === IDX_STEP.IDENTIFY) {
-    const autoStepperElement: AutoStepperElement = {
-      type: 'AutoStepper',
+    const stepperNavigatorElement: StepperNavigatorElement = {
+      type: 'StepperNavigator',
       options: {
-        nextStepIndex: 1,
-        time: FASTPASS_FALLBACK_SPINNER_TIMEOUT,
+        callback: (stepperContext: IStepperContext) => {
+          const { setStepIndex } = stepperContext;
+          setTimeout(() => setStepIndex!(1), FASTPASS_FALLBACK_SPINNER_TIMEOUT);
+        },
       },
     };
 
@@ -123,7 +126,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
         {
           type: UISchemaLayoutType.VERTICAL,
           elements: [
-            autoStepperElement,
+            stepperNavigatorElement,
             spinnerElement,
             cancelLink,
           ],

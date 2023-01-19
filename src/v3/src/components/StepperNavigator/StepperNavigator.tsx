@@ -13,25 +13,24 @@
 import { useEffect } from 'preact/hooks';
 
 import { useStepperContext } from '../../contexts';
-import { AutoStepperElement, UISchemaElementComponent } from '../../types';
+import { StepperNavigatorElement, UISchemaElementComponent } from '../../types';
 
-const AutoStepper: UISchemaElementComponent<{
-  uischema: AutoStepperElement
+const StepperNavigator: UISchemaElementComponent<{
+  uischema: StepperNavigatorElement
 }> = ({ uischema }) => {
-  const { setStepIndex } = useStepperContext();
+  const stepperContext = useStepperContext();
   const {
     options: {
-      nextStepIndex,
-      time,
+      callback,
     },
   } = uischema;
 
   useEffect(() => {
-    setTimeout(() => setStepIndex!(nextStepIndex), time);
+    callback(stepperContext);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
 };
 
-export default AutoStepper;
+export default StepperNavigator;

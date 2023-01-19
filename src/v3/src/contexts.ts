@@ -36,7 +36,7 @@ const [useWidgetContext, WidgetContextProvider] = createWidgetContext<IWidgetCon
 export { useWidgetContext, WidgetContextProvider };
 
 // Stepper context
-type IStepperContext = {
+export type IStepperContext = {
   stepIndex: number;
   setStepIndex: StateUpdater<number | undefined>;
 };

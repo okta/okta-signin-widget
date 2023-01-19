@@ -10,6 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import AutoStepper from './AutoStepper';
+import StepperNavigator from './StepperNavigator';
 
-export default AutoStepper;
+export default StepperNavigator;

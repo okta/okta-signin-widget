@@ -19,6 +19,7 @@ import {
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { FunctionComponent } from 'preact';
+import { IStepperContext } from '../contexts';
 
 import { IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
@@ -440,13 +441,12 @@ export interface StepperButtonElement {
   }
 }
 
-export interface AutoStepperElement {
-  type: 'AutoStepper',
+export interface StepperNavigatorElement {
+  type: 'StepperNavigator',
   options: {
-    nextStepIndex: number;
-    time: number; // time before changing index in milliseconds
+     callback: (stepperContext: IStepperContext) => void;
   }
-}
+} 
 
 export interface StepperRadioElement {
   type: 'StepperRadio',
