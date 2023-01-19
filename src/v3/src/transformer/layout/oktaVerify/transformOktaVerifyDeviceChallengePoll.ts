@@ -11,17 +11,18 @@
  */
 
 import { NextStep } from '@okta/okta-auth-js';
-import { IStepperContext } from '../../../contexts';
 
 import { CHALLENGE_METHOD, IDX_STEP } from '../../../constants';
+import { IStepperContext } from '../../../contexts';
 import {
-  StepperNavigatorElement,
   DescriptionElement,
   IdxStepTransformer,
   LinkElement,
   OpenOktaVerifyFPButtonElement,
   SpinnerElement,
+  StepperNavigatorElement,
   TitleElement,
+  UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
@@ -131,7 +132,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
             stepperNavigatorElement,
             spinnerElement,
             cancelLink,
-          ],
+          ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
         } as UISchemaLayout,
         {
           type: UISchemaLayoutType.VERTICAL,
@@ -139,7 +140,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
             descriptionElement,
             openOktaVerifyButton,
             cancelLink,
-          ],
+          ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
         } as UISchemaLayout],
     });
 
