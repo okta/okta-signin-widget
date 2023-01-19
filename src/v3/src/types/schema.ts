@@ -19,9 +19,8 @@ import {
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { FunctionComponent } from 'preact';
-import { IStepperContext } from '../contexts';
 
-import { IWidgetContext } from './context';
+import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
 import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
@@ -444,9 +443,9 @@ export interface StepperButtonElement {
 export interface StepperNavigatorElement {
   type: 'StepperNavigator',
   options: {
-     callback: (stepperContext: IStepperContext) => void;
+    callback: (stepperContext: IStepperContext) => void;
   }
-} 
+}
 
 export interface StepperRadioElement {
   type: 'StepperRadio',

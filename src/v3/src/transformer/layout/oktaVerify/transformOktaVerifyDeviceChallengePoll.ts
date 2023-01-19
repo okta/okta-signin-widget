@@ -13,10 +13,10 @@
 import { NextStep } from '@okta/okta-auth-js';
 
 import { CHALLENGE_METHOD, IDX_STEP } from '../../../constants';
-import { IStepperContext } from '../../../contexts';
 import {
   DescriptionElement,
   IdxStepTransformer,
+  IStepperContext,
   LinkElement,
   OpenOktaVerifyFPButtonElement,
   SpinnerElement,
