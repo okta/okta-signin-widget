@@ -27,11 +27,18 @@ test_suites:
       script_name: unit-jest
       criteria: MERGE
       queue_name: small
-    - name: testcafe
+    - name: testcafe_a
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '5'
       timeout: '30'
-      script_name: testcafe
+      script_name: testcafe_a
+      criteria: MERGE
+      queue_name: small
+    - name: testcafe_b
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '5'
+      timeout: '30'
+      script_name: testcafe_b
       criteria: MERGE
       queue_name: small
     - name: e2e
