@@ -22,6 +22,7 @@ import {
   UISchemaLayoutType,
 } from '../../../types';
 import { loc } from '../../../util';
+import { transformOdaEnrollmentAndroidAppLink } from './transformOdaEnrollmentAndroidAppLink';
 
 const copyToClipboard = (text: string) => {
   if (typeof navigator.clipboard !== 'undefined') {
@@ -30,15 +31,24 @@ const copyToClipboard = (text: string) => {
   document.execCommand('copy', false, text);
 };
 
-export const transformOdaEnrollment: IdxStepTransformer = ({ formBag, transaction }) => {
+export const transformOdaEnrollment: IdxStepTransformer = ({ formBag, transaction, widgetProps }) => {
   // @ts-expect-error deviceEnrollment does not exist on IdxTransaction.context
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
 
-  const { signInUrl, platform: rawPlatform = '' } = deviceEnrollment;
+  const {
+    challengeMethod,
+    isAndroidAppLink,
+    signInUrl,
+    platform: rawPlatform = ''
+  } = deviceEnrollment;
   const platform: string = rawPlatform.toLowerCase();
   const isIOS = platform === 'ios';
   const isAndroid = platform === 'android';
-  const challengeMethod = deviceEnrollment?.challengeMethod;
+
+  if (isAndroidAppLink) {
+    // do android app link transformer
+    return transformOdaEnrollmentAndroidAppLink({ formBag, transaction, widgetProps });
+  }
 
   formBag.uischema.elements.push({
     type: 'Title',
