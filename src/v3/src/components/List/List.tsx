@@ -25,6 +25,7 @@ const List: UISchemaElementComponent<{
   return options.items?.length ? (
     <Box
       display="flex"
+      flexDirection="column"
       justifyContent="flex-start"
       marginBottom={4}
     >
