@@ -147,7 +147,7 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
 
 test.requestHooks(resetPasswordSuccess)('password changed successfully', async t => {
   const challengePasswordPage = await setup(t);
-  await challengePasswordPage.switchAuthenticatorExists();
+  await challengePasswordPage.switchAuthenticatorExists ();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickVerifyButton();
 
