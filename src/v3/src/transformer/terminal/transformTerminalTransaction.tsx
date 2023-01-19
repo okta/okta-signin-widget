@@ -46,8 +46,8 @@ import {
 import { redirectTransformer } from '../redirect';
 import { setFocusOnFirstElement } from '../uischema';
 import { createForm } from '../utils';
+import { transformOdaEnrollment } from './odaEnrollment';
 import { transformTerminalMessages } from './transformTerminalMessages';
-import { transformOdaEnrollment} from './odaEnrollment';
 
 const getTitleKey = (messages?: IdxMessage[]): string | undefined => {
   if (!messages) {

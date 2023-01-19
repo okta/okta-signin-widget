@@ -11,26 +11,30 @@
  */
 
 import {
+  ButtonElement,
   ButtonType,
   DescriptionElement,
+  FieldElement,
   IdxStepTransformer,
   ListElement,
   StepperButtonElement,
-  StepperRadioElement,
+  TextWithHtmlElement,
   TitleElement,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
-import { loc } from '../../../util';
+import { copyToClipboard, loc } from '../../../util';
 
-export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({ formBag, transaction }) => {
+export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
+  formBag,
+  transaction,
+}) => {
   // @ts-expect-error deviceEnrollment does not exist on IdxTransaction.context
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
 
-  const {
-    challengeMethod,
-    signInUrl,
-  } = deviceEnrollment;
+  const { signInUrl } = deviceEnrollment;
+
+  formBag.data.hasOVAccount = 'no';
 
   formBag.uischema.elements.push({
     type: UISchemaLayoutType.STEPPER,
@@ -40,75 +44,167 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({ formB
         elements: [
           {
             type: 'Title',
-            options: { content: loc('enroll.title.oda.with.account', 'login')},
+            options: { content: loc('enroll.title.oda.with.account', 'login') },
           } as TitleElement,
           {
-            type: 'Description',
-            options: { content: loc('enroll.subtitle.fastpass', 'login', [deviceEnrollment.orgName]) },
-          } as DescriptionElement,
-          {
-            type: 'StepperRadio',
+            type: 'Field',
+            key: 'hasOVAccount',
+            translations: [{
+              name: 'label',
+              i18nKey: 'enroll.subtitle.fastpass',
+              value: loc('enroll.subtitle.fastpass', 'login'),
+            }],
             options: {
+              inputMeta: {
+                name: 'hasOVAccount',
+                options: [
+                  {
+                    value: 'no',
+                    label: loc('enroll.option.noaccount.fastpass', 'login'),
+                  },
+                  {
+                    value: 'yes',
+                    label: loc('enroll.option.account.fastpass', 'login'),
+                  },
+                ],
+              },
+              format: 'radio',
               name: 'hasOVAccount',
-              customOptions: [
-                {
-                  value: 'no',
-                  label: loc('enroll.option.noaccount.fastpass', 'login'),
-                  callback: (widgetContext, stepIndex) => {
-                    // TODO figure out how to set data or modify the next view based on this
-                  },
-                },
-                {
-                  value: 'yes',
-                  label: loc('enroll.option.account.fastpass', 'login'),
-                  callback: (widgetContext, stepIndex) => {
-                    // TODO figure out how to set data or modify the next view based on this
-                  },
-                }
-              ],
             },
-          } as StepperRadioElement,
+          } as FieldElement,
           {
             type: 'StepperButton',
             label: loc('oform.next', 'login'),
             options: {
               type: ButtonType.BUTTON,
               variant: 'primary',
-              nextStepIndex: 1,
+              nextStepIndex: (widgetContext) => {
+                const { data } = widgetContext;
+
+                if (data.hasOVAccount === 'yes') {
+                  return 1;
+                }
+                return 2;
+              },
             },
           } as StepperButtonElement,
         ],
       } as UISchemaLayout,
+      // Android App Link with Account
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
             type: 'Title',
-            options: { content: loc('enroll.title.oda.with.account', 'login')},
+            options: { content: loc('enroll.title.oda.with.account', 'login') },
           } as TitleElement,
           {
             type: 'Description',
             options: { content: loc('enroll.oda.with.account.explanation', 'login') },
           } as DescriptionElement,
           {
-            type: 'Description',
-            options: { content: loc('enroll.oda.with.account.subtitile1', 'login') },
-          } as DescriptionElement,
-          {
             type: 'List',
             noMargin: true,
             options: {
-              type: 'ordered',
+              description: loc('enroll.oda.with.account.subtitile1', 'login'),
+              type: 'unordered',
               items: [
-                loc('enroll.oda.with.account.step1', 'login'),
-                loc('enroll.oda.with.account.step2', 'login'),
-                loc('enroll.oda.with.account.step3', 'login'),
+                {
+                  type: UISchemaLayoutType.VERTICAL,
+                  elements: [
+                    {
+                      type: 'Description',
+                      noMargin: true,
+                      options: { content: loc('enroll.oda.with.account.step1', 'login') },
+                    } as DescriptionElement,
+                  ],
+                } as UISchemaLayout,
+                {
+                  type: UISchemaLayoutType.VERTICAL,
+                  elements: [
+                    {
+                      type: 'Description',
+                      noMargin: true,
+                      options: { content: loc('enroll.oda.with.account.step2', 'login') },
+                    } as DescriptionElement,
+                  ],
+                },
+                {
+                  type: UISchemaLayoutType.VERTICAL,
+                  elements: [
+                    {
+                      type: 'Description',
+                      noMargin: true,
+                      options: { content: loc('enroll.oda.with.account.step3', 'login') },
+                    } as DescriptionElement,
+                  ],
+                },
               ],
             },
           } as ListElement,
           {
+            type: 'List',
+            noMargin: true,
+            options: {
+              description: loc('enroll.oda.with.account.subtitile2', 'login'),
+              type: 'ordered',
+              items: [
+                {
+                  type: UISchemaLayoutType.VERTICAL,
+                  elements: [
+                    {
+                      type: 'Description',
+                      noMargin: true,
+                      options: { content: loc('enroll.oda.with.account.step4', 'login') },
+                    } as DescriptionElement,
+                  ],
+                },
+                {
+                  type: UISchemaLayoutType.VERTICAL,
+                  elements: [
+                    {
+                      type: 'Description',
+                      noMargin: true,
+                      options: { content: loc('enroll.oda.with.account.step5', 'login', [signInUrl]) },
+                    } as DescriptionElement,
+                  ],
+                },
+                {
+                  type: UISchemaLayoutType.VERTICAL,
+                  elements: [
+                    {
+                      type: 'Description',
+                      noMargin: true,
+                      options: { content: loc('enroll.oda.with.account.step6', 'login') },
+                    } as DescriptionElement,
+                  ],
+                },
+                {
+                  type: UISchemaLayoutType.VERTICAL,
+                  elements: [
+                    {
+                      type: 'Description',
+                      noMargin: true,
+                      options: { content: loc('enroll.oda.with.account.step7', 'login') },
+                    } as DescriptionElement,
+                  ],
+                },
+              ],
+            },
+          },
+        ],
+      } as UISchemaLayout,
+      // Android App Link without Account
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          {
+            type: 'Title',
+            options: { content: loc('enroll.title.oda.without.account', 'login') },
+          } as TitleElement,
+          {
             type: 'Description',
-            options: { content: loc('enroll.oda.with.account.subtitile2', 'login') },
+            options: { content: loc('enroll.oda.without.account.explanation', 'login') },
           } as DescriptionElement,
           {
             type: 'List',
@@ -116,13 +212,61 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({ formB
             options: {
               type: 'ordered',
               items: [
-                loc('enroll.oda.with.account.step4', 'login'),
-                loc('enroll.oda.with.account.step5', 'login', [signInUrl]),
-                loc('enroll.oda.with.account.step6', 'login'),
-                loc('enroll.oda.with.account.step7', 'login'),
+                {
+                  type: UISchemaLayoutType.VERTICAL,
+                  elements: [
+                    {
+                      type: 'TextWithHtml',
+                      options: {
+                        content: loc('enroll.oda.without.account.step1', 'login', ['https://play.google.com/store/apps/details?id=com.okta.android.auth']),
+                        submitOnClick: false,
+                      },
+                    } as TextWithHtmlElement,
+                  ],
+                } as UISchemaLayout,
+                {
+                  type: UISchemaLayoutType.VERTICAL,
+                  elements: [
+                    {
+                      type: 'Description',
+                      noMargin: true,
+                      options: { content: loc('enroll.oda.step1', 'login') },
+                    } as DescriptionElement,
+                  ],
+                },
+                {
+                  type: UISchemaLayoutType.VERTICAL,
+                  elements: [
+                    {
+                      type: 'Description',
+                      noMargin: true,
+                      options: {
+                        content: loc('enroll.oda.step2', 'login'),
+                      },
+                    } as DescriptionElement,
+                    {
+                      type: 'Description',
+                      noMargin: true,
+                      options: {
+                        content: signInUrl,
+                      },
+                    } as DescriptionElement,
+                    {
+                      type: 'Button',
+                      label: loc('enroll.oda.org.copyLink', 'login'),
+                      options: {
+                        step: '',
+                        type: ButtonType.BUTTON,
+                        variant: 'secondary',
+                        onClick: () => copyToClipboard(deviceEnrollment?.signInUrl),
+                      },
+                    } as ButtonElement,
+                  ],
+                } as UISchemaLayout,
+                loc('enroll.oda.without.account.step4', 'login'),
               ],
             },
-          },
+          } as ListElement,
         ],
       } as UISchemaLayout,
     ],

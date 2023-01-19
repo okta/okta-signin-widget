@@ -23,14 +23,14 @@ import {
 } from '../../../types';
 import { copyToClipboard, loc } from '../../../util';
 
-export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, transaction, widgetProps }) => {
+export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, transaction }) => {
   // @ts-expect-error deviceEnrollment does not exist on IdxTransaction.context
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
 
   const {
     challengeMethod,
     signInUrl,
-    platform: rawPlatform = ''
+    platform: rawPlatform = '',
   } = deviceEnrollment;
   const platform: string = rawPlatform.toLowerCase();
   const isIOS = platform === 'ios';
@@ -38,7 +38,7 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
 
   formBag.uischema.elements.push({
     type: 'Title',
-    options: { content: loc('enroll.title.oda', 'login')},
+    options: { content: loc('enroll.title.oda', 'login') },
   } as TitleElement);
 
   formBag.uischema.elements.push({
@@ -67,9 +67,9 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
             type: ButtonType.BUTTON,
             variant: 'secondary',
             onClick: () => copyToClipboard('https://apps.apple.com/us/app/okta-verify/id490179405'),
-          }
+          },
         } as ButtonElement,
-      ]
+      ],
     } as UISchemaLayout,
     {
       type: UISchemaLayoutType.VERTICAL,
@@ -81,7 +81,7 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
             content: loc('enroll.mdm.step.pasteLink', 'login'),
           },
         } as DescriptionElement,
-      ]
+      ],
     } as UISchemaLayout,
     {
       type: UISchemaLayoutType.VERTICAL,
@@ -93,7 +93,7 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
             content: loc('enroll.oda.step3', 'login'),
           },
         } as DescriptionElement,
-      ]
+      ],
     } as UISchemaLayout);
   } else if (isAndroid && challengeMethod === CHALLENGE_METHOD.LOOPBACK) {
     listItems.push({
@@ -117,10 +117,22 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
         type: 'Description',
         noMargin: true,
         options: {
+          content: loc('enroll.oda.android.step1', 'login'),
+        },
+      } as DescriptionElement,
+    ],
+  } as UISchemaLayout,
+  {
+    type: UISchemaLayoutType.VERTICAL,
+    elements: [
+      {
+        type: 'Description',
+        noMargin: true,
+        options: {
           content: loc('enroll.oda.step1', 'login'),
         },
       } as DescriptionElement,
-    ]
+    ],
   } as UISchemaLayout,
   {
     type: UISchemaLayoutType.VERTICAL,
@@ -147,9 +159,9 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
           type: ButtonType.BUTTON,
           variant: 'secondary',
           onClick: () => copyToClipboard(deviceEnrollment?.signInUrl),
-        }
+        },
       } as ButtonElement,
-    ]
+    ],
   } as UISchemaLayout,
   {
     type: UISchemaLayoutType.VERTICAL,
@@ -161,7 +173,7 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
           content: loc('enroll.oda.step6', 'login'),
         },
       } as DescriptionElement,
-    ]
+    ],
   } as UISchemaLayout);
 
   formBag.uischema.elements.push({

@@ -11,13 +11,17 @@
  */
 
 import { IdxStepTransformer } from '../../../types';
-import { transformOdaEnrollmentAndroidAppLink, transformOdaEnrollmentLoopback  } from './';
+import { transformOdaEnrollmentAndroidAppLink, transformOdaEnrollmentLoopback } from '.';
 
-export const transformOdaEnrollment: IdxStepTransformer = ({ formBag, transaction, widgetProps }) => {
+export const transformOdaEnrollment: IdxStepTransformer = ({
+  formBag,
+  transaction,
+  widgetProps,
+}) => {
   // @ts-expect-error deviceEnrollment does not exist on IdxTransaction.context
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
 
-  const { isAndroidAppLink, } = deviceEnrollment;
+  const { isAndroidAppLink } = deviceEnrollment;
 
   if (isAndroidAppLink) {
     return transformOdaEnrollmentAndroidAppLink({ formBag, transaction, widgetProps });
