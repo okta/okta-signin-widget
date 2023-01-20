@@ -35,9 +35,6 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   getFooterCancelPollingLink() {
-    if (userVariables.v3) {
-      return this.getCancelLink();
-    }
     return this.form.getLink('Cancel and take me to sign in');
   }
 
@@ -90,7 +87,7 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
 
   async clickCancelAndGoBackLink() {
     if (userVariables.v3) {
-      await this.t.click(this.getCancelLink());
+      await this.t.click(this.getFooterCancelPollingLink());
     } else {
       await this.t.click(Selector('a[data-se="cancel-authenticator-challenge"]'));
     }

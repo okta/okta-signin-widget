@@ -53,7 +53,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   formBag,
   prevTransaction,
 }) => {
-  const { nextStep = {} as NextStep } = transaction;
+  const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
   const FASTPASS_FALLBACK_SPINNER_TIMEOUT = 4000;
 
@@ -61,8 +61,8 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     ? transaction.nextStep?.relatesTo?.value
     // @ts-expect-error challenge is not defined on contextualData
     : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
-
   const { challengeMethod } = deviceChallengePayload;
+
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
@@ -91,19 +91,13 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     },
   };
 
-  const cancelStep = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL
-    ? 'authenticatorChallenge-cancel' : 'currentAuthenticator-cancel';
   const cancelLink: LinkElement = {
     type: 'Link',
     contentType: 'footer',
     options: {
       label: loc('goback', 'login'),
       isActionStep: true,
-      step: cancelStep,
-      actionParams: {
-        reason: 'USER_CANCELED',
-        statusCode: null,
-      },
+      step: availableSteps?.find(({ name }) => name === 'cancel')?.name as string,
     },
   };
 
@@ -113,6 +107,9 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   // we delay displaying the content because of a cold start issue with Okta Verify
   if (challengeMethod === CHALLENGE_METHOD.APP_LINK
       && prevTransaction?.nextStep?.name === IDX_STEP.IDENTIFY) {
+    const cancelPollingStep = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL
+      ? 'authenticatorChallenge-cancel' : 'currentAuthenticator-cancel';
+    // this element changes the stepper layout index after a delay
     const stepperNavigatorElement: StepperNavigatorElement = {
       type: 'StepperNavigator',
       options: {
@@ -122,7 +119,6 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
         },
       },
     };
-
     uischema.elements.push({
       type: UISchemaLayoutType.STEPPER,
       elements: [
@@ -131,7 +127,20 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
           elements: [
             stepperNavigatorElement,
             spinnerElement,
-            cancelLink,
+            // cancel polling link is displayed during delay
+            {
+              type: 'Link',
+              contentType: 'footer',
+              options: {
+                label: loc('loopback.polling.cancel.link', 'login'),
+                isActionStep: true,
+                step: cancelPollingStep,
+                actionParams: {
+                  reason: 'USER_CANCELED',
+                  statusCode: null,
+                },
+              },
+            } as LinkElement,
           ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
         } as UISchemaLayout,
         {
@@ -153,6 +162,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   }
   uischema.elements.push(descriptionElement);
   uischema.elements.push(openOktaVerifyButton);
+
   if (challengeMethod === CHALLENGE_METHOD.CUSTOM_URI) {
     uischema.elements.push({
       type: 'Description',
@@ -169,6 +179,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     } as LinkElement);
   }
 
+  // standard cancel link is used when there is no delay
   uischema.elements.push(cancelLink);
 
   return formBag;

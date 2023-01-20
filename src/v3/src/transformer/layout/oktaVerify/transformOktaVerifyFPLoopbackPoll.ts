@@ -55,7 +55,7 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
     type: 'Link',
     contentType: 'footer',
     options: {
-      label: loc('goback', 'login'),
+      label: loc('loopback.polling.cancel.link', 'login'),
       isActionStep: true,
       step: cancelStep,
       actionParams: {

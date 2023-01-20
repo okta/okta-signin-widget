@@ -1,4 +1,4 @@
-import { RequestLogger, RequestMock, ClientFunction, userVariables } from 'testcafe';
+import { RequestLogger, RequestMock, ClientFunction } from 'testcafe';
 import { renderWidget, Constants } from '../framework/shared';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -542,9 +542,7 @@ test
 
     await t.expect(deviceChallengePollPageObject.hasAppLinkContent()).eql(true);
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
-    if(!userVariables.v3) {
-      await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
-    }
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     deviceChallengePollPageObject.clickAppLink();
     await t.expect(getPageUrl()).contains('okta-verify.html');
@@ -579,9 +577,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
-    if(!userVariables.v3) {
-      await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
-    }
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     deviceChallengePollPageObject.clickUniversalLink();
     await t.expect(getPageUrl()).contains('okta-verify.html');
   });
