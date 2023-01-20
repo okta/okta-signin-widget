@@ -12,6 +12,11 @@
 
 export const PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS = 50;
 
+export const OKTA_VERIFY_APP_URL: Record<string, string> = {
+  IOS: 'https://apps.apple.com/us/app/okta-verify/id490179405',
+  ANDROID: 'https://play.google.com/store/apps/details?id=com.okta.android.auth',
+}
+
 export const AUTHENTICATOR_KEY: Record<string, string> = {
   EMAIL: 'okta_email',
   PASSWORD: 'okta_password',
@@ -85,6 +90,11 @@ export const AUTHENTICATOR_ALLOWED_FOR_OPTIONS: Record<string, string> = {
   SSO: 'sso',
   RECOVERY: 'recovery',
 };
+
+export const DEVICE_ENROLLMENT_TYPE: Record<string, string> = {
+  ODA: 'oda',
+  MDM: 'mdm',
+}
 
 export const TERMINAL_KEY: Record<string, string> = {
   DEVICE_ACTIVATED: 'idx.device.activated',

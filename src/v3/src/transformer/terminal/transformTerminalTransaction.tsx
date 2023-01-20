@@ -18,6 +18,7 @@ import {
 
 import {
   DEVICE_CODE_ERROR_KEYS,
+  DEVICE_ENROLLMENT_TYPE,
   TERMINAL_KEY,
   TERMINAL_KEYS_WITHOUT_CANCEL,
   TERMINAL_TITLE_KEY,
@@ -261,7 +262,7 @@ export const transformTerminalTransaction = (
   // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
   if (typeof deviceEnrollment !== 'undefined') {
-    if (deviceEnrollment.name === 'oda') {
+    if (deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.ODA) {
       return transformOdaEnrollment({ transaction, formBag, widgetProps });
     }
   }

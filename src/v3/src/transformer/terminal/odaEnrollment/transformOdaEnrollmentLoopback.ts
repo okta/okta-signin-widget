@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { CHALLENGE_METHOD } from '../../../constants';
+import { CHALLENGE_METHOD, OKTA_VERIFY_APP_URL } from '../../../constants';
 import {
   ButtonElement,
   ButtonType,
@@ -66,7 +66,7 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
             step: '',
             type: ButtonType.BUTTON,
             variant: 'secondary',
-            onClick: () => copyToClipboard('https://apps.apple.com/us/app/okta-verify/id490179405'),
+            onClick: () => copyToClipboard(OKTA_VERIFY_APP_URL.IOS),
           },
         } as ButtonElement,
       ],

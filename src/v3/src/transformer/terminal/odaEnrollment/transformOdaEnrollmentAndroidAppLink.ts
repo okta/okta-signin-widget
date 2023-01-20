@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { OKTA_VERIFY_APP_URL } from '../../../constants';
 import {
   ButtonElement,
   ButtonType,
@@ -82,8 +83,10 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
                 const { data } = widgetContext;
 
                 if (data.hasOVAccount === 'yes') {
+                  // Show Android App Link with Account view
                   return 1;
                 }
+                // Show Android App Link without Account view
                 return 2;
               },
             },
@@ -218,7 +221,7 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
                     {
                       type: 'TextWithHtml',
                       options: {
-                        content: loc('enroll.oda.without.account.step1', 'login', ['https://play.google.com/store/apps/details?id=com.okta.android.auth']),
+                        content: loc('enroll.oda.without.account.step1', 'login', [OKTA_VERIFY_APP_URL.ANDROID]),
                         submitOnClick: false,
                       },
                     } as TextWithHtmlElement,
