@@ -98,6 +98,7 @@ const ReminderPrompt: UISchemaElementComponent<{
             options: {
               contentClassname,
               content,
+              submitOnClick: true,
               step,
               isActionStep,
               actionParams,

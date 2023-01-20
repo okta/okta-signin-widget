@@ -57,6 +57,7 @@ export const switchChannelButton = (
   options: {
     content: loc(label, 'login'),
     contentClassname: 'switch-channel-link',
+    submitOnClick: true,
     step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
     stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
   },
