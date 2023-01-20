@@ -53,7 +53,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   formBag,
   prevTransaction,
 }) => {
-  const { nextStep = {} as NextStep, availableSteps } = transaction;
+  const { nextStep = {} as NextStep } = transaction;
   const { uischema } = formBag;
   const FASTPASS_FALLBACK_SPINNER_TIMEOUT = 4000;
 
