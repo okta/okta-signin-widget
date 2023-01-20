@@ -16,6 +16,8 @@ import {
   LinkElement,
   OpenOktaVerifyFPButtonElement,
   SpinnerElement,
+  StepperLayout,
+  StepperNavigatorElement,
   TitleElement,
   WidgetProps,
 } from 'src/types';
@@ -80,18 +82,31 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(2);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('appLink.title');
-      expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
+      expect((updatedFormBag.uischema.elements[1] as StepperLayout).type)
+        .toBe('Stepper');
+
+      const stepperLayout = updatedFormBag.uischema.elements[1];
+      const [layoutOne, layoutTwo] = (stepperLayout as StepperLayout).elements;
+
+      expect(layoutOne.elements.length).toBe(3);
+      expect((layoutOne.elements[0] as StepperNavigatorElement).type)
+        .toBe('StepperNavigator');
+      expect((layoutOne.elements[1] as SpinnerElement).type)
         .toBe('Spinner');
-      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      expect((layoutOne.elements[2] as LinkElement).options.step)
+        .toBe('authenticatorChallenge-cancel');
+
+      expect(layoutTwo.elements.length).toBe(3);
+      expect((layoutTwo.elements[0] as DescriptionElement).options.content)
         .toBe('appLink.content');
-      expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
+      expect((layoutTwo.elements[1] as OpenOktaVerifyFPButtonElement).options.href)
         .toBe('okta-verify.html');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+      expect((layoutTwo.elements[2] as LinkElement).type)
         .toBe('Link');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+      expect((layoutTwo.elements[2] as LinkElement).options.step)
         .toBe('cancel');
     });
 
