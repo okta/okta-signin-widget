@@ -51,7 +51,6 @@ const getDescriptionText = (challengeMethod: string) => {
 export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
   transaction,
   formBag,
-  prevTransaction,
 }) => {
   const { nextStep = {} as NextStep } = transaction;
   const { uischema } = formBag;
@@ -103,12 +102,10 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
 
   uischema.elements.unshift(titleElement);
 
-  // if the previous step was identify and the challenge method is APP_LINK,
+  // if the current step is device-challenge-poll and the challenge method is APP_LINK,
   // we delay displaying the content because of a cold start issue with Okta Verify
   if (challengeMethod === CHALLENGE_METHOD.APP_LINK
-      && prevTransaction?.nextStep?.name === IDX_STEP.IDENTIFY) {
-    const cancelPollingStep = transaction.nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL
-      ? 'authenticatorChallenge-cancel' : 'currentAuthenticator-cancel';
+      && nextStep?.name === IDX_STEP.DEVICE_CHALLENGE_POLL) {
     // this element changes the stepper layout index after a delay
     const stepperNavigatorElement: StepperNavigatorElement = {
       type: 'StepperNavigator',
@@ -132,9 +129,9 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
               type: 'Link',
               contentType: 'footer',
               options: {
-                label: loc('loopback.polling.cancel.link', 'login'),
+                label: loc('goback', 'login'),
                 isActionStep: true,
-                step: cancelPollingStep,
+                step: 'authenticatorChallenge-cancel',
                 actionParams: {
                   reason: 'USER_CANCELED',
                   statusCode: null,
@@ -148,6 +145,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
           elements: [
             descriptionElement,
             openOktaVerifyButton,
+            // update footer link to standard cancel link
             cancelLink,
           ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
         } as UISchemaLayout],

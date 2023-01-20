@@ -35,6 +35,9 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   getFooterCancelPollingLink() {
+    if (userVariables.v3) {
+      return this.getCancelLink();
+    }
     return this.form.getLink('Cancel and take me to sign in');
   }
 
