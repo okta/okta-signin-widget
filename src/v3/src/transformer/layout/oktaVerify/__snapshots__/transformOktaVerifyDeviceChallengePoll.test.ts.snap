@@ -41,13 +41,9 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
-          "actionParams": Object {
-            "reason": "USER_CANCELED",
-            "statusCode": null,
-          },
           "isActionStep": true,
           "label": "goback",
-          "step": "currentAuthenticator-cancel",
+          "step": "cancel",
         },
         "type": "Link",
       },
@@ -109,13 +105,9 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
-          "actionParams": Object {
-            "reason": "USER_CANCELED",
-            "statusCode": null,
-          },
           "isActionStep": true,
           "label": "goback",
-          "step": "currentAuthenticator-cancel",
+          "step": "cancel",
         },
         "type": "Link",
       },
@@ -166,13 +158,9 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
-          "actionParams": Object {
-            "reason": "USER_CANCELED",
-            "statusCode": null,
-          },
           "isActionStep": true,
           "label": "goback",
-          "step": "currentAuthenticator-cancel",
+          "step": "cancel",
         },
         "type": "Link",
       },
@@ -223,13 +211,9 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
-          "actionParams": Object {
-            "reason": "USER_CANCELED",
-            "statusCode": null,
-          },
           "isActionStep": true,
           "label": "goback",
-          "step": "authenticatorChallenge-cancel",
+          "step": "cancel",
         },
         "type": "Link",
       },
@@ -291,13 +275,9 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
-          "actionParams": Object {
-            "reason": "USER_CANCELED",
-            "statusCode": null,
-          },
           "isActionStep": true,
           "label": "goback",
-          "step": "authenticatorChallenge-cancel",
+          "step": "cancel",
         },
         "type": "Link",
       },
@@ -348,13 +328,9 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
-          "actionParams": Object {
-            "reason": "USER_CANCELED",
-            "statusCode": null,
-          },
           "isActionStep": true,
           "label": "goback",
-          "step": "authenticatorChallenge-cancel",
+          "step": "cancel",
         },
         "type": "Link",
       },

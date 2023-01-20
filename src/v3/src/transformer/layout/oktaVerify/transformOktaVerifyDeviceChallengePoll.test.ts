@@ -67,7 +67,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
         .toBe('Link');
       expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
-        .toBe('authenticatorChallenge-cancel');
+        .toBe('cancel');
     });
 
     it('should transform elements when challengeMethod is APP_LINK', () => {
@@ -92,7 +92,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
         .toBe('Link');
       expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
-        .toBe('authenticatorChallenge-cancel');
+        .toBe('cancel');
     });
 
     it('should transform elements when challengeMethod is UNIVERSAL_LINK', () => {
@@ -117,7 +117,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
         .toBe('Link');
       expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
-        .toBe('authenticatorChallenge-cancel');
+        .toBe('cancel');
     });
   });
 
@@ -167,7 +167,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
         .toBe('Link');
       expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
-        .toBe('currentAuthenticator-cancel');
+        .toBe('cancel');
     });
 
     it('should transform elements when challengeMethod is APP_LINK', () => {
@@ -192,7 +192,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
         .toBe('Link');
       expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
-        .toBe('currentAuthenticator-cancel');
+        .toBe('cancel');
     });
 
     it('should transform elements when challengeMethod is UNIVERSAL_LINK', () => {
@@ -217,7 +217,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
         .toBe('Link');
       expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
-        .toBe('currentAuthenticator-cancel');
+        .toBe('cancel');
     });
   });
 });

@@ -97,7 +97,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     options: {
       label: loc('goback', 'login'),
       isActionStep: true,
-      step: availableSteps?.find(({ name }) => name === 'cancel')?.name as string,
+      step: 'cancel',
     },
   };
 
