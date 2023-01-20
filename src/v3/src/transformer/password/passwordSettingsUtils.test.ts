@@ -45,6 +45,15 @@ describe('getComplexityItems', () => {
     expect(result).toEqual([{ ruleKey: 'lastName', label: PASSWORD_REQUIREMENTS_KEYS.complexity.excludeLastName }]);
   });
 
+  it('should return excludeUsername item', () => {
+    const complexity = {
+      excludeAttributes: ['username'],
+    } as unknown as ComplexityRequirements;
+
+    const result = getComplexityItems(complexity);
+    expect(result).toEqual([{ ruleKey: 'username', label: PASSWORD_REQUIREMENTS_KEYS.complexity.excludeUsername }]);
+  });
+
   it('should return minLength item with value', () => {
     const complexity = {
       minLength: 5,

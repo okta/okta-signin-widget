@@ -41,19 +41,16 @@ export const getComplexityItems = (complexity?: ComplexityRequirements): ListIte
   }
 
   Object.entries(complexity).forEach(([key, value]) => {
-    if (key === 'excludeAttributes' && value.length > 0) {
-      if (value.includes('firstName')) {
-        items.push({
-          ruleKey: 'firstName',
-          label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity.excludeFirstName, 'login'),
+    if (key === 'excludeAttributes' && Array.isArray(value) && value.length > 0) {
+      value
+        .filter((rule) => ['username', 'firstName', 'lastName'].includes(rule))
+        .forEach((ruleAttr: string) => {
+          const ruleExclusionKey = `exclude${ruleAttr.charAt(0).toUpperCase() + ruleAttr.slice(1)}`;
+          items.push({
+            ruleKey: ruleAttr,
+            label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity[ruleExclusionKey], 'login'),
+          });
         });
-      }
-      if (value.includes('lastName')) {
-        items.push({
-          ruleKey: 'lastName',
-          label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity.excludeLastName, 'login'),
-        });
-      }
     } else if (key === 'minLength' && value > 0) {
       items.push({
         ruleKey: key,
@@ -71,6 +68,11 @@ export const getComplexityItems = (complexity?: ComplexityRequirements): ListIte
   return items;
 };
 
+/**
+ *
+ * @deprecated This function is no longer used as v3 decided not to display
+ * server-side requirements in the list of password requirements.
+ */
 export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
   const items: ListItem[] = [];
 
@@ -91,6 +93,20 @@ export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
     items.push({
       ruleKey: 'minAgeMinutes',
       label: loc(unitLabel, 'login', [value]),
+    });
+  }
+
+  if (age.minAgeHours > 0) {
+    items.push({
+      ruleKey: 'minAgeHours',
+      label: loc(PASSWORD_REQUIREMENTS_KEYS.age.minAgeHours, 'login', [age.minAgeHours]),
+    });
+  }
+
+  if (age.minAgeDays > 0) {
+    items.push({
+      ruleKey: 'minAgeDays',
+      label: loc(PASSWORD_REQUIREMENTS_KEYS.age.minAgeDays, 'login', [age.minAgeDays]),
     });
   }
 

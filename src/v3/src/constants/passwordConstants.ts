@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export const PASSWORD_REQUIREMENTS_KEYS = {
+export const PASSWORD_REQUIREMENTS_KEYS: Record<'complexity' | 'age', { [key: string]: string }> = {
   complexity: {
     minLength: 'password.complexity.length.description',
     minLowerCase: 'password.complexity.lowercase.description',

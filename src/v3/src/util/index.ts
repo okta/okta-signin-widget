@@ -13,6 +13,7 @@
 export * from './browserUtils';
 export * from './buildErrorMessageIds';
 export * from './clipboard';
+export * from './buildPasswordRequirementNotMetError';
 export * from './cookieUtils';
 export * from './environmentUtils';
 export * from './flattenInputs';

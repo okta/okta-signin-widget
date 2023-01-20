@@ -124,6 +124,17 @@ describe('PasswordUtils Tests', () => {
   });
 
   describe('Validate ExcludeAttributes', () => {
+    it('should validate excludeAttributes when username is to be excluded', () => {
+      userInfo = { identifier: 'tester.user+123@okta.com' };
+
+      expect(validatePassword('tester.user', userInfo, { complexity: { excludeAttributes: ['username'] } })?.username)
+        .toEqual(false);
+      expect(validatePassword('tester.user@okta.com', userInfo, { complexity: { excludeAttributes: ['username'] } })?.username)
+        .toEqual(false);
+      expect(validatePassword('tester.user+123@okta.com', userInfo, { complexity: { excludeAttributes: ['username'] } })?.username)
+        .toEqual(false);
+    });
+
     it('should validate excludeAttributes when firstName is to be excluded', () => {
       userInfo = { profile: { firstName: 'Tester', lastName: 'Doe' } };
 

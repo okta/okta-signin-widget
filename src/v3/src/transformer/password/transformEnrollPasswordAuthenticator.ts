@@ -22,7 +22,13 @@ import {
   PasswordSettings,
   TitleElement,
 } from '../../types';
-import { getUserInfo, loc, updatePasswordRequirementsNotMetMessage } from '../../util';
+import {
+  buildPasswordRequirementNotMetError,
+  getUserInfo,
+  loc,
+  updatePasswordRequirementsNotMetMessage,
+  validatePassword,
+} from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
@@ -34,6 +40,8 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
 
   const { uischema, dataSchema } = formBag;
+  const userInfo = getUserInfo(transaction);
+  const requirements = buildPasswordRequirementListItems(passwordSettings);
 
   let passwordFieldName = 'credentials.passcode';
   let passwordElement = getUIElementWithName(
@@ -113,9 +121,9 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     options: {
       id: 'password-authenticator--list',
       header: loc('password.complexity.requirements.header', 'login'),
-      userInfo: getUserInfo(transaction),
+      userInfo,
       settings: passwordSettings,
-      requirements: buildPasswordRequirementListItems(passwordSettings),
+      requirements,
       validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
     },
   };
@@ -128,7 +136,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     },
   };
 
-  const userInfo = getUserInfo(transaction);
   uischema.elements.unshift(passwordMatchesElement);
   uischema.elements.unshift(confirmPasswordElement);
   uischema.elements.unshift(passwordElement);
@@ -166,7 +173,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   // Controls form submission validation
   dataSchema[passwordFieldName] = {
     validate: (data: FormBag['data']) => {
-      const newPw = data[passwordFieldName];
+      const newPw = data[passwordFieldName] as string;
       const confirmPw = data.confirmPassword;
       const errorMessages: IdxMessageWithName[] = [];
       if (!newPw) {
@@ -184,6 +191,21 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
           message: loc('model.validation.field.blank', 'login'),
           i18n: { key: 'model.validation.field.blank' },
         });
+      }
+      if (newPw) {
+        const validations = validatePassword(newPw, userInfo, passwordSettings);
+        const requirementErrorMessage = buildPasswordRequirementNotMetError(
+          requirements,
+          validations,
+        );
+        if (requirementErrorMessage) {
+          errorMessages.push({
+            name: passwordFieldName,
+            class: 'ERROR',
+            message: requirementErrorMessage,
+            i18n: { key: '' },
+          });
+        }
       }
       return errorMessages.length > 0 ? errorMessages : undefined;
     },
