@@ -14,6 +14,7 @@ import { IdxMessage, IdxRemediation, IdxTransaction } from '@okta/okta-auth-js';
 
 import {
   AUTHENTICATOR_KEY,
+  DEVICE_ENROLLMENT_TYPE,
   EMAIL_AUTHENTICATOR_TERMINAL_KEYS,
   IDX_STEP,
 } from '../constants';
@@ -98,7 +99,7 @@ export const buildAuthCoinProps = (
   }
 
   // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
-  if (transaction.context?.deviceEnrollment?.value?.name === 'oda') {
+  if (transaction.context?.deviceEnrollment?.value?.name === DEVICE_ENROLLMENT_TYPE.ODA) {
     return { authenticatorKey: AUTHENTICATOR_KEY.OV };
   }
 
