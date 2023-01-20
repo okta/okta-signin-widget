@@ -24,6 +24,7 @@ import { TERMINAL_KEY, TERMINAL_TITLE_KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
 import { removeUsernameCookie, setUsernameCookie } from '../../util';
 import { transformTerminalTransaction } from '.';
+import { transformOdaEnrollment } from './odaEnrollment/transformOdaEnrollment';
 
 const getMockMessage = (message: string, className: string, key: string) => ({
   message,
@@ -35,6 +36,10 @@ const getMockMessage = (message: string, className: string, key: string) => ({
 
 jest.mock('./transformTerminalMessages', () => ({
   transformTerminalMessages: (transaction: IdxTransaction, formBag: FormBag) => formBag,
+}));
+
+jest.mock('./odaEnrollment/transformOdaEnrollment', () => ({
+  transformOdaEnrollment: jest.fn(),
 }));
 
 jest.mock('../redirect', () => ({
@@ -389,5 +394,18 @@ describe('Terminal Transaction Transformer Tests', () => {
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(removeUsernameCookie).toHaveBeenCalled();
+  });
+
+  it('should invoke oda enrollment terminal transformer when device enrollment data is present', () => {
+    transaction.context = {
+      deviceEnrollment: {
+        value: {
+          name: 'oda',
+        },
+      },
+    } as unknown as IdxContext;
+    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(transformOdaEnrollment).toHaveBeenCalled();
   });
 });
