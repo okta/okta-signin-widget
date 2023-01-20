@@ -29,7 +29,7 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
   formBag,
   transaction,
 }) => {
-  // @ts-expect-error deviceEnrollment does not exist on IdxTransaction.context
+  // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
 
   const { signInUrl } = deviceEnrollment;

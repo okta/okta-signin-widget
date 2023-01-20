@@ -97,7 +97,7 @@ export const buildAuthCoinProps = (
     return { authenticatorKey: IDX_STEP.PIV_IDP };
   }
 
-  // @ts-expect-error
+  // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
   if (transaction.context?.deviceEnrollment?.value?.name === 'oda') {
     return { authenticatorKey: AUTHENTICATOR_KEY.OV };
   }
