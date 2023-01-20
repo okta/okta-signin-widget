@@ -21,6 +21,7 @@ import {
   StepperButtonElement,
   TextWithHtmlElement,
   TitleElement,
+  UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';

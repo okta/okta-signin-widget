@@ -11,7 +11,8 @@
  */
 
 import { IdxStepTransformer } from '../../../types';
-import { transformOdaEnrollmentAndroidAppLink, transformOdaEnrollmentLoopback } from '.';
+import { transformOdaEnrollmentAndroidAppLink } from './transformOdaEnrollmentAndroidAppLink';
+import { transformOdaEnrollmentLoopback } from './transformOdaEnrollmentLoopback';
 
 export const transformOdaEnrollment: IdxStepTransformer = ({
   formBag,

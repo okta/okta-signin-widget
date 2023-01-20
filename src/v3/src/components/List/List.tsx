@@ -15,7 +15,7 @@ import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { ListElement, UISchemaElementComponent, UISchemaLayout } from '../../types';
-import Layout from '../Form/Layout';
+import LayoutContainer from '../Form/LayoutContainer';
 
 const List: UISchemaElementComponent<{
   uischema: ListElement
@@ -34,7 +34,7 @@ const List: UISchemaElementComponent<{
         {
           options.items.map((item: string | UISchemaLayout) => (
             <ListOdyssey.Item>
-              {typeof item === 'string' ? item : <Layout uischema={item} /> }
+              {typeof item === 'string' ? item : <LayoutContainer uischema={item} /> }
             </ListOdyssey.Item>
           ))
         }
