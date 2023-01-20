@@ -91,7 +91,7 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
               },
             },
           } as StepperButtonElement,
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
       } as UISchemaLayout,
       // Android App Link with Account
       {
@@ -195,7 +195,7 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
               ],
             },
           },
-        ],
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
       } as UISchemaLayout,
       // Android App Link without Account
       {
