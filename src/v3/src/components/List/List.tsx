@@ -12,7 +12,7 @@
 
 import { List as ListOdyssey } from '@okta/odyssey-react';
 import { Box, Typography } from '@okta/odyssey-react-mui';
-import { h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import Logger from 'util/Logger';
 
 import {
@@ -47,18 +47,29 @@ const renderLayout = (item: UISchemaLayout) => {
 
 const renderElement = (item: UISchemaElement, index: number) => {
   const elementKey = getElementKey(item, index);
+  return (
+    <Box
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...(!(item).noMargin && { marginBottom: 4 })}
+    >
+      {
+        (() => {
+          switch (item.type) {
+          case 'Button':
+            return <Button key={elementKey} uischema={item as ButtonElement} />;
+          case 'Description':
+            return <InformationalText key={elementKey} uischema={item as DescriptionElement} />;
+          case UISchemaLayoutType.VERTICAL:
+            return renderLayout(item as UISchemaLayout);
+          default:
+            Logger.warn('Unsupported element type in List: ', item.type);
+            return null;
+          };
+        })()
+      }
+    </Box>
+  );
 
-  switch (item.type) {
-    case 'Button':
-      return <Button key={elementKey} uischema={item as ButtonElement} />;
-    case 'Description':
-      return <InformationalText key={elementKey} uischema={item as DescriptionElement} />;
-    case UISchemaLayoutType.VERTICAL:
-      return renderLayout(item as UISchemaLayout);
-    default:
-      Logger.warn('Unsupported element type in List: ', item.type);
-      return null;
-  }
 }
 
 const List: UISchemaElementComponent<{
