@@ -20,7 +20,6 @@ import { h } from 'preact';
 import { useWidgetContext } from '../../contexts';
 import {
   InfoboxElement,
-  ListElement,
   MessageType,
   MessageTypeVariant,
   UISchemaElementComponent,
@@ -40,14 +39,9 @@ const InfoBox: UISchemaElementComponent<{
       title,
       class: messageClass,
       dataSe,
-      bullets = [],
+      listOptions,
     },
   } = uischema;
-
-  const bulletList: ListElement = {
-    type: 'List',
-    options: { items: bullets },
-  };
 
   return loading ? null : (
     <Box
@@ -58,14 +52,13 @@ const InfoBox: UISchemaElementComponent<{
       <Alert
         severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
         variant="infobox"
-        title={title}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...({ 'data-se': dataSe })}
         className={`infobox-${messageClass.toLowerCase()}`}
       >
         { title && <AlertTitle>{title}</AlertTitle> }
         { message }
-        { bullets?.length > 0 && <List uischema={bulletList} /> }
+        { listOptions && <List uischema={ {type: 'List', options: listOptions } } /> }
       </Alert>
     </Box>
   );

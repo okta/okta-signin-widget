@@ -52,7 +52,6 @@ const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[])
         options: {
           message: message.message,
           class: messageClass,
-          contentType: 'string',
           dataSe: 'callout',
         },
       };
@@ -86,7 +85,7 @@ const appendBiometricsErrorBox = (
       class: 'ERROR',
       contentType: 'string',
       dataSe: 'callout',
-      bullets: bulletPoints,
+      listOptions: { items: bulletPoints },
     },
   } as InfoboxElement);
 };
@@ -100,7 +99,6 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
       options: {
         message: loc('oform.error.unexpected', 'login'),
         class: 'ERROR',
-        contentType: 'string',
       },
     } as InfoboxElement);
     return formBag;

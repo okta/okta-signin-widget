@@ -41,7 +41,6 @@ export const transformRequestActivation: IdxStepTransformer = ({ formBag, transa
   const expiredMessage: InfoboxElement = {
     type: 'InfoBox',
     options: {
-      contentType: 'string',
       class: 'ERROR',
       message: loc('idx.expired.activation.token', 'login'),
       dataSe: 'callout',
