@@ -40,11 +40,16 @@ describe('Terminal ODA enrollment Android App Link transformer', () => {
           name: 'oda',
           challengeMethod: 'APP_LINK',
           signInUrl: 'https://okta.com',
+          orgName: 'Okta',
         },
       },
     } as unknown as IdxContext;
 
-    const updatedFormBag = transformOdaEnrollmentAndroidAppLink({ formBag, transaction, widgetProps });
+    const updatedFormBag = transformOdaEnrollmentAndroidAppLink({
+      formBag,
+      transaction,
+      widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
 
@@ -69,6 +74,7 @@ describe('Terminal ODA enrollment Android App Link transformer', () => {
     const layoutThreeListItemThree = layoutThreeList.options.items[2] as UISchemaLayout;
 
     expect((layoutThreeListItemThree.elements[1] as DescriptionElement).type).toBe('Description');
-    expect((layoutThreeListItemThree.elements[1] as DescriptionElement).options.content).toBe('https://okta.com');
+    expect((layoutThreeListItemThree.elements[1] as DescriptionElement).options.content)
+      .toBe('https://okta.com');
   });
 });
