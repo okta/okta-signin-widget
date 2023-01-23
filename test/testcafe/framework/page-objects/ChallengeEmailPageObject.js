@@ -8,8 +8,20 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
     super(t);
   }
 
-  resendEmailView() {
-    return this.form.getElement(RESEND_EMAIL_VIEW_SELECTOR);
+  resendEmailViewText() {
+    if (userVariables.v3) {
+      return this.form.getErrorBoxText();
+    }
+    return this.form.getElement(RESEND_EMAIL_VIEW_SELECTOR).innerText;
+  }
+
+  async resendEmailExists() {
+    if (userVariables.v3) {
+      return this.form.hasAlertBox();
+    }
+
+    const isHidden = await this.form.getElement(RESEND_EMAIL_VIEW_SELECTOR).hasClass('hide')
+    return !isHidden;
   }
 
   resendEmailViewExists() {
@@ -17,7 +29,12 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
   }
 
   async clickSendAgainLink() {
-    await this.form.clickElement('.resend-email-view a.resend-link');
+    if (userVariables.v3) {
+      const resendEmail = this.form.getLink('Send again');
+      await this.t.click(resendEmail);
+    } else {
+      await this.form.clickElement('.resend-email-view a.resend-link');
+    }
   }
 
   async clickEnterCodeLink() {
