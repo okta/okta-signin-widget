@@ -13,8 +13,8 @@
 import { List as ListOdyssey } from '@okta/odyssey-react';
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
-import Logger from 'util/Logger';
 
+import Logger from '../../../../util/Logger';
 import {
   ButtonElement,
   DescriptionElement,
@@ -22,31 +22,12 @@ import {
   UISchemaElement,
   UISchemaElementComponent,
   UISchemaLayout,
-  UISchemaLayoutType,
 } from '../../types';
 import { getElementKey } from '../../util';
 import Button from '../Button';
 import InformationalText from '../InformationalText';
 
-const renderLayout = (item: UISchemaLayout) => {
-  const { elements } = item;
-
-  return (
-    <Box
-      display="flex"
-      flexDirection="column"
-    >
-      {
-        elements.map((element, index) => {
-          return renderElement(element, index);
-        })
-      }
-    </Box>
-  )
-};
-
-const renderElement = (item: UISchemaElement, index: number) => {
-  const elementKey = getElementKey(item, index);
+const renderElement = (item: UISchemaElement) => {
   const Container: FunctionComponent = ({ children }) => (
     <Box
       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -60,22 +41,35 @@ const renderElement = (item: UISchemaElement, index: number) => {
     case 'Button':
       return (
         <Container>
-          <Button key={elementKey} uischema={item as ButtonElement} />
+          <Button uischema={item as ButtonElement} />
         </Container>
       );
     case 'Description':
       return (
         <Container>
-          <InformationalText key={elementKey} uischema={item as DescriptionElement} />
+          <InformationalText uischema={item as DescriptionElement} />
         </Container>
       );
-    case UISchemaLayoutType.VERTICAL:
-      return renderLayout(item as UISchemaLayout);
     default:
       Logger.warn('Unsupported element type in List: ', item.type);
       return null;
   }
-}
+};
+
+const renderLayout = (item: UISchemaLayout) => {
+  const { elements } = item;
+
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+    >
+      {
+        elements.map((element) => renderElement(element))
+      }
+    </Box>
+  );
+};
 
 const List: UISchemaElementComponent<{
   uischema: ListElement
@@ -92,8 +86,8 @@ const List: UISchemaElementComponent<{
       { options.description && <Typography component="p">{options.description}</Typography> }
       <ListOdyssey listType={options.type ?? 'unordered'}>
         {
-          options.items.map((item: string | UISchemaLayout) => (
-            <ListOdyssey.Item>
+          options.items.map((item: string | UISchemaLayout, index: number) => (
+            <ListOdyssey.Item key={typeof item === 'string' ? item : getElementKey(item, index)}>
               {typeof item === 'string' ? item : renderLayout(item) }
             </ListOdyssey.Item>
           ))
