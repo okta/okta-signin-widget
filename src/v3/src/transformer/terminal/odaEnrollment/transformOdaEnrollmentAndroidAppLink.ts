@@ -51,11 +51,15 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
           {
             type: 'Field',
             key: 'hasOVAccount',
-            translations: [{
-              name: 'label',
-              i18nKey: 'enroll.subtitle.fastpass',
-              value: loc('enroll.subtitle.fastpass', 'login'),
-            }],
+            translations: [
+              ...(typeof deviceEnrollment.orgName === 'string'
+                ? [{
+                  name: 'label',
+                  i18nKey: 'enroll.subtitle.fastpass',
+                  value: loc('enroll.subtitle.fastpass', 'login', [deviceEnrollment.orgName]),
+                }] : []
+              ),
+            ],
             options: {
               inputMeta: {
                 name: 'hasOVAccount',
