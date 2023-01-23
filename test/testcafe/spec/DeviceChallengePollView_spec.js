@@ -549,7 +549,7 @@ test
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     }
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
-    deviceChallengePollPageObject.clickAppLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     await t.expect(getPageUrl()).contains('okta-verify.html');
   });
 
@@ -585,7 +585,7 @@ test
     if(!userVariables.v3) {
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     }
-    deviceChallengePollPageObject.clickUniversalLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     await t.expect(getPageUrl()).contains('okta-verify.html');
   });
 
@@ -655,7 +655,7 @@ test
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
 
-    deviceChallengePollPageObject.clickUniversalLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     // verify login_hint has been appended to the universal link url
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
   });
@@ -673,7 +673,7 @@ test
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
 
-    deviceChallengePollPageObject.clickUniversalLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     // verify login_hint is not appended to the universal link url
     await t.expect(getPageUrl()).notContains(encodeURIComponent(username));
   });
@@ -700,7 +700,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(false);
 
-    deviceChallengePollPageObject.clickAppLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     // verify login_hint has been appended to the app link url
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
   });
@@ -718,7 +718,7 @@ test
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
 
-    deviceChallengePollPageObject.clickAppLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     await t.wait(100); // opening the link takes just a moment
     // verify login_hint is not appended to the app link url
     await t.expect(getPageUrl()).notContains(encodeURIComponent(username));

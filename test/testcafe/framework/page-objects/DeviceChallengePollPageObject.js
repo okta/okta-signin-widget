@@ -96,27 +96,11 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     }
   }
 
-  async clickUniversalLink() {
-    if(userVariables.v3) {
-      await this.form.clickButton('Open Okta Verify');
-    } else {
-      await this.t.click(this.form.getLink('Open Okta Verify'));
-    }
-  }
-
-  async clickAppLink() {
-    if(userVariables.v3) {
-      await this.form.clickButton('Open Okta Verify');
-    } else {
-      await this.t.click(this.form.getLink('Open Okta Verify'));
-    }
-  }
-
   async clickLaunchOktaVerifyButton() {
     if (userVariables.v3) {
       await this.form.clickButton('Open Okta Verify');
     } else {
-      await this.t.click(Selector('#launch-ov'));
+      await this.t.click(this.form.getLink('Open Okta Verify'));
     }
   }
 
