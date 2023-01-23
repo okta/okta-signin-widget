@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { CHALLENGE_METHOD } from '../../../constants';
 import { IdxStepTransformer } from '../../../types';
 import { transformOdaEnrollmentAndroidAppLink } from './transformOdaEnrollmentAndroidAppLink';
 import { transformOdaEnrollmentLoopback } from './transformOdaEnrollmentLoopback';
@@ -22,7 +23,7 @@ export const transformOdaEnrollment: IdxStepTransformer = ({
   // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
   const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
 
-  const { isAndroidAppLink } = deviceEnrollment;
+  const isAndroidAppLink = deviceEnrollment.challengeMethod === CHALLENGE_METHOD.APP_LINK;
 
   if (isAndroidAppLink) {
     return transformOdaEnrollmentAndroidAppLink({ formBag, transaction, widgetProps });

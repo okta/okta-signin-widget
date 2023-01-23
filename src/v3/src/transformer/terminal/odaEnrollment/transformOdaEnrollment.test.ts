@@ -40,12 +40,12 @@ describe('Terminal ODA enrollment transformer', () => {
     jest.restoreAllMocks();
   });
 
-  it('calls android app link transformer when deviceEnrollment.isAndroidAppLink is true', () => {
+  it('calls android app link transformer when challenge method is app link', () => {
     transaction.context = {
       deviceEnrollment: {
         value: {
           name: 'oda',
-          isAndroidAppLink: true,
+          challengeMethod: 'APP_LINK',
         },
       },
     } as unknown as IdxContext;
@@ -55,12 +55,12 @@ describe('Terminal ODA enrollment transformer', () => {
     expect(transformOdaEnrollmentAndroidAppLink).toHaveBeenCalled();
   });
 
-  it('calls loopback transformer when deviceEnrollment.isAndroidAppLink is false', () => {
+  it('calls loopback transformer when challenge method is loopback', () => {
     transaction.context = {
       deviceEnrollment: {
         value: {
           name: 'oda',
-          isAndroidAppLink: false,
+          challengeMethod: 'LOOPBACK',
         },
       },
     } as unknown as IdxContext;

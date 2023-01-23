@@ -117,18 +117,6 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
         type: 'Description',
         noMargin: true,
         options: {
-          content: loc('enroll.oda.android.step1', 'login'),
-        },
-      } as DescriptionElement,
-    ],
-  } as UISchemaLayout,
-  {
-    type: UISchemaLayoutType.VERTICAL,
-    elements: [
-      {
-        type: 'Description',
-        noMargin: true,
-        options: {
           content: loc('enroll.oda.step1', 'login'),
         },
       } as DescriptionElement,

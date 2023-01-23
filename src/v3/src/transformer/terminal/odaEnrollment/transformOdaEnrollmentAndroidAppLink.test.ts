@@ -38,7 +38,7 @@ describe('Terminal ODA enrollment Android App Link transformer', () => {
       deviceEnrollment: {
         value: {
           name: 'oda',
-          isAndroidAppLink: true,
+          challengeMethod: 'APP_LINK',
           signInUrl: 'https://okta.com',
         },
       },

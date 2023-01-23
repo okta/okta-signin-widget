@@ -14,11 +14,9 @@ import { IdxContext, IdxStatus } from '@okta/okta-auth-js';
 import {
   DescriptionElement,
   ListElement,
-  StepperLayout,
   TitleElement,
   UISchemaElement,
   UISchemaLayout,
-  UISchemaLayoutType,
   WidgetProps,
 } from '../../../types';
 
@@ -41,9 +39,9 @@ describe('Terminal ODA enrollment Loopback transformer', () => {
       deviceEnrollment: {
         value: {
           name: 'oda',
-          challengeMethod: '',
+          challengeMethod: 'LOOPBACK',
           signInUrl: 'https://okta.com',
-          platform: 'ios',
+          platform: 'IOS',
         },
       },
     } as unknown as IdxContext;
@@ -62,16 +60,16 @@ describe('Terminal ODA enrollment Loopback transformer', () => {
     const listElement = formBag.uischema.elements[2] as ListElement;
     const listItems = listElement.options.items;
 
-    expect(listItems.length).toBe(7);
+    expect(listItems.length).toBe(6);
 
     const listItemOne = listItems[0];
     expect((listItemOne as UISchemaLayout).elements.length).toBe(2);
     expect(((listItemOne as UISchemaLayout).elements[0] as DescriptionElement).options.content).toBe('enroll.mdm.step.copyLink');
 
     const listItemFour = listItems[3];
-    expect(((listItemFour as UISchemaLayout).elements[0] as DescriptionElement).options.content).toBe('enroll.oda.android.step1');
+    expect(((listItemFour as UISchemaLayout).elements[0] as DescriptionElement).options.content).toBe('enroll.oda.step1');
 
-    const listItemFive = listItems[5];
+    const listItemFive = listItems[4];
     expect(((listItemFive as UISchemaLayout).elements[1] as DescriptionElement).options.content).toBe('https://okta.com');
   });
 
@@ -101,12 +99,12 @@ describe('Terminal ODA enrollment Loopback transformer', () => {
     const listElement = formBag.uischema.elements[2] as ListElement;
     const listItems = listElement.options.items;
 
-    expect(listItems.length).toBe(5);
+    expect(listItems.length).toBe(4);
 
     const listItemOne = listItems[0];
     expect(((listItemOne as UISchemaLayout).elements[0] as DescriptionElement).options.content).toBe('enroll.oda.android.step1');
 
-    const listItemFour = listItems[3];
-    expect(((listItemFour as UISchemaLayout).elements[1] as DescriptionElement).options.content).toBe('https://okta.com');
+    const listItemThree = listItems[2];
+    expect(((listItemThree as UISchemaLayout).elements[1] as DescriptionElement).options.content).toBe('https://okta.com');
   });
 });
