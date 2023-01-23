@@ -79,6 +79,7 @@ Object {
                 "viewIndex": 1,
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "enroll.oda.with.account.explanation",
                 },
@@ -203,6 +204,7 @@ Object {
                 "type": "Title",
               },
               Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "enroll.oda.without.account.explanation",
                 },

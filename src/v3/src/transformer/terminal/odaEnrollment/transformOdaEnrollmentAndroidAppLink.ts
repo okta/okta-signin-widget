@@ -104,6 +104,7 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
           } as TitleElement,
           {
             type: 'Description',
+            contentType: 'subtitle',
             options: { content: loc('enroll.oda.with.account.explanation', 'login') },
           } as DescriptionElement,
           {
@@ -208,6 +209,7 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
           } as TitleElement,
           {
             type: 'Description',
+            contentType: 'subtitle',
             options: { content: loc('enroll.oda.without.account.explanation', 'login') },
           } as DescriptionElement,
           {

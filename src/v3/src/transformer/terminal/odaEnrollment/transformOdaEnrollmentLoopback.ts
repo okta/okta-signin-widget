@@ -43,6 +43,7 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
 
   formBag.uischema.elements.push({
     type: 'Description',
+    contentType: 'subtitle',
     options: { content: loc('enroll.explanation.p1', 'login') },
   } as DescriptionElement);
 

@@ -21,6 +21,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "enroll.explanation.p1",
         },
@@ -127,6 +128,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
         "options": Object {
           "content": "enroll.explanation.p1",
         },
