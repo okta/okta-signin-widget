@@ -23,7 +23,7 @@ import {
   TitleElement,
 } from '../../types';
 import {
-  buildPasswordRequirementNotMetError,
+  buildPasswordRequirementNotMetErrorList,
   getUserInfo,
   loc,
   updatePasswordRequirementsNotMetMessage,
@@ -194,18 +194,12 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       }
       if (newPw) {
         const validations = validatePassword(newPw, userInfo, passwordSettings);
-        const requirementErrorMessage = buildPasswordRequirementNotMetError(
+        const requirementNotMetMessages = buildPasswordRequirementNotMetErrorList(
           requirements,
           validations,
+          passwordFieldName,
         );
-        if (requirementErrorMessage) {
-          errorMessages.push({
-            name: passwordFieldName,
-            class: 'ERROR',
-            message: requirementErrorMessage,
-            i18n: { key: '' },
-          });
-        }
+        errorMessages.push(...requirementNotMetMessages);
       }
       return errorMessages.length > 0 ? errorMessages : undefined;
     },

@@ -28,7 +28,7 @@ import {
   UISchemaLayoutType,
 } from '../../types';
 import {
-  buildPasswordRequirementNotMetError,
+  buildPasswordRequirementNotMetErrorList,
   getUserInfo,
   loc,
   updatePasswordRequirementsNotMetMessage,
@@ -99,18 +99,12 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
         const errorMessages: IdxMessageWithName[] = [];
         if (newPw) {
           const validations = validatePassword(newPw, userInfo, passwordSettings);
-          const requirementErrorMessage = buildPasswordRequirementNotMetError(
+          const requirementNotMetMessages = buildPasswordRequirementNotMetErrorList(
             requirements,
             validations,
+            'credentials.passcode',
           );
-          if (requirementErrorMessage) {
-            errorMessages.push({
-              name: 'credentials.passcode',
-              class: 'ERROR',
-              message: requirementErrorMessage,
-              i18n: { key: '' },
-            });
-          }
+          errorMessages.push(...requirementNotMetMessages);
         }
         return errorMessages.length > 0 ? errorMessages : undefined;
       },

@@ -33,7 +33,8 @@ export const useFormFieldValidation = (
       const updatedData = { ...data, ...(value !== undefined && { [name]: value }) };
       const messages = validator.validate({ ...updatedData });
       const matchingMessages = messages?.filter(
-        (message) => (message.name === undefined || message.name === name) && message.i18n?.key,
+        (message) => (message.name === undefined || message.name === name)
+          && (message.i18n?.key || message.message),
       );
       if (matchingMessages?.length) {
         // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
