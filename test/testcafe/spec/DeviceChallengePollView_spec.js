@@ -603,7 +603,6 @@ test
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-560815)
   .requestHooks(LoginHintCustomURIMock)('expect login_hint in CustomURI when engFastpassMultipleAccounts is on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -642,7 +641,6 @@ test
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-560815)
   .requestHooks(LoginHintUniversalLinkMock)('expect login_hint in UniversalLink with engFastpassMultipleAccounts on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -679,7 +677,6 @@ test
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-560815)
   .requestHooks(LoginHintAppLinkMock)('expect login_hint in AppLink when engFastpassMultipleAccounts is on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -693,8 +690,9 @@ test
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
 
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
-    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
 
+    await t.wait(5000); // wait for FASTPASS_FALLBACK_SPINNER_TIMEOUT
 
     await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');

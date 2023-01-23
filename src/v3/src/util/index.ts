@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+export * from './appendLoginHint';
 export * from './browserUtils';
 export * from './buildErrorMessageIds';
 export * from './clipboard';

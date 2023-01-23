@@ -16,13 +16,14 @@ import { useState } from 'preact/hooks';
 
 import Util from '../../../../util/Util';
 import { CHALLENGE_METHOD } from '../../constants';
+import { useWidgetContext } from '../../contexts';
 import {
   ButtonElement,
   ButtonType,
   OpenOktaVerifyFPButtonElement,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation, isAndroid } from '../../util';
+import { appendLoginHint, getTranslation, isAndroid } from '../../util';
 import Button from '../Button';
 
 type IFrameProps = {
@@ -53,6 +54,8 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
   } = uischema;
   const [key, setKey] = useState<number>(0);
   const label = getTranslation(translations, 'label');
+  const { loginHint } = useWidgetContext();
+  const deviceChallengeUrl = appendLoginHint(href, loginHint);
 
   const buttonUiSchema: ButtonElement = {
     type: 'Button',
@@ -70,9 +73,9 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
         const isCustomUriMethod = challengeMethod === CHALLENGE_METHOD.CUSTOM_URI;
         if ((isAppLinkMethod || isUniversalLinkMethod) && href) {
           if (isAndroid() && isUniversalLinkMethod) {
-            Util.redirectWithFormGet(href);
+            Util.redirectWithFormGet(deviceChallengeUrl);
           } else {
-            window.location.assign(href);
+            window.location.assign(deviceChallengeUrl);
           }
         }
 
@@ -90,7 +93,7 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
       {(href && challengeMethod === CHALLENGE_METHOD.CUSTOM_URI) && (
       <IFrame
         key={key}
-        src={href}
+        src={deviceChallengeUrl}
       />
       )}
     </React.Fragment>
