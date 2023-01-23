@@ -41,6 +41,7 @@ import ReminderPrompt from '../ReminderPrompt';
 import Select from '../Select';
 import Spinner from '../Spinner';
 import StepperButton from '../StepperButton';
+import StepperNavigator from '../StepperNavigator';
 import StepperRadio from '../StepperRadio';
 import SuccessCallback from '../SuccessCallback';
 import TextWithHtml from '../TextWithHtml';
@@ -214,5 +215,9 @@ export default [
   {
     tester: ({ type }) => type === 'AutoSubmit',
     renderer: AutoSubmit,
+  },
+  {
+    tester: ({ type }) => type === 'StepperNavigator',
+    renderer: StepperNavigator,
   },
 ] as Renderer[];

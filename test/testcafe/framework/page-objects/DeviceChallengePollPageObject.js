@@ -26,8 +26,8 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.getTextContent('[data-se="o-form-fieldset-container"]');
   }
 
-  getAppLinkContent() {
-    return this.getTextContent('.appLinkContent');
+  hasAppLinkContent() {
+    return this.form.getByText('If Okta Verify did not open automatically, tap Open Okta Verify.').exists;
   }
 
   getFooterLink() {
@@ -75,34 +75,32 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   getPrimaryButtonText() {
-    return this.body.find('[data-se="o-form-fieldset-container"] .button-primary').innerText;
+    if(userVariables.v3) {
+      return this.form.getButton('Open Okta Verify').innerText;
+    }
+    return this.form.getLink('Open Okta Verify').innerText;
   }
 
   waitForPrimaryButtonAfterSpinner() {
+    if (userVariables.v3) {
+      return this.form.getButton('Open Okta Verify');
+    }
     return Selector('[data-se="o-form-fieldset-container"] .button-primary', { timeout: 4500 });
   }
 
   async clickCancelAndGoBackLink() {
     if (userVariables.v3) {
-      await this.t.click(this.getCancelLink());
+      await this.t.click(this.getFooterCancelPollingLink());
     } else {
       await this.t.click(Selector('a[data-se="cancel-authenticator-challenge"]'));
     }
-  }
-
-  async clickUniversalLink() {
-    await this.t.click(Selector('.ul-button'));
-  }
-
-  async clickAppLink() {
-    await this.t.click(Selector('.al-button'));
   }
 
   async clickLaunchOktaVerifyButton() {
     if (userVariables.v3) {
       await this.form.clickButton('Open Okta Verify');
     } else {
-      await this.t.click(Selector('#launch-ov'));
+      await this.t.click(this.form.getLink('Open Okta Verify'));
     }
   }
 

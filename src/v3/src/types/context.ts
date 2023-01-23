@@ -43,3 +43,9 @@ export type IWidgetContext = {
   setLoading: StateUpdater<boolean>;
   setWidgetRendered: StateUpdater<boolean>;
 };
+
+// Stepper context
+export type IStepperContext = {
+  stepIndex: number;
+  setStepIndex: StateUpdater<number | undefined>;
+};

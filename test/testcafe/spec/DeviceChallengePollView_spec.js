@@ -1,4 +1,4 @@
-import { RequestLogger, RequestMock, ClientFunction } from 'testcafe';
+import { RequestLogger, RequestMock, ClientFunction, userVariables } from 'testcafe';
 import { renderWidget, Constants } from '../framework/shared';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -15,7 +15,7 @@ import userIsNotAssignedError from '../../../playground/mocks/data/idp/idx/error
 
 const BEACON_CLASS = 'mfa-okta-verify';
 
-let failureCount = 0, pollingError = false;
+let failureCount = 0, pollingError = false, appLinkLoopBackFailed = false;
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackSuccessMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
@@ -247,13 +247,22 @@ const universalLinkMock = RequestMock()
 const appLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll$/)
+  .respond((req, res) => {
+    res.headers['content-type'] = 'application/json';
+    if (appLinkLoopBackFailed) {
+      res.statusCode = '500';
+      res.setBody(identifyWithLaunchAppLink);
+    } else {
+      res.statusCode = '200';
+      res.setBody(identifyWithDeviceProbingLoopback);
+    }
+  })
   .onRequestTo(/(2000|6511|6512|6513)\/probe/)
   .respond(null, 500, { 'access-control-allow-origin': '*' })
   .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
   .respond(identifyWithLoopbackFallbackAndroidWithoutLink)
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
-  .respond(identifyWithLaunchAppLink)
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchAppLink);
 
 const LoginHintCustomURIMock = RequestMock()
@@ -505,7 +514,6 @@ test
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963, OKTA-548961)
   .requestHooks(loopbackFallbackLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -522,24 +530,26 @@ test
       record => record.response.statusCode === 200 &&
         record.request.url.match(/authenticators\/poll\/cancel/)
     )).eql(1);
+    appLinkLoopBackFailed = true;
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
 
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
-    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
 
     await t.wait(5000); // wait for FASTPASS_FALLBACK_SPINNER_TIMEOUT
 
     await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
 
-    await t.expect(deviceChallengePollPageObject.getAppLinkContent())
-      .contains('If Okta Verify did not open automatically, tap Open Okta Verify.');
+    await t.expect(deviceChallengePollPageObject.hasAppLinkContent()).eql(true);
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
-    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    if(!userVariables.v3) {
+      await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    }
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
-    deviceChallengePollPageObject.clickAppLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     await t.expect(getPageUrl()).contains('okta-verify.html');
   });
 
@@ -558,7 +568,6 @@ test
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
   .requestHooks(loopbackFallbackLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -573,13 +582,14 @@ test
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
-    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
-    deviceChallengePollPageObject.clickUniversalLink();
+    if(!userVariables.v3) {
+      await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    }
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     await t.expect(getPageUrl()).contains('okta-verify.html');
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
   .requestHooks(loopbackFallbackLogger, universalLinkMock)('clicking the launch Okta Verify button opens the universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -632,7 +642,7 @@ test
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963, OKTA-560815)
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-560815)
   .requestHooks(LoginHintUniversalLinkMock)('expect login_hint in UniversalLink with engFastpassMultipleAccounts on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -645,13 +655,12 @@ test
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
 
-    deviceChallengePollPageObject.clickUniversalLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     // verify login_hint has been appended to the universal link url
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
   .requestHooks(LoginHintUniversalLinkMock)('expect login_hint not in UniversalLink engFastpassMultipleAccounts off', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -664,13 +673,13 @@ test
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
 
-    deviceChallengePollPageObject.clickUniversalLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     // verify login_hint is not appended to the universal link url
     await t.expect(getPageUrl()).notContains(encodeURIComponent(username));
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963, OKTA-560815)
+  .meta('v3', false) // Not yet implemented in v3 (OKTA-560815)
   .requestHooks(LoginHintAppLinkMock)('expect login_hint in AppLink when engFastpassMultipleAccounts is on', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -691,13 +700,12 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(false);
 
-    deviceChallengePollPageObject.clickAppLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     // verify login_hint has been appended to the app link url
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
   });
 
 test
-  .meta('v3', false) // Not yet implemented in v3 (OKTA-548963)
   .requestHooks(LoginHintAppLinkMock)('expect login_hint not in AppLink when engFastpassMultipleAccounts is off', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
@@ -710,7 +718,7 @@ test
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
 
-    deviceChallengePollPageObject.clickAppLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     await t.wait(100); // opening the link takes just a moment
     // verify login_hint is not appended to the app link url
     await t.expect(getPageUrl()).notContains(encodeURIComponent(username));

@@ -20,7 +20,7 @@ import {
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { FunctionComponent } from 'preact';
 
-import { IWidgetContext } from './context';
+import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
 import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
@@ -253,6 +253,7 @@ export interface OpenOktaVerifyFPButtonElement extends UISchemaElement {
   options: {
     step: string;
     href?: string;
+    challengeMethod?: string;
   };
 }
 
@@ -436,6 +437,13 @@ export interface StepperButtonElement {
   options: Omit<ButtonElement['options'], 'step'>
   & {
     nextStepIndex: number;
+  }
+}
+
+export interface StepperNavigatorElement {
+  type: 'StepperNavigator',
+  options: {
+    callback: (stepperContext: IStepperContext) => void;
   }
 }
 

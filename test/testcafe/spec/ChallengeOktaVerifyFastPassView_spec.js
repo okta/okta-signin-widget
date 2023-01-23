@@ -367,7 +367,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
-    deviceChallengePollPageObject.clickUniversalLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     await t.wait(100); // opening the link takes just a moment
     await t.expect(await (new BasePageObject()).getPageUrl()).contains('okta-verify.html');
   });
@@ -435,7 +435,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
 
-    deviceChallengePollPageObject.clickAppLink();
+    deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     // verify login_hint has been appended to the app link url
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
   });

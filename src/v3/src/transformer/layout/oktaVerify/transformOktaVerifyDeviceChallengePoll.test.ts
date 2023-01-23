@@ -15,6 +15,9 @@ import {
   DescriptionElement,
   LinkElement,
   OpenOktaVerifyFPButtonElement,
+  SpinnerElement,
+  StepperLayout,
+  StepperNavigatorElement,
   TitleElement,
   WidgetProps,
 } from 'src/types';
@@ -50,7 +53,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(6);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('customUri.title');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
@@ -63,6 +66,73 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('customUri.required.content.download.linkText');
       expect((updatedFormBag.uischema.elements[4] as LinkElement).options.href)
         .toBe('https://apps.apple.com/us/app/okta-verify/id490179405');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
+        .toBe('cancel');
+    });
+
+    it('should transform elements when challengeMethod is APP_LINK', () => {
+      // @ts-expect-error Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
+      transaction.nextStep?.relatesTo.value.challengeMethod = 'APP_LINK';
+      const updatedFormBag = transformOktaVerifyDeviceChallengePoll({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(2);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('appLink.title');
+      expect((updatedFormBag.uischema.elements[1] as StepperLayout).type)
+        .toBe('Stepper');
+
+      const stepperLayout = updatedFormBag.uischema.elements[1];
+      const [layoutOne, layoutTwo] = (stepperLayout as StepperLayout).elements;
+
+      expect(layoutOne.elements.length).toBe(3);
+      expect((layoutOne.elements[0] as StepperNavigatorElement).type)
+        .toBe('StepperNavigator');
+      expect((layoutOne.elements[1] as SpinnerElement).type)
+        .toBe('Spinner');
+      expect((layoutOne.elements[2] as LinkElement).options.step)
+        .toBe('authenticatorChallenge-cancel');
+
+      expect(layoutTwo.elements.length).toBe(3);
+      expect((layoutTwo.elements[0] as DescriptionElement).options.content)
+        .toBe('appLink.content');
+      expect((layoutTwo.elements[1] as OpenOktaVerifyFPButtonElement).options.href)
+        .toBe('okta-verify.html');
+      expect((layoutTwo.elements[2] as LinkElement).type)
+        .toBe('Link');
+      expect((layoutTwo.elements[2] as LinkElement).options.step)
+        .toBe('cancel');
+    });
+
+    it('should transform elements when challengeMethod is UNIVERSAL_LINK', () => {
+      // @ts-expect-error Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
+      transaction.nextStep?.relatesTo.value.challengeMethod = 'UNIVERSAL_LINK';
+      const updatedFormBag = transformOktaVerifyDeviceChallengePoll({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('universalLink.title');
+      expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
+        .toBe('Spinner');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+        .toBe('universalLink.content');
+      expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
+        .toBe('okta-verify.html');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+        .toBe('cancel');
     });
   });
 
@@ -96,7 +166,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(6);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('customUri.title');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
@@ -109,6 +179,60 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('customUri.required.content.download.linkText');
       expect((updatedFormBag.uischema.elements[4] as LinkElement).options.href)
         .toBe('https://apps.apple.com/us/app/okta-verify/id490179405');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
+        .toBe('cancel');
+    });
+
+    it('should transform elements when challengeMethod is APP_LINK', () => {
+      // @ts-expect-error Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
+      transaction.nextStep?.relatesTo.value.contextualData.challenge.value.challengeMethod = 'APP_LINK';
+      const updatedFormBag = transformOktaVerifyDeviceChallengePoll({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('appLink.title');
+      expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
+        .toBe('Spinner');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+        .toBe('appLink.content');
+      expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
+        .toBe('okta-verify.html');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+        .toBe('cancel');
+    });
+
+    it('should transform elements when challengeMethod is UNIVERSAL_LINK', () => {
+      // @ts-expect-error Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
+      transaction.nextStep?.relatesTo.value.contextualData.challenge.value.challengeMethod = 'UNIVERSAL_LINK';
+      const updatedFormBag = transformOktaVerifyDeviceChallengePoll({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('universalLink.title');
+      expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
+        .toBe('Spinner');
+      expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+        .toBe('universalLink.content');
+      expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
+        .toBe('okta-verify.html');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+        .toBe('cancel');
     });
   });
 });

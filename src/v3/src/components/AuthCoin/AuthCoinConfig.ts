@@ -154,6 +154,13 @@ const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
     description: loc('factor.totpHard.yubikey', 'login'),
     iconClassName: 'mfa-yubikey',
   },
+  [CHALLENGE_METHOD.APP_LINK]: {
+    icon: OktaVerifyIcon,
+    name: 'mfa-okta-verify',
+    customizable: false,
+    description: loc('factor.totpSoft.oktaVerify', 'login'),
+    iconClassName: 'mfa-okta-verify',
+  },
   [CHALLENGE_METHOD.CUSTOM_URI]: {
     icon: OktaVerifyIcon,
     name: 'mfa-okta-verify',
@@ -162,6 +169,13 @@ const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
     iconClassName: 'mfa-okta-verify',
   },
   [CHALLENGE_METHOD.LOOPBACK]: {
+    icon: OktaVerifyIcon,
+    name: 'mfa-okta-verify',
+    customizable: false,
+    description: loc('factor.totpSoft.oktaVerify', 'login'),
+    iconClassName: 'mfa-okta-verify',
+  },
+  [CHALLENGE_METHOD.UNIVERSAL_LINK]: {
     icon: OktaVerifyIcon,
     name: 'mfa-okta-verify',
     customizable: false,

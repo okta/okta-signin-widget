@@ -11,9 +11,9 @@
  */
 
 import { createContext } from 'preact';
-import { StateUpdater, useContext } from 'preact/hooks';
+import { useContext } from 'preact/hooks';
 
-import { IWidgetContext } from './types';
+import { IStepperContext, IWidgetContext } from './types';
 
 const createWidgetContext = <T extends unknown>() => {
   // Create a context with a generic parameter or undefined
@@ -34,12 +34,6 @@ const createWidgetContext = <T extends unknown>() => {
 const [useWidgetContext, WidgetContextProvider] = createWidgetContext<IWidgetContext>();
 
 export { useWidgetContext, WidgetContextProvider };
-
-// Stepper context
-type IStepperContext = {
-  stepIndex: number;
-  setStepIndex: StateUpdater<number | undefined>;
-};
 
 export const StepperContext = createContext<IStepperContext>({
   stepIndex: 0,
