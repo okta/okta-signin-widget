@@ -47,29 +47,34 @@ const renderLayout = (item: UISchemaLayout) => {
 
 const renderElement = (item: UISchemaElement, index: number) => {
   const elementKey = getElementKey(item, index);
-  return (
+  const Container: FunctionComponent = ({ children }) => (
     <Box
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(!(item).noMargin && { marginBottom: 4 })}
     >
-      {
-        (() => {
-          switch (item.type) {
-          case 'Button':
-            return <Button key={elementKey} uischema={item as ButtonElement} />;
-          case 'Description':
-            return <InformationalText key={elementKey} uischema={item as DescriptionElement} />;
-          case UISchemaLayoutType.VERTICAL:
-            return renderLayout(item as UISchemaLayout);
-          default:
-            Logger.warn('Unsupported element type in List: ', item.type);
-            return null;
-          };
-        })()
-      }
+      {children}
     </Box>
   );
 
+  switch (item.type) {
+    case 'Button':
+      return (
+        <Container>
+          <Button key={elementKey} uischema={item as ButtonElement} />
+        </Container>
+      );
+    case 'Description':
+      return (
+        <Container>
+          <InformationalText key={elementKey} uischema={item as DescriptionElement} />
+        </Container>
+      );
+    case UISchemaLayoutType.VERTICAL:
+      return renderLayout(item as UISchemaLayout);
+    default:
+      Logger.warn('Unsupported element type in List: ', item.type);
+      return null;
+  }
 }
 
 const List: UISchemaElementComponent<{
