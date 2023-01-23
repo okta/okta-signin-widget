@@ -11,6 +11,8 @@
  */
 
 import { IdxContext, IdxStatus } from '@okta/okta-auth-js';
+
+import { getStubFormBag, getStubTransaction } from '../../../mocks/utils/utils';
 import {
   DescriptionElement,
   ListElement,
@@ -19,8 +21,6 @@ import {
   UISchemaLayout,
   WidgetProps,
 } from '../../../types';
-
-import { getStubFormBag, getStubTransaction } from '../../../mocks/utils/utils';
 import { transformOdaEnrollmentAndroidAppLink } from './transformOdaEnrollmentAndroidAppLink';
 
 describe('Terminal ODA enrollment Android App Link transformer', () => {

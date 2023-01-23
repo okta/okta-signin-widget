@@ -11,9 +11,9 @@
  */
 
 import { IdxContext, IdxStatus } from '@okta/okta-auth-js';
-import { WidgetProps } from '../../../types';
 
 import { getStubFormBag, getStubTransaction } from '../../../mocks/utils/utils';
+import { WidgetProps } from '../../../types';
 import { transformOdaEnrollment } from './transformOdaEnrollment';
 import { transformOdaEnrollmentAndroidAppLink } from './transformOdaEnrollmentAndroidAppLink';
 import { transformOdaEnrollmentLoopback } from './transformOdaEnrollmentLoopback';
@@ -68,5 +68,5 @@ describe('Terminal ODA enrollment transformer', () => {
     transformOdaEnrollment({ formBag, transaction, widgetProps });
 
     expect(transformOdaEnrollmentLoopback).toHaveBeenCalled();
-  })
+  });
 });
