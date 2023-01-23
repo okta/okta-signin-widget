@@ -44,7 +44,6 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "contentType": "string",
           "dataSe": "callout",
           "message": "oie.tooManyRequests",
         },
@@ -73,7 +72,6 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "contentType": "string",
           "dataSe": "callout",
           "message": "idx.operation.cancelled.on.other.device",
         },
@@ -109,7 +107,6 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "contentType": "string",
           "dataSe": "callout",
           "message": "idx.session.expired",
         },
@@ -138,7 +135,6 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "contentType": "string",
           "dataSe": "callout",
           "message": "idx.return.link.expired",
         },
@@ -167,7 +163,6 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "contentType": "string",
           "message": "oform.error.unexpected",
         },
         "type": "InfoBox",
@@ -195,7 +190,6 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "contentType": "string",
           "dataSe": "callout",
           "message": "Test error message",
         },

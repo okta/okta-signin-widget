@@ -68,7 +68,6 @@ const transformCustomMessages = (formBag: FormBag, messages: IdxMessage[]): Form
   formattedMessages.forEach((message) => messageElements.push({
     type: 'InfoBox',
     options: {
-      contentType: 'string',
       class: message.class ?? 'INFO',
       message: message.message,
       title: message.title && loc(message.title, 'login'),
@@ -107,7 +106,6 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
     messageElements.push({
       type: 'InfoBox',
       options: {
-        contentType: 'string',
         class: messageClass,
         message: message.message,
         dataSe: 'callout',

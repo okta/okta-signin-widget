@@ -10,7 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Alert, Box } from '@okta/odyssey-react-mui';
+import {
+  Alert,
+  AlertTitle,
+  Box,
+} from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -20,6 +24,7 @@ import {
   MessageTypeVariant,
   UISchemaElementComponent,
 } from '../../types';
+import List from '../List';
 
 const InfoBox: UISchemaElementComponent<{
   uischema: InfoboxElement
@@ -34,6 +39,7 @@ const InfoBox: UISchemaElementComponent<{
       title,
       class: messageClass,
       dataSe,
+      listOptions,
     },
   } = uischema;
 
@@ -46,12 +52,13 @@ const InfoBox: UISchemaElementComponent<{
       <Alert
         severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
         variant="infobox"
-        title={title}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...({ 'data-se': dataSe })}
         className={`infobox-${messageClass.toLowerCase()}`}
       >
-        {message}
+        { title && <AlertTitle>{title}</AlertTitle> }
+        { message }
+        { listOptions && <List uischema={{ type: 'List', options: listOptions }} /> }
       </Alert>
     </Box>
   );

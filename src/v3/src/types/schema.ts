@@ -398,9 +398,9 @@ export interface InfoboxElement extends UISchemaElement {
   options: {
     message: string;
     class: string;
-    contentType: string;
     title?: string;
     dataSe?: string;
+    listOptions?: ListElement['options'];
   }
 }
 
