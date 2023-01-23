@@ -13,9 +13,53 @@
 import { List as ListOdyssey } from '@okta/odyssey-react';
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
+import Logger from 'util/Logger';
 
-import { ListElement, UISchemaElementComponent, UISchemaLayout } from '../../types';
-import LayoutContainer from '../Form/LayoutContainer';
+import {
+  ButtonElement,
+  DescriptionElement,
+  ListElement,
+  UISchemaElement,
+  UISchemaElementComponent,
+  UISchemaLayout,
+  UISchemaLayoutType,
+} from '../../types';
+import { getElementKey } from '../../util';
+import Button from '../Button';
+import InformationalText from '../InformationalText';
+
+const renderLayout = (item: UISchemaLayout) => {
+  const { elements } = item;
+
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+    >
+      {
+        elements.map((element, index) => {
+          return renderElement(element, index);
+        })
+      }
+    </Box>
+  )
+};
+
+const renderElement = (item: UISchemaElement, index: number) => {
+  const elementKey = getElementKey(item, index);
+
+  switch (item.type) {
+    case 'Button':
+      return <Button key={elementKey} uischema={item as ButtonElement} />;
+    case 'Description':
+      return <InformationalText key={elementKey} uischema={item as DescriptionElement} />;
+    case UISchemaLayoutType.VERTICAL:
+      return renderLayout(item as UISchemaLayout);
+    default:
+      Logger.warn('Unsupported element type in List: ', item.type);
+      return null;
+  }
+}
 
 const List: UISchemaElementComponent<{
   uischema: ListElement
@@ -34,7 +78,7 @@ const List: UISchemaElementComponent<{
         {
           options.items.map((item: string | UISchemaLayout) => (
             <ListOdyssey.Item>
-              {typeof item === 'string' ? item : <LayoutContainer uischema={item} /> }
+              {typeof item === 'string' ? item : renderLayout(item) }
             </ListOdyssey.Item>
           ))
         }
