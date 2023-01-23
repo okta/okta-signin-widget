@@ -103,7 +103,7 @@ test
     await t.expect(getStateHandleFromSessionStorage()).eql(null);
   });
 
-test.meta('v3', true)
+test
   .requestHooks(credentialSSOExtensionBiometricsErrorMobileMock)('show biometrics error for mobile platform in credential SSO Extension', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
@@ -119,7 +119,7 @@ test.meta('v3', true)
     await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
   });
 
-test.meta('v3', true)
+test
   .requestHooks(credentialSSOExtensionBiometricsErrorDesktopMock)('show biometrics error for desktop platform in credential SSO Extension', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
