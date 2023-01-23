@@ -19,11 +19,16 @@ import {
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useOnChange, useValue } from '../../hooks';
+import {
+  useAutoFocus,
+  useOnChange,
+  useOnJoinAriaDescribedBy,
+  useValue,
+} from '../../hooks';
 import {
   ChangeEvent, UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { buildInputDescribedByValue, getTranslation } from '../../util';
+import { getTranslation } from '../../util';
 import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
@@ -52,7 +57,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const hasErrors = typeof errors !== 'undefined';
   const hintId = hint && `${name}-hint`;
   const explainId = explain && `${name}-explain`;
-  const updatedDescribedByIds = buildInputDescribedByValue(describedByIds, hintId, explainId);
+  const ariaDescribedBy = useOnJoinAriaDescribedBy(describedByIds, hintId, explainId);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched?.(true);
@@ -90,7 +95,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         fullWidth
         inputProps={{
           'data-se': dataSe,
-          'aria-describedby': updatedDescribedByIds,
+          ...ariaDescribedBy,
           ...attributes,
         }}
         inputRef={focusRef}

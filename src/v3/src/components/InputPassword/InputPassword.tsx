@@ -28,6 +28,7 @@ import { useWidgetContext } from '../../contexts';
 import {
   useAutoFocus,
   useOnChange,
+  useOnJoinAriaDescribedBy,
   useValue,
 } from '../../hooks';
 import {
@@ -36,7 +37,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { buildInputDescribedByValue, getTranslation } from '../../util';
+import { getTranslation } from '../../util';
 import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
@@ -63,7 +64,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const hasErrors = typeof errors !== 'undefined';
   const hintId = hint && `${name}-hint`;
   const explainId = explain && `${name}-explain`;
-  const updatedDescribedByIds = buildInputDescribedByValue(describedByIds, hintId, explainId);
+  const ariaDescribedBy = useOnJoinAriaDescribedBy(describedByIds, hintId, explainId);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -111,7 +112,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         fullWidth
         inputProps={{
           'data-se': name,
-          'aria-describedby': updatedDescribedByIds,
+          ...ariaDescribedBy,
           ...attributes,
         }}
         endAdornment={(

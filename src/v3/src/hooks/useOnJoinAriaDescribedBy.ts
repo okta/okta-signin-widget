@@ -10,8 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export const buildInputDescribedByValue = (
-  currentDescribedByIds: string | undefined,
-  hintId: string | undefined,
-  explainId: string | undefined,
-): string | undefined => [currentDescribedByIds, hintId, explainId].filter(Boolean).join(' ') || undefined;
+type AriaDescribedByKey = 'aria-describedby';
+
+/**
+ *
+ * @description Accepts a string of current describedby IDs and an arbituary number of
+ * additional IDs that needs to be concatenated to the final aria-describedby record.
+ *
+ */
+export const useOnJoinAriaDescribedBy = (
+  ...describedByIds: (string | undefined)[]
+): Record<AriaDescribedByKey, string | undefined> => {
+  const describedByValues = [...describedByIds.filter(Boolean)]
+    .filter(Boolean).join(' ') || undefined;
+  return { 'aria-describedby': describedByValues };
+};
