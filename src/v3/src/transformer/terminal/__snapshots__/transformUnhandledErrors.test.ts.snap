@@ -12,7 +12,6 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "contentType": "string",
           "dataSe": "callout",
           "message": "oform.error.unexpected",
         },
@@ -36,7 +35,6 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "contentType": "string",
           "dataSe": "callout",
           "message": "oie.configuration.error",
         },
@@ -60,7 +58,6 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "contentType": "string",
           "dataSe": "callout",
           "message": "oie.feature.disabled",
         },
@@ -84,7 +81,6 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "contentType": "string",
           "dataSe": "callout",
           "message": "oie.invalid.recovery.token",
         },

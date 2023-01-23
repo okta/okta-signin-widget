@@ -52,7 +52,6 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.contentType).toBe('string');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
       .toBe('ERROR');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
@@ -72,7 +71,6 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.contentType).toBe('string');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
       .toBe('ERROR');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)

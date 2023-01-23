@@ -58,7 +58,7 @@ const InfoBox: UISchemaElementComponent<{
       >
         { title && <AlertTitle>{title}</AlertTitle> }
         { message }
-        { listOptions && <List uischema={ {type: 'List', options: listOptions } } /> }
+        { listOptions && <List uischema={{ type: 'List', options: listOptions }} /> }
       </Alert>
     </Box>
   );

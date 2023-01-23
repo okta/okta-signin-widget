@@ -115,7 +115,6 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-15"
                     data-se="callout"
                     role="alert"
-                    title="Update Okta Verify"
                   >
                     <div
                       class="MuiAlert-icon emotion-16"
