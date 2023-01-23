@@ -80,7 +80,7 @@ describe('Terminal ODA enrollment Loopback transformer', () => {
           name: 'oda',
           challengeMethod: 'LOOPBACK',
           signInUrl: 'https://okta.com',
-          platform: 'android',
+          platform: 'ANDROID',
         },
       },
     } as unknown as IdxContext;
