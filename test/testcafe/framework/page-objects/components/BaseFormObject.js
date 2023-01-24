@@ -243,8 +243,11 @@ export default class BaseFormObject {
     return within(this.el).queryByRole('alert').exists;
   }
 
-  hasAlertBox() {
-    return within(this.el).queryByRole('alert').exists;
+  hasAlertBox(index) {
+    if (index === undefined) {
+      index = 0;
+    }
+    return within(this.el).queryAllByRole('alert').nth(index).exists;
   }
 
   getAllErrorBoxTexts() {
