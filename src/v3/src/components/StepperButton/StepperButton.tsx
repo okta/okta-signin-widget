@@ -13,7 +13,7 @@
 import { Button } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
-import { useStepperContext } from '../../contexts';
+import { useStepperContext, useWidgetContext } from '../../contexts';
 import { useAutoFocus } from '../../hooks';
 import { StepperButtonElement, UISchemaElementComponent } from '../../types';
 
@@ -32,9 +32,14 @@ const StepperButton: UISchemaElementComponent<{
   } = uischema;
 
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
+  const widgetContext = useWidgetContext();
 
   const handleClick = () => {
-    setStepIndex!(nextStepIndex);
+    if (typeof nextStepIndex === 'function') {
+      setStepIndex!(nextStepIndex(widgetContext));
+    } else {
+      setStepIndex!(nextStepIndex);
+    }
   };
 
   return (

@@ -301,6 +301,7 @@ export interface TextWithHtmlElement extends UISchemaElement {
   options: ActionOptions & {
     content: string;
     contentClassname: string;
+    submitOnClick: boolean;
     stepToRender?: string;
   };
 }
@@ -325,7 +326,7 @@ export interface ReminderElement extends UISchemaElement {
 export interface ListElement extends UISchemaElement {
   type: 'List';
   options: {
-    items: string[];
+    items: (string | UISchemaLayout)[],
     type?: 'unordered' | 'ordered' | 'description';
     description?: string;
   };
@@ -436,7 +437,7 @@ export interface StepperButtonElement {
   label: string;
   options: Omit<ButtonElement['options'], 'step'>
   & {
-    nextStepIndex: number;
+    nextStepIndex: number | ((widgetContext: IWidgetContext) => number);
   }
 }
 

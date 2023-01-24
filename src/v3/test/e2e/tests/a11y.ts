@@ -387,3 +387,29 @@ test.page(
   await checkA11y(t);
   await takeScreenshot(t, 'device-challenge-poll-custom-uri');
 });
+
+test.page(
+  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/introspect/oda-enrollment-ios',
+)('oda-enrollment-ios', async (t) => {
+  await checkA11y(t);
+  await takeScreenshot(t, 'oda-enrollment-ios');
+});
+
+test.page(
+  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/introspect/oda-enrollment-android-loopback',
+)('oda-enrollment-android-loopback', async (t) => {
+  await checkA11y(t);
+  await takeScreenshot(t, 'oda-enrollment-android-loopback');
+});
+
+test.page(
+  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/introspect/oda-enrollment-android-applink',
+)('oda-enrollment-android-applink', async (t) => {
+  await checkA11y(t);
+  await takeScreenshot(t, 'oda-enrollment-android-applink');
+
+  await t
+    .click(Selector('button').withExactText('Next'));
+
+  await takeScreenshot(t, 'oda-enrollment-android-applink-without-account');
+});

@@ -287,7 +287,11 @@ module.exports = {
     },
     // disabling param re-assign in transaction transformer
     {
-      files: ['src/transformer/transaction/*.ts'],
+      files: [
+        'src/transformer/transaction/*.ts',
+        'src/transformer/terminal/*.ts',
+        'src/transformer/terminal/**/*.ts',
+      ],
       rules: {
         'no-param-reassign': 0,
       },

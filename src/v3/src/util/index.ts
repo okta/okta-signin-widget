@@ -12,6 +12,7 @@
 
 export * from './browserUtils';
 export * from './buildErrorMessageIds';
+export * from './clipboard';
 export * from './cookieUtils';
 export * from './environmentUtils';
 export * from './flattenInputs';

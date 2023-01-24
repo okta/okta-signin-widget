@@ -18,6 +18,7 @@ import {
 
 import {
   DEVICE_CODE_ERROR_KEYS,
+  DEVICE_ENROLLMENT_TYPE,
   TERMINAL_KEY,
   TERMINAL_KEYS_WITHOUT_CANCEL,
   TERMINAL_TITLE_KEY,
@@ -46,6 +47,7 @@ import {
 import { redirectTransformer } from '../redirect';
 import { setFocusOnFirstElement } from '../uischema';
 import { createForm } from '../utils';
+import { transformOdaEnrollment } from './odaEnrollment';
 import { transformTerminalMessages } from './transformTerminalMessages';
 
 const getTitleKey = (messages?: IdxMessage[]): string | undefined => {
@@ -256,6 +258,14 @@ export const transformTerminalTransaction = (
   }
 
   const formBag: FormBag = createForm();
+
+  // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
+  const deviceEnrollment = transaction.context?.deviceEnrollment?.value;
+  if (typeof deviceEnrollment !== 'undefined') {
+    if (deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.ODA) {
+      return transformOdaEnrollment({ transaction, formBag, widgetProps });
+    }
+  }
 
   appendTitleElement(formBag.uischema, messages);
 
