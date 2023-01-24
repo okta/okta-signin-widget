@@ -42,7 +42,17 @@ export type FormBag = {
   dataSchema: DataSchemaBag;
 };
 
-export type IdxMessageWithName = IdxMessage & { name?: string; };
+export type WidgetMessage = (IdxMessage & {
+  type?: 'string';
+  title?: string;
+  name?: string;
+} | Omit<IdxMessage, 'message' | 'i18n' | 'class'> & {
+  messages: WidgetMessage[];
+  type?: 'list';
+  title?: string;
+  name?: string;
+  description?: string;
+});
 
 export type AutoCompleteValue = 'username'
 | 'current-password'
@@ -500,7 +510,7 @@ export interface HiddenInputElement extends UISchemaElement {
   options: { name: string; value: string; };
 }
 
-type ValidateFunction = (data: FormBag['data']) => IdxMessageWithName[] | undefined;
+type ValidateFunction = (data: FormBag['data']) => WidgetMessage[] | undefined;
 
 export interface DataSchema {
   validate?: ValidateFunction;

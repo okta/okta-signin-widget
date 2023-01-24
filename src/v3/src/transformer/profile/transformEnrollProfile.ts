@@ -18,7 +18,6 @@ import {
   DividerElement,
   FieldElement,
   FormBag,
-  IdxMessageWithName,
   IdxStepTransformer,
   LinkElement,
   PasswordRequirementsData,
@@ -26,6 +25,7 @@ import {
   TitleElement,
   UISchemaElement,
   UISchemaLayoutType,
+  WidgetMessage,
 } from '../../types';
 import {
   buildPasswordRequirementNotMetErrorList,
@@ -96,7 +96,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     dataSchema['credentials.passcode'] = {
       validate: (data: FormBag['data']) => {
         const newPw = data['credentials.passcode'] as string;
-        const errorMessages: IdxMessageWithName[] = [];
+        const errorMessages: WidgetMessage[] = [];
         if (newPw) {
           const validations = validatePassword(newPw, userInfo, passwordSettings);
           const requirementNotMetMessages = buildPasswordRequirementNotMetErrorList(

@@ -15,12 +15,12 @@ import {
   FieldElement,
   FormBag,
   HiddenInputElement,
-  IdxMessageWithName,
   IdxStepTransformer,
   PasswordMatchesElement,
   PasswordRequirementsElement,
   PasswordSettings,
   TitleElement,
+  WidgetMessage,
 } from '../../types';
 import {
   buildPasswordRequirementNotMetErrorList,
@@ -88,7 +88,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   if (passwordElement.options.inputMeta.messages?.value?.length) {
     // @ts-ignore TODO: OKTA-539834 - messages missing from type
     const errorMessages = passwordElement.options.inputMeta.messages.value;
-    const newPasswordErrors = errorMessages.filter((message: IdxMessageWithName) => {
+    const newPasswordErrors = errorMessages.filter((message: WidgetMessage) => {
       const { name: newPwName } = passwordElement.options.inputMeta;
       return message.name === newPwName || message.name === undefined;
     });
@@ -101,7 +101,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       passwordElement.options.inputMeta.messages.value = undefined;
     }
 
-    const confirmPasswordError = errorMessages.find((message: IdxMessageWithName) => {
+    const confirmPasswordError = errorMessages.find((message: WidgetMessage) => {
       const { name: confirmPwName } = confirmPasswordElement.options.inputMeta;
       return message.name === confirmPwName;
     });
@@ -175,9 +175,10 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     validate: (data: FormBag['data']) => {
       const newPw = data[passwordFieldName] as string;
       const confirmPw = data.confirmPassword;
-      const errorMessages: IdxMessageWithName[] = [];
+      const errorMessages: WidgetMessage[] = [];
       if (!newPw) {
         errorMessages.push({
+          type: 'string',
           name: passwordFieldName,
           class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
@@ -186,6 +187,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       }
       if (!confirmPw) {
         errorMessages.push({
+          type: 'string',
           name: 'confirmPassword',
           class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
@@ -212,6 +214,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
         // This error is not displayed by the component, however it is used to block
         // form submission by marking the field as invalid
         return [{
+          type: 'string',
           name: 'passwordMatchesValidation',
           class: 'ERROR',
           message: loc('password.error.match', 'login'),

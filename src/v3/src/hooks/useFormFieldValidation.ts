@@ -12,34 +12,34 @@
 
 import { StateUpdater, useCallback } from 'preact/hooks';
 
-import { getMessage } from '../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../contexts';
-import { DataSchema, FieldElement } from '../types';
+import { DataSchema, FieldElement, WidgetMessage } from '../types';
+import { convertIdxMessageToWidgetMessage } from '../util';
 
 export const useFormFieldValidation = (
   uischema: FieldElement,
 ): (
-  setErrors?: StateUpdater<string[] | undefined>, value?: string | boolean | number
+  setErrors?: StateUpdater<WidgetMessage[] | undefined>, value?: string | boolean | number
   ) => void => {
   const { name } = uischema.options.inputMeta;
   const { dataSchemaRef, data } = useWidgetContext();
 
   return useCallback((
-    setErrors?: StateUpdater<string[] | undefined>,
+    setErrors?: StateUpdater<WidgetMessage[] | undefined>,
     value?: string | boolean | number,
   ) => {
     const validator = dataSchemaRef.current?.[name] as DataSchema;
     if (typeof validator?.validate === 'function') {
       const updatedData = { ...data, ...(value !== undefined && { [name]: value }) };
       const messages = validator.validate({ ...updatedData });
-      const matchingMessages = messages?.filter(
+      const widgetMessages = convertIdxMessageToWidgetMessage(messages);
+      const matchingMessages = widgetMessages?.filter(
         (message) => (message.name === undefined || message.name === name)
-          && (message.i18n?.key || message.message),
+          && ((message.type === 'string' && message.message)
+            || (message.type === 'list' && message.messages?.length)),
       );
       if (matchingMessages?.length) {
-        // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
-        const translatedMessages: string[] = matchingMessages.map((message) => getMessage(message));
-        setErrors?.(translatedMessages);
+        setErrors?.(matchingMessages);
         return;
       }
     }

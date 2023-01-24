@@ -10,10 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export const buildErrorMessageIds = (errors: string[], fieldName: string): string => {
-  if (errors.length === 1) {
+import { WidgetMessage } from '../types';
+
+export const buildErrorMessageIds = (messages: WidgetMessage[], fieldName: string): string => {
+  if (messages.length === 1) {
     return `${fieldName}-error`;
   }
-  const ids = errors.map((_: string, index: number) => `${fieldName}-error-${index}`);
+  const ids = messages.map((_: WidgetMessage, index: number) => `${fieldName}-error-${index}`);
   return ids.join(' ');
 };

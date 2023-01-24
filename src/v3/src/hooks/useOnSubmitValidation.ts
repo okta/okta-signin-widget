@@ -15,11 +15,11 @@ import clone from 'lodash/clone';
 import { useCallback } from 'preact/hooks';
 
 import { useWidgetContext } from '../contexts';
-import { IdxMessageWithName } from '../types';
+import { WidgetMessage } from '../types';
 import { loc, resetMessagesToInputs } from '../util';
 
 export const useOnSubmitValidation = (): (
-messages: Record<string, IdxMessageWithName[]>) => Promise<void> => {
+messages: Record<string, WidgetMessage[]>) => Promise<void> => {
   const {
     setIdxTransaction,
     setIsClientTransaction,
@@ -27,7 +27,7 @@ messages: Record<string, IdxMessageWithName[]>) => Promise<void> => {
     idxTransaction: currentTransaction,
   } = useWidgetContext();
 
-  return useCallback(async (messages: Record<string, IdxMessageWithName[]>) => {
+  return useCallback(async (messages: Record<string, WidgetMessage[]>) => {
     const newTransaction = clone(currentTransaction);
     resetMessagesToInputs(newTransaction!.nextStep!.inputs!, messages);
     setMessage({

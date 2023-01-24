@@ -17,6 +17,7 @@ import {
   NextStep,
 } from '@okta/okta-auth-js';
 
+import { getMessage } from '../../../v2/ion/i18nTransformer';
 import {
   AUTHENTICATOR_KEY,
   DEVICE_ENROLLMENT_TYPE,
@@ -26,10 +27,10 @@ import {
 import {
   AppInfo,
   AuthCoinProps,
-  IdxMessageWithName,
   IWidgetContext,
   RequiredKeys,
   UserInfo,
+  WidgetMessage,
   WidgetProps,
 } from '../types';
 import { getAuthenticatorKey } from './getAuthenticatorKey';
@@ -70,7 +71,7 @@ export const containsOneOfMessageKeys = (
 ): boolean => keys.some((key) => containsMessageKey(key, messages));
 
 export const updatePasswordRequirementsNotMetMessage = (
-  messages: IdxMessageWithName[],
+  messages: IdxMessage[],
 ): IdxMessage[] => (
   messages.map((message) => {
     if (message.i18n?.key?.includes('password.passwordRequirementsNotMet')) {
@@ -215,3 +216,17 @@ export const updateTransactionWithNextStep = (
     nextStep,
   });
 };
+
+export const convertIdxMessageToWidgetMessage = (
+  messages?: any[],
+): WidgetMessage[] | undefined => messages?.map((message) => {
+  // If type is set, this was manually done which means the object is already in expected format
+  if (typeof message?.type !== 'undefined') {
+    return message as WidgetMessage;
+  }
+  return {
+    ...(message as IdxMessage),
+    message: getMessage(message),
+    type: 'string',
+  };
+});

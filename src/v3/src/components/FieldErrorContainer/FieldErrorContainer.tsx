@@ -10,13 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, FormHelperText } from '@okta/odyssey-react-mui';
+import { List, ListItem } from '@mui/material';
+import { Box, FormHelperText, Typography } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
+import { WidgetMessage } from '../../types';
 import { buildErrorMessageIds } from '../../util';
 
 type FieldErrorProps = {
-  errors: string[];
+  errors: WidgetMessage[];
   fieldName: string;
 };
 
@@ -30,19 +32,79 @@ const FieldErrorContainer: FunctionComponent<FieldErrorProps> = (props) => {
 
   return (
     <Box>
-      {errors.map((error: string, index: number) => (
-        <FormHelperText
-          key={error}
-          id={buildElementId(index)}
-          role="alert"
-          data-se={buildElementId(index)}
-          error
-          // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
-          sx={{ textAlign: 'start' }}
-        >
-          {error}
-        </FormHelperText>
-      ))}
+      {
+        errors.map((error: WidgetMessage, index: number) => {
+          if (error.type === 'list') {
+            return (
+              <Box
+                marginBlockStart={2}
+                sx={(theme) => ({
+                  color: theme.palette.error.main,
+                  fontSize: '.857rem',
+                })}
+              >
+                {
+                  error.description && (
+                    <Typography
+                      component="p"
+                      fontSize=".857rem"
+                    >
+                      {error.description}
+                    </Typography>
+                  )
+                }
+                <List
+                  dense
+                  disablePadding
+                  sx={{ listStyleType: 'disc', paddingInlineStart: 4 }}
+                >
+                  {
+                    error.messages.map((message: WidgetMessage) => {
+                      if (message.type === 'string') {
+                        return (
+                          <ListItem
+                            key={message.message}
+                            sx={{ display: 'list-item' }}
+                            dense
+                            disablePadding
+                          >
+                            {message.message}
+                          </ListItem>
+                        );
+                      }
+                      if (message.type === 'list') {
+                        return (
+                          <FieldErrorContainer
+                            errors={message.messages}
+                            fieldName={fieldName}
+                          />
+                        );
+                      }
+                      return null;
+                    })
+                  }
+                </List>
+              </Box>
+            );
+          }
+          if (error.type === 'string') {
+            return (
+              <FormHelperText
+                key={error.message}
+                id={buildElementId(index)}
+                role="alert"
+                data-se={buildElementId(index)}
+                error
+                // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
+                sx={{ textAlign: 'start' }}
+              >
+                {error.message}
+              </FormHelperText>
+            );
+          }
+          return null;
+        })
+      }
     </Box>
   );
 };

@@ -10,37 +10,34 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessageWithName, ListItem, PasswordValidation } from '../types';
+import { ListItem, PasswordValidation, WidgetMessage } from '../types';
 import { loc } from './locUtil';
 
 export const buildPasswordRequirementNotMetErrorList = (
   passwordRequirements: ListItem[],
   passwordValidations: PasswordValidation,
   fieldName: string,
-): IdxMessageWithName[] => {
-  const errorMessages: IdxMessageWithName[] = [];
+): WidgetMessage[] => {
+  const widgetMessages: WidgetMessage[] = [];
+  const errorMessages: string[] = [];
 
   passwordRequirements.forEach((requirement: ListItem) => {
     const ruleValue = passwordValidations[requirement.ruleKey];
     if (ruleValue === false) {
-      errorMessages.push({
-        name: fieldName,
-        class: 'ERROR',
-        message: requirement.label,
-        i18n: { key: '' },
-      });
+      errorMessages.push(requirement.label);
     }
   });
 
   if (errorMessages.length > 0) {
     // TODO: Add ticket here to create new translation key that includes colon
-    errorMessages.unshift({
-      name: fieldName,
-      class: 'ERROR',
-      message: loc('registration.error.password.passwordRequirementsNotMet', 'login'),
-      i18n: { key: 'registration.error.password.passwordRequirementsNotMet' },
+    widgetMessages.push({
+      type: 'list',
+      description: loc('registration.error.password.passwordRequirementsNotMet', 'login'),
+      messages: errorMessages.map((message) => ({
+        type: 'string', class: 'ERROR', i18n: { key: '' }, name: fieldName, message,
+      })),
     });
   }
 
-  return errorMessages;
+  return widgetMessages;
 };

@@ -10,14 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useFormFieldValidation, useOnChange } from '../../hooks';
-import { FieldElement, UISchemaElementComponent } from '../../types';
-import { buildErrorMessageIds } from '../../util';
+import { FieldElement, UISchemaElementComponent, WidgetMessage } from '../../types';
+import { buildErrorMessageIds, convertIdxMessageToWidgetMessage } from '../../util';
 import { getDisplayName } from './getDisplayName';
 
 export type RendererComponent<T> = {
@@ -45,11 +43,10 @@ export const withFormValidationState: WrappedFunctionComponent<
         },
       },
     } = uischema;
-    const errorsFromSchema = messages?.value?.length
-      // @ts-ignore Message interface defined in v2/i18nTransformer JsDoc is incorrect
-      && messages.value.map((message: IdxMessage) => getMessage(message));
+    const errorsFromSchema: WidgetMessage[] = messages?.value?.length
+      && convertIdxMessageToWidgetMessage(messages?.value);
     const [touched, setTouched] = useState<boolean>(false);
-    const [errors, setErrors] = useState<string[] | undefined>();
+    const [errors, setErrors] = useState<WidgetMessage[] | undefined>();
     const onValidateHandler = useFormFieldValidation(uischema);
     const onChangeHandler = useOnChange(uischema);
 
