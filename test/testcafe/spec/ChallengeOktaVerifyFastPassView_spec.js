@@ -417,10 +417,10 @@ test
   });
 
 test
-  .requestHooks(loginHintAppLinkMock)('expect login_hint in AppLink when engFastpassMultipleAccounts is on', async t => {
+  .requestHooks(loginHintAppLinkMock)('expect login_hint in AppLink in all cases', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
-      features: { engFastpassMultipleAccounts: true },
+      features: { },
     });
 
     const username = 'john.smith@okta.com';
