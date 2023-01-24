@@ -28,7 +28,6 @@ import { useWidgetContext } from '../../contexts';
 import {
   useAutoFocus,
   useOnChange,
-  useOnJoinAriaDescribedBy,
   useValue,
 } from '../../hooks';
 import {
@@ -62,9 +61,11 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const explain = getTranslation(translations, 'bottomExplain');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
+  // TODO: OKTA-569647 - refactor logic
   const hintId = hint && `${name}-hint`;
   const explainId = explain && `${name}-explain`;
-  const ariaDescribedBy = useOnJoinAriaDescribedBy(describedByIds, hintId, explainId);
+  const ariaDescribedByIds = [describedByIds, hintId, explainId].filter(Boolean).join(' ')
+    || undefined;
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -112,7 +113,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         fullWidth
         inputProps={{
           'data-se': name,
-          ...ariaDescribedBy,
+          'aria-describedby': ariaDescribedByIds,
           ...attributes,
         }}
         endAdornment={(

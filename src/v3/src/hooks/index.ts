@@ -13,7 +13,6 @@
 export * from './useAutoFocus';
 export * from './useFormFieldValidation';
 export * from './useOnChange';
-export * from './useOnJoinAriaDescribedBy';
 export * from './useOnSubmit';
 export * from './useOnSubmitValidation';
 export * from './usePolling';

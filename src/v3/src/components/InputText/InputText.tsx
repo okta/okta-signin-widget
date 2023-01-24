@@ -22,7 +22,6 @@ import { useWidgetContext } from '../../contexts';
 import {
   useAutoFocus,
   useOnChange,
-  useOnJoinAriaDescribedBy,
   useValue,
 } from '../../hooks';
 import {
@@ -55,9 +54,11 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
+  // TODO: OKTA-569647 - refactor logic
   const hintId = hint && `${name}-hint`;
   const explainId = explain && `${name}-explain`;
-  const ariaDescribedBy = useOnJoinAriaDescribedBy(describedByIds, hintId, explainId);
+  const ariaDescribedByIds = [describedByIds, hintId, explainId].filter(Boolean).join(' ')
+    || undefined;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTouched?.(true);
@@ -95,7 +96,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         fullWidth
         inputProps={{
           'data-se': dataSe,
-          ...ariaDescribedBy,
+          'aria-describedby': ariaDescribedByIds,
           ...attributes,
         }}
         inputRef={focusRef}
