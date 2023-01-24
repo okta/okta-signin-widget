@@ -189,6 +189,7 @@ export type OktaWidgetFeatures = {
   securityImage?: boolean;
   rememberMe?: boolean;
   autoPush?: boolean;
+  autoFocus?: boolean;
   webauthn?: boolean;
   smsRecovery?: boolean;
   callRecovery?: boolean;

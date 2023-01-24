@@ -25,11 +25,15 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
-import { getCurrentAuthenticator, loc } from '../../../util';
+import { getAutoFocus, getCurrentAuthenticator, loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 import { getEmailAuthenticatorSubtitle } from './getEmailAuthenticatorSubtitle';
 
-export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transaction, formBag }) => {
+export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({
+  transaction,
+  formBag,
+  widgetProps,
+}) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
   const authenticatorContextualData = getCurrentAuthenticator(transaction)?.value?.contextualData;
@@ -60,7 +64,8 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
     'credentials.passcode',
     uischema.elements as UISchemaElement[],
   );
-  if (passcodeElement) {
+  const autoFocus = getAutoFocus(widgetProps);
+  if (passcodeElement && autoFocus) {
     passcodeElement.focus = true;
   }
 
