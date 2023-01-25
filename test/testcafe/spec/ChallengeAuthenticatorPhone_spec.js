@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
+import { RequestMock, RequestLogger, ClientFunction, userVariables } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengePhonePageObject from '../framework/page-objects/ChallengePhonePageObject';
 import { checkConsoleMessages, renderWidget, oktaDashboardContent } from '../framework/shared';
@@ -134,6 +134,7 @@ fixture('Challenge Phone Form')
 async function setup(t) {
   const challengePhonePageObject = new ChallengePhonePageObject(t);
   await challengePhonePageObject.navigateToPage();
+  await t.expect(challengePhonePageObject.formExists()).eql(true);
   return challengePhonePageObject;
 }
 
@@ -158,7 +159,7 @@ async function setupInteractionCodeFlow(t) {
 test
   .requestHooks(smsPrimaryMock)('SMS primary mode - has the right labels', async t => {
     const challengePhonePageObject = await setup(t);
-    await t.expect(challengePhonePageObject.formExists()).eql(true);
+    
     await checkConsoleMessages({
       controller: null,
       formName: 'authenticator-verification-data',
@@ -169,7 +170,7 @@ test
     const pageTitle = challengePhonePageObject.getFormTitle();
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
-    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText('Receive a voice call instead');
+    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText('Receive a voice call instead')
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via SMS to');
     await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
@@ -235,7 +236,6 @@ test
   .requestHooks(voicePrimaryMock)('Voice primary mode - has the right labels', async t => {
     const challengePhonePageObject = await setup(t);
 
-    await t.expect(challengePhonePageObject.formExists()).eql(true);
     await checkConsoleMessages({
       controller: null,
       formName: 'authenticator-verification-data',
@@ -463,7 +463,7 @@ test
     await challengePhonePageObject.clickNextButton('Receive a code via SMS');
 
     await challengePhonePageObject.verifyFactor('credentials.passcode', '1234');
-    await challengePhonePageObject.clickNextButton('Verify');
+    await challengePhonePageObject.clickVerifyButton();
 
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
@@ -496,7 +496,7 @@ test
     await challengePhonePageObject.clickNextButton('Receive a code via voice call');
 
     await challengePhonePageObject.verifyFactor('credentials.passcode', '1234');
-    await challengePhonePageObject.clickNextButton('Verify');
+    await challengePhonePageObject.clickVerifyButton();
 
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
@@ -527,14 +527,18 @@ test
   .requestHooks(invalidCodeMock)('Entering invalid passcode results in an error', async t => {
     const challengePhonePageObject = await setup(t);
     await challengePhonePageObject.verifyFactor('credentials.passcode', 'abcd');
-    await challengePhonePageObject.clickNextButton('Verify');
+    await challengePhonePageObject.clickVerifyButton();
     await challengePhonePageObject.waitForErrorBox();
-    // await t.expect(challengePhonePageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    // in v3, the "invalid code" field error is not shown. Test mock issue, not product issue
+    if (!userVariables.v3) {
+      await t.expect(challengePhonePageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    }
     await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(60500);
     await t.expect(await challengePhonePageObject.resendCodeExists(1)).eql(true);
     const resendCodeText = await challengePhonePageObject.resendCodeText(1);
     await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
+    await t.expect(resendCodeText).contains('Send again');
   });
 
 test
@@ -546,6 +550,7 @@ test
     await t.expect(await challengePhonePageObject.resendCodeExists()).eql(true);
     const resendCodeText = await challengePhonePageObject.resendCodeText();
     await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
+    await t.expect(resendCodeText).contains('Send again');
   });
 
 test
@@ -557,6 +562,7 @@ test
     await t.expect(await challengePhonePageObject.resendCodeExists()).eql(true);
     const resendCodeText = await challengePhonePageObject.resendCodeText();
     await t.expect(resendCodeText).contains('Haven\'t received a call?');
+    await t.expect(resendCodeText).contains('Call again');
   });
 
 test
