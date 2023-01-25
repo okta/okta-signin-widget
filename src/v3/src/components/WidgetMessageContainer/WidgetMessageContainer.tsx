@@ -30,7 +30,7 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
     return errorIdStr.split(' ')[errorIndex];
   };
 
-  const createListMessages = (error: WidgetMessage) => {
+  const createListMessages = (error: WidgetMessage, index: number) => {
     if (error.type !== 'list') {
       return null;
     }
@@ -41,12 +41,14 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
           color: theme.palette.error.main,
           fontSize: theme.typography.caption.fontSize,
         })}
+        id={buildElementId(index)}
+        data-se={buildElementId(index)}
       >
         {
           error.description && (
             <Typography
               component="p"
-              fontSize={(theme) => theme.typography.caption.fontSize}
+              fontSize="inherit"
             >
               {error.description}
             </Typography>
@@ -92,7 +94,7 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
       {
         errors.map((error: WidgetMessage, index: number) => {
           if (error.type === 'list') {
-            return createListMessages(error);
+            return createListMessages(error, index);
           }
           if (error.type === 'string') {
             return (

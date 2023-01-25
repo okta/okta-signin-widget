@@ -80,7 +80,7 @@ describe('authenticator-expired-password', () => {
   it('should not make network request when only confirm password has a value', async () => {
     const {
       authClient, user, findByTestId, findByText,
-    } = await setup({ mockResponse });
+    } = await setup({ mockResponse }); // TODO: add autoFocus option here once other PR merges
 
     await findByText(/Your password has expired/);
     await findByText(/Password requirements/);
@@ -151,5 +151,32 @@ describe('authenticator-expired-password', () => {
     expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+  });
+
+  it('should present field level error message of (failed) password requirements', async () => {
+    const {
+      authClient, user, findByTestId, findByText, container,
+    } = await setup({ mockResponse });
+
+    await findByText(/Your password has expired/);
+    await findByText(/Password requirements/);
+
+    const submitButton = await findByText('Change Password', { selector: 'button' });
+    const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+
+    await user.type(newPasswordEle, 'abc');
+
+    const passwordRequirementsErrorWrapper = await findByTestId(
+      'credentials.passcode-error',
+    ) as HTMLDivElement;
+    await within(passwordRequirementsErrorWrapper).findByText(/Password requirements were not met/);
+
+    await user.click(submitButton);
+
+    const confirmPasswordError = await findByTestId('confirmPassword-error');
+
+    expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(container).toMatchSnapshot();
   });
 });

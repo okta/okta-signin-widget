@@ -113,7 +113,6 @@ export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
   return items;
 };
 
-// eslint-disable-next-line arrow-body-style
-export const buildPasswordRequirementListItems = (data: PasswordSettings): ListItem[] => {
-  return getComplexityItems(data.complexity);
-};
+export const buildPasswordRequirementListItems = (
+  data: PasswordSettings,
+): ListItem[] => getComplexityItems(data.complexity);
