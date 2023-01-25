@@ -37,8 +37,8 @@ import {
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
-import WidgetMessageContainer from '../WidgetMessageContainer';
 import { withFormValidationState } from '../hocs';
+import WidgetMessageContainer from '../WidgetMessageContainer';
 
 const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
