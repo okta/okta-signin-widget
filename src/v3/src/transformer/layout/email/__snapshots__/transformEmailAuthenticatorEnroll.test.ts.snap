@@ -474,6 +474,114 @@ Object {
 }
 `;
 
+exports[`Email Authenticator Enroll Transformer Tests Email Magic Link = true should not set focus to true on first element when autoFocus options is disabled 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "buttonText": "email.button.resend",
+                  "content": "email.code.not.received",
+                  "isActionStep": true,
+                  "step": "resend",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "oie.email.verify.alternate.showCodeTextField",
+                "options": Object {
+                  "nextStepIndex": 1,
+                  "type": "button",
+                  "variant": "secondary",
+                },
+                "type": "StepperButton",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "actionParams": Object {
+                    "resend": true,
+                  },
+                  "buttonText": "email.button.resend",
+                  "content": "email.code.not.received",
+                  "isActionStep": true,
+                  "step": "resend",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
+                },
+                "type": "Description",
+              },
+              Object {
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.passcode",
+                  },
+                },
+                "type": "Field",
+              },
+              Object {
+                "label": "mfa.challenge.verify",
+                "options": Object {
+                  "step": "",
+                  "type": "submit",
+                },
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
 exports[`Email Authenticator Enroll Transformer Tests Email Magic Link = undefined should create email challenge UI elements when profile email is NOT available 1`] = `
 Object {
   "data": Object {},
@@ -624,6 +732,66 @@ Object {
       },
       Object {
         "focus": true,
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Email Authenticator Enroll Transformer Tests Email Magic Link = undefined should not set focus to true on first element when autoFocus options is disabled 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "actionParams": Object {
+            "resend": true,
+          },
+          "buttonText": "email.button.resend",
+          "content": "email.code.not.received",
+          "isActionStep": true,
+          "step": "resend",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.email.mfa.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.email.enroll.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.passcode",

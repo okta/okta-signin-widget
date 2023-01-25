@@ -33,6 +33,7 @@ describe('Element focus in flow', () => {
           status: 200,
         },
       },
+      widgetOptions: { features: { autoFocus: true } },
     });
 
     // form: identify with password

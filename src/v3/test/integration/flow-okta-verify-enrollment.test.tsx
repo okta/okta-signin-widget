@@ -71,7 +71,7 @@ const createTestContext = async () => {
     return Promise.reject(new Error('Unknown request'));
   });
 
-  return setup({ mockRequestClient });
+  return setup({ mockRequestClient, widgetOptions: { features: { autoFocus: true } } });
 };
 
 describe('flow-okta-verify-enrollment', () => {

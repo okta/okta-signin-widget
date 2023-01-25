@@ -16,16 +16,18 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-update', () => {
   it('should render form', async () => {
-    const { container, findByRole } = await setup({ mockResponse });
+    const { container, findByRole, findByTestId } = await setup({ mockResponse });
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Sign in');
     expect(container).toMatchSnapshot();
+    const favoriteSportEle = await findByTestId('userProfile.favoriteSport') as HTMLInputElement;
+    expect(favoriteSportEle).not.toHaveFocus();
   });
 
   it('should send correct payload', async () => {
     const {
       authClient, user, findByTestId, findByRole,
-    } = await setup({ mockResponse });
+    } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Sign in');
@@ -57,7 +59,7 @@ describe('enroll-profile-update', () => {
   it('fails client side validation with empty required fields', async () => {
     const {
       authClient, container, user, findByRole, findByTestId,
-    } = await setup({ mockResponse });
+    } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const submitButton = await findByRole('button', { name: 'Submit' });
 

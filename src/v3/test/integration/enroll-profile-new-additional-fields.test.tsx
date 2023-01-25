@@ -16,16 +16,18 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-new-additional-fields', () => {
   it('should render form', async () => {
-    const { container, findByRole } = await setup({ mockResponse });
+    const { container, findByRole, findByTestId } = await setup({ mockResponse });
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Sign up');
     expect(container).toMatchSnapshot();
+    const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
+    expect(firstNameEle).not.toHaveFocus();
   });
 
   it('should send correct payload', async () => {
     const {
       authClient, user, findByTestId, findByRole,
-    } = await setup({ mockResponse });
+    } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Sign up');
@@ -78,7 +80,7 @@ describe('enroll-profile-new-additional-fields', () => {
   it('fails client side validation with empty required fields', async () => {
     const {
       authClient, container, user, findByRole, findByTestId,
-    } = await setup({ mockResponse });
+    } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const submitButton = await findByRole('button', { name: 'Sign Up' });
 

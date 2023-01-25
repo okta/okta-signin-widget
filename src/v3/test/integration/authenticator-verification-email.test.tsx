@@ -11,7 +11,7 @@
  */
 
 import { act } from 'preact/test-utils';
-import { within } from '@testing-library/preact';
+import { waitFor, within } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import authenticatorVerificationEmail from '../../src/mocks/response/idp/idx/challenge/default.json';
@@ -30,13 +30,17 @@ describe('Email authenticator verification when email magic link = undefined', (
 
     it('renders the initial form', async () => {
       const {
-        authClient, container, findByText,
+        authClient, container, findByText, findByRole,
       } = await setup({
         mockResponse: authenticatorVerificationEmail,
       });
 
       // renders the form
       await findByText(/Verify with your email/);
+      const codeEntryBtn = await findByRole(
+        'button', { name: 'Enter a code from the email instead' },
+      ) as HTMLButtonElement;
+      expect(codeEntryBtn).not.toHaveFocus();
       expect(container).toMatchSnapshot();
 
       // running polling
@@ -49,13 +53,18 @@ describe('Email authenticator verification when email magic link = undefined', (
 
     it('renders the initial form with resend alert box', async () => {
       const {
-        container, findByText,
+        container, findByText, findByRole,
       } = await setup({
         mockResponse: authenticatorVerificationEmail,
+        widgetOptions: { features: { autoFocus: true } },
       });
 
       // renders the form
       await findByText(/Verify with your email/);
+      const codeEntryBtn = await findByRole(
+        'button', { name: 'Enter a code from the email instead' },
+      ) as HTMLButtonElement;
+      await waitFor(() => expect(codeEntryBtn).toHaveFocus());
       act(() => {
         jest.advanceTimersByTime(31_000);
       });
@@ -84,6 +93,7 @@ describe('Email authenticator verification when email magic link = undefined', (
             status: 401,
           },
         },
+        widgetOptions: { features: { autoFocus: true } },
       });
       await findByText(/Verify with your email/);
       await user.click(await findByText(/Enter a code from the email instead/));
@@ -136,6 +146,7 @@ describe('Email authenticator verification when email magic link = undefined', (
             status: 401,
           },
         },
+        widgetOptions: { features: { autoFocus: true } },
       });
       await findByText(/Verify with your email/);
 
@@ -284,6 +295,7 @@ describe('Email authenticator verification when email magic link = undefined', (
       findByTestId,
     } = await setup({
       mockResponse: authenticatorVerificationEmail,
+      widgetOptions: { features: { autoFocus: true } },
     });
 
     await findByText(/Verify with your email/);

@@ -411,14 +411,6 @@ export interface SuccessCallback extends UISchemaElement {
   }
 }
 
-export type StepperNavButtonConfigDirection = 'next' | 'prev';
-
-export type StepperNavButtonConfigAttrs = {
-  variant?: 'primary' | 'secondary';
-  label?: string;
-  id?: string;
-};
-
 export interface StepperLayout {
   type: UISchemaLayoutType.STEPPER;
   elements: Omit<UISchemaLayout, 'StepperLayout'>[];
@@ -432,7 +424,7 @@ export interface AccordionLayout {
   elements: AccordionPanelElement[];
 }
 
-export interface StepperButtonElement {
+export interface StepperButtonElement extends UISchemaElement {
   type: 'StepperButton',
   label: string;
   options: Omit<ButtonElement['options'], 'step'>
@@ -441,14 +433,14 @@ export interface StepperButtonElement {
   }
 }
 
-export interface StepperNavigatorElement {
+export interface StepperNavigatorElement extends UISchemaElement {
   type: 'StepperNavigator',
   options: {
     callback: (stepperContext: IStepperContext) => void;
   }
 }
 
-export interface StepperRadioElement {
+export interface StepperRadioElement extends UISchemaElement {
   type: 'StepperRadio',
   options: {
     customOptions: Array<IdxOption & {

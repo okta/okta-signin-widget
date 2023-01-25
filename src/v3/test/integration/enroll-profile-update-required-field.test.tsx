@@ -16,18 +16,23 @@ import { setup } from './util';
 
 describe('enroll-profile-update-required-field', () => {
   it('should render form with one required field', async () => {
-    const { container, findByRole } = await setup(
+    const { container, findByRole, findByTestId } = await setup(
       { mockResponse: enrollProfileUpdatMockResponse },
     );
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Additional Profile information');
     expect(container).toMatchSnapshot();
+    const customAttrEle = await findByTestId('userProfile.newAttribute') as HTMLInputElement;
+    await expect(customAttrEle).not.toHaveFocus();
   });
 
   it('fails client side validation with empty required fields', async () => {
     const {
       authClient, container, user, findByRole, findByTestId,
-    } = await setup({ mockResponse: enrollProfileUpdatMockResponse });
+    } = await setup({
+      mockResponse: enrollProfileUpdatMockResponse,
+      widgetOptions: { features: { autoFocus: true } },
+    });
 
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Additional Profile information');

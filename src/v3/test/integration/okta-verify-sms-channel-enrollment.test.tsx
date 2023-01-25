@@ -18,7 +18,7 @@ describe('okta-verify-sms-channel-enrollment', () => {
   it('should render sms channel form and send correct payload', async () => {
     const {
       container, findByText, findByTestId, user, authClient,
-    } = await setup({ mockResponse });
+    } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     await findByText(/Set up Okta Verify via SMS/);
     await findByText(/Make sure you can access the text on your mobile device./);
@@ -38,5 +38,18 @@ describe('okta-verify-sms-channel-enrollment', () => {
         phoneNumber: `+1${mockPhoneNumber}`,
       }),
     );
+  });
+
+  it('should render sms channel form without an auto focused element when autoFocus is disabled', async () => {
+    const {
+      container, findByText, findByTestId,
+    } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: false } } });
+
+    await findByText(/Set up Okta Verify via SMS/);
+    await findByText(/Make sure you can access the text on your mobile device./);
+    const countryEl = await findByTestId('countryList') as HTMLInputElement;
+
+    expect(container).toMatchSnapshot();
+    expect(countryEl).not.toHaveFocus();
   });
 });

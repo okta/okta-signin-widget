@@ -64,7 +64,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   beforeEach(() => {
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
-    widgetProps = {};
+    widgetProps = { features: { autoFocus: true } };
   });
 
   afterEach(() => {
@@ -108,7 +108,9 @@ describe('Terminal Transaction Transformer Tests', () => {
     it('should add successCallback renderer for interaction code flow', () => {
       transaction.tokens = mockTokens;
       transaction.interactionCode = '123456789aabbcc';
-      widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true };
+      widgetProps = {
+        authClient: mockAuthClient, useInteractionCodeFlow: true, features: { autoFocus: true },
+      };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
       expect(formBag).toMatchSnapshot();
@@ -124,7 +126,12 @@ describe('Terminal Transaction Transformer Tests', () => {
     it('should add successCallback renderer for interaction code flow in remediation mode', () => {
       transaction.tokens = mockTokens;
       transaction.interactionCode = '123456789aabbcc';
-      widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true, codeChallenge: 'bbccdde' };
+      widgetProps = {
+        authClient: mockAuthClient,
+        useInteractionCodeFlow: true,
+        codeChallenge: 'bbccdde',
+        features: { autoFocus: true },
+      };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
       expect(formBag).toMatchSnapshot();
@@ -145,7 +152,9 @@ describe('Terminal Transaction Transformer Tests', () => {
     it('should throw error when in interaction code flow and missing transaction meta', () => {
       transaction.meta = undefined;
       transaction.interactionCode = '123456789aabbcc';
-      widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true };
+      widgetProps = {
+        authClient: mockAuthClient, useInteractionCodeFlow: true, features: { autoFocus: true },
+      };
       expect(() => {
         transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
       }).toThrow('Could not load transaction data from storage');
@@ -158,6 +167,7 @@ describe('Terminal Transaction Transformer Tests', () => {
         useInteractionCodeFlow: true,
         redirectUri: 'http://acme.okta1.com',
         redirect: 'always',
+        features: { autoFocus: true },
       };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
@@ -170,6 +180,7 @@ describe('Terminal Transaction Transformer Tests', () => {
         authClient: mockAuthClient,
         useInteractionCodeFlow: true,
         redirect: 'always',
+        features: { autoFocus: true },
       };
       expect(() => {
         transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
@@ -184,7 +195,7 @@ describe('Terminal Transaction Transformer Tests', () => {
           href: 'http://acme.okta1.com',
         },
       };
-      widgetProps = { authClient: mockAuthClient };
+      widgetProps = { authClient: mockAuthClient, features: { autoFocus: true } };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
       expect(formBag).toEqual({});
@@ -195,6 +206,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       widgetProps = {
         authClient: mockAuthClient,
         redirect: 'always',
+        features: { autoFocus: true },
       };
       expect(() => {
         transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
@@ -317,7 +329,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   it('should add back to signin link for tooManyRequests message key when baseUrl not provided', () => {
     const mockIssueOrigin = 'http://localhost:3000/';
     mockAuthClient = { getIssuerOrigin: () => mockIssueOrigin };
-    widgetProps = { authClient: mockAuthClient };
+    widgetProps = { authClient: mockAuthClient, features: { autoFocus: true } };
     const mockErrorMessage = 'Too many requests';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -334,7 +346,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should not add back to sign in link when cancel is not available', () => {
-    widgetProps = { features: { hideSignOutLinkInMFA: true } };
+    widgetProps = { features: { hideSignOutLinkInMFA: true, autoFocus: true } };
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -347,7 +359,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should add back to sign in link with href when backToSigninUri is set in widget options', () => {
-    widgetProps = { backToSignInLink: '/' };
+    widgetProps = { backToSignInLink: '/', features: { autoFocus: true } };
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -374,7 +386,9 @@ describe('Terminal Transaction Transformer Tests', () => {
         },
       },
     } as unknown as IdxContext;
-    widgetProps = { features: { rememberMyUsernameOnOIE: true, rememberMe: true } };
+    widgetProps = {
+      features: { rememberMyUsernameOnOIE: true, rememberMe: true, autoFocus: true },
+    };
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(setUsernameCookie).toHaveBeenCalledWith(mockIdentifier);
@@ -390,7 +404,9 @@ describe('Terminal Transaction Transformer Tests', () => {
         },
       },
     } as unknown as IdxContext;
-    widgetProps = { features: { rememberMyUsernameOnOIE: true, rememberMe: false } };
+    widgetProps = {
+      features: { rememberMyUsernameOnOIE: true, rememberMe: false, autoFocus: true },
+    };
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(removeUsernameCookie).toHaveBeenCalled();
@@ -407,5 +423,20 @@ describe('Terminal Transaction Transformer Tests', () => {
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(transformOdaEnrollment).toHaveBeenCalled();
+  });
+
+  it('should not add focus to add back to signin element when autoFocus is disabled', () => {
+    const mockErrorMessage = 'This is a mock error message';
+    transaction.error = {
+      errorSummary: mockErrorMessage,
+    };
+    widgetProps = { features: { autoFocus: false } };
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(1);
+    expect(formBag.uischema.elements[0].type).toBe('Link');
+    expect((formBag.uischema.elements[0] as LinkElement).focus).toBeUndefined();
+    expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
   });
 });

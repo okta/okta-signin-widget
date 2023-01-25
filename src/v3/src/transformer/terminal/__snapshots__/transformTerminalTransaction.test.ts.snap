@@ -306,3 +306,28 @@ Object {
   },
 }
 `;
+
+exports[`Terminal Transaction Transformer Tests should not add focus to add back to signin element when autoFocus is disabled 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "dataSe": "cancel",
+          "href": undefined,
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

@@ -16,18 +16,23 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-update-optional-fields', () => {
   it('should render form with one required field', async () => {
-    const { container, findByRole } = await setup(
+    const { container, findByRole, findByTestId } = await setup(
       { mockResponse: enrollProfileUpdatAllOptionalMockResponse },
     );
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Additional Profile information');
     expect(container).toMatchSnapshot();
+    const customAttrEle = await findByTestId('userProfile.newAttribute') as HTMLInputElement;
+    expect(customAttrEle).not.toHaveFocus();
   });
 
   it('should send correct payload when skipping update with all optional fields', async () => {
     const {
       authClient, user, findByRole, findByTestId,
-    } = await setup({ mockResponse: enrollProfileUpdatAllOptionalMockResponse });
+    } = await setup({
+      mockResponse: enrollProfileUpdatAllOptionalMockResponse,
+      widgetOptions: { features: { autoFocus: true } },
+    });
 
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Additional Profile information');
