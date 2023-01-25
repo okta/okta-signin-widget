@@ -15,8 +15,35 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 import * as cookieUtils from '../../src/util/cookieUtils';
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
+import { WidgetOptions } from '../../../types';
 
 describe('identify-with-password', () => {
+  it('should display Identifier & Password hint labels', async () => {
+    const usernameHint = 'This is your username';
+    const passwordHint = 'This is your password';
+    const hintOverrides: WidgetOptions['i18n'] = {
+      en: {
+        'primaryauth.username.tooltip': usernameHint,
+        'primaryauth.password.tooltip': passwordHint,
+      },
+    };
+    const {
+      findByTestId, findByText,
+    } = await setup({
+      mockResponse,
+      widgetOptions: {
+        i18n: hintOverrides,
+      },
+    });
+
+    await findByText('Sign in', { selector: 'button' });
+    const usernameEl = await findByTestId('identifier-hint') as HTMLLabelElement;
+    const passwordEl = await findByTestId('credentials.passcode-hint') as HTMLLabelElement;
+
+    expect(usernameEl.textContent).toEqual(usernameHint);
+    expect(passwordEl.textContent).toEqual(passwordHint);
+  });
+
   it('renders the loading state first', async () => {
     const { container, findByLabelText } = await setup({ mockResponse });
     // TODO: OKTA-518793 - replace english string with key once created

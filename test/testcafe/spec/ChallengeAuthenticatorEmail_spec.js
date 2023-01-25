@@ -209,13 +209,13 @@ fixture('Challenge Email Authenticator Form')
 async function setup(t) {
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
   await challengeEmailPageObject.navigateToPage();
+  await t.expect(challengeEmailPageObject.formExists()).eql(true);
   return challengeEmailPageObject;
 }
 
 test
   .requestHooks(sendEmailMock)('send email screen should have right labels', async t => {
     const challengeEmailPageObject = await setup(t);
-    await t.expect(challengeEmailPageObject.formExists()).eql(true);
     await checkConsoleMessages({
       controller: null,
       formName: 'authenticator-verification-data',
@@ -314,7 +314,6 @@ test
 test
   .requestHooks(validOTPmock)('challenge email authenticator screen has right labels', async t => {
     const challengeEmailPageObject = await setup(t);
-    await t.expect(challengeEmailPageObject.formExists()).eql(true);
     await checkConsoleMessages({
       controller: 'mfa-verify-passcode',
       formName: 'challenge-authenticator',
@@ -730,30 +729,31 @@ test.meta('v3', false)
   });
 
 // OKTA-465319 Help link is n ot supported in v3
-test.meta('v3', false)
+test
+  .meta('v3', false)
   .requestHooks(sendEmailMock)('should show custom factor page link', async t => {
-  const challengeEmailPageObject = await setup(t);
+    const challengeEmailPageObject = await setup(t);
 
-  await renderWidget({
-    helpLinks: {
-      factorPage: {
-        text: 'custom factor page link',
-        href: 'https://acme.com/what-is-okta-autheticators'
+    await renderWidget({
+      helpLinks: {
+        factorPage: {
+          text: 'custom factor page link',
+          href: 'https://acme.com/what-is-okta-autheticators'
+        }
       }
-    }
-  });
+    });
 
-  await t.expect(challengeEmailPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
-  await t.expect(challengeEmailPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
-});
+    await t.expect(challengeEmailPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+    await t.expect(challengeEmailPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+  });
 
 test
   .requestHooks(terrminalConsentDeniedPollMock)('shows a terminal message when consent is denied in another tab', async t => {
-  await setup(t);
-  await t.wait(1000); // wait for poll
-  const terminalPageObject = new TerminalPageObject(t);
-  await t.wait(2000); // wait for error page to show up
-  await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
-  await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('Operation cancelled by user.');
-  await t.expect(await terminalPageObject.goBackLinkExists()).ok();
-});
+    await setup(t);
+    await t.wait(1000); // wait for poll
+    const terminalPageObject = new TerminalPageObject(t);
+    await t.wait(2000); // wait for error page to show up
+    await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
+    await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('Operation cancelled by user.');
+    await t.expect(await terminalPageObject.goBackLinkExists()).ok();
+  });

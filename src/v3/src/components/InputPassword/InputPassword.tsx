@@ -14,6 +14,7 @@ import {
   Box,
   EyeIcon,
   EyeOffIcon,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputBase,
@@ -50,14 +51,21 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const onChangeHandler = useOnChange(uischema);
-  const label = getTranslation(uischema.translations!, 'label');
   const { translations = [], focus, required } = uischema;
   const {
     attributes,
     inputMeta: { name },
   } = uischema.options;
+  const label = getTranslation(translations, 'label');
+  const hint = getTranslation(translations, 'hint');
+  const explain = getTranslation(translations, 'bottomExplain');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
+  // TODO: OKTA-569647 - refactor logic
+  const hintId = hint && `${name}-hint`;
+  const explainId = explain && `${name}-explain`;
+  const ariaDescribedByIds = [describedByIds, hintId, explainId].filter(Boolean).join(' ')
+    || undefined;
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -84,6 +92,15 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
       >
         {label}
       </InputLabel>
+      {hint && (
+        <FormHelperText
+          id={hintId}
+          className="o-form-explain"
+          data-se={hintId}
+        >
+          {hint}
+        </FormHelperText>
+      )}
       <InputBase
         id={name}
         name={name}
@@ -96,7 +113,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         fullWidth
         inputProps={{
           'data-se': name,
-          'aria-describedby': describedByIds,
+          'aria-describedby': ariaDescribedByIds,
           ...attributes,
         }}
         endAdornment={(
@@ -128,6 +145,15 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           errors={errors}
           fieldName={name}
         />
+      )}
+      {explain && (
+        <FormHelperText
+          id={explainId}
+          className="o-form-explain"
+          data-se={explainId}
+        >
+          {explain}
+        </FormHelperText>
       )}
     </Box>
   );

@@ -134,8 +134,7 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordM
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
-// OKTA-519488 - i18n option for Secondary label is not supported in v3
-test.meta('v3', false).requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
+test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
   const identityPage = await setup(t);
   await renderWidget({
     i18n: {
