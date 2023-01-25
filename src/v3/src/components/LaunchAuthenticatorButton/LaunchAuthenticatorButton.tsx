@@ -41,22 +41,22 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
 
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
   const {
-    loginHint,
-    setLoginHint,
+    userIdentifier,
+    setUserIdentifier,
     data,
     widgetProps: { features },
   } = useWidgetContext();
 
   const handleClick: ClickHandler = async () => {
     if (features?.engFastpassMultipleAccounts && data.identifier) {
-      // set loginHint to the current Username input field data
-      setLoginHint(encodeURIComponent(data.identifier as string));
+      // set userIdentifier in widget context to the current Username input field data
+      setUserIdentifier(encodeURIComponent(data.identifier as string));
     }
     if (deviceChallengeUrl) {
       if (isAndroid() && challengeMethod !== CHALLENGE_METHOD.APP_LINK) {
-        Util.redirectWithFormGet(appendLoginHint(deviceChallengeUrl, loginHint));
+        Util.redirectWithFormGet(appendLoginHint(deviceChallengeUrl, userIdentifier));
       } else {
-        window.location.assign(appendLoginHint(deviceChallengeUrl, loginHint));
+        window.location.assign(appendLoginHint(deviceChallengeUrl, userIdentifier));
       }
     }
     onSubmitHandler({

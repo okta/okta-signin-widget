@@ -54,8 +54,8 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
   } = uischema;
   const [key, setKey] = useState<number>(0);
   const label = getTranslation(translations, 'label');
-  const { loginHint } = useWidgetContext();
-  const deviceChallengeUrl = appendLoginHint(href, loginHint);
+  const { userIdentifier } = useWidgetContext();
+  const deviceChallengeUrl = appendLoginHint(href, userIdentifier);
 
   const buttonUiSchema: ButtonElement = {
     type: 'Button',

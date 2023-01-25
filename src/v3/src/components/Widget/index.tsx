@@ -96,7 +96,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
   const brandedTheme = mapMuiThemeFromBrand(brandColors);
-  const [loginHint, setLoginHint] = useState<string | undefined>(undefined);
+  const [userIdentifier, setUserIdentifier] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     // If we need to load a language (or apply custom i18n overrides), do
@@ -283,8 +283,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       loading,
       setLoading,
       setWidgetRendered,
-      loginHint,
-      setLoginHint,
+      userIdentifier,
+      setUserIdentifier,
     }}
     >
       {/* Note: we need to keep both themeproviders (MUI/ODS) until ODS exports all MUI components */}
