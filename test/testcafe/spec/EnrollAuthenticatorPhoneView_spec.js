@@ -46,13 +46,13 @@ fixture('Authenticator Enroll Phone')
 async function setup(t) {
   const enrollPhonePage = new EnrollPhonePageObject(t);
   await enrollPhonePage.navigateToPage();
+  await t.expect(enrollPhonePage.formExists()).eql(true);
   return enrollPhonePage;
 }
 
 test
   .requestHooks(smsMock)('SMS mode - has the right labels', async t => {
     const enrollPhonePageObject = await setup(t);
-    await t.expect(enrollPhonePageObject.formExists()).eql(true);
 
     await checkConsoleMessages({
       controller: 'enroll-sms',
@@ -155,6 +155,7 @@ test
     await t.expect(await enrollPhonePageObject.resendCodeExists(1)).eql(true);
     const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
     await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
+    await t.expect(resendCodeText).contains('Send again');
   });
 
 test
@@ -166,6 +167,7 @@ test
     await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(true);
     const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
     await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
+    await t.expect(resendCodeText).contains('Send again');
   });
 
 test
@@ -177,6 +179,7 @@ test
     await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(true);
     const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
     await t.expect(resendCodeText).contains('Haven\'t received a call?');
+    await t.expect(resendCodeText).contains('Call again');
   });
 
 // Test fails in v3. After re-render we still have to wait for 30 seconds
@@ -193,4 +196,5 @@ test.meta('v3', false)
     await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(true);
     const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
     await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
+    await t.expect(resendCodeText).contains('Send again');
   });
