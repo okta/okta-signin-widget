@@ -262,6 +262,12 @@ export default class BaseFormObject {
     return errors[index];
   }
 
+  getErrorBoxTitle() {
+    return within(this.el).findByRole('heading', {
+      level: 3,
+    }).innerText;
+  }
+
   // Field error
   /**
    * @deprecated
