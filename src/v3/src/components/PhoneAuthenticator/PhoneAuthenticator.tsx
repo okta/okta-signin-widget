@@ -36,8 +36,8 @@ import {
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getDefaultCountryCode, getTranslation } from '../../util';
-import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
+import WidgetMessageContainer from '../WidgetMessageContainer';
 
 const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
@@ -233,7 +233,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             }}
           />
           {phoneHasErrors && (
-            <FieldErrorContainer
+            <WidgetMessageContainer
               errors={errors}
               fieldName={fieldName}
             />

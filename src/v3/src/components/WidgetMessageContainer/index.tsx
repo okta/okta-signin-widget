@@ -10,6 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import FieldErrorContainer from './FieldErrorContainer';
+import WidgetMessageContainer from './WidgetMessageContainer';
 
-export default FieldErrorContainer;
+export default WidgetMessageContainer;

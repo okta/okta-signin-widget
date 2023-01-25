@@ -22,7 +22,7 @@ type FieldErrorProps = {
   fieldName: string;
 };
 
-const FieldErrorContainer: FunctionComponent<FieldErrorProps> = (props) => {
+const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
   const { fieldName, errors } = props;
 
   const buildElementId = (errorIndex: number): string => {
@@ -30,62 +30,69 @@ const FieldErrorContainer: FunctionComponent<FieldErrorProps> = (props) => {
     return errorIdStr.split(' ')[errorIndex];
   };
 
+  const createListMessages = (error: WidgetMessage) => {
+    if (error.type !== 'list') {
+      return null;
+    }
+    return (
+      <Box
+        marginBlockStart={2}
+        sx={(theme) => ({
+          color: theme.palette.error.main,
+          fontSize: theme.typography.caption.fontSize,
+        })}
+      >
+        {
+          error.description && (
+            <Typography
+              component="p"
+              fontSize={(theme) => theme.typography.caption.fontSize}
+            >
+              {error.description}
+            </Typography>
+          )
+        }
+        <List
+          dense
+          disablePadding
+          sx={{ listStyleType: 'disc', paddingInlineStart: 4 }}
+        >
+          {
+            error.messages.map((message: WidgetMessage) => {
+              if (message.type === 'string') {
+                return (
+                  <ListItem
+                    key={message.message}
+                    sx={{ display: 'list-item' }}
+                    dense
+                    disablePadding
+                  >
+                    {message.message}
+                  </ListItem>
+                );
+              }
+              if (message.type === 'list') {
+                return (
+                  <WidgetMessageContainer
+                    errors={message.messages}
+                    fieldName={fieldName}
+                  />
+                );
+              }
+              return null;
+            })
+          }
+        </List>
+      </Box>
+    );
+  };
+
   return (
     <Box>
       {
         errors.map((error: WidgetMessage, index: number) => {
           if (error.type === 'list') {
-            return (
-              <Box
-                marginBlockStart={2}
-                sx={(theme) => ({
-                  color: theme.palette.error.main,
-                  fontSize: '.857rem',
-                })}
-              >
-                {
-                  error.description && (
-                    <Typography
-                      component="p"
-                      fontSize=".857rem"
-                    >
-                      {error.description}
-                    </Typography>
-                  )
-                }
-                <List
-                  dense
-                  disablePadding
-                  sx={{ listStyleType: 'disc', paddingInlineStart: 4 }}
-                >
-                  {
-                    error.messages.map((message: WidgetMessage) => {
-                      if (message.type === 'string') {
-                        return (
-                          <ListItem
-                            key={message.message}
-                            sx={{ display: 'list-item' }}
-                            dense
-                            disablePadding
-                          >
-                            {message.message}
-                          </ListItem>
-                        );
-                      }
-                      if (message.type === 'list') {
-                        return (
-                          <FieldErrorContainer
-                            errors={message.messages}
-                            fieldName={fieldName}
-                          />
-                        );
-                      }
-                      return null;
-                    })
-                  }
-                </List>
-              </Box>
-            );
+            return createListMessages(error);
           }
           if (error.type === 'string') {
             return (
@@ -109,4 +116,4 @@ const FieldErrorContainer: FunctionComponent<FieldErrorProps> = (props) => {
   );
 };
 
-export default FieldErrorContainer;
+export default WidgetMessageContainer;
