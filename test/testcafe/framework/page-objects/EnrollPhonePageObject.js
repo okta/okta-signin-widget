@@ -1,4 +1,5 @@
 import BasePageObject from './BasePageObject';
+import { userVariables } from 'testcafe';
 
 const PASSCODE_FIELD_NAME = 'credentials.passcode';
 const PHONE_NUMBER_SELECTOR = '.phone-authenticator-enroll__phone';
@@ -46,7 +47,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   clickNextButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButton('Verify');
   }
 
   verifyFactor(name, value) {
@@ -64,9 +65,26 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   getInvalidOTPFieldError() {
     return this.form.getTextBoxErrorMessage(PASSCODE_FIELD_NAME);
   }
-
-  resendEmailView() {
-    return this.form.getElement(RESEND_VIEW_SELECTOR);
+  
+  resendCodeText(index) {
+    if (userVariables.v3) {
+      if (index === undefined) {
+        index = 0;
+      }
+      return this.form.getErrorBoxTextByIndex(index);
+    }
+    return this.form.getElement(RESEND_VIEW_SELECTOR).innerText;
   }
 
+  async resendCodeExists(index) {
+    if (userVariables.v3) {
+      if (index === undefined) {
+        index = 0;
+      }
+      return this.form.hasAlertBox(index);
+    }
+
+    const isHidden = await this.form.getElement(RESEND_VIEW_SELECTOR).hasClass('hide')
+    return !isHidden;
+  }
 }

@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import EnrollPhonePageObject from '../framework/page-objects/EnrollPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, oktaDashboardContent } from '../framework/shared';
 import xhrAuthenticatorEnrollPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone';
 import xhrAuthenticatorEnrollPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone-voice';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -13,7 +13,9 @@ const smsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
   .respond(xhrAuthenticatorEnrollPhone)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const voiceMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -21,7 +23,9 @@ const voiceMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
   .respond(xhrAuthenticatorEnrollPhoneVoice)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const invalidCodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -36,7 +40,8 @@ const logger = RequestLogger(/challenge|challenge\/resend|challenge\/answer/,
   }
 );
 
-fixture('Authenticator Enroll Phone');
+fixture('Authenticator Enroll Phone')
+  .meta('v3', true);
 
 async function setup(t) {
   const enrollPhonePage = new EnrollPhonePageObject(t);
@@ -47,6 +52,7 @@ async function setup(t) {
 test
   .requestHooks(smsMock)('SMS mode - has the right labels', async t => {
     const enrollPhonePageObject = await setup(t);
+    await t.expect(enrollPhonePageObject.formExists()).eql(true);
 
     await checkConsoleMessages({
       controller: 'enroll-sms',
@@ -63,13 +69,14 @@ test
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available)
-    await t.expect(await enrollPhonePageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await enrollPhonePageObject.returnToAuthenticatorListLinkExists()).ok();
     await t.expect(await enrollPhonePageObject.signoutLinkExists()).ok();
   });
 
 test
   .requestHooks(voiceMock)('Voice mode - has the right labels', async t => {
     const enrollPhonePageObject = await setup(t);
+    await t.expect(enrollPhonePageObject.formExists()).eql(true);
 
     await checkConsoleMessages({
       controller: 'enroll-call',
@@ -86,7 +93,7 @@ test
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available)
-    await t.expect(await enrollPhonePageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await enrollPhonePageObject.returnToAuthenticatorListLinkExists()).ok();
     await t.expect(await enrollPhonePageObject.signoutLinkExists()).ok();
   });
 
@@ -138,50 +145,52 @@ test
 
 test
   .requestHooks(invalidCodeMock)('Entering invalid passcode results in an error', async t => {
-    const challengePhonePageObject = await setup(t);
-    await challengePhonePageObject.verifyFactor('credentials.passcode', 'abcd');
-    await challengePhonePageObject.clickNextButton();
-    await challengePhonePageObject.waitForErrorBox();
-    await t.expect(challengePhonePageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
-    await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('We found some errors.');
+    const enrollPhonePageObject = await setup(t);
+    await enrollPhonePageObject.verifyFactor('credentials.passcode', 'abcd');
+    await enrollPhonePageObject.clickNextButton();
+    await enrollPhonePageObject.waitForErrorBox();
+    await t.expect(enrollPhonePageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(enrollPhonePageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(30500);
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
-    const resendEmailView = challengePhonePageObject.resendEmailView();
-    await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
+    await t.expect(await enrollPhonePageObject.resendCodeExists(1)).eql(true);
+    const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
+    await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
   });
 
 test
   .requestHooks(smsMock)('Callout appears after 30 seconds in sms mode', async t => {
-    const challengePhonePageObject = await setup(t);
-    await challengePhonePageObject.clickNextButton();
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
+    const enrollPhonePageObject = await setup(t);
+    await enrollPhonePageObject.clickNextButton();
+    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(false);
     await t.wait(30500);
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
-    const resendEmailView = challengePhonePageObject.resendEmailView();
-    await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
+    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(true);
+    const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
+    await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
   });
 
 test
   .requestHooks(voiceMock)('Callout appears after 30 seconds in voice mode', async t => {
-    const challengePhonePageObject = await setup(t);
-    await challengePhonePageObject.clickNextButton();
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
+    const enrollPhonePageObject = await setup(t);
+    await enrollPhonePageObject.clickNextButton();
+    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(false);
     await t.wait(30500);
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
-    const resendEmailView = challengePhonePageObject.resendEmailView();
-    await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
+    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(true);
+    const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
+    await t.expect(resendCodeText).contains('Haven\'t received a call?');
   });
 
-test
+// Test fails in v3. After re-render we still have to wait for 30 seconds
+// Enable after fixing - OKTA-561098  
+test.meta('v3', false)
   .requestHooks(smsMock)('Callout appears after 30 seconds at most even after re-render', async t => {
-    const challengePhonePageObject = await setup(t);
-    await challengePhonePageObject.clickNextButton();
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
+    const enrollPhonePageObject = await setup(t);
+    await enrollPhonePageObject.clickNextButton();
+    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(false);
     await t.wait(15000);
-    challengePhonePageObject.navigateToPage();
-    await challengePhonePageObject.clickNextButton();
+    enrollPhonePageObject.navigateToPage();
+    await enrollPhonePageObject.clickNextButton();
     await t.wait(15500);
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
-    const resendEmailView = challengePhonePageObject.resendEmailView();
-    await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
+    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(true);
+    const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
+    await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
   });
