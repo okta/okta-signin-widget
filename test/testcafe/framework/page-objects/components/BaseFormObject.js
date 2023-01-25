@@ -223,9 +223,13 @@ export default class BaseFormObject {
     return this.el.find(FORM_INFOBOX_ERROR).count;
   }
 
+  getErrorBox() {
+    return within(this.el).findAllByRole('alert').nth(0);
+  }
+
   getErrorBoxText() {
     if (userVariables.v3) {
-      return within(this.el).queryAllByRole('alert').nth(0).innerText;
+      return this.getErrorBox().innerText;
     }
 
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
@@ -263,7 +267,7 @@ export default class BaseFormObject {
   }
 
   getErrorBoxTitle() {
-    return within(this.el).findByRole('heading', {
+    return within(this.getErrorBox()).findByRole('heading', {
       level: 3,
     }).innerText;
   }
