@@ -138,7 +138,9 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                       class="MuiAlert-message emotion-18"
                     >
                       <div
+                        aria-level="3"
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiAlertTitle-root emotion-19"
+                        role="heading"
                       >
                         Update Okta Verify
                       </div>
