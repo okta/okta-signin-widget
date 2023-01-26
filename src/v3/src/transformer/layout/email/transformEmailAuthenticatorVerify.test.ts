@@ -39,7 +39,7 @@ describe('Email Authenticator Verify Transformer Tests', () => {
     formBag.uischema.elements = [
       { type: 'Field', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
     ];
-    widgetProps = { features: { autoFocus: true } };
+    widgetProps = {};
   });
 
   describe('Email Magic Link = true', () => {
