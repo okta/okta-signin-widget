@@ -29,7 +29,7 @@ import { transformEmailAuthenticatorVerify } from '.';
 
 describe('Email Authenticator Verify Transformer Tests', () => {
   const redactedEmail = 'fxxxe@xxx.com';
-  const widgetProps: WidgetProps = {};
+  let widgetProps: WidgetProps;
   let transaction: IdxTransaction;
   let formBag: FormBag;
 
@@ -39,6 +39,7 @@ describe('Email Authenticator Verify Transformer Tests', () => {
     formBag.uischema.elements = [
       { type: 'Field', options: { inputMeta: { name: 'credentials.passcode' } } } as FieldElement,
     ];
+    widgetProps = {};
   });
 
   describe('Email Magic Link = true', () => {

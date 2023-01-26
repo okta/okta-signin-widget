@@ -53,10 +53,23 @@ describe('error-session-expired', () => {
   });
 
   it('should have focus on "Back to sign in" link', async () => {
-    const { findByText } = await setup({ mockResponse });
+    const { findByText } = await setup({
+      mockResponse,
+      widgetOptions: { features: { autoFocus: true } },
+    });
     await findByText(/You have been logged out due to inactivity. Refresh or return to the sign in screen./);
     const cancelLink = await findByText(/Back to sign in/);
     await waitFor(() => expect(cancelLink).toHaveFocus());
+  });
+
+  it('should not have focus on "Back to sign in" link when autoFocus is disabled', async () => {
+    const { findByText } = await setup({
+      mockResponse,
+      widgetOptions: { features: { autoFocus: false } },
+    });
+    await findByText(/You have been logged out due to inactivity. Refresh or return to the sign in screen./);
+    const cancelLink = await findByText(/Back to sign in/);
+    expect(cancelLink).not.toHaveFocus();
   });
 
   it('should not show "Back to sign in" link when hideSignOutLinkInMFA flag is true', async () => {

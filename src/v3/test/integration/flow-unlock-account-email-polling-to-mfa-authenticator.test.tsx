@@ -63,7 +63,7 @@ describe('flow-unlock-account-email-polling-to-mfa-challenge-authenticator', () 
     });
     const {
       container, findByText, findByTestId,
-    } = await setup({ mockRequestClient });
+    } = await setup({ mockRequestClient, widgetOptions: { features: { autoFocus: true } } });
 
     await findByText(/Verify with your email/);
 

@@ -16,15 +16,17 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-new', () => {
   it('should render form', async () => {
-    const { container, findByText } = await setup({ mockResponse });
+    const { container, findByText, findByTestId } = await setup({ mockResponse });
     await findByText(/Sign up/);
     expect(container).toMatchSnapshot();
+    const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
+    expect(firstNameEle).not.toHaveFocus();
   });
 
   it('should send correct payload', async () => {
     const {
       authClient, user, findByTestId, findByText,
-    } = await setup({ mockResponse });
+    } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     await findByText(/Sign up/);
 

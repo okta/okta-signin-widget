@@ -14,9 +14,7 @@ import {
   TransformStepFn,
   UISchemaElement,
 } from '../../types';
-import {
-  isInteractiveType,
-} from '../../util';
+import { isInteractiveType } from '../../util';
 import { traverseLayout } from '../util';
 
 export const setFocusOnFirstElement: TransformStepFn = (formbag) => {

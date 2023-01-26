@@ -16,8 +16,21 @@ import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enr
 
 describe('authenticator-enroll-data-phone', () => {
   it('should render form', async () => {
-    const { container, findByText } = await setup({ mockResponse });
+    const { container, findByText } = await setup({
+      mockResponse,
+      widgetOptions: { features: { autoFocus: true } },
+    });
     await findByText(/Set up phone authentication/);
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render form without an autoFocused field', async () => {
+    const { container, findByRole } = await setup({
+      mockResponse,
+      widgetOptions: { features: { autoFocus: false } },
+    });
+    const smsMethodTypeEle = await findByRole('radio', { name: 'SMS' }) as HTMLInputElement;
+    expect(smsMethodTypeEle).not.toHaveFocus();
     expect(container).toMatchSnapshot();
   });
 

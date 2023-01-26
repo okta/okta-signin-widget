@@ -51,10 +51,20 @@ describe('identify-with-password', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('renders form', async () => {
+  it('renders form with focus', async () => {
     const { container, findByLabelText } = await setup({ mockResponse });
-    await findByLabelText(/Username/);
+    const inputEle = await findByLabelText(/Username/) as HTMLInputElement;
     expect(container).toMatchSnapshot();
+    expect(inputEle).not.toHaveFocus();
+  });
+
+  it('renders form without focus', async () => {
+    const { container, findByLabelText } = await setup({
+      mockResponse, widgetOptions: { features: { autoFocus: true } },
+    });
+    const inputEle = await findByLabelText(/Username/) as HTMLInputElement;
+    expect(container).toMatchSnapshot();
+    await waitFor(() => expect(inputEle).toHaveFocus());
   });
 
   it('should pre-populate username into identifier field when set in widget config props', async () => {
@@ -94,7 +104,7 @@ describe('identify-with-password', () => {
         container,
         findByTestId,
         findByText,
-      } = await setup({ mockResponse });
+      } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
       await findByTestId('identifier') as HTMLInputElement;
       await findByTestId('credentials.passcode') as HTMLInputElement;
@@ -119,7 +129,7 @@ describe('identify-with-password', () => {
         findByTestId,
         queryByTestId,
         findByText,
-      } = await setup({ mockResponse });
+      } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
       await findByTestId('identifier') as HTMLInputElement;
       await findByTestId('credentials.passcode') as HTMLInputElement;
@@ -174,7 +184,7 @@ describe('identify-with-password', () => {
         findByTestId,
         findByText,
         queryByTestId,
-      } = await setup({ mockResponse });
+      } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
       let identifierError;
       let passwordError;
 

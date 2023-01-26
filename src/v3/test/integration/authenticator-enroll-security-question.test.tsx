@@ -18,10 +18,25 @@ import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/sec
 describe('authenticator-enroll-security-question', () => {
   describe('predefined question', () => {
     it('renders correct form', async () => {
-      const { container, findByText } = await setup({ mockResponse });
+      const { container, findByText } = await setup({
+        mockResponse,
+        widgetOptions: { features: { autoFocus: true } },
+      });
 
       await findByText(/Set up security question/);
       await findByText(/What is the food you least liked/);
+      expect(container).toMatchSnapshot();
+    });
+
+    it('should render form without an autoFocused field', async () => {
+      const { container, findByRole } = await setup({
+        mockResponse,
+        widgetOptions: { features: { autoFocus: false } },
+      });
+      const radioEle = await findByRole(
+        'radio', { name: 'Choose a security question' },
+      ) as HTMLInputElement;
+      expect(radioEle).not.toHaveFocus();
       expect(container).toMatchSnapshot();
     });
 

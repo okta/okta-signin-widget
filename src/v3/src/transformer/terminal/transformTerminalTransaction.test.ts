@@ -108,7 +108,9 @@ describe('Terminal Transaction Transformer Tests', () => {
     it('should add successCallback renderer for interaction code flow', () => {
       transaction.tokens = mockTokens;
       transaction.interactionCode = '123456789aabbcc';
-      widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true };
+      widgetProps = {
+        authClient: mockAuthClient, useInteractionCodeFlow: true,
+      };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
       expect(formBag).toMatchSnapshot();
@@ -124,7 +126,11 @@ describe('Terminal Transaction Transformer Tests', () => {
     it('should add successCallback renderer for interaction code flow in remediation mode', () => {
       transaction.tokens = mockTokens;
       transaction.interactionCode = '123456789aabbcc';
-      widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true, codeChallenge: 'bbccdde' };
+      widgetProps = {
+        authClient: mockAuthClient,
+        useInteractionCodeFlow: true,
+        codeChallenge: 'bbccdde',
+      };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
       expect(formBag).toMatchSnapshot();
@@ -145,7 +151,9 @@ describe('Terminal Transaction Transformer Tests', () => {
     it('should throw error when in interaction code flow and missing transaction meta', () => {
       transaction.meta = undefined;
       transaction.interactionCode = '123456789aabbcc';
-      widgetProps = { authClient: mockAuthClient, useInteractionCodeFlow: true };
+      widgetProps = {
+        authClient: mockAuthClient, useInteractionCodeFlow: true,
+      };
       expect(() => {
         transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
       }).toThrow('Could not load transaction data from storage');
@@ -374,7 +382,9 @@ describe('Terminal Transaction Transformer Tests', () => {
         },
       },
     } as unknown as IdxContext;
-    widgetProps = { features: { rememberMyUsernameOnOIE: true, rememberMe: true } };
+    widgetProps = {
+      features: { rememberMyUsernameOnOIE: true, rememberMe: true },
+    };
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(setUsernameCookie).toHaveBeenCalledWith(mockIdentifier);
@@ -390,7 +400,9 @@ describe('Terminal Transaction Transformer Tests', () => {
         },
       },
     } as unknown as IdxContext;
-    widgetProps = { features: { rememberMyUsernameOnOIE: true, rememberMe: false } };
+    widgetProps = {
+      features: { rememberMyUsernameOnOIE: true, rememberMe: false },
+    };
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(removeUsernameCookie).toHaveBeenCalled();
