@@ -170,7 +170,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         } as IdxMessage);
       }
       // clear the userIdentifier value when returning to the identify flow
-      if(newTransaction.nextStep?.name === IDX_STEP.IDENTIFY) {
+      if (newTransaction.nextStep?.name === IDX_STEP.IDENTIFY) {
         setUserIdentifier(null);
       }
       setStepToRender(stepToRender);
@@ -190,5 +190,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setLoading,
     setMessage,
     setStepToRender,
+    setUserIdentifier,
   ]);
 };

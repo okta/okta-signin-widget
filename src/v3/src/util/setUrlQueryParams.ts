@@ -12,5 +12,5 @@
 
 export const setUrlQueryParams = (
   url: URL | string,
-  params: Record<string, string> = {}
+  params: Record<string, string> = {},
 ) => url + '?' + new URLSearchParams(params).toString();

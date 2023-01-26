@@ -23,7 +23,7 @@ import {
   OpenOktaVerifyFPButtonElement,
   UISchemaElementComponent,
 } from '../../types';
-import { setUrlQueryParams, getTranslation, isAndroid } from '../../util';
+import { getTranslation, isAndroid, setUrlQueryParams } from '../../util';
 import Button from '../Button';
 
 type IFrameProps = {
@@ -55,7 +55,7 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
   const [key, setKey] = useState<number>(0);
   const label = getTranslation(translations, 'label');
   const { userIdentifier } = useWidgetContext();
-  const loginHintQueryParam = userIdentifier ? {login_hint: userIdentifier} : undefined;
+  const loginHintQueryParam = userIdentifier ? { login_hint: userIdentifier } : undefined;
   const deviceChallengeUrl = setUrlQueryParams(href as string, loginHintQueryParam);
 
   const buttonUiSchema: ButtonElement = {
