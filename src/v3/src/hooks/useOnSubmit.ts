@@ -52,9 +52,10 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setAuthApiError,
     setIdxTransaction,
     setIsClientTransaction,
+    setLoading,
     setMessage,
     setStepToRender,
-    setLoading,
+    setUserIdentifier,
     widgetProps: { events },
   } = useWidgetContext();
 
@@ -167,6 +168,10 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
           class: 'ERROR',
           i18n: { key: 'oform.errorbanner.title' },
         } as IdxMessage);
+      }
+      // clear the userIdentifier value when returning to the identify flow
+      if(newTransaction.nextStep?.name === IDX_STEP.IDENTIFY) {
+        setUserIdentifier(null);
       }
       setStepToRender(stepToRender);
     } catch (error) {
