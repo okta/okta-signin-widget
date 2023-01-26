@@ -96,7 +96,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
   const brandedTheme = mapMuiThemeFromBrand(brandColors);
-  const [userIdentifier, setUserIdentifier] = useState<string | undefined>(undefined);
+  const [userIdentifier, setUserIdentifier] = useState<string | null>(null);
 
   useEffect(() => {
     // If we need to load a language (or apply custom i18n overrides), do
