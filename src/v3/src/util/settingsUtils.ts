@@ -95,10 +95,3 @@ export const getBaseUrl = (widgetProps: WidgetProps): string | undefined => {
   const [parsedBaseUrl] = issuerPath?.split('/oauth2/') ?? [];
   return parsedBaseUrl;
 };
-
-export const getAutoFocus = (widgetProps: WidgetProps): boolean => {
-  // Product requests autoFocus default to be false
-  const { features: { autoFocus = false } = {} } = widgetProps;
-
-  return autoFocus;
-};
