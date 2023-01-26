@@ -80,7 +80,7 @@ describe('authenticator-expired-password', () => {
   it('should not make network request when only confirm password has a value', async () => {
     const {
       authClient, user, findByTestId, findByText,
-    } = await setup({ mockResponse }); // TODO: add autoFocus option here once other PR merges
+    } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     await findByText(/Your password has expired/);
     await findByText(/Password requirements/);
