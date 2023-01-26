@@ -22,7 +22,7 @@ import {
   LaunchAuthenticatorButtonElement,
   UISchemaElementComponent,
 } from '../../types';
-import { appendLoginHint, getTranslation, isAndroid } from '../../util';
+import { setUrlQueryParams, getTranslation, isAndroid } from '../../util';
 import { OktaVerifyIcon } from '../Icon';
 
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
@@ -50,13 +50,14 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
   const handleClick: ClickHandler = async () => {
     if (features?.engFastpassMultipleAccounts && data.identifier) {
       // set userIdentifier in widget context to the current Username input field data
-      setUserIdentifier(encodeURIComponent(data.identifier as string));
+      setUserIdentifier(data.identifier as string);
     }
     if (deviceChallengeUrl) {
+      const loginHintQueryParam = userIdentifier ? {login_hint: userIdentifier} : undefined;
       if (isAndroid() && challengeMethod !== CHALLENGE_METHOD.APP_LINK) {
-        Util.redirectWithFormGet(appendLoginHint(deviceChallengeUrl, userIdentifier));
+        Util.redirectWithFormGet(setUrlQueryParams(deviceChallengeUrl, loginHintQueryParam));
       } else {
-        window.location.assign(appendLoginHint(deviceChallengeUrl, userIdentifier));
+        window.location.assign(setUrlQueryParams(deviceChallengeUrl, loginHintQueryParam));
       }
     }
     onSubmitHandler({

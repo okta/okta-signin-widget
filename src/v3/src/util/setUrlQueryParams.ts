@@ -10,9 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export const appendLoginHint = (deviceChallengeUrl = '', loginHint = ''): string => {
-  if (deviceChallengeUrl && loginHint) {
-    return `${deviceChallengeUrl}&login_hint=${loginHint}`;
-  }
-  return deviceChallengeUrl;
-};
+export const setUrlQueryParams = (
+  url: URL | string,
+  params: Record<string, string> = {}
+) => url + '?' + new URLSearchParams(params).toString();
