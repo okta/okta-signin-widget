@@ -12,7 +12,7 @@ import phoneVerificationVoiceThenSMSNoProfile from '../../../playground/mocks/da
 import smsVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-no-profile';
 import voiceVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import invalidCode from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
+import invalidCode from '../../../playground/mocks/data/idp/idx/error-authenticator-challenge-phone-invalid-otp';
 import voiceRatelimitErrorMock from '../../../playground/mocks/data/idp/idx/error-authenticator-phone-voice-ratelimit';
 
 const phoneVerificationSMSThenVoiceEmptyProfile = JSON.parse(JSON.stringify(phoneVerificationSMSThenVoiceNoProfile));
@@ -529,10 +529,7 @@ test
     await challengePhonePageObject.verifyFactor('credentials.passcode', 'abcd');
     await challengePhonePageObject.clickVerifyButton();
     await challengePhonePageObject.waitForErrorBox();
-    // in v3, the "invalid code" field error is not shown. Test mock issue, not product issue
-    if (!userVariables.v3) {
-      await t.expect(challengePhonePageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
-    }
+    await t.expect(challengePhonePageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(60500);
     await t.expect(await challengePhonePageObject.resendCodeExists(1)).eql(true);
