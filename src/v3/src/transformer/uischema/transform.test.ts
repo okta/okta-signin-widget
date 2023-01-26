@@ -28,7 +28,7 @@ jest.mock('./updateCustomFields', () => ({
   updateCustomFields: () => ({}),
 }));
 jest.mock('./setFocusOnFirstElement', () => ({
-  setFocusOnFirstElement: () => () => ({}),
+  setFocusOnFirstElement: () => ({}),
 }));
 jest.mock('./updateRequiredFields', () => ({
   updateRequiredFields: () => () => ({}),

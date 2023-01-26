@@ -28,7 +28,7 @@ export const transformUISchema: TransformStepFnWithOptions = (
   options,
 ) => (formbag) => flow(
   updateCustomFields,
-  setFocusOnFirstElement(options),
+  setFocusOnFirstElement,
   // TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
   updateRequiredFields(options),
   createTextElementKeys,

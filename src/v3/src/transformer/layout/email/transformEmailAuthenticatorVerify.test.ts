@@ -242,35 +242,6 @@ describe('Email Authenticator Verify Transformer Tests', () => {
       expect((layoutTwo.elements[3] as ButtonElement).label).toBe('mfa.challenge.verify');
       expect((layoutTwo.elements[3] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
     });
-
-    it('should not set focus to true when autoFocus option is disabled', () => {
-      transaction.nextStep = {
-        name: '',
-        canResend: true,
-        relatesTo: {
-          value: {
-            profile: {
-              email: redactedEmail,
-            },
-          } as unknown as IdxAuthenticator,
-        },
-      };
-      transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
-      widgetProps = { features: { autoFocus: false } };
-      const updatedFormBag = transformEmailAuthenticatorVerify({
-        transaction, formBag, widgetProps,
-      });
-
-      expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(1);
-      expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
-
-      const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
-
-      const layoutOne = stepperElements[0];
-      expect((layoutOne.elements[3] as StepperButtonElement).focus)
-        .toBeUndefined();
-    });
   });
 
   describe('Email Magic Link = false', () => {
@@ -397,29 +368,6 @@ describe('Email Authenticator Verify Transformer Tests', () => {
       expect((updatedFormBag.uischema.elements[3] as ButtonElement).label).toBe('mfa.challenge.verify');
       expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
         .toBe(ButtonType.SUBMIT);
-    });
-
-    it('should not set focus on first element when autoFocus options is disabled', () => {
-      transaction.nextStep = {
-        name: '',
-        canResend: true,
-        relatesTo: {
-          value: {
-            profile: {
-              email: redactedEmail,
-            },
-          } as unknown as IdxAuthenticator,
-        },
-      };
-      transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
-      widgetProps = { features: { autoFocus: false } };
-      const updatedFormBag = transformEmailAuthenticatorVerify({
-        transaction, formBag, widgetProps,
-      });
-
-      expect(updatedFormBag).toMatchSnapshot();
-      expect((updatedFormBag.uischema.elements[3] as FieldElement).focus)
-        .toBeUndefined();
     });
   });
 
@@ -621,35 +569,6 @@ describe('Email Authenticator Verify Transformer Tests', () => {
       expect((layoutTwo.elements[3] as ButtonElement).type).toBe('Button');
       expect((layoutTwo.elements[3] as ButtonElement).label).toBe('mfa.challenge.verify');
       expect((layoutTwo.elements[3] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
-    });
-
-    it('should not set focus when autoFocus options is disabled', () => {
-      transaction.nextStep = {
-        name: '',
-        canResend: true,
-        relatesTo: {
-          value: {
-            profile: {
-              email: redactedEmail,
-            },
-          } as unknown as IdxAuthenticator,
-        },
-      };
-      transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
-      widgetProps = { features: { autoFocus: true } };
-      const updatedFormBag = transformEmailAuthenticatorVerify({
-        transaction, formBag, widgetProps,
-      });
-
-      expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(1);
-      expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
-
-      const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
-
-      const layoutOne = stepperElements[0];
-      expect((layoutOne.elements[3] as StepperButtonElement).focus)
-        .toBeUndefined();
     });
   });
 });

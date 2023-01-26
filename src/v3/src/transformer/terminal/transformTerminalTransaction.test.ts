@@ -64,7 +64,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   beforeEach(() => {
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
-    widgetProps = { features: { autoFocus: true } };
+    widgetProps = {};
   });
 
   afterEach(() => {
@@ -109,7 +109,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       transaction.tokens = mockTokens;
       transaction.interactionCode = '123456789aabbcc';
       widgetProps = {
-        authClient: mockAuthClient, useInteractionCodeFlow: true, features: { autoFocus: true },
+        authClient: mockAuthClient, useInteractionCodeFlow: true,
       };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
@@ -130,7 +130,6 @@ describe('Terminal Transaction Transformer Tests', () => {
         authClient: mockAuthClient,
         useInteractionCodeFlow: true,
         codeChallenge: 'bbccdde',
-        features: { autoFocus: true },
       };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
@@ -153,7 +152,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       transaction.meta = undefined;
       transaction.interactionCode = '123456789aabbcc';
       widgetProps = {
-        authClient: mockAuthClient, useInteractionCodeFlow: true, features: { autoFocus: true },
+        authClient: mockAuthClient, useInteractionCodeFlow: true,
       };
       expect(() => {
         transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
@@ -167,7 +166,6 @@ describe('Terminal Transaction Transformer Tests', () => {
         useInteractionCodeFlow: true,
         redirectUri: 'http://acme.okta1.com',
         redirect: 'always',
-        features: { autoFocus: true },
       };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
@@ -180,7 +178,6 @@ describe('Terminal Transaction Transformer Tests', () => {
         authClient: mockAuthClient,
         useInteractionCodeFlow: true,
         redirect: 'always',
-        features: { autoFocus: true },
       };
       expect(() => {
         transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
@@ -195,7 +192,7 @@ describe('Terminal Transaction Transformer Tests', () => {
           href: 'http://acme.okta1.com',
         },
       };
-      widgetProps = { authClient: mockAuthClient, features: { autoFocus: true } };
+      widgetProps = { authClient: mockAuthClient };
       const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
       expect(formBag).toEqual({});
@@ -206,7 +203,6 @@ describe('Terminal Transaction Transformer Tests', () => {
       widgetProps = {
         authClient: mockAuthClient,
         redirect: 'always',
-        features: { autoFocus: true },
       };
       expect(() => {
         transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
@@ -329,7 +325,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   it('should add back to signin link for tooManyRequests message key when baseUrl not provided', () => {
     const mockIssueOrigin = 'http://localhost:3000/';
     mockAuthClient = { getIssuerOrigin: () => mockIssueOrigin };
-    widgetProps = { authClient: mockAuthClient, features: { autoFocus: true } };
+    widgetProps = { authClient: mockAuthClient };
     const mockErrorMessage = 'Too many requests';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -346,7 +342,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should not add back to sign in link when cancel is not available', () => {
-    widgetProps = { features: { hideSignOutLinkInMFA: true, autoFocus: true } };
+    widgetProps = { features: { hideSignOutLinkInMFA: true } };
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -359,7 +355,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should add back to sign in link with href when backToSigninUri is set in widget options', () => {
-    widgetProps = { backToSignInLink: '/', features: { autoFocus: true } };
+    widgetProps = { backToSignInLink: '/' };
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -387,7 +383,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       },
     } as unknown as IdxContext;
     widgetProps = {
-      features: { rememberMyUsernameOnOIE: true, rememberMe: true, autoFocus: true },
+      features: { rememberMyUsernameOnOIE: true, rememberMe: true },
     };
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
@@ -405,7 +401,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       },
     } as unknown as IdxContext;
     widgetProps = {
-      features: { rememberMyUsernameOnOIE: true, rememberMe: false, autoFocus: true },
+      features: { rememberMyUsernameOnOIE: true, rememberMe: false },
     };
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
@@ -423,20 +419,5 @@ describe('Terminal Transaction Transformer Tests', () => {
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(transformOdaEnrollment).toHaveBeenCalled();
-  });
-
-  it('should not add focus to add back to signin element when autoFocus is disabled', () => {
-    const mockErrorMessage = 'This is a mock error message';
-    transaction.error = {
-      errorSummary: mockErrorMessage,
-    };
-    widgetProps = { features: { autoFocus: false } };
-    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-
-    expect(formBag).toMatchSnapshot();
-    expect(formBag.uischema.elements.length).toBe(1);
-    expect(formBag.uischema.elements[0].type).toBe('Link');
-    expect((formBag.uischema.elements[0] as LinkElement).focus).toBeUndefined();
-    expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
   });
 });

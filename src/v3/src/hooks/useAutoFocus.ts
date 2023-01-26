@@ -12,6 +12,9 @@
 
 import { Ref, useEffect, useRef } from 'preact/hooks';
 
+import { useWidgetContext } from '../contexts';
+import { getAutoFocus } from '../util';
+
 type InteractiveElement =
   | HTMLInputElement
   | HTMLButtonElement
@@ -22,11 +25,13 @@ type InteractiveElement =
 export function useAutoFocus<T extends InteractiveElement>(
   focus?: boolean,
 ): Ref<T> {
+  const { widgetProps } = useWidgetContext();
+  const isAutoFocusEnabled = getAutoFocus(widgetProps) && focus;
   const inputRef = useRef<T>(null);
   useEffect(() => {
-    if (focus && inputRef.current) {
+    if (isAutoFocusEnabled && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [focus]);
+  }, [isAutoFocusEnabled]);
   return inputRef;
 }

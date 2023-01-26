@@ -11,22 +11,13 @@
  */
 
 import {
-  TransformStepFnWithOptions,
+  TransformStepFn,
   UISchemaElement,
 } from '../../types';
-import {
-  getAutoFocus,
-  isInteractiveType,
-} from '../../util';
+import { isInteractiveType } from '../../util';
 import { traverseLayout } from '../util';
 
-export const setFocusOnFirstElement: TransformStepFnWithOptions = ({
-  widgetProps,
-}) => (formbag) => {
-  const autoFocus = getAutoFocus(widgetProps);
-  if (autoFocus === false) {
-    return formbag;
-  }
+export const setFocusOnFirstElement: TransformStepFn = (formbag) => {
   let firstFieldFound = false;
   traverseLayout({
     layout: formbag.uischema,

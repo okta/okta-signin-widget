@@ -273,7 +273,7 @@ export const transformTerminalTransaction = (
 
   appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
 
-  setFocusOnFirstElement({ widgetProps, transaction, step: '' })(formBag);
+  setFocusOnFirstElement(formBag);
 
   return formBag;
 };
