@@ -59,7 +59,6 @@ const InfoBox: UISchemaElementComponent<{
         { title && (
         <AlertTitle
           role="heading"
-          aria-level="3"
         >
           {title}
         </AlertTitle>
