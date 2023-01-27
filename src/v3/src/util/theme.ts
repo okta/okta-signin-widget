@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { ThemeOptions } from '@mui/material';
 import { Theme } from '@mui/material/styles/createTheme';
 import { Button } from '@okta/odyssey-react';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { PartialTheme } from '@okta/odyssey-react-theme/dist/ThemeProvider/context';
 import chroma from 'chroma-js';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, merge } from 'lodash';
 import { BrandColors } from 'src/types';
 
 type DerivedTheme = {
@@ -92,7 +93,10 @@ export const deriveThemeFromBrand = (brand: BrandColors): DerivedTheme | null =>
   }
 };
 
-export const mapMuiThemeFromBrand = (brand: BrandColors | undefined): Theme => {
+export const mapMuiThemeFromBrand = (
+  brand: BrandColors | undefined,
+  overrideThemeOptions?: ThemeOptions,
+): Theme => {
   // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
   odysseyTheme.shape.borderRadius = 4;
 
@@ -112,6 +116,11 @@ export const mapMuiThemeFromBrand = (brand: BrandColors | undefined): Theme => {
 
       odysseyThemeCopy.palette.text.primary = derivedTheme.textColor;
     }
+  }
+
+  if (typeof overrideThemeOptions !== 'undefined') {
+    // @ts-expect-error Error thrown from difference of component props between ODS and MUI
+    return merge(odysseyThemeCopy, overrideThemeOptions);
   }
   // @ts-expect-error Error thrown from difference of component props between ODS and MUI
   return odysseyThemeCopy;

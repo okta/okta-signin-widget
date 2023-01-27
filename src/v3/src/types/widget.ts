@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import type { ThemeOptions as MuiThemeOptions } from '@mui/material';
 import { FlowIdentifier, OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
 import {
   RawIdxResponse,
@@ -79,6 +80,8 @@ export type WidgetOptions = {
 
   // theming
   theme?: ThemeOptions;
+  // Override MUI Theming
+  muiThemeOptions?: MuiThemeOptions;
 
   // events
   events?: { [key in OktaWidgetEventType]: OktaWidgetEventHandler };
