@@ -13,7 +13,7 @@
 import { Selector } from 'testcafe';
 
 fixture('Theming')
-  .page('http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/introspect/default');
+  .page('http://localhost:3000/?siw-use-mocks=true&siw-mock-scenario=authenticator-verification-phone-sms');
 
 test('Theme configuration applies correctly', async (t) => {
   const submitButton = Selector('button')
@@ -29,24 +29,40 @@ test('Theme configuration applies correctly', async (t) => {
     .typeText("input[data-se='credentials.passcode']", 'password')
     .click(submitButton);
 
-  // TODO: Assertion is skipped until we update auth coin component with theming
-  // const buttonForPhoneAuth = Selector('div')
-  //   .withAttribute('role', 'button')
-  //   .withText('Okta Phone');
-  // const phoneAuthCoin = buttonForPhoneAuth
-  //   .find('svg');
+  const buttonForPhoneAuth = Selector('button')
+    .withText('Phone');
+  const phoneAuthCoin = buttonForPhoneAuth
+    .find('svg');
 
-  // await t
-  //   .expect(phoneAuthCoin.find('.siwFillPrimary').getStyleProperty('fill'))
-  //   .eql('rgb(202, 0, 228)');
-  // await t
-  //   .expect(phoneAuthCoin.find('.siwFillSecondary').getStyleProperty('fill'))
-  //   .eql('rgb(241, 131, 255)');
+  await t
+    .expect(phoneAuthCoin.find('.siwFillPrimary').getStyleProperty('fill'))
+    .eql('rgb(202, 0, 228)');
+  await t
+    .expect(phoneAuthCoin.find('.siwFillSecondary').getStyleProperty('fill'))
+    .eql('rgb(241, 131, 255)');
 }).clientScripts({
   content: `
     window.additionalOptions = {
       brandColors: {
         primaryColor: '#3e0046'
+      }
+    };
+  `,
+});
+
+test('should override text color based on MUI theme options override', async (t) => {
+  const header = Selector('h2')
+    .withText('Sign In');
+  await t
+    .expect(header.getStyleProperty('color'))
+    .eql('rgb(40, 214, 187)');
+}).clientScripts({
+  content: `
+    window.additionalOptions = {
+      muiThemeOptions: {
+        palette: {
+          text: { primary: '#28D6BB' },
+        },
       }
     };
   `,
