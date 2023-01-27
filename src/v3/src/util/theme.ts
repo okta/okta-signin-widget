@@ -95,7 +95,7 @@ export const deriveThemeFromBrand = (brand: BrandColors): DerivedTheme | null =>
 
 export const mapMuiThemeFromBrand = (
   brand: BrandColors | undefined,
-  overrideThemeOptions?: ThemeOptions,
+  muiThemeOverrides?: ThemeOptions,
 ): Theme => {
   // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
   odysseyTheme.shape.borderRadius = 4;
@@ -118,12 +118,8 @@ export const mapMuiThemeFromBrand = (
     }
   }
 
-  if (typeof overrideThemeOptions !== 'undefined') {
-    // @ts-expect-error Error thrown from difference of component props between ODS and MUI
-    return merge(odysseyThemeCopy, overrideThemeOptions);
-  }
   // @ts-expect-error Error thrown from difference of component props between ODS and MUI
-  return odysseyThemeCopy;
+  return merge(odysseyThemeCopy, muiThemeOverrides || {});
 };
 
 export const mapThemeFromBrand = (brand: BrandColors | undefined): PartialTheme => {

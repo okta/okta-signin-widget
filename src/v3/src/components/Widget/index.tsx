@@ -75,7 +75,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     brandColors,
     brandName,
     events,
-    muiThemeOptions,
+    muiThemeOverrides,
     logo,
     logoText,
     onSuccess,
@@ -98,7 +98,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
   const [loginHint, setloginHint] = useState<string | null>(null);
-  const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOptions);
+  const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOverrides);
 
   useEffect(() => {
     // If we need to load a language (or apply custom i18n overrides), do

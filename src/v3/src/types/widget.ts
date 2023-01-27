@@ -81,7 +81,7 @@ export type WidgetOptions = {
   // theming
   theme?: ThemeOptions;
   // Override MUI Theming
-  muiThemeOptions?: MuiThemeOptions;
+  muiThemeOverrides?: MuiThemeOptions;
 
   // events
   events?: { [key in OktaWidgetEventType]: OktaWidgetEventHandler };
