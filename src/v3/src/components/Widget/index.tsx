@@ -31,9 +31,9 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
-import { IDX_STEP } from '../../constants';
 
 import Bundles from '../../../../util/Bundles';
+import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import { usePolling } from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
