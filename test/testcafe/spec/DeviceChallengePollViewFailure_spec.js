@@ -148,9 +148,9 @@ test
   .requestHooks(logger, deviceInvalidatedErrorMsg)('add title when device or account is invalidated', async t => {
     mockCalls = 0;
     const deviceChallengePollPageObject = await setup(t);
-    await t.expect(deviceChallengePollPageObject.form.getErrorBoxTitle()).eql('Couldn’t verify your identity');
-    await t.expect(deviceChallengePollPageObject.hasText(
-      'Your device or account was invalidated. If this is unexpected, contact your administrator for help.')).eql(true);
+    await t.expect(deviceChallengePollPageObject.getErrorBoxText()).contains('Couldn’t verify your identity');
+    await t.expect(deviceChallengePollPageObject.getErrorBoxText()).contains(
+      'Your device or account was invalidated. If this is unexpected, contact your administrator for help.');
   });
 
 test
