@@ -56,7 +56,7 @@ const InfoBox: UISchemaElementComponent<{
         {...({ 'data-se': dataSe })}
         className={`infobox-${messageClass.toLowerCase()}`}
       >
-        { title && <AlertTitle>{title}</AlertTitle> }
+        { title && <AlertTitle role="heading">{title}</AlertTitle> }
         { message }
         { listOptions && <List uischema={{ type: 'List', options: listOptions }} /> }
       </Alert>
