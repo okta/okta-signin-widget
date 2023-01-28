@@ -56,7 +56,7 @@ const InfoBox: UISchemaElementComponent<{
         {...({ 'data-se': dataSe })}
         className={`infobox-${messageClass.toLowerCase()}`}
       >
-        { title && <Typography variant="h6">{title}</Typography> }
+        { title && <Typography component="h3" variant="h6">{title}</Typography> }
         { message }
         { listOptions && <List uischema={{ type: 'List', options: listOptions }} /> }
       </Alert>
