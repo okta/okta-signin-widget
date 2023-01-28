@@ -58,7 +58,7 @@ const InfoBox: UISchemaElementComponent<{
       >
         { title && (
         <Typography
-          component="h3"
+          component="h2"
           variant="h6"
         >
           {title}
