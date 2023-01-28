@@ -24,7 +24,7 @@ import {
   TerminalKeyTransformer,
   UISchemaLayout,
 } from '../../types';
-import { containsMessageKey, loc } from '../../util';
+import { containsMessageKey, containsMessageKeyPrefix, loc } from '../../util';
 import { transactionMessageTransformer } from '../i18n';
 import { transformEmailMagicLinkOTPOnly } from './transformEmailMagicLinkOTPOnlyElements';
 
@@ -34,9 +34,10 @@ type ModifiedIdxMessage = Modify<IdxMessage, {
     key: string;
     params?: unknown[];
   };
+  title?: string;
 }>;
 
-const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[]): void => {
+const appendMessageElements = (uischema: UISchemaLayout, messages: ModifiedIdxMessage[]): void => {
   messages.forEach((message) => {
     if (!message.class || message.class === 'INFO') {
       const messageElement: DescriptionElement = {
@@ -53,6 +54,7 @@ const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[])
           message: message.message,
           class: messageClass,
           dataSe: 'callout',
+          title: message.title,
         },
       };
       uischema.elements.push(infoBoxElement);
@@ -127,6 +129,9 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
   } else if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
     displayedMessages[0].class = 'ERROR';
     displayedMessages[0].message = loc(TERMINAL_KEY.SESSION_EXPIRED, 'login');
+  } else if (containsMessageKeyPrefix('core.auth.factor.signedNonce.error', messages)) {
+    // custom title for signed nonce errors
+    displayedMessages[0].title = loc('user.fail.verifyIdentity', 'login');
   } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, messages)) {
     return transformEmailMagicLinkOTPOnly(transaction, formBag);
   } else if (containsMessageKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE, messages)) {

@@ -145,12 +145,12 @@ test.requestHooks(logger, mock)('probing and polling APIs are sent and responded
 });
 
 test
-  .meta('v3', false) // Need to add title when this specific type of error is returned (OKTA-564968)
   .requestHooks(logger, deviceInvalidatedErrorMsg)('add title when device or account is invalidated', async t => {
     mockCalls = 0;
     const deviceChallengePollPageObject = await setup(t);
-    await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql(
-      'Couldn’t verify your identity\n\nYour device or account was invalidated. If this is unexpected, contact your administrator for help.');
+    await t.expect(deviceChallengePollPageObject.getErrorBoxText()).contains('Couldn’t verify your identity');
+    await t.expect(deviceChallengePollPageObject.getErrorBoxText()).contains(
+      'Your device or account was invalidated. If this is unexpected, contact your administrator for help.');
   });
 
 test

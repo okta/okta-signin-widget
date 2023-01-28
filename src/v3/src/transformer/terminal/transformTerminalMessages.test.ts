@@ -203,6 +203,29 @@ describe('Terminal Message Transformer Tests', () => {
     ).options?.class).toBe('ERROR');
   });
 
+  it('should add error Info box element with title for message keys prefixed with core.auth.factor.signedNonce.error', () => {
+    const mockErrorMessage = 'Signed nonce error';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'ERROR',
+      'core.auth.factor.signedNonce.error.invalidDevice',
+    ));
+    const updatedFormBag = transformTerminalMessages(transaction, formBag);
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.message).toBe('core.auth.factor.signedNonce.error.invalidDevice');
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.class).toBe('ERROR');
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.title).toBe('user.fail.verifyIdentity');
+  });
+
   it('should return custom formBag when message key contains idx.enter.otp.in.original.tab', () => {
     transaction.messages?.push(getMockMessage(
       'Enter the OTP in your original browser or device.',

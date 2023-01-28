@@ -46,6 +46,7 @@ Object {
           "class": "ERROR",
           "dataSe": "callout",
           "message": "oie.tooManyRequests",
+          "title": undefined,
         },
         "type": "InfoBox",
       },
@@ -74,6 +75,7 @@ Object {
           "class": "ERROR",
           "dataSe": "callout",
           "message": "idx.operation.cancelled.on.other.device",
+          "title": undefined,
         },
         "type": "InfoBox",
       },
@@ -109,6 +111,36 @@ Object {
           "class": "ERROR",
           "dataSe": "callout",
           "message": "idx.session.expired",
+          "title": undefined,
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Message Transformer Tests should add error Info box element with title for message keys prefixed with core.auth.factor.signedNonce.error 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "dataSe": "callout",
+          "message": "core.auth.factor.signedNonce.error.invalidDevice",
+          "title": "user.fail.verifyIdentity",
         },
         "type": "InfoBox",
       },
@@ -137,6 +169,7 @@ Object {
           "class": "ERROR",
           "dataSe": "callout",
           "message": "idx.return.link.expired",
+          "title": undefined,
         },
         "type": "InfoBox",
       },
@@ -192,6 +225,7 @@ Object {
           "class": "ERROR",
           "dataSe": "callout",
           "message": "Test error message",
+          "title": undefined,
         },
         "type": "InfoBox",
       },
