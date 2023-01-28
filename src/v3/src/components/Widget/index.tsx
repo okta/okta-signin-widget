@@ -149,6 +149,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return createForm();
     }
 
+    // clear the loginHint value when returning to the identify flow
+    if (idxTransaction?.nextStep?.name === IDX_STEP.IDENTIFY) {
+      setloginHint(null);
+    }
+
     if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
         || !idxTransaction.nextStep) {
       return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
@@ -246,10 +251,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [pollingTransaction]); // only watch on pollingTransaction changes
 
   useEffect(() => {
-    // clear the loginHint value when returning to the identify flow
-    if (idxTransaction?.nextStep?.name === IDX_STEP.IDENTIFY) {
-      setloginHint(null);
-    }
     if (isClientTransaction) {
       return;
     }
