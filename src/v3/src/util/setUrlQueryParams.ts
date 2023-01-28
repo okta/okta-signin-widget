@@ -10,16 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getBaseUrl } from "../util";
-import { useWidgetContext } from '../contexts';
-
 export const setUrlQueryParams = (
   url: URL | string,
   params: Record<string, string> = {},
 ) => {
-  const { widgetProps } = useWidgetContext();
-  const u = new URL(url, getBaseUrl(widgetProps));
+  const u = new URL(url);
   Object.entries(params)
-    .forEach(([k, v]) => u.searchParams.set(k, v))
+    .forEach(([k, v]) => u.searchParams.set(k, v));
   return u.toString();
-}
+};

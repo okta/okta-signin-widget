@@ -22,7 +22,9 @@ import {
   LaunchAuthenticatorButtonElement,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation, isAndroid, setUrlQueryParams } from '../../util';
+import {
+  getBaseUrl, getTranslation, isAndroid, setUrlQueryParams,
+} from '../../util';
 import { OktaVerifyIcon } from '../Icon';
 
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
@@ -44,6 +46,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
     loginHint,
     setloginHint,
     data,
+    widgetProps,
   } = useWidgetContext();
 
   const handleClick: ClickHandler = async () => {
@@ -53,10 +56,11 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
     }
     if (deviceChallengeUrl) {
       const loginHintQueryParam = loginHint ? { login_hint: loginHint } : undefined;
+      const urlObj = new URL(deviceChallengeUrl, getBaseUrl(widgetProps));
       if (isAndroid() && challengeMethod !== CHALLENGE_METHOD.APP_LINK) {
-        Util.redirectWithFormGet(setUrlQueryParams(deviceChallengeUrl, loginHintQueryParam));
+        Util.redirectWithFormGet(setUrlQueryParams(urlObj, loginHintQueryParam));
       } else {
-        window.location.assign(setUrlQueryParams(deviceChallengeUrl, loginHintQueryParam));
+        window.location.assign(setUrlQueryParams(urlObj, loginHintQueryParam));
       }
     }
     onSubmitHandler({
