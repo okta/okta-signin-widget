@@ -137,11 +137,11 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                     <div
                       class="MuiAlert-message emotion-18"
                     >
-                      <h3
+                      <h2
                         class="MuiTypography-root MuiTypography-h6 emotion-19"
                       >
                         Update Okta Verify
-                      </h3>
+                      </h2>
                       The device used to set up Okta Verify does not meet your organization’s security requirements because it is not FIPS compliant. Contact your administrator for help.
                     </div>
                   </div>
