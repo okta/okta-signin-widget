@@ -12,8 +12,8 @@
 
 import {
   Alert,
-  AlertTitle,
   Box,
+  Typography,
 } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
@@ -56,7 +56,7 @@ const InfoBox: UISchemaElementComponent<{
         {...({ 'data-se': dataSe })}
         className={`infobox-${messageClass.toLowerCase()}`}
       >
-        { title && <AlertTitle role="heading">{title}</AlertTitle> }
+        { title && <Typography variant="h6">{title}</Typography> }
         { message }
         { listOptions && <List uischema={{ type: 'List', options: listOptions }} /> }
       </Alert>
