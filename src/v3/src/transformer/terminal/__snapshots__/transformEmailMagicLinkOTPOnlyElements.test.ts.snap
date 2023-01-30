@@ -18,12 +18,14 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.enter.otp.in.original.tab",
+          "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
       Object {
         "options": Object {
           "content": "123456",
+          "dataSe": "otp-value",
           "level": 3,
           "visualLevel": 3,
         },
@@ -33,6 +35,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
+          "dataSe": "otp-warning",
         },
         "type": "Description",
       },
@@ -60,12 +63,14 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
+          "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
       Object {
         "options": Object {
           "content": "123456",
+          "dataSe": "otp-value",
           "level": 3,
           "visualLevel": 3,
         },
@@ -75,6 +80,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
+          "dataSe": "otp-warning",
         },
         "type": "Description",
       },
@@ -102,12 +108,14 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
+          "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
       Object {
         "options": Object {
           "content": "123456",
+          "dataSe": "otp-value",
           "level": 3,
           "visualLevel": 3,
         },
@@ -117,6 +125,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
+          "dataSe": "otp-warning",
         },
         "type": "Description",
       },
@@ -144,12 +153,14 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
+          "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
       Object {
         "options": Object {
           "content": "123456",
+          "dataSe": "otp-value",
           "level": 3,
           "visualLevel": 3,
         },
@@ -159,6 +170,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
+          "dataSe": "otp-warning",
         },
         "type": "Description",
       },
@@ -186,12 +198,14 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
+          "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
       Object {
         "options": Object {
           "content": "123456",
+          "dataSe": "otp-value",
           "level": 3,
           "visualLevel": 3,
         },
@@ -199,8 +213,10 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
           "content": "idx.return.link.otponly.request",
+          "dataSe": "otp-only-request-info",
         },
         "type": "Description",
       },
@@ -216,6 +232,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
+          "dataSe": "otp-warning",
         },
         "type": "Description",
       },
@@ -243,12 +260,14 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
+          "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
       Object {
         "options": Object {
           "content": "123456",
+          "dataSe": "otp-value",
           "level": 3,
           "visualLevel": 3,
         },
@@ -256,8 +275,10 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
           "content": "idx.return.link.otponly.request",
+          "dataSe": "otp-only-request-info",
         },
         "type": "Description",
       },
@@ -289,6 +310,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
+          "dataSe": "otp-warning",
         },
         "type": "Description",
       },
@@ -316,12 +338,14 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
+          "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
       Object {
         "options": Object {
           "content": "123456",
+          "dataSe": "otp-value",
           "level": 3,
           "visualLevel": 3,
         },
@@ -329,8 +353,10 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
           "content": "idx.return.link.otponly.request",
+          "dataSe": "otp-only-request-info",
         },
         "type": "Description",
       },
@@ -354,6 +380,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
+          "dataSe": "otp-warning",
         },
         "type": "Description",
       },
@@ -381,12 +408,14 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
+          "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
       Object {
         "options": Object {
           "content": "123456",
+          "dataSe": "otp-value",
           "level": 3,
           "visualLevel": 3,
         },
@@ -394,8 +423,10 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
           "content": "idx.return.link.otponly.request",
+          "dataSe": "otp-only-request-info",
         },
         "type": "Description",
       },
@@ -427,6 +458,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
+          "dataSe": "otp-warning",
         },
         "type": "Description",
       },
@@ -454,12 +486,14 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.enter.code.on.page",
+          "dataSe": "enter-code-instr",
         },
         "type": "Description",
       },
       Object {
         "options": Object {
           "content": "123456",
+          "dataSe": "otp-value",
           "level": 3,
           "visualLevel": 3,
         },
@@ -469,6 +503,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "idx.return.link.otponly.warning.text",
+          "dataSe": "otp-warning",
         },
         "type": "Description",
       },

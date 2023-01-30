@@ -30,7 +30,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
   const {
     context: {
       app,
-      // @ts-ignore TODO: OKTA-504300 'client' does not exist on IdxContext interface
+      // @ts-expect-error TODO: OKTA-504300 'client' does not exist on IdxContext interface
       client,
       currentAuthenticator,
       intent,
@@ -40,19 +40,23 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
   const otpElement: HeadingElement = {
     type: 'Heading',
     options: {
-      // @ts-ignore TODO: OKTA-504299 otp missing from contextualData interface
+      // @ts-expect-error TODO: OKTA-504299 otp missing from contextualData interface
       content: currentAuthenticator?.value?.contextualData?.otp,
       level: 3,
       visualLevel: 3,
+      dataSe: 'otp-value',
     },
   };
   const warningTextElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
-    options: { content: loc('idx.return.link.otponly.warning.text', 'login') },
+    options: {
+      content: loc('idx.return.link.otponly.warning.text', 'login'),
+      dataSe: 'otp-warning',
+    },
   };
 
-  const challengeIntent = CHALLENGE_INTENT_TO_I18KEY[intent]
+  const challengeIntent: string | undefined = CHALLENGE_INTENT_TO_I18KEY[intent]
     && loc(CHALLENGE_INTENT_TO_I18KEY[intent], 'login');
   const codeEntryInstructionElement: DescriptionElement = {
     type: 'Description',
@@ -61,6 +65,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       content: challengeIntent
         ? loc('idx.return.link.otponly.enter.code.on.page', 'login', [challengeIntent])
         : loc('idx.enter.otp.in.original.tab', 'login'),
+      dataSe: 'enter-code-instr',
     },
   };
 
@@ -113,7 +118,11 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
     requestInfoTextElement = {
       type: 'Description',
       contentType: 'subtitle',
-      options: { content: loc('idx.return.link.otponly.request', 'login') },
+      noMargin: true,
+      options: {
+        content: loc('idx.return.link.otponly.request', 'login'),
+        dataSe: 'otp-only-request-info',
+      },
     };
   }
 

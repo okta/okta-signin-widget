@@ -118,6 +118,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                 >
                   <div
                     class="MuiBox-root emotion-15"
+                    data-se="icon-yubikeyDemo"
                   >
                     <mocksvgicon />
                   </div>

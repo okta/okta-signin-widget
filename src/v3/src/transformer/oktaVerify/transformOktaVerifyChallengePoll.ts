@@ -81,6 +81,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
         contentType: 'subtitle',
         options: {
           content: loc('oie.numberchallenge.instruction', 'login', [correctAnswer]),
+          dataSe: 'numberchallenge-value',
         },
       };
 
