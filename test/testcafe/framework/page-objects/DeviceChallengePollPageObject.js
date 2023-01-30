@@ -9,13 +9,6 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     this.footer = new Selector('.auth-footer');
   }
 
-  /**
-   * @deprecated use getFormTitle
-   */
-  getHeader() {
-    return this.body.find('[data-se="o-form-head"]').innerText;
-  }
-
   getIframeAttributes() {
     return Selector('iframe').attributes;
   }
