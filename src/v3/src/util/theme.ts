@@ -119,7 +119,7 @@ export const mapMuiThemeFromBrand = (
   }
 
   // @ts-expect-error Error thrown from difference of component props between ODS and MUI
-  return merge(odysseyThemeCopy, muiThemeOverrides || {});
+  return merge(odysseyThemeCopy, muiThemeOverrides);
 };
 
 export const mapThemeFromBrand = (brand: BrandColors | undefined): PartialTheme => {
