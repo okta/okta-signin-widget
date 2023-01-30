@@ -33,6 +33,7 @@ import {
 } from 'preact/hooks';
 
 import Bundles from '../../../../util/Bundles';
+import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import { usePolling } from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
@@ -96,6 +97,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
   const brandedTheme = mapMuiThemeFromBrand(brandColors);
+  const [loginHint, setloginHint] = useState<string | null>(null);
 
   useEffect(() => {
     // If we need to load a language (or apply custom i18n overrides), do
@@ -145,6 +147,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
     if (idxTransaction === undefined) {
       return createForm();
+    }
+
+    // clear the loginHint value when returning to the identify flow
+    if (idxTransaction?.nextStep?.name === IDX_STEP.IDENTIFY) {
+      setloginHint(null);
     }
 
     if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
@@ -282,6 +289,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       loading,
       setLoading,
       setWidgetRendered,
+      loginHint,
+      setloginHint,
     }}
     >
       {/* Note: we need to keep both themeproviders (MUI/ODS) until ODS exports all MUI components */}

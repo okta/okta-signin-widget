@@ -52,9 +52,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setAuthApiError,
     setIdxTransaction,
     setIsClientTransaction,
+    setLoading,
     setMessage,
     setStepToRender,
-    setLoading,
     widgetProps: { events },
   } = useWidgetContext();
 

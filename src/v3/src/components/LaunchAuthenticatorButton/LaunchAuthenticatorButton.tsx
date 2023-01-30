@@ -15,13 +15,16 @@ import { h } from 'preact';
 
 import Util from '../../../../util/Util';
 import { CHALLENGE_METHOD } from '../../constants';
+import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnSubmit } from '../../hooks';
 import {
   ClickHandler,
   LaunchAuthenticatorButtonElement,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation, isAndroid } from '../../util';
+import {
+  getBaseUrl, getTranslation, isAndroid, setUrlQueryParams,
+} from '../../util';
 import { OktaVerifyIcon } from '../Icon';
 
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
@@ -39,13 +42,25 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
   } = uischema;
 
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
+  const {
+    loginHint,
+    setloginHint,
+    data,
+    widgetProps,
+  } = useWidgetContext();
 
   const handleClick: ClickHandler = async () => {
+    if (data.identifier) {
+      // set loginHint in widget context to the current Username input field data
+      setloginHint(data.identifier as string);
+    }
     if (deviceChallengeUrl) {
+      const loginHintQueryParam = loginHint ? { login_hint: loginHint } : undefined;
+      const urlObj = new URL(deviceChallengeUrl, getBaseUrl(widgetProps));
       if (isAndroid() && challengeMethod !== CHALLENGE_METHOD.APP_LINK) {
-        Util.redirectWithFormGet(deviceChallengeUrl);
+        Util.redirectWithFormGet(setUrlQueryParams(urlObj, loginHintQueryParam));
       } else {
-        window.location.assign(deviceChallengeUrl);
+        window.location.assign(setUrlQueryParams(urlObj, loginHintQueryParam));
       }
     }
     onSubmitHandler({

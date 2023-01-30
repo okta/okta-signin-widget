@@ -35,6 +35,7 @@ export * from './passwordUtils';
 export * from './removeFieldLevelMessages';
 export * from './resetMessagesToInputs';
 export * from './settingsUtils';
+export * from './setUrlQueryParams';
 export * from './shouldShowCancelLink';
 export * from './toNestedObject';
 export * from './webauthnUtils';

@@ -42,6 +42,8 @@ export type IWidgetContext = {
   loading: boolean;
   setLoading: StateUpdater<boolean>;
   setWidgetRendered: StateUpdater<boolean>;
+  loginHint?: string | null;
+  setloginHint: StateUpdater<string | null>;
 };
 
 // Stepper context
