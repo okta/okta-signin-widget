@@ -22,6 +22,7 @@ import { FunctionComponent } from 'preact';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
+import { Modify } from './jsonforms';
 import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
 
@@ -42,17 +43,19 @@ export type FormBag = {
   dataSchema: DataSchemaBag;
 };
 
-export type WidgetMessage = (IdxMessage & {
-  type?: 'string';
-  title?: string;
-  name?: string;
-} | Omit<IdxMessage, 'message' | 'i18n' | 'class'> & {
-  messages: WidgetMessage[];
-  type?: 'list';
+export type WidgetMessage = Modify<IdxMessage, {
+  class?: string;
+  i18n?: {
+    key: string;
+    params?: unknown[];
+  };
+  message?: string;
+  messages?: WidgetMessage[];
+  type?: 'list' | 'string';
   title?: string;
   name?: string;
   description?: string;
-});
+}>;
 
 export type AutoCompleteValue = 'username'
 | 'current-password'

@@ -57,17 +57,17 @@ export const getAppInfo = (transaction: IdxTransaction): AppInfo => {
 
 export const containsMessageKey = (
   key: string,
-  messages?: IdxMessage[],
+  messages?: WidgetMessage[],
 ): boolean => (messages?.some((message) => message.i18n?.key === key) ?? false);
 
 export const containsMessageKeyPrefix = (
   prefix: string,
-  messages?: IdxMessage[],
+  messages?: WidgetMessage[],
 ): boolean => (messages?.some((message) => message.i18n?.key?.startsWith(prefix)) ?? false);
 
 export const containsOneOfMessageKeys = (
   keys: string[],
-  messages?: IdxMessage[],
+  messages?: WidgetMessage[],
 ): boolean => keys.some((key) => containsMessageKey(key, messages));
 
 export const updatePasswordRequirementsNotMetMessage = (

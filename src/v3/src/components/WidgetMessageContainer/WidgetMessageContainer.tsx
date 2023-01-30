@@ -18,7 +18,7 @@ import { WidgetMessage } from '../../types';
 import { buildErrorMessageIds } from '../../util';
 
 type FieldErrorProps = {
-  errors: WidgetMessage[];
+  errors?: WidgetMessage[];
   fieldName: string;
 };
 
@@ -26,6 +26,9 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
   const { fieldName, errors } = props;
 
   const buildElementId = (errorIndex: number): string => {
+    if (typeof errors === 'undefined') {
+      return `${fieldName}-error`;
+    }
     const errorIdStr = buildErrorMessageIds(errors, fieldName);
     return errorIdStr.split(' ')[errorIndex];
   };
@@ -60,7 +63,7 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
           sx={{ listStyleType: 'disc', paddingInlineStart: 4 }}
         >
           {
-            error.messages.map((message: WidgetMessage) => {
+            error.messages?.map((message: WidgetMessage) => {
               if (message.type === 'string') {
                 return (
                   <ListItem
@@ -73,15 +76,13 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
                   </ListItem>
                 );
               }
-              if (message.type === 'list') {
-                return (
-                  <WidgetMessageContainer
-                    errors={message.messages}
-                    fieldName={fieldName}
-                  />
-                );
-              }
-              return null;
+              return (
+                <WidgetMessageContainer
+                  key=""
+                  errors={message.messages}
+                  fieldName={fieldName}
+                />
+              );
             })
           }
         </List>
@@ -89,7 +90,7 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
     );
   };
 
-  return (
+  return typeof errors !== 'undefined' ? (
     <Box>
       {
         errors.map((error: WidgetMessage, index: number) => {
@@ -115,7 +116,7 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
         })
       }
     </Box>
-  );
+  ) : null;
 };
 
 export default WidgetMessageContainer;
