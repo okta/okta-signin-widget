@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxActionParams } from '@okta/okta-auth-js';
 import fetch from 'cross-fetch';
 import { FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import Logger from '../../../../util/Logger';
-import { useOnSubmit } from '../../hooks';
+import { useWidgetContext } from '../../contexts';
 import { ActionParams, LoopbackProbeElement } from '../../types';
 import { isAndroid } from '../../util';
 
@@ -83,7 +84,8 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     },
   },
 }) => {
-  const onSubmitHandler = useOnSubmit();
+  const widgetContext = useWidgetContext();
+  const { authClient, idxTransaction } = widgetContext;
 
   const probeTimeoutMillis: number = typeof deviceChallengePayload.probeTimeoutMillis === 'undefined'
     ? 100 : deviceChallengePayload.probeTimeoutMillis;
@@ -93,13 +95,22 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     challengeRequest,
   } = deviceChallengePayload;
 
+  const submitHandler = (stepName: string, params?: ActionParams) => {
+    const payload: IdxActionParams = {
+      actions: [{
+        name: stepName,
+        params,
+      }],
+    };
+    if (typeof idxTransaction?.context.stateHandle !== 'undefined') {
+      payload.stateHandle = idxTransaction.context.stateHandle;
+    }
+    authClient?.idx.proceed(payload);
+  };
+
   const cancelHandler = (params?: ActionParams) => {
     if (typeof cancelStep !== 'undefined') {
-      onSubmitHandler({
-        isActionStep: true,
-        step: cancelStep,
-        params,
-      });
+      submitHandler(cancelStep, params);
     }
   };
 
@@ -171,9 +182,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
         // success condition
         // once the OV challenge succeeds, triggers another polling right away without waiting
         // for the next ongoing polling to be triggered to make the authentication flow go faster
-        onSubmitHandler({
-          step,
-        });
+        submitHandler(step);
       } else {
         // no more ports to probe: cancel polling and return
         Logger.error('No available ports. Loopback server failed and polling is cancelled.');
