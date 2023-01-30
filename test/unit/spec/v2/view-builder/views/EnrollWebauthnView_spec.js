@@ -263,6 +263,100 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       .catch(done.fail);
   });
 
+  it.each([[true, false], [true, true], [false, true], [false, false]])('calls navigator.credentials.create on getTransports/getClientExtensions non-supported browser', function(mockGetTransports,
+    mockGetClientExtensions, done) {
+
+    const newCredential = {
+      response: {
+        clientDataJSON: 123,
+        attestationObject: 234,
+      }
+    };
+
+    if (mockGetClientExtensions) {
+      newCredential.getClientExtensionResults = function() { return 456; };
+    }
+    if (mockGetTransports){
+      newCredential.response.getTransports = function() { return 123; };
+    }
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
+    spyOn(BaseForm.prototype, 'saveForm');
+
+    testContext.init(EnrollWebauthnResponse.currentAuthenticator.value, EnrollWebauthnResponse.authenticatorEnrollments);
+    testContext.view.$('.webauthn-setup').click();
+
+    Expect.waitForSpyCall(testContext.view.form.saveForm)
+      .then(() => {
+        expect(navigator.credentials.create).toHaveBeenCalledWith({
+          publicKey: {
+            rp: {
+              name: 'idx',
+            },
+            user: {
+              id: CryptoUtil.strToBin('00utjm1GstPjCF9Ad0g3'),
+              name: 'test@okta.com',
+              displayName: 'test user',
+            },
+            pubKeyCredParams: [
+              {
+                type: 'public-key',
+                alg: -7,
+              },
+              {
+                type: 'public-key',
+                alg: -257,
+              },
+            ],
+            challenge: CryptoUtil.strToBin('zrTo0mMXyCt90mweh2HL'),
+            attestation: 'direct',
+            authenticatorSelection: {
+              userVerification: 'discouraged',
+            },
+            u2fParams: {
+              appid: 'http://idx.okta1.com:1802',
+            },
+            excludeCredentials: [
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(
+                  'hpxQXbu5R5Y2JMqpvtE9Oo9FdwO6z2kMR-ZQkAb6p6GSguXQ57oVXKvpVHT2fyCR_m2EL1vIgszxi00kyFIX6w'
+                ),
+              },
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(
+                  '7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w'
+                ),
+              },
+            ],
+          },
+          signal: jasmine.any(Object),
+        });
+
+        const responseData = {
+          clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
+          attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
+          clientExtensions: null,
+          transports: null
+        };
+
+        if (mockGetClientExtensions) {
+          responseData.clientExtensions = JSON.stringify(newCredential.getClientExtensionResults());
+        }
+
+        if(mockGetTransports){
+          responseData.transports = JSON.stringify(newCredential.response.getTransports());
+        }
+
+        expect(testContext.view.form.model.get('credentials')).toEqual(responseData);
+        expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
+        expect(testContext.view.form.webauthnAbortController).toBe(null);
+        done();
+      })
+      .catch(done.fail);
+  });
+
   it('error with a name that not supported on login bundle is displayed when credentials.create fails', function(done) {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(navigator.credentials, 'create').and.returnValue(Promise.reject({ message: 'error from browser' }));
