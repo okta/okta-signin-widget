@@ -18,18 +18,39 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   extensionIsHidden() {
+    if (userVariables.v3) {
+      return !this.form.fieldByLabelExists('Extension');
+    }
     return this.form.getElement(PHONE_NUMBER_EXTENSION_SELECTOR).hasClass('hide');
   }
+
+  extensionText() {
+    if (userVariables.v3) {
+      return this.form.getElement('label[for="phoneExtension"]').innerText;
+    }
+    return this.form.getElement(PHONE_NUMBER_EXTENSION_SELECTOR).innerText;
+  }
+
+  countryCodeText() {
+    if (userVariables.v3) {
+      return this.form.getElement('[data-se="authenticator.phoneNumber"]').parent('div').innerText;
+    }
+    return this.form.getElement('.phone-authenticator-enroll__phone-code').innerText;
+  }
+
 
   getElement(selector) {
     return this.form.getElement(selector);
   }
 
   hasPhoneNumberError() {
-    return this.form.hasTextBoxError(phoneFieldName);
+    return this.form.hasTextBoxErrorMessage(phoneFieldName);
   }
 
-  clickSaveButton() {
+  clickSaveButton(name) {
+    if (userVariables.v3) {
+      return this.form.clickSaveButton(name);
+    }
     return this.form.clickSaveButton();
   }
 
@@ -42,6 +63,9 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   phoneNumberFieldIsSmall() {
+    if (userVariables.v3) {
+      return this.form.elementExist('[inputmode="tel"]');
+    }
     return this.form.getElement(PHONE_NUMBER_SELECTOR)
       .hasClass('phone-authenticator-enroll__phone--small');
   }

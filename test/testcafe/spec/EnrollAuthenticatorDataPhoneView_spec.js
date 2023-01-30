@@ -1,7 +1,7 @@
 import { RequestMock } from 'testcafe';
 import EnrollPhonePageObject from '../framework/page-objects/EnrollPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, oktaDashboardContent } from '../framework/shared';
 import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
 import xhrAuthenticatorEnrollDataPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone-voice';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -10,19 +10,25 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollDataPhone)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const voiceOnlyOptionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollDataPhoneVoice)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
-fixture('Authenticator Enroll Data Phone');
+fixture('Authenticator Enroll Data Phone')
+  .meta('v3', true);
 
 async function setup(t) {
   const enrollPhonePage = new EnrollPhonePageObject(t);
   await enrollPhonePage.navigateToPage();
+  await t.expect(enrollPhonePage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: null,
     formName: 'authenticator-enrollment-data',
@@ -42,13 +48,12 @@ test.requestHooks(mock)('default sms mode', async t => {
   await t.expect(enrollPhonePage.getSaveButtonLabel()).eql('Receive a code via SMS');
 
   // Extension field is hidden
-  await t.expect(enrollPhonePage.extensionIsHidden()).eql(true);
+  await t.expect(await enrollPhonePage.extensionIsHidden()).eql(false);
 
   await t.expect(await enrollPhonePage.signoutLinkExists()).ok();
 
   // assert switch authenticator link shows up
-  await t.expect(await enrollPhonePage.switchAuthenticatorLinkExists()).ok();
-  await t.expect(enrollPhonePage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
+  await t.expect(await enrollPhonePage.returnToAuthenticatorListLinkExists()).ok();
 });
 
 test.requestHooks(mock)('voice mode click and extension will get shown', async t => {
@@ -59,12 +64,12 @@ test.requestHooks(mock)('voice mode click and extension will get shown', async t
   await t.expect(enrollPhonePage.getSaveButtonLabel()).eql('Receive a code via voice call');
 
   // Extension field is shown
-  await t.expect(enrollPhonePage.extensionIsHidden()).eql(false);
-  const extensionText = await enrollPhonePage.getElement('.phone-authenticator-enroll__phone-ext').innerText;
+  await t.expect(await enrollPhonePage.extensionIsHidden()).eql(false);
+  const extensionText = await enrollPhonePage.extensionText();
   await t.expect(extensionText.trim()).eql('Extension');
 
   // Default country code US
-  const countryCodeText = await enrollPhonePage.getElement('.phone-authenticator-enroll__phone-code').innerText;
+  const countryCodeText = await enrollPhonePage.countryCodeText();
   await t.expect(countryCodeText.trim()).eql('+1');
 
   // Phone Number input field is rendered small
@@ -75,7 +80,7 @@ test.requestHooks(mock)('phone number is required', async t => {
   const enrollPhonePage = await setup(t);
   // fields are required
   await t.expect(enrollPhonePage.hasPhoneNumberError()).eql(false);
-  await enrollPhonePage.clickSaveButton();
+  await enrollPhonePage.clickSaveButton('Receive a code via SMS');
   await enrollPhonePage.waitForError();
   await t.expect(enrollPhonePage.hasPhoneNumberError()).eql(true);
 });
@@ -84,7 +89,7 @@ test.requestHooks(mock)('should succeed when values are filled in sms mode', asy
   const enrollPhonePage = await setup(t);
 
   await enrollPhonePage.fillPhoneNumber('4156669999');
-  await enrollPhonePage.clickSaveButton();
+  await enrollPhonePage.clickSaveButton('Receive a code via SMS');
 
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
@@ -96,7 +101,7 @@ test.requestHooks(mock)('should succeed when values are filled in voice mode', a
   const enrollPhonePage = await setup(t);
   await enrollPhonePage.clickRadio();
   await enrollPhonePage.fillPhoneNumber('4156669999');
-  await enrollPhonePage.clickSaveButton();
+  await enrollPhonePage.clickSaveButton('Receive a code via voice call');
 
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
@@ -116,7 +121,7 @@ test.requestHooks(voiceOnlyOptionMock)('default is voice mode', async t => {
   await t.expect(enrollPhonePage.getSaveButtonLabel()).eql('Receive a code via voice call');
 
   // Extension field is not hidden
-  await t.expect(enrollPhonePage.extensionIsHidden()).eql(false);
+  await t.expect(await enrollPhonePage.extensionIsHidden()).eql(false);
   // Phone field is rendered small
   await t.expect(enrollPhonePage.phoneNumberFieldIsSmall()).eql(true);
 });
@@ -124,7 +129,7 @@ test.requestHooks(voiceOnlyOptionMock)('default is voice mode', async t => {
 test.requestHooks(voiceOnlyOptionMock)('should succeed when values are filled when in voice only mode', async t => {
   const enrollPhonePage = await setup(t);
   await enrollPhonePage.fillPhoneNumber('4156669999');
-  await enrollPhonePage.clickSaveButton();
+  await enrollPhonePage.clickSaveButton('Receive a code via voice call');
 
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
