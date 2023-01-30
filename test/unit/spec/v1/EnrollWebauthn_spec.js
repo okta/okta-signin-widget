@@ -441,8 +441,8 @@ Expect.describe('EnrollWebauthn', function() {
         });
     });
 
-    itp('calls navigator.credentials.create on getClientExtensions non-supported browser', function() {
-      mockWebauthnNonSupportResponse(true, true, false);
+    itp('calls navigator.credentials.create on getTransports non-supported browser', function() {
+      mockWebauthnNonSupportResponse(true, false, true);
       return setup()
         .then(function(test) {
           Util.resetAjaxRequests();
@@ -496,18 +496,16 @@ Expect.describe('EnrollWebauthn', function() {
             transports: null
           };
 
-          dataObject.
-
-            Expect.isJsonPost(Util.getAjaxRequest(1), {
-              url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
-              data: dataObject
-            });
+          Expect.isJsonPost(Util.getAjaxRequest(1), {
+            url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
+            data: dataObject
+          });
           expect(test.router.controller.model.webauthnAbortController).toBe(null);
         });
     });
 
     itp('calls navigator.credentials.create on getClientExtensions non-supported browser', function() {
-      mockWebauthnNonSupportResponse(true, false, true);
+      mockWebauthnNonSupportResponse(true, true, false);
       return setup()
         .then(function(test) {
           Util.resetAjaxRequests();
