@@ -21,11 +21,12 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentType": "subtitle",
         "options": Object {
-          "content": "oie.webauthn.error.not.supported",
+          "class": "ERROR",
+          "dataSe": "callout",
+          "message": "oie.webauthn.error.not.supported",
         },
-        "type": "Description",
+        "type": "InfoBox",
       },
       Object {
         "elements": Array [
@@ -370,11 +371,12 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentType": "subtitle",
         "options": Object {
-          "content": "oie.webauthn.error.not.supported",
+          "class": "ERROR",
+          "dataSe": "callout",
+          "message": "oie.webauthn.error.not.supported",
         },
-        "type": "Description",
+        "type": "InfoBox",
       },
     ],
     "type": "VerticalLayout",
