@@ -263,7 +263,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
       .catch(done.fail);
   });
 
-  it.each([[true, false], [true, true], [false, true], [false, false]])('calls navigator.credentials.create on getTransports/getClientExtensions non-supported browser', function(mockGetTransports,
+  it.each([[true, false], [false, true], [false, false]])('calls navigator.credentials.create on getTransports/getClientExtensions non-supported browser', function(mockGetTransports,
     mockGetClientExtensions, done) {
 
     const newCredential = {

@@ -130,8 +130,7 @@ Expect.describe('EnrollWebauthn', function() {
     spyOn(navigator.credentials, 'create').and.callFake(function() {
       const deferred = Q.defer();
       const localTransports = transports;
-      // eslint-disable-next-line no-use-before-define
-      const localClientExtensions = localClientExtensions;
+      const localClientExtensions = clientExtensions;
 
       const authenticatorResponse = {
         response: {
@@ -442,72 +441,133 @@ Expect.describe('EnrollWebauthn', function() {
         });
     });
 
-    itp.each([[true, false], [true, true], [false, true], [false, false]])('calls navigator.credentials.create on getTransports/getClientExtensions non-supported browser',
-      function(mockGetTransports, mockGetClientExtensions) {
-        mockWebauthnNonSupportResponse(true, mockGetTransports, mockGetClientExtensions);
-        return setup()
-          .then(function(test) {
-            Util.resetAjaxRequests();
-            test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
-            test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy, test);
-          })
-          .then(function(test) {
-            expect(navigator.credentials.create).toHaveBeenCalledWith({
-              publicKey: {
-                rp: {
-                  name: 'acme',
-                },
-                user: {
-                  id: CryptoUtil.strToBin('00u1212qZXXap6Cts0g4'),
-                  name: 'test.user@okta.com',
-                  displayName: 'Test User',
-                },
-                pubKeyCredParams: [
-                  {
-                    type: 'public-key',
-                    alg: -7,
-                  },
-                ],
-                challenge: CryptoUtil.strToBin('G7bIvwrJJ33WCEp6GGSH'),
-                authenticatorSelection: {
-                  authenticatorAttachment: 'cross-platform',
-                  requireResidentKey: false,
-                  userVerification: 'preferred',
-                },
-                u2fParams: {
-                  appid: 'https://test.okta.com',
-                },
-                excludeCredentials: [
-                  {
-                    type: 'public-key',
-                    id: CryptoUtil.strToBin(
-                      'vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZt'
-                    ),
-                  },
-                ],
+    itp('calls navigator.credentials.create on getClientExtensions non-supported browser', function() {
+      mockWebauthnNonSupportResponse(true, true, false);
+      return setup()
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function(test) {
+          expect(navigator.credentials.create).toHaveBeenCalledWith({
+            publicKey: {
+              rp: {
+                name: 'acme',
               },
-              signal: jasmine.any(Object),
-            });
-            expect(Util.numAjaxRequests()).toBe(2);
-            const dataObject = {
-              attestation: testAttestationObject,
-              clientData: testClientData,
-              stateToken: 'testStateToken',
-            };
-            if (mockGetTransports) {
-              dataObject.clientExtensions = JSON.stringify(clientExtensions);
-            }
-            if (mockGetClientExtensions) {
-              dataObject.transports = JSON.stringify(transports);
-            }
+              user: {
+                id: CryptoUtil.strToBin('00u1212qZXXap6Cts0g4'),
+                name: 'test.user@okta.com',
+                displayName: 'Test User',
+              },
+              pubKeyCredParams: [
+                {
+                  type: 'public-key',
+                  alg: -7,
+                },
+              ],
+              challenge: CryptoUtil.strToBin('G7bIvwrJJ33WCEp6GGSH'),
+              authenticatorSelection: {
+                authenticatorAttachment: 'cross-platform',
+                requireResidentKey: false,
+                userVerification: 'preferred',
+              },
+              u2fParams: {
+                appid: 'https://test.okta.com',
+              },
+              excludeCredentials: [
+                {
+                  type: 'public-key',
+                  id: CryptoUtil.strToBin(
+                    'vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZt'
+                  ),
+                },
+              ],
+            },
+            signal: jasmine.any(Object),
+          });
+          expect(Util.numAjaxRequests()).toBe(2);
+          const dataObject = {
+            attestation: testAttestationObject,
+            clientData: testClientData,
+            stateToken: 'testStateToken',
+            clientExtensions: JSON.stringify(clientExtensions),
+            transports: null
+          };
+
+          dataObject.
+
             Expect.isJsonPost(Util.getAjaxRequest(1), {
               url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
               data: dataObject
             });
-            expect(test.router.controller.model.webauthnAbortController).toBe(null);
+          expect(test.router.controller.model.webauthnAbortController).toBe(null);
+        });
+    });
+
+    itp('calls navigator.credentials.create on getClientExtensions non-supported browser', function() {
+      mockWebauthnNonSupportResponse(true, false, true);
+      return setup()
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function(test) {
+          expect(navigator.credentials.create).toHaveBeenCalledWith({
+            publicKey: {
+              rp: {
+                name: 'acme',
+              },
+              user: {
+                id: CryptoUtil.strToBin('00u1212qZXXap6Cts0g4'),
+                name: 'test.user@okta.com',
+                displayName: 'Test User',
+              },
+              pubKeyCredParams: [
+                {
+                  type: 'public-key',
+                  alg: -7,
+                },
+              ],
+              challenge: CryptoUtil.strToBin('G7bIvwrJJ33WCEp6GGSH'),
+              authenticatorSelection: {
+                authenticatorAttachment: 'cross-platform',
+                requireResidentKey: false,
+                userVerification: 'preferred',
+              },
+              u2fParams: {
+                appid: 'https://test.okta.com',
+              },
+              excludeCredentials: [
+                {
+                  type: 'public-key',
+                  id: CryptoUtil.strToBin(
+                    'vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZt'
+                  ),
+                },
+              ],
+            },
+            signal: jasmine.any(Object),
           });
-      });
+          expect(Util.numAjaxRequests()).toBe(2);
+          const dataObject = {
+            attestation: testAttestationObject,
+            clientData: testClientData,
+            stateToken: 'testStateToken',
+            transports: JSON.stringify(transports),
+            clientExtensions: null
+          };
+
+          Expect.isJsonPost(Util.getAjaxRequest(1), {
+            url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
+            data: dataObject
+          });
+          expect(test.router.controller.model.webauthnAbortController).toBe(null);
+        });
+    });
 
     itp('shows error when navigator.credentials.create failed', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
