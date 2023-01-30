@@ -593,7 +593,7 @@ test
   });
 
 test
-  .requestHooks(LoginHintCustomURIMock)('expect login_hint in CustomURI in all cases', async t => {
+  .requestHooks(LoginHintCustomURIMock)('expect login_hint in CustomURI', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
       features: { },
@@ -612,7 +612,7 @@ test
   });
 
 test
-  .requestHooks(LoginHintUniversalLinkMock)('expect login_hint in UniversalLink in all cases', async t => {
+  .requestHooks(LoginHintUniversalLinkMock)('expect login_hint in UniversalLink', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
       features: { },
@@ -630,7 +630,7 @@ test
   });
 
 test
-  .requestHooks(LoginHintAppLinkMock)('expect login_hint in AppLink in all cases', async t => {
+  .requestHooks(LoginHintAppLinkMock)('expect login_hint in AppLink', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
       features: { },

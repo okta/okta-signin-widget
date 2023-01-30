@@ -417,7 +417,7 @@ test
   });
 
 test
-  .requestHooks(loginHintAppLinkMock)('expect login_hint in AppLink in all cases', async t => {
+  .requestHooks(loginHintAppLinkMock)('expect login_hint in AppLink', async t => {
     const identityPage = await setupLoopbackFallback(t);
     await renderWidget({
       features: { },
