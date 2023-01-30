@@ -211,7 +211,7 @@
     "stylelint-checkstyle-formatter": "^0.1.2",
     "stylelint-scss": "^3.20.1",
     "terser-webpack-plugin": "^5.2.4",
-    "testcafe": "^1.18.6",
+    "testcafe": "^1.20.1",
     "time-grunt": "^2.0.0",
     "tsd": "^0.20.0",
     "ttypescript": "^1.5.13",
@@ -256,7 +256,8 @@
     "**/request/qs": "^6.11.0",
     "grunt/minimatch": "^3.1.2",
     "**/globule/minimatch": "^3.1.2",
-    "ansi-regex": "^5.0.1"
+    "ansi-regex": "^5.0.1",
+    "testcafe/**/jsonwebtoken": "^9.0.0"
   },
   "workspaces": {
     "packages": [
