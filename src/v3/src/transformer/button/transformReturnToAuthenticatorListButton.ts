@@ -10,8 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxRemediation } from '@okta/okta-auth-js';
+
 import { IDX_STEP } from '../../constants';
 import {
+  IWidgetContext,
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
@@ -33,6 +36,36 @@ export const transformReturnToAuthenticatorListButton: TransformStepFnWithOption
     return formbag;
   }
 
+  const onClick = (widgetContext?: IWidgetContext): unknown => {
+    if (typeof widgetContext === 'undefined') {
+      return;
+    }
+    const { setIdxTransaction } = widgetContext;
+    const availableSteps = transaction.availableSteps?.filter(
+      ({ name }) => name !== IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+    ) || [];
+    const returnToAuthRemediation = transaction.neededToProceed.find(
+      ({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+    ) || {} as IdxRemediation;
+    const availableRemediations = transaction.neededToProceed.filter(
+      ({ name }) => name !== IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+    );
+
+    setIdxTransaction({
+      ...transaction,
+      messages: [],
+      neededToProceed: [
+        returnToAuthRemediation,
+        ...availableRemediations,
+      ],
+      availableSteps: [
+        selectEnrollStep,
+        ...availableSteps,
+      ],
+      nextStep: selectEnrollStep,
+    });
+  };
+
   const { name: step } = selectEnrollStep;
   const listLink: LinkElement = {
     type: 'Link',
@@ -40,6 +73,7 @@ export const transformReturnToAuthenticatorListButton: TransformStepFnWithOption
     options: {
       label: loc('oie.enroll.switch.authenticator', 'login'),
       step,
+      onClick,
     },
   };
   formbag.uischema.elements.push(listLink);

@@ -10,8 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxRemediation } from '@okta/okta-auth-js';
+
 import { IDX_STEP } from '../../constants';
 import {
+  IWidgetContext,
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
@@ -33,6 +36,36 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
     return formbag;
   }
 
+  const onClick = (widgetContext?: IWidgetContext): unknown => {
+    if (typeof widgetContext === 'undefined') {
+      return;
+    }
+    const { setIdxTransaction } = widgetContext;
+    const availableSteps = transaction.availableSteps?.filter(
+      ({ name }) => name !== IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+    ) || [];
+    const verifyWithOtherRem = transaction.neededToProceed.find(
+      ({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+    ) || {} as IdxRemediation;
+    const availableRemediations = transaction.neededToProceed.filter(
+      ({ name }) => name !== IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+    );
+
+    setIdxTransaction({
+      ...transaction,
+      messages: [],
+      neededToProceed: [
+        verifyWithOtherRem,
+        ...availableRemediations,
+      ],
+      availableSteps: [
+        selectVerifyStep,
+        ...availableSteps,
+      ],
+      nextStep: selectVerifyStep,
+    });
+  };
+
   const { name: step } = selectVerifyStep;
   const listLink: LinkElement = {
     type: 'Link',
@@ -40,6 +73,7 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
     options: {
       label: loc('oie.verification.switch.authenticator', 'login'),
       step,
+      onClick,
     },
   };
   formbag.uischema.elements.push(listLink);
