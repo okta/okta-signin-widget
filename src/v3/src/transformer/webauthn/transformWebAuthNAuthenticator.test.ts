@@ -23,6 +23,7 @@ import {
   AccordionLayout,
   DescriptionElement,
   FormBag,
+  InfoboxElement,
   TitleElement,
   WebAuthNButtonElement,
   WidgetProps,
@@ -75,7 +76,7 @@ describe('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag.uischema.elements.length).toBe(2);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('oie.enroll.webauthn.title');
-      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+      expect((updatedFormBag.uischema.elements[1] as InfoboxElement).options.message)
         .toBe('oie.webauthn.error.not.supported');
     });
 
@@ -205,7 +206,7 @@ describe('WebAuthN Transformer Tests', () => {
       expect(updatedFormBag.uischema.elements.length).toBe(3);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('oie.verify.webauth.title');
-      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+      expect((updatedFormBag.uischema.elements[1] as InfoboxElement).options.message)
         .toBe('oie.webauthn.error.not.supported');
       expect(updatedFormBag.uischema.elements[2].type).toBe('Accordion');
       expect((updatedFormBag.uischema.elements[2] as AccordionLayout).elements.length).toBe(1);

@@ -19,6 +19,7 @@ import {
   DescriptionElement,
   HeadingElement,
   IdxStepTransformer,
+  InfoboxElement,
   ListElement,
   TitleElement,
   UISchemaLayout,
@@ -160,20 +161,10 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
         : loc('oie.verify.webauth.title', 'login'),
     },
   };
-  const informationalTextElement: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    options: {
-      content: loc('oie.webauthn.error.not.supported', 'login'),
-    },
-  };
 
   // This verifies that the browser supports the credentials API
   // and the step is supported for this transformer
   if (isCredentialsApiAvailable()) {
-    informationalTextElement.options.content = name === IDX_STEP.ENROLL_AUTHENTICATOR
-      ? loc('oie.enroll.webauthn.instructions', 'login')
-      : loc('oie.verify.webauthn.instructions', 'login');
     const submitButtonEle: WebAuthNButtonElement = {
       type: 'WebAuthNSubmitButton',
       options: {
@@ -187,8 +178,27 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
     uischema.elements.unshift(submitButtonEle);
 
     appendViewCallouts(uischema, name, relatesTo);
+
+    uischema.elements.unshift({
+      type: 'Description',
+      contentType: 'subtitle',
+      options: {
+        content: name === IDX_STEP.ENROLL_AUTHENTICATOR
+          ? loc('oie.enroll.webauthn.instructions', 'login')
+          : loc('oie.verify.webauthn.instructions', 'login'),
+      },
+    } as DescriptionElement);
+  } else {
+    uischema.elements.unshift({
+      type: 'InfoBox',
+      options: {
+        message: loc('oie.webauthn.error.not.supported', 'login'),
+        class: 'ERROR',
+        dataSe: 'callout',
+      },
+    } as InfoboxElement);
   }
-  uischema.elements.unshift(informationalTextElement);
+
   uischema.elements.unshift(titleElement);
   if (name === IDX_STEP.CHALLENGE_AUTHENTICATOR) {
     appendFooterAccordion(uischema, app);
