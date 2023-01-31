@@ -85,7 +85,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   },
 }) => {
   const widgetContext = useWidgetContext();
-  const { authClient, idxTransaction } = widgetContext;
+  const { authClient, idxTransaction, setIdxTransaction } = widgetContext;
 
   const probeTimeoutMillis: number = typeof deviceChallengePayload.probeTimeoutMillis === 'undefined'
     ? 100 : deviceChallengePayload.probeTimeoutMillis;
@@ -95,23 +95,29 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     challengeRequest,
   } = deviceChallengePayload;
 
-  const submitHandler = (stepName: string, params?: ActionParams) => {
+  const submitHandler = async (stepName: string) => {
+    const payload: IdxActionParams = {
+      step: stepName,
+    };
+    if (typeof idxTransaction?.context.stateHandle !== 'undefined') {
+      payload.stateHandle = idxTransaction.context.stateHandle;
+    }
+    const newTransaction = await authClient?.idx.proceed(payload);
+    setIdxTransaction(newTransaction);
+  };
+
+  const cancelHandler = async (params?: ActionParams) => {
     const payload: IdxActionParams = {
       actions: [{
-        name: stepName,
+        name: cancelStep,
         params,
       }],
     };
     if (typeof idxTransaction?.context.stateHandle !== 'undefined') {
       payload.stateHandle = idxTransaction.context.stateHandle;
     }
-    authClient?.idx.proceed(payload);
-  };
-
-  const cancelHandler = (params?: ActionParams) => {
-    if (typeof cancelStep !== 'undefined') {
-      submitHandler(cancelStep, params);
-    }
+    const newTransaction = await authClient?.idx.proceed(payload);
+    setIdxTransaction(newTransaction);
   };
 
   /* eslint-disable no-await-in-loop, no-continue */

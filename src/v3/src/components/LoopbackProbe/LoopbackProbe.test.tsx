@@ -31,6 +31,7 @@ jest.mock('../../../src/contexts', () => ({
         stateHandle: 'fake-state-handle',
       },
     },
+    setIdxTransaction: jest.fn(),
   }),
 }));
 jest.mock('../../../../util/Logger');
@@ -84,10 +85,7 @@ describe('LoopbackProbe', () => {
     await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
 
     expect(proceedStub).toHaveBeenCalledWith({
-      actions: [{
-        name: step,
-        params: undefined,
-      }],
+      step,
       stateHandle: 'fake-state-handle',
     });
   });
@@ -204,10 +202,7 @@ describe('LoopbackProbe', () => {
     await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
 
     expect(proceedStub).toHaveBeenCalledWith({
-      actions: [{
-        name: 'device-challenge-poll',
-        params: undefined,
-      }],
+      step: 'device-challenge-poll',
       stateHandle: 'fake-state-handle',
     });
   });
