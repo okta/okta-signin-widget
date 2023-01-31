@@ -48,7 +48,7 @@ test.requestHooks(mock)('default sms mode', async t => {
   await t.expect(enrollPhonePage.getSaveButtonLabel()).eql('Receive a code via SMS');
 
   // Extension field is hidden
-  await t.expect(await enrollPhonePage.extensionIsHidden()).eql(false);
+  await t.expect(await enrollPhonePage.extensionIsHidden()).eql(true);
 
   await t.expect(await enrollPhonePage.signoutLinkExists()).ok();
 
@@ -65,8 +65,7 @@ test.requestHooks(mock)('voice mode click and extension will get shown', async t
 
   // Extension field is shown
   await t.expect(await enrollPhonePage.extensionIsHidden()).eql(false);
-  const extensionText = await enrollPhonePage.extensionText();
-  await t.expect(extensionText.trim()).eql('Extension');
+  await t.expect(await enrollPhonePage.formFieldExistsByLabel('Extension')).eql(true);
 
   // Default country code US
   const countryCodeText = await enrollPhonePage.countryCodeText();
