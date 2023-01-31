@@ -40,7 +40,7 @@ export const transformReturnToAuthenticatorListButton: TransformStepFnWithOption
     if (typeof widgetContext === 'undefined') {
       return;
     }
-    const { setIdxTransaction } = widgetContext;
+    const { setIdxTransaction, setMessage } = widgetContext;
     const availableSteps = transaction.availableSteps?.filter(
       ({ name }) => name !== IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
     ) || [];
@@ -51,6 +51,7 @@ export const transformReturnToAuthenticatorListButton: TransformStepFnWithOption
       ({ name }) => name !== IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
     );
 
+    setMessage(undefined);
     setIdxTransaction({
       ...transaction,
       messages: [],

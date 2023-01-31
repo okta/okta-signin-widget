@@ -40,7 +40,7 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
     if (typeof widgetContext === 'undefined') {
       return;
     }
-    const { setIdxTransaction } = widgetContext;
+    const { setIdxTransaction, setMessage } = widgetContext;
     const availableSteps = transaction.availableSteps?.filter(
       ({ name }) => name !== IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     ) || [];
@@ -51,6 +51,7 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
       ({ name }) => name !== IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     );
 
+    setMessage(undefined);
     setIdxTransaction({
       ...transaction,
       messages: [],
