@@ -16,13 +16,14 @@ import BrowserSvg from '../../img/16pxDevice.svg';
 import LocationSvg from '../../img/16pxLocation.svg';
 import {
   DescriptionElement,
-  ExcludesFalse,
   HeadingElement,
   ImageWithTextElement,
   TerminalKeyTransformer,
   UISchemaElement,
 } from '../../types';
 import { loc } from '../../util';
+
+type ExcludesFalse = <T>(x: T | false) => x is T;
 
 export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transaction, formBag) => {
   const { uischema } = formBag;
@@ -136,6 +137,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
   ]
     .map((x) => x !== undefined && x)
     .filter(Boolean as unknown as ExcludesFalse);
+
   uischema.elements.push(...elements);
 
   return formBag;

@@ -27,8 +27,6 @@ import { UserInfo } from './userInfo';
 
 type GeneralDataSchemaBag = Record<string, DataSchema>;
 
-export type ExcludesFalse = <T>(x: T | false) => x is T;
-
 export type DataSchemaBag = GeneralDataSchemaBag & {
   submit: ActionOptions;
   fieldsToTrim: string[];

@@ -17,13 +17,11 @@ import { IDX_STEP } from '../../constants';
 import {
   AccordionLayout,
   DescriptionElement,
-  ExcludesFalse,
   HeadingElement,
   IdxStepTransformer,
   InfoboxElement,
   ListElement,
   TitleElement,
-  UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
   WebAuthNButtonElement,
@@ -163,21 +161,10 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
         : loc('oie.verify.webauth.title', 'login'),
     },
   };
-  let informationalTextElement: DescriptionElement | undefined;
-  let infoBoxElement: InfoboxElement | undefined;
 
   // This verifies that the browser supports the credentials API
   // and the step is supported for this transformer
   if (isCredentialsApiAvailable()) {
-    informationalTextElement = {
-      type: 'Description',
-      contentType: 'subtitle',
-      options: {
-        content: name === IDX_STEP.ENROLL_AUTHENTICATOR
-          ? loc('oie.enroll.webauthn.instructions', 'login')
-          : loc('oie.verify.webauthn.instructions', 'login'),
-      },
-    };
     const submitButtonEle: WebAuthNButtonElement = {
       type: 'WebAuthNSubmitButton',
       options: {
@@ -191,20 +178,27 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
     uischema.elements.unshift(submitButtonEle);
 
     appendViewCallouts(uischema, name, relatesTo);
+
+    uischema.elements.unshift({
+      type: 'Description',
+      contentType: 'subtitle',
+      options: {
+        content: name === IDX_STEP.ENROLL_AUTHENTICATOR
+          ? loc('oie.enroll.webauthn.instructions', 'login')
+          : loc('oie.verify.webauthn.instructions', 'login'),
+      },
+    } as DescriptionElement);
   } else {
-    infoBoxElement = {
+    uischema.elements.unshift({
       type: 'InfoBox',
       options: {
         message: loc('oie.webauthn.error.not.supported', 'login'),
         class: 'ERROR',
         dataSe: 'callout',
       },
-    };
+    } as InfoboxElement);
   }
-  const informationalElements: UISchemaElement[] = [informationalTextElement, infoBoxElement]
-    .map((x) => x !== undefined && x)
-    .filter(Boolean as unknown as ExcludesFalse);
-  uischema.elements.unshift(...informationalElements);
+
   uischema.elements.unshift(titleElement);
   if (name === IDX_STEP.CHALLENGE_AUTHENTICATOR) {
     appendFooterAccordion(uischema, app);
