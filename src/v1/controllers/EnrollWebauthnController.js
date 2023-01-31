@@ -100,9 +100,11 @@ export default FormController.extend({
                 attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
                 clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
                 // example data: ["nfc", "usb"]
-                transports: webauthn.processWebAuthnResponse(newCredential.response.getTransports),
+                transports: webauthn.processWebAuthnResponse(newCredential.response.getTransports,
+                  newCredential.response),
                 // example data: {"credProps":{"rk":true}}
-                clientExtensions: webauthn.processWebAuthnResponse(newCredential.getClientExtensionResults)
+                clientExtensions: webauthn.processWebAuthnResponse(newCredential.getClientExtensionResults,
+                  newCredential)
               });
             })
             .catch(function(error) {

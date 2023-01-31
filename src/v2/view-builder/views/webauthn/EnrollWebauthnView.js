@@ -85,9 +85,9 @@ const Body = BaseForm.extend({
             clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
             attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
             // example data: ["nfc", "usb"]
-            transports: webauthn.processWebAuthnResponse(newCredential.response.getTransports),
+            transports: webauthn.processWebAuthnResponse(newCredential.response.getTransports, newCredential.response),
             // example data: {"credProps":{"rk":true}}
-            clientExtensions: webauthn.processWebAuthnResponse(newCredential.getClientExtensionResults)
+            clientExtensions: webauthn.processWebAuthnResponse(newCredential.getClientExtensionResults, newCredential)
           }
         });
         this.saveForm(this.model);
