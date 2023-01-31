@@ -83,10 +83,12 @@ fn.swapPages = function(options) {
   $parent.append($newRoot);
 
   $parent.addClass('animation-container-overflow');
-  $newRoot.animate({ left: '0px', top: '0px', opacity: 1 }, SWAP_PAGE_TIME, function() {
+  const newRootAnimations = { left: '0px', top: '0px', opacity: 1 };
+  $newRoot.animate(newRootAnimations, SWAP_PAGE_TIME, function() {
     $parent.removeClass('animation-container-overflow');
     $newRoot.removeClass(directionClassName);
-    $newRoot.removeAttr('style');
+    const clearStyles = Object.keys(newRootAnimations).reduce((styles, attr) => ({ ...styles, [attr]: '' }), {});
+    $newRoot.css(clearStyles);
     success.call(ctx);
     deferred.resolve();
   });
