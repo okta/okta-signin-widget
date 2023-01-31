@@ -61,6 +61,7 @@ const PasswordMatches: UISchemaElementComponent<{
       <List
         id="credentials.newPassword-list"
         dense
+        disablePadding
       >
         <PasswordRequirementListItem
           status={isMatching ? 'complete' : 'incomplete'}

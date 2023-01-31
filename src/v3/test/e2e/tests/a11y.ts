@@ -375,6 +375,13 @@ test.page(
 });
 
 test.page(
+  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/authenticator-password-reset-revoke-sessions',
+)('authenticator-reset-password-revoke-sessions', async (t) => {
+  await checkA11y(t);
+  await takeScreenshot(t, 'authenticator-reset-password-revoke-sessions');
+});
+
+test.page(
   'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/identify/error-session-expired',
 )('error-session-expired', async (t) => {
   await checkA11y(t);
