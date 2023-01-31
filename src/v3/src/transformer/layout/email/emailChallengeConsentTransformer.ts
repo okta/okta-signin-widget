@@ -25,13 +25,13 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
   const { uischema } = formBag;
   const {
     nextStep: {
-      // @ts-ignore requestInfo missing from NextStep interface
+      // @ts-expect-error requestInfo missing from NextStep interface
       requestInfo,
       name: step,
     } = {},
   } = transaction;
 
-  // @ts-ignore OKTA-489560 (missing requestInfo prop)
+  // @ts-expect-error OKTA-489560 (missing requestInfo prop)
   const appName = requestInfo?.find((info) => info?.name === 'appName');
   const appImageElement: ImageWithTextElement = {
     type: 'ImageWithText',
@@ -41,7 +41,7 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
       textContent: appName?.value,
     },
   };
-  // @ts-ignore OKTA-489560 (missing requestInfo prop)
+  // @ts-expect-error OKTA-489560 (missing requestInfo prop)
   const browser = requestInfo?.find((info) => info?.name === 'browser');
   const browserImageElement: ImageWithTextElement = {
     type: 'ImageWithText',

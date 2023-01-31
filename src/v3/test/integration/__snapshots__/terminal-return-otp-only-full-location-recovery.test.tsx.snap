@@ -129,7 +129,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
-                    data-se="o-form-explain"
+                    data-se="enter-code-instr"
                   >
                     Enter this code on the password reset page.
                   </p>
@@ -143,20 +143,21 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 >
                   <h3
                     class="MuiTypography-root MuiTypography-h3 emotion-21"
+                    data-se="otp-value"
                   >
                     123456
                   </h3>
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-9"
               >
                 <div
                   class="MuiBox-root emotion-14"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
-                    data-se="o-form-explain"
+                    data-se="otp-only-request-info"
                   >
                     Request from:
                   </p>
@@ -171,6 +172,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 >
                   <div
                     class="MuiBox-root emotion-27"
+                    data-se="icon-browser"
                   >
                     <mocksvgicon />
                   </div>
@@ -179,6 +181,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                   >
                     <span
                       class="MuiTypography-root MuiTypography-body1 emotion-29"
+                      data-se="text-browser"
                     >
                       FIREFOX on Android
                     </span>
@@ -194,6 +197,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 >
                   <div
                     class="MuiBox-root emotion-27"
+                    data-se="icon-app"
                   >
                     <mocksvgicon />
                   </div>
@@ -202,6 +206,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                   >
                     <span
                       class="MuiTypography-root MuiTypography-body1 emotion-29"
+                      data-se="text-app"
                     >
                       my 3rd magic link spa
                     </span>
@@ -217,6 +222,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 >
                   <div
                     class="MuiBox-root emotion-27"
+                    data-se="icon-location"
                   >
                     <mocksvgicon />
                   </div>
@@ -225,6 +231,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                   >
                     <span
                       class="MuiTypography-root MuiTypography-body1 emotion-29"
+                      data-se="text-location"
                     >
                       Toronto, Ontario, Canada
                     </span>
@@ -239,7 +246,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
-                    data-se="o-form-explain"
+                    data-se="otp-warning"
                   >
                     If you didn’t request this code, you can ignore this message. Your account is safe and can only be accessed with this code.
                   </p>

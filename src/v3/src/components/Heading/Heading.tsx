@@ -30,6 +30,7 @@ const Heading: UISchemaElementComponent<{
         id={uischema.id}
         variant={`h${options?.level ?? 2}`}
         component={`h${options?.visualLevel ?? 3}`}
+        data-se={uischema.options.dataSe}
       >
         {options.content}
       </Typography>

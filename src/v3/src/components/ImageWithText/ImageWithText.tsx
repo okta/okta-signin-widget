@@ -35,14 +35,22 @@ const ImageWithText: UISchemaElementComponent<{
         '--SecondaryFill': theme.palette.primary.light,
       })}
     >
-      <Box marginRight={2}>
+      <Box
+        marginInlineEnd={2}
+        data-se={`icon-${uischema.options.id}`}
+      >
         <Icon />
       </Box>
       {
         textContent
         && (
         <Box>
-          <Typography component="span">{textContent}</Typography>
+          <Typography
+            component="span"
+            data-se={`text-${uischema.options.id}`}
+          >
+            {textContent}
+          </Typography>
         </Box>
         )
       }
