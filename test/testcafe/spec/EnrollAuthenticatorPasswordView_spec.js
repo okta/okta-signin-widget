@@ -38,7 +38,7 @@ async function setup(t) {
   return enrollPasswordPage;
 }
 
-test.requestHooks(successMock)('should have both password and confirmPassword fields and both are required', async t => {
+test.only.requestHooks(successMock)('should have both password and confirmPassword fields and both are required', async t => {
   const enrollPasswordPage = await setup(t);
 
   // Check title
@@ -58,7 +58,7 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await t.expect(enrollPasswordPage.getConfirmPasswordError()).eql('This field cannot be left blank');
 
   // password must match
-  await enrollPasswordPage.fillPassword('abcd');
+  await enrollPasswordPage.fillPassword('Abcdef1@');
   await enrollPasswordPage.fillConfirmPassword('1234');
   await enrollPasswordPage.clickNextButton();
   await enrollPasswordPage.waitForErrorBox();
