@@ -59,7 +59,7 @@ test('should override text color based on MUI theme options override', async (t)
 }).clientScripts({
   content: `
     window.additionalOptions = {
-      muiThemeOptions: {
+      muiThemeOverrides: {
         palette: {
           text: { primary: '#28D6BB' },
         },
