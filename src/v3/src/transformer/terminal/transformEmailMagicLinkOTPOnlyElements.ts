@@ -137,7 +137,6 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
   ]
     .map((x) => x !== undefined && x)
     .filter(Boolean as unknown as ExcludesFalse);
-
   uischema.elements.push(...elements);
 
   return formBag;
