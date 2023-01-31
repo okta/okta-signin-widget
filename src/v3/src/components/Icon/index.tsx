@@ -24,5 +24,6 @@ export * from './RightArrowIcon';
 export * from './RSAIcon';
 export * from './SecurityKeyOrBiometricsIcon';
 export * from './SecurityQuestionIcon';
+export * from './SmartCardIcon';
 export * from './SymantecIcon';
 export * from './YubiKeyIcon';
