@@ -52,11 +52,15 @@ function getAssertion(challenge, allowList) {
   return adaptToOkta(promise);
 }
 
-function processWebAuthnResponse(inputFunction) {
-  if (typeof inputFunction === 'undefined' || inputFunction() === undefined || inputFunction() === null) {
+function processWebAuthnResponse(inputFunction, context) {
+  if (typeof inputFunction === 'undefined') {
     return null;
   }
-  return JSON.stringify(inputFunction());
+  const responseValue = inputFunction.apply(context);
+  if (responseValue === undefined || responseValue === null) {
+    return null;
+  }
+  return JSON.stringify(responseValue);
 }
 
 export default {
