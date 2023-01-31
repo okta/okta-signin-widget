@@ -124,7 +124,7 @@ Expect.describe('EnrollWebauthn', function() {
     });
   }
 
-  function mockWebauthnNonSupportResponse(resolvePromise, mockGetTransports, mockGetClientExtensions) {
+  function mockWebauthnNonSupportResponse(mockGetTransports, mockGetClientExtensions) {
     mockWebauthn();
     spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
     spyOn(navigator.credentials, 'create').and.callFake(function() {
@@ -146,9 +146,7 @@ Expect.describe('EnrollWebauthn', function() {
         authenticatorResponse.getClientExtensionResults = function() { return localClientExtensions; };
       }
 
-      if (resolvePromise) {
-        deferred.resolve(authenticatorResponse);
-      }
+      deferred.resolve(authenticatorResponse);
       return deferred.promise;
     });
   }
@@ -442,7 +440,7 @@ Expect.describe('EnrollWebauthn', function() {
     });
 
     itp('calls navigator.credentials.create on getTransports non-supported browser', function() {
-      mockWebauthnNonSupportResponse(true, false, true);
+      mockWebauthnNonSupportResponse(false, true);
       return setup()
         .then(function(test) {
           Util.resetAjaxRequests();
@@ -505,7 +503,7 @@ Expect.describe('EnrollWebauthn', function() {
     });
 
     itp('calls navigator.credentials.create on getClientExtensions non-supported browser', function() {
-      mockWebauthnNonSupportResponse(true, true, false);
+      mockWebauthnNonSupportResponse(true, false);
       return setup()
         .then(function(test) {
           Util.resetAjaxRequests();
