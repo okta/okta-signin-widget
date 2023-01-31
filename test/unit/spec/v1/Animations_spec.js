@@ -55,7 +55,7 @@ function mockAnimations() {
     return originalSwapPages.apply(this, arguments);
   });
   return ret;
-};
+}
 
 
 Expect.describe('Animations', function() {
@@ -86,6 +86,7 @@ Expect.describe('Animations', function() {
             // Old page should be removed from DOM
             const $oldForm = test.form.$('.primary-auth');
             expect($oldForm.length).withContext('$oldForm.length').toBe(0);
+            Util.stopRouter();
           });
         });
       });

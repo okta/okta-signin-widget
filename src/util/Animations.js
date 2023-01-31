@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-statements: [2, 15] */
+/* eslint max-statements: [2, 16] */
 
 import Q from 'q';
 import Enums from './Enums';
