@@ -74,11 +74,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     authClient,
     brandColors,
     brandName,
+    events,
+    muiThemeOverrides,
     logo,
     logoText,
     onSuccess,
     stateToken,
-    events,
   } = widgetProps;
 
   const [data, setData] = useState<FormBag['data']>({});
@@ -96,8 +97,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
-  const brandedTheme = mapMuiThemeFromBrand(brandColors);
   const [loginHint, setloginHint] = useState<string | null>(null);
+  const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOverrides);
 
   useEffect(() => {
     // If we need to load a language (or apply custom i18n overrides), do
