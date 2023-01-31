@@ -26,7 +26,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.numberchallenge.instruction",
-          "dataSe": "numberchallenge-value",
+          "dataSe": "numberchallenge-instr-value",
         },
         "type": "Description",
       },
@@ -89,7 +89,7 @@ Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.numberchallenge.instruction",
-          "dataSe": "numberchallenge-value",
+          "dataSe": "numberchallenge-instr-value",
         },
         "type": "Description",
       },
