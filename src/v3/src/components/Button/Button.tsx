@@ -73,7 +73,7 @@ const Button: UISchemaElementComponent<{
       alignContent="space-between"
       gap="5px"
       // compensate the offset from the CircularProgress component
-      marginRight="23px"
+      marginInlineEnd="23px"
     >
       <CircularProgress
         // TODO: OKTA-518793 - replace english string with key once created
