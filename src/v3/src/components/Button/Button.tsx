@@ -86,21 +86,21 @@ const Button: UISchemaElementComponent<{
   );
 
   const buttonLabel = SVGIcon ? (
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        alignContent="space-between"
-        gap="5px"
-        // keep the icon from stretching the button vertically
-        marginY="-3px"
-      >
-        <SVGIcon/>
-        {label}
-      </Box>
-    )
-  : label;
-  
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      alignContent="space-between"
+      gap="5px"
+      // keep the icon from stretching the button vertically
+      marginY="-3px"
+    >
+      <SVGIcon />
+      {label}
+    </Box>
+  )
+    : label;
+
   return (
     <OdyButton
       type={type}

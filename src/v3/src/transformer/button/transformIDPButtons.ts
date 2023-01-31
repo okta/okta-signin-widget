@@ -13,6 +13,7 @@
 import { NextStep } from '@okta/okta-auth-js';
 
 import { IDX_STEP } from '../../constants';
+import SmartCardIconSvg from '../../img/smartCardButtonIcon.svg';
 import {
   ButtonElement,
   ButtonType,
@@ -21,7 +22,6 @@ import {
   TransformStepFnWithOptions,
 } from '../../types';
 import { loc } from '../../util';
-import SmartCardIconSvg from '../../img/smartCardButtonIcon.svg';
 
 // TODO: OKTA-504638 Implement CUSTOM IDP Buttons here
 export const transformIDPButtons: TransformStepFnWithOptions = ({
