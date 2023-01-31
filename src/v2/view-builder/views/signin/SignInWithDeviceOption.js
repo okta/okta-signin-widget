@@ -31,7 +31,7 @@ export default View.extend({
       icon: 'okta-verify-authenticator',
       title: loc('oktaVerify.button', 'login'),
       click() {
-        if (this.settings.get('features.engFastpassMultipleAccounts') && this.model.get('identifier')) {
+        if (this.model.get('identifier')) {
           this.options.settings.set('identifier', encodeURIComponent(this.model.get('identifier')));
         }
 
