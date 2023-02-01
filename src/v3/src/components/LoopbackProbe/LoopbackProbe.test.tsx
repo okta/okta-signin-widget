@@ -19,7 +19,7 @@ import { LoopbackProbeElement } from 'src/types';
 import LoopbackProbe from './LoopbackProbe';
 
 const proceedStub = jest.fn();
-jest.mock('../../../src/contexts', () => ({
+jest.mock('../../contexts', () => ({
   useWidgetContext: () => ({
     authClient: {
       idx: {
