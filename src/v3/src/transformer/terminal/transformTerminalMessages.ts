@@ -93,7 +93,7 @@ const appendBiometricsErrorBox = (
 };
 
 export const transformTerminalMessages: TerminalKeyTransformer = (transaction, formBag) => {
-  const { messages } = transaction;
+  const { messages, requestDidSucceed } = transaction;
   const { uischema } = formBag;
   if (transaction.error) {
     uischema.elements.push({
@@ -107,6 +107,15 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
   }
 
   if (!messages?.length) {
+    if (requestDidSucceed === false) {
+      uischema.elements.push({
+        type: 'InfoBox',
+        options: {
+          message: loc('error.unsupported.response', 'login'),
+          class: 'ERROR',
+        },
+      } as InfoboxElement);
+    }
     return formBag;
   }
 

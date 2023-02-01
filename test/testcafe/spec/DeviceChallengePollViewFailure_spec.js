@@ -155,7 +155,6 @@ test
   });
 
 test
-  .meta('v3', false) // Need to handle this error case correctly (OKTA-564970)
   .requestHooks(logger, nonIdxError)('Non IDX error', async t => {
     mockCalls = 0;
     const deviceChallengePollPageObject = await setup(t);
