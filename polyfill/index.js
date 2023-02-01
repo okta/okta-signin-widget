@@ -22,6 +22,7 @@ require('core-js/features/string/starts-with');
 require('core-js/features/string/ends-with');
 require('core-js/stable/set');
 require('core-js/web/url');
+require('whatwg-fetch');
 
 // crypto is eeded for PKCE
 require('fast-text-encoding'); // TextEncoder

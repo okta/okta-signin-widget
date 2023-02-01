@@ -11,7 +11,6 @@
  */
 
 import config from 'config/config.json';
-import fetch from 'cross-fetch';
 import country from 'nls/country.json';
 import login from 'nls/login.json';
 import Q from 'q';
@@ -154,6 +153,8 @@ function fetchJson(bundle, language, assets) {
 
   const mode = 'no-cors';
 
+  // fetch polyfill is added under polyfill/index.js
+  // eslint-disable-next-line compat/compat
   return fetch(assets.baseUrl + path, {
     method: 'GET',
     headers,

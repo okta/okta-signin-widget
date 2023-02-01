@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@okta/okta-sdk-nodejs": "^6.5.0",
-    "@okta/okta-signin-widget": "*"
+    "@okta/okta-signin-widget": "*",
+    "node-fetch": "^3.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
