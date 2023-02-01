@@ -178,4 +178,59 @@ describe('Enroll Password Authenticator Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options.attributes?.autocomplete)
       .toBe('new-password');
   });
+
+  it('should add title, password requirements and revoke sessions checkbox elements to UI Schema for enroll PW step', () => {
+    formBag.uischema.elements.push({
+      type: 'Field',
+      label: 'Sign me out of all devices',
+      options: {
+        inputMeta: { name: 'credentials.revokeSessions', type: 'boolean' },
+      },
+    } as FieldElement);
+    transaction.nextStep = {
+      name: IDX_STEP.ENROLL_AUTHENTICATOR,
+      relatesTo: {
+        value: {
+          settings: {
+            complexity: { minLength: 1 },
+          },
+        } as unknown as IdxAuthenticator,
+      },
+    };
+    const updatedFormBag = transformEnrollPasswordAuthenticator({
+      transaction, formBag, widgetProps,
+    });
+
+    // Verify added elements
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(7);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.password.enroll.title');
+    expect(updatedFormBag.uischema.elements[1]?.type).toBe('PasswordRequirements');
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
+      .options?.userInfo?.identifier).toBe('someuser@noemail.com');
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.header)
+      .toBe('password.complexity.requirements.header');
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
+      .toEqual({ complexity: { minLength: 1 } });
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
+      .options?.validationDelayMs).toBe(50);
+    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
+      .toBe('password-authenticator--list');
+    expect(updatedFormBag.uischema.elements[2].type).toBe('HiddenInput');
+    expect((updatedFormBag.uischema.elements[2] as HiddenInputElement).options.value)
+      .toBe('someuser@noemail.com');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.name)
+      .toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options.attributes?.autocomplete)
+      .toBe('new-password');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options.inputMeta.name)
+      .toBe('confirmPassword');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options.attributes?.autocomplete)
+      .toBe('new-password');
+    expect((updatedFormBag.uischema.elements[6] as FieldElement).options.inputMeta.name)
+      .toBe('credentials.revokeSessions');
+    expect((updatedFormBag.uischema.elements[6] as FieldElement).options.inputMeta.type)
+      .toBe('boolean');
+  });
 });
