@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxRemediation } from '@okta/okta-auth-js';
-
 import { IDX_STEP } from '../../constants';
 import {
   IWidgetContext,
@@ -19,6 +17,7 @@ import {
   TransformStepFnWithOptions,
 } from '../../types';
 import { hasMinAuthenticatorOptions, loc } from '../../util';
+import { updateTransactionWithNextStep } from './updateTransactionWithNextStep';
 
 export const transformReturnToAuthenticatorListButton: TransformStepFnWithOptions = ({
   transaction,
@@ -36,37 +35,6 @@ export const transformReturnToAuthenticatorListButton: TransformStepFnWithOption
     return formbag;
   }
 
-  const onClick = (widgetContext?: IWidgetContext): unknown => {
-    if (typeof widgetContext === 'undefined') {
-      return;
-    }
-    const { setIdxTransaction, setMessage } = widgetContext;
-    const availableSteps = transaction.availableSteps?.filter(
-      ({ name }) => name !== IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
-    ) || [];
-    const returnToAuthRemediation = transaction.neededToProceed.find(
-      ({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
-    ) || {} as IdxRemediation;
-    const availableRemediations = transaction.neededToProceed.filter(
-      ({ name }) => name !== IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
-    );
-
-    setMessage(undefined);
-    setIdxTransaction({
-      ...transaction,
-      messages: [],
-      neededToProceed: [
-        returnToAuthRemediation,
-        ...availableRemediations,
-      ],
-      availableSteps: [
-        selectEnrollStep,
-        ...availableSteps,
-      ],
-      nextStep: selectEnrollStep,
-    });
-  };
-
   const { name: step } = selectEnrollStep;
   const listLink: LinkElement = {
     type: 'Link',
@@ -74,7 +42,12 @@ export const transformReturnToAuthenticatorListButton: TransformStepFnWithOption
     options: {
       label: loc('oie.enroll.switch.authenticator', 'login'),
       step,
-      onClick,
+      onClick: (widgetContext?: IWidgetContext): unknown => {
+        if (typeof widgetContext === 'undefined') {
+          return;
+        }
+        updateTransactionWithNextStep(transaction, selectEnrollStep, widgetContext);
+      },
     },
   };
   formbag.uischema.elements.push(listLink);
