@@ -52,9 +52,21 @@ function getAssertion(challenge, allowList) {
   return adaptToOkta(promise);
 }
 
+function processWebAuthnResponse(inputFunction, context) {
+  if (typeof inputFunction === 'undefined') {
+    return null;
+  }
+  const responseValue = inputFunction.apply(context);
+  if (responseValue === undefined || responseValue === null) {
+    return null;
+  }
+  return JSON.stringify(responseValue);
+}
+
 export default {
   makeCredential: makeCredential,
   getAssertion: getAssertion,
+  processWebAuthnResponse: processWebAuthnResponse,
   isAvailable: function() {
     return Object.prototype.hasOwnProperty.call(window, 'msCredentials');
   },
