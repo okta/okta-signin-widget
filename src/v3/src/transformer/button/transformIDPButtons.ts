@@ -13,6 +13,7 @@
 import { NextStep } from '@okta/okta-auth-js';
 
 import { IDX_STEP } from '../../constants';
+import SmartCardIconSvg from '../../img/smartCardButtonIcon.svg';
 import {
   ButtonElement,
   ButtonType,
@@ -54,6 +55,7 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
       dataSe: 'piv-card-button',
       classes: `${piv?.className || ''} piv-button`,
       variant: 'secondary',
+      Icon: SmartCardIconSvg,
       onClick: (widgetContext: IWidgetContext) => {
         // To render the PIV view, we have to use a remediation that is provided on initial load
         // This remediation doesn't allow a network request, so we have to update the transaction

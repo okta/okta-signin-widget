@@ -41,6 +41,7 @@ const Button: UISchemaElementComponent<{
       dataType,
       dataSe,
       actionParams,
+      Icon,
       includeData,
       isActionStep,
       step,
@@ -64,6 +65,42 @@ const Button: UISchemaElementComponent<{
     });
   };
 
+  const loadingLabel = (
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      alignContent="space-between"
+      gap="5px"
+      // compensate the offset from the CircularProgress component
+      marginInlineEnd="23px"
+    >
+      <CircularProgress
+        // TODO: OKTA-518793 - replace english string with key once created
+        aria-label="Loading..."
+        aria-valuetext="Loading..."
+        sx={{ color: 'white' }}
+      />
+      {label}
+    </Box>
+  );
+
+  const buttonLabel = Icon ? (
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      alignContent="space-between"
+      gap="5px"
+      // keep the icon from stretching the button vertically
+      marginY="-3px"
+    >
+      <Icon />
+      {label}
+    </Box>
+  )
+    : label;
+
   return (
     <OdyButton
       type={type}
@@ -83,27 +120,8 @@ const Button: UISchemaElementComponent<{
       {...(ariaLabel && { 'aria-label': ariaLabel } )}
     >
       {
-        loading ? (
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            alignContent="space-between"
-            gap="5px"
-            // compensate the offset from the CircularProgress component
-            marginRight="23px"
-          >
-            <CircularProgress
-              // TODO: OKTA-518793 - replace english string with key once created
-              aria-label="Loading..."
-              aria-valuetext="Loading..."
-              sx={{ color: 'white' }}
-            />
-            {label}
-          </Box>
-        ) : label
+        loading ? loadingLabel : buttonLabel
       }
-
     </OdyButton>
   );
 };

@@ -49,8 +49,8 @@ test
     const identityPage = await setup(t);
     
     await t.expect(identityPage.identifierFieldExistsForPIVView()).eql(true);
-    await t.expect(identityPage.getIdpButton('.piv-button').textContent).eql('Sign in with PIV / CAC card');
-    await identityPage.clickIdpButton('.piv-button');
+    await t.expect(identityPage.form.getButton('Sign in with PIV / CAC card').exists).eql(true);
+    await identityPage.clickPivButton();
 
     const pageUrl = await identityPage.getPageUrl();
     await t.expect(pageUrl)

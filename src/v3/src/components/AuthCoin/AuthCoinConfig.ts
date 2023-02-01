@@ -29,6 +29,7 @@ import {
   RSAIcon,
   SecurityKeyOrBiometricsIcon,
   SecurityQuestionIcon,
+  SmartCardIcon,
   SymantecIcon,
   YubiKeyIcon,
 } from '../Icon';
@@ -113,7 +114,7 @@ const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
     iconClassName: 'mfa-okta-phone',
   },
   [IDX_STEP.PIV_IDP]: {
-    icon: IDPIcon,
+    icon: SmartCardIcon,
     name: 'smart-card-icon',
     customizable: true,
     description: loc('piv.card', 'login'),
