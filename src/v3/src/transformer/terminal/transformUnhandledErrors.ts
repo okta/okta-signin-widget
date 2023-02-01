@@ -52,6 +52,10 @@ const getErrorMessage = (error?: AuthApiError, widgetProps?: WidgetProps) : stri
       message: () => loc('oie.feature.disabled', 'login'),
     },
     {
+      tester: (err?: AuthApiError) => err?.errorCode && err?.errorSummary,
+      message: (err?: AuthApiError) => err?.errorSummary,
+    },
+    {
       tester: (err?: AuthApiError) => err?.errorCode && !!err?.errorSummary,
       message: () => loc('oie.configuration.error', 'login'),
     },
