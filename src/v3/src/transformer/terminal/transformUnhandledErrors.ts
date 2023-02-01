@@ -56,7 +56,7 @@ const getErrorMessage = (error?: AuthApiError, widgetProps?: WidgetProps) : stri
       message: (err?: AuthApiError) => err?.errorSummary,
     },
     {
-      tester: (err?: AuthApiError) => err?.errorCode && !!err?.errorSummary,
+      tester: (err?: AuthApiError) => err?.errorCode && !err?.errorSummary,
       message: () => loc('oie.configuration.error', 'login'),
     },
     // default fall back for unknown errors
