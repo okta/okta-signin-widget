@@ -32,7 +32,7 @@ export default class BaseFormObject {
   }
 
   fieldByLabelExists(label, options = undefined) {
-    return within(this.el).getByLabelText(new RegExp(label), options).exists;
+    return within(this.el).queryByLabelText(new RegExp(label), options).exists;
   }
 
   getElement(selector) {
