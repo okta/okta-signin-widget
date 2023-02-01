@@ -41,7 +41,7 @@ const Button: UISchemaElementComponent<{
       dataType,
       dataSe,
       actionParams,
-      SVGIcon,
+      Icon,
       includeData,
       isActionStep,
       step,
@@ -85,7 +85,7 @@ const Button: UISchemaElementComponent<{
     </Box>
   );
 
-  const buttonLabel = SVGIcon ? (
+  const buttonLabel = Icon ? (
     <Box
       display="flex"
       alignItems="center"
@@ -95,7 +95,7 @@ const Button: UISchemaElementComponent<{
       // keep the icon from stretching the button vertically
       marginY="-3px"
     >
-      <SVGIcon />
+      <Icon />
       {label}
     </Box>
   )
