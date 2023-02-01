@@ -59,6 +59,14 @@ export default class IdentityPageObject extends BasePageObject {
     }
   }
 
+  async clickPivButton() {
+    if (userVariables.v3) {
+      await this.form.clickButton('Sign in with PIV / CAC card');
+    } else {
+      await this.t.click(this.form.getLink('Sign in with PIV / CAC card'));
+    }
+  }
+
   getSeparationLineText() {
     return this.form.getElement('.sign-in-with-device-option .separation-line').textContent;
   }

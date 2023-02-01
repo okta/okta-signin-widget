@@ -14,10 +14,6 @@ export default class PIVPageObject extends BasePageObject {
     return this.form.getCallout(selector);
   }
 
-  clickIdpButton(selector) {
-    return this.form.clickElement(selector);
-  }
-
   getPageSubtitle() {
     if (userVariables.v3) {
       return this.getFormSubtitle();
