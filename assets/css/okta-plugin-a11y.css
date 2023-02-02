@@ -1,4 +1,3 @@
-/* focus indicator */
 .password-toggle button {
   display: flex;
   justify-content: center;
@@ -10,6 +9,27 @@
 .password-toggle button:active {
   border-color: rgb(22, 98, 221);
 }
+
 .button.button-primary.link-button-disabled:focus {
   box-shadow: 0 0 8px #51cbee;
+}
+
+.custom-checkbox label {
+  background-image: url('../img/ui/forms/checkbox-sign-in-widget-a11y.png');
+}
+
+.custom-radio label {
+  background: url('../img/ui/forms/radiobutton-01-a11y.png') no-repeat;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 2dppx) {
+  .custom-checkbox label {
+    background-image: url('../img/ui/forms/checkbox-sign-in-widget-a11y@2x.png');
+  }
+  .custom-radio label {
+    background: url('../img/ui/forms/radiobutton-01-a11y@2x.png') no-repeat;
+    background-size: 50px 820px;
+  }
 }
