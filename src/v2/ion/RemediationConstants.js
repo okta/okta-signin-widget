@@ -49,6 +49,7 @@ const FORMS = {
   REENROLL_AUTHENTICATOR: 'reenroll-authenticator',
   REENROLL_AUTHENTICATOR_WARNING: 'reenroll-authenticator-warning',
   REENROLL_CUSTOM_PASSWORD_EXPIRY: 'reenroll-custom-password-expiry',
+  REENROLL_CUSTOM_PASSWORD_EXPIRY_WARNING: 'reenroll-custom-password-expiry-warning',
   RESET_AUTHENTICATOR: 'reset-authenticator',
   SKIP: 'skip',
   POLL: 'poll',
