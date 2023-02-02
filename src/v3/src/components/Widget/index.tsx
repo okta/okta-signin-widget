@@ -22,6 +22,7 @@ import {
   IdxMessage,
   IdxStatus,
   IdxTransaction,
+  OAuthError,
 } from '@okta/okta-auth-js';
 import { FunctionComponent, h } from 'preact';
 import {
@@ -92,7 +93,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [isClientTransaction, setIsClientTransaction] = useState<boolean>(false);
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
-  const [authApiError, setAuthApiError] = useState<AuthApiError | null>(null);
+  const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -115,7 +116,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // TODO: handle error based on types
     // AuthApiError is one of the potential error that can be thrown here
     // We will want to expose development stage errors from auth-js and file jiras against it
-    setAuthApiError(error as AuthApiError);
+    setResponseError(error as (AuthApiError | OAuthError));
     console.error(error);
     return null;
   };
@@ -126,7 +127,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         stateHandle: stateToken,
       });
 
-      setAuthApiError(null);
+      setResponseError(null);
       setIdxTransaction(transaction);
       // ready event
       events?.ready?.({
@@ -138,12 +139,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authClient, stateToken, setIdxTransaction, setAuthApiError]);
+  }, [authClient, stateToken, setIdxTransaction, setResponseError]);
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
-    if (authApiError) {
-      return transformUnhandledErrors(widgetProps, authApiError);
+    if (responseError) {
+      return transformUnhandledErrors(widgetProps, responseError);
     }
 
     if (idxTransaction === undefined) {
@@ -177,7 +178,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     idxTransaction,
-    authApiError,
+    responseError,
     stepToRender,
     widgetProps,
     bootstrap,
@@ -220,7 +221,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authClient, setIdxTransaction, setAuthApiError]);
+  }, [authClient, setIdxTransaction, setResponseError]);
 
   // bootstrap / resume the widget
   useEffect(() => {
@@ -262,14 +263,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [widgetRendered, idxTransaction]);
 
   useEffect(() => {
-    if (authApiError !== null) {
+    if (responseError !== null) {
       events?.afterRender?.({
         controller: null,
         formName: 'terminal',
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authApiError]);
+  }, [responseError]);
 
   return (
     <WidgetContextProvider value={{
@@ -277,7 +278,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       widgetProps,
       onSuccessCallback: onSuccess,
       idxTransaction,
-      setAuthApiError,
+      setResponseError,
       setIdxTransaction,
       setIsClientTransaction,
       stepToRender,

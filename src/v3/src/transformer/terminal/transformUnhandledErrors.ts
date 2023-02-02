@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { AuthApiError } from '@okta/okta-auth-js';
+import { AuthApiError, OAuthError } from '@okta/okta-auth-js';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
@@ -21,13 +21,17 @@ import {
 import { loc } from '../../util';
 import { createForm } from '../utils';
 
-type ErrorTransformer = (widgetProps: WidgetProps, error?: AuthApiError) => FormBag;
+type ErrorTransformer = (widgetProps: WidgetProps, error?: (AuthApiError | OAuthError)) => FormBag;
+type ErrorTester<T extends (AuthApiError | OAuthError)> = {
+  tester: (err?: T) => boolean,
+  message: (err?: T) => string,
+};
 
-const getErrorMessage = (error?: AuthApiError, widgetProps?: WidgetProps) : string => {
-  const errorChecks = [
+const getErrorMessage = (error?: (AuthApiError | OAuthError), widgetProps?: WidgetProps) : string => {
+  const authApiErrorChecks: ErrorTester<AuthApiError>[] = [
     // error message comes from server response
     {
-      tester: (err?: AuthApiError) => err && err.xhr && !err.errorSummary && err.xhr.responseText?.includes('messages'),
+      tester: (err?: AuthApiError) => !!(err && err.xhr && !err.errorSummary && err.xhr.responseText?.includes('messages')),
       message: (err?: AuthApiError) => {
         const errorResponse = JSON.parse(err!.xhr!.responseText);
         const { messages: { value: [message] } } = errorResponse;
@@ -44,30 +48,39 @@ const getErrorMessage = (error?: AuthApiError, widgetProps?: WidgetProps) : stri
     },
     // special error messages
     {
-      tester: (err?: AuthApiError) => err?.errorCode === 'invalid_request' && err?.errorSummary === 'The recovery token is invalid',
+      tester: (err?: AuthApiError) => !!err?.errorCode && !!err?.errorSummary,
+      message: (err?: AuthApiError) => err!.errorSummary,
+    },
+  ];
+  const oauthErrorChecks: ErrorTester<OAuthError>[] = [
+    {
+      tester: (err?: OAuthError) => err?.error === 'invalid_request' && err?.error_description === 'The recovery token is invalid',
       message: () => loc('oie.invalid.recovery.token', 'login'),
     },
     {
-      tester: (err?: AuthApiError) => err?.errorCode === 'access_denied' && !!err?.errorSummary,
+      tester: (err?: OAuthError) => err?.error === 'access_denied' && !!err?.error_description,
       message: () => loc('oie.feature.disabled', 'login'),
     },
     {
-      tester: (err?: AuthApiError) => err?.errorCode && err?.errorSummary,
-      message: (err?: AuthApiError) => err?.errorSummary,
-    },
-    {
-      tester: (err?: AuthApiError) => err?.errorCode && !err?.errorSummary,
+      tester: (err?: OAuthError) => !!err?.error && !!err?.error_description,
       message: () => loc('oie.configuration.error', 'login'),
-    },
-    // default fall back for unknown errors
-    {
-      tester: () => true,
-      message: () => loc('oform.error.unexpected', 'login'),
     },
   ];
 
   // find the message that meets the tester condition
-  return errorChecks.find(({ tester }) => tester(error))?.message(error);
+  let message: string | undefined;
+  switch (error?.name) {
+    case 'AuthApiError':
+      const authApiError = error as AuthApiError;
+      message = authApiErrorChecks.find(({ tester }) => tester(authApiError))?.message(authApiError);
+      break;
+    case 'OAuthError':
+      const oauthError = error as OAuthError;
+      message = oauthErrorChecks.find(({ tester }) => tester(oauthError))?.message(oauthError);
+      break;
+  }
+  // default fall back for unknown errors
+  return message ? message : loc('oform.error.unexpected');
 };
 
 export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) => {
