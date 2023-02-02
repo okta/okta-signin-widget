@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import { renderWidget } from '../framework/shared';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import enrollProfile from '../../../playground/mocks/data/idp/idx/enroll-profile';
@@ -31,6 +32,7 @@ async function setup(t) {
 test.requestHooks(logger, mock)('should call settings.registration hooks onSuccess handlers', async t => {
   logger.clear();
   const registrationPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     registration: {
@@ -74,6 +76,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
 test.requestHooks(logger, mock)('should call settings.registration.preSubmit hook\'s onFailure handlers', async t => {
   logger.clear();
   const registrationPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     registration: {
@@ -113,6 +116,7 @@ test.requestHooks(logger, mock)('should call settings.registration.preSubmit hoo
 test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call onFailure handlers with errorCauses to put error on specific field', async t => {
   logger.clear();
   const registrationPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     registration: {
@@ -142,6 +146,7 @@ test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call o
 test.requestHooks(logger, mock)('should call settings.registration.postSubmit hook\'s onFailure handler', async t => {
   logger.clear();
   const registrationPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     registration: {

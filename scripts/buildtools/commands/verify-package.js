@@ -7,7 +7,7 @@ const EXPECTED_PACKAGE_SIZE = 13.35 * MB;
 const EXPECTED_PACKAGE_FILES = 2200;
 
 const EXPECTED_BUNDLE_SIZES = {
-  'okta-plugin-a11y.js': 9.8 * KB,
+  'okta-plugin-a11y.js': 3.6 * KB,
   'okta-sign-in.classic.js': 2.4 * MB,
   'okta-sign-in.classic.min.js': 1.1 * MB,
   'okta-sign-in.js': 3.2 * MB,

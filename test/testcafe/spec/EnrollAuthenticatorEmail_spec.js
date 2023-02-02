@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollEmailPageObject from '../framework/page-objects/EnrollEmailPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -96,6 +97,7 @@ async function setup(t) {
 test
   .requestHooks(invalidOTPMock)('enroll with invalid OTP', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     await t.expect(enrollEmailPageObject.form.getSaveButtonLabel()).eql('Verify');
@@ -110,6 +112,7 @@ test
 test
   .requestHooks(invalidOTPMockWithEmailMagicLink)('enroll with invalid OTP and with EML', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     
@@ -126,6 +129,7 @@ test
 test
   .requestHooks(invalidOTPMockWithoutEmailMagicLink)('enroll with invalid OTP and without EML', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     await t.expect(enrollEmailPageObject.form.getSaveButtonLabel()).eql('Verify');
@@ -140,6 +144,7 @@ test
 test
   .requestHooks(sendEmailMockWithoutEmailMagicLink)('send me an email button should take to challenge email authenticator screen without email magic link text', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     
@@ -155,6 +160,7 @@ test
 test
   .requestHooks(sendEmailMockWithEmailMagicLink)('send me an email button should take to challenge email authenticator screen with email magic link text', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
 
@@ -170,6 +176,7 @@ test
 test
   .requestHooks(logger, validOTPmock)('enroll with valid OTP', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     await t.expect(enrollEmailPageObject.form.getSubtitle())
@@ -210,6 +217,7 @@ test
 test
   .requestHooks(logger, validOTPmockWithEmailMagicLink)('enroll with valid OTP and with EML', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     const emailAddress = xhrEnrollEmailWithEmailMagicLink.user.value.identifier;
@@ -252,6 +260,7 @@ test
 test
   .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('enroll with valid OTP and without EML', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     const emailAddress = xhrEnrollEmailWithoutEmailMagicLink.user.value.identifier;
@@ -293,6 +302,7 @@ test
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
     await t.wait(31000);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
@@ -338,6 +348,7 @@ test
 test
   .requestHooks(logger, validOTPmockWithEmailMagicLink)('resend after 30 seconds with EML', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
     await t.wait(31000);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
@@ -383,6 +394,7 @@ test
 test
   .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('resend after 30 seconds without EML', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
     await t.wait(31000);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
@@ -428,6 +440,7 @@ test
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds at most even after re-render', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
     await t.wait(15000);
     enrollEmailPageObject.navigateToPage();
@@ -439,6 +452,7 @@ test
 test
   .requestHooks(logger, validOTPmockWithEmailMagicLink)('resend after 30 seconds at most even after re-render', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
     await t.wait(15000);
     enrollEmailPageObject.navigateToPage();
@@ -450,6 +464,7 @@ test
 test
   .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('resend after 30 seconds at most even after re-render', async t => {
     const enrollEmailPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
     await t.wait(15000);
     enrollEmailPageObject.navigateToPage();

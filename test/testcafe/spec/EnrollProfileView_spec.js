@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import EnrollProfileViewPageObject from '../framework/page-objects/EnrollProfileViewPageObject';
 import Identify from '../../../playground/mocks/data/idp/idx/identify-with-password';
@@ -84,6 +85,7 @@ async function setup(t) {
 test.requestHooks(requestLogger, EnrollProfileSignUpMock)('should show sign up button when creating a new user', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
@@ -97,6 +99,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpMock)('should show sign up b
 test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit button when updating info for an existing user', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
   await identityPage.clickNextButton();
@@ -109,6 +112,7 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
 test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('should show dropdown values for base properties (country code and timezone) on registration form', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
@@ -129,6 +133,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
 test.requestHooks(requestLogger, EnrollProfileSignUpWithBooleanFieldsMock)('should show radio and checkbox display for boolean data type fields', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
@@ -144,6 +149,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithBooleanFieldsMock)('shou
 test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All Base Attributes are rendered based on their i18n translation, not the label in the json file', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
@@ -191,6 +197,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All 
 test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should show prompt for password and password requirements', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
@@ -219,6 +226,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
 test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should show error for invalid password above form and on password field', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
@@ -242,6 +250,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
 test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMock)('should show multiple errors when multiple fields are invalid, including invalid password', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
@@ -267,6 +276,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
 test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render social IDP buttons when returned via remediation', async t => {
   
   const enrollProfilePage = await setup(t);
+  await checkA11y(t);
   await enrollProfilePage.clickSignUpLink();
 
   requestLogger.clear();
@@ -280,6 +290,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render
 test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP buttons does redirect', async t => {
   
   const enrollProfilePage = await setup(t);
+  await checkA11y(t);
   await enrollProfilePage.clickSignUpLink();
 
   requestLogger.clear();
@@ -298,6 +309,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP 
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('custom idps should show correct label', async t => {
   const enrollProfilePage = await setup(t);
+  await checkA11y(t);
   await enrollProfilePage.clickSignUpLink();
 
   requestLogger.clear();

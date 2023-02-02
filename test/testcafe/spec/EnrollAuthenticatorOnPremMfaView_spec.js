@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import EnrollOnPremPageObject from '../framework/page-objects/EnrollOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -36,6 +37,7 @@ async function setup(t) {
 test
   .requestHooks(successMock)('should have both username and passcode fields and both are required', async t => {
     const enrollOnPremPage = await setup(t);
+    await checkA11y(t);
 
     // Check title
     await t.expect(enrollOnPremPage.getFormTitle()).eql('Set up Atko Custom On-prem');
@@ -60,6 +62,7 @@ test
 test
   .requestHooks(successMock)('should succeed when values are set', async t => {
     const enrollOnPremPage = await setup(t);
+    await checkA11y(t);
     const successPage = new SuccessPageObject(t);
 
     await enrollOnPremPage.fillUserName('abcdabcd');
@@ -74,6 +77,7 @@ test
 test
   .requestHooks(passcodeChangeMock)('displays error and clears passcode when passcode change response', async t => {
     const enrollOnPremPage = await setup(t);
+    await checkA11y(t);
 
     await enrollOnPremPage.fillUserName('abcdabcd');
     await enrollOnPremPage.fillPasscode('abcdabcd');

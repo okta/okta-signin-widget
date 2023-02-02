@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -68,6 +69,7 @@ async function setup(t) {
   test
     .requestHooks(logger, mock)('Should have the correct labels - expire in days', async t => {
       const passwordExpiryWarningPage = await setup(t);
+      await checkA11y(t);
       await t.expect(passwordExpiryWarningPage.getFormTitle()).eql(formTitle);
       await t.expect(passwordExpiryWarningPage.getSaveButtonLabel()).eql('Change Password');
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Password requirements:');
@@ -86,6 +88,7 @@ async function setup(t) {
 test
   .requestHooks(logger, mockExpireInDays)('should have both password and confirmPassword fields and both are required', async t => {
     const passwordExpiryWarningPage = await setup(t);
+    await checkA11y(t);
     await t.expect(passwordExpiryWarningPage.passwordFieldExists()).eql(true);
     await t.expect(passwordExpiryWarningPage.confirmPasswordFieldExists()).eql(true);
 
@@ -110,6 +113,7 @@ test
 test
   .requestHooks(logger, mockExpireInDays)('should succeed when passwords match and should send password in payload', async t => {
     const passwordExpiryWarningPage = await setup(t);
+    await checkA11y(t);
     const successPage = new SuccessPageObject(t);
 
     await passwordExpiryWarningPage.fillPassword('abcdabcd');
@@ -133,6 +137,7 @@ test
 test
   .requestHooks(logger, mockChangePasswordNotAllowed)('can choose "skip" if password change is not allowed', async t => {
     const passwordExpiryWarningPage = await setup(t);
+    await checkA11y(t);
     const successPage = new SuccessPageObject(t);
 
     await passwordExpiryWarningPage.fillPassword('abcdabcd');

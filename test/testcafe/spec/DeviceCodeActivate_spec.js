@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import DeviceCodeActivatePageObject from '../framework/page-objects/DeviceCodeActivatePageObject';
 import deviceCodeActivateResponse from '../../../playground/mocks/data/idp/idx/device-code-activate.json';
 import deviceCodeActivateErrorResponse from '../../../playground/mocks/data/idp/idx/error-device-code-activate.json';
@@ -74,6 +75,7 @@ async function setup(t) {
 test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able to complete device code activation flow', async t => {
   identifyRequestLogger.clear();
   const deviceCodeActivatePageObject = await setup(t);
+  await checkA11y(t);
 
   await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Activate your device');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
@@ -124,6 +126,7 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able 
 
 test.requestHooks(deviceCodeConsentDeniedMock)('should be able to get device not activated screen when consent is denied', async t => {
   const deviceCodeActivatePageObject = await setup(t);
+  await checkA11y(t);
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
@@ -144,6 +147,7 @@ test.requestHooks(deviceCodeConsentDeniedMock)('should be able to get device not
 
 test.requestHooks(deviceCodeInternalErrorMock)('should be able to get device not activated screen when there is an internal error', async t => {
   const deviceCodeActivatePageObject = await setup(t);
+  await checkA11y(t);
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
@@ -165,6 +169,7 @@ test.requestHooks(deviceCodeInternalErrorMock)('should be able to get device not
 test.requestHooks(invalidDeviceCodeMock)('should be able show error when wrong activation code is entered', async t => {
   identifyRequestLogger.clear();
   const deviceCodeActivatePageObject = await setup(t);
+  await checkA11y(t);
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
 
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
@@ -192,6 +197,7 @@ test.requestHooks(identifyRequestLogger, deviceCodeInvalidUserCodeMock)('should 
 test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able to add hyphen automatically after 4th char in activation code input', async t => {
   identifyRequestLogger.clear();
   const deviceCodeActivatePageObject = await setup(t);
+  await checkA11y(t);
 
   await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
@@ -204,6 +210,7 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able 
 test.requestHooks(identifyRequestLogger, deviceCodeSuccessWithUserCodeMock)('should be able to complete device code activation flow with user code prefilled', async t => {
   identifyRequestLogger.clear();
   const deviceCodeActivatePageObject = await setup(t);
+  await checkA11y(t);
 
   await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Activate your device');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');

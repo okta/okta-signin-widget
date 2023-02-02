@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
@@ -209,6 +210,7 @@ async function setup(t) {
 test
   .requestHooks(sendEmailMock)('send email screen should have right labels', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await checkConsoleMessages({
       controller: null,
       formName: 'authenticator-verification-data',
@@ -234,6 +236,7 @@ test
 test
   .requestHooks(sendEmailMock)('should not show send again warning after 30 seconds', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
@@ -247,6 +250,7 @@ test
 test
   .requestHooks(sendEmailEmptyProfileMock)('send me an email screen has right labels when profile is empty', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
@@ -260,6 +264,7 @@ test
 test
   .requestHooks(sendEmailNoProfileMock)('send me an email screen has right labels when profile is null', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
@@ -273,6 +278,7 @@ test
 test
   .requestHooks(sendEmailMock)('send me an email button should take to challenge email authenticator screen', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickNextButton();
     const pageTitle = challengeEmailPageObject.getFormTitle();
     await t.expect(pageTitle).eql('Verify with your email');
@@ -292,6 +298,7 @@ test
 test
   .requestHooks(sendEmailMockWithoutEmailMagicLink)('send me an email button should take to challenge email authenticator screen without email magic link text', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickNextButton();
     const pageTitle = challengeEmailPageObject.getFormTitle();
     await t.expect(pageTitle).eql('Verify with your email');
@@ -309,6 +316,7 @@ test
 test
   .requestHooks(validOTPmock)('challenge email authenticator screen has right labels', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await checkConsoleMessages({
       controller: 'mfa-verify-passcode',
       formName: 'challenge-authenticator',
@@ -337,6 +345,7 @@ test
 test
   .requestHooks(validOTPmockNoProfile)('challenge email authenticator screen has right labels when profile is null', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
@@ -354,6 +363,7 @@ test
 test
   .requestHooks(validOTPmockNoProfileNoEmailMagicLink)('challenge email authenticator screen has right labels when profile is null and email magic link does not exist', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
@@ -367,6 +377,7 @@ test
 test
   .requestHooks(validOTPmockEmptyProfile)('challenge email authenticator screen has right labels when profile is empty', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
     await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
     await challengeEmailPageObject.clickEnterCodeLink();
@@ -382,6 +393,7 @@ test
 test
   .requestHooks(invalidOTPMock)('challenge email authenticator with invalid OTP', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
@@ -394,6 +406,7 @@ test
 test
   .requestHooks(invalidOTPMock)('challenge email authenticator with invalid OTP', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
@@ -406,6 +419,7 @@ test
 test
   .requestHooks(invalidOTPMockWithPoll)('challenge email authenticator - ensure poll does not clear invalid OTP error', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
@@ -423,6 +437,7 @@ test
 test
   .requestHooks(invalidOTPTooManyOperationRequestMock)('challenge email authenticator with too many invalid OTP', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
@@ -434,6 +449,7 @@ test
 test
   .requestHooks(otpTooManyRequestMock)('challenge email authenticator reached Org Ratelimit on OTP submission', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
@@ -445,6 +461,7 @@ test
 test
   .requestHooks(logger, validOTPmock)('challenge email authenticator with valid OTP', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
@@ -475,6 +492,7 @@ test
 test
   .requestHooks(logger, stopPollMock)('no polling if session has expired', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(5000);
@@ -492,6 +510,7 @@ test
 test
   .requestHooks(logger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
@@ -528,6 +547,7 @@ test
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
@@ -575,6 +595,7 @@ test
 test
   .requestHooks(logger, validOTPmock)('resend after at most 30 seconds even after re-render', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
@@ -590,6 +611,7 @@ test
 test
   .requestHooks(logger, validOTPmock)('resend timer resets when we navigate away from view', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
@@ -612,6 +634,7 @@ test
 test
   .requestHooks(logger, validOTPWithoutResendMock)('resend timer resets remediation has no resend context', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
 
     // The /poll simulates a response with a remediation with no "resend" context which will reset
@@ -623,6 +646,7 @@ test
 test
   .requestHooks(magicLinkReturnTabMock)('challenge email factor with magic link', async t => {
     await setup(t);
+    await checkA11y(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getFormTitle()).contains('Success! Return to the original tab or window');
     await t.expect(terminalPageObject.getMessages()).contains('To continue, please return to the original browser tab or window you used to verify.');
@@ -636,6 +660,7 @@ test
 test
   .requestHooks(magicLinkTransfer)('show the correct content when transferred email', async t => {
     await setup(t);
+    await checkA11y(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Flow continued in a new tab.');
   });
@@ -643,6 +668,7 @@ test
 test
   .requestHooks(magicLinkExpiredMock)('challenge email factor with expired magic link', async t => {
     await setup(t);
+    await checkA11y(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
     await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
@@ -653,6 +679,7 @@ test
 test
   .requestHooks(logger, dynamicRefreshShortIntervalMock)('dynamic polling based on refresh interval in /poll', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
 
     // 2 poll requests in 2 seconds at 1 sec interval
@@ -677,6 +704,7 @@ test
 test
   .requestHooks(logger, tooManyRequestPollMock)('pause polling when encounter 429 too many request', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.wait(5000); // wait for first poll
 
@@ -707,6 +735,7 @@ test
 test
   .requestHooks(logger, apiLimitExceededPollMock)('pause polling when encounter 429 api limit exceeded', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
 
     await t.wait(5000); // wait for first poll
 
@@ -735,6 +764,7 @@ test
 
 test.requestHooks(sendEmailMock)('should show custom factor page link', async t => {
   const challengeEmailPageObject = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {
@@ -751,6 +781,7 @@ test.requestHooks(sendEmailMock)('should show custom factor page link', async t 
 
 test.requestHooks(terrminalConsentDeniedPollMock)('shows a terminal message when consent is denied in another tab', async t => {
   await setup(t);
+  await checkA11y(t);
   await t.wait(1000); // wait for poll
   const terminalPageObject = new TerminalPageObject(t);
   await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);

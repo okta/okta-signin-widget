@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengePhonePageObject from '../framework/page-objects/ChallengePhonePageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
@@ -14,6 +15,7 @@ import voiceVerificationNoProfile from '../../../playground/mocks/data/idp/idx/a
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidCode from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
 import voiceRatelimitErrorMock from '../../../playground/mocks/data/idp/idx/error-authenticator-phone-voice-ratelimit';
+import interact from '../../../playground/mocks/data/oauth2/interact';
 
 const phoneVerificationSMSThenVoiceEmptyProfile = JSON.parse(JSON.stringify(phoneVerificationSMSThenVoiceNoProfile));
 // add empty profile to test
@@ -109,6 +111,8 @@ const ratelimitReachedMock = RequestMock()
   .respond(voiceRatelimitErrorMock, 429);
 
 const voiceSecondaryMock = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(interact)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(phoneVerificationSMSThenVoice)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
@@ -126,6 +130,7 @@ async function setup(t) {
 
 async function setupInteractionCodeFlow(t) {
   const challengePhonePageObject = await setup(t);
+  await checkA11y(t);
   await challengePhonePageObject.navigateToPage({ render: false });
 
   await challengePhonePageObject.mockCrypto();
@@ -144,6 +149,7 @@ async function setupInteractionCodeFlow(t) {
 test
   .requestHooks(smsPrimaryMock)('SMS primary mode - has the right labels', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await checkConsoleMessages({
       controller: null,
       formName: 'authenticator-verification-data',
@@ -168,6 +174,7 @@ test
 test
   .requestHooks(smsPrimaryMock)('SMS primary mode - can render with no sign-out link', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await renderWidget({
       features: { hideSignOutLinkInMFA: true },
     });
@@ -180,6 +187,7 @@ test
 test
   .requestHooks(logger, smsPrimaryMock)('SMS primary mode - Secondary button click', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickSecondaryLink();
     await t.expect(logger.count(() => true)).eql(1);
     const { request: { body, method, url } } = logger.requests[0];
@@ -219,6 +227,7 @@ test
 test
   .requestHooks(voicePrimaryMock)('Voice primary mode - has the right labels', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
 
     await checkConsoleMessages({
       controller: null,
@@ -247,6 +256,7 @@ test
 test
   .requestHooks(voiceOnlyMock)('Only one option - has only one primary button', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     const pageTitle = challengePhonePageObject.getPageTitle();
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
@@ -260,6 +270,7 @@ test
 test
   .requestHooks(logger, voicePrimaryMock)('Voice primary mode - Secondary button click', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickSecondaryLink();
     await t.expect(logger.count(() => true)).eql(1);
     const { request: { body, method, url } } = logger.requests[0];
@@ -278,6 +289,7 @@ test
 test
   .requestHooks(smsPrimaryMock)('SMS mode - Enter code screen has the right labels', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickNextButton();
 
     const { log } = await t.getBrowserConsoleMessages();
@@ -307,6 +319,7 @@ test
 test
   .requestHooks(voicePrimaryMock)('Voice mode - Enter code screen has the right labels', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickNextButton();
 
     const { log } = await t.getBrowserConsoleMessages();
@@ -336,6 +349,7 @@ test
 test
   .requestHooks(smsPrimaryMockNoProfile)('SMS views have the right labels when profile is null', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
 
     const pageTitle = challengePhonePageObject.getPageTitle();
     let pageSubtitle = challengePhonePageObject.getFormSubtitle();
@@ -363,6 +377,7 @@ test
 test
   .requestHooks(voicePrimaryMockNoProfile)('Voice call views have the right labels when profile is null', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
 
     const pageTitle = challengePhonePageObject.getPageTitle();
     let pageSubtitle = challengePhonePageObject.getFormSubtitle();
@@ -390,6 +405,7 @@ test
 test
   .requestHooks(smsPrimaryMockEmptyProfile)('SMS views have the right labels when profile is empty', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
 
     const pageTitle = challengePhonePageObject.getPageTitle();
     let pageSubtitle = challengePhonePageObject.getFormSubtitle();
@@ -417,6 +433,7 @@ test
 test
   .requestHooks(voicePrimaryMockEmptyProfile)('Voice call views have the right labels when profile is empty', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
 
     const pageTitle = challengePhonePageObject.getPageTitle();
     let pageSubtitle = challengePhonePageObject.getFormSubtitle();
@@ -444,6 +461,7 @@ test
 test
   .requestHooks(logger, smsPrimaryMock)('SMS flow', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickNextButton();
 
     await challengePhonePageObject.verifyFactor('credentials.passcode', '1234');
@@ -477,6 +495,7 @@ test
 test
   .requestHooks(logger, voicePrimaryMock)('Voice flow', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickNextButton();
 
     await challengePhonePageObject.verifyFactor('credentials.passcode', '1234');
@@ -510,6 +529,7 @@ test
 test
   .requestHooks(invalidCodeMock)('Entering invalid passcode results in an error', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.verifyFactor('credentials.passcode', 'abcd');
     await challengePhonePageObject.clickNextButton();
     await challengePhonePageObject.waitForErrorBox();
@@ -524,6 +544,7 @@ test
 test
   .requestHooks(logger, smsPrimaryMock)('Callout appears after 30 seconds in sms mode enter code screen', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickNextButton();
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(30500);
@@ -535,6 +556,7 @@ test
 test
   .requestHooks(voicePrimaryMock)('Callout appears after 30 seconds in voice mode enter code screen', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickNextButton();
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(30500);
@@ -546,6 +568,7 @@ test
 test
   .requestHooks(logger, ratelimitReachedMock)('Voice ratelimit error followed by primary button click will send correct request body', async t => {
     const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
     await challengePhonePageObject.clickSecondaryLink();
 
     await t.expect(logger.count(() => true)).eql(1);
@@ -567,6 +590,7 @@ test
 
 test.requestHooks(smsPrimaryMockEmptyProfile)('should show custom factor page link', async t => {
   const challengePhonePageObject = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {

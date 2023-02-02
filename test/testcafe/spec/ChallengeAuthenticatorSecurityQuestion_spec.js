@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeSecurityQuestionPageObject from '../framework/page-objects/ChallengeSecurityQuestionPageObject';
@@ -38,6 +39,7 @@ async function setup(t) {
 
 test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock)('verify security question', async t => {
   const challengeFactorPageObject = await setup(t);
+  await checkA11y(t);
 
   await t.expect(await challengeFactorPageObject.getAnswerLabel()).eql('Where did you go for your favorite vacation?');
 
@@ -70,6 +72,7 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
 
 test.requestHooks(authenticatorRequiredSecurityQuestionMock)('should show custom factor page link', async t => {
   const challengeSecurityQuestionPageObject = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {

@@ -1,4 +1,5 @@
 import { ClientFunction, RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -123,6 +124,7 @@ async function setup(t, options = {}) {
 
 test.requestHooks(requestLogger, errorOIENotEnabledMock)('shows an error when feature is not enabled', async t => {
   await setup(t);
+  await checkA11y(t);
 
   const terminalPageObject = new TerminalPageObject(t);
   const errors = terminalPageObject.getErrorMessages();
@@ -138,6 +140,7 @@ test.requestHooks(requestLogger, errorOIENotEnabledMock)('shows an error when fe
 
 test.requestHooks(requestLogger, interactMock)('receives interaction_handle from interact endpoint', async t => {
   await setup(t);
+  await checkA11y(t);
 
   await t.expect(requestLogger.count(() => true)).eql(2); // interact, introspect
   let req = requestLogger.requests[0].request; // interact
@@ -160,6 +163,7 @@ test.requestHooks(requestLogger, interactMock)('receives interaction_handle from
 
 test.requestHooks(requestLogger, interactMock)('passes interaction handle to introspect endpoint', async t => {
   await setup(t);
+  await checkA11y(t);
 
   await t.expect(requestLogger.count(() => true)).eql(2); // interact, introspect
   const req = requestLogger.requests[1].request; // introspect
@@ -253,6 +257,7 @@ test.requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token
 
 test.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error when recovery token is invalid', async t => {
   await setup(t);
+  await checkA11y(t);
 
   const terminalPageObject = new TerminalPageObject(t);
   const errors = terminalPageObject.getErrorMessages();

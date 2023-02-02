@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import ProfileEnrollmentStringOptionsViewPageObject from '../framework/page-objects/ProfileEnrollmentStringOptionsViewPageObject';
 import Identify from '../../../playground/mocks/data/idp/idx/identify-with-password';
@@ -32,6 +33,7 @@ async function setup(t) {
 test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('should show dropdown values for select and radio buttons', async t => {
   const profileEnrollmentString = new ProfileEnrollmentStringOptionsViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
@@ -58,6 +60,7 @@ test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('s
 test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('should submit form when all optional fields are empty', async t => {
   const profileEnrollmentString = new ProfileEnrollmentStringOptionsViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.clickSignUpLink();
 
   await profileEnrollmentString.fillEmailField('test.carlos@mycompany.com');

@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 import ConsentPageObject from '../framework/page-objects/ConsentPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -37,6 +38,7 @@ async function testRedirect(t) {
 
 test.requestHooks(requestLogger, consentAdminMock)('should render scopes', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await t.expect(consentPage.getScopeGroupName()).eql('Resource and policies');
   await t.expect(consentPage.getScopeItemTexts()).eql([
@@ -47,6 +49,7 @@ test.requestHooks(requestLogger, consentAdminMock)('should render scopes', async
 
 test.requestHooks(requestLogger, consentAdminMock)('should call /consent and send {consent: true} on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await consentPage.clickAllowButton();
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
@@ -61,6 +64,7 @@ test.requestHooks(requestLogger, consentAdminMock)('should call /consent and sen
 
 test.requestHooks(requestLogger, consentAdminMock)('should call /consent and send {consent: false} on "Don\'t Allow" click', async t => {
   const consentPage  = await setup(t);
+  await checkA11y(t);
 
   await consentPage.clickDontAllowButton();
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];

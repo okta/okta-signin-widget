@@ -1,4 +1,5 @@
 import { RequestLogger, RequestMock, ClientFunction } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import SelectAuthenticatorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import BasePageObject from '../framework/page-objects/BasePageObject';
@@ -203,6 +204,7 @@ async function setupLoopbackFallback(t) {
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
@@ -234,6 +236,7 @@ test
 test
   .requestHooks(loopbackBiometricsNoResponseErrorLogger, loopbackBiometricsNoResponseErrorMock)('in loopback server, when user does not respond to biometrics request, cancel the polling', async t => {
     await setup(t);
+    await checkA11y(t);
     const secondSelectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
     await t.expect(secondSelectAuthenticatorPageObject.getFormTitle()).eql('Verify it\'s you with a security method');
     await t.expect(loopbackBiometricsNoResponseErrorLogger.count(
@@ -257,6 +260,7 @@ test
 test
   .requestHooks(loopbackBiometricsErrorMobileMock)('show biometrics error for mobile platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
@@ -277,6 +281,7 @@ test
 test
   .requestHooks(loopbackBiometricsErrorDesktopMock)('show biometrics error for desktop platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
@@ -324,6 +329,7 @@ test
 test
   .requestHooks(customURILogger, customURIMock)('in custom URI approach, Okta Verify is launched', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.wait(100); // opening the link takes just a moment
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/)
@@ -337,6 +343,7 @@ test
 test
   .requestHooks(customURIBiometricsErrorMock)('show biometrics error for desktop platform in custom URI', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
 
     const errorText = deviceChallengePollPageObject.getErrorBox().innerText;
     await t.expect(errorText).contains('Biometrics needed for Okta Verify');
@@ -375,6 +382,7 @@ test
 test
   .requestHooks(universalLinkWithoutLaunchBiometricsErrorMock)('show biometrics error for mobile platform in universal link', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
 
     const errorText = deviceChallengePollPageObject.getErrorBox().innerText;
     await t.expect(errorText).contains('Biometrics needed for Okta Verify');
@@ -405,6 +413,7 @@ const getPageUrl = ClientFunction(() => window.location.href);
 test
   .requestHooks(userVerificationAppLinkBiometricsError)('show biometrics error for mobile platform in app link', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
 
     const errorText = deviceChallengePollPageObject.getErrorBox().innerText;
     await t.expect(errorText).contains('Biometrics needed for Okta Verify');

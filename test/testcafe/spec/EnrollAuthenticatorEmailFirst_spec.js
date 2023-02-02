@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -27,6 +28,7 @@ const sendEmailMock = RequestMock()
 test
   .requestHooks(sendEmailMock)('send email screen should have right labels', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await checkConsoleMessages({
       controller: null,
       formName: 'authenticator-enrollment-data',
@@ -65,6 +67,7 @@ test
 test
   .requestHooks(sendEmailMock)('send me an email button should take to pre-enroll email authenticator screen', async t => {
     const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
     await challengeEmailPageObject.clickNextButton();
     const pageTitle = challengeEmailPageObject.getFormTitle();
     await t.expect(pageTitle).eql('Verify with your email');

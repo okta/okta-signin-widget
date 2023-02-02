@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger, Selector, ClientFunction } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import identifyWithName from '../../../playground/mocks/data/idp/idx/identify';
@@ -7,6 +8,7 @@ import identifyWithIdpsNoIdentify from '../../../playground/mocks/data/idp/idx/i
 import identifyOnlyOneIdp from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp';
 import identifyOnlyOneIdpAppUser from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp-app-user';
 import errorIdentifyOnlyOneIdp from '../../../playground/mocks/data/idp/idx/error-identify-with-only-one-third-party-idp';
+import interact from '../../../playground/mocks/data/oauth2/interact';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -24,6 +26,8 @@ const mockWithoutIdentify = RequestMock()
   .respond(identifyWithIdpsNoIdentify);
 
 const mockOnlyOneIdp = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(interact)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyOnlyOneIdp)
   .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
@@ -36,6 +40,8 @@ const mockOnlyOneIdpAppUser = RequestMock()
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 const mockIdpDiscoveryWithOneIdp = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(interact)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyWithName)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
@@ -79,6 +85,7 @@ async function setupDirectAuth(t) {
 
 test.requestHooks(mockWithIdentify) ('should render idp buttons with identifier form ', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await checkConsoleMessages({
     controller: 'primary-auth',
@@ -95,6 +102,7 @@ test.requestHooks(mockWithIdentify) ('should render idp buttons with identifier 
 test
   .requestHooks(mockWithIdentify)('clicking on idp button does redirect ', async t => {
     const identityPage = await setup(t);
+    await checkA11y(t);
     await t.expect(identityPage.identifierFieldExists('.o-form-input .input-fix input')).eql(true);
     await t.expect(identityPage.getIdpButton('.social-auth-facebook-button').textContent).eql('Sign in with Facebook');
     await t.expect(identityPage.getIdpButton('.social-auth-google-button').textContent).eql('Sign in with Google');
@@ -110,6 +118,7 @@ test
 
 test.requestHooks(mockWithoutIdentify)('should only render idp buttons with identifier form ', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await checkConsoleMessages({
     controller: null,
@@ -173,6 +182,7 @@ test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd pa
 
 test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await checkConsoleMessages({
     controller: 'primary-auth',
@@ -211,6 +221,7 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discover
 
 test.requestHooks(logger, mockWithoutIdentify)('custom idps should show correct label', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await t.expect(identityPage.getIdpsContainer().childElementCount).eql(6);
   await t.expect(identityPage.getCustomIdpButtonLabel(0)).contains('Sign in with My SAML IDP');
   await t.expect(identityPage.getCustomIdpButtonLabel(1)).eql('Sign in with SAML IDP');
@@ -218,12 +229,14 @@ test.requestHooks(logger, mockWithoutIdentify)('custom idps should show correct 
 
 test.requestHooks(logger, mockWithoutIdentify)('view with only idp buttons should render "Back to Sign In" link', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await t.expect(identityPage.getIdpsContainer().childElementCount).eql(6);
   await t.expect(await identityPage.signoutLinkExists()).ok();
 });
 
 test.requestHooks(logger, mockErrorIdentifyOnlyOneIdp)('show terminal error on idp provider error', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
   await t.expect(identityPage.getErrorBoxText())

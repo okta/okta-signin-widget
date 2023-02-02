@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import EnduserConsentPageObject from '../framework/page-objects/EnduserConsentPageObject';
 import enduserEmailConsentChallengeResponse from '../../../playground/mocks/data/idp/idx/email-challenge-consent';
 import enduserEmailConsentChallengeSuccess from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent';
@@ -33,6 +34,7 @@ async function setup(t) {
 test
   .requestHooks(enduserEmailConsentSuccess)('has the right title, info and button texts', async t => {
     const consentPage = await setup(t);
+    await checkA11y(t);
     const infoTexts = await consentPage.getInfoItemTexts();
     const title = await consentPage.getFormTitle();
     const saveButtonText = await consentPage.getSaveButtonLabel();
@@ -48,6 +50,7 @@ test
 test
   .requestHooks(requestLogger, enduserEmailConsentSuccess)('consent granted flow', async t => {
     const consentPage  = await setup(t);
+    await checkA11y(t);
     await consentPage.clickAllowButton();
 
     const {
@@ -73,6 +76,7 @@ test
 test
   .requestHooks(requestLogger, enduserEmailConsentFailure)('consent denied flow', async t => {
     const consentPage  = await setup(t);
+    await checkA11y(t);
     await consentPage.clickDontAllowButton();
 
     const {

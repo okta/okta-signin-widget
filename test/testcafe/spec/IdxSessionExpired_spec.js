@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
@@ -65,6 +66,7 @@ async function setupInteractionCodeFlow(t) {
 
 test.requestHooks(sessionExpiresDuringPasswordChallenge)('reloads into fresh state after session expires when challenging password', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
@@ -87,6 +89,7 @@ test.requestHooks(sessionExpiresDuringPasswordChallenge)('reloads into fresh sta
 
 test.requestHooks(sessionExpiresBackToSignIn)('back to sign loads identify after session expires when challenging password', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();

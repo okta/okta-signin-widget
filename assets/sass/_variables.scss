@@ -23,9 +23,9 @@ $secondary-bg-color: #f9f9f9;
 
 // Text Color
 $header-text-color: #5e5e5e;
-$dark-text-color: #5e5e5e;
-$medium-text-color: #777;
-$light-text-color: #a7a7a7;
+$dark-text-color: #1d1d21;
+$medium-text-color: #6e6e78;
+$light-text-color: #6e6e78; // NOTE: light <> medium merged
 $link-text-color: #0074b3;
 $placeholder-text-color: #aaa;
 $error-text-color: #e34843;
@@ -69,8 +69,8 @@ $button-padding: 0 15px;
 
 // Input field
 $input-bg-color: #fff;
-$input-border-color: #bbb;
-$input-border-color-hover: #888;
+$input-border-color: #8c8c96;
+$input-border-color-hover: #1d1d21;
 $input-border-color-focus: #0074b3;
 $input-shadow-color-focus: #51cbee;
 $input-icons-color: #a7a7a7;

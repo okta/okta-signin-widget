@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import xhrAuthenticatorVerifyCustomOTP from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-otp';
 import xhrInvalidOTP from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-custom-otp';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -28,6 +29,7 @@ async function setup(t) {
 
 test.requestHooks(mockChallengeAuthenticatorCustomOTP)('challenge custom OTP authenticator', async t => {
   const challengeCustomOTPPage = await setup(t);
+  await checkA11y(t);
   await checkConsoleMessages({
     controller: null,
     formName: 'challenge-authenticator',
@@ -51,6 +53,7 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('challenge custom OTP aut
 
 test.requestHooks(mockChallengeAuthenticatorCustomOTP)('OTP is required', async t => {
   const challengeOnPremPage = await setup(t);
+  await checkA11y(t);
 
   // verify otp
   await challengeOnPremPage.verifyFactor('credentials.passcode', '');
@@ -62,6 +65,7 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('OTP is required', async 
 
 test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with invalid passcode', async t => {
   const challengeOnPremPage = await setup(t);
+  await checkA11y(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
   await challengeOnPremPage.clickNextButton();
 
@@ -71,6 +75,7 @@ test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with i
 
 test.requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom factor page link', async t => {
   const challengeOnPremPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {

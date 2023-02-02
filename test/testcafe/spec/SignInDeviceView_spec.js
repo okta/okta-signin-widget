@@ -1,4 +1,5 @@
 import { RequestLogger, RequestMock, Selector } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SignInDevicePageObject from '../framework/page-objects/SignInDevicePageObject';
 import smartProbingRequired from '../../../playground/mocks/data/idp/idx/smart-probing-required';
 import launchAuthenticatorOption from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
@@ -22,6 +23,7 @@ async function setup(t) {
 
 test('shows the correct content', async t => {
   const signInDevicePage = await setup(t);
+  await checkA11y(t);
   await t.expect(signInDevicePage.getHeader()).eql('Sign In');
   await t.expect(signInDevicePage.getOVButtonIcon()).eql('icon okta-verify-authenticator');
   await t.expect(signInDevicePage.getContentText()).eql('To access Microsoft Office 365, your organization requires you to sign in with Okta FastPass.');
@@ -30,6 +32,7 @@ test('shows the correct content', async t => {
 
 test('clicking the launch Okta Verify button takes user to the right UI', async t => {
   const signInDevicePage = await setup(t);
+  await checkA11y(t);
   await signInDevicePage.clickLaunchOktaVerifyButton();
   const header = new Selector('h2[data-se="o-form-head"]');
   await t.expect(header.textContent).eql('Click "Open Okta Verify" on the browser prompt');
@@ -37,6 +40,7 @@ test('clicking the launch Okta Verify button takes user to the right UI', async 
 
 test('shows the correct footer links', async t => {
   const signInDevicePage = await setup(t);
+  await checkA11y(t);
   await t.expect(signInDevicePage.getEnrollFooterLink().innerText).eql('Sign up');
   await t.expect(signInDevicePage.getHelpFooterLink().innerText).eql('Help');
   await t.expect(signInDevicePage.getSignOutFooterLink().exists).eql(false);

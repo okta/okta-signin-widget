@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeCustomAppPushPageObject from '../framework/page-objects/ChallengeCustomAppPushPageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
@@ -37,6 +38,8 @@ const pushWaitMock = RequestMock()
   .respond(pushPoll);
 
 const pushNoAutoChallengeMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll);
 
@@ -72,6 +75,7 @@ test.requestHooks(mockCustomAppSendPush)(
   'should load custom app view with a button and a checkbox when push is the only method type and has auto challenge schema',
   async t => {
     const challengeCustomAppPushPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(await challengeCustomAppPushPageObject.isCustomAppSendPushForm()).ok();
     await t.expect(challengeCustomAppPushPageObject.getFormTitle()).eql('Get a push notification');
     await t.expect(challengeCustomAppPushPageObject.subtitleExists()).notOk();
@@ -96,6 +100,7 @@ test.requestHooks(mockCustomAppSendPush)(
 test
   .requestHooks(pushSuccessMock)('challenge custom app push screen has right labels', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
+    await checkA11y(t);
     await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-poll',
@@ -121,6 +126,7 @@ test
 test
   .requestHooks(pushAutoChallengeMock)('challenge custom app push screen has right labels, custom logo and auto challenge checkbox', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
+    await checkA11y(t);
     await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-poll',
@@ -158,10 +164,9 @@ test
   });
 
 test
-  .requestHooks(pushNoAutoChallengeMock)(`challenge custom app push screen does not have checkbox
-    when autoChallenge object is missing from IDX remediation response`, async t => {
-    
+  .requestHooks(pushNoAutoChallengeMock)('challenge custom app push screen does not have checkbox when autoChallenge object is missing from IDX remediation response', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
+    await checkA11y(t);
     
     // all UI elements should be present except the checkbox
     const pageTitle = challengeCustomAppPushPageObject.getPageTitle();
@@ -189,6 +194,7 @@ test
 test
   .requestHooks(pushSuccessMock)('challenge custom push screen has right labels and logo', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
+    await checkA11y(t);
     await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-poll',
@@ -220,6 +226,7 @@ test
 test
   .requestHooks(logger, pushSuccessMock)('challenge Custom App push request', async t => {
     await setup(t);
+    await checkA11y(t);
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
@@ -243,6 +250,7 @@ test
 test
   .requestHooks(logger, pushWaitMock)('challenge Custom App push polling', async t => {
     await setup(t);
+    await checkA11y(t);
     await t.wait(4000);
     await t.expect(logger.count(() => true)).eql(1);
 
@@ -277,12 +285,14 @@ test
 test
   .requestHooks(logger, pushWaitAutoChallengeMock)('Call Custom App push polling and checkbox should be clickable after polling started', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
+    await checkA11y(t);
     const checkboxLabel = challengeCustomAppPushPageObject.getAutoChallengeCheckboxLabel();
     await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).ok();
     await t.expect(checkboxLabel.hasClass('checked')).ok();
     await t.expect(checkboxLabel.textContent).eql('Send push automatically');
 
     await setup(t);
+    await checkA11y(t);
     await t.wait(4000);
     await t.expect(logger.count(() => true)).eql(1);
 
@@ -323,6 +333,7 @@ test
 test
   .requestHooks(logger, pushRejectMock)('challenge Custom App reject push and then resend', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
+    await checkA11y(t);
     const errorBox = challengeCustomAppPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText)
       .eql('You have chosen to reject this login.');
@@ -358,6 +369,7 @@ test
 test
   .requestHooks(pushWaitMock)('Warning callout appears after 30 seconds', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
+    await checkA11y(t);
     await t.wait(10000);
     await t.expect(challengeCustomAppPushPageObject.getWarningBox().length).eql(0);
     await t.wait(20100); // Total > 30s
@@ -368,6 +380,7 @@ test
 
 test.requestHooks(pushSuccessMock)('should show custom factor page link', async t => {
   const challengeCustomAppPushPageObject = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {
@@ -385,6 +398,7 @@ test.requestHooks(pushSuccessMock)('should show custom factor page link', async 
 test
   .requestHooks(logger, pushEnableBiometricsMock)('challenge custom app resend push with uv enable biometrics message', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
+    await checkA11y(t);
     await challengeCustomAppPushPageObject.waitForErrorBox();
 
     const errorTitle = challengeCustomAppPushPageObject.getErrorTitle();

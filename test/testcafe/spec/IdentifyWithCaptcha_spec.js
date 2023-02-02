@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger, Selector } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrIdentifyWithPasswordWithReCaptcha from '../../../playground/mocks/data/idp/idx/identify-with-password-with-recaptcha-v2';
@@ -51,6 +52,7 @@ async function setup(t) {
 // TODO: enable this test OKTA-504996
 test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign in with hCaptcha enabled', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   
   await identityPage.fillIdentifierField('Test Identifier');
@@ -76,6 +78,7 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
 
 test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');

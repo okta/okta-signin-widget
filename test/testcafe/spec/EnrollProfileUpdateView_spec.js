@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import EnrollProfileUpdateViewPageObject from '../framework/page-objects/EnrollProfileUpdateViewPageObject';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify-with-password';
@@ -45,6 +46,7 @@ async function setup(t) {
 test.requestHooks(xhrEnrollProfileUpdateMock)('should have correct form title, field and error', async t => {
   const enrollProfileUpdatePage = new EnrollProfileUpdateViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
   await identityPage.clickNextButton();
@@ -62,6 +64,7 @@ test.requestHooks(xhrEnrollProfileUpdateMock)('should have correct form title, f
 test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalMock)('should have skip link when all fields are optional', async t => {
   const enrollProfileUpdatePage = new EnrollProfileUpdateViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
   await identityPage.clickNextButton();
@@ -79,6 +82,7 @@ test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalMock)('should 
 test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalSuccess)('should set secondEmail default to empty on form submit when all fields are optional', async t => {
   const enrollProfileUpdatePage = new EnrollProfileUpdateViewPageObject(t);
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
   await identityPage.clickNextButton();

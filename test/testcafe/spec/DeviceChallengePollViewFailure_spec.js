@@ -1,4 +1,5 @@
 import { RequestLogger, RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
 import error from '../../../playground/mocks/data/idp/idx/error-403-access-denied';
@@ -104,6 +105,7 @@ async function setup(t) {
 
 test.requestHooks(logger, mock)('probing and polling APIs are sent and responded', async t => {
   const deviceChallengePollPageObject = await setup(t);
+  await checkA11y(t);
   await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
   await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
   await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().length).eql(0);
@@ -126,6 +128,7 @@ test.requestHooks(logger, mock)('probing and polling APIs are sent and responded
 test
   .requestHooks(logger, deviceInvalidatedErrorMsg)('add title when device or account is invalidated', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql(
       'Couldn’t verify your identity\n\nYour device or account was invalidated. If this is unexpected, contact your administrator for help.');
   });
@@ -133,6 +136,7 @@ test
 test
   .requestHooks(logger, nonIdxError)('Non IDX error', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql(
       'There was an unsupported response from server.');
   });

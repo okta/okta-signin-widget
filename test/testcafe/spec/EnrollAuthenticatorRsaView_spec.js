@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import EnrollRsaPageObject from '../framework/page-objects/EnrollOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -37,6 +38,7 @@ async function setup(t) {
 test
   .requestHooks(successMock)('should have both username and passcode fields and both are required', async t => {
     const enrollRsaPage = await setup(t);
+    await checkA11y(t);
 
     // Check title
     await t.expect(enrollRsaPage.getFormTitle()).eql('Set up RSA SecurID');
@@ -63,6 +65,7 @@ test
 test
   .requestHooks(successMock)('should succeed when values are set', async t => {
     const enrollRsaPage = await setup(t);
+    await checkA11y(t);
     const successPage = new SuccessPageObject(t);
 
     await enrollRsaPage.fillUserName('abcdabcd');
@@ -77,6 +80,7 @@ test
 test
   .requestHooks(passcodeChangeMock)('displays error and clears passcode when passcode change response', async t => {
     const enrollRsaPage = await setup(t);
+    await checkA11y(t);
 
     await enrollRsaPage.fillUserName('abcdabcd');
     await enrollRsaPage.fillPasscode('abcdabcd');

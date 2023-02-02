@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
@@ -72,6 +73,7 @@ async function verifyRegistrationPageEvent() {
 
 test.requestHooks(mock)('should have editable fields and have account label', async t => {
   const registrationPage = await setup(t);
+  await checkA11y(t);
   await verifyRegistrationPageEvent();
 
   /* i18n tests */
@@ -97,6 +99,7 @@ test.requestHooks(mock)('should have editable fields and have account label', as
 
 test.requestHooks(mock)('should show errors if required fields are empty', async t => {
   const registrationPage = await setup(t);
+  await checkA11y(t);
   await verifyRegistrationPageEvent();
 
   await registrationPage.clickRegisterButton();
@@ -111,6 +114,7 @@ test.requestHooks(mock)('should show errors if required fields are empty', async
 
 test.requestHooks(mock)('should show errors after empty required fields are focused out', async t => {
   const registrationPage = await setup(t);
+  await checkA11y(t);
   await verifyRegistrationPageEvent();
 
   await registrationPage.fillFirstNameField('');
@@ -130,6 +134,7 @@ test.requestHooks(mock)('should show errors after empty required fields are focu
 
 test.requestHooks(enrollProfileErrorMock)('should show email field validation errors', async t => {
   const registrationPage = await setup(t);
+  await checkA11y(t);
   await verifyRegistrationPageEvent();
 
   await registrationPage.fillFirstNameField('abc');
@@ -180,6 +185,7 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
 
 test.requestHooks(mock)('should show terminal screen after registration', async t => {
   const registrationPage = await setup(t);
+  await checkA11y(t);
   await verifyRegistrationPageEvent();
 
   // click register button
@@ -215,6 +221,7 @@ test.requestHooks(mock)('should show terminal screen after registration', async 
 
 test.requestHooks(mock)('should be able to create account', async t => {
   const registrationPage = await setup(t);
+  await checkA11y(t);
   await checkConsoleMessages([
     'ready',
     'afterRender',
@@ -259,6 +266,7 @@ test.requestHooks(mock)('should be able to create account', async t => {
 
 test.requestHooks(logger, enrollProfileNewMock)('should be able to create a new account after previous attempt failed server validation', async t => {
   const registrationPage = await setup(t);
+  await checkA11y(t);
 
   //create new account
   await registrationPage.fillFirstNameField('abc');
@@ -320,6 +328,7 @@ test.requestHooks(mock)('should call settings.registration.click on "Sign Up" cl
 // Uncomment once we support custom labels
 // test.requestHooks(enrollProfileNewCustomLabelMock)('should show custom labels', async t => {
 //   const registrationPage = await setup(t);
+//   await checkA11y(t);
 
 //   await t.expect(await registrationPage.getFormFieldLabel('userProfile.email')).eql('This is your awesome email address');
 //   await t.expect(await registrationPage.getFormFieldLabel('userProfile.firstName')).eql('Please enter your first name');

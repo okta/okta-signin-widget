@@ -1,4 +1,5 @@
 import { RequestLogger, RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrSafeModeOptionalEnrollment from '../../../playground/mocks/data/idp/idx/safe-mode-optional-enrollment';
@@ -43,6 +44,7 @@ async function setup(t) {
 
 test.requestHooks(skipRequestLogger, safeModeOptionalMock)('should display correct error and skip link when server is in safe mode during optional enrollment', async t => {
   const terminalPage = await setup(t);
+  await checkA11y(t);
 
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
@@ -63,6 +65,7 @@ test.requestHooks(skipRequestLogger, safeModeOptionalMock)('should display corre
 
 test.requestHooks(safeModeRequiredMock)('should display correct error and sign out link when server is in safe mode during required enrollment', async t => {
   const terminalPage = await setup(t);
+  await checkA11y(t);
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
   await t.expect(await terminalPage.skipSetUpLinkExists()).notOk();
@@ -71,6 +74,7 @@ test.requestHooks(safeModeRequiredMock)('should display correct error and sign o
 
 test.requestHooks(safeModeCredentialEnrollmentIntent)('should display correct error and no links when server is in safe mode during credential enrollment intent', async t => {
   const terminalPage = await setup(t);
+  await checkA11y(t);
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
   await t.expect(await terminalPage.skipSetUpLinkExists()).notOk();

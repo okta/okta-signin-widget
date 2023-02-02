@@ -10,12 +10,12 @@ const granularConsentViewHeader = AdminConsentViewHeader.extend({
   hasIssuer: false,
   template: hbs`
     {{#if clientURI}}
-    <a href="{{clientURI}}" class="client-logo-link" target="_blank">
+    <a href="{{clientURI}}" class="client-logo-link" title="{{altText}}" target="_blank">
     {{/if}}
     {{#if customLogo}}
-      <img class="client-logo custom-logo" src="{{customLogo}}" alt="{{altText}}" aria-hidden="true" />
+      <img class="client-logo custom-logo" src="{{customLogo}}" alt="{{altText}}" aria-hidden />
     {{else}}
-      <img class="client-logo default-logo" src="{{defaultLogo}}" alt="{{altText}}" aria-hidden="true" />
+      <img class="client-logo default-logo" src="{{defaultLogo}}" alt="{{altText}}" aria-hidden />
     {{/if}}
     {{#if clientURI}}
       </a>

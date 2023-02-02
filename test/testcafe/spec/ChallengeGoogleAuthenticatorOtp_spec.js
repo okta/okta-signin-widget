@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeGoogleAuthenticatorPageObject from '../framework/page-objects/ChallengeGoogleAuthenticatorPageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
@@ -45,6 +46,7 @@ async function setup(t) {
 test
   .requestHooks(logger, validOTPmock)('challenge google authenticator with valid OTP', async t => {
     const challengeGoogleAuthenticatorPageObject = await setup(t);
+    await checkA11y(t);
 
     await checkConsoleMessages({
       controller: 'mfa-verify',
@@ -93,6 +95,7 @@ test
 test
   .requestHooks(invalidPasscodeMock)('challenge google authenticator with invalid passcode', async t => {
     const challengeGoogleAuthenticatorPageObject = await setup(t);
+    await checkA11y(t);
     await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '123');
     await challengeGoogleAuthenticatorPageObject.clickNextButton();
     await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).eql('Your code doesn\'t match our records. Please try again.');
@@ -101,6 +104,7 @@ test
 test
   .requestHooks(usedPasscodeMock)('challenge google authenticator with used passcode', async t => {
     const challengeGoogleAuthenticatorPageObject = await setup(t);
+    await checkA11y(t);
     await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '123');
     await challengeGoogleAuthenticatorPageObject.clickNextButton();
     await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).eql('Each code can only be used once. Please wait for a new code and try again.');
@@ -108,6 +112,7 @@ test
 
 test.requestHooks(validOTPmock)('should show custom factor page link', async t => {
   const challengeGoogleAuthenticatorPageObject = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {

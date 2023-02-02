@@ -67,9 +67,12 @@ const Body = BaseForm.extend({
       wide: true,
     };
 
+    const inputId = 'okta-phone-number-input';
+    
     // Create an input group - serves as a display wrapper
     const phoneNumberWithCodeUISchema = {
       label: loc('mfa.phoneNumber.placeholder', 'login'),
+      inputId,
       type: 'group',
       modelType: 'string',
       'label-top': true,
@@ -82,7 +85,7 @@ const Body = BaseForm.extend({
           label: `+${this.model.get('phoneCode')}`,
           className: 'phone-authenticator-enroll__phone-code no-translate',
         },
-        Object.assign({}, uiSchemas[phoneNumberUISchemaIndex]),
+        Object.assign({ inputId }, uiSchemas[phoneNumberUISchemaIndex]),
       ],
     };
 

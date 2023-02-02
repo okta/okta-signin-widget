@@ -5,6 +5,7 @@ import notAssignedApp from '../../../playground/mocks/data/idp/idx/error-400-use
 import registeredUser from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator.json';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -37,6 +38,7 @@ async function setup(t) {
 test
   .requestHooks(mock)('should show messages callout for unknown user', async t => {
     const identityPage = await setup(t);
+    await checkA11y(t);
     await identityPage.fillIdentifierField('unknown');
     await identityPage.clickNextButton();
     await t.expect(identityPage.getUnknownUserCalloutContent())
@@ -47,6 +49,7 @@ test
 test
   .requestHooks(unassignedApplinkMock)('should remove the old error per UI reload', async t => {
     const identityPage = await setup(t);
+    await checkA11y(t);
     await t.expect(identityPage.getUnknownUserCalloutContent())
       .eql('Unable to sign in');
     await identityPage.fillIdentifierField('unknown');
@@ -58,6 +61,7 @@ test
 test
   .requestHooks(mock)('should remove messages callout for unknown user once successful', async t => {
     const identityPage = await setup(t);
+    await checkA11y(t);
     await identityPage.fillIdentifierField('unknown');
     await identityPage.clickNextButton();
     await identityPage.fillIdentifierField('registered');

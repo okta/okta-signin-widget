@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 import { renderWidget } from '../framework/shared';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
@@ -123,6 +124,7 @@ async function setup(t) {
 
 test.requestHooks(mockChallengePassword)('should load select authenticator list', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
@@ -251,6 +253,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
 
 test.requestHooks(mockChallengePassword)('should load select authenticator list with no sign-out link', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     features: { hideSignOutLinkInMFA: true },
   });
@@ -262,6 +265,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list 
 
 test.requestHooks(mockAuthenticatorListNoNumber)('should not display phone number in description if not available', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Phone');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(false);
@@ -274,6 +278,7 @@ test.requestHooks(mockAuthenticatorListNoNumber)('should not display phone numbe
 
 test.requestHooks(mockSelectAuthenticatorForRecovery)('should load select authenticator list for recovery password', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Reset your password');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Verify with one of the following security methods to reset your password.');
@@ -294,6 +299,7 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)('should load select authen
 
 test.requestHooks(mockChallengePassword)('should navigate to password challenge page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
 
@@ -304,6 +310,7 @@ test.requestHooks(mockChallengePassword)('should navigate to password challenge 
 
 test.requestHooks(requestLogger, mockChallengePassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
 
@@ -334,6 +341,7 @@ test.requestHooks(requestLogger, mockChallengePassword)('select password challen
 
 test.requestHooks(mockChallengeWebauthn)('should navigate to webauthn challenge page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
 
@@ -344,6 +352,7 @@ test.requestHooks(mockChallengeWebauthn)('should navigate to webauthn challenge 
 
 test.requestHooks(mockChallengeEmail)('should navigate to email challenge page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
 
@@ -355,6 +364,7 @@ test.requestHooks(mockChallengeEmail)('should navigate to email challenge page',
 test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when device is unknown and backend returns
   signed_nonce since there is an enrollmnent with the same os user is loging in from`, async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
@@ -391,6 +401,7 @@ test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when 
 
 test.requestHooks(mockSelectAuthenticatorKnownDevice)('should load signed_nonce at top when device is known', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
@@ -427,6 +438,7 @@ test.requestHooks(mockSelectAuthenticatorKnownDevice)('should load signed_nonce 
 
 test.requestHooks(mockSelectAuthenticatorNoSignedNonce)('should not display signed_nonce when signed_nonce method is not in OV remediation', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
@@ -461,6 +473,7 @@ test.requestHooks(mockSelectAuthenticatorNoSignedNonce)('should not display sign
 
 test.requestHooks(requestLogger, mockChallengeOVTotp)('should navigate to okta verify totp page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
 
@@ -487,6 +500,7 @@ test.requestHooks(requestLogger, mockChallengeOVTotp)('should navigate to okta v
 
 test.requestHooks(requestLogger, mockChallengeOVPush)('should navigate to okta verify push page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
 
   selectFactorPage.selectFactorByIndex(0);
@@ -512,6 +526,7 @@ test.requestHooks(requestLogger, mockChallengeOVPush)('should navigate to okta v
 
 test.requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to okta verify fast pass page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
 
@@ -538,6 +553,7 @@ test.requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to ok
 
 test.requestHooks(mockChallengeOnPremMFA)('should navigate to on prem mfa challenge page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
 
   selectFactorPage.selectFactorByIndex(7);
@@ -547,6 +563,7 @@ test.requestHooks(mockChallengeOnPremMFA)('should navigate to on prem mfa challe
 
 test.requestHooks(mockChallengeRsa)('should navigate to RSA challenge page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
 
@@ -557,6 +574,7 @@ test.requestHooks(mockChallengeRsa)('should navigate to RSA challenge page', asy
 
 test.requestHooks(mockChallengeDuo)('should navigate to Duo challenge page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
 
@@ -567,6 +585,7 @@ test.requestHooks(mockChallengeDuo)('should navigate to Duo challenge page', asy
 
 test.requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challenge page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
 
@@ -577,6 +596,7 @@ test.requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challen
 
 test.requestHooks(mockChallengePassword)('should show custom factor page link', async t => {
   const pageObject = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {
@@ -593,6 +613,7 @@ test.requestHooks(mockChallengePassword)('should show custom factor page link', 
 
 test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom factor page link', async t => {
   const pageObject = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {
@@ -608,6 +629,7 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom fa
 
 test.requestHooks(mockChallengeCustomApp)('should navigate to Custom App challenge page', async t => {
   const selectFactorPage = await setup(t);
+  await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   selectFactorPage.selectFactorByIndex(9);

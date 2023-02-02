@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import { renderWidget } from '../framework/shared';
 import SelectAuthenticatorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
@@ -83,6 +84,7 @@ async function setup(t, factorsCount = 3) {
 
 test.requestHooks(mockChallengeOVSelectMethod)('preserve the order of authenticator list when the `deviceKnown` attribute is either null or false', async t => {
   const selectAuthenticatorPage = await setup(t);
+  await checkA11y(t);
 
   await verifyFactorByIndex(t, selectAuthenticatorPage, 0, PUSH_NOTIFICATION_TEXT);
   await verifyFactorByIndex(t, selectAuthenticatorPage, 1, ENTER_CODE_TEXT);
@@ -95,6 +97,7 @@ test.requestHooks(mockChallengeOVSelectMethod)('preserve the order of authentica
 
 test.requestHooks(mockChallengeOVPushOnlySelectMethod)('authenticator list should have just the push notification', async t => {
   const selectAuthenticatorPage = await setup(t, 1);
+  await checkA11y(t);
 
   await verifyFactorByIndex(t, selectAuthenticatorPage, 0, PUSH_NOTIFICATION_TEXT);
 
@@ -105,6 +108,7 @@ test.requestHooks(mockChallengeOVPushOnlySelectMethod)('authenticator list shoul
 
 test.requestHooks(mockChallengeOVSelectMethod)('should load select method list with okta verify and no sign-out link', async t => {
   const selectAuthenticatorPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     features: {
       hideSignOutLinkInMFA: true
@@ -117,6 +121,7 @@ test.requestHooks(mockChallengeOVSelectMethod)('should load select method list w
 
 test.requestHooks(requestLogger, mockChallengeOVSelectMethod)('should send right methodType when push is selected', async t => {
   const selectAuthenticatorPage = await setup(t);
+  await checkA11y(t);
 
   await selectAuthenticatorPage.selectFactorByIndex(0);
   await verifySelectAuthenticator(t, selectAuthenticatorPage, {
@@ -130,6 +135,7 @@ test.requestHooks(requestLogger, mockChallengeOVSelectMethod)('should send right
 
 test.requestHooks(requestLogger, mockChallengeOVSelectMethod)('should send right methodType when totp is selected', async t => {
   const selectAuthenticatorPage = await setup(t);
+  await checkA11y(t);
 
   await selectAuthenticatorPage.selectFactorByIndex(1);
   await verifySelectAuthenticator(t, selectAuthenticatorPage, {
@@ -143,6 +149,7 @@ test.requestHooks(requestLogger, mockChallengeOVSelectMethod)('should send right
 
 test.requestHooks(requestLogger, mockChallengeOVSelectMethod)('should send right methodType when fastpass is selected', async t => {
   const selectAuthenticatorPage = await setup(t);
+  await checkA11y(t);
 
   await selectAuthenticatorPage.selectFactorByIndex(2);
   await verifySelectAuthenticator(t, selectAuthenticatorPage, {
@@ -156,6 +163,7 @@ test.requestHooks(requestLogger, mockChallengeOVSelectMethod)('should send right
 
 test.requestHooks(mockChallengeOVOnlyMethodsWithDeviceKnown)('FastPass option is rendered 1st in the list when deviceKnown=true', async t => {
   const selectAuthenticatorPage = await setup(t);
+  await checkA11y(t);
 
   await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(0)).eql(FAST_PASS_TEXT);
   await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(1)).eql(PUSH_NOTIFICATION_TEXT);
@@ -164,6 +172,7 @@ test.requestHooks(mockChallengeOVOnlyMethodsWithDeviceKnown)('FastPass option is
 
 test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch authenticator link only when needed', async t => {
   const selectAuthenticatorPage = await setup(t);
+  await checkA11y(t);
 
   // This view (only OV authenticator, but with 3 methods) is custom
   // The response contains the same select-authenticator-authenticate form as other views
@@ -195,6 +204,7 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
 
 test.requestHooks(mockChallengeOVTotpMethod)('should show custom factor page link', async t => {
   const selectAuthenticatorPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {

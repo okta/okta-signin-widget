@@ -1,4 +1,5 @@
 import { ClientFunction, RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
@@ -66,6 +67,7 @@ async function setupPasswordExpired(t) {
 
 test.requestHooks(identifyMock)('should show custom footer links', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await rerenderWidget({
     'helpLinks': {
       'help': 'https://google.com',
@@ -129,6 +131,7 @@ test.requestHooks(xhrSelectAuthenticatorMock)('can customize back to signin link
 
 test.requestHooks(identifyMock)('should show custom buttons links', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await rerenderWidget({
     'customButtons' : [{
       'title': 'Custom Button 1',

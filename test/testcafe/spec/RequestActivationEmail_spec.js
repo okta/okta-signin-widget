@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 
 import RequestActivationEmailPageObject from '../framework/page-objects/RequestActivationEmailPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
@@ -50,6 +51,7 @@ async function setupTerminal(t) {
 
 test.requestHooks(requestActivationEmailMock)('should render error with action button', async t => {
   const requestActivationEmailPage  = await setup(t);
+  await checkA11y(t);
   await t.expect(requestActivationEmailPage.getFormTitle()).eql('Activation link has expired');
   await t.expect(requestActivationEmailPage.getErrorBoxText()).eql('Your account activation link is no longer valid. Request a new activation email below.');
   await t.expect(requestActivationEmailPage.getSaveButtonLabel()).eql('Request activation email');

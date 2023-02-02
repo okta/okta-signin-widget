@@ -1,6 +1,7 @@
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { RequestMock } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 
@@ -8,7 +9,9 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(success);
+  .respond(success)
+  .onRequestTo('http://localhost:3000/app/UserHome')
+  .respond('');
 
 fixture('Success Form')
   .requestHooks(mock);
@@ -21,6 +24,7 @@ async function setup(t) {
 
 test('should navigate to redirect link google.com after success', async t => {
   const identityPage = await setup(t);
+  await checkA11y(t);
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
   const successPage = new SuccessPageObject(t);

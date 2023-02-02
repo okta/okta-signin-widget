@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -44,6 +45,7 @@ async function setup(t) {
 test
   .requestHooks(logger, validTOTPmock)('challenge okta verify with valid TOTP', async t => {
     const challengeOktaVerifyTOTPPageObject = await setup(t);
+    await checkA11y(t);
     await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-authenticator',
@@ -92,6 +94,7 @@ test
 test
   .requestHooks(invalidTOTPMock)('challenge okta verify with invalid TOTP', async t => {
     const challengeOktaVerifyTOTPPageObject = await setup(t);
+    await checkA11y(t);
     await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '123');
     await challengeOktaVerifyTOTPPageObject.clickNextButton();
     await challengeOktaVerifyTOTPPageObject.waitForErrorBox();
@@ -101,6 +104,7 @@ test
 test
   .requestHooks(logger, totpEnableBiometricsMock)('challenge okta verify totp uv enable biometrics message', async t => {
     const challengeOktaVerifyTOTPPageObject = await setup(t);
+    await checkA11y(t);
     await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '123');
     await challengeOktaVerifyTOTPPageObject.clickNextButton();
     const pageTitle = challengeOktaVerifyTOTPPageObject.getFormTitle();

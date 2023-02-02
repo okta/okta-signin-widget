@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/ChallengeOktaVerifyPushPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -47,6 +48,7 @@ async function setup(t) {
 test
   .requestHooks(pushSuccessMock)('challenge ov push screen has right labels and logo', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-poll',
@@ -76,6 +78,7 @@ test
 test
   .requestHooks(pushAutoChallengeMock)('challenge ov push screen has right labels and a checkbox', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-poll',
@@ -109,6 +112,7 @@ test
 test
   .requestHooks(logger, pushWaitAutoChallengeMock)('should call polling API and checkbox should be clickable after polling started', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel();
     await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).ok();
     await t.expect(checkboxLabel.hasClass('checked')).ok();
@@ -139,6 +143,7 @@ test
 test
   .requestHooks(logger, pushSuccessMock)('challenge okta verify push request', async t => {
     await setup(t);
+    await checkA11y(t);
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
@@ -162,6 +167,7 @@ test
 test
   .requestHooks(pushWaitMock)('Warning callout appears after 30 seconds', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
+    await checkA11y(t);
     await t.wait(30500);
     const warningBox = challengeOktaVerifyPushPageObject.getWarningBox();
     await t.expect(warningBox.innerText)
