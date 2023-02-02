@@ -58,6 +58,15 @@ export const transformAuthenticatorButton: TransformStepFnWithOptions = ({
             return;
           }
 
+          // try get i18nKey with authenticator.methodType in key
+          i18nKey = getI18nKey(`${stepName}.${authenticatorButtonElement.options.key}.authenticator.methodType.${methodType}`);
+          if (i18nKey) {
+            addTranslation({
+              element: authenticatorButtonElement, name: 'label', i18nKey, params,
+            });
+            return;
+          }
+
           // missing i18nKey, fallback to string in response
           addTranslation({
             element: authenticatorButtonElement,

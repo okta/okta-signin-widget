@@ -104,7 +104,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 class="MuiBox-root emotion-12"
               >
                 <ul
-                  class="MuiList-root MuiList-padding emotion-19"
+                  class="MuiList-root emotion-19"
                 >
                   <li
                     class="MuiListItem-root MuiListItem-padding emotion-20"

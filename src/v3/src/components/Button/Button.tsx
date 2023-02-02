@@ -85,22 +85,6 @@ const Button: UISchemaElementComponent<{
     </Box>
   );
 
-  const buttonLabel = Icon ? (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      alignContent="space-between"
-      gap="5px"
-      // keep the icon from stretching the button vertically
-      marginY="-3px"
-    >
-      <Icon />
-      {label}
-    </Box>
-  )
-    : label;
-
   return (
     <OdyButton
       type={type}
@@ -109,6 +93,9 @@ const Button: UISchemaElementComponent<{
       ref={focusRef}
       disabled={loading}
       className={classes}
+      // Fixes text overflow
+      sx={{ display: 'flex', whiteSpace: 'normal' }}
+      startIcon={(!loading && Icon) && <Icon />}
       aria-describedby={ariaDescribedBy}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(dataType && { 'data-type': dataType } )}
@@ -120,7 +107,7 @@ const Button: UISchemaElementComponent<{
       {...(ariaLabel && { 'aria-label': ariaLabel } )}
     >
       {
-        loading ? loadingLabel : buttonLabel
+        loading ? loadingLabel : label
       }
     </OdyButton>
   );

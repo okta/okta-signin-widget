@@ -300,12 +300,13 @@ const getAuthenticatorButtonElements = (
 export const getOVMethodTypeAuthenticatorButtonElements = (
   options: IdxOption[],
   step: string,
+  id?: string,
 ): AuthenticatorButtonElement[] => {
   if (!options.length) {
     return [];
   }
 
-  return options.map((option) => ({
+  return options.map((option, index) => ({
     type: 'AuthenticatorButton',
     label: option.label,
     id: `auth_btn_${AUTHENTICATOR_KEY.OV}_${option.value as string}`,
@@ -314,8 +315,19 @@ export const getOVMethodTypeAuthenticatorButtonElements = (
       key: AUTHENTICATOR_KEY.OV,
       ctaLabel: loc('oie.verify.authenticator.button.text', 'login'),
       actionParams: {
+        'authenticator.id': id,
         'authenticator.methodType': (option.value as string),
       },
+      description: getAuthenticatorDescription(
+        option,
+        AUTHENTICATOR_KEY.OV,
+        false,
+      ),
+      dataSe: getAuthenticatorDataSeVal(
+        AUTHENTICATOR_KEY.OV,
+        option.value as string,
+      ),
+      iconName: `${AUTHENTICATOR_KEY.OV}_${index}`,
       step,
       includeData: true,
       includeImmutableData: false,

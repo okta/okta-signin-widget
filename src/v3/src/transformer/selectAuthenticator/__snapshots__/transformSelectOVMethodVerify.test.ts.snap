@@ -25,6 +25,7 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
           "content": "oie.select.authenticators.verify.subtitle",
         },
@@ -37,6 +38,7 @@ Object {
               "label": "Get a push notification",
               "options": Object {
                 "actionParams": Object {
+                  "authenticator.id": "abcde1234",
                   "authenticator.methodType": "push",
                 },
                 "ctaLabel": "Select",
@@ -50,6 +52,7 @@ Object {
               "label": "Enter a code",
               "options": Object {
                 "actionParams": Object {
+                  "authenticator.id": "abcde1234",
                   "authenticator.methodType": "totp",
                 },
                 "ctaLabel": "Select",

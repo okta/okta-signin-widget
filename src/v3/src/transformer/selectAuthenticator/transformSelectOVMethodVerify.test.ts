@@ -36,6 +36,7 @@ const getMockMethodTypes = (): AuthenticatorButtonElement[] => {
       key: 'okta_verify',
       ctaLabel: 'Select',
       actionParams: {
+        'authenticator.id': 'abcde1234',
         'authenticator.methodType': 'push',
       },
       step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
@@ -49,6 +50,7 @@ const getMockMethodTypes = (): AuthenticatorButtonElement[] => {
       key: 'okta_verify',
       ctaLabel: 'Select',
       actionParams: {
+        'authenticator.id': 'abcde1234',
         'authenticator.methodType': 'totp',
       },
       step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
@@ -143,6 +145,11 @@ describe('Transform Select OV Method Verify Tests', () => {
         {
           name: 'authenticator',
           value: [{
+            name: 'id',
+            required: true,
+            mutable: false,
+            value: 'abcde1234',
+          }, {
             name: 'methodType',
             options: [{ label: 'Enter code', value: 'totp' }, { label: 'Push', value: 'push' }],
           }],

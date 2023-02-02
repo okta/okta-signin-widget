@@ -35,7 +35,7 @@ describe('Select Authenticator Utility Tests', () => {
         { label: 'Enter a code', value: 'totp' } as IdxOption,
         { label: 'Get a push notification', value: 'push' } as IdxOption,
       ];
-      expect(getOVMethodTypeAuthenticatorButtonElements(options, stepName)).toEqual([
+      expect(getOVMethodTypeAuthenticatorButtonElements(options, stepName, 'abcde1234')).toEqual([
         {
           type: 'AuthenticatorButton',
           label: options[0].label,
@@ -48,8 +48,12 @@ describe('Select Authenticator Utility Tests', () => {
             step: 'select-authenticator-enroll',
             type: ButtonType.BUTTON,
             actionParams: {
+              'authenticator.id': 'abcde1234',
               'authenticator.methodType': options[0].value,
             },
+            description: 'oie.okta_verify.label',
+            dataSe: `okta_verify-${options[0].value}`,
+            iconName: 'okta_verify_0',
           },
         },
         {
@@ -64,8 +68,12 @@ describe('Select Authenticator Utility Tests', () => {
             step: 'select-authenticator-enroll',
             type: ButtonType.BUTTON,
             actionParams: {
+              'authenticator.id': 'abcde1234',
               'authenticator.methodType': options[1].value,
             },
+            description: 'oie.okta_verify.label',
+            dataSe: `okta_verify-${options[1].value}`,
+            iconName: 'okta_verify_1',
           },
         },
       ]);

@@ -64,6 +64,7 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
     };
     uischema.elements.push(sendPushButton);
   } else {
+    const id = (authenticator.value as Input[])?.find(({ name }) => name === 'id')?.value as string;
     const methodType = (authenticator.value as Input[])?.find(({ name }) => name === 'methodType');
     if (!methodType?.options) {
       return formBag;
@@ -72,6 +73,7 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
     const buttonElements = getOVMethodTypeAuthenticatorButtonElements(
       methodType.options,
       stepName,
+      id,
     );
     uischema.elements = removeUIElementWithName(
       'authenticator.methodType',
@@ -92,6 +94,7 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
     const descriptionElement: DescriptionElement = {
       type: 'Description',
       contentType: 'subtitle',
+      noMargin: true,
       options: {
         content: loc('oie.select.authenticators.verify.subtitle', 'login'),
       },
