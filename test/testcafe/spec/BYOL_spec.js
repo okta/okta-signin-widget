@@ -1,6 +1,7 @@
-import { ClientFunction, RequestMock, Selector } from 'testcafe';
-import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
 import BYOLPageObject from '../framework/page-objects/BYOLPageObject';
+import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
+import { ClientFunction, RequestMock, Selector } from 'testcafe';
+
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
