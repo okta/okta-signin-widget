@@ -225,7 +225,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Set up Okta Verify via SMS/);
     expect(container).toMatchSnapshot();
     const phoneNumberEl = await findByTestId('phoneNumber');
-    const countryEl = await findByTestId('countryList') as HTMLInputElement;
+    const countryEl = await findByTestId('country') as HTMLInputElement;
 
     await waitFor(() => expect(countryEl).toHaveFocus());
     await user.type(phoneNumberEl, '123456789');

@@ -1,13 +1,14 @@
-import { ClientFunction, RequestMock } from 'testcafe';
-import BasePageObject from '../framework/page-objects/BasePageObject';
+import { ClientFunction, RequestMock, Selector } from 'testcafe';
 import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
+import BYOLPageObject from '../framework/page-objects/BYOLPageObject';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollDataPhone);
 
 
-fixture('BYOL (Bring Your Own Language)');
+fixture('BYOL (Bring Your Own Language)')
+  .meta('v3', true);
 
 const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
@@ -22,7 +23,7 @@ const overrideNavigatorLanguages = ClientFunction(languages => {
 });
 
 async function setup(t, options = {}) {
-  const pageObject = new BasePageObject(t);
+  const pageObject = new BYOLPageObject(t);
   await pageObject.navigateToPage({ render: false });
 
   if (options.navigatorLanguages) {
@@ -35,6 +36,7 @@ async function setup(t, options = {}) {
     stateToken: 'abc',
     ...options
   });
+  await t.expect(Selector('form').exists).eql(true);
 
   return pageObject;
 }
@@ -46,14 +48,8 @@ test.requestHooks(mock)('unsupported language, set with "language" option, is no
 
   // Check title (login_foo.json)
   await t.expect(pageObject.getFormTitle()).eql('Set up phone authentication');
-
   // Check country dropdown (country_foo.json)
-  const selectOption = await pageObject.form.findFormFieldInput('country')
-    .find('.chzn-container > .chzn-single > span');
-
-  await t.expect(pageObject.getTextContent(selectOption))
-    .eql('United States');
-
+  await t.expect(await pageObject.countryDropdownHasSelectedText('United States')).eql(true);
 });
 
 test.requestHooks(mock)('unsupported language, set with "language" option, can be loaded when assets.baseUrl is set to a path containing the language assets', async t => {
@@ -66,14 +62,8 @@ test.requestHooks(mock)('unsupported language, set with "language" option, can b
 
   // Check title (login_foo.json)
   await t.expect(pageObject.getFormTitle()).eql('Set up foo authentication');
-
   // Check country dropdown (country_foo.json)
-  const selectOption = await pageObject.form.findFormFieldInput('country')
-    .find('.chzn-container > .chzn-single > span');
-
-  await t.expect(pageObject.getTextContent(selectOption))
-    .eql('Foonited States');
-
+  await t.expect(await pageObject.countryDropdownHasSelectedText('Foonited States')).eql(true);
 });
 
 
@@ -87,14 +77,8 @@ test.requestHooks(mock)('unsupported language from navigator.languages will not 
 
   // Check title (login_foo.json)
   await t.expect(pageObject.getFormTitle()).eql('Set up phone authentication');
-
   // Check country dropdown (country_foo.json)
-  const selectOption = await pageObject.form.findFormFieldInput('country')
-    .find('.chzn-container > .chzn-single > span');
-
-  await t.expect(pageObject.getTextContent(selectOption))
-    .eql('United States');
-
+  await t.expect(await pageObject.countryDropdownHasSelectedText('United States')).eql(true);
 });
 
 test.requestHooks(mock)('unsupported language from navigator.languages will load with assets.baseUrl and assets.languages set', async t => {
@@ -110,12 +94,6 @@ test.requestHooks(mock)('unsupported language from navigator.languages will load
 
   // Check title (login_foo.json)
   await t.expect(pageObject.getFormTitle()).eql('Set up foo authentication');
-
   // Check country dropdown (country_foo.json)
-  const selectOption = await pageObject.form.findFormFieldInput('country')
-    .find('.chzn-container > .chzn-single > span');
-
-  await t.expect(pageObject.getTextContent(selectOption))
-    .eql('Foonited States');
-
+  await t.expect(await pageObject.countryDropdownHasSelectedText('Foonited States')).eql(true);
 });

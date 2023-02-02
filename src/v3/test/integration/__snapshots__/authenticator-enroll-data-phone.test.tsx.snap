@@ -266,7 +266,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
-                        for="countryList"
+                        for="country"
                         id="countryLabel"
                       >
                         Country
@@ -279,8 +279,8 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                           aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aut2h3fft10VeLDPD1d7_3_1"
                           autocomplete="tel-country-code"
                           class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-42"
-                          data-se="countryList"
-                          id="countryList"
+                          data-se="country"
+                          id="country"
                           required=""
                         >
                           <option
@@ -1855,7 +1855,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
-                        for="countryList"
+                        for="country"
                         id="countryLabel"
                       >
                         Country
@@ -1868,8 +1868,8 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                           aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aut2h3fft10VeLDPD1d7_3_1"
                           autocomplete="tel-country-code"
                           class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-42"
-                          data-se="countryList"
-                          id="countryList"
+                          data-se="country"
+                          id="country"
                           required=""
                         >
                           <option
@@ -3444,7 +3444,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
-                        for="countryList"
+                        for="country"
                         id="countryLabel"
                       >
                         Country
@@ -3457,8 +3457,8 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_voice_call_phone_number_aut2h3fft10VeLDPD1d7_7_2"
                           autocomplete="tel-country-code"
                           class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-42"
-                          data-se="countryList"
-                          id="countryList"
+                          data-se="country"
+                          id="country"
                           required=""
                         >
                           <option

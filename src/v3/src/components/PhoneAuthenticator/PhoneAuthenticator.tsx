@@ -147,12 +147,12 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
       <InputLabel
         id="countryLabel"
         required={required}
-        htmlFor="countryList"
+        htmlFor="country"
       >
         {countryLabel}
       </InputLabel>
       <Select
-        id="countryList"
+        id="country"
         labelId="countryLabel"
         disabled={loading}
         native
@@ -164,7 +164,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         }}
         inputRef={focusRef}
         inputProps={{
-          'data-se': 'countryList',
+          'data-se': 'country',
           autocomplete: 'tel-country-code',
           'aria-describedby': ariaDescribedBy,
         }}
@@ -194,7 +194,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
       >
         <Box
           width={showExtension ? 0.7 : 1}
-          marginRight={showExtension ? 2 : 0}
+          marginInlineEnd={showExtension ? 2 : 0}
         >
           <InputLabel
             htmlFor={fieldName}

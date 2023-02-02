@@ -72,11 +72,13 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }
 
   const {
+    assets: { languages, baseUrl } = {},
     authClient,
     brandColors,
     brandName,
     events,
     muiThemeOverrides,
+    language,
     logo,
     logoText,
     onSuccess,
@@ -101,16 +103,13 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loginHint, setloginHint] = useState<string | null>(null);
   const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOverrides);
 
-  useEffect(() => {
-    // If we need to load a language (or apply custom i18n overrides), do
-    // this now and re-run render after it's finished.
+  const initLanguage = useCallback(async () => {
     if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
-      (async () => {
-        await loadLanguage(widgetProps);
-      })();
+      await loadLanguage(widgetProps)
+        .catch((error) => console.warn('Unable to load language:', error));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [baseUrl, language, languages]);
 
   const handleError = (error: unknown) => {
     // TODO: handle error based on types
@@ -122,6 +121,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   };
 
   const bootstrap = useCallback(async () => {
+    await initLanguage();
     try {
       const transaction = await authClient.idx.start({
         stateHandle: stateToken,
@@ -205,6 +205,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [formBag, isClientTransaction]);
 
   const resume = useCallback(async () => {
+    await initLanguage();
     try {
       const transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
