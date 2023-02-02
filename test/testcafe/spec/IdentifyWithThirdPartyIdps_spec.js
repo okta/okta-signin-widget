@@ -7,6 +7,7 @@ import identifyWithIdpsNoIdentify from '../../../playground/mocks/data/idp/idx/i
 import identifyOnlyOneIdp from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp';
 import identifyOnlyOneIdpAppUser from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp-app-user';
 import errorIdentifyOnlyOneIdp from '../../../playground/mocks/data/idp/idx/error-identify-with-only-one-third-party-idp';
+import interact from '../../../playground/mocks/data/oauth2/interact';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -24,6 +25,8 @@ const mockWithoutIdentify = RequestMock()
   .respond(identifyWithIdpsNoIdentify);
 
 const mockOnlyOneIdp = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(interact)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyOnlyOneIdp)
   .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
@@ -36,6 +39,8 @@ const mockOnlyOneIdpAppUser = RequestMock()
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 const mockIdpDiscoveryWithOneIdp = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(interact)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyWithName)
   .onRequestTo('http://localhost:3000/idp/idx/identify')

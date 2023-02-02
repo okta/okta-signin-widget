@@ -8,7 +8,9 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(success);
+  .respond(success)
+  .onRequestTo('http://localhost:3000/app/UserHome')
+  .respond('');
 
 fixture('Success Form')
   .requestHooks(mock);

@@ -37,6 +37,8 @@ const pushWaitMock = RequestMock()
   .respond(pushPoll);
 
 const pushNoAutoChallengeMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll);
 
@@ -158,9 +160,7 @@ test
   });
 
 test
-  .requestHooks(pushNoAutoChallengeMock)(`challenge custom app push screen does not have checkbox
-    when autoChallenge object is missing from IDX remediation response`, async t => {
-    
+  .requestHooks(pushNoAutoChallengeMock)('challenge custom app push screen does not have checkbox when autoChallenge object is missing from IDX remediation response', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
     
     // all UI elements should be present except the checkbox
