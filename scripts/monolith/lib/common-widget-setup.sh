@@ -2,7 +2,7 @@
 
 # Set MONOLITH_BUILDVERSION before running this script
 # https://artifacts.aue1e.internal/artifactory/integration/test-baselines/
-: "${MONOLITH_BUILDVERSION?:"missing MONOLITH_BUILDVERSION"}"
+# : "${MONOLITH_BUILDVERSION?:"missing MONOLITH_BUILDVERSION"}"
 
 export WIDGET_HOME=${WIDGET_HOME:-`(readlink -f "$(dirname "$0")/../../..")`}
 export WIDGET_VERSION="${WIDGET_VERSION:-$(cat ${WIDGET_HOME}/package.json | jq '.version' -r)}"
