@@ -119,10 +119,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   };
 
   const bootstrap = useCallback(async () => {
-    if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
-      await loadLanguage(widgetProps)
-        .catch((error) => console.warn('Unable to load language:', error));
-    }
+    initLanguage();
     try {
       const transaction = await authClient.idx.start({
         stateHandle: stateToken,
@@ -206,10 +203,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [formBag, isClientTransaction]);
 
   const resume = useCallback(async () => {
-    if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
-      await loadLanguage(widgetProps)
-        .catch((error) => console.warn('Unable to load language:', error));
-    }
+    initLanguage();
     try {
       const transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
