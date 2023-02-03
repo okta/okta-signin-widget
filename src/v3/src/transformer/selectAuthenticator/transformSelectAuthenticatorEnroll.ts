@@ -65,6 +65,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   const description: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
+    noMargin: true,
     options: {
       content: skipStep ? loc('oie.setup.optional', 'login') : loc('oie.setup.required', 'login'),
     },

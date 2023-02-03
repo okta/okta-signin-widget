@@ -367,7 +367,7 @@ export interface LinkElement extends UISchemaElement {
     label: string;
     href?: string;
     dataSe?: string;
-    onClick?: () => unknown;
+    onClick?: (widgetContext?: IWidgetContext) => unknown;
   };
 }
 

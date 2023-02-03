@@ -217,7 +217,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should navigate to password 
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 });
 
-test.meta('v3', false).requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
+test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 

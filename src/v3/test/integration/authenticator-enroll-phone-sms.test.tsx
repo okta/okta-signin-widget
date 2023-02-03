@@ -50,13 +50,15 @@ describe('authenticator-enroll-phone-sms', () => {
 
     it('when back to authenticators list', async () => {
       const {
-        authClient, user, findByText,
+        authClient, container, user, findByText,
       } = await setup({ mockResponse });
 
       await user.click(await findByText(/Return to authenticator list/));
-      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
         ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll'),
       );
+      await findByText(/Set up security methods/);
+      expect(container).toMatchSnapshot();
     });
   });
 });

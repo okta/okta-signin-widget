@@ -12,10 +12,12 @@
 
 import { IDX_STEP } from '../../constants';
 import {
+  IWidgetContext,
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
 import { hasMinAuthenticatorOptions, loc } from '../../util';
+import { updateTransactionWithNextStep } from './updateTransactionWithNextStep';
 
 export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
   transaction,
@@ -40,6 +42,12 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
     options: {
       label: loc('oie.verification.switch.authenticator', 'login'),
       step,
+      onClick: (widgetContext?: IWidgetContext): unknown => {
+        if (typeof widgetContext === 'undefined') {
+          return;
+        }
+        updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
+      },
     },
   };
   formbag.uischema.elements.push(listLink);

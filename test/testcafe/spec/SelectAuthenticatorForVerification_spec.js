@@ -300,7 +300,7 @@ test.requestHooks(mockChallengePassword)('should navigate to password challenge 
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with your password');
 });
 
-test.meta('v3', false).requestHooks(requestLogger, mockChallengePassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
+test.requestHooks(requestLogger, mockChallengePassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');

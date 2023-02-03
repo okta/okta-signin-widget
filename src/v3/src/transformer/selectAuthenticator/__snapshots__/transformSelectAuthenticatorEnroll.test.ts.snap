@@ -29,6 +29,7 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
           "content": "oie.setup.required",
         },
@@ -90,6 +91,7 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
           "content": "oie.setup.optional",
         },
@@ -159,6 +161,7 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
           "content": "oie.setup.optional",
         },

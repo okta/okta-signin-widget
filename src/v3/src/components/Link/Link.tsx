@@ -21,9 +21,10 @@ import { ClickHandler, LinkElement, UISchemaElementComponent } from '../../types
 const Link: UISchemaElementComponent<{
   uischema: LinkElement
 }> = ({ uischema }) => {
+  const widgetContext = useWidgetContext();
   const {
     loading,
-  } = useWidgetContext();
+  } = widgetContext;
   const {
     focus,
     ariaDescribedBy,
@@ -47,6 +48,11 @@ const Link: UISchemaElementComponent<{
       return;
     }
 
+    if (typeof onClickHandler !== 'undefined') {
+      onClickHandler(widgetContext);
+      return;
+    }
+
     onSubmitHandler({
       params: actionParams,
       isActionStep,
@@ -59,11 +65,10 @@ const Link: UISchemaElementComponent<{
       <LinkMui
         // eslint-disable-next-line no-script-url
         href="javascript:void(0)"
-        onClick={onClickHandler || onClick}
+        onClick={onClick}
         aria-describedby={ariaDescribedBy}
         ref={focusRef}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...(dataSe && { 'data-se': dataSe } )}
+        data-se={dataSe}
       >
         {label}
       </LinkMui>
@@ -73,8 +78,7 @@ const Link: UISchemaElementComponent<{
           href={href}
           ref={focusRef}
           aria-describedby={ariaDescribedBy}
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...(dataSe && { 'data-se': dataSe } )}
+          data-se={dataSe}
         >
           {label}
         </LinkMui>

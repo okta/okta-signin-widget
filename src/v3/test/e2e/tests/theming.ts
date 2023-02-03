@@ -36,7 +36,7 @@ test('Theme configuration applies correctly', async (t) => {
 
   await t
     .expect(phoneAuthCoin.find('.siwFillPrimary').getStyleProperty('fill'))
-    .eql('rgb(202, 0, 228)');
+    .eql('rgb(62, 0, 70)');
   await t
     .expect(phoneAuthCoin.find('.siwFillSecondary').getStyleProperty('fill'))
     .eql('rgb(241, 131, 255)');

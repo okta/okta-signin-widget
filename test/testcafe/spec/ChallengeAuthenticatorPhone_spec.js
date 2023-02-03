@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, ClientFunction, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengePhonePageObject from '../framework/page-objects/ChallengePhonePageObject';
 import { checkConsoleMessages, renderWidget, oktaDashboardContent } from '../framework/shared';
@@ -170,7 +170,7 @@ test
     const pageTitle = challengePhonePageObject.getFormTitle();
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
-    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText('Receive a voice call instead')
+    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText('Receive a voice call instead');
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via SMS to');
     await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');

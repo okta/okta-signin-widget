@@ -69,7 +69,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
       className={containerClasses}
       data-se="factor-beacon"
       sx={(theme) => ({
-        '--PrimaryFill': theme.palette.primary.dark,
+        '--PrimaryFill': theme.palette.primary.main,
         '--SecondaryFill': theme.palette.primary.light,
         '--BackgroundFill': theme.palette.grey[50],
       })}

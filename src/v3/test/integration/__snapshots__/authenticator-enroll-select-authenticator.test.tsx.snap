@@ -101,7 +101,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-12"
+                class="MuiBox-root emotion-8"
               >
                 <div
                   class="MuiBox-root emotion-13"

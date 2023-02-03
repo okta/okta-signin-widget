@@ -23,7 +23,6 @@ import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import { useCallback } from 'preact/hooks';
 
-import { IDX_STEP } from '../constants';
 import { useWidgetContext } from '../contexts';
 import { ErrorXHR, EventErrorContext, MessageType } from '../types';
 import {
@@ -145,13 +144,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
       );
-      // TODO: OKTA-521014 below logic only needed because of this bug, remove once fixed
-      const isSwitchAuthenticator = newTransaction.nextStep?.name
-        && [
-          IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
-          IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
-        ].includes(newTransaction.nextStep.name);
-      if (newTransaction.requestDidSucceed === false && !isSwitchAuthenticator) {
+      if (newTransaction.requestDidSucceed === false) {
         events?.afterError?.(
           getEventContext(newTransaction),
           getErrorEventContext(newTransaction.rawIdxState),
@@ -160,9 +153,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const isClientTransaction = !newTransaction.requestDidSucceed
         || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
       setIsClientTransaction(isClientTransaction);
-      if (isClientTransaction
-          && !newTransaction.messages?.length
-          && !isSwitchAuthenticator) {
+      if (isClientTransaction && !newTransaction.messages?.length) {
         setMessage({
           message: loc('oform.errorbanner.title', 'login'),
           class: 'ERROR',

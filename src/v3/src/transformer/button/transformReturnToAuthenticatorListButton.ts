@@ -12,10 +12,12 @@
 
 import { IDX_STEP } from '../../constants';
 import {
+  IWidgetContext,
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
 import { hasMinAuthenticatorOptions, loc } from '../../util';
+import { updateTransactionWithNextStep } from './updateTransactionWithNextStep';
 
 export const transformReturnToAuthenticatorListButton: TransformStepFnWithOptions = ({
   transaction,
@@ -40,6 +42,12 @@ export const transformReturnToAuthenticatorListButton: TransformStepFnWithOption
     options: {
       label: loc('oie.enroll.switch.authenticator', 'login'),
       step,
+      onClick: (widgetContext?: IWidgetContext): unknown => {
+        if (typeof widgetContext === 'undefined') {
+          return;
+        }
+        updateTransactionWithNextStep(transaction, selectEnrollStep, widgetContext);
+      },
     },
   };
   formbag.uischema.elements.push(listLink);
