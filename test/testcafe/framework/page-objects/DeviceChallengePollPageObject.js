@@ -1,8 +1,6 @@
 import { Selector, userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
-const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
-
 export default class DeviceChallengePollViewPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -11,18 +9,14 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     this.footer = new Selector('.auth-footer');
   }
 
-  /**
-   * @deprecated use getFormTitle
-   */
-  getHeader() {
-    return this.body.find('[data-se="o-form-head"]').innerText;
-  }
-
   getIframeAttributes() {
     return Selector('iframe').attributes;
   }
 
   getContent() {
+    if (userVariables.v3) {
+      return this.form.el.innerText;
+    }
     return this.getTextContent('[data-se="o-form-fieldset-container"]');
   }
 
@@ -42,6 +36,9 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   getFooterSwitchAuthenticatorLink() {
+    if (userVariables.v3) {
+      return this.getVerifyWithSomethingElseLink();
+    }
     return this.footer.find('[data-se="switchAuthenticator"]');
   }
 
@@ -102,9 +99,5 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     } else {
       await this.t.click(this.form.getLink('Open Okta Verify'));
     }
-  }
-
-  getErrorBox() {
-    return this.form.getElement(FORM_INFOBOX_ERROR);
   }
 }
