@@ -27,7 +27,10 @@ type ErrorTester<T extends (AuthApiError | OAuthError)> = {
   message: (err?: T) => string,
 };
 
-const getErrorMessage = (error?: (AuthApiError | OAuthError), widgetProps?: WidgetProps) : string => {
+const getErrorMessage = (
+  error?: (AuthApiError | OAuthError),
+  widgetProps?: WidgetProps,
+) : string => {
   const authApiErrorChecks: ErrorTester<AuthApiError>[] = [
     // error message comes from server response
     {
@@ -71,16 +74,18 @@ const getErrorMessage = (error?: (AuthApiError | OAuthError), widgetProps?: Widg
   let message: string | undefined;
   switch (error?.name) {
     case 'AuthApiError':
-      const authApiError = error as AuthApiError;
-      message = authApiErrorChecks.find(({ tester }) => tester(authApiError))?.message(authApiError);
+      message = authApiErrorChecks
+        .find(({ tester }) => tester(error as AuthApiError))?.message(error as AuthApiError);
       break;
     case 'OAuthError':
-      const oauthError = error as OAuthError;
-      message = oauthErrorChecks.find(({ tester }) => tester(oauthError))?.message(oauthError);
+      message = oauthErrorChecks
+        .find(({ tester }) => tester(error as OAuthError))?.message(error as OAuthError);
       break;
+    default:
+      // intentionally fall through
   }
   // default fall back for unknown errors
-  return message ? message : loc('oform.error.unexpected');
+  return message || loc('oform.error.unexpected');
 };
 
 export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) => {

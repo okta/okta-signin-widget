@@ -125,7 +125,7 @@ describe('Unhandled Error Transformer Tests', () => {
       apiError = {
         ...apiError,
         error: 'unauthorized_client',
-        error_description: 'The client is not authorized to use the provided grant type. Configured grant types: [refresh_token, implicit, authorization_code].'
+        error_description: 'The client is not authorized to use the provided grant type. Configured grant types: [refresh_token, implicit, authorization_code].',
       };
       const formBag = transformUnhandledErrors(widgetProps, apiError);
 
