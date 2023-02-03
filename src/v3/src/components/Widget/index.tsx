@@ -72,13 +72,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }
 
   const {
-    assets: { languages, baseUrl } = {},
     authClient,
     brandColors,
     brandName,
     events,
     muiThemeOverrides,
-    language,
     logo,
     logoText,
     onSuccess,
@@ -111,7 +109,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         .catch((error) => console.warn('Unable to load language:', error));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [baseUrl, language, languages]);
+  }, []);
 
   const handleError = (error: unknown) => {
     // TODO: handle error based on types
