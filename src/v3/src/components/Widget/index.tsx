@@ -102,9 +102,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOverrides);
 
   const initLanguage = useCallback(async () => {
-    console.log('INITIALIZING LANGUAGE');
     if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
-      console.log('LANGUAGE IS NOT LOADED, LOADING...');
       await loadLanguage(widgetProps)
         .catch((error) => console.warn('Unable to load language:', error));
     }
@@ -121,7 +119,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   };
 
   const bootstrap = useCallback(async () => {
-    await initLanguage();
+    if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
+      await loadLanguage(widgetProps)
+        .catch((error) => console.warn('Unable to load language:', error));
+    }
     try {
       const transaction = await authClient.idx.start({
         stateHandle: stateToken,
@@ -161,7 +162,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
     }
 
-    console.log('IS LANGUAGE LOADED:', Bundles.isLoaded(getLanguageCode(widgetProps)));
     let step = stepToRender || idxTransaction.nextStep.name;
     // Mobile devices cannot scan QR codes while navigating through flow
     // so we force them to select either email / sms for enrollment
@@ -206,7 +206,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [formBag, isClientTransaction]);
 
   const resume = useCallback(async () => {
-    await initLanguage();
+    if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
+      await loadLanguage(widgetProps)
+        .catch((error) => console.warn('Unable to load language:', error));
+    }
     try {
       const transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
