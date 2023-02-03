@@ -121,6 +121,7 @@ fixture('Device Challenge Polling View with Polling Failure').meta('v3', true);
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
+  await t.expect(deviceChallengePollPage.formExists()).eql(true);
   return deviceChallengePollPage;
 }
 
@@ -139,7 +140,7 @@ test.requestHooks(logger, mock)('probing and polling APIs are sent and responded
       record.request.url.match(/challenge/) &&
       record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
   )).eql(1);
-  await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql('You do not have permission to perform the requested action');
+  await t.expect(deviceChallengePollPageObject.getErrorBoxText()).eql('You do not have permission to perform the requested action');
   await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(false);
   await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
 });
@@ -158,6 +159,6 @@ test
   .requestHooks(logger, nonIdxError)('Non IDX error', async t => {
     mockCalls = 0;
     const deviceChallengePollPageObject = await setup(t);
-    await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql(
+    await t.expect(deviceChallengePollPageObject.getErrorBoxText()).eql(
       'There was an unsupported response from server.');
   });
