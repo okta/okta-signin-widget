@@ -61,7 +61,6 @@ test.requestHooks(mock)('unsupported language, set with "language" option, can b
     }
   });
 
-  await t.wait(1000);
   // Check title (login_foo.json)
   await t.expect(pageObject.getFormTitle()).eql('Set up foo authentication');
   // Check country dropdown (country_foo.json)
@@ -94,7 +93,6 @@ test.requestHooks(mock)('unsupported language from navigator.languages will load
     }
   });
 
-  await t.wait(1000);
   // Check title (login_foo.json)
   await t.expect(pageObject.getFormTitle()).eql('Set up foo authentication');
   // Check country dropdown (country_foo.json)
