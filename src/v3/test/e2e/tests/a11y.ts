@@ -413,10 +413,3 @@ test.page(
 
   await takeScreenshot(t, 'oda-enrollment-android-applink-without-account');
 });
-
-test.only.page(
-  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known.json',
-)('authenticator-verification-data-ov-only-without-device-known', async (t) => {
-  await checkA11y(t);
-  await takeScreenshot(t, 'authenticator-verification-data-ov-only-without-device-known');
-});
