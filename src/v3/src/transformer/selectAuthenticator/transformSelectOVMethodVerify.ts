@@ -64,16 +64,9 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
     };
     uischema.elements.push(sendPushButton);
   } else {
-    const id = (authenticator.value as Input[])?.find(({ name }) => name === 'id')?.value as string;
-    const methodType = (authenticator.value as Input[])?.find(({ name }) => name === 'methodType');
-    if (!methodType?.options) {
-      return formBag;
-    }
-
     const buttonElements = getOVMethodTypeAuthenticatorButtonElements(
-      methodType.options,
+      authenticator,
       stepName,
-      id,
     );
     uischema.elements = removeUIElementWithName(
       'authenticator.methodType',

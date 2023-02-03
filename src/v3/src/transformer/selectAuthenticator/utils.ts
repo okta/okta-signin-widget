@@ -298,15 +298,16 @@ const getAuthenticatorButtonElements = (
 };
 
 export const getOVMethodTypeAuthenticatorButtonElements = (
-  options: IdxOption[],
+  authenticator: Input,
   step: string,
-  id?: string,
 ): AuthenticatorButtonElement[] => {
-  if (!options.length) {
+  const id = (authenticator.value as Input[])?.find(({ name }) => name === 'id')?.value as string;
+  const methodType = (authenticator.value as Input[])?.find(({ name }) => name === 'methodType');
+  if (!methodType?.options?.length) {
     return [];
   }
 
-  return options.map((option, index) => ({
+  return methodType.options.map((option, index) => ({
     type: 'AuthenticatorButton',
     label: option.label,
     id: `auth_btn_${AUTHENTICATOR_KEY.OV}_${option.value as string}`,

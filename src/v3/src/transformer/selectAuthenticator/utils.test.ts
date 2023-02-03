@@ -26,7 +26,7 @@ describe('Select Authenticator Utility Tests', () => {
   const stepName = IDX_STEP.SELECT_AUTHENTICATOR_ENROLL;
   describe('getOVMethodTypeAuthenticatorButtonElements Tests', () => {
     it('should return an empty array when an empty array of options is provided', () => {
-      expect(getOVMethodTypeAuthenticatorButtonElements([], stepName)).toEqual([]);
+      expect(getOVMethodTypeAuthenticatorButtonElements({ name: 'authenticator' }, stepName)).toEqual([]);
     });
 
     it('should return formatted Authenticator Option Values '
@@ -35,7 +35,14 @@ describe('Select Authenticator Utility Tests', () => {
         { label: 'Enter a code', value: 'totp' } as IdxOption,
         { label: 'Get a push notification', value: 'push' } as IdxOption,
       ];
-      expect(getOVMethodTypeAuthenticatorButtonElements(options, stepName, 'abcde1234')).toEqual([
+      const authenticator: Input = {
+        name: 'authenticator',
+        value: [
+          { name: 'id', value: 'abcde1234' },
+          { name: 'methodType', options },
+        ],
+      };
+      expect(getOVMethodTypeAuthenticatorButtonElements(authenticator, stepName)).toEqual([
         {
           type: 'AuthenticatorButton',
           label: options[0].label,
