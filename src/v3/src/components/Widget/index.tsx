@@ -99,15 +99,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
   const [loginHint, setloginHint] = useState<string | null>(null);
+  const [loadedLanguage, setLoadedLanguage] = useState<string | undefined>();
   const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOverrides);
 
   const initLanguage = useCallback(async () => {
-    if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
-      await loadLanguage(widgetProps)
-        .catch((error) => console.warn('Unable to load language:', error));
+    const language = getLanguageCode(widgetProps);
+    if (!Bundles.isLoaded(language)) {
+      await loadLanguage(widgetProps);
+      setLoadedLanguage(language);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [widgetProps]);
 
   const handleError = (error: unknown) => {
     // TODO: handle error based on types
@@ -119,7 +120,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   };
 
   const bootstrap = useCallback(async () => {
-    initLanguage();
     try {
       const transaction = await authClient.idx.start({
         stateHandle: stateToken,
@@ -141,6 +141,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
+    // Wait until language is loaded before rendering elements
+    if (typeof loadedLanguage === 'undefined') {
+      return createForm();
+    }
+
     if (responseError) {
       return transformUnhandledErrors(widgetProps, responseError);
     }
@@ -175,6 +180,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    loadedLanguage,
     idxTransaction,
     responseError,
     stepToRender,
@@ -203,7 +209,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [formBag, isClientTransaction]);
 
   const resume = useCallback(async () => {
-    initLanguage();
     try {
       const transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
@@ -224,12 +229,13 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // bootstrap / resume the widget
   useEffect(() => {
+    initLanguage();
     if (authClient.idx.canProceed()) {
       resume();
     } else {
       bootstrap();
     }
-  }, [authClient, setIdxTransaction, bootstrap, resume]);
+  }, [authClient, setIdxTransaction, bootstrap, resume, initLanguage]);
 
   // Update idxTransaction when new status comes back from polling
   useEffect(() => {

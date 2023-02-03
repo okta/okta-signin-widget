@@ -1,7 +1,7 @@
 import BYOLPageObject from '../framework/page-objects/BYOLPageObject';
 import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
 import { ClientFunction, RequestMock, Selector } from 'testcafe';
-import { renderWidget as rerenderWidget } from '../framework/shared';
+import { renderWidget } from '../framework/shared';
 
 
 const mock = RequestMock()
@@ -11,11 +11,6 @@ const mock = RequestMock()
 
 fixture('BYOL (Bring Your Own Language)')
   .meta('v3', true);
-
-const renderWidget = ClientFunction((settings) => {
-  // function `renderPlaygroundWidget` is defined in playground/main.js
-  window.renderPlaygroundWidget(settings);
-});
 
 const overrideNavigatorLanguages = ClientFunction(languages => {
   delete window.navigator;
@@ -62,14 +57,6 @@ test.requestHooks(mock)('unsupported language, set with "language" option, can b
     }
   });
 
-  await rerenderWidget({
-    language: 'foo',
-    assets: {
-      baseUrl: '/mocks'
-    }
-  });
-  await t.expect(Selector('form').exists).eql(true);
-
   // Check title (login_foo.json)
   await t.expect(pageObject.getFormTitle()).eql('Set up foo authentication');
   // Check country dropdown (country_foo.json)
@@ -101,17 +88,6 @@ test.requestHooks(mock)('unsupported language from navigator.languages will load
       ]
     }
   });
-
-  await rerenderWidget({
-    navigatorLanguages: ['foo'],
-    assets: {
-      baseUrl: '/mocks',
-      languages: [
-        'foo'
-      ]
-    }
-  });
-  await t.expect(Selector('form').exists).eql(true);
 
   // Check title (login_foo.json)
   await t.expect(pageObject.getFormTitle()).eql('Set up foo authentication');
