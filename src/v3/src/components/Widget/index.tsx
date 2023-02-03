@@ -141,11 +141,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
-    // Wait until language is loaded before rendering elements
-    if (typeof loadedLanguage === 'undefined') {
-      return createForm();
-    }
-
     if (responseError) {
       return transformUnhandledErrors(widgetProps, responseError);
     }
