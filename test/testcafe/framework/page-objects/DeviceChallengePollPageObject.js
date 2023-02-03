@@ -37,7 +37,7 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
 
   getFooterSwitchAuthenticatorLink() {
     if (userVariables.v3) {
-      return this.form.getLink('Verify with something else');
+      return this.getVerifyWithSomethingElseLink();
     }
     return this.footer.find('[data-se="switchAuthenticator"]');
   }
