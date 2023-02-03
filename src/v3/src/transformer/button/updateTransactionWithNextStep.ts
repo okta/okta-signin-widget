@@ -23,7 +23,7 @@ export const updateTransactionWithNextStep = (
   const availableSteps = transaction.availableSteps?.filter(
     ({ name }) => name !== nextStep.name,
   ) || [];
-  const verifyWithOtherRem = transaction.neededToProceed.find(
+  const verifyWithOtherRemediations = transaction.neededToProceed.find(
     ({ name }) => name === nextStep.name,
   ) || {} as IdxRemediation;
   const availableRemediations = transaction.neededToProceed.filter(
@@ -35,7 +35,7 @@ export const updateTransactionWithNextStep = (
     ...transaction,
     messages: [],
     neededToProceed: [
-      verifyWithOtherRem,
+      verifyWithOtherRemediations,
       ...availableRemediations,
     ],
     availableSteps: [
