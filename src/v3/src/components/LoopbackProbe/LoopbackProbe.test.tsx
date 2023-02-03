@@ -18,9 +18,21 @@ import { LoopbackProbeElement } from 'src/types';
 
 import LoopbackProbe from './LoopbackProbe';
 
-const onSubmitHandler = jest.fn();
-jest.mock('../../hooks', () => ({
-  useOnSubmit: () => onSubmitHandler,
+const proceedStub = jest.fn();
+jest.mock('../../contexts', () => ({
+  useWidgetContext: () => ({
+    authClient: {
+      idx: {
+        proceed: proceedStub,
+      },
+    },
+    idxTransaction: {
+      context: {
+        stateHandle: 'fake-state-handle',
+      },
+    },
+    setIdxTransaction: jest.fn(),
+  }),
 }));
 jest.mock('../../../../util/Logger');
 
@@ -70,10 +82,11 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(onSubmitHandler).toHaveBeenCalledTimes(1), { timeout: 100 });
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
 
-    expect(onSubmitHandler).toHaveBeenCalledWith({
+    expect(proceedStub).toHaveBeenCalledWith({
       step,
+      stateHandle: 'fake-state-handle',
     });
   });
 
@@ -104,15 +117,17 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(onSubmitHandler).toHaveBeenCalledTimes(1), { timeout: 100 });
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
 
-    expect(onSubmitHandler).toHaveBeenCalledWith({
-      isActionStep: true,
-      step: cancelStep,
-      params: {
-        reason: 'OV_UNREACHABLE_BY_LOOPBACK',
-        statusCode: null,
-      },
+    expect(proceedStub).toHaveBeenCalledWith({
+      actions: [{
+        name: cancelStep,
+        params: {
+          reason: 'OV_UNREACHABLE_BY_LOOPBACK',
+          statusCode: null,
+        },
+      }],
+      stateHandle: 'fake-state-handle',
     });
   });
 
@@ -142,15 +157,17 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(onSubmitHandler).toHaveBeenCalledTimes(1), { timeout: 100 });
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
 
-    expect(onSubmitHandler).toHaveBeenCalledWith({
-      isActionStep: true,
-      step: 'authenticatorChallenge-cancel',
-      params: {
-        reason: 'OV_RETURNED_ERROR',
-        statusCode: 400,
-      },
+    expect(proceedStub).toHaveBeenCalledWith({
+      actions: [{
+        name: 'authenticatorChallenge-cancel',
+        params: {
+          reason: 'OV_RETURNED_ERROR',
+          statusCode: 400,
+        },
+      }],
+      stateHandle: 'fake-state-handle',
     });
   });
 
@@ -182,10 +199,11 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(onSubmitHandler).toHaveBeenCalledTimes(1), { timeout: 100 });
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
 
-    expect(onSubmitHandler).toHaveBeenCalledWith({
+    expect(proceedStub).toHaveBeenCalledWith({
       step: 'device-challenge-poll',
+      stateHandle: 'fake-state-handle',
     });
   });
 
@@ -220,17 +238,19 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(onSubmitHandler).toHaveBeenCalledTimes(1), {
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), {
       timeout: 300, // need to wait longer since we are testing request timeout
     });
 
-    expect(onSubmitHandler).toHaveBeenCalledWith({
-      isActionStep: true,
-      step: 'authenticatorChallenge-cancel',
-      params: {
-        reason: 'OV_UNREACHABLE_BY_LOOPBACK',
-        statusCode: null,
-      },
+    expect(proceedStub).toHaveBeenCalledWith({
+      actions: [{
+        name: 'authenticatorChallenge-cancel',
+        params: {
+          reason: 'OV_UNREACHABLE_BY_LOOPBACK',
+          statusCode: null,
+        },
+      }],
+      stateHandle: 'fake-state-handle',
     });
   });
 });

@@ -14,6 +14,7 @@ import {
   AuthApiError,
   IdxMessage,
   IdxTransaction,
+  OAuthError,
   OktaAuth,
 } from '@okta/okta-auth-js';
 import { MutableRef, StateUpdater } from 'preact/hooks';
@@ -31,7 +32,7 @@ export type IWidgetContext = {
   onSuccessCallback?: (data: Record<string, unknown>) => void;
   onErrorCallback?: (data: Record<string, unknown>) => void;
   idxTransaction: IdxTransaction | undefined;
-  setAuthApiError: StateUpdater<AuthApiError | null>;
+  setResponseError: StateUpdater<AuthApiError | OAuthError | null>;
   setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
   setIsClientTransaction: StateUpdater<boolean>;
   stepToRender: string | undefined;

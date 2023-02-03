@@ -328,6 +328,14 @@ export interface ReminderElement extends UISchemaElement {
 export interface ListElement extends UISchemaElement {
   type: 'List';
   options: {
+    /**
+     * Items to render in the list.
+     *
+     * **NOTE**: Only string and UISchemaElement with type
+     * 'Button', 'Description', or 'TextWithHtml'
+     * are supported. Other UISchemaElement types will
+     * not render and print a warning to the console.
+     */
     items: (string | UISchemaLayout)[],
     type?: 'unordered' | 'ordered' | 'description';
     description?: string;

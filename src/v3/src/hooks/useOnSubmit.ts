@@ -16,6 +16,7 @@ import {
   IdxActionParams,
   IdxMessage,
   IdxTransaction,
+  OAuthError,
   RawIdxResponse,
 } from '@okta/okta-auth-js';
 import { omit } from 'lodash';
@@ -49,7 +50,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     data,
     idxTransaction: currTransaction,
     dataSchemaRef,
-    setAuthApiError,
+    setResponseError,
     setIdxTransaction,
     setIsClientTransaction,
     setLoading,
@@ -85,12 +86,12 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       // TODO: handle error based on types
       // AuthApiError is one of the potential error that can be thrown here
       // We will want to expose development stage errors from auth-js and file jiras against it
-      setAuthApiError(error as AuthApiError);
+      setResponseError(error as (AuthApiError | OAuthError));
       console.error(error);
       // error event
       events?.afterError?.(
         transaction ? getEventContext(transaction) : {},
-        getErrorEventContext(error as AuthApiError),
+        getErrorEventContext(error as (AuthApiError | OAuthError)),
       );
       return null;
     };
@@ -179,7 +180,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     currTransaction,
     dataSchemaRef,
     events,
-    setAuthApiError,
+    setResponseError,
     setIdxTransaction,
     setIsClientTransaction,
     setLoading,
