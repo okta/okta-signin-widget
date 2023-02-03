@@ -19,6 +19,19 @@ import { loadScenario } from './registry';
 
 const DEFAULT_SCENARIO_NAME = 'development';
 
+const getMockResponse = (mockResponseParam: string | null): any | undefined => {
+  if (!mockResponseParam) {
+    return undefined;
+  }
+
+  // Enables us to feed v2 mock files to be loaded as a mock response
+  // i.e. '@okta/mocks/data/idp/idx/identify.json'
+  if (mockResponseParam.includes('@okta/mocks')) {
+    return require(mockResponseParam);
+  }
+  return require(`./response${mockResponseParam}.json`);
+};
+
 // This configures a Service Worker with the given request handlers.
 export const getWorker = async (): Promise<SetupWorkerApi | null> => {
   const params = new URL(document.location.href).searchParams;
@@ -31,7 +44,7 @@ export const getWorker = async (): Promise<SetupWorkerApi | null> => {
     // pass through mock response from query params
     const mockResponseParam = params.get('siw-mock-response');
     // eslint-disable-next-line import/no-dynamic-require, global-require
-    const mockResponse = mockResponseParam ? require(`./response${mockResponseParam}.json`) : undefined;
+    const mockResponse = getMockResponse(mockResponseParam);
 
     const handlers = loadScenario(scenarioName, mockResponse);
 
