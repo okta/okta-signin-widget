@@ -25,9 +25,9 @@ const getMockResponse = (mockResponseParam: string | null): any | undefined => {
   }
 
   // Enables us to feed v2 mock files to be loaded as a mock response
-  // i.e. '@okta/mocks/data/idp/idx/identify.json'
-  if (mockResponseParam.includes('@okta/mocks')) {
-    return require(mockResponseParam);
+  // i.e. 'playground/mocks/data/idp/idx/identify.json'
+  if (mockResponseParam.includes('playground/mocks')) {
+    return require(`../../../${mockResponseParam}`);
   }
   return require(`./response${mockResponseParam}.json`);
 };
