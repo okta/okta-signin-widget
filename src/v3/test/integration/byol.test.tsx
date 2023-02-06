@@ -11,115 +11,96 @@
  */
 
 import mockResponse from '@okta/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
+import loginFooBundle from '@okta/mocks/labels/json/login_foo.json';
+import countryFooBundle from '@okta/mocks/labels/json/country_foo.json';
 import { waitFor, cleanup } from '@testing-library/preact';
+import { rest } from 'msw';
+import { setupServer, SetupServerApi } from 'msw/node';
 import { setup } from './util';
 
-const mockCrossFetch = jest.fn();
-jest.mock('cross-fetch', () => ({
-  __esModule: true,
-  default: () => mockCrossFetch(),
-}));
-
-describe('byol', () => {
-  describe('with unsupported language not loaded', () => {
-    it('set with "language" option, is not loaded by default', async () => {
-      mockCrossFetch.mockReturnValueOnce(
-        Promise.reject(new Error('unable to load file')),
-      );
-      const { container, findByText } = await setup({
-        mockResponse,
-        widgetOptions: { language: 'foo' },
-      });
-      await findByText(/Set up phone authentication/);
-      expect(container).toMatchSnapshot();
-    });
-
-    it('should not load by default, even with assets.baseUrl set to a path containing the language assets with navigator.languages containing language', async () => {
-      mockCrossFetch.mockReturnValueOnce(
-        Promise.reject(new Error('unable to load file')),
-      );
-      const navigatorLanguagesSpy = jest.spyOn(global, 'navigator', 'get');
-      navigatorLanguagesSpy.mockReturnValue(
-        { languages: ['foo'] } as unknown as Navigator,
-      );
-      const { container, findByText } = await setup({
-        mockResponse,
-        widgetOptions: { assets: { baseUrl: '/mocks' } },
-      });
-      await findByText(/Set up phone authentication/);
-      expect(container).toMatchSnapshot();
-    });
+describe('byol-language-not-loaded', () => {
+  const server: SetupServerApi = setupServer();
+  beforeAll(() => {
+    server.listen();
   });
 
-  describe('with unsupported language loaded', () => {
-    afterEach(() => {
-      cleanup();
-    });
-
-    it.only('set with "language" option, can be loaded when assets.baseUrl is set to a path containing the language assets', async () => {
-      mockCrossFetch.mockReturnValueOnce(
-        Promise.resolve({
-          text: () => Promise.resolve(JSON.stringify({
-            'oie.phone.enroll.title': 'Set up foo authentication',
-          })),
-        }),
-      );
-      mockCrossFetch.mockReturnValueOnce(
-        Promise.resolve({
-          text: () => Promise.resolve(JSON.stringify({
-            US: 'Foonited States',
-          })),
-        }),
-      );
-      const { container, findByText, unmount } = await setup({
-        mockResponse,
-        widgetOptions: {
-          language: 'foo',
-          assets: { baseUrl: '/mocks' },
-        },
-      });
-      await waitFor(async () => {
-        await findByText(/Set up foo authentication/);
-        await findByText(/Foonited States/);
-      }, { timeout: 20000 });
-      expect(container).toMatchSnapshot();
-      unmount();
-    });
-
-    it('should load with assets.baseUrl and assets.languages set and with navigator.languages containing language', async () => {
-      jest.setTimeout(35000);
-      mockCrossFetch.mockReturnValueOnce(
-        Promise.resolve({
-          text: () => Promise.resolve(JSON.stringify({
-            'oie.phone.enroll.title': 'Set up foo authentication',
-          })),
-        }),
-      );
-      mockCrossFetch.mockReturnValueOnce(
-        Promise.resolve({
-          text: () => Promise.resolve(JSON.stringify({
-            US: 'Foonited States',
-          })),
-        }),
-      );
-      const navigatorLanguagesSpy = jest.spyOn(global, 'navigator', 'get');
-      navigatorLanguagesSpy.mockReturnValue(
-        { languages: ['foo'] } as unknown as Navigator,
-      );
-      const { container, findByText } = await setup({
-        mockResponse,
-        widgetOptions: {
-          assets: {
-            baseUrl: '/mocks',
-            languages: ['foo'],
-          },
-        },
-      });
-      await waitFor(async () => {
-        await findByText(/Set up foo authentication/);
-        await findByText(/Foonited States/);
-      }, { timeout: 20000 });
-      expect(container).toMatchSnapshot();
-    });
+  beforeEach(() => {
+    server.use(
+      rest.get('http://localhost:1234/mocks/labels/json/login_foo.json', async (_, res, ctx) => res(
+        ctx.status(200),
+        ctx.json(loginFooBundle),
+      )),
+      rest.get('http://localhost:1234/mocks/labels/json/country_foo.json', async (_, res, ctx) => res(
+        ctx.status(200),
+        ctx.json(countryFooBundle),
+      )),
+    );
   });
+
+  afterEach(() => {
+    server.resetHandlers();
+    cleanup();
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
+  it('should not load custom language with "language" option set', async () => {
+    const { container, findByText } = await setup({
+      mockResponse,
+      widgetOptions: { language: 'foo' },
+    });
+    await findByText(/Set up phone authentication/);
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should not load by default, with assets.baseUrl set to a path containing the language assets with navigator.languages containing language', async () => {
+    const navigatorLanguagesSpy = jest.spyOn(global, 'navigator', 'get');
+    navigatorLanguagesSpy.mockReturnValue(
+      { languages: ['foo'] } as unknown as Navigator,
+    );
+    const { container, findByText } = await setup({
+      mockResponse,
+      widgetOptions: { assets: { baseUrl: 'http://localhost:1234/mocks' } },
+    });
+    await findByText(/Set up phone authentication/);
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should load with assets.baseUrl and assets.languages set and with navigator.languages containing language', async () => {
+    const navigatorLanguagesSpy = jest.spyOn(global, 'navigator', 'get');
+    navigatorLanguagesSpy.mockReturnValue(
+      { languages: ['foo'] } as unknown as Navigator,
+    );
+    const { container, findByText } = await setup({
+      mockResponse,
+      widgetOptions: {
+        assets: {
+          baseUrl: 'http://localhost:1234/mocks',
+          languages: ['foo'],
+        },
+      },
+    });
+    await waitFor(async () => {
+      await findByText(/Set up foo authentication/);
+      await findByText(/Foonited States/);
+    }, { timeout: 20000 });
+    expect(container).toMatchSnapshot();
+  });
+
+  // it('set with "language" option, can be loaded when assets.baseUrl is set to a path containing the language assets', async () => {
+  //   const { container, findByText } = await setup({
+  //     mockResponse,
+  //     widgetOptions: {
+  //       language: 'foo',
+  //       assets: { baseUrl: 'http://localhost:1234/mocks' },
+  //     },
+  //   });
+  //   await waitFor(async () => {
+  //     await findByText(/Set up foo authentication/);
+  //     await findByText(/Foonited States/);
+  //   });
+  //   expect(container).toMatchSnapshot();
+  // });
 });

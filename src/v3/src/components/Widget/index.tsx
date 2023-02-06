@@ -111,7 +111,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       }
     };
     initLanguage();
-  }, [widgetProps]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleError = (error: unknown) => {
     // TODO: handle error based on types
