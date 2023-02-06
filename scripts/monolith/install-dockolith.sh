@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 if [[ -z ${DOCKOLITH_BRANCH} ]]; then
-  export DOCKOLITH_BRANCH=master
+  export DOCKOLITH_BRANCH="sw-OKTA-534875-prune-deps"
 fi
 
 pushd ./scripts
