@@ -53,7 +53,7 @@ test.requestHooks(mock)('unsupported language, set with "language" option, can b
   const pageObject = await setup(t, {
     language: 'foo',
     assets: {
-      baseUrl: '/mocks'
+      baseUrl: 'http://localhost:3000/mocks'
     }
   });
 
@@ -68,7 +68,7 @@ test.requestHooks(mock)('unsupported language from navigator.languages will not 
   const pageObject = await setup(t, {
     navigatorLanguages: ['foo'],
     assets: {
-      baseUrl: '/mocks'
+      baseUrl: 'http://localhost:3000/mocks'
     }
   });
 
@@ -82,7 +82,7 @@ test.requestHooks(mock)('unsupported language from navigator.languages will load
   const pageObject = await setup(t, {
     navigatorLanguages: ['foo'],
     assets: {
-      baseUrl: '/mocks',
+      baseUrl: 'http://localhost:3000/mocks',
       languages: [
         'foo'
       ]

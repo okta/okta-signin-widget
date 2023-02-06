@@ -102,13 +102,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loadedLanguage, setLoadedLanguage] = useState<string | undefined>();
   const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOverrides);
 
-  const initLanguage = useCallback(async () => {
+  useEffect(() => {
     const language = getLanguageCode(widgetProps);
-    if (!Bundles.isLoaded(language)) {
-      await loadLanguage(widgetProps);
-      setLoadedLanguage(language);
-    }
-  }, [widgetProps]);
+    const initLanguage = async () => {
+      if (!Bundles.isLoaded(language)) {
+        await loadLanguage(widgetProps);
+        setLoadedLanguage(language);
+      }
+    };
+    initLanguage();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleError = (error: unknown) => {
     // TODO: handle error based on types
@@ -224,13 +228,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // bootstrap / resume the widget
   useEffect(() => {
-    initLanguage();
     if (authClient.idx.canProceed()) {
       resume();
     } else {
       bootstrap();
     }
-  }, [authClient, setIdxTransaction, bootstrap, resume, initLanguage]);
+  }, [authClient, setIdxTransaction, bootstrap, resume]);
 
   // Update idxTransaction when new status comes back from polling
   useEffect(() => {
