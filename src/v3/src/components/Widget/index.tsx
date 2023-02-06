@@ -111,8 +111,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       }
     };
     initLanguage();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [widgetProps]);
 
   const handleError = (error: unknown) => {
     // TODO: handle error based on types
@@ -145,6 +144,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
+    if (typeof loadedLanguage === 'undefined') {
+      return createForm();
+    }
+
     if (responseError) {
       return transformUnhandledErrors(widgetProps, responseError);
     }

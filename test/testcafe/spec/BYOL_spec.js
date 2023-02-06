@@ -1,12 +1,18 @@
 import BYOLPageObject from '../framework/page-objects/BYOLPageObject';
 import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
+import loginFooLanguageBundle from '../../../playground/mocks/labels/json/login_foo';
+import countryFooLanguageBundle from '../../../playground/mocks/labels/json/country_foo';
 import { ClientFunction, RequestMock, Selector } from 'testcafe';
 import { renderWidget } from '../framework/shared';
 
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrAuthenticatorEnrollDataPhone);
+  .respond(xhrAuthenticatorEnrollDataPhone)
+  .onRequestTo('http://localhost:3000/mocks/labels/json/login_foo.json')
+  .respond(loginFooLanguageBundle)
+  .onRequestTo('http://localhost:3000/mocks/labels/json/country_foo.json')
+  .respond(countryFooLanguageBundle);
 
 
 fixture('BYOL (Bring Your Own Language)')
@@ -53,7 +59,7 @@ test.requestHooks(mock)('unsupported language, set with "language" option, can b
   const pageObject = await setup(t, {
     language: 'foo',
     assets: {
-      baseUrl: 'http://localhost:3000/mocks'
+      baseUrl: '/mocks'
     }
   });
 
@@ -68,7 +74,7 @@ test.requestHooks(mock)('unsupported language from navigator.languages will not 
   const pageObject = await setup(t, {
     navigatorLanguages: ['foo'],
     assets: {
-      baseUrl: 'http://localhost:3000/mocks'
+      baseUrl: '/mocks'
     }
   });
 
@@ -82,7 +88,7 @@ test.requestHooks(mock)('unsupported language from navigator.languages will load
   const pageObject = await setup(t, {
     navigatorLanguages: ['foo'],
     assets: {
-      baseUrl: 'http://localhost:3000/mocks',
+      baseUrl: '/mocks',
       languages: [
         'foo'
       ]
