@@ -28,8 +28,9 @@ const rtlLanguageCodes = new Set([
   'yi', // Yiddish
 ]);
 
-type LanguageDirection = 'rtl' | 'ltr';
+// ltr is default so mark as undefined when ltr
+type LanguageDirection = 'rtl' | undefined;
 
 export const getLanguageDirection = (
   languageCode: string,
-): LanguageDirection => (rtlLanguageCodes.has(languageCode) ? 'rtl' : 'ltr');
+): LanguageDirection => (rtlLanguageCodes.has(languageCode) ? 'rtl' : undefined);
