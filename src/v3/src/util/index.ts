@@ -23,6 +23,7 @@ export * from './getAuthenticatorKey';
 export * from './getCurrentAuthenticator';
 export * from './getElementKey';
 export * from './getImmutableData';
+export * from './getLanguageDirection';
 export * from './getTranslation';
 export * from './getValidationMessages';
 export * from './idxUtils';

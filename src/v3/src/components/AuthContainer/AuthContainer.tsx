@@ -16,13 +16,14 @@ import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { getLanguageCode } from '../../util';
+import { getLanguageCode, getLanguageDirection } from '../../util';
 import style from './style.css';
 
 const AuthContainer: FunctionComponent = ({ children }) => {
   const classes = classNames('auth-container', 'main-container', style.mainViewContainer);
   const isMobileWidth = useMediaQuery('screen and (max-width: 391px)');
   const { widgetProps } = useWidgetContext();
+  const languageCode = getLanguageCode(widgetProps);
   return (
     <Box
       id="okta-sign-in"
@@ -33,7 +34,8 @@ const AuthContainer: FunctionComponent = ({ children }) => {
       className={classes}
       data-version={VERSION}
       data-commit={COMMITHASH}
-      lang={getLanguageCode(widgetProps)}
+      lang={languageCode}
+      dir={getLanguageDirection(languageCode)}
     >
       <Box
         flex="auto"
