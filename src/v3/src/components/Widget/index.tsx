@@ -53,6 +53,7 @@ import {
   areTransactionsEqual,
   buildAuthCoinProps,
   getLanguageCode,
+  getLanguageDirection,
   isAndroidOrIOS,
   isAuthClientSet,
   loadLanguage,
@@ -100,7 +101,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
   const [loginHint, setloginHint] = useState<string | null>(null);
-  const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOverrides);
+  const languageDirection = getLanguageDirection(getLanguageCode(widgetProps));
+  const brandedTheme = mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides);
 
   // on unmount, remove the language
   useEffect(() => () => {

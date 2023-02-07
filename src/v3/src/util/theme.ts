@@ -95,12 +95,16 @@ export const deriveThemeFromBrand = (brand: BrandColors): DerivedTheme | null =>
 
 export const mapMuiThemeFromBrand = (
   brand: BrandColors | undefined,
+  languageDirection?: 'rtl',
   muiThemeOverrides?: ThemeOptions,
 ): Theme => {
   // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
   odysseyTheme.shape.borderRadius = 4;
 
   const odysseyThemeCopy = cloneDeep(odysseyTheme);
+  if (typeof languageDirection !== 'undefined') {
+    odysseyTheme.direction = languageDirection;
+  }
 
   if (brand) {
     const derivedTheme = deriveThemeFromBrand(brand);

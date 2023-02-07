@@ -16,10 +16,11 @@ import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { getLanguageCode, getLanguageDirection } from '../../util';
+import { getLanguageCode } from '../../util';
 import style from './style.css';
 
-const AuthContainer: FunctionComponent = ({ children }) => {
+type AuthContainerProps = { languageDirection?: 'rtl' };
+const AuthContainer: FunctionComponent<AuthContainerProps> = ({ languageDirection, children }) => {
   const classes = classNames('auth-container', 'main-container', style.mainViewContainer);
   const isMobileWidth = useMediaQuery('screen and (max-width: 391px)');
   const { widgetProps } = useWidgetContext();
@@ -35,7 +36,7 @@ const AuthContainer: FunctionComponent = ({ children }) => {
       data-version={VERSION}
       data-commit={COMMITHASH}
       lang={languageCode}
-      dir={getLanguageDirection(languageCode)}
+      dir={languageDirection}
     >
       <Box
         flex="auto"
