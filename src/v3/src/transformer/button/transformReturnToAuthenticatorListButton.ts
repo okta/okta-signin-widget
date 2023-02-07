@@ -10,17 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import {
   IWidgetContext,
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { hasMinAuthenticatorOptions, loc } from '../../util';
+import { getAuthenticatorKey, hasMinAuthenticatorOptions, loc } from '../../util';
+import TransformerMap from '../layout/idxTransformerMapping';
 import { updateTransactionWithNextStep } from './updateTransactionWithNextStep';
 
 export const transformReturnToAuthenticatorListButton: TransformStepFnWithOptions = ({
   transaction,
+  step,
 }) => (
   formbag,
 ) => {
@@ -29,19 +31,22 @@ export const transformReturnToAuthenticatorListButton: TransformStepFnWithOption
     IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
     0, // Min # of auth options for link to display
   );
+  const authenticatorKey = getAuthenticatorKey(transaction) ?? AUTHENTICATOR_KEY.DEFAULT;
+  const customTransformer = TransformerMap[step]?.[authenticatorKey];
+  const shouldAddDefaultLink = customTransformer?.buttonConfig?.showReturnToAuthListLink ?? true;
   const selectEnrollStep = transaction.availableSteps
     ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_ENROLL);
-  if (!shouldAddButton || typeof selectEnrollStep === 'undefined') {
+  if (!shouldAddButton || !shouldAddDefaultLink || typeof selectEnrollStep === 'undefined') {
     return formbag;
   }
 
-  const { name: step } = selectEnrollStep;
+  const { name: stepName } = selectEnrollStep;
   const listLink: LinkElement = {
     type: 'Link',
     contentType: 'footer',
     options: {
       label: loc('oie.enroll.switch.authenticator', 'login'),
-      step,
+      step: stepName,
       onClick: (widgetContext?: IWidgetContext): unknown => {
         if (typeof widgetContext === 'undefined') {
           return;

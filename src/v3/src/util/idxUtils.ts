@@ -124,14 +124,27 @@ export const hasMinAuthenticatorOptions = (
     return false;
   }
 
-  const step: IdxRemediation | undefined = transaction.neededToProceed.find(
+  const remediation: IdxRemediation | undefined = transaction.neededToProceed.find(
     ({ name }) => name === stepName,
   );
-  if (!step) {
+  if (!remediation) {
     return false;
   }
 
-  return (step.value?.find(({ name }) => name === 'authenticator')?.options?.length ?? 0) > min;
+  const authenticatorInput = remediation.value?.find(({ name }) => name === 'authenticator');
+  if (!authenticatorInput) {
+    return false;
+  }
+
+  // OV options are under methods
+  const ovOption = authenticatorInput.options?.find(
+    (opt) => opt.relatesTo?.key === AUTHENTICATOR_KEY.OV,
+  )?.relatesTo;
+
+  return (
+    (authenticatorInput?.options?.length ?? 0) > min
+    || (ovOption?.methods?.length ?? 0) > min
+  );
 };
 
 export const isAuthClientSet = (

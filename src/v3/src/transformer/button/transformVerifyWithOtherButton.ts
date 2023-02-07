@@ -10,17 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import {
   IWidgetContext,
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { hasMinAuthenticatorOptions, loc } from '../../util';
+import { getAuthenticatorKey, hasMinAuthenticatorOptions, loc } from '../../util';
+import TransformerMap from '../layout/idxTransformerMapping';
 import { updateTransactionWithNextStep } from './updateTransactionWithNextStep';
 
 export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
   transaction,
+  step,
 }) => (
   formbag,
 ) => {
@@ -29,19 +31,22 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
     IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     1, // Min # of auth options for link to display
   );
+  const authenticatorKey = getAuthenticatorKey(transaction) ?? AUTHENTICATOR_KEY.DEFAULT;
+  const customTransformer = TransformerMap[step]?.[authenticatorKey];
+  const shouldAddDefaultLink = customTransformer?.buttonConfig?.showVerifyWithOtherLink ?? true;
   const selectVerifyStep = transaction.availableSteps
     ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
-  if (!shouldAddButton || typeof selectVerifyStep === 'undefined') {
+  if (!shouldAddButton || !shouldAddDefaultLink || typeof selectVerifyStep === 'undefined') {
     return formbag;
   }
 
-  const { name: step } = selectVerifyStep;
+  const { name: stepName } = selectVerifyStep;
   const listLink: LinkElement = {
     type: 'Link',
     contentType: 'footer',
     options: {
       label: loc('oie.verification.switch.authenticator', 'login'),
-      step,
+      step: stepName,
       onClick: (widgetContext?: IWidgetContext): unknown => {
         if (typeof widgetContext === 'undefined') {
           return;

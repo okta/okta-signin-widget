@@ -38,14 +38,9 @@ const getAuthenticatorDataSeVal = (authenticatorKey: string, methodType?: string
 
 const reorderAuthenticatorButtons = (
   authButtons: AuthenticatorButtonElement[],
-  options: IdxOption[],
+  deviceKnown?: boolean,
 ): AuthenticatorButtonElement[] => {
   if (authButtons.length <= 1) {
-    return authButtons;
-  }
-  const ovRemediation = options.find((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.OV);
-  const methodType = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'methodType');
-  if (!methodType?.options?.find((option: IdxOption) => option.value === 'signed_nonce')) {
     return authButtons;
   }
   const fastpassAuthenticator = authButtons.find(
@@ -62,8 +57,7 @@ const reorderAuthenticatorButtons = (
   // Re-arrange fastpass in options based on deviceKnown
   // If deviceKnown is set, set fastpass as the first option in the list
   // otherwise, place it as the last item in the list of OV options
-  // @ts-ignore OKTA-541266 - deviceKnown missing from type
-  if (ovRemediation?.relatesTo?.deviceKnown) {
+  if (deviceKnown) {
     updatedAuthenticatorBtns.unshift(fastpassAuthenticator);
   } else {
     updatedAuthenticatorBtns.push(fastpassAuthenticator);
@@ -294,12 +288,20 @@ const getAuthenticatorButtonElements = (
     formattedOptions.splice(ovIndex, 1, ...ovOptions);
   }
 
-  return reorderAuthenticatorButtons(formattedOptions, options);
+  const ovRemediation = options.find((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.OV);
+  const methodType = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'methodType');
+  if (!methodType?.options?.find((option: IdxOption) => option.value === 'signed_nonce')) {
+    return formattedOptions;
+  }
+  // @ts-expect-error OKTA-541266 - deviceKnown missing from type
+  const deviceKnown = ovRemediation?.relatesTo?.deviceKnown;
+  return reorderAuthenticatorButtons(formattedOptions, deviceKnown);
 };
 
 export const getOVMethodTypeAuthenticatorButtonElements = (
   authenticator: Input,
   step: string,
+  deviceKnown?: boolean,
 ): AuthenticatorButtonElement[] => {
   const id = (authenticator.value as Input[])?.find(({ name }) => name === 'id')?.value as string;
   const methodType = (authenticator.value as Input[])?.find(({ name }) => name === 'methodType');
@@ -307,7 +309,7 @@ export const getOVMethodTypeAuthenticatorButtonElements = (
     return [];
   }
 
-  return methodType.options.map((option, index) => ({
+  const authButtons = methodType.options.map((option, index) => ({
     type: 'AuthenticatorButton',
     label: option.label,
     id: `auth_btn_${AUTHENTICATOR_KEY.OV}_${option.value as string}`,
@@ -334,6 +336,8 @@ export const getOVMethodTypeAuthenticatorButtonElements = (
       includeImmutableData: false,
     },
   })) as AuthenticatorButtonElement[];
+
+  return reorderAuthenticatorButtons(authButtons, deviceKnown);
 };
 
 export const isOnlyPushWithAutoChallenge = (

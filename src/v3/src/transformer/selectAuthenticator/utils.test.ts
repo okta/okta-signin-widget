@@ -85,6 +85,84 @@ describe('Select Authenticator Utility Tests', () => {
         },
       ]);
     });
+
+    it('should return ordered formatted Authenticator Option Values '
+      + 'when OV methodTypes contain okta fastpass signed_nonce and deviceKnown=true', () => {
+      const options = [
+        { label: 'Enter a code', value: 'totp' } as IdxOption,
+        { label: 'Get a push notification', value: 'push' } as IdxOption,
+        { label: 'Okta Fastpass', value: 'signed_nonce' } as IdxOption,
+      ];
+      const authenticator: Input = {
+        name: 'authenticator',
+        value: [
+          { name: 'id', value: 'abcde1234' },
+          { name: 'methodType', options },
+        ],
+      };
+      expect(getOVMethodTypeAuthenticatorButtonElements(authenticator, stepName, true)).toEqual([
+        {
+          type: 'AuthenticatorButton',
+          label: options[2].label,
+          id: 'auth_btn_okta_verify_signed_nonce',
+          options: {
+            key: AUTHENTICATOR_KEY.OV,
+            ctaLabel: 'oie.verify.authenticator.button.text',
+            includeData: true,
+            includeImmutableData: false,
+            step: 'select-authenticator-enroll',
+            type: ButtonType.BUTTON,
+            actionParams: {
+              'authenticator.id': 'abcde1234',
+              'authenticator.methodType': options[2].value,
+            },
+            description: 'oie.okta_verify.label',
+            dataSe: `okta_verify-${options[2].value}`,
+            iconName: 'okta_verify_2',
+          },
+        },
+        {
+          type: 'AuthenticatorButton',
+          label: options[0].label,
+          id: 'auth_btn_okta_verify_totp',
+          options: {
+            key: AUTHENTICATOR_KEY.OV,
+            ctaLabel: 'oie.verify.authenticator.button.text',
+            includeData: true,
+            includeImmutableData: false,
+            step: 'select-authenticator-enroll',
+            type: ButtonType.BUTTON,
+            actionParams: {
+              'authenticator.id': 'abcde1234',
+              'authenticator.methodType': options[0].value,
+            },
+            description: 'oie.okta_verify.label',
+            dataSe: `okta_verify-${options[0].value}`,
+            iconName: 'okta_verify_0',
+          },
+        },
+        {
+          type: 'AuthenticatorButton',
+          label: options[1].label,
+          id: 'auth_btn_okta_verify_push',
+          options: {
+            key: AUTHENTICATOR_KEY.OV,
+            ctaLabel: 'oie.verify.authenticator.button.text',
+            includeData: true,
+            includeImmutableData: false,
+            step: 'select-authenticator-enroll',
+            type: ButtonType.BUTTON,
+            actionParams: {
+              'authenticator.id': 'abcde1234',
+              'authenticator.methodType': options[1].value,
+            },
+            description: 'oie.okta_verify.label',
+            dataSe: `okta_verify-${options[1].value}`,
+            iconName: 'okta_verify_1',
+          },
+        },
+      ]);
+    });
   });
 
   describe('isOnlyPushWithAutoChallenge Tests', () => {
