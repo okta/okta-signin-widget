@@ -569,6 +569,24 @@ test
   });
 
 test
+  .requestHooks(customURILogger, customURIMock)('in custom URI approach, Okta Verify iframe should be single and hidden', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    let iframe = await deviceChallengePollPageObject.getIframe();
+    await t.expect(iframe.exists).ok({ timeout: 100 });
+    let attributes = await deviceChallengePollPageObject.getIframeAttributes();
+    await t.expect(attributes.src).contains('okta-verify.html');
+    await t.expect(iframe.visible).eql(false);
+
+    await deviceChallengePollPageObject.clickLaunchOktaVerifyLink();
+    iframe = await deviceChallengePollPageObject.getIframe();
+    await t.expect(iframe.exists).ok({ timeout: 100 });
+    attributes = await deviceChallengePollPageObject.getIframeAttributes();
+    await t.expect(attributes.src).contains('okta-verify.html');
+    await t.expect(iframe.visible).eql(false);
+    await t.expect(deviceChallengePollPageObject.getIframe().count).eql(1);
+  });
+
+test
   .requestHooks(loopbackFallbackLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
