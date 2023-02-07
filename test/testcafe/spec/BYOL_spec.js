@@ -1,8 +1,8 @@
 import BYOLPageObject from '../framework/page-objects/BYOLPageObject';
-import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
-import loginFooLanguageBundle from '../../../playground/mocks/labels/json/login_foo';
 import countryFooLanguageBundle from '../../../playground/mocks/labels/json/country_foo';
-import { ClientFunction, RequestMock, Selector } from 'testcafe';
+import loginFooLanguageBundle from '../../../playground/mocks/labels/json/login_foo';
+import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
+import { ClientFunction, RequestMock } from 'testcafe';
 import { renderWidget } from '../framework/shared';
 
 
@@ -39,7 +39,7 @@ async function setup(t, options = {}) {
     stateToken: 'abc',
     ...options
   });
-  await t.expect(Selector('form').exists).eql(true);
+  await t.expect(pageObject.formExists()).eql(true);
 
   return pageObject;
 }

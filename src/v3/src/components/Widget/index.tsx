@@ -99,18 +99,13 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
   const [loginHint, setloginHint] = useState<string | null>(null);
-  const [loadedLanguage, setLoadedLanguage] = useState<string | undefined>();
   const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOverrides);
 
-  useEffect(() => {
+  const initLanguage = useCallback(async () => {
     const language = getLanguageCode(widgetProps);
-    const initLanguage = async () => {
-      if (!Bundles.isLoaded(language)) {
-        await loadLanguage(widgetProps);
-        setLoadedLanguage(language);
-      }
-    };
-    initLanguage();
+    if (!Bundles.isLoaded(language)) {
+      await loadLanguage(widgetProps);
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -124,6 +119,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   };
 
   const bootstrap = useCallback(async () => {
+    await initLanguage();
     try {
       const transaction = await authClient.idx.start({
         stateHandle: stateToken,
@@ -141,14 +137,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authClient, stateToken, setIdxTransaction, setResponseError]);
+  }, [authClient, stateToken, setIdxTransaction, setResponseError, initLanguage]);
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
-    if (typeof loadedLanguage === 'undefined') {
-      return createForm();
-    }
-
     if (responseError) {
       return transformUnhandledErrors(widgetProps, responseError);
     }
@@ -183,7 +175,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    loadedLanguage,
     idxTransaction,
     responseError,
     stepToRender,
@@ -212,6 +203,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [formBag, isClientTransaction]);
 
   const resume = useCallback(async () => {
+    await initLanguage();
     try {
       const transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
@@ -228,7 +220,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authClient, setIdxTransaction, setResponseError]);
+  }, [authClient, setIdxTransaction, setResponseError, initLanguage]);
 
   // bootstrap / resume the widget
   useEffect(() => {
