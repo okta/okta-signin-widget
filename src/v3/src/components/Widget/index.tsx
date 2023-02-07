@@ -101,6 +101,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loginHint, setloginHint] = useState<string | null>(null);
   const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOverrides);
 
+  // on unmount, remove the language
+  useEffect(() => () => {
+    if (Bundles.isLoaded(getLanguageCode(widgetProps))) {
+      Bundles.remove();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const initLanguage = useCallback(async () => {
     const language = getLanguageCode(widgetProps);
     if (!Bundles.isLoaded(language)) {
