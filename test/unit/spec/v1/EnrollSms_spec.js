@@ -367,6 +367,8 @@ Expect.describe('EnrollSms', function() {
           // Re-send after 30s wil show the warning again
           expectResendButton(test);
           expect(test.form.warningMessage()).toContain('Haven\'t received an SMS? To try again, click Re-send code.');
+          expect(test.form.hasBoldTextInWarningMessage()).toBe(true);
+          expect(test.form.getBoldTextInWarningMessage()).toBe('Re-send code');
         });
     });
 

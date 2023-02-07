@@ -639,6 +639,8 @@ Expect.describe('EnrollCall', function() {
           expectRedialButton(test);
           expect(test.form.hasWarningMessage()).toBe(true);
           expect(test.form.warningMessage()).toContain('Haven\'t received a voice call? To try again, click Redial.');
+          expect(test.form.hasBoldTextInWarningMessage()).toBe(true);
+          expect(test.form.getBoldTextInWarningMessage()).toBe('Redial');
           return test;
         })
         .then(function(test) {

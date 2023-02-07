@@ -1333,6 +1333,8 @@ Expect.describe('MFA Verify', function() {
         .then(function(test) {
           expect(test.form.smsSendCode().text()).toBe('Re-send code');
           expect(test.form.warningMessage()).toContain('Haven\'t received an SMS? To try again, click Re-send code.');
+          expect(test.form.hasBoldTextInWarningMessage()).toBe(true);
+          expect(test.form.getBoldTextInWarningMessage()).toBe('Re-send code');
 
           // Re-send will clear the warning
           Util.resetAjaxRequests();
@@ -1921,6 +1923,8 @@ Expect.describe('MFA Verify', function() {
         .then(function(test) {
           expect(test.form.makeCall().text()).toBe('Redial');
           expect(test.form.warningMessage()).toContain('Haven\'t received a voice call? To try again, click Redial.');
+          expect(test.form.hasBoldTextInWarningMessage()).toBe(true);
+          expect(test.form.getBoldTextInWarningMessage()).toBe('Redial');
 
           // Re-send will clear the warning
           Util.resetAjaxRequests();

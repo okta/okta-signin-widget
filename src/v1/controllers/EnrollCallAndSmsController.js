@@ -299,9 +299,19 @@ export default FormController.extend({
       },
 
       initialize: function() {
+        const callTimeWarning = hbs`{{i18n
+          code="factor.call.time.warning"
+          bundle="login"
+          $1="<b>$1</b>"
+        }}`;
+        const smsTimeWarning = hbs`{{i18n
+          code="factor.sms.time.warning"
+          bundle="login"
+          $1="<b>$1</b>"
+        }}`;
         this.listenTo(this.model, 'change:ableToResend', function(model, ableToResend) {
           if (ableToResend) {
-            this.showWarning(loc(isCall ? 'factor.call.time.warning' : 'factor.sms.time.warning', 'login'));
+            this.showWarning(isCall ? callTimeWarning : smsTimeWarning);
           } else {
             this.clearWarnings();
           }
