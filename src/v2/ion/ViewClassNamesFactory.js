@@ -11,6 +11,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
   },
   [FORMS.ENROLL_PROFILE]: {
     [FORMS.ENROLL_PROFILE]: 'registration',
+    [AUTHENTICATOR_KEY.PASSWORD]: 'registration',
   },
   [FORMS.CHALLENGE_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.EMAIL]: 'mfa-verify-passcode',
