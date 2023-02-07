@@ -12,6 +12,7 @@
 
 import { Input, NextStep } from '@okta/okta-auth-js';
 
+import { IDX_STEP } from '../../constants';
 import {
   AuthenticatorButtonListElement,
   ButtonElement,
@@ -19,15 +20,20 @@ import {
   DescriptionElement,
   FieldElement,
   IdxStepTransformer,
+  IWidgetContext,
+  LinkElement,
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { loc } from '../../util';
+import { loc, updateTransactionWithNextStep } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { getOVMethodTypeAuthenticatorButtonElements, isOnlyPushWithAutoChallenge } from './utils';
 
 export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { nextStep: { inputs, name: stepName, relatesTo } = {} as NextStep } = transaction;
+  const {
+    availableSteps,
+    nextStep: { inputs, name: stepName, relatesTo } = {} as NextStep,
+  } = transaction;
   const authenticator = inputs?.find(({ name }) => name === 'authenticator') as Input;
   if (!authenticator) {
     return formBag;
@@ -63,6 +69,27 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
       },
     };
     uischema.elements.push(sendPushButton);
+    const selectVerifyStep = availableSteps?.find(
+      ({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+    );
+    if (selectVerifyStep) {
+      const { name: selectAuthStep } = selectVerifyStep;
+      const listLink: LinkElement = {
+        type: 'Link',
+        contentType: 'footer',
+        options: {
+          label: loc('oie.verification.switch.authenticator', 'login'),
+          step: selectAuthStep,
+          onClick: (widgetContext?: IWidgetContext): unknown => {
+            if (typeof widgetContext === 'undefined') {
+              return;
+            }
+            updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
+          },
+        },
+      };
+      uischema.elements.push(listLink);
+    }
   } else {
     const buttonElements = getOVMethodTypeAuthenticatorButtonElements(
       authenticator,

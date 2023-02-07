@@ -16,9 +16,13 @@ import {
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { getAuthenticatorKey, hasMinAuthenticatorOptions, loc } from '../../util';
+import {
+  getAuthenticatorKey,
+  hasMinAuthenticatorOptions,
+  loc,
+  updateTransactionWithNextStep,
+} from '../../util';
 import TransformerMap from '../layout/idxTransformerMapping';
-import { updateTransactionWithNextStep } from './updateTransactionWithNextStep';
 
 export const transformReturnToAuthenticatorListButton: TransformStepFnWithOptions = ({
   transaction,
