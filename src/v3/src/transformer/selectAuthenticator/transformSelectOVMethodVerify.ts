@@ -25,7 +25,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { loc, updateTransactionWithNextStep } from '../../util';
+import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { getOVMethodTypeAuthenticatorButtonElements, isOnlyPushWithAutoChallenge } from './utils';
 
@@ -72,7 +72,12 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
     const selectVerifyStep = availableSteps?.find(
       ({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     );
-    if (selectVerifyStep) {
+    const shouldAddLink = hasMinAuthenticatorOptions(
+      transaction,
+      IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+      1, // Min # of auth options for link to display
+    );
+    if (selectVerifyStep && shouldAddLink) {
       const { name: selectAuthStep } = selectVerifyStep;
       const listLink: LinkElement = {
         type: 'Link',

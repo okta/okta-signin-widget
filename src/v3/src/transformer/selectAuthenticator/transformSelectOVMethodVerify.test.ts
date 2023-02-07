@@ -19,12 +19,17 @@ import {
   ButtonType,
   DescriptionElement,
   FieldElement,
+  LinkElement,
   TitleElement,
   WidgetProps,
 } from 'src/types';
 
+import { hasMinAuthenticatorOptions } from '../../util';
 import { transformSelectOVMethodVerify } from './transformSelectOVMethodVerify';
-import { getOVMethodTypeAuthenticatorButtonElements, isOnlyPushWithAutoChallenge } from './utils';
+import {
+  getOVMethodTypeAuthenticatorButtonElements,
+  isOnlyPushWithAutoChallenge,
+} from './utils';
 
 const getMockMethodTypes = (): AuthenticatorButtonElement[] => {
   const authenticators: AuthenticatorButtonElement[] = [];
@@ -64,6 +69,12 @@ jest.mock('./utils', () => ({
     () => jest.fn().mockReturnValue(getMockMethodTypes()),
   ),
   isOnlyPushWithAutoChallenge: jest.fn().mockImplementation(
+    () => jest.fn().mockReturnValue(false),
+  ),
+}));
+
+jest.mock('../../util', () => ({
+  hasMinAuthenticatorOptions: jest.fn().mockImplementation(
     () => jest.fn().mockReturnValue(false),
   ),
 }));
@@ -127,6 +138,37 @@ describe('Transform Select OV Method Verify Tests', () => {
       .toBe('select-authenticator-authenticate');
     expect(updatedFormBag.data)
       .toEqual({ 'authenticator.autoChallenge': 'true', 'authenticator.methodType': 'push' });
+  });
+
+  it('should transform elements when transaction only contains push method type '
+    + 'with autoChallenge option and has verify with something else link', () => {
+    transaction.availableSteps = [{
+      name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+    }];
+    (hasMinAuthenticatorOptions as jest.Mock).mockReturnValue(true);
+    (isOnlyPushWithAutoChallenge as jest.Mock).mockReturnValue(true);
+    (getOVMethodTypeAuthenticatorButtonElements as jest.Mock).mockReturnValue([]);
+    const updatedFormBag = transformSelectOVMethodVerify({ transaction, formBag, widgetProps });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.okta_verify.push.title');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
+      .toBe('authenticator.autoChallenge');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oie.okta_verify.sendPushButton');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.step)
+      .toBe('select-authenticator-authenticate');
+    expect(updatedFormBag.data)
+      .toEqual({ 'authenticator.autoChallenge': 'true', 'authenticator.methodType': 'push' });
+    expect((updatedFormBag.uischema.elements[3] as LinkElement).type).toBe('Link');
+    expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
+      .toBe('oie.verification.switch.authenticator');
   });
 
   it('should transform elements when transaction contains push and totp method types', () => {
