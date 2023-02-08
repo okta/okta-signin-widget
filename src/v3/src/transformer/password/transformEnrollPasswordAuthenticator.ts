@@ -129,21 +129,18 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   };
 
   const userInfo = getUserInfo(transaction);
-  uischema.elements = [
-    titleElement,
-    ...(Object.keys(passwordSettings)?.length > 0
-      ? [passwordRequirementsElement]
-      : []
-    ),
-    {
-      type: 'HiddenInput',
-      noMargin: true,
-      options: { name: 'username', value: userInfo.identifier },
-    } as HiddenInputElement,
-    passwordElement,
-    confirmPasswordElement,
-    passwordMatchesElement,
-  ];
+  uischema.elements.unshift(passwordMatchesElement);
+  uischema.elements.unshift(confirmPasswordElement);
+  uischema.elements.unshift(passwordElement);
+  uischema.elements.unshift({
+    type: 'HiddenInput',
+    noMargin: true,
+    options: { name: 'username', value: userInfo.identifier },
+  } as HiddenInputElement);
+  if (Object.keys(passwordSettings)?.length > 0) {
+    uischema.elements.unshift(passwordRequirementsElement);
+  }
+  uischema.elements.unshift(titleElement);
 
   // update default dataSchema
   dataSchema.fieldsToExclude = () => (['confirmPassword', 'passwordMatchesValidation']);
