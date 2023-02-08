@@ -10,8 +10,3 @@ pushd ./scripts/dockolith > /dev/null
   yarn # install dependencies and build TS
   mono_build_version=`./scripts/api/get-build-version.sh "${upstream_artifact_sha}"`
 popd > /dev/null
-
-# Update script: MONOLITH_BUILDVERSION in e2e-monolith.sh
-pushd ./scripts > /dev/null
-  sed -i "s/\(MONOLITH_BUILDVERSION\=\).*/\1\"${mono_build_version}\"/g" e2e-monolith.sh
-popd > /dev/null
