@@ -83,7 +83,7 @@ exports[`user-unlock-account renders form 1`] = `
                 class="MuiBox-root emotion-7"
               >
                 <ul
-                  class="MuiList-root MuiList-padding emotion-16"
+                  class="MuiList-root emotion-16"
                 >
                   <li
                     class="MuiListItem-root MuiListItem-padding emotion-17"

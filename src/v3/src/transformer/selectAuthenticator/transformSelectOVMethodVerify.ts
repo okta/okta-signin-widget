@@ -12,6 +12,7 @@
 
 import { Input, NextStep } from '@okta/okta-auth-js';
 
+import { IDX_STEP } from '../../constants';
 import {
   AuthenticatorButtonListElement,
   ButtonElement,
@@ -19,15 +20,20 @@ import {
   DescriptionElement,
   FieldElement,
   IdxStepTransformer,
+  IWidgetContext,
+  LinkElement,
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { loc } from '../../util';
+import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { getOVMethodTypeAuthenticatorButtonElements, isOnlyPushWithAutoChallenge } from './utils';
 
 export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { nextStep: { inputs, name: stepName } = {} as NextStep } = transaction;
+  const {
+    availableSteps,
+    nextStep: { inputs, name: stepName, relatesTo } = {} as NextStep,
+  } = transaction;
   const authenticator = inputs?.find(({ name }) => name === 'authenticator') as Input;
   if (!authenticator) {
     return formBag;
@@ -63,15 +69,37 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
       },
     };
     uischema.elements.push(sendPushButton);
-  } else {
-    const methodType = (authenticator.value as Input[])?.find(({ name }) => name === 'methodType');
-    if (!methodType?.options) {
-      return formBag;
+    const selectVerifyStep = availableSteps?.find(
+      ({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+    );
+    const shouldAddLink = hasMinAuthenticatorOptions(
+      transaction,
+      IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+      1, // Min # of auth options for link to display
+    );
+    if (selectVerifyStep && shouldAddLink) {
+      const { name: selectAuthStep } = selectVerifyStep;
+      const listLink: LinkElement = {
+        type: 'Link',
+        contentType: 'footer',
+        options: {
+          label: loc('oie.verification.switch.authenticator', 'login'),
+          step: selectAuthStep,
+          onClick: (widgetContext?: IWidgetContext): unknown => {
+            if (typeof widgetContext === 'undefined') {
+              return;
+            }
+            updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
+          },
+        },
+      };
+      uischema.elements.push(listLink);
     }
-
+  } else {
     const buttonElements = getOVMethodTypeAuthenticatorButtonElements(
-      methodType.options,
+      authenticator,
       stepName,
+      relatesTo?.value?.deviceKnown,
     );
     uischema.elements = removeUIElementWithName(
       'authenticator.methodType',
@@ -92,6 +120,7 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
     const descriptionElement: DescriptionElement = {
       type: 'Description',
       contentType: 'subtitle',
+      noMargin: true,
       options: {
         content: loc('oie.select.authenticators.verify.subtitle', 'login'),
       },

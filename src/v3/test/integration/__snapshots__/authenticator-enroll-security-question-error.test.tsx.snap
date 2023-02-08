@@ -1384,8 +1384,8 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     tabindex="-1"
                     type="submit"
                   >
-                    <div
-                      class="MuiBox-root emotion-52"
+                    <span
+                      class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-52"
                     >
                       <span
                         aria-label="Loading..."
@@ -1408,8 +1408,8 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           />
                         </svg>
                       </span>
-                      Verify
-                    </div>
+                    </span>
+                    Verify
                   </button>
                 </div>
               </div>

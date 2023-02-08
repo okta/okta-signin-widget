@@ -26,7 +26,7 @@ const AuthenticatorButtonList: UISchemaElementComponent<{
   const { buttons } = uischema.options;
 
   return (
-    <List>
+    <List disablePadding>
       {
         buttons.map((button: AuthenticatorButtonElement, index: number) => (
           <ListItem

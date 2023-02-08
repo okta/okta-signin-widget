@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button as OdyButton, CircularProgress } from '@okta/odyssey-react-mui';
+import { Button as OdyButton, CircularProgress } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -65,42 +65,6 @@ const Button: UISchemaElementComponent<{
     });
   };
 
-  const loadingLabel = (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      alignContent="space-between"
-      gap="5px"
-      // compensate the offset from the CircularProgress component
-      marginInlineEnd="23px"
-    >
-      <CircularProgress
-        // TODO: OKTA-518793 - replace english string with key once created
-        aria-label="Loading..."
-        aria-valuetext="Loading..."
-        sx={{ color: 'white' }}
-      />
-      {label}
-    </Box>
-  );
-
-  const buttonLabel = Icon ? (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      alignContent="space-between"
-      gap="5px"
-      // keep the icon from stretching the button vertically
-      marginY="-3px"
-    >
-      <Icon />
-      {label}
-    </Box>
-  )
-    : label;
-
   return (
     <OdyButton
       type={type}
@@ -109,19 +73,26 @@ const Button: UISchemaElementComponent<{
       ref={focusRef}
       disabled={loading}
       className={classes}
+      // Fixes text overflow
+      sx={{ display: 'flex', whiteSpace: 'normal' }}
+      startIcon={
+        loading ? (
+          <CircularProgress
+            // TODO: OKTA-518793 - replace english string with key once created
+            aria-label="Loading..."
+            aria-valuetext="Loading..."
+            sx={{ color: 'white' }}
+          />
+        ) : Icon && <Icon />
+      }
       aria-describedby={ariaDescribedBy}
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(dataType && { 'data-type': dataType } )}
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(dataSe && { 'data-se': dataSe } )}
+      data-type={dataType}
+      data-se={dataSe}
+      aria-label={ariaLabel}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(ariaLabel && { 'aria-label': ariaLabel } )}
     >
-      {
-        loading ? loadingLabel : buttonLabel
-      }
+      {label}
     </OdyButton>
   );
 };

@@ -90,6 +90,8 @@ const TransformerMap: {
         showDefaultSubmit?: boolean,
         showDefaultCancel?: boolean,
         showForgotPassword?: boolean,
+        showVerifyWithOtherLink?: boolean,
+        showReturnToAuthListLink?: boolean,
       },
     }
   }
@@ -109,6 +111,7 @@ const TransformerMap: {
       transform: transformSelectOVMethodVerify,
       buttonConfig: {
         showDefaultSubmit: false,
+        showVerifyWithOtherLink: false,
       },
     },
     [AUTHENTICATOR_KEY.PHONE]: {

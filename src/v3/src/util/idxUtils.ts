@@ -10,7 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage, IdxRemediation, IdxTransaction } from '@okta/okta-auth-js';
+import {
+  IdxMessage,
+  IdxRemediation,
+  IdxTransaction,
+  NextStep,
+} from '@okta/okta-auth-js';
 
 import {
   AUTHENTICATOR_KEY,
@@ -22,6 +27,7 @@ import {
   AppInfo,
   AuthCoinProps,
   IdxMessageWithName,
+  IWidgetContext,
   RequiredKeys,
   UserInfo,
   WidgetProps,
@@ -124,14 +130,27 @@ export const hasMinAuthenticatorOptions = (
     return false;
   }
 
-  const step: IdxRemediation | undefined = transaction.neededToProceed.find(
+  const remediation: IdxRemediation | undefined = transaction.neededToProceed.find(
     ({ name }) => name === stepName,
   );
-  if (!step) {
+  if (!remediation) {
     return false;
   }
 
-  return (step.value?.find(({ name }) => name === 'authenticator')?.options?.length ?? 0) > min;
+  const authenticatorInput = remediation.value?.find(({ name }) => name === 'authenticator');
+  if (!authenticatorInput) {
+    return false;
+  }
+
+  // OV options are under methods
+  const ovOption = authenticatorInput.options?.find(
+    (opt) => opt.relatesTo?.key === AUTHENTICATOR_KEY.OV,
+  )?.relatesTo;
+
+  return (
+    (authenticatorInput?.options?.length ?? 0) > min
+    || (ovOption?.methods?.length ?? 0) > min
+  );
 };
 
 export const isAuthClientSet = (
@@ -163,4 +182,36 @@ export const areTransactionsEqual = (
   }
 
   return true;
+};
+
+export const updateTransactionWithNextStep = (
+  transaction: IdxTransaction,
+  nextStep: NextStep,
+  widgetContext: IWidgetContext,
+): void => {
+  const { setIdxTransaction, setMessage } = widgetContext;
+  const availableSteps = transaction.availableSteps?.filter(
+    ({ name }) => name !== nextStep.name,
+  ) || [];
+  const verifyWithOtherRemediations = transaction.neededToProceed.find(
+    ({ name }) => name === nextStep.name,
+  ) || {} as IdxRemediation;
+  const availableRemediations = transaction.neededToProceed.filter(
+    ({ name }) => name !== nextStep.name,
+  );
+
+  setMessage(undefined);
+  setIdxTransaction({
+    ...transaction,
+    messages: [],
+    neededToProceed: [
+      verifyWithOtherRemediations,
+      ...availableRemediations,
+    ],
+    availableSteps: [
+      nextStep,
+      ...availableSteps,
+    ],
+    nextStep,
+  });
 };

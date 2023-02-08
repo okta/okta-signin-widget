@@ -119,7 +119,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                 class="MuiBox-root emotion-12"
               >
                 <ul
-                  class="MuiList-root MuiList-padding emotion-22"
+                  class="MuiList-root emotion-22"
                 >
                   <li
                     class="MuiListItem-root MuiListItem-padding emotion-23"
