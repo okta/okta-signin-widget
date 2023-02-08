@@ -290,6 +290,7 @@ const getAuthenticatorButtonElements = (
 
   const ovRemediation = options.find((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.OV);
   const methodType = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'methodType');
+  // Only re-order auth buttons when options contains OV with signed_nonce method type
   if (!methodType?.options?.find((option: IdxOption) => option.value === 'signed_nonce')) {
     return formattedOptions;
   }
