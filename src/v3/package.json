@@ -134,6 +134,8 @@
     "preact-svg-loader": "^0.2.1",
     "properties": "^1.2.1",
     "sirv-cli": "^2.0.2",
+    "stylelint": "^14.16.1",
+    "stylelint-use-logical-spec": "^5.0.0",
     "svgo": "^2.3.0",
     "testcafe": "^1.18.2",
     "ts-jest": "^26.5.6",
