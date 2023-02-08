@@ -68,4 +68,12 @@ export default Form.extend({
     field.val(val);
     field.trigger('change');
   },
+
+  hasBoldTextInWarningMessage: function() {
+    return this.$('.okta-form-infobox-warning b').length > 0;
+  },
+
+  getBoldTextInWarningMessage: function() {
+    return this.$('.okta-form-infobox-warning b').text().trim();
+  },
 });
