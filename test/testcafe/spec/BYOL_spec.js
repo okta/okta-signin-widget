@@ -3,7 +3,6 @@ import countryFooLanguageBundle from '../../../playground/mocks/labels/json/coun
 import loginFooLanguageBundle from '../../../playground/mocks/labels/json/login_foo';
 import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
 import { ClientFunction, RequestMock } from 'testcafe';
-import { renderWidget } from '../framework/shared';
 
 
 const mock = RequestMock()
@@ -17,6 +16,11 @@ const mock = RequestMock()
 
 fixture('BYOL (Bring Your Own Language)')
   .meta('v3', true);
+
+const renderWidget = ClientFunction((settings) => {
+  // function `renderPlaygroundWidget` is defined in playground/main.js
+  window.renderPlaygroundWidget(settings);
+});
 
 const overrideNavigatorLanguages = ClientFunction(languages => {
   delete window.navigator;
