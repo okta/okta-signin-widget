@@ -117,3 +117,58 @@ Object {
   },
 }
 `;
+
+exports[`Transform Select OV Method Verify Tests should transform elements when transaction only contains push method type with autoChallenge option and has verify with something else link 1`] = `
+Object {
+  "data": Object {
+    "authenticator.autoChallenge": "true",
+    "authenticator.methodType": "push",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "authenticator.autoChallenge",
+            "value": "true",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.okta_verify.sendPushButton",
+        "options": Object {
+          "step": "select-authenticator-authenticate",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

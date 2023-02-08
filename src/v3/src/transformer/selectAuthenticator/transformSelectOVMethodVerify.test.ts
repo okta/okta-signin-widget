@@ -74,6 +74,8 @@ jest.mock('./utils', () => ({
 }));
 
 jest.mock('../../util', () => ({
+  // @ts-expect-error spreading required here for loc impl
+  ...jest.requireActual('../../util'),
   hasMinAuthenticatorOptions: jest.fn().mockImplementation(
     () => jest.fn().mockReturnValue(false),
   ),
