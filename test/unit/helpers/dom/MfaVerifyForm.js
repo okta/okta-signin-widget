@@ -225,4 +225,12 @@ export default Form.extend({
   factorPageCustomLinkHref: function($sandbox) {
     return this.factorPageCustomLink($sandbox).attr('href');
   },
+
+  hasBoldTextInWarningMessage: function() {
+    return this.$('.okta-form-infobox-warning b').length > 0;
+  },
+
+  getBoldTextInWarningMessage: function() {
+    return this.$('.okta-form-infobox-warning b').text().trim();
+  },
 });

@@ -38,7 +38,11 @@ function getFormAndButtonDetails(factorType) {
       formRetry: loc('mfa.resendCode', 'login'),
       formSubmitted: loc('mfa.sent', 'login'),
       subtitle: subtitleTpl({ subtitle: this.model.get('phoneNumber') }),
-      warning: loc('factor.sms.time.warning', 'login'),
+      warning: hbs`{{i18n
+        code="factor.sms.time.warning"
+        bundle="login"
+        $1="<b>$1</b>"
+      }}`,
     };
   case 'call':
     return {
@@ -48,7 +52,11 @@ function getFormAndButtonDetails(factorType) {
       formRetry: loc('mfa.redial', 'login'),
       formSubmitted: loc('mfa.calling', 'login'),
       subtitle: subtitleTpl({ subtitle: this.model.get('phoneNumber') }),
-      warning: loc('factor.call.time.warning', 'login'),
+      warning: hbs`{{i18n
+        code="factor.call.time.warning"
+        bundle="login"
+        $1="<b>$1</b>"
+      }}`,
     };
   case 'email':
     return {

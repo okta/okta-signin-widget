@@ -995,8 +995,22 @@
   .enroll-rsa { /* -- Page specific top level selectors -- */ }
   .enroll-onprem { /* -- Page specific top level selectors -- */ }
   .enroll-duo { /* -- Page specific top level selectors -- */ }
-  .enroll-sms { /* -- Page specific top level selectors -- */ }
-  .enroll-call { /* -- Page specific top level selectors -- */ }
+  .enroll-sms {
+    /* -- Page specific top level selectors -- */
+    .infobox {
+      b {
+        font-weight: bold;
+      }
+    }
+  }
+  .enroll-call {
+    /* -- Page specific top level selectors -- */
+    .infobox {
+      b {
+        font-weight: bold;
+      }
+    }
+  }
   .enroll-question { /* -- Page specific top level selectors -- */ }
 
   .mfa-verify-duo { /* -- Page specific top level selectors -- */ }
@@ -1005,7 +1019,14 @@
   .mfa-verify-push { /* -- Page specific top level selectors -- */ }
   .mfa-verify-totp-inline { /* -- Page specific top level selectors -- */ }
   .mfa-verify-question { /* -- Page specific top level selectors -- */ }
-  .mfa-verify-passcode { /* -- Page specific top level selectors -- */ }
+  .mfa-verify-passcode {
+    /* -- Page specific top level selectors -- */
+    .infobox {
+      b {
+        font-weight: bold;
+      }
+    }
+  }
   .mfa-verify-password { /* -- Page specific top level selectors -- */ }
 
 }
