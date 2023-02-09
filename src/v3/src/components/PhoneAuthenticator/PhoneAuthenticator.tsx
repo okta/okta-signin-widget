@@ -143,7 +143,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   );
 
   const renderCountrySelect = () => (
-    <Box marginBottom={4}>
+    <Box marginBlockEnd={4}>
       <InputLabel
         id="countryLabel"
         required={required}

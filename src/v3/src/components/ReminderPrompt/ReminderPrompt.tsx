@@ -131,11 +131,11 @@ const ReminderPrompt: UISchemaElementComponent<{
         />
       );
     }
-    return (<Box marginBottom={2}>{content}</Box>);
+    return (<Box marginBlockEnd={2}>{content}</Box>);
   };
 
   return show ? (
-    <Box marginBottom={4}>
+    <Box marginBlockEnd={4}>
       <Alert
         severity="warning"
         variant="infobox"

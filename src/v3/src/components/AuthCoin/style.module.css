@@ -1,9 +1,10 @@
 .iconContainer {
   position: relative;
   background: #ffffff;
-  width: 54px;
-  height: 48px;
-  padding: 0 3px 0 3px;
+  inline-size: 54px;
+  block-size: 48px;
+  padding-block: 0;
+  padding-inline: 3px;
 }
 
 :global(.siwFillPrimary) {

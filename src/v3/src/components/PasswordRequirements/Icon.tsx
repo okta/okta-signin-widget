@@ -34,7 +34,7 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
   return (
     <Box
       className={iconClasses}
-      marginRight={1}
+      marginInlineEnd={1}
       display="flex"
     >
       <OdyIcon
