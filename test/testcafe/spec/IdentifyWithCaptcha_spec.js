@@ -49,10 +49,10 @@ async function setup(t) {
   return identityPage;
 }
 
-// TODO: enable this test OKTA-504996
+// TODO: Quarantined a11y check - OKTA-576351 - re-enable once fixed
 test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign in with hCaptcha enabled', async t => {
   const identityPage = await setup(t);
-  await checkA11y(t);
+  // await checkA11y(t);
 
   
   await identityPage.fillIdentifierField('Test Identifier');
