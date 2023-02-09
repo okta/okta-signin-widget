@@ -132,6 +132,20 @@ Given(
 );
 
 Given(
+  /^a User named "([\w\s]+)" is activated in the org$/,
+  async function (this: ActionContext, firstName: string) {
+    if (process.env.LOCAL_MONOLITH) {
+      this.monolithClient = new MonolithClient();
+      this.credentials = await this.monolithClient!.createCredentials(firstName);
+    } else {
+      this.a18nClient = new A18nClient();
+      this.credentials = await createCredentials(this.a18nClient, firstName);
+    }
+    this.user = await createUser(this.credentials, [], false);
+  }
+);
+
+Given(
   /^user opens the login page$/,
   async function() {
     await TestAppPage.startButton.click();

@@ -23,6 +23,8 @@ import EnrollPasswordPage from '../page-objects/enroll-password-authenticator.pa
 import EnrollPhonePage from '../page-objects/enroll-phone-authenticator.page';
 import VerifyPhoneAuthenticatorPage from '../page-objects/verify-phone-authenticator.page';
 import UnlockPage from '../page-objects/unlock.page.js';
+import ChallengePasswordPage from '../page-objects/challenge-password-authenticator.page';
+import OktaHomePage from '../page-objects/okta-home.page';
 import { DataTable } from '@wdio/cucumber-framework';
 
 Then(
@@ -209,6 +211,20 @@ Then(
   /^user is challenged for sms code$/,
   async function() {
     return await VerifyPhoneAuthenticatorPage.waitForPageLoad();
+  }
+);
+
+Then(
+  /^user is challenged for password$/,
+  async function() {
+    return await ChallengePasswordPage.waitForPageLoad();
+  }
+);
+
+Then(
+  /^user is logged into okta dashboard$/,
+  async function() {
+    return await OktaHomePage.waitForPageLoad();
   }
 );
 

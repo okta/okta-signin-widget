@@ -26,6 +26,7 @@ import RegistrationPage from '../page-objects/registration.page';
 import EnrollPhonePage from '../page-objects/enroll-phone-authenticator.page';
 import VerifyPhoneAuthenticatorPage from '../page-objects/verify-phone-authenticator.page';
 import UnlockPage from '../page-objects/unlock.page.js'
+import ChallengePasswordPage from '../page-objects/challenge-password-authenticator.page';
 import elementExists from '../util/elementExists';
 
 When(
@@ -313,5 +314,25 @@ When(
       code = await this.a18nClient.getSMSCode(this.credentials.profileId);
     }
     await VerifyPhoneAuthenticatorPage.enterCode(code);
+  }
+);
+
+When(
+  /^user enters the password$/,
+  // eslint-disable-next-line no-unused-vars
+  async function (this: ActionContext) {
+    if (await elementExists(ChallengePasswordPage.passwordFieldSelector)) {
+      await ChallengePasswordPage.enterPassword(this.credentials.password);
+    } else {
+      await PrimaryAuthClassicPage.enterPassword(this.credentials.password);
+    }
+  }
+);
+
+When(
+  /^user clicks back to sign in$/,
+  async function() {
+    // Remove the 1st characters '+1'
+    await ChallengePasswordPage.clickBackToSignIn();
   }
 );

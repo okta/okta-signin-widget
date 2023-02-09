@@ -12,6 +12,11 @@ class PrimaryAuthPage {
     await this.submit.click();
   }
 
+  async enterPassword(password) {
+    await this.password.setValue(password);
+    await this.submit.click();
+  }
+
   async assertErrorMessage(errorMessage) {
     await waitForLoad(this.errorBox);
     await this.errorBox.then(el => el.getText()).then(txt => {
