@@ -432,9 +432,7 @@ test
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
 
-// Test fails in v3. After re-render we still have to wait for 30 seconds
-// Enable after fixing - OKTA-561098  
-test.meta('v3', false)
+test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds at most even after re-render', async t => {
     const enrollEmailPageObject = await setup(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
@@ -445,9 +443,7 @@ test.meta('v3', false)
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
   });
 
-// Test fails in v3. After re-render we still have to wait for 30 seconds
-// Enable after fixing - OKTA-561098 
-test.meta('v3', false)
+test
   .requestHooks(logger, validOTPmockWithEmailMagicLink)('resend after 30 seconds at most even after re-render', async t => {
     const enrollEmailPageObject = await setup(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
@@ -458,9 +454,7 @@ test.meta('v3', false)
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
   });
 
-// Test fails in v3. After re-render we still have to wait for 30 seconds
-// Enable after fixing - OKTA-561098 
-test.meta('v3', false)
+test
   .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('resend after 30 seconds at most even after re-render', async t => {
     const enrollEmailPageObject = await setup(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
