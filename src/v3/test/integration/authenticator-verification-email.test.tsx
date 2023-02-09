@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { act } from 'preact/test-utils';
 import { waitFor, within } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
@@ -20,11 +19,15 @@ import sessionExpiredResponse from '../../src/mocks/response/idp/idx/identify/er
 
 describe('Email authenticator verification when email magic link = undefined', () => {
   describe('renders correct form', () => {
-    beforeEach(() => {
+    // Mock system time for triggering resend email reminder element
+    let mockSystemTimeStamp = Date.now();
+    Date.now = jest.fn(() => mockSystemTimeStamp);
+
+    beforeAll(() => {
       jest.useFakeTimers();
     });
 
-    afterEach(() => {
+    afterAll(() => {
       jest.useRealTimers();
     });
 
@@ -65,9 +68,8 @@ describe('Email authenticator verification when email magic link = undefined', (
         'button', { name: 'Enter a code from the email instead' },
       ) as HTMLButtonElement;
       await waitFor(() => expect(codeEntryBtn).toHaveFocus());
-      act(() => {
-        jest.advanceTimersByTime(31_000);
-      });
+      // Advance system time to show resend email reminder element
+      mockSystemTimeStamp += 31_000;
       expect(container).toMatchSnapshot();
     });
 
@@ -99,9 +101,8 @@ describe('Email authenticator verification when email magic link = undefined', (
       await user.click(await findByText(/Enter a code from the email instead/));
       await findByText(/Enter Code/);
 
-      act(() => {
-        jest.advanceTimersByTime(31_000);
-      });
+      // Advance system time to show resend email reminder element
+      mockSystemTimeStamp += 31_000;
       await findByText(/Haven't received an email?/);
 
       const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
@@ -114,9 +115,10 @@ describe('Email authenticator verification when email magic link = undefined', (
       expect(queryByText(/Haven't received an email?/)).toBeNull();
       await findByText(/We found some errors./);
 
-      act(() => {
-        jest.advanceTimersByTime(31_000);
-      });
+      // reset the reminder element timestamp in session storage
+      sessionStorage.setItem('osw-oie-resend-timestamp', mockSystemTimeStamp.toString());
+      mockSystemTimeStamp += 31_000;
+
       // after delay, reminder should be displayed as well as global error
       await findByText(/We found some errors./);
       await findByText(/Haven't received an email?/);
@@ -163,9 +165,8 @@ describe('Email authenticator verification when email magic link = undefined', (
         ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/poll'),
       );
 
-      act(() => {
-        jest.advanceTimersByTime(31_000);
-      });
+      // Advance system time to show resend email reminder element
+      mockSystemTimeStamp += 31_000;
       await findByText(/Haven't received an email?/);
       // render invalid otp message
       const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
