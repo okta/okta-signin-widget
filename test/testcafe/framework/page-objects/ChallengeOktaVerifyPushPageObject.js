@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 
 const FORM_INFOBOX_WARNING = '.okta-form-infobox-warning';
@@ -6,6 +6,7 @@ const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout
 const RESEND_NUMBER_CHALLENGE_BUTTON = '.okta-form-infobox-warning .resend-number-challenge';
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const FORM_SELECTOR = '.okta-verify-send-push-form';
+const FORM_SELECTOR_V3 = '.mfa-okta-verify';
 const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name$="autoChallenge"]';
 const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name$="autoChallenge"]';
 const FACTOR_BEACON = '.auth-beacon.auth-beacon-factor';
@@ -64,11 +65,19 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   async  isOktaVerifySendPushForm() {
-    const formCount = await Selector(FORM_SELECTOR).count;
+    let formCount;
+    if (userVariables.v3) {
+      formCount = await Selector(FORM_SELECTOR_V3).count;   
+    } else {
+      formCount = await Selector(FORM_SELECTOR).count;
+    }
     return formCount === 1;
   }
 
   async clickSendPushButton() {
+    if (userVariables.v3) {
+      return await this.form.clickSaveButton('Send push');
+    }
     await this.form.clickSaveButton();
   }
 
@@ -76,4 +85,11 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     return this.beacon.find(FACTOR_BEACON).getAttribute('class');
   }
 
+  getAutoPushCheckbox() {
+    return this.form.getCheckbox('Send push automatically');
+  }
+
+  getAutoPushValue() {
+    return this.getAutoPushCheckbox().checked;
+  }
 }
