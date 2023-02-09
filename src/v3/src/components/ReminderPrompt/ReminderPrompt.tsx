@@ -49,8 +49,11 @@ const ReminderPrompt: UISchemaElementComponent<{
   const setResendTimestamp = (token: string) => {
     sessionStorage.setItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY, token);
   };
-  const getResendTimestamp = (): string | null =>
-    sessionStorage.getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
+
+  // eslint-disable-next-line arrow-body-style
+  const getResendTimestamp = (): string | null => {
+    return sessionStorage.getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
+  };
 
   const startTimer = () => {
     setShow(false);
