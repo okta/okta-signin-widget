@@ -78,9 +78,20 @@ describe('flow-okta-verify-enrollment', () => {
 
   beforeEach(() => {
     // Mock system time for triggering resend email reminder element
-    mockSystemTime = Date.now();
-    Date.now = jest.fn(() => mockSystemTime);
+    mockSystemTime = 1676068045456;
+    jest
+      .spyOn(global.Date, 'now')
+      .mockImplementation(() => mockSystemTime);
     jest.useFakeTimers();
+    // sessionStorage 'get' method is mocked for the ReminderPrompts start timestamp variable
+    jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
+      length: 0,
+      clear: () => jest.fn(),
+      getItem: () => '1676068045456',
+      setItem: () => jest.fn(),
+      key: () => null,
+      removeItem: () => jest.fn(),
+    });
   });
 
   afterEach(() => {
@@ -88,15 +99,6 @@ describe('flow-okta-verify-enrollment', () => {
   });
 
   it('qr polling -> channel selection -> data enrollment (email/default) -> email polling -> try different -> channel selection -> qr polling', async () => {
-    const startTimestamp = mockSystemTime;
-    jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
-      length: 0,
-      clear: () => jest.fn(),
-      getItem: () => startTimestamp.toString(),
-      setItem: () => jest.fn(),
-      key: () => null,
-      removeItem: () => jest.fn(),
-    });
     const {
       authClient,
       user,
@@ -182,15 +184,6 @@ describe('flow-okta-verify-enrollment', () => {
   });
 
   it('qr polling -> channel selection -> data enrollment (sms) -> sms polling -> try different -> channel selection -> qr polling', async () => {
-    const startTimestamp = mockSystemTime;
-    jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
-      length: 0,
-      clear: () => jest.fn(),
-      getItem: () => startTimestamp.toString(),
-      setItem: () => jest.fn(),
-      key: () => null,
-      removeItem: () => jest.fn(),
-    });
     const {
       authClient,
       user,

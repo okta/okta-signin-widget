@@ -23,9 +23,20 @@ describe('Email authenticator verification when email magic link = undefined', (
 
     beforeEach(() => {
       // Mock system time for triggering resend email reminder element
-      mockSystemTime = Date.now();
-      Date.now = jest.fn(() => mockSystemTime);
+      mockSystemTime = 1676068045456;
+      jest
+        .spyOn(global.Date, 'now')
+        .mockImplementation(() => mockSystemTime);
       jest.useFakeTimers();
+      // sessionStorage 'get' method is mocked for the ReminderPrompts start timestamp variable
+      jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
+        length: 0,
+        clear: () => jest.fn(),
+        getItem: () => '1676068045456',
+        setItem: () => jest.fn(),
+        key: () => null,
+        removeItem: () => jest.fn(),
+      });
     });
 
     afterEach(() => {
@@ -56,15 +67,6 @@ describe('Email authenticator verification when email magic link = undefined', (
     });
 
     it('renders the initial form with resend alert box', async () => {
-      const startTimestamp = mockSystemTime;
-      jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
-        length: 0,
-        clear: () => jest.fn(),
-        getItem: () => startTimestamp.toString(),
-        setItem: () => jest.fn(),
-        key: () => null,
-        removeItem: () => jest.fn(),
-      });
       const {
         container, findByText, findByRole,
       } = await setup({
@@ -85,15 +87,6 @@ describe('Email authenticator verification when email magic link = undefined', (
     });
 
     it('should display reminder prompt, then global error after invalid entry and finally display reminder again with global error', async () => {
-      const startTimestamp = mockSystemTime;
-      jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
-        length: 0,
-        clear: () => jest.fn(),
-        getItem: () => startTimestamp.toString(),
-        setItem: () => jest.fn(),
-        key: () => null,
-        removeItem: () => jest.fn(),
-      });
       const {
         container,
         user,
@@ -146,15 +139,6 @@ describe('Email authenticator verification when email magic link = undefined', (
     });
 
     it('renders the otp challenge form', async () => {
-      const startTimestamp = mockSystemTime;
-      jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
-        length: 0,
-        clear: () => jest.fn(),
-        getItem: () => startTimestamp.toString(),
-        setItem: () => jest.fn(),
-        key: () => null,
-        removeItem: () => jest.fn(),
-      });
       const {
         authClient,
         container,
