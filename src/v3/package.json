@@ -41,7 +41,6 @@
     "lint": "yarn codegen && eslint .",
     "lint:css": "npx stylelint **/*.css",
     "lint:report": "scripts/buildtools/lint-report.sh",
-    "lint:tsx": "npx stylelint **/*.tsx",
     "serve": "sirv ../../dist/dist/js --port 3000",
     "test": "yarn codegen && jest",
     "test:dev": "NODE_ENV=development jest",
