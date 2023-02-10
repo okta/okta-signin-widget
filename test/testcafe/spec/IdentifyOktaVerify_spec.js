@@ -13,11 +13,13 @@ const mock = RequestMock()
   .respond(launchAuthenticatorOption);
 
 fixture('Identify + Okta Verify')
-  .requestHooks(logger, mock);
+  .requestHooks(logger, mock)
+  .meta('v3', true);
 
 async function setup(t) {
   const deviceChallengePollPage = new IdentityPageObject(t);
   await deviceChallengePollPage.navigateToPage();
+  await t.expect(deviceChallengePollPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
@@ -52,8 +54,9 @@ test('should the correct title', async t => {
 test('should the correct content', async t => {
   const identityPage = await setup(t);
   await t.expect(identityPage.getFormTitle()).eql('Sign In');
-  await t.expect(identityPage.getOktaVerifyButtonText()).eql('Sign in with Okta FastPass');
-  await t.expect(identityPage.getSeparationLineText()).eql('or');
+  await t.expect(identityPage.getOktaVerifyButtonText()).contains('Sign in with Okta FastPass');
+  const separationText = await identityPage.getSeparationLineText();
+  await t.expect(separationText.toString().toLowerCase()).eql('or');
   await identityPage.clickOktaVerifyButton();
   const header = new Selector('h2[data-se="o-form-head"]');
   await t.expect(header.textContent).eql('Click "Open Okta Verify" on the browser prompt');

@@ -19,6 +19,9 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getOktaVerifyButtonText() {
+    if (userVariables.v3) {
+      return this.form.getButton(/Sign in with Okta FastPass/).textContent;
+    }
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
   }
 
@@ -68,6 +71,9 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getSeparationLineText() {
+    if (userVariables.v3) {
+      return this.form.getElement('[role="separator"]').textContent;  
+    }
     return this.form.getElement('.sign-in-with-device-option .separation-line').textContent;
   }
 
