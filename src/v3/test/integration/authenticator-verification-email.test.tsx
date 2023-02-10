@@ -56,7 +56,7 @@ describe('Email authenticator verification when email magic link = undefined', (
     });
 
     it('renders the initial form with resend alert box', async () => {
-      let startTimestamp = mockSystemTime;
+      const startTimestamp = mockSystemTime;
       jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
         length: 0,
         clear: () => jest.fn(),
@@ -85,7 +85,7 @@ describe('Email authenticator verification when email magic link = undefined', (
     });
 
     it('should display reminder prompt, then global error after invalid entry and finally display reminder again with global error', async () => {
-      let startTimestamp = mockSystemTime;
+      const startTimestamp = mockSystemTime;
       jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
         length: 0,
         clear: () => jest.fn(),
@@ -146,7 +146,7 @@ describe('Email authenticator verification when email magic link = undefined', (
     });
 
     it('renders the otp challenge form', async () => {
-      let startTimestamp = mockSystemTime;
+      const startTimestamp = mockSystemTime;
       jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
         length: 0,
         clear: () => jest.fn(),

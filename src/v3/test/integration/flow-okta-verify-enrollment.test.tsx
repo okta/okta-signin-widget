@@ -88,7 +88,7 @@ describe('flow-okta-verify-enrollment', () => {
   });
 
   it('qr polling -> channel selection -> data enrollment (email/default) -> email polling -> try different -> channel selection -> qr polling', async () => {
-    let startTimestamp = mockSystemTime;
+    const startTimestamp = mockSystemTime;
     jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
       length: 0,
       clear: () => jest.fn(),
@@ -182,7 +182,7 @@ describe('flow-okta-verify-enrollment', () => {
   });
 
   it('qr polling -> channel selection -> data enrollment (sms) -> sms polling -> try different -> channel selection -> qr polling', async () => {
-    let startTimestamp = mockSystemTime;
+    const startTimestamp = mockSystemTime;
     jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
       length: 0,
       clear: () => jest.fn(),
