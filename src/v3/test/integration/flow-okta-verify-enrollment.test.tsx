@@ -11,7 +11,6 @@
  */
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
-import { act } from 'preact/test-utils';
 import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 import qrPollingResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json';
@@ -75,7 +74,12 @@ const createTestContext = async () => {
 };
 
 describe('flow-okta-verify-enrollment', () => {
+  let mockSystemTime: number;
+
   beforeEach(() => {
+    // Mock system time for triggering resend email reminder element
+    mockSystemTime = Date.now();
+    Date.now = jest.fn(() => mockSystemTime);
     jest.useFakeTimers();
   });
 
@@ -84,6 +88,15 @@ describe('flow-okta-verify-enrollment', () => {
   });
 
   it('qr polling -> channel selection -> data enrollment (email/default) -> email polling -> try different -> channel selection -> qr polling', async () => {
+    let startTimestamp = mockSystemTime;
+    jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
+      length: 0,
+      clear: () => jest.fn(),
+      getItem: () => startTimestamp.toString(),
+      setItem: () => jest.fn(),
+      key: () => null,
+      removeItem: () => jest.fn(),
+    });
     const {
       authClient,
       user,
@@ -135,9 +148,9 @@ describe('flow-okta-verify-enrollment', () => {
     // email polling
     await findByText(/Check your email/);
 
-    act(() => {
-      jest.advanceTimersByTime(31_000);
-    });
+    // Advance system time to show resend email reminder element
+    mockSystemTime += 31_000;
+    jest.advanceTimersByTime(500);
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -169,6 +182,15 @@ describe('flow-okta-verify-enrollment', () => {
   });
 
   it('qr polling -> channel selection -> data enrollment (sms) -> sms polling -> try different -> channel selection -> qr polling', async () => {
+    let startTimestamp = mockSystemTime;
+    jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
+      length: 0,
+      clear: () => jest.fn(),
+      getItem: () => startTimestamp.toString(),
+      setItem: () => jest.fn(),
+      key: () => null,
+      removeItem: () => jest.fn(),
+    });
     const {
       authClient,
       user,
@@ -223,9 +245,9 @@ describe('flow-okta-verify-enrollment', () => {
 
     // sms polling
     await findByText(/Check your text messages/);
-    act(() => {
-      jest.advanceTimersByTime(31_000);
-    });
+    // Advance system time to show resend email reminder element
+    mockSystemTime += 31_000;
+    jest.advanceTimersByTime(500);
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(

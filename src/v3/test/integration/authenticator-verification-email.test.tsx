@@ -19,15 +19,16 @@ import sessionExpiredResponse from '../../src/mocks/response/idp/idx/identify/er
 
 describe('Email authenticator verification when email magic link = undefined', () => {
   describe('renders correct form', () => {
-    // Mock system time for triggering resend email reminder element
-    let mockSystemTimeStamp = Date.now();
-    Date.now = jest.fn(() => mockSystemTimeStamp);
+    let mockSystemTime: number;
 
-    beforeAll(() => {
+    beforeEach(() => {
+      // Mock system time for triggering resend email reminder element
+      mockSystemTime = Date.now();
+      Date.now = jest.fn(() => mockSystemTime);
       jest.useFakeTimers();
     });
 
-    afterAll(() => {
+    afterEach(() => {
       jest.useRealTimers();
     });
 
@@ -55,6 +56,15 @@ describe('Email authenticator verification when email magic link = undefined', (
     });
 
     it('renders the initial form with resend alert box', async () => {
+      let startTimestamp = mockSystemTime;
+      jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
+        length: 0,
+        clear: () => jest.fn(),
+        getItem: () => startTimestamp.toString(),
+        setItem: () => jest.fn(),
+        key: () => null,
+        removeItem: () => jest.fn(),
+      });
       const {
         container, findByText, findByRole,
       } = await setup({
@@ -69,11 +79,21 @@ describe('Email authenticator verification when email magic link = undefined', (
       ) as HTMLButtonElement;
       await waitFor(() => expect(codeEntryBtn).toHaveFocus());
       // Advance system time to show resend email reminder element
-      mockSystemTimeStamp += 31_000;
+      mockSystemTime += 31_000;
+      jest.advanceTimersByTime(500);
       expect(container).toMatchSnapshot();
     });
 
     it('should display reminder prompt, then global error after invalid entry and finally display reminder again with global error', async () => {
+      let startTimestamp = mockSystemTime;
+      jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
+        length: 0,
+        clear: () => jest.fn(),
+        getItem: () => startTimestamp.toString(),
+        setItem: () => jest.fn(),
+        key: () => null,
+        removeItem: () => jest.fn(),
+      });
       const {
         container,
         user,
@@ -102,7 +122,8 @@ describe('Email authenticator verification when email magic link = undefined', (
       await findByText(/Enter Code/);
 
       // Advance system time to show resend email reminder element
-      mockSystemTimeStamp += 31_000;
+      mockSystemTime += 31_000;
+      jest.advanceTimersByTime(500);
       await findByText(/Haven't received an email?/);
 
       const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
@@ -115,9 +136,8 @@ describe('Email authenticator verification when email magic link = undefined', (
       expect(queryByText(/Haven't received an email?/)).toBeNull();
       await findByText(/We found some errors./);
 
-      // reset the reminder element timestamp in session storage
-      sessionStorage.setItem('osw-oie-resend-timestamp', mockSystemTimeStamp.toString());
-      mockSystemTimeStamp += 31_000;
+      mockSystemTime += 31_000;
+      jest.advanceTimersByTime(500);
 
       // after delay, reminder should be displayed as well as global error
       await findByText(/We found some errors./);
@@ -126,6 +146,15 @@ describe('Email authenticator verification when email magic link = undefined', (
     });
 
     it('renders the otp challenge form', async () => {
+      let startTimestamp = mockSystemTime;
+      jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
+        length: 0,
+        clear: () => jest.fn(),
+        getItem: () => startTimestamp.toString(),
+        setItem: () => jest.fn(),
+        key: () => null,
+        removeItem: () => jest.fn(),
+      });
       const {
         authClient,
         container,
@@ -166,7 +195,8 @@ describe('Email authenticator verification when email magic link = undefined', (
       );
 
       // Advance system time to show resend email reminder element
-      mockSystemTimeStamp += 31_000;
+      mockSystemTime += 31_000;
+      jest.advanceTimersByTime(500);
       await findByText(/Haven't received an email?/);
       // render invalid otp message
       const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
