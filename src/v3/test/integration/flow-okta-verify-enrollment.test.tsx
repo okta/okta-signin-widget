@@ -11,7 +11,6 @@
  */
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
-import { act } from 'preact/test-utils';
 import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 import qrPollingResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json';
@@ -75,8 +74,24 @@ const createTestContext = async () => {
 };
 
 describe('flow-okta-verify-enrollment', () => {
+  let mockSystemTime: number;
+
   beforeEach(() => {
+    // Mock system time for triggering resend email reminder element
+    mockSystemTime = 1676068045456;
+    jest
+      .spyOn(global.Date, 'now')
+      .mockImplementation(() => mockSystemTime);
     jest.useFakeTimers();
+    // sessionStorage 'get' method is mocked for the ReminderPrompts start timestamp variable
+    jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
+      length: 0,
+      clear: () => jest.fn(),
+      getItem: () => '1676068045456',
+      setItem: () => jest.fn(),
+      key: () => null,
+      removeItem: () => jest.fn(),
+    });
   });
 
   afterEach(() => {
@@ -135,9 +150,9 @@ describe('flow-okta-verify-enrollment', () => {
     // email polling
     await findByText(/Check your email/);
 
-    act(() => {
-      jest.advanceTimersByTime(31_000);
-    });
+    // Advance system time to show resend email reminder element
+    mockSystemTime += 31_000;
+    jest.advanceTimersByTime(500);
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -223,9 +238,9 @@ describe('flow-okta-verify-enrollment', () => {
 
     // sms polling
     await findByText(/Check your text messages/);
-    act(() => {
-      jest.advanceTimersByTime(31_000);
-    });
+    // Advance system time to show resend email reminder element
+    mockSystemTime += 31_000;
+    jest.advanceTimersByTime(500);
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(

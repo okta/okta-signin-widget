@@ -22,7 +22,8 @@ import {
 } from '../../types';
 import ReminderPrompt, { DEFAULT_TIMEOUT_MS } from './ReminderPrompt';
 
-jest.useFakeTimers();
+// @ts-expect-error Expected 0 arguments, but got 1
+jest.useFakeTimers('modern');
 
 const mockSubmitHook = jest.fn().mockImplementation(() => ({}));
 jest.mock('../../hooks', () => ({
@@ -58,9 +59,10 @@ describe('ReminderPrompt', () => {
     const { container, getByRole } = render(<ReminderPrompt {...props} />);
 
     expect(container.firstChild).toBeNull();
-
     act(() => {
-      jest.advanceTimersByTime(DEFAULT_TIMEOUT_MS);
+      // @ts-expect-error setSystemTime does not exist on type 'typeof jest'
+      jest.setSystemTime(Date.now() + DEFAULT_TIMEOUT_MS);
+      jest.runOnlyPendingTimers();
     });
 
     expect(container.firstChild).not.toBeNull();
@@ -101,7 +103,9 @@ describe('ReminderPrompt', () => {
     expect(container.firstChild).toBeNull();
 
     act(() => {
-      jest.advanceTimersByTime(DEFAULT_TIMEOUT_MS);
+      // @ts-expect-error setSystemTime does not exist on type 'typeof jest'
+      jest.setSystemTime(Date.now() + DEFAULT_TIMEOUT_MS);
+      jest.runOnlyPendingTimers();
     });
 
     expect(container.firstChild).not.toBeNull();
@@ -143,7 +147,9 @@ describe('ReminderPrompt', () => {
     expect(container).toMatchSnapshot();
 
     act(() => {
-      jest.advanceTimersByTime(CUSTOM_TIMEOUT);
+      // @ts-expect-error setSystemTime does not exist on type 'typeof jest'
+      jest.setSystemTime(Date.now() + CUSTOM_TIMEOUT);
+      jest.runOnlyPendingTimers();
     });
 
     expect(container.firstChild).not.toBeNull();

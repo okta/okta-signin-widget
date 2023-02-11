@@ -42,23 +42,47 @@ const ReminderPrompt: UISchemaElementComponent<{
   const [show, setShow] = useState<boolean>(false);
   const timerRef = useRef<number | undefined>();
 
+  const RESEND_TIMESTAMP_SESSION_STORAGE_KEY = 'osw-oie-resend-timestamp';
+  const removeResendTimestamp = () => {
+    sessionStorage.removeItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
+  };
+  const setResendTimestamp = (token: string) => {
+    sessionStorage.setItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY, token);
+  };
+
+  // eslint-disable-next-line arrow-body-style
+  const getResendTimestamp = (): string | null => {
+    return sessionStorage.getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
+  };
+
   const startTimer = () => {
+    setShow(false);
+    const timeStamp = getResendTimestamp();
+    if (!timeStamp) {
+      setResendTimestamp(Date.now().toString());
+    }
     if (timerRef) {
-      window.clearTimeout(timerRef.current);
+      window.clearInterval(timerRef.current);
     }
 
-    setShow(false);
-
-    const timeout = typeof customTimeout === 'number' ? customTimeout : DEFAULT_TIMEOUT_MS;
-
-    timerRef.current = window.setTimeout(() => setShow(true), timeout);
+    timerRef.current = window.setInterval(() => {
+      const start = parseInt(getResendTimestamp() as string);
+      const now = Date.now();
+      const timeout = typeof customTimeout === 'number' ? customTimeout : DEFAULT_TIMEOUT_MS;
+      if (now - start >= timeout) {
+        setShow(true);
+        window.clearInterval(timerRef.current);
+        removeResendTimestamp();
+      }
+    }, 250);
   };
 
   useEffect(() => {
     startTimer();
 
     return () => {
-      window.clearTimeout(timerRef.current);
+      window.clearInterval(timerRef.current);
+      removeResendTimestamp();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
