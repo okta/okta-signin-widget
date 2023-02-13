@@ -129,7 +129,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
-                      for="countryList"
+                      for="country"
                       id="countryLabel"
                     >
                       Country
@@ -142,8 +142,8 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                         aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                         autocomplete="tel-country-code"
                         class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-21"
-                        data-se="countryList"
-                        id="countryList"
+                        data-se="country"
+                        id="country"
                         required=""
                       >
                         <option
@@ -1615,7 +1615,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
-                      for="countryList"
+                      for="country"
                       id="countryLabel"
                     >
                       Country
@@ -1628,8 +1628,8 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                         aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                         autocomplete="tel-country-code"
                         class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-21"
-                        data-se="countryList"
-                        id="countryList"
+                        data-se="country"
+                        id="country"
                         required=""
                       >
                         <option

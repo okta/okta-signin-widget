@@ -101,13 +101,18 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loginHint, setloginHint] = useState<string | null>(null);
   const brandedTheme = mapMuiThemeFromBrand(brandColors, muiThemeOverrides);
 
-  useEffect(() => {
-    // If we need to load a language (or apply custom i18n overrides), do
-    // this now and re-run render after it's finished.
-    if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
-      (async () => {
-        await loadLanguage(widgetProps);
-      })();
+  // on unmount, remove the language
+  useEffect(() => () => {
+    if (Bundles.isLoaded(getLanguageCode(widgetProps))) {
+      Bundles.remove();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const initLanguage = useCallback(async () => {
+    const language = getLanguageCode(widgetProps);
+    if (!Bundles.isLoaded(language)) {
+      await loadLanguage(widgetProps);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -122,6 +127,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   };
 
   const bootstrap = useCallback(async () => {
+    await initLanguage();
     try {
       const transaction = await authClient.idx.start({
         stateHandle: stateToken,
@@ -139,7 +145,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authClient, stateToken, setIdxTransaction, setResponseError]);
+  }, [authClient, stateToken, setIdxTransaction, setResponseError, initLanguage]);
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
@@ -205,6 +211,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [formBag, isClientTransaction]);
 
   const resume = useCallback(async () => {
+    await initLanguage();
     try {
       const transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
@@ -221,7 +228,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authClient, setIdxTransaction, setResponseError]);
+  }, [authClient, setIdxTransaction, setResponseError, initLanguage]);
 
   // bootstrap / resume the widget
   useEffect(() => {
