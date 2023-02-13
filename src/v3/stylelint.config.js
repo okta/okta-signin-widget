@@ -23,9 +23,9 @@ module.exports = {
     },
     // NOTE: There is an issue with stylelint preventing it from processing TSX files
     // see: https://github.com/stylelint/postcss-css-in-js/issues/300
-    {
-      files: ['**/*.tsx'],
-      customSyntax: '@stylelint/postcss-css-in-js',
-    },
+    // {
+    //   files: ['**/*.tsx'],
+    //   customSyntax: 'postcss-jsx',
+    // },
   ],
 };
