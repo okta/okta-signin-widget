@@ -3178,7 +3178,7 @@ exports[`byol loading custom language should load custom language with assets.ba
 </div>
 `;
 
-exports[`byol loading default language should not load by default, with assets.baseUrl set to a path containing the language assets with navigator.languages containing language 1`] = `
+exports[`byol loading default language should not load custom language when the language/assets.languages value is not provided while assets.baseUrl is set to a path containing the language assets and navigator.languages containing language 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -4767,7 +4767,7 @@ exports[`byol loading default language should not load by default, with assets.b
 </div>
 `;
 
-exports[`byol loading default language should not load custom language with "language" option set 1`] = `
+exports[`byol loading default language should not load custom language with "language" option set when assets.baseUrl value is missing 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"

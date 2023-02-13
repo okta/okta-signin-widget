@@ -20,7 +20,7 @@ import { setup } from './util';
 
 describe('byol', () => {
   beforeEach(() => {
-    // language is cached after first test so much disabling caching for this test
+    // language is cached after first test so disabling caching for this test
     jest.spyOn(global, 'localStorage', 'get').mockReturnValue({
       length: 0,
       clear: () => jest.fn(),
@@ -100,7 +100,7 @@ describe('byol', () => {
   });
 
   describe('loading default language', () => {
-    it('should not load custom language with "language" option set', async () => {
+    it('should not load custom language with "language" option set when assets.baseUrl value is missing', async () => {
       const { container, findByText } = await setup({
         mockResponse,
         widgetOptions: { language: 'foo' },
@@ -109,7 +109,8 @@ describe('byol', () => {
       expect(container).toMatchSnapshot();
     });
 
-    it('should not load by default, with assets.baseUrl set to a path containing the language assets with navigator.languages containing language', async () => {
+    it('should not load custom language when the language/assets.languages value is not provided '
+    + 'while assets.baseUrl is set to a path containing the language assets and navigator.languages containing language', async () => {
       const navigatorLanguagesSpy = jest.spyOn(global, 'navigator', 'get');
       navigatorLanguagesSpy.mockReturnValue(
         { languages: ['foo'] } as unknown as Navigator,
