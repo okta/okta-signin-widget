@@ -37,6 +37,8 @@ const FieldErrorContainer: FunctionComponent<FieldErrorProps> = (props) => {
           role="alert"
           data-se={buildElementId(index)}
           error
+          // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
+          sx={{ textAlign: 'start' }}
         >
           {error}
         </FormHelperText>

@@ -216,22 +216,22 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                             Select
                           </span>
                           <svg
-                            aria-labelledby="okta_verify_2-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-30"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="okta_verify_2-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
@@ -315,22 +315,22 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                             Select
                           </span>
                           <svg
-                            aria-labelledby="okta_verify_0-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-30"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="okta_verify_0-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
@@ -414,22 +414,22 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                             Select
                           </span>
                           <svg
-                            aria-labelledby="okta_verify_1-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-30"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="okta_verify_1-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
@@ -441,7 +441,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-49"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

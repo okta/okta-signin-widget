@@ -303,6 +303,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setWidgetRendered,
       loginHint,
       setloginHint,
+      languageDirection,
     }}
     >
       {/* Note: we need to keep both themeproviders (MUI/ODS) until ODS exports all MUI components */}

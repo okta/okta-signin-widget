@@ -29,6 +29,8 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
     <ListItem
       disablePadding
       disableGutters
+      // TODO: OKTA-577905 -  Temporary fix until we can upgrade to the latest version of Odyssey
+      sx={{ textAlign: 'start' }}
     >
       <ListItemIcon sx={{ minInlineSize: '1.5rem' }}>
         <Icon status={status} />

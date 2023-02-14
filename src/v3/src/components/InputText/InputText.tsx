@@ -80,6 +80,8 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
             id={hintId}
             className="o-form-explain"
             data-se={hintId}
+            // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
+            sx={{ textAlign: 'start' }}
           >
             {hint}
           </FormHelperText>
@@ -113,6 +115,8 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
             id={explainId}
             className="o-form-explain"
             data-se={explainId}
+            // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
+            sx={{ textAlign: 'start' }}
           >
             {explain}
           </FormHelperText>
