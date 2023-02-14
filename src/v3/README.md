@@ -1,12 +1,143 @@
-# SIW Next
+# Okta Sign-In Widget
 
-Okta Sign In Widget Next is only available for OIE-enabled Orgs (Okta Identity Engine).
+The Okta Sign-In Widget is an HTML/CSS/JS widget that provides out-of-the-box authentication and identity experiences for your organization's apps. It's the pre-built and customizable solution used by the Okta Workforce Identity Cloud.
 
-## Pre-requisites
+This Readme is specific to the **3rd-generation** widget.
+
+**Table of contents**
+- [Okta Sign-In Widget](#okta-sign-in-widget)
+  - [Generation overview](#generation-overview)
+  - [Deployment Models](#deployment-models)
+    - [Redirect to Okta-hosted](#redirect-to-okta-hosted)
+    - [Customer embedded](#customer-embedded)
+    - [Non-SIW or SDK app (brief mention)](#non-siw-or-sdk-app-brief-mention)
+  - [Type of Applications](#type-of-applications)
+    - [OIDC](#oidc)
+    - [Non-OIDC](#non-oidc)
+  - [Implementation Section](#implementation-section)
+    - [Okta Hosted Setup](#okta-hosted-setup)
+    - [Customer Hosted Set Up](#customer-hosted-set-up)
+  - [Migrating to the 3rd generation](#migrating-to-the-3rd-generation)
+  - [Advanced](#advanced)
+    - [Contributing code (Contributions.md)](#contributing-code-contributionsmd)
+    - [Building the SIW on your own](#building-the-siw-on-your-own)
+      - [Pre-requisites](#pre-requisites)
+      - [Getting Started](#getting-started)
+      - [Test Org](#test-org)
+      - [Mocks Service](#mocks-service)
+          - [Defining a new mock scenario](#defining-a-new-mock-scenario)
+      - [Set Environment Variables](#set-environment-variables)
+      - [Authenticators](#authenticators)
+        - [WebAuthN](#webauthn)
+
+## Generation overview
+
+The 3rd-generation Sign-in Widget is more accessible, and uses modern frameworks with a better user and developer experience. It's built from the ground up for the Okta Identity Engine, and removes support for the Okta Classic Engine.
+
+If you're using previous generation with code customization, this new generation has breaking changes that will require manual upgrade. If you don't have code customizations, upgrading should be simple.
+
+| Widget generation  | Included in release versions   | Okta platform   | Internal frameworks   |
+| ---                | ---                            | ---             | ---                   |
+| 1st                | v1–9                           | Classic         | Backbone, bespoke UI framework |
+| 2nd                | v5–9                           | OIE   | Backbone, bespoke UI framework |
+| 3rd                | v10+                           | OIE             | Preact, MUI |
+
+⚠️ The **3rd-gen widget is currently in beta** and does not have complete feature parity with previous generations.
+
+Future releases will add more features over time, but 3rd-gen widget will become Generally Available without complete feature parity.
+
+Previous generations will remain supported during the transition, and have more feature releases of their own on the way.
+
+Eventually, previous generations will be sunset. We expect this to be gradual with multiple phases; more details to come.
+
+
+## Deployment Models
+
+Learn more about [redirect vs embedded](https://developer.okta.com/docs/concepts/redirect-vs-embedded/).
+
+### Redirect to Okta-hosted
+
+Introduction & when to use this
+CDN
+* Recommended for Workforce & Business Partner Apps
+Example Application Link (Sample)
+Branding/Customization touchpoints
+
+### Customer embedded 
+Introduction & when to use this
+* Not recommended for Workforce & Business Partner Apps
+NPM vs CDN
+Example Application Link (Sample)
+
+### Non-SIW or SDK app (brief mention)
+Introduction & when to use this
+* Not recommended for Workforce & Business Partner Apps
+Link out to one of the SDKs (link to all related SDKs
+
+
+## Type of Applications 
+### OIDC
+* SPA Introduction
+* Web Introduction
+### Non-OIDC
+* SAML?
+
+
+## Implementation Section
+### Okta Hosted Setup 
+1. Create an okta org
+2. Sign In Widget section
+3. Brand and customize
+4. Customize domain
+
+
+### Customer Hosted Set Up
+1. Set Up
+NPM or CDN
+
+2. Config Options Reference
+All the options here or a file called Config.MD hosts all the SIW config options with explanation with example code for each
+
+3. API Reference
+All the APIs here or a file called API.md hosts all the SIW APIs and each API call has input, output params, and what the function does with example code.
+
+4. Samples
+Full samples are each their own repos. Each sample has a one-page Readme.MD to show how to get the samples to work. 
+These samples are not generated and the flow of code is simple and easy to understand. Right now it’s hard to follow the flow of code. Samples must always use the latest widget versions.
+
+
+## Migrating to the 3rd generation
+
+To migrate to the latest widget, first determine whether your org uses Classic or Identity Engine. All new orgs created after March 1, 2022 are Identity Engine orgs.
+
+In the Admin Console footer, find the Okta version. It looks like `Version 2023.04.1 E`.
+
+`C` means your org is Classic; `E` means Identity Engine.
+
+* If your org is Classic, you need to upgrade to Identity Engine before migrating to the latest widget. [Learn more about upgrading to Identity Engine.](https://help.okta.com/oie/en-us/Content/Topics/identity-engine/oie-upgrade-eligibility.htm)
+
+* If your org uses Identity Engine, you're ready to plan your widget migration.
+
+Start by evaluating whether the 3rd-generation widget supports everything you need.
+
+X
+
+Y
+
+Z
+
+
+## Advanced
+
+### Contributing code (Contributions.md)
+
+### Building the SIW on your own
+
+#### Pre-requisites
 
 node >=v12.22 <16
 
-## Getting Started
+#### Getting Started
 
 ```sh
 # clone the repo
@@ -33,7 +164,7 @@ yarn dev # follow the below instructions to set env vars before running the deve
 
 Open your browser to http://localhost:8080 (default port).
 
-### Test Org
+#### Test Org
 
 Follow [these instructions to create an OIE Preview Org](https://oktawiki.atlassian.net/l/c/C6XKAt7g)
 
@@ -46,7 +177,7 @@ Follow [these instructions to create an OIE Preview Org](https://oktawiki.atlass
 3. Copy the Client ID value to your widget configuration. The Issuer value is https://${yourOieOrg}.oktapreview.com/oauth2/default.
 4. You should be able to run the widget locally (with mocks turned off) and login to your OIE org now.
 
-### Mocks Service
+#### Mocks Service
 
 Enable mocks when running the local development server using `yarn dev` and then adding `?siw-use-mocks=true` to the page URL. This will use mock responses instead of making requests to your org.
 
@@ -56,7 +187,7 @@ By default, a simple authentication scenario is mocked. If you would like to loa
 
 To load a scenario called `authenticator-verification-email`, navigate to the URL `http://localhost:8080/?siw-use-mocks=true&siw-mock-scenario=authenticator-verification-email`.
 
-#### Defining a new mock scenario
+###### Defining a new mock scenario
 
 To define a new mock scenario, add a new file under `src/mocks/scenario/{mock-scenario-name}.ts` where `mock-scenario-name` is a `kebab-case` description of the scenario. You must also import this file in the `src/mocks/scenario/index.ts` root file:
 
@@ -82,7 +213,7 @@ scenario('mock-scenario-name', (rest) => {
 
 See documentation for [Mock Service Worker](https://mswjs.io/docs/) for more information on how to write the mocks themselves.
 
-### Set Environment Variables
+#### Set Environment Variables
 
 Copy `.env.example` to `.env` in the project root and set your environment variables.
 
@@ -95,9 +226,9 @@ PREACT_APP_ISSUER=https://oie-1234567.oktapreview.com/oauth2/default
 PREACT_APP_USE_PKCE=true # true|false
 ```
 
-### Authenticators
+#### Authenticators
 
-#### WebAuthN
+##### WebAuthN
 
 The WebAuthN authenticator is one of many multifactor authentication types Okta offers. You can find more information about the Credentials Management API [here](https://medium.com/webauthnworks/introduction-to-webauthn-api-5fd1fb46c285) including examples of how it is used to create and retrieve credentials.
 
