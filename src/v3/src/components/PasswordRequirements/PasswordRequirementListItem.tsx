@@ -30,7 +30,7 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
       disablePadding
       disableGutters
     >
-      <ListItemIcon sx={{ minWidth: '1.5rem' }}>
+      <ListItemIcon sx={{ minInlineSize: '1.5rem' }}>
         <Icon status={status} />
       </ListItemIcon>
       <ListItemText primary={label} />
