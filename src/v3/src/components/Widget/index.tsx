@@ -101,20 +101,20 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
   const [loginHint, setloginHint] = useState<string | null>(null);
-  const languageDirection = getLanguageDirection(getLanguageCode(widgetProps));
+  const languageCode = getLanguageCode(widgetProps);
+  const languageDirection = getLanguageDirection(languageCode);
   const brandedTheme = mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides);
 
   // on unmount, remove the language
   useEffect(() => () => {
-    if (Bundles.isLoaded(getLanguageCode(widgetProps))) {
+    if (Bundles.isLoaded(languageCode)) {
       Bundles.remove();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initLanguage = useCallback(async () => {
-    const language = getLanguageCode(widgetProps);
-    if (!Bundles.isLoaded(language)) {
+    if (!Bundles.isLoaded(languageCode)) {
       await loadLanguage(widgetProps);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -311,7 +311,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
             <OdysseyMuiThemeProvider theme={brandedTheme}>
-              <AuthContainer>
+              <AuthContainer
+                languageCode={languageCode}
+                languageDirection={languageDirection}
+              >
                 <AuthHeader
                   logo={logo}
                   logoText={logoText}

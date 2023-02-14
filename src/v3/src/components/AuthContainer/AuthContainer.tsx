@@ -15,16 +15,14 @@ import { Box } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
-import { useWidgetContext } from '../../contexts';
-import { getLanguageCode } from '../../util';
 import style from './style.css';
 
-type AuthContainerProps = { languageDirection?: 'rtl' };
-const AuthContainer: FunctionComponent<AuthContainerProps> = ({ languageDirection, children }) => {
+type AuthContainerProps = { languageCode: string; languageDirection?: 'rtl' };
+const AuthContainer: FunctionComponent<AuthContainerProps> = ({
+  languageDirection, languageCode, children,
+}) => {
   const classes = classNames('auth-container', 'main-container', style.mainViewContainer);
   const isMobileWidth = useMediaQuery('screen and (max-width: 391px)');
-  const { widgetProps } = useWidgetContext();
-  const languageCode = getLanguageCode(widgetProps);
   return (
     <Box
       id="okta-sign-in"
