@@ -32,10 +32,10 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
           "SVGIcon": "MockSVGIcon",
           "id": "code",
-          "textClassName": "no-translate",
           "textContent": "42",
         },
         "type": "ImageWithText",
@@ -99,10 +99,10 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
           "SVGIcon": "MockSVGIcon",
           "id": "code",
-          "textClassName": "no-translate",
           "textContent": "42",
         },
         "type": "ImageWithText",

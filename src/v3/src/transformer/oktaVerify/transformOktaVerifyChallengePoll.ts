@@ -71,11 +71,11 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
 
       const phoneIconImage: ImageWithTextElement = {
         type: 'ImageWithText',
+        noTranslate: true,
         options: {
           id: 'code',
           SVGIcon: PhoneSvg,
           textContent: correctAnswer,
-          textClassName: 'no-translate',
         },
       };
 

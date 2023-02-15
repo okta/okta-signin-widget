@@ -39,12 +39,12 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
 
   const otpElement: HeadingElement = {
     type: 'Heading',
+    noTranslate: true,
     options: {
       // @ts-expect-error TODO: OKTA-504299 otp missing from contextualData interface
       content: currentAuthenticator?.value?.contextualData?.otp,
       level: 3,
       visualLevel: 3,
-      className: 'no-translate',
       dataSe: 'otp-value',
     },
   };

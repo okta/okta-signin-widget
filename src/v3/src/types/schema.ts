@@ -142,6 +142,7 @@ export interface UISchemaElement {
    * which require custom interpolation
    */
   contentTransformer?: Options['transform'];
+  noTranslate?: boolean;
 }
 
 export interface UISchemaLayout {
@@ -295,7 +296,6 @@ export interface HeadingElement extends UISchemaElement {
     visualLevel: 1 | 2 | 3 | 4 | 5 | 6;
     content: string;
     dataSe?: string;
-    className?: string;
   };
 }
 
@@ -396,7 +396,6 @@ export interface ImageWithTextElement extends UISchemaElement {
     SVGIcon: FunctionComponent;
     textContent?: string;
     alignment?: string;
-    textClassName?: string;
   };
 }
 

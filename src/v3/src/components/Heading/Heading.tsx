@@ -21,8 +21,9 @@ const Heading: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const {
     contentTransformer,
+    noTranslate,
     options: {
-      content, dataSe, level, visualLevel, className,
+      content, dataSe, level, visualLevel,
     },
   } = uischema;
 
@@ -36,7 +37,7 @@ const Heading: UISchemaElementComponent<{
         id={uischema.id}
         variant={`h${level ?? 2}`}
         component={`h${visualLevel ?? 3}`}
-        className={className}
+        className={noTranslate ? 'no-translate' : undefined}
         data-se={dataSe}
       >
         {ReactHtmlParser(content, { transform: contentTransformer })}

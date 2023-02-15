@@ -23,8 +23,8 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
-          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -69,8 +69,8 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
-          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -115,8 +115,8 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
-          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -161,8 +161,8 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
-          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -207,8 +207,8 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
-          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -270,8 +270,8 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
-          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -349,8 +349,8 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
-          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -420,8 +420,8 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
-          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -499,8 +499,8 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
-          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
