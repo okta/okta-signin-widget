@@ -160,7 +160,7 @@ export default Controller.extend({
     // Cancel action is executes synchronously
     if (actionPath === 'cancel') {
       // TODO: resolve race conditions caused by event pattern: OKTA-490220
-      settings.getAuthClient().transactionManager.clear({ clearIdxResponse: false });
+      settings.getAuthClient().transactionManager.clear();
       sessionStorageHelper.removeStateHandle();
       appState.clearAppStateCache();
 
@@ -383,6 +383,10 @@ export default Controller.extend({
 
   async handleIdxResponse(idxResp) {
     await updateAppState(this.options.appState, idxResp);
+    // if (idxResp.status === IdxStatus.CANCELED) {
+    //   this.options.appState.trigger('restartLoginFlow');
+    // } else {
+    // }
   },
 
   /**
