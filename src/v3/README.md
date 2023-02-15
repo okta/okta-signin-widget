@@ -34,7 +34,7 @@ This Readme is specific to the **3rd-generation** widget.
 
 The 3rd-generation Sign-in Widget is more accessible, and uses modern frameworks with a better user and developer experience. It's built from the ground up for the Okta Identity Engine, and removes support for the Okta Classic Engine.
 
-If you're using previous generation with code customization, this new generation has breaking changes that will require manual upgrade. If you don't have code customizations, upgrading should be simple.
+If you're using a previous generation with code customizations, this new generation has breaking changes that will require manual upgrade. If you don't have code customizations, upgrading should be simple.
 
 | Widget generation  | Included in release versions   | Okta platform   | Internal frameworks   |
 | ---                | ---                            | ---             | ---                   |
@@ -42,18 +42,18 @@ If you're using previous generation with code customization, this new generation
 | 2nd                | v5–9                           | OIE   | Backbone, bespoke UI framework |
 | 3rd                | v10+                           | OIE             | Preact, MUI |
 
-⚠️ The **3rd-gen widget is currently in beta** and does not have complete feature parity with previous generations.
+> ⚠️ The **3rd-gen widget is currently in beta** and does not have complete feature parity with previous generations.
 
 Future releases will add more features over time, but 3rd-gen widget will become Generally Available without complete feature parity.
 
 Previous generations will remain supported during the transition, and have more feature releases of their own on the way.
 
-Eventually, previous generations will be sunset. We expect this to be gradual with multiple phases; more details to come.
+Eventually, previous generations will be sunset. This will be gradual with multiple phases; more details to come.
 
 
 ## Deployment Models
 
-Learn more about [redirect vs embedded](https://developer.okta.com/docs/concepts/redirect-vs-embedded/).
+[Learn more about redirect vs embedded](https://developer.okta.com/docs/concepts/redirect-vs-embedded/) deployment models.
 
 ### Redirect to Okta-hosted
 
@@ -108,9 +108,9 @@ These samples are not generated and the flow of code is simple and easy to under
 
 ## Migrating to the 3rd generation
 
-To migrate to the latest widget, first determine whether your org uses Classic or Identity Engine. All new orgs created after March 1, 2022 are Identity Engine orgs.
+To migrate from a previous generation widget, first ensure that your org uses the Okta Identity Engine. All new orgs created after March 1, 2022 are Identity Engine orgs.
 
-In the Admin Console footer, find the Okta version. It looks like `Version 2023.04.1 E`.
+To determine whether your org uses Classic or Identity Engine, check the Admin Console footer. The bottom of every page includes a version string that looks like `Version 2023.04.1 E`.
 
 `C` means your org is Classic; `E` means Identity Engine.
 
@@ -118,13 +118,19 @@ In the Admin Console footer, find the Okta version. It looks like `Version 2023.
 
 * If your org uses Identity Engine, you're ready to plan your widget migration.
 
-Start by evaluating whether the 3rd-generation widget supports everything you need.
+Start by evaluating whether the 3rd-generation widget supports everything you need. TODO supported capabilities
 
-X
+TODO start with proof of concept, test org
 
-Y
+TODO enable EA
 
-Z
+TODO check brand color contrast
+
+TODO check sign-in page widget version
+
+TODO how to rollback
+
+TODO summary of what's changing for end-users
 
 
 ## Advanced
