@@ -42,6 +42,16 @@ const identifyLockedUserLandOnAppMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrUserUnlockSuccessLandOnApp);
 
+const xhrUserUnlockAuthSelectorWithOneAuthenticator = JSON.parse(JSON.stringify(xhrUserUnlockAuthSelector));
+xhrUserUnlockAuthSelectorWithOneAuthenticator.remediation.value[0].value[1].options.splice(0, 1);
+
+const identifyLockedUserMockWithOneAuthenticator = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithUnlock)
+  .onRequestTo('http://localhost:3000/idp/idx/unlock-account')
+  .respond(xhrUserUnlockAuthSelectorWithOneAuthenticator);
+
+
 const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
@@ -160,4 +170,28 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
   await t.expect(gobackLinkExists).eql(false);
   const signoutLinkExists = await successPage.signoutLinkExists();
   await t.expect(signoutLinkExists).eql(true);
+});
+
+test.requestHooks(identifyLockedUserMockWithOneAuthenticator)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (1 authenticator available)', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
+
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await selectFactorPage.fillIdentifierField('username');
+  await t.pressKey('enter');
+
+  await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock you account, select the following authenticator.');
+});
+
+test.requestHooks(identifyLockedUserMock)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (multiple authenticator available)', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
+
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await selectFactorPage.fillIdentifierField('username');
+  await t.pressKey('enter');
+
+  await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock your account, select one of the following authenticators.');
 });

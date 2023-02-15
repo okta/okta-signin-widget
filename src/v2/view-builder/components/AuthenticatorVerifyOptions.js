@@ -67,6 +67,20 @@ export default ListView.extend({
 
   initialize: function() {
     this.listenTo(this.collection,'selectAuthenticator', this.handleSelect);
+    this.listenTo(this.model, 'invalid', this.handleModelInvalid);
+  },
+  
+  handleModelInvalid(data, error) {
+    if (this.options.name in error && !this.model.get(this.options.name)) {
+      this.showAuthenticatorRequiredError();
+    }
+  },
+
+  showAuthenticatorRequiredError() {
+    const errorSummary = this.collection.length > 1
+      ? loc('account.unlock.authenticatorRequired.multiple', 'login')
+      : loc('account.unlock.authenticatorRequired.single', 'login');
+    this.model.trigger('error', this.model, { responseJSON: { errorSummary } });
   },
 
   handleSelect(data) {
