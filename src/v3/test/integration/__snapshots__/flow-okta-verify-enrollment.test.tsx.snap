@@ -908,9 +908,15 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-27"
                       data-se="o-form-explain"
-                      id="enroll-poll_Description_We_sent_an_email_to_tester@okta1com_with_an_Okta_Verify_setup_link_To_continue,_open_the_link_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_9_2"
+                      id="enroll-poll_Description_We_sent_an_email_to_<span_class=strong>tester@okta1com</span>_with_an_Okta_Verify_setup_link_To_continue,_open_the_link_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_9_2"
                     >
-                      We sent an email to tester@okta1.com with an Okta Verify setup link. To continue, open the link on your mobile device.
+                      We sent an email to 
+                      <span
+                        class="strong"
+                      >
+                        tester@okta1.com
+                      </span>
+                       with an Okta Verify setup link. To continue, open the link on your mobile device.
                     </p>
                   </div>
                 </div>
@@ -3611,9 +3617,15 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-27"
                       data-se="o-form-explain"
-                      id="enroll-poll_Description_We_sent_an_SMS_to_12165332241_with_an_Okta_Verify_setup_link_To_continue,_open_the_link_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_13_3"
+                      id="enroll-poll_Description_We_sent_an_SMS_to_<span_class=strong>12165332241</span>_with_an_Okta_Verify_setup_link_To_continue,_open_the_link_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_13_3"
                     >
-                      We sent an SMS to +12165332241 with an Okta Verify setup link. To continue, open the link on your mobile device.
+                      We sent an SMS to 
+                      <span
+                        class="strong"
+                      >
+                        +12165332241
+                      </span>
+                       with an Okta Verify setup link. To continue, open the link on your mobile device.
                     </p>
                   </div>
                 </div>

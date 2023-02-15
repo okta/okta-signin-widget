@@ -146,7 +146,13 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     data-se="userProfile.secondEmail-explain"
                     id="userProfile.secondEmail-explain"
                   >
-                    Use a second email to  recover your account  in case you become locked out. This email must be verified after setup.
+                    Use a second email to 
+                    <span
+                      class="strong"
+                    >
+                       recover your account 
+                    </span>
+                     in case you become locked out. This email must be verified after setup.
                   </p>
                 </div>
               </div>

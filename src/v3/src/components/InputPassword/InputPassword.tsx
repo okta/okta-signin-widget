@@ -23,6 +23,7 @@ import {
 } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
+import ReactHtmlParser from 'react-html-parser';
 
 import { useWidgetContext } from '../../contexts';
 import {
@@ -150,7 +151,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
           sx={{ textAlign: 'start' }}
         >
-          {explain}
+          {ReactHtmlParser(explain, {
+            transform: translations.find(({ name: fieldName }) => fieldName === 'bottomExplain')?.contentTransformer,
+          })}
         </FormHelperText>
       )}
     </Box>

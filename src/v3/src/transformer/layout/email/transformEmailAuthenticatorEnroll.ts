@@ -25,7 +25,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
-import { getCurrentAuthenticator, loc } from '../../../util';
+import { getCurrentAuthenticator, getHTMLTransformer, loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 import { getEmailAuthenticatorSubtitle } from './getEmailAuthenticatorSubtitle';
 
@@ -74,6 +74,9 @@ export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transact
       redactedEmailAddress,
       useEmailMagicLink,
     );
+    subTitleElement.contentTransformer = typeof redactedEmailAddress !== 'undefined'
+      ? getHTMLTransformer('$1', 'span', { class: 'strong no-translate' })
+      : undefined;
   }
 
   const titleElement: TitleElement = {

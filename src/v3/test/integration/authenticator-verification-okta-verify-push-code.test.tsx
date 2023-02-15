@@ -19,26 +19,56 @@ describe('authenticator-verification-okta-verify-push-code', () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Push notification sent/);
     await findByText(/Send push automatically/);
-    await findByText(/On your mobile device, open the Okta Verify prompt, then tap 52 in Okta Verify to continue./);
+    await findByText(/On your mobile device, open the Okta Verify prompt, then tap/);
     expect(container).toMatchSnapshot();
   });
 
   describe('Polling', () => {
+    let mockSystemTime: number;
+
     beforeEach(() => {
       jest.useFakeTimers();
+      // Mock system time for triggering resend email reminder element
+      mockSystemTime = 1676068045456;
+      jest
+        .spyOn(global.Date, 'now')
+        .mockImplementation(() => mockSystemTime);
+      // sessionStorage 'get' method is mocked for the ReminderPrompts start timestamp variable
+      jest.spyOn(global, 'sessionStorage', 'get').mockReturnValue({
+        length: 0,
+        clear: () => jest.fn(),
+        getItem: () => '1676068045456',
+        setItem: () => jest.fn(),
+        key: () => null,
+        removeItem: () => jest.fn(),
+      });
     });
 
     afterEach(() => {
       jest.useFakeTimers();
     });
 
+    it('should display reminder prompt when waiting on page for >= 30 secs', async () => {
+      const { container, findByText } = await setup({ mockResponse });
+      await findByText(/Push notification sent/);
+      await findByText(/Send push automatically/);
+      await findByText(/On your mobile device, open the Okta Verify prompt, then tap/);
+
+      // Advance system time to show reminder element
+      mockSystemTime += 31_000;
+      jest.advanceTimersByTime(500);
+      await findByText(/Haven't received a push notification yet?/);
+
+      expect(container).toMatchSnapshot();
+    });
+
     it('should make poll request after expected delay', async () => {
       const { findByText, authClient } = await setup({ mockResponse });
       await findByText(/Push notification sent/);
       await findByText(/Send push automatically/);
-      await findByText(/On your mobile device, open the Okta Verify prompt, then tap 52 in Okta Verify to continue./);
+      await findByText(/On your mobile device, open the Okta Verify prompt, then tap/);
 
-      jest.advanceTimersByTime(1500 /* refresh: 1000 */);
+      jest.advanceTimersByTime(1500 /* refresh: 5000 */);
 
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         ...createAuthJsPayloadArgs('POST', 'idp/idx/authenticators/poll'),

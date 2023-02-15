@@ -1,0 +1,4 @@
+:global(span.strong) {
+  font-weight: bold;
+  word-break: break-all;
+}

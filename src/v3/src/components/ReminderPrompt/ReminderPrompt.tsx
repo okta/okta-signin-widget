@@ -13,6 +13,7 @@
 import { Alert, Box, Link } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
+import ReactHtmlParser from 'react-html-parser';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
@@ -119,6 +120,7 @@ const ReminderPrompt: UISchemaElementComponent<{
         <TextWithHtml
           uischema={{
             type: 'TextWithHtml',
+            contentTransformer: uischema.contentTransformer,
             options: {
               contentClassname,
               content,
@@ -131,7 +133,11 @@ const ReminderPrompt: UISchemaElementComponent<{
         />
       );
     }
-    return (<Box marginBlockEnd={2}>{content}</Box>);
+    return (
+      <Box marginBottom={2}>
+        {ReactHtmlParser(content, { transform: uischema.contentTransformer })}
+      </Box>
+    );
   };
 
   return show ? (

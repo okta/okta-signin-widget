@@ -15,6 +15,7 @@ import {
   FieldElement,
   TransformStepFnWithOptions,
 } from '../../types';
+import { getHTMLTransformer } from '../../util';
 import { traverseLayout } from '../util';
 import { addTranslation } from './util';
 
@@ -37,6 +38,7 @@ export const transformSecondEmailInputExplain: TransformStepFnWithOptions = ({
         element,
         name: 'bottomExplain',
         i18nKey: 'oie.profile.additional.secondemail.subtitle',
+        contentTransformer: getHTMLTransformer('$1', 'span', { class: 'strong' }),
       });
     },
   });

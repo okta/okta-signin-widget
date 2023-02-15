@@ -23,6 +23,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentTransformer": [Function],
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.numberchallenge.instruction",
@@ -68,12 +69,14 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentTransformer": [Function],
         "options": Object {
           "actionParams": Object {
             "resend": true,
           },
-          "buttonText": "email.button.resend",
           "content": "oie.numberchallenge.warning",
+          "contentClassname": "resend-number-challenge",
+          "contentHasHtml": true,
           "isActionStep": true,
           "step": "resend",
         },
@@ -86,6 +89,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentTransformer": [Function],
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.numberchallenge.instruction",

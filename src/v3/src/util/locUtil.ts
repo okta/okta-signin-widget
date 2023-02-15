@@ -20,9 +20,5 @@ export const loc = (
 ): string => {
   const localizedText = localize(key, bundleName, params);
 
-  return localizedText
-    .replace('<$1>', '')
-    .replace('</$1>', '')
-    .replace('<span class="strong">', '')
-    .replace('</span>', '');
+  return localizedText;
 };

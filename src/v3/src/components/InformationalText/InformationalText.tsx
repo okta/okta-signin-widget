@@ -12,6 +12,7 @@
 
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
+import ReactHtmlParser from 'react-html-parser';
 
 import { DescriptionElement, UISchemaElementComponent } from '../../types';
 
@@ -32,7 +33,7 @@ const InformationalText: UISchemaElementComponent<{
         paragraph
         data-se={dataSe || 'o-form-explain'}
       >
-        {content}
+        {ReactHtmlParser(content, { transform: uischema.contentTransformer })}
       </Typography>
     </Box>
   );

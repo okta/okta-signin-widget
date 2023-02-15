@@ -12,6 +12,7 @@
 
 import { Box } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
+import ReactHtmlParser from 'react-html-parser';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
@@ -66,8 +67,9 @@ const TextWithHtml: UISchemaElementComponent<{
           },
         })}
         onClick={handleClick}
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+      >
+        {ReactHtmlParser(content, { transform: uischema.contentTransformer })}
+      </Box>
     </Box>
   );
 };
