@@ -129,6 +129,20 @@ module.exports = {
           json: 'always',
         }],
 
+        // prevent inline styles which cause CSP violations
+        'react/forbid-component-props': ['error', {
+          forbid: [{
+            propName: 'style',
+            message: 'Inline styles cause CSP issues',
+          }],
+        }],
+        'react/forbid-dom-props': ['error', {
+          forbid: [{
+            propName: 'style',
+            message: 'Inline styles cause CSP issues',
+          }],
+        }],
+
         // use @typescript-eslint/no-unused-vars
         'no-unused-vars': 'off',
 
