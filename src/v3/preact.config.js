@@ -48,11 +48,6 @@ export default {
       chunk.name === 'bundle' ? 'okta-sign-in.next.js' : '[name].next.js'
     );
 
-    // remove MiniCssExtractPlugin
-    config.plugins = config.plugins.filter(
-      (plugin) => !(plugin instanceof MiniCssExtractPlugin),
-    );
-
     config.plugins.push(new DefinePlugin({
       // for OktaSignIn.__version, AuthContainer[data-version]
       VERSION: JSON.stringify(`okta-signin-widget-${version}`),
@@ -105,7 +100,7 @@ export default {
           ...rule,
           use: rule.use.reduce((acc, loader) => {
             acc.push(
-              loader !== MiniCssExtractPlugin.loader ? loader : 'style-loader',
+              /style-loader/.test(loader) ? MiniCssExtractPlugin.loader : loader
             );
             return acc;
           }, []),
