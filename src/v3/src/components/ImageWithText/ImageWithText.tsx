@@ -47,6 +47,7 @@ const ImageWithText: UISchemaElementComponent<{
         <Box>
           <Typography
             component="span"
+            className={uischema.options.textClassName}
             data-se={`text-${uischema.options.id}`}
           >
             {textContent}

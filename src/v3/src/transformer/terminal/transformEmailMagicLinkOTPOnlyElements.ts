@@ -44,6 +44,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       content: currentAuthenticator?.value?.contextualData?.otp,
       level: 3,
       visualLevel: 3,
+      className: 'no-translate',
       dataSe: 'otp-value',
     },
   };

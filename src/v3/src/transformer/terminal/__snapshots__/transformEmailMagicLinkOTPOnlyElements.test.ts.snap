@@ -24,6 +24,7 @@ Object {
       },
       Object {
         "options": Object {
+          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -69,6 +70,7 @@ Object {
       },
       Object {
         "options": Object {
+          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -114,6 +116,7 @@ Object {
       },
       Object {
         "options": Object {
+          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -159,6 +162,7 @@ Object {
       },
       Object {
         "options": Object {
+          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -204,6 +208,7 @@ Object {
       },
       Object {
         "options": Object {
+          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -266,6 +271,7 @@ Object {
       },
       Object {
         "options": Object {
+          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -344,6 +350,7 @@ Object {
       },
       Object {
         "options": Object {
+          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -414,6 +421,7 @@ Object {
       },
       Object {
         "options": Object {
+          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,
@@ -492,6 +500,7 @@ Object {
       },
       Object {
         "options": Object {
+          "className": "no-translate",
           "content": "123456",
           "dataSe": "otp-value",
           "level": 3,

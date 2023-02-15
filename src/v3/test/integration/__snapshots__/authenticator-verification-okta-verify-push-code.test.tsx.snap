@@ -249,7 +249,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                     class="MuiBox-root emotion-9"
                   >
                     <span
-                      class="MuiTypography-root MuiTypography-body1 emotion-30"
+                      class="MuiTypography-root MuiTypography-body1 no-translate emotion-30"
                       data-se="text-code"
                     >
                       52
@@ -506,7 +506,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-9"
                   >
                     <span
-                      class="MuiTypography-root MuiTypography-body1 emotion-23"
+                      class="MuiTypography-root MuiTypography-body1 no-translate emotion-23"
                       data-se="text-code"
                     >
                       52

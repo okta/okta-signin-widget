@@ -12,13 +12,19 @@
 
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
+import ReactHtmlParser from 'react-html-parser';
 
 import { HeadingElement, UISchemaElementComponent } from '../../types';
 
 const Heading: UISchemaElementComponent<{
   uischema: HeadingElement
 }> = ({ uischema }) => {
-  const { options } = uischema;
+  const {
+    contentTransformer,
+    options: {
+      content, dataSe, level, visualLevel, className,
+    },
+  } = uischema;
 
   return (
     <Box
@@ -28,11 +34,12 @@ const Heading: UISchemaElementComponent<{
     >
       <Typography
         id={uischema.id}
-        variant={`h${options?.level ?? 2}`}
-        component={`h${options?.visualLevel ?? 3}`}
-        data-se={uischema.options.dataSe}
+        variant={`h${level ?? 2}`}
+        component={`h${visualLevel ?? 3}`}
+        className={className}
+        data-se={dataSe}
       >
-        {options.content}
+        {ReactHtmlParser(content, { transform: contentTransformer })}
       </Typography>
     </Box>
   );

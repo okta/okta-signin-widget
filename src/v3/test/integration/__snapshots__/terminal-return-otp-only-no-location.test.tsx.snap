@@ -142,7 +142,7 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                   class="MuiBox-root emotion-20"
                 >
                   <h3
-                    class="MuiTypography-root MuiTypography-h3 emotion-21"
+                    class="MuiTypography-root MuiTypography-h3 no-translate emotion-21"
                     data-se="otp-value"
                   >
                     123456

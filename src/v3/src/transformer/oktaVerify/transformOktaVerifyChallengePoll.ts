@@ -75,6 +75,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
           id: 'code',
           SVGIcon: PhoneSvg,
           textContent: correctAnswer,
+          textClassName: 'no-translate',
         },
       };
 
