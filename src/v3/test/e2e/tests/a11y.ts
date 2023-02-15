@@ -420,3 +420,17 @@ test.page(
 
   await takeScreenshot(t, 'oda-enrollment-android-applink-without-account');
 });
+
+test.page(
+  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/authenticator-verification-unlock-success',
+)('authenticator-verification-unlock-success', async (t) => {
+  await checkA11y(t);
+  await takeScreenshot(t, 'authenticator-verification-unlock-success');
+});
+
+test.page(
+  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/identify/authenticator-verification-data-with-email',
+)('authenticator-verification-data-with-email', async (t) => {
+  await checkA11y(t);
+  await takeScreenshot(t, 'authenticator-verification-data-with-email');
+});
