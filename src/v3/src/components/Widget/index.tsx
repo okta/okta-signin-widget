@@ -75,6 +75,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     authClient,
     brandColors,
     brandName,
+    cspNonce,
     events,
     muiThemeOverrides,
     logo,
@@ -304,9 +305,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     >
       {/* Note: we need to keep both themeproviders (MUI/ODS) until ODS exports all MUI components */}
       <MuiThemeProvider theme={brandedTheme}>
-        {/* the style is to allow the widget to inherit the parent's bg color */}
-        <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
-          <OdysseyCacheProvider>
+        <OdysseyCacheProvider nonce={cspNonce}>
+          {/* the style is to allow the widget to inherit the parent's bg color */}
+          <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
             <OdysseyMuiThemeProvider theme={brandedTheme}>
               <AuthContainer>
                 <AuthHeader
@@ -325,8 +326,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 </AuthContent>
               </AuthContainer>
             </OdysseyMuiThemeProvider>
-          </OdysseyCacheProvider>
-        </ScopedCssBaseline>
+          </ScopedCssBaseline>
+        </OdysseyCacheProvider>
       </MuiThemeProvider>
     </WidgetContextProvider>
   );
