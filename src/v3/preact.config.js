@@ -100,6 +100,7 @@ export default {
           ...rule,
           use: rule.use.reduce((acc, loader) => {
             acc.push(
+              // force MiniCssExtractPlugin.loader for watch mode and static builds
               /style-loader/.test(loader) ? MiniCssExtractPlugin.loader : loader
             );
             return acc;
