@@ -311,7 +311,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       <MuiThemeProvider theme={brandedTheme}>
         <OdysseyCacheProvider nonce={cspNonce}>
           {/* the style is to allow the widget to inherit the parent's bg color */}
-          <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
+          <ScopedCssBaseline
+            sx={{
+              backgroundColor: 'inherit',
+              'span.strong': {
+                fontWeight: 'bold',
+                wordBreak: 'break-all',
+              },
+            }}
+          >
             <OdysseyMuiThemeProvider theme={brandedTheme}>
               <AuthContainer>
                 <AuthHeader
