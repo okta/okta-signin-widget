@@ -303,6 +303,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setWidgetRendered,
       loginHint,
       setloginHint,
+      languageCode,
       languageDirection,
     }}
     >
@@ -312,10 +313,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
             <OdysseyMuiThemeProvider theme={brandedTheme}>
-              <AuthContainer
-                lang={languageCode}
-                dir={languageDirection}
-              >
+              <AuthContainer>
                 <AuthHeader
                   logo={logo}
                   logoText={logoText}

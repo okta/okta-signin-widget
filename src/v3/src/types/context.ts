@@ -45,6 +45,7 @@ export type IWidgetContext = {
   setWidgetRendered: StateUpdater<boolean>;
   loginHint?: string | null;
   setloginHint: StateUpdater<string | null>;
+  languageCode: string;
   languageDirection: LanguageDirection;
 };
 
