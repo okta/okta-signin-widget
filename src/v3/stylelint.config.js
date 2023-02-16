@@ -17,15 +17,4 @@ module.exports = {
   rules: {
     'liberty/use-logical-spec': 'always',
   },
-  overrides: [
-    {
-      files: ['**/*.css'],
-    },
-    // NOTE: There is an issue with stylelint preventing it from processing TSX files
-    // see: https://github.com/stylelint/postcss-css-in-js/issues/300
-    // {
-    //   files: ['**/*.tsx'],
-    //   customSyntax: 'postcss-jsx',
-    // },
-  ],
 };
