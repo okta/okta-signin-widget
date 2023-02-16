@@ -76,7 +76,7 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
     label: loc('oie.consent.enduser.accept.label', 'login'),
     options: {
       type: ButtonType.BUTTON,
-      variant: 'secondary',
+      variant: 'primary',
       dataType: 'save',
       actionParams: { consent: true },
       step: step!,

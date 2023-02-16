@@ -90,7 +90,7 @@ const PasswordRequirements: UISchemaElementComponent<{
   return requirements?.length > 0 ? (
     <Box
       component="figure"
-      margin={0}
+      sx={{ marginBlock: 0, marginInline: 0 }}
       data-se="password-authenticator--rules"
       id={uischema.id}
     >

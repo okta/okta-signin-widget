@@ -60,13 +60,12 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   return (
     <Box
       className={containerClasses}
-      borderBottom="1px solid"
-      borderColor="grey.400"
       sx={{
         paddingBlockStart: (theme) => theme.spacing(4),
         paddingInlineEnd: (theme) => theme.spacing(5),
         paddingBlockEnd: (theme) => theme.spacing(showAuthCoin ? 0 : 4),
         paddingInlineStart: (theme) => theme.spacing(5),
+        borderBlockEnd: (theme) => `1px solid ${theme.palette.grey[400]}`,
       }}
     >
       <Typography variant="h1">

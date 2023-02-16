@@ -104,9 +104,10 @@ const AuthenticatorButton: UISchemaElementComponent<{
         '--FocusOutlineWidth': Tokens.FocusOutlineWidthBase,
         width: 1,
         backgroundColor: 'inherit',
+        paddingBlock: theme.spacing(2),
+        paddingInline: theme.spacing(2),
       })}
       display="flex"
-      padding={2}
       border={1}
       borderColor="grey.200"
       borderRadius={Tokens.BorderRadiusBase}
