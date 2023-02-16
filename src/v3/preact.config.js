@@ -190,6 +190,7 @@ export default {
       devServer: {
         headers: {
           'Content-Security-Policy': mergeContentSecurityPolicies(
+            // 'nonce-playground' for script-src can be removed in OKTA-517096
             "style-src 'self'; object-src 'self'; script-src 'self' 'unsafe-eval' 'nonce-playground'",
             playgroundConfig.devServer.headers['Content-Security-Policy'] || '',
           ),
