@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 
-import { config } from '../widgetrc';
-import OktaSignIn from './OktaSignIn';
+import {config} from '../widgetrc';
+import { OktaSignIn } from './OktaSignIn';
 
 // if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
 //   import('./mocks/browser')
@@ -25,11 +25,14 @@ import OktaSignIn from './OktaSignIn';
 //     .then((worker) => worker?.start());
 // }
 
-if (window) {
-  // @ts-ignore OKTA-487668
-  window.OktaSignIn = OktaSignIn;
+if (import.meta.env.MODE === 'development') {
+  // if (import.meta.env.VITE_MSW) {
+  //   const { worker } = await import('../mocks/browser');
+  //   worker.start({ quiet: import.meta.env.VITE_MSW_QUIET });
+  // }
 
-  // @ts-expect-error use ../../types
-  const siw = new OktaSignIn(config);
-  console.log(siw);
+  console.log(config);
+  
+  // eslint-disable-next-line no-new
+  new OktaSignIn(config);
 }

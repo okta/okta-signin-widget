@@ -20,7 +20,6 @@ import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
 import { readFileSync } from 'fs';
-import { visualizer } from 'rollup-plugin-visualizer';
 import legacy from '@vitejs/plugin-legacy';
 import { browserslist } from './package.json';
 
@@ -30,7 +29,6 @@ export default defineConfig({
     preact(),
     splitVendorChunkPlugin(),
     legacy({ targets: browserslist ?? [] }),
-    visualizer(),
   ],
   define: {
     OKTA_SIW_VERSION: '"0.0.0"',
@@ -45,8 +43,10 @@ export default defineConfig({
       okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
       'okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
       qtip: resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
-      react: resolve(__dirname, 'preact/compat'),
-      'react-dom': resolve(__dirname, 'preact/compat'),
+      react: 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react-dom': 'preact/compat',
+      'react/jsx-runtime': 'preact/jsx-runtime',
       src: resolve(__dirname, './src'),
       util: resolve(__dirname, '../util'),
       v1: resolve(__dirname, '../v1'),
