@@ -342,6 +342,28 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
+test.requestHooks(logger, enrollViaSmsMocks)('respects settings.defaultCountryCode', async t => {
+  // drive to SMS page (click next)
+  const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
+  await enrollOktaVerifyPage.clickSwitchChannel();
+  await switchChannelPageObject.clickNextButton();
+
+  const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
+
+  // Default country code US (+1)
+  const defaultCountryCodeText = await enrollViaSMSPageObject.getCountryLabel();
+  await t.expect(defaultCountryCodeText.trim()).eql('+1');
+
+  await rerenderWidget({
+    defaultCountryCode: 'GB'  // United Kingdom
+  });
+
+  // United Kingdom (+44)
+  const gbCountryCodeText = await enrollViaSMSPageObject.getCountryLabel();
+  await t.expect(gbCountryCodeText.trim()).eql('+44');
+});
+
 test.requestHooks(resendSmsMocks)('after timeout should be able see and click send again link when enrolling via sms', async t => {
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
