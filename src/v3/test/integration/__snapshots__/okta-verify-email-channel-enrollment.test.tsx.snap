@@ -95,10 +95,9 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"

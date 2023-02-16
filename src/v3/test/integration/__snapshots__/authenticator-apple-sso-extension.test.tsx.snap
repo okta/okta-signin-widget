@@ -26,10 +26,9 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
           class="MuiBox-root emotion-5"
         >
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-6"
@@ -205,10 +204,9 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
           class="MuiBox-root emotion-5"
         >
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-6"
@@ -384,10 +382,9 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
           class="MuiBox-root emotion-5"
         >
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-6"

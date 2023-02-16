@@ -99,10 +99,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"
@@ -275,10 +274,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"
@@ -495,10 +493,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"
@@ -703,10 +700,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"
@@ -967,10 +963,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"
@@ -1202,10 +1197,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
           class="MuiBox-root emotion-5"
         >
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-6"
@@ -1368,10 +1362,9 @@ exports[`Email authenticator verification when email magic link = undefined shou
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"

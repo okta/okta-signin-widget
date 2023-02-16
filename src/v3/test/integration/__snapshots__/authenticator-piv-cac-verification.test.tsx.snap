@@ -26,10 +26,9 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
           class="MuiBox-root emotion-5"
         >
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-6"
@@ -317,10 +316,9 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
           class="MuiBox-root emotion-5"
         >
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-6"
@@ -608,10 +606,9 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
           class="MuiBox-root emotion-5"
         >
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-6"
@@ -940,10 +937,9 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
           class="MuiBox-root emotion-6"
         >
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-7"

@@ -95,10 +95,9 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"
@@ -1581,10 +1580,9 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"

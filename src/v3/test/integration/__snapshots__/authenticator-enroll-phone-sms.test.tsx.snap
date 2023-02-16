@@ -62,10 +62,9 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-11"
@@ -762,10 +761,9 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"

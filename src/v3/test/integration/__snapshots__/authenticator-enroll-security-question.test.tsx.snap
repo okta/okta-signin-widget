@@ -99,10 +99,9 @@ exports[`authenticator-enroll-security-question custom question fails client sid
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"
@@ -507,10 +506,9 @@ exports[`authenticator-enroll-security-question custom question renders correct 
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"
@@ -870,10 +868,9 @@ exports[`authenticator-enroll-security-question predefined question renders corr
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"
@@ -1343,10 +1340,9 @@ exports[`authenticator-enroll-security-question predefined question should rende
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-12"
