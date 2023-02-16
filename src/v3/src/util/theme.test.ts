@@ -78,7 +78,7 @@ describe('theme utilities', () => {
   });
   describe('mapMuiThemeFromBrand', () => {
     it('overrides odyssey theme palette', () => {
-      const mappedTheme = mapMuiThemeFromBrand({ primaryColor: '#ff0000' });
+      const mappedTheme = mapMuiThemeFromBrand({ primaryColor: '#ff0000' }, 'ltr');
 
       expect(mappedTheme.palette.primary).not.toEqual(odysseyTheme.palette.primary);
       // the text color remains the same as original
@@ -86,7 +86,7 @@ describe('theme utilities', () => {
     });
 
     it('handles undefined brand', () => {
-      expect(mapMuiThemeFromBrand(undefined)).toEqual(odysseyTheme);
+      expect(mapMuiThemeFromBrand(undefined, 'ltr')).toEqual(odysseyTheme);
     });
   });
 });
