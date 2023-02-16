@@ -12,10 +12,9 @@
 
 import { Box } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import ReactHtmlParser from 'react-html-parser';
 
 import { useWidgetContext } from '../../contexts';
-import { useOnSubmit } from '../../hooks';
+import { useHtmlContentParser, useOnSubmit } from '../../hooks';
 import {
   TextWithHtmlElement,
   UISchemaElementComponent,
@@ -37,6 +36,7 @@ const TextWithHtml: UISchemaElementComponent<{
     isActionStep,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
+  const parsedContent = useHtmlContentParser(content, uischema.contentTransformer);
 
   const handleClick = async (e: Event) => {
     if (submitOnClick) {
@@ -68,7 +68,7 @@ const TextWithHtml: UISchemaElementComponent<{
         })}
         onClick={handleClick}
       >
-        {ReactHtmlParser(content, { transform: uischema.contentTransformer })}
+        {parsedContent}
       </Box>
     </Box>
   );

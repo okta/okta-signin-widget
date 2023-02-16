@@ -23,11 +23,11 @@ import {
 } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
-import ReactHtmlParser from 'react-html-parser';
 
 import { useWidgetContext } from '../../contexts';
 import {
   useAutoFocus,
+  useHtmlContentParser,
   useValue,
 } from '../../hooks';
 import {
@@ -58,6 +58,10 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const hint = getTranslation(translations, 'hint');
   const explain = getTranslation(translations, 'bottomExplain');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
+  const parsedExplainContent = useHtmlContentParser(
+    explain,
+    translations.find(({ name: fieldName }) => fieldName === 'bottomExplain')?.contentTransformer,
+  );
   const hasErrors = typeof errors !== 'undefined';
   // TODO: OKTA-569647 - refactor logic
   const hintId = hint && `${name}-hint`;
@@ -151,9 +155,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
           sx={{ textAlign: 'start' }}
         >
-          {ReactHtmlParser(explain, {
-            transform: translations.find(({ name: fieldName }) => fieldName === 'bottomExplain')?.contentTransformer,
-          })}
+          {parsedExplainContent}
         </FormHelperText>
       )}
     </Box>

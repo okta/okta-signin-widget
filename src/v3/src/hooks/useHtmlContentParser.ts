@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './useAutoFocus';
-export * from './useFormFieldValidation';
-export * from './useHtmlContentParser';
-export * from './useOnChange';
-export * from './useOnSubmit';
-export * from './useOnSubmitValidation';
-export * from './usePolling';
-export * from './useValue';
+import { h } from 'preact';
+import ReactHtmlParser, { Options } from 'react-html-parser';
+
+export const useHtmlContentParser = (
+  content: string | undefined,
+  transform: Options['transform'],
+): h.JSX.Element[] | undefined => (typeof content !== 'undefined'
+  ? ReactHtmlParser(content, { transform })
+  : undefined);

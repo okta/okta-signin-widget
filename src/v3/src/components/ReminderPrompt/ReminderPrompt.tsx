@@ -13,10 +13,9 @@
 import { Alert, Box, Link } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
-import ReactHtmlParser from 'react-html-parser';
 
 import { useWidgetContext } from '../../contexts';
-import { useOnSubmit } from '../../hooks';
+import { useHtmlContentParser, useOnSubmit } from '../../hooks';
 import { ReminderElement, UISchemaElementComponent } from '../../types';
 import TextWithHtml from '../TextWithHtml';
 
@@ -39,6 +38,7 @@ const ReminderPrompt: UISchemaElementComponent<{
     contentHasHtml,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
+  const parsedContent = useHtmlContentParser(content, uischema.contentTransformer);
 
   const [show, setShow] = useState<boolean>(false);
   const timerRef = useRef<number | undefined>();
@@ -135,7 +135,7 @@ const ReminderPrompt: UISchemaElementComponent<{
     }
     return (
       <Box marginBottom={2}>
-        {ReactHtmlParser(content, { transform: uischema.contentTransformer })}
+        {parsedContent}
       </Box>
     );
   };

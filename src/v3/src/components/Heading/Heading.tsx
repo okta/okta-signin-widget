@@ -12,8 +12,8 @@
 
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import ReactHtmlParser from 'react-html-parser';
 
+import { useHtmlContentParser } from '../../hooks';
 import { HeadingElement, UISchemaElementComponent } from '../../types';
 
 const Heading: UISchemaElementComponent<{
@@ -26,6 +26,7 @@ const Heading: UISchemaElementComponent<{
       content, dataSe, level, visualLevel,
     },
   } = uischema;
+  const parsedContent = useHtmlContentParser(content, contentTransformer);
 
   return (
     <Box
@@ -40,7 +41,7 @@ const Heading: UISchemaElementComponent<{
         className={noTranslate ? 'no-translate' : undefined}
         data-se={dataSe}
       >
-        {ReactHtmlParser(content, { transform: contentTransformer })}
+        {parsedContent}
       </Typography>
     </Box>
   );
