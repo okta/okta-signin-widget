@@ -38,6 +38,7 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
       display="flex"
     >
       <OdyIcon
+        // test
         aria-hidden
         titleAccess={status}
         name={statusToIconProps[status].name}
