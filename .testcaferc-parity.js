@@ -13,5 +13,5 @@ module.exports = {
   userVariables: {
     v3: true,
   },
-  pageLoadTimeout: 10000,
+  assertionTimeout: 10000,
 };
