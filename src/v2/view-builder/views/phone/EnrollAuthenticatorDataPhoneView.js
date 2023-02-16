@@ -133,11 +133,12 @@ export default BaseAuthenticatorView.extend({
 
   createModelClass() {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
+    const defaultCountryCode = this.options.settings.get('defaultCountryCode');
     const local = Object.assign(
       {
         country: {
-          // Set default country to "US"
-          'value': 'US',
+          // Set default country
+          'value': CountryUtil.getCallingCodeForCountry(defaultCountryCode)?defaultCountryCode:'US',
           'type': 'string',
         },
         extension: {
