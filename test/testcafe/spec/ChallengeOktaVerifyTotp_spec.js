@@ -60,7 +60,7 @@ test
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Enter a code');
     await t.expect(await challengeOktaVerifyTOTPPageObject.
-      formFieldExistsByLabel('Enter code from Okta Verify ap')).eql(true);
+      formFieldExistsByLabel('Enter code from Okta Verify app')).eql(true);
 
     // Verify links
     await t.expect(await challengeOktaVerifyTOTPPageObject.verifyWithSomethingElseLinkExists()).ok();
