@@ -29,4 +29,8 @@ export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPa
   getNthErrorBulletPoint(index) {
     return this.form.getElement(FORM_INFOBOX_ERROR_BULLETS).nth(index);
   }
+
+  formFieldExistsByLabel(label) {
+    return this.form.fieldByLabelExists(label);
+  }
 }
