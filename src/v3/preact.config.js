@@ -190,7 +190,7 @@ export default {
       devServer: {
         headers: {
           'Content-Security-Policy': mergeContentSecurityPolicies(
-            "style-src 'self' 'nonce-playground'; object-src 'self'; script-src 'self' 'unsafe-eval'",
+            "style-src 'self'; object-src 'self'; script-src 'self' 'unsafe-eval' 'nonce-playground'",
             playgroundConfig.devServer.headers['Content-Security-Policy'] || '',
           ),
         },
