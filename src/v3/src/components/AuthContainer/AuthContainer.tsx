@@ -15,11 +15,12 @@ import { Box } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
+import { LanguageDirection } from '../../types';
 import style from './style.css';
 
-type AuthContainerProps = { languageCode: string; languageDirection?: 'rtl' };
+type AuthContainerProps = { lang: string; dir: LanguageDirection };
 const AuthContainer: FunctionComponent<AuthContainerProps> = ({
-  languageDirection, languageCode, children,
+  lang, dir, children,
 }) => {
   const classes = classNames('auth-container', 'main-container', style.mainViewContainer);
   const isMobileWidth = useMediaQuery('screen and (max-width: 391px)');
@@ -33,8 +34,8 @@ const AuthContainer: FunctionComponent<AuthContainerProps> = ({
       className={classes}
       data-version={VERSION}
       data-commit={COMMITHASH}
-      lang={languageCode}
-      dir={languageDirection}
+      lang={lang}
+      dir={dir}
     >
       <Box
         flex="auto"

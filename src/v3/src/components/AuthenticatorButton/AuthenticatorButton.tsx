@@ -182,7 +182,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             {ctaLabel}
           </Box>
           {
-            typeof languageDirection !== 'undefined'
+            languageDirection === 'rtl'
               ? <ArrowLeftIcon titleAccess={ctaLabel} />
               : <ArrowRightIcon titleAccess={ctaLabel} />
           }

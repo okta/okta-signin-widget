@@ -9,6 +9,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >
@@ -118,10 +119,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                 class="MuiBox-root emotion-12"
               >
                 <ul
-                  class="MuiList-root emotion-22"
+                  class="MuiBox-root emotion-22"
                 >
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-23"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_optional_3 okta_password_0-description okta_password_0-ctaLabel"
@@ -224,7 +225,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-23"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_optional_3 phone_number_1-description phone_number_1-ctaLabel"
@@ -337,7 +338,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-23"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-enroll_Title_Set_up_security_methods_1 select-authenticator-enroll_Description_Security_methods_help_protect_your_account_by_ensuring_only_you_have_access_2 select-authenticator-enroll_Description_Set_up_optional_3 webauthn_2-description webauthn_2-ctaLabel"

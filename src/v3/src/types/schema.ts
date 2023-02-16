@@ -112,6 +112,8 @@ Promise<WebAuthNVerificationPayload>;
 
 export type ElementContentType = 'subtitle' | 'footer';
 
+export type LanguageDirection = 'rtl' | 'ltr';
+
 export interface UISchemaElement {
   type: string;
   id?: string;

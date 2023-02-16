@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { List } from '@mui/material';
 import { Box } from '@okta/odyssey-react-mui';
 import debounce from 'lodash/debounce';
 import { h } from 'preact';
@@ -101,9 +100,10 @@ const PasswordRequirements: UISchemaElementComponent<{
       >
         {header}
       </Box>
-      <List
+      <Box
+        component="ul"
         id={listId}
-        dense
+        sx={{ listStyle: 'none', padding: '0', marginBlockStart: (theme) => theme.spacing(2) }}
       >
         {requirements.map(({ ruleKey, label }) => (
           <PasswordRequirementListItem
@@ -112,7 +112,7 @@ const PasswordRequirements: UISchemaElementComponent<{
             label={label}
           />
         ))}
-      </List>
+      </Box>
     </Box>
   ) : null;
 };

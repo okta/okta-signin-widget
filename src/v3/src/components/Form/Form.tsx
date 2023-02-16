@@ -95,7 +95,7 @@ const Form: FunctionComponent<{
     <form
       noValidate
       onSubmit={handleSubmit}
-      className={classes} // FIXME update page objects using .o-form selectors
+      className={classes} // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
       data-se="o-form"
     >
       <InfoSection message={message} />

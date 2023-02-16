@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { LanguageDirection } from '../types';
+
 const rtlLanguageCodes = new Set([
   'ar', // Arabic
   'arc', // Aramaic
@@ -28,9 +30,6 @@ const rtlLanguageCodes = new Set([
   'yi', // Yiddish
 ]);
 
-// ltr is default so mark as undefined when ltr
-type LanguageDirection = 'rtl' | undefined;
-
 export const getLanguageDirection = (
   languageCode: string,
-): LanguageDirection => (rtlLanguageCodes.has(languageCode) ? 'rtl' : undefined);
+): LanguageDirection => (rtlLanguageCodes.has(languageCode) ? 'rtl' : 'ltr');

@@ -9,6 +9,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >
@@ -136,10 +137,10 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                 class="MuiBox-root emotion-13"
               >
                 <ul
-                  class="MuiList-root emotion-20"
+                  class="MuiBox-root emotion-20"
                 >
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-21"
+                    class="MuiBox-root emotion-13"
                   >
                     <button
                       aria-describedby="authenticator-verification-data_Title_Verify_its_you_with_a_security_method_okta_verify_aut13qrZReYpIib7R0g4_1 authenticator-verification-data_Description_Select_from_the_following_options_okta_verify_aut13qrZReYpIib7R0g4_2 okta_verify_0-description okta_verify_0-ctaLabel"
@@ -238,7 +239,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-21"
+                    class="MuiBox-root emotion-13"
                   >
                     <button
                       aria-describedby="authenticator-verification-data_Title_Verify_its_you_with_a_security_method_okta_verify_aut13qrZReYpIib7R0g4_1 authenticator-verification-data_Description_Select_from_the_following_options_okta_verify_aut13qrZReYpIib7R0g4_2 okta_verify_1-description okta_verify_1-ctaLabel"
@@ -337,7 +338,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-21"
+                    class="MuiBox-root emotion-13"
                   >
                     <button
                       aria-describedby="authenticator-verification-data_Title_Verify_its_you_with_a_security_method_okta_verify_aut13qrZReYpIib7R0g4_1 authenticator-verification-data_Description_Select_from_the_following_options_okta_verify_aut13qrZReYpIib7R0g4_2 okta_verify_2-description okta_verify_2-ctaLabel"

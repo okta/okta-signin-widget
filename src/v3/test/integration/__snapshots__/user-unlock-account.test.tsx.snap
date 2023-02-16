@@ -9,6 +9,7 @@ exports[`user-unlock-account renders form 1`] = `
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >
@@ -82,10 +83,10 @@ exports[`user-unlock-account renders form 1`] = `
                 class="MuiBox-root emotion-7"
               >
                 <ul
-                  class="MuiList-root emotion-16"
+                  class="MuiBox-root emotion-16"
                 >
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-17"
+                    class="MuiBox-root emotion-7"
                   >
                     <button
                       aria-describedby="select-authenticator-unlock-account_Title_Unlock_account_1 okta_email_0-ctaLabel"
@@ -181,7 +182,7 @@ exports[`user-unlock-account renders form 1`] = `
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-17"
+                    class="MuiBox-root emotion-7"
                   >
                     <button
                       aria-describedby="select-authenticator-unlock-account_Title_Unlock_account_1 phone_number_1-ctaLabel"

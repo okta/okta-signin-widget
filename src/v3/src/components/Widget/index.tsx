@@ -313,8 +313,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
             <OdysseyMuiThemeProvider theme={brandedTheme}>
               <AuthContainer
-                languageCode={languageCode}
-                languageDirection={languageDirection}
+                lang={languageCode}
+                dir={languageDirection}
               >
                 <AuthHeader
                   logo={logo}
