@@ -11,7 +11,12 @@
  */
 
 import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  Box,
+  Typography,
+} from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
 import { h } from 'preact';
 
@@ -24,7 +29,6 @@ import {
 } from '../../types';
 import { getTranslation, getValidationMessages } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
-import { RightArrowIcon } from '../Icon';
 import style from './styles.module.css';
 
 const AuthenticatorButton: UISchemaElementComponent<{
@@ -54,7 +58,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
     },
   } = uischema;
   const label = getTranslation(translations, 'label');
-  const { dataSchemaRef, data, loading } = useWidgetContext();
+  const {
+    dataSchemaRef, data, loading, languageDirection,
+  } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const onValidationHandler = useOnSubmitValidation();
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
@@ -98,9 +104,10 @@ const AuthenticatorButton: UISchemaElementComponent<{
         '--FocusOutlineWidth': Tokens.FocusOutlineWidthBase,
         width: 1,
         backgroundColor: 'inherit',
+        paddingBlock: theme.spacing(2),
+        paddingInline: theme.spacing(2),
       })}
       display="flex"
-      padding={2}
       border={1}
       borderColor="grey.200"
       borderRadius={Tokens.BorderRadiusBase}
@@ -175,10 +182,11 @@ const AuthenticatorButton: UISchemaElementComponent<{
           >
             {ctaLabel}
           </Box>
-          <RightArrowIcon
-            name={`${iconName}-arrow-right`}
-            description={ctaLabel}
-          />
+          {
+            languageDirection === 'rtl'
+              ? <ArrowLeftIcon titleAccess={ctaLabel} />
+              : <ArrowRightIcon titleAccess={ctaLabel} />
+          }
         </Box>
       </Box>
     </Box>

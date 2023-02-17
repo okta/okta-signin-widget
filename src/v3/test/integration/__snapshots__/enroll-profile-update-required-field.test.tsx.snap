@@ -9,6 +9,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >
@@ -272,6 +273,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >

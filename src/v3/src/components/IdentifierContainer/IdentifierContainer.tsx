@@ -58,7 +58,7 @@ const IdentifierContainer: FunctionComponent = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      marginBottom={4}
+      marginBlockEnd={4}
       className={mainContainerClasses}
       sx={(theme) => ({
         '--PrimaryFill': theme.palette.primary.main,

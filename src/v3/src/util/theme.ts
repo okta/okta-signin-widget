@@ -17,7 +17,8 @@ import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { PartialTheme } from '@okta/odyssey-react-theme/dist/ThemeProvider/context';
 import chroma from 'chroma-js';
 import { cloneDeep, merge } from 'lodash';
-import { BrandColors } from 'src/types';
+
+import { BrandColors, LanguageDirection } from '../types';
 
 type DerivedTheme = {
   primaryColor: string;
@@ -95,12 +96,14 @@ export const deriveThemeFromBrand = (brand: BrandColors): DerivedTheme | null =>
 
 export const mapMuiThemeFromBrand = (
   brand: BrandColors | undefined,
+  languageDirection: LanguageDirection,
   muiThemeOverrides?: ThemeOptions,
 ): Theme => {
   // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
   odysseyTheme.shape.borderRadius = 4;
 
   const odysseyThemeCopy = cloneDeep(odysseyTheme);
+  odysseyTheme.direction = languageDirection;
 
   if (brand) {
     const derivedTheme = deriveThemeFromBrand(brand);

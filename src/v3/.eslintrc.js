@@ -164,6 +164,48 @@ module.exports = {
         }],
 
         'class-methods-use-this': 'off',
+
+        'react/forbid-component-props': [
+          2,
+          {
+            forbid: [
+              { propName: 'margin', message: 'Use "marginBlock" and "marginInline" instead.' },
+              { propName: 'marginTop', message: 'Use "marginBlockStart" instead.' },
+              { propName: 'marginBottom', message: 'Use "marginBlockEnd" instead.' },
+              { propName: 'marginLeft', message: 'Use "marginInlineStart" instead.' },
+              { propName: 'marginRight', message: 'Use "marginInlineEnd" instead.' },
+              { propName: 'mt', message: 'Use "marginBlockStart" instead.' },
+              { propName: 'mb', message: 'Use "marginBlockEnd" instead.' },
+              { propName: 'ml', message: 'Use "marginInlineStart" instead.' },
+              { propName: 'mr', message: 'Use "marginInlineEnd" instead.' },
+
+              { propName: 'padding', message: 'Use "paddingBlock" and "paddingInline" instead.' },
+              { propName: 'paddingTop', message: 'Use "paddingBlockStart" instead.' },
+              { propName: 'paddingBottom', message: 'Use "paddingBlockEnd" instead.' },
+              { propName: 'paddingLeft', message: 'Use "paddingInlineStart" instead.' },
+              { propName: 'paddingRight', message: 'Use "paddingInlineEnd" instead.' },
+              { propName: 'pt', message: 'Use "paddingBlockStart" instead.' },
+              { propName: 'pb', message: 'Use "paddingBlockEnd" instead.' },
+              { propName: 'pl', message: 'Use "paddingInlineStart" instead.' },
+              { propName: 'pr', message: 'Use "paddingInlineEnd" instead.' },
+
+              { propName: 'borderTop', message: 'Use "borderBlockStart" instead.' },
+              { propName: 'borderBottom', message: 'Use "borderBlockEnd" instead.' },
+              { propName: 'borderLeft', message: 'Use "borderInlineStart" instead.' },
+              { propName: 'borderRight', message: 'Use "borderInlineEnd" instead.' },
+
+              { propName: 'borderTopLeftRadius', message: 'Use "borderStartStartRadius" instead.' },
+              { propName: 'borderTopRightRadius', message: 'Use "borderEndStartRadius" instead.' },
+              { propName: 'borderBottomLeftRadius', message: 'Use "borderEndStartRadius" instead.' },
+              { propName: 'borderBottomRightRadius', message: 'Use "borderEndEndRadius" instead.' },
+
+              { propName: 'top', message: 'Use "insetBlockStart" instead.' },
+              { propName: 'bottom', message: 'Use "insetBlockEnd" instead.' },
+              { propName: 'left', message: 'Use "insetInlineStart" instead.' },
+              { propName: 'right', message: 'Use "insetInlineEnd" instead.' },
+            ],
+          },
+        ],
       },
       globals: {
         COMMITHASH: false,

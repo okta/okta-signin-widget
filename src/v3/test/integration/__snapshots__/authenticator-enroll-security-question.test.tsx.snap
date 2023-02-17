@@ -9,6 +9,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >
@@ -416,6 +417,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >
@@ -778,6 +780,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >
@@ -1250,6 +1253,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >

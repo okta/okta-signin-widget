@@ -19,7 +19,7 @@ import {
 } from '@okta/okta-auth-js';
 import { MutableRef, StateUpdater } from 'preact/hooks';
 
-import { FormBag } from './schema';
+import { FormBag, LanguageDirection } from './schema';
 import { WidgetProps } from './widget';
 
 export type IWidgetContext = {
@@ -45,6 +45,8 @@ export type IWidgetContext = {
   setWidgetRendered: StateUpdater<boolean>;
   loginHint?: string | null;
   setloginHint: StateUpdater<string | null>;
+  languageCode: string;
+  languageDirection: LanguageDirection;
 };
 
 // Stepper context

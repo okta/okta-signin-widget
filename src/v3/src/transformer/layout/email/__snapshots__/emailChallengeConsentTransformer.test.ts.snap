@@ -58,7 +58,7 @@ Object {
           "dataType": "save",
           "step": "email-challenge-consent",
           "type": "button",
-          "variant": "secondary",
+          "variant": "primary",
         },
         "type": "Button",
       },

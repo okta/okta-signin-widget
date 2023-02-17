@@ -24,7 +24,7 @@ const Heading: UISchemaElementComponent<{
     <Box
       display="flex"
       justifyContent="flex-start"
-      marginBottom={2}
+      marginBlockEnd={2}
     >
       <Typography
         id={uischema.id}

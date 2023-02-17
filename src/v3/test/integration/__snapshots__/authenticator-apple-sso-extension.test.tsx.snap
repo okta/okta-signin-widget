@@ -9,6 +9,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >
@@ -187,6 +188,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >
@@ -365,6 +367,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >

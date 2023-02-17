@@ -10,11 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/material';
+import { Typography } from '@mui/material';
+import { Box } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementProps } from '../../types';
@@ -26,15 +23,20 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
   const { status, label } = props;
 
   return (
-    <ListItem
-      disablePadding
-      disableGutters
+    <Box
+      component="li"
+      sx={{ marginBlockEnd: (theme) => theme.spacing(2) }}
     >
-      <ListItemIcon sx={{ minWidth: '1.5rem' }}>
-        <Icon status={status} />
-      </ListItemIcon>
-      <ListItemText primary={label} />
-    </ListItem>
+      <Box
+        display="flex"
+        alignItems="center"
+      >
+        <Box sx={{ minInlineSize: (theme) => theme.spacing(2) }}>
+          <Icon status={status} />
+        </Box>
+        <Box><Typography variant="body1">{label}</Typography></Box>
+      </Box>
+    </Box>
   );
 };
 export default PasswordRequirementListItem;

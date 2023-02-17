@@ -33,7 +33,7 @@ const renderElement = (item: UISchemaElement) => {
   const Container: FunctionComponent = ({ children }) => (
     <Box
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(!(item).noMargin && { marginBottom: 4 })}
+      {...(!(item).noMargin && { marginBlockEnd: 4 })}
     >
       {children}
     </Box>
@@ -89,7 +89,7 @@ const List: UISchemaElementComponent<{
       display="flex"
       flexDirection="column"
       justifyContent="flex-start"
-      marginBottom={4}
+      marginBlockEnd={4}
     >
       { options.description && <Typography component="p">{options.description}</Typography> }
       <ListOdyssey listType={options.type ?? 'unordered'}>

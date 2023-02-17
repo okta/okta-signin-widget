@@ -9,6 +9,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
       class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
+      dir="ltr"
       id="okta-sign-in"
       lang="en"
     >
@@ -103,10 +104,10 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 class="MuiBox-root emotion-12"
               >
                 <ul
-                  class="MuiList-root emotion-19"
+                  class="MuiBox-root emotion-19"
                 >
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 okta_password_0-ctaLabel"
@@ -180,29 +181,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="okta_password_0-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="okta_password_0-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 webauthn_1-ctaLabel"
@@ -296,29 +297,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="webauthn_1-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="webauthn_1-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 okta_email_2-ctaLabel"
@@ -392,29 +393,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="okta_email_2-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="okta_email_2-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 phone_number_3-description phone_number_3-ctaLabel"
@@ -487,7 +488,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                           Phone
                         </h3>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-50"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-53"
                           data-se="authenticator-button-description"
                           id="phone_number_3-description"
                         >
@@ -505,29 +506,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="phone_number_3-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="phone_number_3-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 phone_number_4-description phone_number_4-ctaLabel"
@@ -600,7 +601,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                           Phone
                         </h3>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-50"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-53"
                           data-se="authenticator-button-description"
                           id="phone_number_4-description"
                         >
@@ -618,29 +619,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="phone_number_4-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="phone_number_4-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 security_question_5-ctaLabel"
@@ -714,29 +715,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="security_question_5-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="security_question_5-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 okta_verify_6-description okta_verify_6-ctaLabel"
@@ -795,7 +796,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                           Use Okta FastPass
                         </h3>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-50"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-53"
                           data-se="authenticator-button-description"
                           id="okta_verify_6-description"
                         >
@@ -813,29 +814,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="okta_verify_6-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="okta_verify_6-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 google_otp_7-ctaLabel"
@@ -981,29 +982,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="google_otp_7-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="google_otp_7-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 onprem_mfa_8-ctaLabel"
@@ -1077,29 +1078,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="onprem_mfa_8-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="onprem_mfa_8-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 rsa_token_9-ctaLabel"
@@ -1167,29 +1168,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="rsa_token_9-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="rsa_token_9-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 duo_10-ctaLabel"
@@ -1259,29 +1260,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="duo_10-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="duo_10-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 external_idp_11-ctaLabel"
@@ -1360,29 +1361,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="external_idp_11-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="external_idp_11-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 custom_otp_12-ctaLabel"
@@ -1461,29 +1462,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="custom_otp_12-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="custom_otp_12-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 symantec_vip_13-ctaLabel"
@@ -1559,29 +1560,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="symantec_vip_13-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="symantec_vip_13-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 yubikey_token_14-ctaLabel"
@@ -1657,29 +1658,29 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="yubikey_token_14-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="yubikey_token_14-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
                     </button>
                   </li>
                   <li
-                    class="MuiListItem-root MuiListItem-padding emotion-20"
+                    class="MuiBox-root emotion-12"
                   >
                     <button
                       aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 custom_app_15-description custom_app_15-ctaLabel"
@@ -1699,7 +1700,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <img
                             alt="Redirect to a third party MFA provider to sign in."
-                            class="custom-logo MuiBox-root emotion-147"
+                            class="custom-logo MuiBox-root emotion-162"
                             src="/img/logos/default.png"
                           />
                         </div>
@@ -1715,7 +1716,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                           Get a push notification
                         </h3>
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-50"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-53"
                           data-se="authenticator-button-description"
                           id="custom_app_15-description"
                         >
@@ -1733,22 +1734,22 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             Select
                           </span>
                           <svg
-                            aria-labelledby="custom_app_15-arrow-right"
-                            fill="currentColor"
-                            height="11"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
                             role="img"
-                            viewBox="0 0 14 11"
-                            width="14"
+                            viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <title
-                              id="custom_app_15-arrow-right"
-                            >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
                               Select
                             </title>
-                            <path
-                              d="M0 6.5H8V10.5L13.8158 5.8842C13.8734 5.83728 13.9198 5.77855 13.9517 5.71217C13.9835 5.64579 14 5.5734 14 5.5001C14 5.42681 13.9835 5.35441 13.9517 5.28803C13.9198 5.22165 13.8734 5.16292 13.8158 5.116L8 0.5V4.5H0V6.5Z"
-                            />
                           </svg>
                         </div>
                       </div>
@@ -1760,7 +1761,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                 class="MuiBox-root emotion-12"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-154"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-170"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

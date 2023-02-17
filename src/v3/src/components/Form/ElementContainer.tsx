@@ -36,7 +36,7 @@ const ElementContainer: FunctionComponent<{ element: UISchemaElement }> = ({ ele
   return (
     <Box
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(!(element).noMargin && { marginBottom: 4 })}
+      {...(!(element).noMargin && { marginBlockEnd: 4 })}
     >
       <Component uischema={element} />
     </Box>
