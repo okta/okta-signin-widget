@@ -23,7 +23,6 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentTransformer": [Function],
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.numberchallenge.instruction",
@@ -70,7 +69,6 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "contentTransformer": [Function],
         "options": Object {
           "actionParams": Object {
             "resend": true,
@@ -90,7 +88,6 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentTransformer": [Function],
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.numberchallenge.instruction",

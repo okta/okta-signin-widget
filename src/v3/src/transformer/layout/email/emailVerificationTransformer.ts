@@ -18,7 +18,7 @@ import {
   IdxStepTransformer,
   TitleElement,
 } from '../../../types';
-import { getHTMLTransformer, loc } from '../../../util';
+import { loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
@@ -44,10 +44,16 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
   const informationalText: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
-    contentTransformer: getHTMLTransformer('$1', 'span', { class: 'strong no-translate' }),
     options: {
       content: redactedEmailAddress
-        ? loc('oie.email.verify.subtitleWithEmailAddress', 'login', [redactedEmailAddress])
+        ? loc(
+          'oie.email.verify.subtitleWithEmailAddress',
+          'login',
+          [redactedEmailAddress],
+          (content) => content
+            .replace('<$1>', '<span class="strong no-translate">')
+            .replace('</$1>', '</span>'),
+        )
         : loc('oie.email.verify.subtitleWithoutEmailAddress', 'login'),
     },
   };

@@ -21,7 +21,6 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentTransformer": [Function],
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.email.verify.subtitleWithoutEmailAddress",
@@ -66,7 +65,6 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentTransformer": [Function],
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.email.verify.subtitleWithEmailAddress",

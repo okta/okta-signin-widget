@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import parse, { HTMLReactParserOptions } from 'html-react-parser';
 import { h } from 'preact';
-import ReactHtmlParser, { Options } from 'react-html-parser';
 
 export const useHtmlContentParser = (
   content: string | undefined,
-  transform: Options['transform'],
-): h.JSX.Element[] | undefined => (typeof content !== 'undefined'
-  ? ReactHtmlParser(content, { transform })
+  options?: HTMLReactParserOptions,
+): string | h.JSX.Element | h.JSX.Element[] | undefined => (typeof content !== 'undefined'
+  // eslint-disable-next-line global-require
+  ? parse(content, { ...options, library: require('preact') })
   : undefined);

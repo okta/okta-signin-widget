@@ -22,7 +22,6 @@ export * from './generateRandomString';
 export * from './getAuthenticatorKey';
 export * from './getCurrentAuthenticator';
 export * from './getElementKey';
-export * from './getHTMLTransformer';
 export * from './getImmutableData';
 export * from './getLanguageDirection';
 export * from './getTranslation';

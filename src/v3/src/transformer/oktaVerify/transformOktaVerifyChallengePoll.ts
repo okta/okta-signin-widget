@@ -23,7 +23,7 @@ import {
   SpinnerElement,
   TitleElement,
 } from '../../types';
-import { getHTMLTransformer, loc } from '../../util';
+import { loc } from '../../util';
 import { transformOktaVerifyDeviceChallengePoll, transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 import { getUIElementWithName } from '../utils';
 
@@ -57,11 +57,17 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
         const { name } = resendStep;
         uischema.elements.unshift({
           type: 'Reminder',
-          contentTransformer: getHTMLTransformer('$1', 'a', { href: '#', class: 'resend-number-challenge' }),
           options: {
             contentHasHtml: true,
             contentClassname: 'resend-number-challenge',
-            content: loc('oie.numberchallenge.warning', 'login'),
+            content: loc(
+              'oie.numberchallenge.warning',
+              'login',
+              undefined,
+              (content) => content
+                .replace('<$1>', '<a href="#" class="resend-number-challenge">')
+                .replace('</$1>', '</a>'),
+            ),
             step: name,
             isActionStep: true,
             actionParams: { resend: true },
@@ -82,9 +88,15 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
       const description: DescriptionElement = {
         type: 'Description',
         contentType: 'subtitle',
-        contentTransformer: getHTMLTransformer('$1', 'span', { class: 'strong' }),
         options: {
-          content: loc('oie.numberchallenge.instruction', 'login', [correctAnswer]),
+          content: loc(
+            'oie.numberchallenge.instruction',
+            'login',
+            [correctAnswer],
+            (content) => content
+              .replace('<$1>', '<span class="strong">')
+              .replace('</$1>', '</span>'),
+          ),
           dataSe: 'numberchallenge-instr-value',
         },
       };

@@ -36,7 +36,7 @@ const TextWithHtml: UISchemaElementComponent<{
     isActionStep,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
-  const parsedContent = useHtmlContentParser(content, uischema.contentTransformer);
+  const parsedContent = useHtmlContentParser(content);
 
   const handleClick = async (e: Event) => {
     if (submitOnClick) {

@@ -33,7 +33,6 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentTransformer": undefined,
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.verificationCode.instructions",
@@ -84,7 +83,6 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentTransformer": [Function],
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions",
@@ -147,7 +145,6 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentTransformer": [Function],
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions",
@@ -216,7 +213,6 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "contentTransformer": undefined,
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
@@ -260,7 +256,6 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "contentTransformer": undefined,
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
@@ -325,7 +320,6 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "contentTransformer": [Function],
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
@@ -356,7 +350,6 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "contentTransformer": [Function],
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
@@ -434,7 +427,6 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "contentTransformer": [Function],
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
@@ -478,7 +470,6 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "contentTransformer": [Function],
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
@@ -556,7 +547,6 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "contentTransformer": undefined,
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
@@ -600,7 +590,6 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "contentTransformer": undefined,
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
@@ -665,7 +654,6 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "contentTransformer": [Function],
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
@@ -696,7 +684,6 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "contentTransformer": [Function],
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
@@ -774,7 +761,6 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "contentTransformer": [Function],
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
@@ -818,7 +804,6 @@ Object {
                 "viewIndex": 1,
               },
               Object {
-                "contentTransformer": [Function],
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",

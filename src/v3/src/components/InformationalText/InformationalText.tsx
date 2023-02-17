@@ -22,7 +22,7 @@ const InformationalText: UISchemaElementComponent<{
   uischema,
 }) => {
   const { content, dataSe } = uischema.options;
-  const parsedContent = useHtmlContentParser(content, uischema.contentTransformer);
+  const parsedContent = useHtmlContentParser(content);
 
   return (
     <Box

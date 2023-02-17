@@ -16,7 +16,7 @@ import {
   getI18nKey,
   getI18NParams,
 } from '../../../../v2/ion/i18nTransformer';
-import { FieldElement, TranslationInfo, UISchemaElement } from '../../types';
+import { FieldElement, UISchemaElement } from '../../types';
 import { loc } from '../../util';
 
 export const addTranslation = ({
@@ -25,14 +25,14 @@ export const addTranslation = ({
   i18nKey,
   params,
   defaultValue = '',
-  contentTransformer,
+  replacerFn,
 }: {
   element: UISchemaElement;
   name: string;
   i18nKey: string;
   params?: any;
   defaultValue?: string;
-  contentTransformer?: TranslationInfo['contentTransformer'];
+  replacerFn?: (content: string) => string,
 }): void => {
   // TODO: change translations to required field with default value
   // eslint-disable-next-line no-param-reassign
@@ -40,8 +40,7 @@ export const addTranslation = ({
   element.translations.push({
     name,
     i18nKey,
-    value: i18nKey ? loc(i18nKey, 'login', params) : defaultValue,
-    contentTransformer,
+    value: i18nKey ? loc(i18nKey, 'login', params, replacerFn) : defaultValue,
   });
 };
 

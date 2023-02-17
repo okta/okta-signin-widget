@@ -31,7 +31,6 @@ Object {
               },
               "translations": Array [
                 Object {
-                  "contentTransformer": undefined,
                   "i18nKey": "",
                   "name": "label",
                   "value": "My custom authenticator app",
@@ -86,7 +85,6 @@ Object {
               },
               "translations": Array [
                 Object {
-                  "contentTransformer": undefined,
                   "i18nKey": "oie.email.label",
                   "name": "label",
                   "value": "oie.email.label",
@@ -144,7 +142,6 @@ Object {
               },
               "translations": Array [
                 Object {
-                  "contentTransformer": undefined,
                   "i18nKey": "oie.okta_verify.push.title",
                   "name": "label",
                   "value": "oie.okta_verify.push.title",

@@ -25,7 +25,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
-import { getCurrentAuthenticator, getHTMLTransformer, loc } from '../../../util';
+import { getCurrentAuthenticator, loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 import { getEmailAuthenticatorSubtitle } from './getEmailAuthenticatorSubtitle';
 
@@ -70,13 +70,16 @@ export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transact
     subTitleElement.options.content = loc('oie.email.enroll.subtitle', 'login');
   } else {
     const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
+    const replacerFn = typeof redactedEmailAddress !== 'undefined'
+      ? (content: string) => content
+        .replace('<$1>', '<span class="strong no-translate">')
+        .replace('</$1>', '</span>')
+      : undefined;
     subTitleElement.options.content = getEmailAuthenticatorSubtitle(
       redactedEmailAddress,
       useEmailMagicLink,
+      replacerFn,
     );
-    subTitleElement.contentTransformer = typeof redactedEmailAddress !== 'undefined'
-      ? getHTMLTransformer('$1', 'span', { class: 'strong no-translate' })
-      : undefined;
   }
 
   const titleElement: TitleElement = {

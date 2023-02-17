@@ -38,7 +38,7 @@ const ReminderPrompt: UISchemaElementComponent<{
     contentHasHtml,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
-  const parsedContent = useHtmlContentParser(content, uischema.contentTransformer);
+  const parsedContent = useHtmlContentParser(content);
 
   const [show, setShow] = useState<boolean>(false);
   const timerRef = useRef<number | undefined>();
@@ -118,7 +118,6 @@ const ReminderPrompt: UISchemaElementComponent<{
         <TextWithHtml
           uischema={{
             type: 'TextWithHtml',
-            contentTransformer: uischema.contentTransformer,
             options: {
               contentClassname,
               content,

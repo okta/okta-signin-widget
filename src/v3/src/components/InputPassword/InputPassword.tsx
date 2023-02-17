@@ -58,10 +58,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const hint = getTranslation(translations, 'hint');
   const explain = getTranslation(translations, 'bottomExplain');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
-  const parsedExplainContent = useHtmlContentParser(
-    explain,
-    translations.find(({ name: fieldName }) => fieldName === 'bottomExplain')?.contentTransformer,
-  );
+  const parsedExplainContent = useHtmlContentParser(explain);
   const hasErrors = typeof errors !== 'undefined';
   // TODO: OKTA-569647 - refactor logic
   const hintId = hint && `${name}-hint`;

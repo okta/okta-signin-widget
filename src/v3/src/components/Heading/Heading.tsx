@@ -20,13 +20,12 @@ const Heading: UISchemaElementComponent<{
   uischema: HeadingElement
 }> = ({ uischema }) => {
   const {
-    contentTransformer,
     noTranslate,
     options: {
       content, dataSe, level, visualLevel,
     },
   } = uischema;
-  const parsedContent = useHtmlContentParser(content, contentTransformer);
+  const parsedContent = useHtmlContentParser(content);
 
   return (
     <Box

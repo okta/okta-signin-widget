@@ -131,7 +131,7 @@ exports[`authenticator-verification-data-with-email should render form 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
-                    id="authenticator-verification-data_Description_Verify_with_an_email_link_or_enter_a_code_sent_to_<$1>t****1@oktacom</$1>_okta_email_2"
+                    id="authenticator-verification-data_Description_Verify_with_an_email_link_or_enter_a_code_sent_to_<span_class=strong_no-translate>t****1@oktacom</span>_okta_email_2"
                   >
                     Verify with an email link or enter a code sent to 
                     <span
@@ -147,7 +147,7 @@ exports[`authenticator-verification-data-with-email should render form 1`] = `
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="authenticator-verification-data_Title_Verify_with_your_email_okta_email_1 authenticator-verification-data_Description_Verify_with_an_email_link_or_enter_a_code_sent_to_<$1>t****1@oktacom</$1>_okta_email_2"
+                  aria-describedby="authenticator-verification-data_Title_Verify_with_your_email_okta_email_1 authenticator-verification-data_Description_Verify_with_an_email_link_or_enter_a_code_sent_to_<span_class=strong_no-translate>t****1@oktacom</span>_okta_email_2"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-20"
                   data-type="save"
                   tabindex="0"

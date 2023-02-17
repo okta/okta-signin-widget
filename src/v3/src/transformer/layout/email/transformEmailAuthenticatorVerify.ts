@@ -25,7 +25,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
-import { getCurrentAuthenticator, getHTMLTransformer, loc } from '../../../util';
+import { getCurrentAuthenticator, loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 import { getEmailAuthenticatorSubtitle } from './getEmailAuthenticatorSubtitle';
 
@@ -65,14 +65,20 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
   }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
+  const replacerFn = typeof redactedEmailAddress !== 'undefined'
+    ? (content: string) => content
+      .replace('<$1>', '<span class="strong no-translate">')
+      .replace('</$1>', '</span>')
+    : undefined;
   const informationalText: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
-    contentTransformer: typeof redactedEmailAddress !== 'undefined'
-      ? getHTMLTransformer('$1', 'span', { class: 'strong no-translate' })
-      : undefined,
     options: {
-      content: getEmailAuthenticatorSubtitle(redactedEmailAddress, useEmailMagicLink),
+      content: getEmailAuthenticatorSubtitle(
+        redactedEmailAddress,
+        useEmailMagicLink,
+        replacerFn,
+      ),
     },
   };
 

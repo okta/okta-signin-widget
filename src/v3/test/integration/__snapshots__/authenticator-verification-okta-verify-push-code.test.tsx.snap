@@ -174,7 +174,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 class="MuiBox-root emotion-13"
               >
                 <fieldset
-                  aria-describedby="challenge-poll_Title_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_2 challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<$1>52</$1>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
+                  aria-describedby="challenge-poll_Title_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_2 challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<span_class=strong>52</span>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-25"
                 >
                   <label
@@ -220,7 +220,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
                     data-se="numberchallenge-instr-value"
-                    id="challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<$1>52</$1>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
+                    id="challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<span_class=strong>52</span>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
                   >
                     On your mobile device, open the Okta Verify prompt, then tap 
                     <span
@@ -431,7 +431,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                 class="MuiBox-root emotion-13"
               >
                 <fieldset
-                  aria-describedby="challenge-poll_Title_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_2 challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<$1>52</$1>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
+                  aria-describedby="challenge-poll_Title_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_2 challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<span_class=strong>52</span>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-18"
                 >
                   <label
@@ -477,7 +477,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-26"
                     data-se="numberchallenge-instr-value"
-                    id="challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<$1>52</$1>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
+                    id="challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<span_class=strong>52</span>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
                   >
                     On your mobile device, open the Okta Verify prompt, then tap 
                     <span

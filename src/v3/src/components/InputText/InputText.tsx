@@ -52,10 +52,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
     dataSe,
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
-  const parsedExplainContent = useHtmlContentParser(
-    explain,
-    translations.find(({ name: fieldName }) => fieldName === 'bottomExplain')?.contentTransformer,
-  );
+  const parsedExplainContent = useHtmlContentParser(explain);
   const hasErrors = typeof errors !== 'undefined';
   // TODO: OKTA-569647 - refactor logic
   const hintId = hint && `${name}-hint`;

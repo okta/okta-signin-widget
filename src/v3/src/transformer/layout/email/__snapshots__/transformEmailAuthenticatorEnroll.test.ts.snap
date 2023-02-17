@@ -33,7 +33,6 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentTransformer": undefined,
         "options": Object {
           "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.verificationCode.instructions",
         },
@@ -83,7 +82,6 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentTransformer": [Function],
         "options": Object {
           "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions",
         },
@@ -145,7 +143,6 @@ Object {
         "type": "Title",
       },
       Object {
-        "contentTransformer": [Function],
         "options": Object {
           "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions",
         },
@@ -211,7 +208,6 @@ Object {
                 "type": "Title",
               },
               Object {
-                "contentTransformer": undefined,
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
@@ -250,7 +246,6 @@ Object {
                 "type": "Title",
               },
               Object {
-                "contentTransformer": undefined,
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions",
                 },
@@ -310,7 +305,6 @@ Object {
                 "type": "Title",
               },
               Object {
-                "contentTransformer": [Function],
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
@@ -337,7 +331,6 @@ Object {
                 "type": "Title",
               },
               Object {
-                "contentTransformer": [Function],
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
@@ -409,7 +402,6 @@ Object {
                 "type": "Title",
               },
               Object {
-                "contentTransformer": [Function],
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },
@@ -448,7 +440,6 @@ Object {
                 "type": "Title",
               },
               Object {
-                "contentTransformer": [Function],
                 "options": Object {
                   "content": "oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions",
                 },

@@ -19,7 +19,6 @@ import {
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { FunctionComponent } from 'preact';
-import { Options } from 'react-html-parser';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
@@ -137,11 +136,6 @@ export interface UISchemaElement {
    * view/step within the {@link StepperLayout} this element belongs to.
    */
   viewIndex?: number;
-  /**
-   * This function should be defined when your text contains <$1> tags
-   * which require custom interpolation
-   */
-  contentTransformer?: Options['transform'];
   noTranslate?: boolean;
 }
 
@@ -496,7 +490,6 @@ export interface TranslationInfo {
   name: string;
   i18nKey: string;
   value: string;
-  contentTransformer?: UISchemaElement['contentTransformer'];
 }
 
 export interface DividerElement extends UISchemaElement {
