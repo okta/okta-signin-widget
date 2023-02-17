@@ -62,10 +62,9 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-11"

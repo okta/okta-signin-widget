@@ -123,6 +123,7 @@ export type WidgetOptions = {
   recoveryToken?: string;
 
   el?: string;
+  cspNonce?: string;
   baseUrl?: string;
   brandName?: string;
   brandColors?: BrandColors;

@@ -48,11 +48,6 @@ export default {
       chunk.name === 'bundle' ? 'okta-sign-in.next.js' : '[name].next.js'
     );
 
-    // remove MiniCssExtractPlugin
-    config.plugins = config.plugins.filter(
-      (plugin) => !(plugin instanceof MiniCssExtractPlugin),
-    );
-
     config.plugins.push(new DefinePlugin({
       // for OktaSignIn.__version, AuthContainer[data-version]
       VERSION: JSON.stringify(`okta-signin-widget-${version}`),
@@ -105,7 +100,8 @@ export default {
           ...rule,
           use: rule.use.reduce((acc, loader) => {
             acc.push(
-              loader !== MiniCssExtractPlugin.loader ? loader : 'style-loader',
+              // force MiniCssExtractPlugin.loader for watch mode and static builds
+              /style-loader/.test(loader) ? MiniCssExtractPlugin.loader : loader,
             );
             return acc;
           }, []),
@@ -194,7 +190,8 @@ export default {
       devServer: {
         headers: {
           'Content-Security-Policy': mergeContentSecurityPolicies(
-            "object-src 'self'; script-src 'self' 'unsafe-eval'",
+            // 'nonce-playground' for script-src can be removed in OKTA-517096
+            "style-src 'self'; object-src 'self'; script-src 'self' 'unsafe-eval' 'nonce-playground'",
             playgroundConfig.devServer.headers['Content-Security-Policy'] || '',
           ),
         },

@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 import { useCallback, useEffect } from 'preact/hooks';
 
@@ -22,10 +23,12 @@ import {
 import { getValidationMessages } from '../../util';
 import InfoSection from '../InfoSection/InfoSection';
 import Layout from './Layout';
+import style from './style.css';
 
 const Form: FunctionComponent<{
   uischema: UISchemaLayout;
 }> = ({ uischema }) => {
+  const classes = classNames('o-form', style.siwForm);
   const {
     data,
     idxTransaction: currTransaction,
@@ -92,9 +95,8 @@ const Form: FunctionComponent<{
     <form
       noValidate
       onSubmit={handleSubmit}
-      className="o-form" // FIXME update page objects using .o-form selectors
+      className={classes} // FIXME update page objects using .o-form selectors
       data-se="o-form"
-      style={{ maxWidth: '100%', wordBreak: 'break-word' }}
     >
       <InfoSection message={message} />
       <Layout uischema={uischema} />

@@ -62,10 +62,9 @@ exports[`enroll-profile-update-required-field fails client side validation with 
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-11"
@@ -326,10 +325,9 @@ exports[`enroll-profile-update-required-field should render form with one requir
             </div>
           </div>
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-11"

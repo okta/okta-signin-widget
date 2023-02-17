@@ -63,10 +63,9 @@ exports[`terminal-return-email-error should render form 1`] = `
           class="MuiBox-root emotion-6"
         >
           <form
-            class="o-form"
+            class="o-form siwForm"
             data-se="o-form"
             novalidate=""
-            style="max-width: 100%; word-break: break-word;"
           >
             <div
               class="MuiBox-root emotion-7"
