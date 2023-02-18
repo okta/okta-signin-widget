@@ -138,18 +138,14 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       <div
                         class="MuiBox-root emotion-9"
                       >
-                        <div
-                          class="MuiBox-root emotion-20"
+                        Haven't received a push notification yet? Try opening the Okta Verify app on your device, or 
+                        <a
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways resend-number-challenge emotion-20"
+                          href="#"
                         >
-                          Haven't received a push notification yet? Try opening the Okta Verify app on your device, or 
-                          <a
-                            class="resend-number-challenge"
-                            href="#"
-                          >
-                            resend the push notification
-                          </a>
-                          .
-                        </div>
+                          resend the push notification
+                        </a>
+                        .
                       </div>
                     </div>
                   </div>
@@ -290,7 +286,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >

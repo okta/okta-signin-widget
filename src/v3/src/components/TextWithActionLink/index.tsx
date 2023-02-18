@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -10,13 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import parse, { HTMLReactParserOptions } from 'html-react-parser';
-import { h } from 'preact';
+import TextWithActionLink from './TextWithActionLink';
 
-export const useHtmlContentParser = (
-  content: string | undefined,
-  options?: HTMLReactParserOptions,
-): string | h.JSX.Element | h.JSX.Element[] | undefined => (typeof content !== 'undefined'
-  // eslint-disable-next-line global-require
-  ? parse(content, { ...options, library: require('preact') })
-  : undefined);
+export default TextWithActionLink;

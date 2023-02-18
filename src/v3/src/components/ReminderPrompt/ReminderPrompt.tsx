@@ -17,7 +17,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { useWidgetContext } from '../../contexts';
 import { useHtmlContentParser, useOnSubmit } from '../../hooks';
 import { ReminderElement, UISchemaElementComponent } from '../../types';
-import TextWithHtml from '../TextWithHtml';
+import TextWithActionLink from '../TextWithActionLink';
 
 export const DEFAULT_TIMEOUT_MS = 30_000;
 
@@ -115,13 +115,12 @@ const ReminderPrompt: UISchemaElementComponent<{
   const renderAlertContent = () => {
     if (contentHasHtml && contentClassname) {
       return (
-        <TextWithHtml
+        <TextWithActionLink
           uischema={{
-            type: 'TextWithHtml',
+            type: 'TextWithActionLink',
             options: {
               contentClassname,
               content,
-              submitOnClick: true,
               step,
               isActionStep,
               actionParams,

@@ -183,25 +183,21 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 <div
                   class="MuiBox-root emotion-9"
                 >
-                  <div
-                    class="MuiBox-root emotion-28"
+                  Or 
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-28"
+                    href="#"
                   >
-                    Or 
-                    <a
-                      class="switch-channel-link"
-                      href="#"
-                    >
-                      try a different way
-                    </a>
-                     to set up Okta Verify.
-                  </div>
+                    try a different way
+                  </a>
+                   to set up Okta Verify.
                 </div>
               </div>
               <div
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -212,7 +208,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

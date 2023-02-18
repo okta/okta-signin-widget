@@ -10,6 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import TextWithHtml from './TextWithHtml';
+import { setup } from './util';
 
-export default TextWithHtml;
+import mockResponse from '../../src/mocks/response/idp/idx/introspect/oda-enrollment-ios.json';
+
+describe('oda-enrollment-ios', () => {
+  it('should render form', async () => {
+    const { container, findByRole } = await setup({ mockResponse });
+    const heading = await findByRole('heading', { level: 2 });
+
+    expect(heading.textContent).toBe('Download Okta Verify');
+    expect(container).toMatchSnapshot();
+  });
+});

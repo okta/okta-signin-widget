@@ -217,11 +217,12 @@ Object {
                     Object {
                       "elements": Array [
                         Object {
+                          "noMargin": true,
                           "options": Object {
                             "content": "enroll.oda.without.account.step1",
-                            "submitOnClick": false,
+                            "dataSe": "download-ov",
                           },
-                          "type": "TextWithHtml",
+                          "type": "Description",
                         },
                       ],
                       "type": "VerticalLayout",

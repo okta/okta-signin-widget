@@ -20,7 +20,7 @@ import {
   QRCodeElement,
   ReminderElement,
   StepperLayout,
-  TextWithHtmlElement,
+  TextWithActionLinkElement,
   UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
@@ -52,12 +52,11 @@ export const getTitleKey = (selectedChannel?: string): string => {
 
 export const switchChannelButton = (
   label: string,
-): TextWithHtmlElement => ({
-  type: 'TextWithHtml',
+): TextWithActionLinkElement => ({
+  type: 'TextWithActionLink',
   options: {
     content: loc(label, 'login'),
     contentClassname: 'switch-channel-link',
-    submitOnClick: true,
     step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
     stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
   },

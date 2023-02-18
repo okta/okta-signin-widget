@@ -16,12 +16,12 @@ import { h } from 'preact';
 import { useWidgetContext } from '../../contexts';
 import { useHtmlContentParser, useOnSubmit } from '../../hooks';
 import {
-  TextWithHtmlElement,
+  TextWithActionLinkElement,
   UISchemaElementComponent,
 } from '../../types';
 
-const TextWithHtml: UISchemaElementComponent<{
-  uischema: TextWithHtmlElement
+const TextWithActionLink: UISchemaElementComponent<{
+  uischema: TextWithActionLinkElement
 }> = ({ uischema }) => {
   const {
     loading,
@@ -31,7 +31,6 @@ const TextWithHtml: UISchemaElementComponent<{
     actionParams,
     step,
     stepToRender,
-    submitOnClick,
     contentClassname,
     isActionStep,
   } = uischema.options;
@@ -39,39 +38,28 @@ const TextWithHtml: UISchemaElementComponent<{
   const parsedContent = useHtmlContentParser(content);
 
   const handleClick = async (e: Event) => {
-    if (submitOnClick) {
-      e.preventDefault();
+    e.preventDefault();
 
-      if (loading) {
-        return;
-      }
+    if (loading) {
+      return;
+    }
 
-      // only submit when className matches
-      if ((e.target as HTMLElement).className.includes(contentClassname)) {
-        onSubmitHandler({
-          step,
-          stepToRender,
-          params: actionParams,
-          isActionStep,
-        });
-      }
+    // only submit when className matches
+    if ((e.target as HTMLElement).className.includes(contentClassname)) {
+      onSubmitHandler({
+        step,
+        stepToRender,
+        params: actionParams,
+        isActionStep,
+      });
     }
   };
 
   return (
-    <Box>
-      <Box
-        sx={(theme) => ({
-          [`& .${contentClassname}`]: {
-            color: theme.palette.primary.main,
-          },
-        })}
-        onClick={handleClick}
-      >
-        {parsedContent}
-      </Box>
+    <Box onClick={handleClick}>
+      {parsedContent}
     </Box>
   );
 };
 
-export default TextWithHtml;
+export default TextWithActionLink;

@@ -301,12 +301,11 @@ export interface DescriptionElement extends UISchemaElement {
   };
 }
 
-export interface TextWithHtmlElement extends UISchemaElement {
-  type: 'TextWithHtml';
+export interface TextWithActionLinkElement extends UISchemaElement {
+  type: 'TextWithActionLink';
   options: ActionOptions & {
     content: string;
     contentClassname: string;
-    submitOnClick: boolean;
     stepToRender?: string;
   };
 }
@@ -335,7 +334,7 @@ export interface ListElement extends UISchemaElement {
      * Items to render in the list.
      *
      * **NOTE**: Only string and UISchemaElement with type
-     * 'Button', 'Description', or 'TextWithHtml'
+     * 'Button' or 'Description'
      * are supported. Other UISchemaElement types will
      * not render and print a warning to the console.
      */

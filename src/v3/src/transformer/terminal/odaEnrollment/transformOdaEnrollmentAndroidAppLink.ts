@@ -19,7 +19,6 @@ import {
   IdxStepTransformer,
   ListElement,
   StepperButtonElement,
-  TextWithHtmlElement,
   TitleElement,
   UISchemaElement,
   UISchemaLayout,
@@ -226,12 +225,13 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
                   type: UISchemaLayoutType.VERTICAL,
                   elements: [
                     {
-                      type: 'TextWithHtml',
+                      type: 'Description',
+                      noMargin: true,
                       options: {
                         content: loc('enroll.oda.without.account.step1', 'login', [OKTA_VERIFY_APP_URL.ANDROID]),
-                        submitOnClick: false,
+                        dataSe: 'download-ov',
                       },
-                    } as TextWithHtmlElement,
+                    } as DescriptionElement,
                   ],
                 } as UISchemaLayout,
                 {

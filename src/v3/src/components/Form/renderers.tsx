@@ -44,7 +44,7 @@ import StepperButton from '../StepperButton';
 import StepperNavigator from '../StepperNavigator';
 import StepperRadio from '../StepperRadio';
 import SuccessCallback from '../SuccessCallback';
-import TextWithHtml from '../TextWithHtml';
+import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
 
@@ -145,8 +145,8 @@ export default [
     renderer: PhoneAuthenticator,
   },
   {
-    tester: ({ type }) => type === 'TextWithHtml',
-    renderer: TextWithHtml,
+    tester: ({ type }) => type === 'TextWithActionLink',
+    renderer: TextWithActionLink,
   },
   {
     tester: ({ type }) => type === 'Title',
