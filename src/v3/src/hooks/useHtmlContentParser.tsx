@@ -11,8 +11,13 @@
  */
 
 import { Link } from '@okta/odyssey-react-mui';
+import dompurify from 'dompurify';
 import HtmlReactParser, {
-  attributesToProps, DOMNode, domToReact, Element, HTMLReactParserOptions,
+  attributesToProps,
+  DOMNode,
+  domToReact,
+  Element,
+  HTMLReactParserOptions,
 } from 'html-react-parser';
 import { h } from 'preact';
 
@@ -42,5 +47,6 @@ export const useHtmlContentParser = (
     parserOptions.replace = replace;
   }
 
-  return HtmlReactParser(content, parserOptions);
+  const sanitizedContent = dompurify.sanitize(content);
+  return HtmlReactParser(sanitizedContent, parserOptions);
 };
