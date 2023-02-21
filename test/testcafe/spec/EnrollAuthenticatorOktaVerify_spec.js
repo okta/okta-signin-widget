@@ -343,13 +343,13 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
 });
 
 test.requestHooks(logger, enrollViaSmsMocks)('respects settings.defaultCountryCode', async t => {
-  // drive to SMS page (click next)
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
+
+  // drive to SMS page (click next)
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await switchChannelPageObject.clickNextButton();
-
   const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
 
   // Default country code US (+1)
@@ -359,6 +359,9 @@ test.requestHooks(logger, enrollViaSmsMocks)('respects settings.defaultCountryCo
   await rerenderWidget({
     defaultCountryCode: 'GB'  // United Kingdom
   });
+  // drive to SMS page (click next) - required again after rerender
+  await enrollOktaVerifyPage.clickSwitchChannel();
+  await switchChannelPageObject.clickNextButton();
 
   // United Kingdom (+44)
   const gbCountryCodeText = await enrollViaSMSPageObject.getCountryLabel();
