@@ -5,7 +5,7 @@ import SwitchOVEnrollChannelPageObject from '../framework/page-objects/SwitchOVE
 import EnrollOVViaEmailPageObject from '../framework/page-objects/EnrollOVViaEmailPageObject';
 import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages, rerenderWidget } from '../framework/shared';
+import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
 import xhrAuthenticatorEnrollOktaVerifyViaEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-email';
 import xhrAuthenticatorEnrollOktaVerifyEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email';
