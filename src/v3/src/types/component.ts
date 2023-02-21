@@ -33,6 +33,8 @@ export type UISchemaElementComponentWithValidationProps = {
     setErrors?: StateUpdater<string[] | undefined>,
     value?: string | boolean | number,
   ) => void,
+  handleChange?: (value: string | number | boolean) => void;
+  handleBlur?: (value: string | number | boolean) => void;
   describedByIds?: string;
 };
 

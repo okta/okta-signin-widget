@@ -27,7 +27,6 @@ import { useState } from 'preact/hooks';
 import { useWidgetContext } from '../../contexts';
 import {
   useAutoFocus,
-  useOnChange,
   useValue,
 } from '../../hooks';
 import {
@@ -42,15 +41,13 @@ import { withFormValidationState } from '../hocs';
 
 const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
-  setTouched,
   errors,
-  setErrors,
-  onValidateHandler,
+  handleChange,
+  handleBlur,
   describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
-  const onChangeHandler = useOnChange(uischema);
   const { translations = [], focus, required } = uischema;
   const {
     attributes,
@@ -66,15 +63,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const explainId = explain && `${name}-explain`;
   const ariaDescribedByIds = [describedByIds, hintId, explainId].filter(Boolean).join(' ')
     || undefined;
-
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const changedVal = e.currentTarget.value;
-    setTouched?.(true);
-    onChangeHandler(changedVal);
-    onValidateHandler?.(setErrors, changedVal);
-  };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -108,7 +97,12 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         name={name}
         error={hasErrors}
         inputRef={focusRef}
-        onChange={handleChange}
+        onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+          handleChange?.(e.currentTarget.value);
+        }}
+        onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+          handleBlur?.(e?.currentTarget?.value);
+        }}
         type={showPassword ? 'text' : 'password'}
         value={value}
         disabled={loading}

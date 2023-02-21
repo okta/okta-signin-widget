@@ -18,7 +18,7 @@ import {
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useOnChange, useValue } from '../../hooks';
+import { useAutoFocus, useValue } from '../../hooks';
 import {
   ChangeEvent,
   UISchemaElementComponent,
@@ -30,26 +30,18 @@ import { withFormValidationState } from '../hocs';
 
 const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
-  setTouched,
   errors,
-  setErrors,
-  onValidateHandler,
+  handleChange,
+  handleBlur,
   describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
-  const onChangeHandler = useOnChange(uischema);
 
   const { options: { inputMeta: { name } }, focus, required } = uischema;
   const label = getTranslation(uischema.translations!, 'label');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTouched?.(true);
-    onChangeHandler(e.currentTarget.checked);
-    onValidateHandler?.(setErrors, e.currentTarget.checked);
-  };
 
   return (
     <FormControl
@@ -66,7 +58,12 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
             id={name}
             name={name}
             inputRef={focusRef}
-            onChange={handleChange}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              handleChange?.(e.currentTarget.checked);
+            }}
+            onBlur={(e: ChangeEvent<HTMLInputElement>) => {
+              handleBlur?.(e?.currentTarget?.checked);
+            }}
             disabled={loading}
             inputProps={{
               'data-se': name,

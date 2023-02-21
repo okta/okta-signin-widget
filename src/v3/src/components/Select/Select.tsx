@@ -19,7 +19,7 @@ import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useOnChange, useValue } from '../../hooks';
+import { useAutoFocus, useValue } from '../../hooks';
 import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
@@ -30,15 +30,13 @@ import { withFormValidationState } from '../hocs';
 
 const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
-  setTouched,
   errors,
-  setErrors,
-  onValidateHandler,
+  handleChange,
+  handleBlur,
   describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
-  const onChangeHandler = useOnChange(uischema);
   const { focus, required, translations = [] } = uischema;
   const label = getTranslation(translations, 'label');
   const {
@@ -52,15 +50,6 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
-  const handleChange = (e: SelectChangeEvent<string>) => {
-    setTouched?.(true);
-    const selectTarget = (
-      e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
-    );
-    onChangeHandler(selectTarget.value);
-    onValidateHandler?.(setErrors, selectTarget.value);
-  };
-
   return (
     <FormControl
       disabled={loading}
@@ -70,7 +59,19 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       <InputLabel htmlFor={name}>{label}</InputLabel>
       <MuiSelect
         native
-        onChange={handleChange}
+        // onChange={handleChange}
+        onChange={(e: SelectChangeEvent<string>) => {
+          const selectTarget = (
+            e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
+          );
+          handleChange?.(selectTarget.value);
+        }}
+        onBlur={(e: SelectChangeEvent<string>) => {
+          const selectTarget = (
+            e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
+          );
+          handleBlur?.(selectTarget.value);
+        }}
         inputRef={focusRef}
         value={value as string}
         inputProps={{

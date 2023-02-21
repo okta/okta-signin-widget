@@ -37,7 +37,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { getDefaultCountryCode, getTranslation } from '../../util';
 import FieldErrorContainer from '../FieldErrorContainer';
 import { withFormValidationState } from '../hocs';
 
@@ -45,11 +45,12 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   uischema,
   setTouched,
   errors,
-  setErrors,
-  onValidateHandler,
+  handleBlur,
   describedByIds,
 }) => {
-  const { data, dataSchemaRef, loading } = useWidgetContext();
+  const {
+    data, dataSchemaRef, loading, widgetProps,
+  } = useWidgetContext();
   const {
     translations = [],
     focus,
@@ -70,8 +71,9 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
 
   const countries = CountryUtil.getCountries() as Record<string, string>;
   const [phone, setPhone] = useState<string>('');
-  // Sets US as default code
-  const [phoneCode, setPhoneCode] = useState(`+${CountryUtil.getCallingCodeForCountry('US')}`);
+  const defaultCountryCode = getDefaultCountryCode(widgetProps);
+  // Sets the default country code
+  const [phoneCode, setPhoneCode] = useState(`+${CountryUtil.getCallingCodeForCountry(defaultCountryCode)}`);
   const [extension, setExtension] = useState<string>('');
   const [phoneChanged, setPhoneChanged] = useState<boolean>(false);
   const methodType = data['authenticator.methodType'];
@@ -109,7 +111,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   useEffect(() => {
     const formattedPhone = formatPhone(phone, phoneCode, extension);
     onChangeHandler(formattedPhone);
-    onValidateHandler?.(setErrors, formattedPhone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phoneCode, phone, extension, showExtension]);
 
@@ -174,8 +175,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             <option
               key={code}
               value={code}
-              // Sets US as default code
-              selected={code === 'US'}
+              selected={code === defaultCountryCode}
             >
               {name}
             </option>
@@ -212,6 +212,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
               setPhoneChanged(true);
+            }}
+            onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+              const formattedPhone = formatPhone(e?.currentTarget?.value, phoneCode, extension);
+              handleBlur?.(formattedPhone);
             }}
             startAdornment={(
               <InputAdornment
