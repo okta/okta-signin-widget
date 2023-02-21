@@ -5,7 +5,7 @@ import SwitchOVEnrollChannelPageObject from '../framework/page-objects/SwitchOVE
 import EnrollOVViaEmailPageObject from '../framework/page-objects/EnrollOVViaEmailPageObject';
 import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, rerenderWidget } from '../framework/shared';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
 import xhrAuthenticatorEnrollOktaVerifyViaEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-email';
 import xhrAuthenticatorEnrollOktaVerifyEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email';
@@ -347,6 +347,7 @@ test.requestHooks(logger, enrollViaSmsMocks)('respects settings.defaultCountryCo
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
+  const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await switchChannelPageObject.clickNextButton();
 
   const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
