@@ -13,5 +13,6 @@ module.exports = {
   userVariables: {
     v3: true,
   },
+  // OKTA-575629 Remove this when v3 parity test flakiness is resolved
   assertionTimeout: 10000,
 };
