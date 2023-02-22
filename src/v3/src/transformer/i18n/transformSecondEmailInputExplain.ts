@@ -37,9 +37,7 @@ export const transformSecondEmailInputExplain: TransformStepFnWithOptions = ({
         element,
         name: 'bottomExplain',
         i18nKey: 'oie.profile.additional.secondemail.subtitle',
-        replacerFn: (content) => content
-          .replace('<$1>', '<span class="strong">')
-          .replace('</$1>', '</span>'),
+        replacementTokens: { '<$1>': '<span class="strong">', '</$1>': '</span>' },
       });
     },
   });

@@ -70,15 +70,13 @@ export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transact
     subTitleElement.options.content = loc('oie.email.enroll.subtitle', 'login');
   } else {
     const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-    const replacerFn = typeof redactedEmailAddress !== 'undefined'
-      ? (content: string) => content
-        .replace('<$1>', '<span class="strong no-translate">')
-        .replace('</$1>', '</span>')
+    const repacementTokens = typeof redactedEmailAddress !== 'undefined'
+      ? { '<$1>': '<span class="strong no-translate">', '</$1>': '</span>' }
       : undefined;
     subTitleElement.options.content = getEmailAuthenticatorSubtitle(
       redactedEmailAddress,
       useEmailMagicLink,
-      replacerFn,
+      repacementTokens,
     );
   }
 

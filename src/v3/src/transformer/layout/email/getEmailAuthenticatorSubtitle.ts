@@ -15,10 +15,10 @@ import { loc } from '../../../util';
 export const getEmailAuthenticatorSubtitle = (
   emailAddress: unknown | undefined,
   useEmailMagicLink: boolean,
-  replacerFn?: (content: string) => string,
+  replacementTokens?: Record<string, string>,
 ): string => {
   const instructionPrefixText = typeof emailAddress !== 'undefined'
-    ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [emailAddress], replacerFn)
+    ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [emailAddress], replacementTokens)
     : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
 
   const instructionPostfixText = useEmailMagicLink

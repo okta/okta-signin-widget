@@ -13,16 +13,22 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { loc as localize } from 'okta';
 
+type TargetToken = '<$1>' | '</$1>';
+
 export const loc = (
   key: string,
   bundleName?: string,
   params?: Array<string | number | boolean | unknown>,
-  replacerFn?: (content: string) => string,
+  replacementTokens?: Record<TargetToken, string>,
 ): string => {
   const localizedText: string = localize(key, bundleName, params);
 
-  if (typeof replacerFn === 'function') {
-    return replacerFn(localizedText);
+  if (typeof replacementTokens !== 'undefined') {
+    let updatedText = localizedText;
+    Object.entries(replacementTokens).forEach(([token, replacement]) => {
+      updatedText = updatedText.replace(token, replacement);
+    });
+    return updatedText;
   }
 
   return localizedText;

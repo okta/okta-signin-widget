@@ -64,9 +64,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
               'oie.numberchallenge.warning',
               'login',
               undefined,
-              (content) => content
-                .replace('<$1>', '<a href="#" class="resend-number-challenge">')
-                .replace('</$1>', '</a>'),
+              { '<$1>': '<a href="#" class="resend-number-challenge">', '</$1>': '</a>' },
             ),
             step: name,
             isActionStep: true,
@@ -93,9 +91,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
             'oie.numberchallenge.instruction',
             'login',
             [correctAnswer],
-            (content) => content
-              .replace('<$1>', '<span class="strong">')
-              .replace('</$1>', '</span>'),
+            { '<$1>': '<span class="strong">', '</$1>': '</span>' },
           ),
           dataSe: 'numberchallenge-instr-value',
         },

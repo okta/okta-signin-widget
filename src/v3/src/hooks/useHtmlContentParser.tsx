@@ -19,6 +19,7 @@ import HtmlReactParser, {
   Element,
   HTMLReactParserOptions,
 } from 'html-react-parser';
+import * as preact from 'preact';
 import { h } from 'preact';
 
 export const useHtmlContentParser = (
@@ -31,20 +32,19 @@ export const useHtmlContentParser = (
 
   const parserOptions: HTMLReactParserOptions = {
     ...options,
-    // eslint-disable-next-line global-require
-    library: require('preact'),
+    library: preact,
   };
-  // default replacer function
-  const replace = (node: DOMNode) => {
-    if (node instanceof Element && node.type === 'tag' && node.name === 'a') {
-      const props = attributesToProps(node.attribs);
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      return <Link {...props}>{domToReact(node.children, parserOptions)}</Link>;
-    }
-    return undefined;
-  };
+
   if (typeof parserOptions.replace === 'undefined') {
-    parserOptions.replace = replace;
+    // default replacer function
+    parserOptions.replace = (node: DOMNode) => {
+      if (node instanceof Element && node.type === 'tag' && node.name === 'a') {
+        const props = attributesToProps(node.attribs);
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        return <Link {...props}>{domToReact(node.children, parserOptions)}</Link>;
+      }
+      return undefined;
+    };
   }
 
   const sanitizedContent = dompurify.sanitize(content);

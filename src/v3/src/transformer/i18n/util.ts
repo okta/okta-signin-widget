@@ -25,14 +25,14 @@ export const addTranslation = ({
   i18nKey,
   params,
   defaultValue = '',
-  replacerFn,
+  replacementTokens,
 }: {
   element: UISchemaElement;
   name: string;
   i18nKey: string;
   params?: any;
   defaultValue?: string;
-  replacerFn?: (content: string) => string,
+  replacementTokens?: Record<string, string>,
 }): void => {
   // TODO: change translations to required field with default value
   // eslint-disable-next-line no-param-reassign
@@ -40,7 +40,7 @@ export const addTranslation = ({
   element.translations.push({
     name,
     i18nKey,
-    value: i18nKey ? loc(i18nKey, 'login', params, replacerFn) : defaultValue,
+    value: i18nKey ? loc(i18nKey, 'login', params, replacementTokens) : defaultValue,
   });
 };
 

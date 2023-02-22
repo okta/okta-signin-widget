@@ -65,10 +65,8 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
   }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-  const replacerFn = typeof redactedEmailAddress !== 'undefined'
-    ? (content: string) => content
-      .replace('<$1>', '<span class="strong no-translate">')
-      .replace('</$1>', '</span>')
+  const replacementTokens = typeof redactedEmailAddress !== 'undefined'
+    ? { '<$1>': '<span class="strong no-translate">', '</$1>': '</span>' }
     : undefined;
   const informationalText: DescriptionElement = {
     type: 'Description',
@@ -77,7 +75,7 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
       content: getEmailAuthenticatorSubtitle(
         redactedEmailAddress,
         useEmailMagicLink,
-        replacerFn,
+        replacementTokens,
       ),
     },
   };

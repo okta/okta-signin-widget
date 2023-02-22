@@ -47,12 +47,12 @@ const ReminderPrompt: UISchemaElementComponent<{
   const removeResendTimestamp = () => {
     sessionStorage.removeItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
   };
-  const setResendTimestamp = (token: string) => {
-    sessionStorage.setItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY, token);
+  const setResendTimestamp = (timestampStr: string) => {
+    sessionStorage.setItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY, timestampStr);
   };
 
-  const getResendTimestamp = (): string => sessionStorage
-    .getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY) as string;
+  const getResendTimestamp = (): string | null => sessionStorage
+    .getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
 
   const startTimer = () => {
     setShow(false);
@@ -65,7 +65,8 @@ const ReminderPrompt: UISchemaElementComponent<{
     }
 
     timerRef.current = window.setInterval(() => {
-      const start = parseInt(getResendTimestamp(), 10);
+      const ts = getResendTimestamp() || Date.now().toString();
+      const start = parseInt(ts, 10);
       const now = Date.now();
       const timeout = typeof customTimeout === 'number' ? customTimeout : DEFAULT_TIMEOUT_MS;
       if (now - start >= timeout) {
