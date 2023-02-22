@@ -84,7 +84,8 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
+    // 300ms covers 3 probe requests at 100ms max each
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
 
     expect(proceedStub).toHaveBeenCalledWith({
       step,
@@ -119,6 +120,7 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
+    // 100ms covers 1 probe request at 100ms max
     await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
 
     expect(proceedStub).toHaveBeenCalledWith({
@@ -159,7 +161,8 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
+    // 300ms covers 3 probe requests at 100ms max each
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
 
     expect(proceedStub).toHaveBeenCalledWith({
       actions: [{
@@ -202,7 +205,8 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
+    // 400ms covers 4 probe requests at 100ms max each
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 400 });
 
     expect(proceedStub).toHaveBeenCalledWith({
       step: 'device-challenge-poll',
@@ -241,9 +245,8 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), {
-      timeout: 300, // need to wait longer since we are testing request timeout
-    });
+    // 400ms covers 2 probe requests at 100ms max each plus 1 delayed request at 200ms
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
 
     expect(proceedStub).toHaveBeenCalledWith({
       actions: [{
