@@ -38,7 +38,7 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
       display="flex"
     >
       <OdyIcon
-        // TODO: OKTA-556721 - Create and use loc string here for requirement status
+        aria-hidden
         titleAccess={status}
         name={statusToIconProps[status].name}
         color={statusToIconProps[status].color}

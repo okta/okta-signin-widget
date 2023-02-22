@@ -69,7 +69,7 @@ export default class EnrollPasswordPageObject extends BasePageObject {
     const expectedTitleValue = expectComplete ? 'complete' : 'incomplete';
     const passwordMatchWrapper = this.form.getElement('[data-se="password-authenticator--matches');
 
-    return within(passwordMatchWrapper).queryByRole('img', { name: expectedTitleValue }).exists;
+    return within(passwordMatchWrapper).findByTitle(expectedTitleValue).exists;
   }
 
   // This will be used by any password page that has requirements on it.
