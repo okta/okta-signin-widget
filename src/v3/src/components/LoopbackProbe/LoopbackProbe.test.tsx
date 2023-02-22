@@ -53,7 +53,6 @@ describe('LoopbackProbe', () => {
     server.close();
   });
 
-  // TODO: FIXME OKTA-575814 - intermittently fails on bacon
   it.each`
     step                       | cancelStep
     ${'device-challenge-poll'} | ${'authenticatorChallenge-cancel'}
@@ -176,7 +175,6 @@ describe('LoopbackProbe', () => {
     });
   });
 
-  // TODO: FIXME OKTA-575814 - intermittently fails on bacon
   it('challenge returns 503 error status but later port succeeds', async () => {
     server.use(
       rest.get('http://localhost:2000/probe', async (_, res, ctx) => res(ctx.status(500))),
