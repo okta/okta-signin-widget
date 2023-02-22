@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { render } from '@testing-library/preact';
+import { cleanup, render } from '@testing-library/preact';
 import { h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
@@ -23,6 +23,10 @@ describe('AuthCoin tests', () => {
     props = {
       authenticatorKey: 'custom_otp',
     };
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('should display Branded AuthCoin and disallow style customization', async () => {
