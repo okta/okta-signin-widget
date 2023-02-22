@@ -2,7 +2,7 @@ import { RequestMock } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import EnrollPhonePageObject from '../framework/page-objects/EnrollPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
 import xhrAuthenticatorEnrollDataPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone-voice';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -67,7 +67,7 @@ test.requestHooks(mock)('voice mode click and extension will get shown', async t
   await t.expect(extensionText.trim()).eql('Extension');
 
   // Default country code US
-  const countryCodeText = await enrollPhonePage.getElement('.phone-authenticator-enroll__phone-code').innerText;
+  const countryCodeText = await enrollPhonePage.getCountryCodeValue();
   await t.expect(countryCodeText.trim()).eql('+1');
 
   // Phone Number input field is rendered small
@@ -138,4 +138,21 @@ test.requestHooks(voiceOnlyOptionMock)('should succeed when values are filled wh
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+});
+
+test.requestHooks(mock)('respects settings.defaultCountryCode', async t => {
+  const enrollPhonePage = await setup(t);
+  await checkA11y(t);
+
+  // Default country code US (+1)
+  const defaultCountryCodeText = await enrollPhonePage.getCountryCodeValue();
+  await t.expect(defaultCountryCodeText.trim()).eql('+1');
+
+  await rerenderWidget({
+    defaultCountryCode: 'GB'  // United Kingdom
+  });
+
+  // United Kingdom (+44)
+  const gbCountryCodeText = await enrollPhonePage.getCountryCodeValue();
+  await t.expect(gbCountryCodeText.trim()).eql('+44');
 });

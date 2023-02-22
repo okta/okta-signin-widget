@@ -87,7 +87,6 @@ test
 test
   .requestHooks()('shows the correct content in iOS ODA terminal view when Okta Verify is not installed in Universal Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
-    await checkA11y(t);
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -102,6 +101,7 @@ test
         }
       }
     });
+    await checkA11y(t);
     await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Download Okta Verify');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
@@ -122,7 +122,6 @@ test
 test
   .requestHooks()('shows the correct content in iOS MDM terminal view when Okta Verify is not set up in Universal Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
-    await checkA11y(t);
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -137,6 +136,7 @@ test
         }
       }
     });
+    await checkA11y(t);
     await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To access this app, your device needs to meet your organization');
@@ -152,7 +152,6 @@ test
 test
   .requestHooks()('shows the correct content in Android ODA terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
-    await checkA11y(t);
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -169,6 +168,7 @@ test
         }
       }
     });
+    await checkA11y(t);
     await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required to use Okta FastPass');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
@@ -197,7 +197,6 @@ test
 test
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is not installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
-    await checkA11y(t);
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -214,6 +213,7 @@ test
         }
       }
     });
+    await checkA11y(t);
     // switch to the next page when OV account is not setup
     await deviceEnrollmentTerminalPage.clickWithoutOVAccount();
     await deviceEnrollmentTerminalPage.clickNextButton();
@@ -233,7 +233,6 @@ test
 test
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
-    await checkA11y(t);
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -250,6 +249,7 @@ test
         }
       }
     });
+    await checkA11y(t);
     // go back then switch to the next page when OV account is setup
     await deviceEnrollmentTerminalPage.clickWithOVAccount();
     await deviceEnrollmentTerminalPage.clickNextButton();
@@ -267,7 +267,6 @@ test
 test
   .requestHooks()('shows the correct content in ANDROID MDM terminal view when Okta Verify is not installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
-    await checkA11y(t);
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -283,6 +282,7 @@ test
         }
       }
     });
+    await checkA11y(t);
     await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To access this app, your device needs to meet your organization');

@@ -88,7 +88,7 @@ export default BaseAuthenticatorView.extend({
       {
         country: {
           // Set default country to "US"
-          'value': 'US',
+          'value': this.settings.get('defaultCountryCode'),
           'type': 'string',
         },
       },

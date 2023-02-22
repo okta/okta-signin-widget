@@ -5,6 +5,7 @@ const PHONE_NUMBER_SELECTOR = '.phone-authenticator-enroll__phone';
 const PHONE_NUMBER_EXTENSION_SELECTOR = '.phone-authenticator-enroll__phone-ext';
 const phoneFieldName = 'authenticator\\.phoneNumber';
 const RESEND_VIEW_SELECTOR = '.phone-authenticator-enroll--warning';
+const PHONE_NUMBER_COUNTRY_CODE = '.phone-authenticator-enroll__phone-code';
 
 export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
@@ -34,6 +35,10 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   waitForError() {
     return this.form.waitForErrorBox();
+  }
+
+  getCountryCodeValue() {
+    return this.form.getElement(PHONE_NUMBER_COUNTRY_CODE).innerText;
   }
 
   fillPhoneNumber(value) {

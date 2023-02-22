@@ -136,8 +136,7 @@ export default BaseAuthenticatorView.extend({
     const local = Object.assign(
       {
         country: {
-          // Set default country to "US"
-          'value': 'US',
+          'value': this.settings.get('defaultCountryCode'),
           'type': 'string',
         },
         extension: {

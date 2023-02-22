@@ -5,7 +5,7 @@ import SwitchOVEnrollChannelPageObject from '../framework/page-objects/SwitchOVE
 import EnrollOVViaEmailPageObject from '../framework/page-objects/EnrollOVViaEmailPageObject';
 import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
 import xhrAuthenticatorEnrollOktaVerifyViaEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-email';
 import xhrAuthenticatorEnrollOktaVerifyEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email';
@@ -340,6 +340,32 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+});
+
+test.requestHooks(logger, enrollViaSmsMocks)('respects settings.defaultCountryCode', async t => {
+  const enrollOktaVerifyPage = await setup(t);
+  await checkA11y(t);
+
+  // drive to SMS page (click next)
+  await enrollOktaVerifyPage.clickSwitchChannel();
+  const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
+  await switchChannelPageObject.clickNextButton();
+  const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
+
+  // Default country code US (+1)
+  const defaultCountryCodeText = await enrollViaSMSPageObject.getCountryLabel();
+  await t.expect(defaultCountryCodeText.trim()).eql('+1');
+
+  await rerenderWidget({
+    defaultCountryCode: 'GB'  // United Kingdom
+  });
+  // drive to SMS page (click next) - required again after rerender
+  await enrollOktaVerifyPage.clickSwitchChannel();
+  await switchChannelPageObject.clickNextButton();
+
+  // United Kingdom (+44)
+  const gbCountryCodeText = await enrollViaSMSPageObject.getCountryLabel();
+  await t.expect(gbCountryCodeText.trim()).eql('+44');
 });
 
 test.requestHooks(resendSmsMocks)('after timeout should be able see and click send again link when enrolling via sms', async t => {
