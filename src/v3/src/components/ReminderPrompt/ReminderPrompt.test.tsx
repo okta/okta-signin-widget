@@ -12,7 +12,9 @@
 
 import '@testing-library/jest-dom';
 
-import { cleanup, fireEvent, render, within } from '@testing-library/preact';
+import {
+  cleanup, fireEvent, render, within,
+} from '@testing-library/preact';
 import { h } from 'preact';
 import { act } from 'preact/test-utils';
 
