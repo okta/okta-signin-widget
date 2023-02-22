@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { render, waitFor } from '@testing-library/preact';
+import { cleanup, render, waitFor } from '@testing-library/preact';
 import { rest } from 'msw';
 import { setupServer, SetupServerApi } from 'msw/node';
 import { h } from 'preact';
@@ -45,6 +45,7 @@ describe('LoopbackProbe', () => {
     });
   });
   afterEach(() => {
+    cleanup();
     jest.clearAllMocks();
     server.resetHandlers();
   });
