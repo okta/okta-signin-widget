@@ -82,7 +82,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(layoutOne.elements[2].type)
       .toBe('List');
     expect((layoutOne.elements[2] as ListElement).options.type)
-      .toBe('ordered');
+      .toBe('ol');
     expect((layoutOne.elements[2] as ListElement).options.items)
       .toEqual([
         'oie.enroll.okta_verify.qrcode.step1',
@@ -193,7 +193,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(layoutOne.elements[2].type)
       .toBe('List');
     expect((layoutOne.elements[2] as ListElement).options.type)
-      .toBe('ordered');
+      .toBe('ol');
     expect((layoutOne.elements[2] as ListElement).options.items)
       .toEqual([
         'oie.enroll.okta_verify.qrcode.step1',
@@ -293,7 +293,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect(layoutOne.elements[1].type)
       .toBe('List');
     expect((layoutOne.elements[1] as ListElement).options.type)
-      .toBe('ordered');
+      .toBe('ol');
     expect((layoutOne.elements[1] as ListElement).options.items)
       .toEqual([
         'oie.enroll.okta_verify.qrcode.step1',
