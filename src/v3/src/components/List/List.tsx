@@ -84,7 +84,10 @@ const List: UISchemaElementComponent<{
       marginBlockEnd={4}
     >
       { options.description && <Typography component="p">{options.description}</Typography> }
-      <ListMui component={options.type} sx={{ listStyleType: 'decimal', pl: 4 }}>
+      <ListMui
+        component={options.type}
+        sx={{ listStyleType: 'decimal', pl: 4 }}
+      >
         {
           options.items.map((item: string | UISchemaLayout, index: number) => (
             <ListItem
