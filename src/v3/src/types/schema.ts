@@ -114,6 +114,25 @@ export type ElementContentType = 'subtitle' | 'footer';
 
 export type LanguageDirection = 'rtl' | 'ltr';
 
+/**
+ * @description Token value to search for in a translated string
+ */
+export type TokenSearchValue = '$1';
+/**
+ * @description Record containing properties to use in the replacement of a translated string
+ * @prop {string} element - Target element with which to replace a token
+ * @prop {Object} attributes - Object containing any optional attributes that can be added to the target element
+ * @prop {string} attributes.class - Class name to apply to the target element
+ * @prop {string} attributes.href - href value to apply to the target element
+ */
+export type TokenReplacementValue = {
+  element: 'span' | 'a';
+  attributes?: {
+    class?: string;
+    href?: string;
+  };
+};
+
 export interface UISchemaElement {
   type: string;
   id?: string;

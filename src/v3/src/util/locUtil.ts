@@ -13,20 +13,38 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { loc as localize } from 'okta';
 
-type TargetToken = '<$1>' | '</$1>';
+import { TokenReplacementValue, TokenSearchValue } from '../types';
 
+/**
+ *
+ * @param key - i18n key used for the translation
+ * @param bundleName - Translation bundle to read properties from
+ * @param params - parameters used to interpolate tokens in the string
+ * @param {Record<TokenSearchValue, TokenReplacementValue>} tokenReplacement - Record that enables
+ * you to find and replace tokens embedded in the string.
+ * @returns translated string in the current language code
+ */
 export const loc = (
   key: string,
   bundleName?: string,
   params?: Array<string | number | boolean | unknown>,
-  replacementTokens?: Record<TargetToken, string>,
+  tokenReplacement?: Record<TokenSearchValue, TokenReplacementValue>,
 ): string => {
   const localizedText: string = localize(key, bundleName, params);
 
-  if (typeof replacementTokens !== 'undefined') {
+  if (typeof tokenReplacement !== 'undefined') {
     let updatedText = localizedText;
-    Object.entries(replacementTokens).forEach(([token, replacement]) => {
-      updatedText = updatedText.replace(token, replacement);
+    Object.entries(tokenReplacement).forEach(([searchValue, replaceObj]) => {
+      const searchRgx = new RegExp(`(<\\${searchValue}>)(.*)(</\\${searchValue}>)`);
+      const props: string | undefined = replaceObj.attributes
+        && Object.entries(replaceObj.attributes)
+          .map(([attrKey, attrVal]) => `${attrKey}="${attrVal}"`)
+          .join(' ');
+      const openTag = `<${replaceObj.element}${(
+        typeof props !== 'undefined' ? ` ${props}` : ''
+      )}>`;
+      const closeTag = `</${replaceObj.element}>`;
+      updatedText = updatedText.replace(searchRgx, `${openTag}$2${closeTag}`);
     });
     return updatedText;
   }

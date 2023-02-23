@@ -21,6 +21,8 @@ import {
   StepperButtonElement,
   StepperLayout,
   TitleElement,
+  TokenReplacementValue,
+  TokenSearchValue,
   UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
@@ -65,8 +67,10 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
   }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-  const replacementTokens = typeof redactedEmailAddress !== 'undefined'
-    ? { '<$1>': '<span class="strong no-translate">', '</$1>': '</span>' }
+  const tokenReplacement: Record<
+  TokenSearchValue, TokenReplacementValue
+  > | undefined = typeof redactedEmailAddress !== 'undefined'
+    ? { $1: { element: 'span', attributes: { class: 'strong no-translate' } } }
     : undefined;
   const informationalText: DescriptionElement = {
     type: 'Description',
@@ -75,7 +79,7 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
       content: getEmailAuthenticatorSubtitle(
         redactedEmailAddress,
         useEmailMagicLink,
-        replacementTokens,
+        tokenReplacement,
       ),
     },
   };
