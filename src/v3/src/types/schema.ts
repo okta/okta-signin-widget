@@ -359,8 +359,8 @@ export interface ListElement extends UISchemaElement {
      * are supported. Other UISchemaElement types will
      * not render and print a warning to the console.
      */
-    items: (string | UISchemaLayout)[],
-    type?: 'unordered' | 'ordered' | 'description';
+    items: (string | UISchemaLayout)[];
+    type: 'ul' | 'ol' | 'dl';
     description?: string;
   };
 }

@@ -115,7 +115,7 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
             noMargin: true,
             options: {
               description: loc('enroll.oda.with.account.subtitile1', 'login'),
-              type: 'unordered',
+              type: 'ul',
               items: [
                 {
                   type: UISchemaLayoutType.VERTICAL,
@@ -155,7 +155,7 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
             noMargin: true,
             options: {
               description: loc('enroll.oda.with.account.subtitile2', 'login'),
-              type: 'ordered',
+              type: 'ol',
               items: [
                 {
                   type: UISchemaLayoutType.VERTICAL,
@@ -219,7 +219,7 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
             type: 'List',
             noMargin: true,
             options: {
-              type: 'ordered',
+              type: 'ol',
               items: [
                 {
                   type: UISchemaLayoutType.VERTICAL,
