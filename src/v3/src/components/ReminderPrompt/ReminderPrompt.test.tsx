@@ -12,7 +12,9 @@
 
 import '@testing-library/jest-dom';
 
-import { fireEvent, render, within } from '@testing-library/preact';
+import {
+  cleanup, fireEvent, render, within,
+} from '@testing-library/preact';
 import { h } from 'preact';
 import { act } from 'preact/test-utils';
 
@@ -39,6 +41,10 @@ jest.mock('../../contexts', () => ({
 describe('ReminderPrompt', () => {
   beforeEach(() => {
     mockSubmitHook.mockRestore();
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('should show prompt with working link after default timeout passes', async () => {

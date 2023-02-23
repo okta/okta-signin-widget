@@ -11,7 +11,7 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
-import { render } from '@testing-library/preact';
+import { cleanup, render } from '@testing-library/preact';
 import { h } from 'preact';
 import { IDX_STEP } from 'src/constants';
 import { getStubTransaction } from 'src/mocks/utils/utils';
@@ -32,6 +32,10 @@ describe('IdentifierContainer Tests', () => {
   beforeEach(() => {
     transaction = getStubTransaction();
     mockProps = {};
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('should not display identifier container if transaction is null', async () => {

@@ -10,7 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { fireEvent, render, waitFor } from '@testing-library/preact';
+import {
+  cleanup, fireEvent, render, waitFor,
+} from '@testing-library/preact';
 import { h } from 'preact';
 import {
   MessageType,
@@ -56,6 +58,10 @@ describe('WebAuthNControlSubmitControl Tests', () => {
         },
       } as WebAuthNButtonElement,
     };
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('should render webauthn verify button and handle click', async () => {

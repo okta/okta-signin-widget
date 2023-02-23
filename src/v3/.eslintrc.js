@@ -129,13 +129,6 @@ module.exports = {
           json: 'always',
         }],
 
-        // prevent inline styles which cause CSP violations
-        'react/forbid-component-props': ['error', {
-          forbid: [{
-            propName: 'style',
-            message: 'Inline styles cause CSP issues',
-          }],
-        }],
         'react/forbid-dom-props': ['error', {
           forbid: [{
             propName: 'style',
@@ -166,9 +159,12 @@ module.exports = {
         'class-methods-use-this': 'off',
 
         'react/forbid-component-props': [
-          2,
+          'error',
           {
             forbid: [
+              // prevent inline styles which cause CSP violations
+              { propName: 'style', message: 'Inline styles cause CSP issues' },
+              // ensure RTL friendly properties
               { propName: 'margin', message: 'Use "marginBlock" and "marginInline" instead.' },
               { propName: 'marginTop', message: 'Use "marginBlockStart" instead.' },
               { propName: 'marginBottom', message: 'Use "marginBlockEnd" instead.' },

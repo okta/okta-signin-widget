@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { render, waitFor } from '@testing-library/preact';
+import { cleanup, render, waitFor } from '@testing-library/preact';
 import { rest } from 'msw';
 import { setupServer, SetupServerApi } from 'msw/node';
 import { h } from 'preact';
@@ -45,6 +45,7 @@ describe('LoopbackProbe', () => {
     });
   });
   afterEach(() => {
+    cleanup();
     jest.clearAllMocks();
     server.resetHandlers();
   });
@@ -52,7 +53,6 @@ describe('LoopbackProbe', () => {
     server.close();
   });
 
-  // TODO: FIXME OKTA-575814 - intermittently fails on bacon
   it.each`
     step                       | cancelStep
     ${'device-challenge-poll'} | ${'authenticatorChallenge-cancel'}
@@ -83,7 +83,8 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
+    // 300ms covers 3 probe requests at 100ms max each
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
 
     expect(proceedStub).toHaveBeenCalledWith({
       step,
@@ -118,6 +119,7 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
+    // 100ms covers 1 probe request at 100ms max
     await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
 
     expect(proceedStub).toHaveBeenCalledWith({
@@ -158,7 +160,8 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
+    // 300ms covers 3 probe requests at 100ms max each
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
 
     expect(proceedStub).toHaveBeenCalledWith({
       actions: [{
@@ -172,7 +175,6 @@ describe('LoopbackProbe', () => {
     });
   });
 
-  // TODO: FIXME OKTA-575814 - intermittently fails on bacon
   it('challenge returns 503 error status but later port succeeds', async () => {
     server.use(
       rest.get('http://localhost:2000/probe', async (_, res, ctx) => res(ctx.status(500))),
@@ -201,7 +203,8 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 100 });
+    // 400ms covers 4 probe requests at 100ms max each
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 400 });
 
     expect(proceedStub).toHaveBeenCalledWith({
       step: 'device-challenge-poll',
@@ -240,9 +243,8 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), {
-      timeout: 300, // need to wait longer since we are testing request timeout
-    });
+    // 500ms covers 3 probe requests at 100ms max each plus 1 delayed request at 200ms
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 500 });
 
     expect(proceedStub).toHaveBeenCalledWith({
       actions: [{

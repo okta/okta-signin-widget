@@ -11,7 +11,7 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
-import { render, waitFor } from '@testing-library/preact';
+import { cleanup, render, waitFor } from '@testing-library/preact';
 import { h } from 'preact';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
@@ -48,6 +48,10 @@ describe('PIVButton Tests', () => {
         translations: [{ name: 'label', value: 'Verify', i18nKey: 'some.key' }],
       },
     };
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('should render PIV retry button w/o spinner when an error message exists in transaction', async () => {
