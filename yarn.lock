@@ -5395,11 +5395,6 @@
     "@babel/preset-react" "^7.18.6"
     "@babel/preset-typescript" "^7.18.6"
 
-"@okta/odyssey-design-tokens@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-0.15.3.tgz#cd4368819a2ed8ffe0eac2939ba19b13985f3cc7"
-  integrity sha512-bX1mDluG8rRHGXTfAcNV1hLR0UKZ+5fnW6VFzq4IdZDlkjGsZxXs5gcEgHC2BlNQVCE7YQm4s4YATY1GidZu9w==
-
 "@okta/odyssey-design-tokens@^0.17.0", "@okta/odyssey-design-tokens@^0.17.1":
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-0.17.1.tgz#da429c2fc84c8d8e394174b898dc69906f341fd0"
@@ -5433,22 +5428,6 @@
     "@mui/material" "^5.10.12"
     "@mui/utils" "^5.10.9"
     "@okta/odyssey-design-tokens" "^0.17.0"
-
-"@okta/odyssey-react-theme@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-theme/-/odyssey-react-theme-0.15.3.tgz#eca89fbaafa3063057d956c0d1db9189e2033fdb"
-  integrity sha512-ieAAySPHIpoXPS4XSv15DeZ3qT/ufcheESGl5btrVOdaJB3T8sUEvJ6CRyjW4i6qkXlDHMJ2jc0ZrFb9/y1Usw==
-  dependencies:
-    "@okta/odyssey-design-tokens" "^0.15.3"
-    hoist-non-react-statics "^3.3.2"
-
-"@okta/odyssey-react@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-react/-/odyssey-react-0.15.3.tgz#da7864dd27ae2b5da9206a0b30a82fb98f44292d"
-  integrity sha512-7B523k5cioDTQzzgCfQwzaUHCYwRcr99dnIUJ4wXaB+kXyjBo59FMyIo49dSuwhNTB1Jz3TBouFmQDzSEgVVRA==
-  dependencies:
-    "@okta/odyssey-react-theme" "^0.15.3"
-    choices.js "^9.0.1"
 
 "@okta/okta-auth-js@^6.6.0":
   version "6.9.0"
@@ -9445,15 +9424,6 @@ cherow@^1.6.8:
   version "1.6.9"
   resolved "https://registry.yarnpkg.com/cherow/-/cherow-1.6.9.tgz#7c5e34fce297f152a6f7853dcc9fe2f9e1b36ab8"
   integrity sha512-pmmkpIQRcnDA7EawKcg9+ncSZNTYfXqDx+K3oqqYvpZlqVBChjTomTfw+hePnkqYR3Y013818c0R1Q5P/7PGrQ==
-
-choices.js@^9.0.1:
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/choices.js/-/choices.js-9.1.0.tgz#fdf5c1f9df4f85f015fb82c01841f22d15b56ee0"
-  integrity sha512-6NnqiE/MNnNAiMzdW7phJ49nMQylkKMQ6La6PAS1+h1VhrGt38MOPnjzEJ3cRaECieqaGpl9eFGtI2icW27r8A==
-  dependencies:
-    deepmerge "^4.2.2"
-    fuse.js "^3.4.6"
-    redux "^4.1.2"
 
 "chokidar@>=3.0.0 <4.0.0", chokidar@^2.1.8, chokidar@^3.0.0, chokidar@^3.2.2, chokidar@^3.4.0, chokidar@^3.4.1, chokidar@^3.4.2, chokidar@^3.5.1, chokidar@^3.5.3:
   version "3.5.2"
@@ -13632,11 +13602,6 @@ functions-have-names@^1.2.2:
   resolved "https://registry.yarnpkg.com/functions-have-names/-/functions-have-names-1.2.3.tgz#0404fe4ee2ba2f607f0e0ec3c80bae994133b834"
   integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
 
-fuse.js@^3.4.6:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.6.1.tgz#7de85fdd6e1b3377c23ce010892656385fd9b10c"
-  integrity sha512-hT9yh/tiinkmirKrlv4KWOjztdoZo1mx9Qh4KvWqC7isoXwdUY3PNWUxceF4/qO9R6riA2C29jdTOeQOIROjgw==
-
 gaze@^1.1.0, gaze@^1.1.2:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/gaze/-/gaze-1.1.3.tgz#c441733e13b927ac8c0ff0b4c3b033f28812924a"
@@ -14512,7 +14477,7 @@ hmac-drbg@^1.0.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
+hoist-non-react-statics@^3.3.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -21319,13 +21284,6 @@ redent@^3.0.0:
   dependencies:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
-
-redux@^4.1.2:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/redux/-/redux-4.2.0.tgz#46f10d6e29b6666df758780437651eeb2b969f13"
-  integrity sha512-oSBmcKKIuIR4ME29/AeNUnl5L+hvBq7OaJWzaptTQJAntaPvxIJqfnjbaEiCzzaIz+XmVILfqAM3Ob0aXLPfjA==
-  dependencies:
-    "@babel/runtime" "^7.9.2"
 
 reflect-metadata@0.1.13:
   version "0.1.13"
