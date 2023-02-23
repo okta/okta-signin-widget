@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link as LinkOds } from '@okta/odyssey-react-mui';
+// TODO: OKTA-564568 Link exported from ODY does not have the focus() function and breaks autofocus
+import { Link as LinkMui } from '@mui/material';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -61,7 +62,7 @@ const Link: UISchemaElementComponent<{
 
   return (
     typeof href === 'undefined' ? (
-      <LinkOds
+      <LinkMui
         // eslint-disable-next-line no-script-url
         href="javascript:void(0)"
         onClick={onClick}
@@ -70,17 +71,17 @@ const Link: UISchemaElementComponent<{
         data-se={dataSe}
       >
         {label}
-      </LinkOds>
+      </LinkMui>
     )
       : (
-        <LinkOds
+        <LinkMui
           href={href}
           ref={focusRef}
           aria-describedby={ariaDescribedBy}
           data-se={dataSe}
         >
           {label}
-        </LinkOds>
+        </LinkMui>
       )
   );
 };
