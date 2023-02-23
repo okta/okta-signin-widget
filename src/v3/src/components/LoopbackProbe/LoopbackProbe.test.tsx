@@ -243,8 +243,8 @@ describe('LoopbackProbe', () => {
 
     render(<LoopbackProbe {...props} />);
 
-    // 400ms covers 2 probe requests at 100ms max each plus 1 delayed request at 200ms
-    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+    // 500ms covers 3 probe requests at 100ms max each plus 1 delayed request at 200ms
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 500 });
 
     expect(proceedStub).toHaveBeenCalledWith({
       actions: [{
