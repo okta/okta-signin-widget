@@ -21,7 +21,7 @@ import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useOnChange, useValue } from '../../hooks';
+import { useAutoFocus, useValue } from '../../hooks';
 import {
   ChangeEvent,
   UISchemaElementComponent,
@@ -33,15 +33,13 @@ import { withFormValidationState } from '../hocs';
 
 const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
-  setTouched,
   errors,
-  setErrors,
-  onValidateHandler,
+  handleChange,
+  handleBlur,
   describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
-  const onChangeHandler = useOnChange(uischema);
   const {
     required,
     translations = [],
@@ -58,12 +56,6 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTouched?.(true);
-    onChangeHandler(e.currentTarget.value);
-    onValidateHandler?.(setErrors, e.currentTarget.value);
-  };
-
   return (
     <FormControl
       component="fieldset"
@@ -77,7 +69,9 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
         data-se={name}
         aria-describedby={describedByIds}
         value={value as string ?? ''}
-        onChange={handleChange}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          handleChange?.(e.currentTarget.value);
+        }}
       >
         {
           (customOptions ?? options)?.map((item: IdxOption, index: number) => (
@@ -87,6 +81,9 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
               value={item.value}
               label={item.label}
               disabled={loading}
+              onBlur={(e: ChangeEvent<HTMLInputElement>) => {
+                handleBlur?.(e?.currentTarget?.value);
+              }}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(index === 0 && { inputRef: focusRef } )}
             />

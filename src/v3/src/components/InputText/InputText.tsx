@@ -21,11 +21,11 @@ import { h } from 'preact';
 import { useWidgetContext } from '../../contexts';
 import {
   useAutoFocus,
-  useOnChange,
   useValue,
 } from '../../hooks';
 import {
-  ChangeEvent, UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
+  ChangeEvent,
+  UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
 import FieldErrorContainer from '../FieldErrorContainer';
@@ -34,15 +34,13 @@ import { withFormValidationState } from '../hocs';
 const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   type,
   uischema,
-  setTouched,
   errors,
-  setErrors,
-  onValidateHandler,
+  handleChange,
+  handleBlur,
   describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
-  const onChangeHandler = useOnChange(uischema);
   const { translations = [], focus, required } = uischema;
   const label = getTranslation(translations, 'label');
   const hint = getTranslation(translations, 'hint');
@@ -59,12 +57,6 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const explainId = explain && `${name}-explain`;
   const ariaDescribedByIds = [describedByIds, hintId, explainId].filter(Boolean).join(' ')
     || undefined;
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setTouched?.(true);
-    onChangeHandler(e.currentTarget.value);
-    onValidateHandler?.(setErrors, e.currentTarget.value);
-  };
 
   return (
     <Box>
@@ -93,7 +85,12 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         id={name}
         name={name}
         error={hasErrors}
-        onChange={handleChange}
+        onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+          handleChange?.(e.currentTarget.value);
+        }}
+        onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+          handleBlur?.(e?.currentTarget?.value);
+        }}
         disabled={loading}
         fullWidth
         inputProps={{

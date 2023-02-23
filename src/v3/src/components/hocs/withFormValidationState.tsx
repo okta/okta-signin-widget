@@ -15,7 +15,7 @@ import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
-import { useFormFieldValidation } from '../../hooks';
+import { useFormFieldValidation, useOnChange } from '../../hooks';
 import { FieldElement, UISchemaElementComponent } from '../../types';
 import { buildErrorMessageIds } from '../../util';
 import { getDisplayName } from './getDisplayName';
@@ -51,6 +51,17 @@ export const withFormValidationState: WrappedFunctionComponent<
     const [touched, setTouched] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[] | undefined>();
     const onValidateHandler = useFormFieldValidation(uischema);
+    const onChangeHandler = useOnChange(uischema);
+
+    const handleChange = (value: string | number | boolean) => {
+      setTouched?.(true);
+      onChangeHandler(value);
+    };
+
+    const handleBlur = (value: string | number | boolean) => {
+      setTouched?.(true);
+      onValidateHandler?.(setErrors, value);
+    };
 
     // For server side errors, need to reset the touched value
     useEffect(() => {
@@ -65,6 +76,8 @@ export const withFormValidationState: WrappedFunctionComponent<
       errors: fieldErrors,
       setErrors,
       onValidateHandler,
+      handleChange,
+      handleBlur,
       describedByIds: !fieldErrors
         ? ariaDescribedBy
         : ` ${buildErrorMessageIds(fieldErrors, name)} ${ariaDescribedBy || ''} `,

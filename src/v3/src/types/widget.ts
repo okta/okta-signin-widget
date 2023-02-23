@@ -166,6 +166,7 @@ export type WidgetOptions = {
   helpLinks?: {
     custom?: CustomLink[];
   } & Record<string, string>;
+  defaultCountryCode?: string;
 };
 
 export type IdxMethod =

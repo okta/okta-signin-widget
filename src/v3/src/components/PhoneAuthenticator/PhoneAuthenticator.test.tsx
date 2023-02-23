@@ -59,7 +59,12 @@ const mockDataSchemaRef = { current: { phoneNumber: { validate: jest.fn() } } };
 const mockLoading = jest.fn().mockReturnValue(false);
 jest.mock('../../contexts', () => ({
   useWidgetContext: jest.fn().mockImplementation(
-    () => ({ data: mockData, dataSchemaRef: mockDataSchemaRef, loading: mockLoading() }),
+    () => ({
+      data: mockData,
+      dataSchemaRef: mockDataSchemaRef,
+      loading: mockLoading(),
+      widgetProps: {},
+    }),
   ),
 }));
 

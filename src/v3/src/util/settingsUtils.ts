@@ -15,6 +15,7 @@ import union from 'lodash/union';
 import config from '../../../config/config.json';
 import { LanguageCode } from '../../../types';
 import BrowserFeatures from '../../../util/BrowserFeatures';
+import CountryUtil from '../../../util/CountryUtil';
 import Util from '../../../util/Util';
 import { WidgetProps } from '../types';
 
@@ -94,4 +95,15 @@ export const getBaseUrl = (widgetProps: WidgetProps): string | undefined => {
   const issuerPath = issuer || authParams?.issuer;
   const [parsedBaseUrl] = issuerPath?.split('/oauth2/') ?? [];
   return parsedBaseUrl;
+};
+
+export const getDefaultCountryCode = (widgetProps: WidgetProps): string => {
+  const defaultCountry = 'US';
+  const { defaultCountryCode } = widgetProps;
+  if (typeof defaultCountryCode === 'undefined') {
+    return defaultCountry;
+  }
+  const countries = CountryUtil.getCountries();
+  return Object.keys(countries).includes(defaultCountryCode)
+    ? defaultCountryCode : defaultCountry;
 };
