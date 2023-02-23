@@ -12,7 +12,6 @@
 
 import { ThemeOptions } from '@mui/material';
 import { Theme } from '@mui/material/styles/createTheme';
-import { Button } from '@okta/odyssey-react';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { PartialTheme } from '@okta/odyssey-react-theme/dist/ThemeProvider/context';
 import chroma from 'chroma-js';
@@ -148,10 +147,6 @@ export const mapThemeFromBrand = (brand: BrandColors | undefined): PartialTheme 
         ColorTextBodyInverse: derivedTheme.inverseTextColor,
 
         FocusOutlineColorPrimary: derivedTheme.primaryColor,
-
-        [Button.theme]: {
-          SecondaryHoverBorderColor: derivedTheme.primaryColorLight,
-        },
       };
     }
   }
