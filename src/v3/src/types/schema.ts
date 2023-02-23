@@ -360,7 +360,7 @@ export interface ListElement extends UISchemaElement {
      * not render and print a warning to the console.
      */
     items: (string | UISchemaLayout)[];
-    type: 'ul' | 'ol' | 'dl';
+    type: 'ul' | 'ol';
     description?: string;
   };
 }
