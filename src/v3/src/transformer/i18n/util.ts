@@ -17,7 +17,7 @@ import {
   getI18NParams,
 } from '../../../../v2/ion/i18nTransformer';
 import {
-  FieldElement, TokenReplacementValue, TokenSearchValue, UISchemaElement,
+  FieldElement, TokenReplacement, UISchemaElement,
 } from '../../types';
 import { loc } from '../../util';
 
@@ -34,7 +34,7 @@ export const addTranslation = ({
   i18nKey: string;
   params?: any;
   defaultValue?: string;
-  tokenReplacement?: Record<TokenSearchValue, TokenReplacementValue>,
+  tokenReplacement?: TokenReplacement,
 }): void => {
   // TODO: change translations to required field with default value
   // eslint-disable-next-line no-param-reassign
