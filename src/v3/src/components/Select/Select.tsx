@@ -59,7 +59,6 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       <InputLabel htmlFor={name}>{label}</InputLabel>
       <MuiSelect
         native
-        // onChange={handleChange}
         onChange={(e: SelectChangeEvent<string>) => {
           const selectTarget = (
             e?.target as SelectChangeEvent['target'] & { value: string; name: string; }

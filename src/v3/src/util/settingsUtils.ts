@@ -17,7 +17,7 @@ import { LanguageCode } from '../../../types';
 import BrowserFeatures from '../../../util/BrowserFeatures';
 import CountryUtil from '../../../util/CountryUtil';
 import Util from '../../../util/Util';
-import { WidgetOptions, WidgetProps } from '../types';
+import { WidgetProps } from '../types';
 
 export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   const { i18n, language, assets: { languages } = {} } = widgetProps;
@@ -97,7 +97,7 @@ export const getBaseUrl = (widgetProps: WidgetProps): string | undefined => {
   return parsedBaseUrl;
 };
 
-export const getDefaultCountryCode = (widgetProps: Partial<WidgetOptions>): string => {
+export const getDefaultCountryCode = (widgetProps: WidgetProps): string => {
   const defaultCountry = 'US';
   const { defaultCountryCode } = widgetProps;
   if (typeof defaultCountryCode === 'undefined') {

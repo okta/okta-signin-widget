@@ -71,8 +71,8 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
 
   const countries = CountryUtil.getCountries() as Record<string, string>;
   const [phone, setPhone] = useState<string>('');
-  const defaultCountryCode = getDefaultCountryCode(widgetProps);
   // Sets the default country code
+  const defaultCountryCode = getDefaultCountryCode(widgetProps);
   const [phoneCode, setPhoneCode] = useState(`+${CountryUtil.getCallingCodeForCountry(defaultCountryCode)}`);
   const [extension, setExtension] = useState<string>('');
   const [phoneChanged, setPhoneChanged] = useState<boolean>(false);

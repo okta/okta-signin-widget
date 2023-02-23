@@ -11,7 +11,7 @@
  */
 
 import { WidgetProps } from '../types';
-import { getLanguageCode } from './settingsUtils';
+import { getDefaultCountryCode, getLanguageCode } from './settingsUtils';
 
 jest.mock('../../../util/BrowserFeatures', () => ({
   getUserLanguages: jest.fn().mockReturnValue(['en', 'en-US']),
@@ -45,5 +45,21 @@ describe('Settings Utils Tests', () => {
     widgetProps.language = () => ('es');
 
     expect(getLanguageCode(widgetProps)).toBe('es');
+  });
+
+  it('should return "US" as the default country code value when org does not provide a value', () => {
+    expect(getDefaultCountryCode(widgetProps)).toBe('US');
+  });
+
+  it('should return "US" as the default country code when org provided value is invalid', () => {
+    widgetProps.defaultCountryCode = 'ABDC';
+
+    expect(getDefaultCountryCode(widgetProps)).toBe('US');
+  });
+
+  it('should return org provided country code as the default value when code is valid', () => {
+    widgetProps.defaultCountryCode = 'BW';
+
+    expect(getDefaultCountryCode(widgetProps)).toBe('BW');
   });
 });
