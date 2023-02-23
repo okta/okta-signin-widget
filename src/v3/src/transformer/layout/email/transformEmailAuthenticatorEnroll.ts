@@ -21,8 +21,7 @@ import {
   StepperButtonElement,
   StepperLayout,
   TitleElement,
-  TokenReplacementValue,
-  TokenSearchValue,
+  TokenReplacement,
   UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
@@ -72,9 +71,7 @@ export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transact
     subTitleElement.options.content = loc('oie.email.enroll.subtitle', 'login');
   } else {
     const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-    const tokenReplacement: Record<
-    TokenSearchValue, TokenReplacementValue
-    > | undefined = typeof redactedEmailAddress !== 'undefined'
+    const tokenReplacement: TokenReplacement | undefined = typeof redactedEmailAddress !== 'undefined'
       ? { $1: { element: 'span', attributes: { class: 'strong no-translate' } } }
       : undefined;
     subTitleElement.options.content = getEmailAuthenticatorSubtitle(

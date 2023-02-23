@@ -20,6 +20,7 @@ describe('locUtil Tests', () => {
     'some.basic.key': 'This is a key without params',
     'some.key.with.$1.token': 'This is a key with a token <$1>This is some text</$1>',
     'some.key.with.plain.html': 'This is a key with a token <span class="strong">This is some text</span>',
+    'some.key.with.multiple.tokens': 'This is some test string with multiple tokens: <$1> <$2> here is a test string </$2> </$1>',
   };
 
   beforeEach(() => {
@@ -46,5 +47,18 @@ describe('locUtil Tests', () => {
   it('should perform replacement with provided attributes when tokens are found in the string', () => {
     const localizedText = loc('some.key.with.$1.token', 'login', undefined, { $1: { element: 'span', attributes: { class: 'strong' } } });
     expect(localizedText).toBe('This is a key with a token <span class="strong">This is some text</span>');
+  });
+
+  it('should perform replacement when translation string contains multiple tokens', () => {
+    const localizedText = loc(
+      'some.key.with.multiple.tokens',
+      'login',
+      undefined,
+      {
+        $1: { element: 'a', attributes: { href: '#' } },
+        $2: { element: 'span', attributes: { class: 'strong' } },
+      },
+    );
+    expect(localizedText).toBe('This is some test string with multiple tokens: <a href="#"> <span class="strong"> here is a test string </span> </a>');
   });
 });

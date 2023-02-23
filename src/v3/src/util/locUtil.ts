@@ -13,14 +13,14 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { loc as localize } from 'okta';
 
-import { TokenReplacementValue, TokenSearchValue } from '../types';
+import { TokenReplacement } from '../types';
 
 /**
  *
  * @param key - i18n key used for the translation
  * @param bundleName - Translation bundle to read properties from
  * @param params - parameters used to interpolate tokens in the string
- * @param {Record<TokenSearchValue, TokenReplacementValue>} tokenReplacement - Record that enables
+ * @param {TokenReplacement} tokenReplacement - Record that enables
  * you to find and replace tokens embedded in the string.
  * @returns translated string in the current language code
  */
@@ -28,7 +28,7 @@ export const loc = (
   key: string,
   bundleName?: string,
   params?: Array<string | number | boolean | unknown>,
-  tokenReplacement?: Record<TokenSearchValue, TokenReplacementValue>,
+  tokenReplacement?: TokenReplacement,
 ): string => {
   const localizedText: string = localize(key, bundleName, params);
 
