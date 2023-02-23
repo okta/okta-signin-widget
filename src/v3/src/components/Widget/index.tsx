@@ -11,11 +11,7 @@
  */
 
 import { ScopedCssBaseline } from '@mui/material';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import {
-  MuiThemeProvider as OdysseyMuiThemeProvider,
-  OdysseyCacheProvider,
-} from '@okta/odyssey-react-mui';
+import { MuiThemeProvider, OdysseyCacheProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
   AuthenticatorKey,
@@ -307,40 +303,37 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       languageDirection,
     }}
     >
-      {/* Note: we need to keep both themeproviders (MUI/ODS) until ODS exports all MUI components */}
-      <MuiThemeProvider theme={brandedTheme}>
-        <OdysseyCacheProvider nonce={cspNonce}>
-          {/* the style is to allow the widget to inherit the parent's bg color */}
-          <ScopedCssBaseline
-            sx={{
-              backgroundColor: 'inherit',
-              'span.strong': {
-                fontWeight: 'bold',
-                wordBreak: 'break-all',
-              },
-            }}
-          >
-            <OdysseyMuiThemeProvider theme={brandedTheme}>
-              <AuthContainer>
-                <AuthHeader
-                  logo={logo}
-                  logoText={logoText}
-                  brandName={brandName}
-                  authCoinProps={buildAuthCoinProps(idxTransaction)}
-                />
-                <AuthContent>
-                  <IdentifierContainer />
-                  {
-                    uischema.elements.length > 0
-                      ? <Form uischema={uischema as UISchemaLayout} />
-                      : <Spinner />
-                  }
-                </AuthContent>
-              </AuthContainer>
-            </OdysseyMuiThemeProvider>
-          </ScopedCssBaseline>
-        </OdysseyCacheProvider>
-      </MuiThemeProvider>
+      <OdysseyCacheProvider nonce={cspNonce}>
+        {/* the style is to allow the widget to inherit the parent's bg color */}
+        <ScopedCssBaseline
+          sx={{
+            backgroundColor: 'inherit',
+            'span.strong': {
+              fontWeight: 'bold',
+              wordBreak: 'break-all',
+            },
+          }}
+        >
+          <MuiThemeProvider theme={brandedTheme}>
+            <AuthContainer>
+              <AuthHeader
+                logo={logo}
+                logoText={logoText}
+                brandName={brandName}
+                authCoinProps={buildAuthCoinProps(idxTransaction)}
+              />
+              <AuthContent>
+                <IdentifierContainer />
+                {
+                  uischema.elements.length > 0
+                    ? <Form uischema={uischema as UISchemaLayout} />
+                    : <Spinner />
+                }
+              </AuthContent>
+            </AuthContainer>
+          </MuiThemeProvider>
+        </ScopedCssBaseline>
+      </OdysseyCacheProvider>
     </WidgetContextProvider>
   );
 };
