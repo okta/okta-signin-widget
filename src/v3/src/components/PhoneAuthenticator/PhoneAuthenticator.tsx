@@ -234,7 +234,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
           />
           {phoneHasErrors && (
             <WidgetMessageContainer
-              errors={errors}
+              messages={errors}
               fieldName={fieldName}
             />
           )}

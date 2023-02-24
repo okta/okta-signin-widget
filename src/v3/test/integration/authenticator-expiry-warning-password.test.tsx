@@ -64,6 +64,8 @@ describe('authenticator-expiry-warning-password', () => {
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     await user.type(newPasswordEle, 'abc');
+    // Must blur the field to see error message
+    await user.tab();
 
     const passwordRequirementsErrorWrapper = await findByTestId(
       'credentials.passcode-error',

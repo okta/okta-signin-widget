@@ -104,7 +104,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       />
       {hasErrors && (
         <WidgetMessageContainer
-          errors={errors}
+          messages={errors}
           fieldName={name}
         />
       )}

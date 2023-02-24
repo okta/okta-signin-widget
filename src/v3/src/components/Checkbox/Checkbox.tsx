@@ -75,7 +75,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
       />
       {hasErrors && (
         <WidgetMessageContainer
-          errors={errors}
+          messages={errors}
           fieldName={name}
         />
       )}

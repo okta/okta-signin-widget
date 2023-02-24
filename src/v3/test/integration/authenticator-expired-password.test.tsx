@@ -90,6 +90,8 @@ describe('authenticator-expired-password', () => {
 
     // the new password field is auto focused, so it will trigger the error once we nav away
     await user.tab();
+    // tab to the confirm password field
+    await user.tab();
     const val = 'abc123';
     await user.type(confirmPasswordEle, val);
     await expect(confirmPasswordEle.value).toBe(val);
@@ -165,6 +167,8 @@ describe('authenticator-expired-password', () => {
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     await user.type(newPasswordEle, 'abc');
+    // Must blur field to trigger error
+    await user.tab();
 
     const passwordRequirementsErrorWrapper = await findByTestId(
       'credentials.passcode-error',

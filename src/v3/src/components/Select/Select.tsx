@@ -102,7 +102,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       </MuiSelect>
       {hasErrors && (
         <WidgetMessageContainer
-          errors={errors}
+          messages={errors}
           fieldName={name}
         />
       )}

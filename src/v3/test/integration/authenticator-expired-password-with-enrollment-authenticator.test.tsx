@@ -63,6 +63,8 @@ describe('authenticator-expired-password-with-enrollment-authenticator', () => {
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     await user.type(newPasswordEle, 'abc');
+    // Must blur field to trigger error
+    await user.tab();
 
     const passwordRequirementsErrorWrapper = await findByTestId(
       'credentials.passcode-error',

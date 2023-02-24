@@ -18,18 +18,18 @@ import { WidgetMessage } from '../../types';
 import { buildErrorMessageIds } from '../../util';
 
 type FieldErrorProps = {
-  errors?: WidgetMessage[];
+  messages?: WidgetMessage[];
   fieldName: string;
 };
 
 const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
-  const { fieldName, errors } = props;
+  const { fieldName, messages } = props;
 
   const buildElementId = (errorIndex: number): string => {
-    if (typeof errors === 'undefined') {
+    if (typeof messages === 'undefined') {
       return `${fieldName}-error`;
     }
-    const errorIdStr = buildErrorMessageIds(errors, fieldName);
+    const errorIdStr = buildErrorMessageIds(messages, fieldName);
     return errorIdStr.split(' ')[errorIndex];
   };
 
@@ -79,7 +79,7 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
               return (
                 <WidgetMessageContainer
                   key=""
-                  errors={message.messages}
+                  messages={message.messages}
                   fieldName={fieldName}
                 />
               );
@@ -90,16 +90,16 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
     );
   };
 
-  return typeof errors !== 'undefined' ? (
+  return typeof messages !== 'undefined' ? (
     <Box>
       {
-        errors.map((error: WidgetMessage, index: number) => {
-          if (error.type === 'list') {
-            return createListMessages(error, index);
+        messages.map((message: WidgetMessage, index: number) => {
+          if (message.type === 'list') {
+            return createListMessages(message, index);
           }
           return (
             <FormHelperText
-              key={error.message}
+              key={message.message}
               id={buildElementId(index)}
               role="alert"
               data-se={buildElementId(index)}
@@ -107,7 +107,7 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
               // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
               sx={{ textAlign: 'start' }}
             >
-              {error.message}
+              {message.message}
             </FormHelperText>
           );
         })

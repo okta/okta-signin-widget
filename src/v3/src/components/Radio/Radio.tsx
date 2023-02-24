@@ -92,7 +92,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
       </RadioGroup>
       {hasErrors && (
         <WidgetMessageContainer
-          errors={errors}
+          messages={errors}
           fieldName={name}
         />
       )}
