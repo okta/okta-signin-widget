@@ -24,7 +24,7 @@ import {
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-import { FunctionComponent } from 'preact';
+import { ComponentType, FunctionComponent } from 'preact';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
@@ -234,7 +234,7 @@ export interface ButtonElement extends UISchemaElement {
     stepToRender?: string;
     ariaLabel?: string;
     classes?: string;
-    Icon?: FunctionComponent;
+    Icon?: string;
     onClick?: (widgetContext: IWidgetContext) => unknown;
   };
 }

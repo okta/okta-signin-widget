@@ -35,7 +35,6 @@ jest.useFakeTimers('modern');
 
 const mockSubmitHook = jest.fn().mockImplementation(() => ({}));
 jest.mock('../../hooks', () => ({
-  // @ts-expect-error require the implementation for HTML parser hook
   ...jest.requireActual('../../hooks'),
   useOnSubmit: () => mockSubmitHook,
 }));
@@ -74,7 +73,6 @@ describe('ReminderPrompt', () => {
 
     expect(container.firstChild).toBeNull();
     act(() => {
-      // @ts-expect-error setSystemTime does not exist on type 'typeof jest'
       jest.setSystemTime(Date.now() + DEFAULT_TIMEOUT_MS);
       jest.runOnlyPendingTimers();
     });
@@ -117,7 +115,6 @@ describe('ReminderPrompt', () => {
     expect(container.firstChild).toBeNull();
 
     act(() => {
-      // @ts-expect-error setSystemTime does not exist on type 'typeof jest'
       jest.setSystemTime(Date.now() + DEFAULT_TIMEOUT_MS);
       jest.runOnlyPendingTimers();
     });
@@ -161,7 +158,6 @@ describe('ReminderPrompt', () => {
     expect(container).toMatchSnapshot();
 
     act(() => {
-      // @ts-expect-error setSystemTime does not exist on type 'typeof jest'
       jest.setSystemTime(Date.now() + CUSTOM_TIMEOUT);
       jest.runOnlyPendingTimers();
     });

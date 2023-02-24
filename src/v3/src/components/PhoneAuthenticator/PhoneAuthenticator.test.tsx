@@ -23,13 +23,12 @@ import {
   waitFor,
 } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { UserEvent } from '@testing-library/user-event/dist/types/setup';
 import { h, JSX } from 'preact';
 import { FieldElement, UISchemaElementComponentProps } from 'src/types';
 
 import PhoneAuthenticatorControl from './PhoneAuthenticator';
 
-function setup(jsx: JSX.Element): RenderResult & { user: UserEvent } {
+function setup(jsx: JSX.Element) {
   return {
     user: userEvent.setup(),
     ...render(jsx),

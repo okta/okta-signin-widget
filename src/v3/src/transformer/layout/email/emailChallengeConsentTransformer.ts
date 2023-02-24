@@ -37,7 +37,6 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
     } = {},
   } = transaction;
 
-  // @ts-expect-error OKTA-489560 (missing requestInfo prop)
   const appName = requestInfo?.find((info) => info?.name === 'appName');
   const appImageElement: ImageWithTextElement = {
     type: 'ImageWithText',
@@ -47,7 +46,6 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
       textContent: appName?.value,
     },
   };
-  // @ts-expect-error OKTA-489560 (missing requestInfo prop)
   const browser = requestInfo?.find((info) => info?.name === 'browser');
   const browserImageElement: ImageWithTextElement = {
     type: 'ImageWithText',

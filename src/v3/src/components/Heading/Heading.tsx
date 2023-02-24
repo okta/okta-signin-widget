@@ -17,7 +17,6 @@
  */
 
 import { Box, Typography } from '@okta/odyssey-react-mui';
-import { h } from 'preact';
 
 import { useHtmlContentParser } from '../../hooks';
 import { HeadingElement, UISchemaElementComponent } from '../../types';
@@ -40,7 +39,7 @@ const Heading: UISchemaElementComponent<{
     4: 'h4',
     5: 'h5',
     6: 'h6',
-  }[options.level] ?? 'h2';
+  }[level] ?? 'h2';
 
   const component = {
     1: 'h1',
@@ -49,7 +48,7 @@ const Heading: UISchemaElementComponent<{
     4: 'h4',
     5: 'h5',
     6: 'h6',
-  }[options.visualLevel] ?? 'h3';
+  }[visualLevel] ?? 'h3';
 
   return (
     <Box
@@ -59,8 +58,8 @@ const Heading: UISchemaElementComponent<{
     >
       <Typography
         id={uischema.id}
-        variant={`h${level ?? 2}`}
-        component={`h${visualLevel ?? 3}`}
+        variant={variant}
+        component={component}
         className={noTranslate ? 'no-translate' : undefined}
         data-se={dataSe}
       >

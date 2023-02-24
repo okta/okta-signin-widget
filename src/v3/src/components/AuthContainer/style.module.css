@@ -1,15 +1,16 @@
 .siwContainer {
-  max-width: 432px;
-  min-width: 320px;
+  max-inline-size: 432px;
+  min-inline-size: 320px;
 }
 
 .mainViewContainer {
-  min-width: 100%;
-  margin: 100px auto 8px;
+  min-inline-size: 100%;
+  margin-block: 100px 8px;
+  margin-inline: auto;
 }
 
 @media only screen and (max-device-width: 750px) {
   .mainViewContainer {
-    margin-top: 0;
+    margin-block-start: 0;
   }
 }

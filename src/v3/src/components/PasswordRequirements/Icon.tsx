@@ -17,8 +17,8 @@
  */
 
 import { Box, Icon as OdyIcon } from '@okta/odyssey-react-mui';
-import classNames from 'classnames/bind';
-import { FunctionComponent, h } from 'preact';
+import cn from 'classnames';
+import { FunctionComponent } from 'preact';
 
 import { PasswordRequirementStatus } from '../../types';
 
@@ -35,7 +35,7 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
     complete: { name: 'check-circle-filled', color: 'success' },
     info: { name: 'information-circle', color: 'info' },
   };
-  const iconClasses = classNames('passwordRequirementIcon');
+  const iconClasses = cn('passwordRequirementIcon');
 
   return (
     <Box

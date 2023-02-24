@@ -37,6 +37,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
       '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
       'config': resolve(__dirname, '../config'),
       'nls': resolve(__dirname, '../../packages/@okta/i18n/src/json'),

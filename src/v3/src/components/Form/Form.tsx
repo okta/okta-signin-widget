@@ -29,7 +29,7 @@ import {
 import { getValidationMessages } from '../../util';
 import InfoSection from '../InfoSection/InfoSection';
 import Layout from './Layout';
-import style from './style.css';
+import style from './style.module.css';
 
 const Form: FunctionComponent<{
   uischema: UISchemaLayout;

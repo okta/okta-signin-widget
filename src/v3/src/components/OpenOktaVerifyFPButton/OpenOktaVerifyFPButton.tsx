@@ -34,7 +34,7 @@ import {
   getBaseUrl, getTranslation, isAndroid, setUrlQueryParams,
 } from '../../util';
 import Button from '../Button';
-import style from './style.css';
+import style from './style.module.css';
 
 type IFrameProps = {
   src: string;
