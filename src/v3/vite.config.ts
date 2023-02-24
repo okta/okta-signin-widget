@@ -20,15 +20,24 @@ import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
 import { readFileSync } from 'fs';
-import legacy from '@vitejs/plugin-legacy';
-import { browserslist } from './package.json';
+// import legacy from '@vitejs/plugin-legacy';
+import { ModuleFormat } from 'rollup';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     preact(),
-    // splitVendorChunkPlugin(),
-    legacy({ targets: browserslist ?? [] }),
+    splitVendorChunkPlugin(),
+    // legacy({
+    //   targets: [
+    //     'defaults',
+    //     'not dead',
+    //     '>= 0.025%',
+    //     'ie 11',
+    //     'safari >= 8',
+    //     'android >= 4.4.4'
+    //   ],
+    // }),
   ],
   define: {
     OKTA_SIW_VERSION: '"0.0.0"',
@@ -57,48 +66,59 @@ export default defineConfig({
     },
   },
   build: {
-    sourcemap: true,
-    // https://rollupjs.org/guide/en/#big-list-of-options
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          lodash: [
-            'lodash',
-          ],
-          mui: [
-            '@mui/material',
-          ],
-          // courage: [
-          //   '@okta/courage',
-          // ],
-          chroma: [
-            'chroma-js',
-          ],
-          authjs: [
-            '@okta/okta-auth-js',
-          ],
-          odyssey: [
-            '@okta/odyssey-design-tokens',
-            '@okta/odyssey-react',
-            '@okta/odyssey-react-mui',
-            '@okta/odyssey-react-theme',
-          ],
-        },
+    lib: {
+      entry: resolve(__dirname, 'src/index.ts'),
+      name: 'OktaSignIn',
+      formats: ['umd', 'es'],
+      fileName: (fmt, entry) => {
+        const ext: Record<ModuleFormat, string> = {
+          es: 'mjs',
+          cjs: 'js',
+          umd: 'min.js',
+          iife: 'min.js',
+        }[fmt];
+        return `js/okta-sign-in.${ext}`;
       },
     },
+    sourcemap: true,
+    // https://rollupjs.org/guide/en/#big-list-of-options
+    // rollupOptions: {
+    //   output: {
+    //     manualChunks: {
+    //       lodash: [
+    //         'lodash',
+    //       ],
+    //       mui: [
+    //         '@mui/material',
+    //       ],
+    //       chroma: [
+    //         'chroma-js',
+    //       ],
+    //       authjs: [
+    //         '@okta/okta-auth-js',
+    //       ],
+    //       odyssey: [
+    //         '@okta/odyssey-design-tokens',
+    //         '@okta/odyssey-react',
+    //         '@okta/odyssey-react-mui',
+    //         '@okta/odyssey-react-theme',
+    //       ],
+    //     },
+    //   },
+    // },
   },
   server: {
     host: 'localhost',
     port: 8080,
-    https: (() => {
-      try {
-        return {
-          key: readFileSync(resolve(__dirname, '.https/localhost-key.pem')),
-          cert: readFileSync(resolve(__dirname, '.https/localhost-cert.pem')),
-        };
-      } catch (err) {
-        throw new Error('run scripts/generate-certs');
-      }
-    })(),
+    // https: (() => {
+    //   try {
+    //     return {
+    //       key: readFileSync(resolve(__dirname, '.https/localhost-key.pem')),
+    //       cert: readFileSync(resolve(__dirname, '.https/localhost-cert.pem')),
+    //     };
+    //   } catch (err) {
+    //     throw new Error('run scripts/generate-certs');
+    //   }
+    // })(),
   },
 });

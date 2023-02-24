@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-import {config} from '../widgetrc';
+import { config } from '../widgetrc';
 import { OktaSignIn } from './OktaSignIn';
 
 // if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {

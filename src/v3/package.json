@@ -12,7 +12,6 @@
     "url": "https://github.com/okta/okta-signin-widget.git"
   },
   "license": "Apache-2.0",
-  "type": "module",
   "scripts": {
     "build": "tsc && vite build",
     "codegen": "yarn workspace @okta/okta-signin-widget codegen",

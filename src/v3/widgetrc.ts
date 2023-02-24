@@ -34,10 +34,11 @@ export const configs: Record<string, WidgetOptions> = {
   },
 
   // NOTE: (offline) connects to local okta-core instance
-  atko: {
+  rain: {
     ...common,
     baseUrl: 'http://atko.okta1.com:1802',
-    clientId: '0oa1229r6PWNZiiXg0g4',
+    clientId: '0oa8pr7MLq9OLhUtr0g4',
+    redirectUri: `http://localhost:8080/login/callback`,
   },
 
   // NOTE: (offline) connects to mock service worker, see handlers.ts
@@ -59,4 +60,4 @@ export const configs: Record<string, WidgetOptions> = {
     },
   },
 };
-export const config = configs.playground;
+export const config = configs.rain;
