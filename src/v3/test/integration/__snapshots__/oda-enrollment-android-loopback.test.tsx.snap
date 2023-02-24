@@ -102,10 +102,10 @@ exports[`oda-enrollment-android-loopback should render form 1`] = `
                   class="MuiBox-root emotion-15"
                 >
                   <ol
-                    class="ods-WBGspT ods-OWSpcm ods-vhS2n4 ods-6fHBGU ods-1RXKSO ods-pMtclx ods-Xtd4sS ods-M9dxDe"
+                    class="MuiList-root MuiList-padding emotion-16"
                   >
                     <li
-                      class="ods-NS6FkZ"
+                      class="MuiListItem-root emotion-17"
                     >
                       <div
                         class="MuiBox-root emotion-7"
@@ -127,7 +127,7 @@ exports[`oda-enrollment-android-loopback should render form 1`] = `
                       </div>
                     </li>
                     <li
-                      class="ods-NS6FkZ"
+                      class="MuiListItem-root emotion-17"
                     >
                       <div
                         class="MuiBox-root emotion-7"
@@ -149,7 +149,7 @@ exports[`oda-enrollment-android-loopback should render form 1`] = `
                       </div>
                     </li>
                     <li
-                      class="ods-NS6FkZ"
+                      class="MuiListItem-root emotion-17"
                     >
                       <div
                         class="MuiBox-root emotion-7"
@@ -186,7 +186,7 @@ exports[`oda-enrollment-android-loopback should render form 1`] = `
                           class="MuiBox-root emotion-8"
                         >
                           <button
-                            class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-32"
+                            class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-36"
                             tabindex="0"
                             type="button"
                           >
@@ -196,7 +196,7 @@ exports[`oda-enrollment-android-loopback should render form 1`] = `
                       </div>
                     </li>
                     <li
-                      class="ods-NS6FkZ"
+                      class="MuiListItem-root emotion-17"
                     >
                       <div
                         class="MuiBox-root emotion-7"
