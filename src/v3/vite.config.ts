@@ -66,12 +66,11 @@ export default defineConfig({
             'lodash',
           ],
           mui: [
-            '@mui/icons-material',
             '@mui/material',
           ],
-          courage: [
-            '@okta/courage',
-          ],
+          // courage: [
+          //   '@okta/courage',
+          // ],
           chroma: [
             'chroma-js',
           ],
