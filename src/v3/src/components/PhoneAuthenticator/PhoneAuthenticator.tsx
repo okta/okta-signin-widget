@@ -221,6 +221,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               <InputAdornment
                 component="span"
                 position="start"
+                className="no-translate"
               >
                 {phoneCode}
               </InputAdornment>

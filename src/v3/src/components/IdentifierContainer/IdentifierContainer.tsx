@@ -51,7 +51,7 @@ const IdentifierContainer: FunctionComponent = () => {
 
   const mainContainerClasses = classNames('identifier-container');
   const identiferContainerClasses = classNames(style.identifierContainer);
-  const identifierSpanClasses = classNames('identifier', style.identifierSpan);
+  const identifierSpanClasses = classNames('identifier', 'no-translate', style.identifierSpan);
   const iconContainerClasses = classNames(style.userIconContainer);
   return (
     <Box

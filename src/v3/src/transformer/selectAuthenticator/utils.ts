@@ -231,12 +231,17 @@ const formatAuthenticatorOptions = (
         AUTHENTICATOR_KEY.OV,
         AUTHENTICATOR_KEY.RSA,
       ];
+      const AUTHENTICATORS_WITH_NO_TRANSLATE_CLASS = [
+        AUTHENTICATOR_KEY.PHONE,
+        AUTHENTICATOR_KEY.CUSTOM_APP,
+      ];
       const authenticator = option.relatesTo;
 
       return {
         type: 'AuthenticatorButton',
         label: option.label,
         id: `auth_btn_${authenticatorKey}_${enrollmentId || id}`,
+        noTranslate: !isEnroll && AUTHENTICATORS_WITH_NO_TRANSLATE_CLASS.includes(authenticatorKey),
         options: {
           type: ButtonType.BUTTON,
           key: authenticatorKey,

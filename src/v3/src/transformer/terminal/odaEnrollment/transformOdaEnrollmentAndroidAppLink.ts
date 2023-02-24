@@ -258,7 +258,7 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
                       type: 'Description',
                       noMargin: true,
                       options: {
-                        content: signInUrl,
+                        content: `<span class="no-translate">${signInUrl}</span>`,
                       },
                     } as DescriptionElement,
                     {
