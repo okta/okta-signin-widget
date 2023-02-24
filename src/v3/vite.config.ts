@@ -20,7 +20,6 @@ import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
 import { readFileSync } from 'fs';
-import { visualizer } from 'rollup-plugin-visualizer';
 import legacy from '@vitejs/plugin-legacy';
 import { browserslist } from './package.json';
 
@@ -28,9 +27,8 @@ import { browserslist } from './package.json';
 export default defineConfig({
   plugins: [
     preact(),
-    splitVendorChunkPlugin(),
+    // splitVendorChunkPlugin(),
     legacy({ targets: browserslist ?? [] }),
-    visualizer(),
   ],
   define: {
     OKTA_SIW_VERSION: '"0.0.0"',
@@ -40,17 +38,21 @@ export default defineConfig({
   resolve: {
     alias: {
       '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
-      config: resolve(__dirname, '../config'),
-      nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
-      okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
+      'config': resolve(__dirname, '../config'),
+      'nls': resolve(__dirname, '../../packages/@okta/i18n/src/json'),
       'okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
-      qtip: resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
-      react: resolve(__dirname, 'preact/compat'),
-      'react-dom': resolve(__dirname, 'preact/compat'),
-      src: resolve(__dirname, './src'),
-      util: resolve(__dirname, '../util'),
-      v1: resolve(__dirname, '../v1'),
-      v2: resolve(__dirname, '../v2'),
+      'okta': resolve(__dirname, '../../packages/@okta/courage-dist'),
+      'qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
+      'src': resolve(__dirname, './src'),
+      'util': resolve(__dirname, '../util'),
+      'v1': resolve(__dirname, '../v1'),
+      'v2': resolve(__dirname, '../v2'),
+
+      // react -> preact alias
+      'react': 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react-dom': 'preact/compat',
+      'react/jsx-runtime': 'preact/jsx-runtime',
     },
   },
   build: {

@@ -37,7 +37,7 @@ import {
   WidgetProps,
 } from '../types/widget';
 
-export default class OktaSignIn {
+export class OktaSignIn {
   /**
    * Version string
    */

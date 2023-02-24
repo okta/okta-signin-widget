@@ -41,8 +41,10 @@ module.exports = {
     '^.+\\.js$': 'babel-jest',
   },
   verbose: true,
-  testURL: 'http://localhost:8080',
-  testEnvironment: './config/jsdom-env-with-polyfills.js',
+  testEnvironmentOptions: {
+    url: 'http://localhost:8080',
+  },
+  // testEnvironment: './config/jsdom-env-with-polyfills.js',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   moduleDirectories: [
     'node_modules',

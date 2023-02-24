@@ -96,10 +96,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     type: UISchemaLayoutType.VERTICAL,
     elements: [],
   });
-  const [message, setMessage] = useState<IdxMessage | undefined>();
-  const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
+  const [message, setMessage] = useState<IdxMessage>();
+  const [idxTransaction, setIdxTransaction] = useState<IdxTransaction>();
   const [isClientTransaction, setIsClientTransaction] = useState<boolean>(false);
-  const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
+  const [stepToRender, setStepToRender] = useState<string>();
   const prevIdxTransactionRef = useRef<IdxTransaction>();
   const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
@@ -150,7 +150,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       });
     } catch (error) {
       events?.ready?.();
-
       handleError(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -41,7 +41,6 @@
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.5",
-    "@okta/courage": "*",
     "@okta/odyssey-design-tokens": "^0.17.1",
     "@okta/odyssey-react": "^0.15.3",
     "@okta/odyssey-react-mui": "^0.17.0",
@@ -62,12 +61,14 @@
     "i18next-localstorage-backend": "^3.1.3",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
-    "preact": "^10.11.3",
+    "preact": "^10.12.1",
+    "react": "npm:@preact/compat",
+    "react-dom": "npm:@preact/compat",
     "react-i18next": "^11.14.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.0",
     "@emotion/jest": "^11.9.3",
-    "@okta/mocks": "*",
     "@okta/odyssey-babel-loader": "^0.17.1",
     "@okta/odyssey-babel-preset": "^0.17.1",
     "@okta/odyssey-postcss-preset": "^0.15.3",
@@ -119,7 +120,7 @@
     "testcafe": "^2.1.0",
     "ts-jest": "^29.0.3",
     "typescript": "^4.9.4",
-    "vite": "^4.0.3",
+    "vite": "^4.1.0",
     "wait-on": "^6.0.1",
     "whatwg-fetch": "^3.6.2"
   },
