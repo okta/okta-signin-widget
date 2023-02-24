@@ -19,8 +19,7 @@ import HtmlReactParser, {
   Element,
   HTMLReactParserOptions,
 } from 'html-react-parser';
-import * as preact from 'preact';
-import { h } from 'preact';
+import preact, { h } from 'preact';
 
 export const useHtmlContentParser = (
   content: string | undefined,

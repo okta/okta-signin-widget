@@ -22,8 +22,6 @@ import {
   StepperLayout,
   TitleElement,
   TokenReplacement,
-  TokenReplacementValue,
-  TokenSearchValue,
   UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
