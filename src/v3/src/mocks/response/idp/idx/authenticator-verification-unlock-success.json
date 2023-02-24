@@ -1,0 +1,209 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.ct6sFpqCSbUM_o3PRVL6XSeCY1FNF97IkY6fRpWx~c.kH42N1c7ABFLw_EdDcks3Zq9VL_KtiYYjDb5gJHb_9TZ7jf7LuSjuQ9NDrO3n4lPWNUZOlH3s13XDDekIoTfWskKmCdb-HQm1a_VBWg_ZW6J48G6JpCqIO8_6ExwgpybaeWKcwzDo7uwprDS1-CwMLaxaifzhQcOGQqABKVbao0Mh3phZequ6LiP9-w5A4y9FQ2XXRCXp7TPAa0L1nLJdeUvy0jmwNod_Zbc5UR0VmmdpzDcsZGH5-gQaVOnKEmQSLXUlFY13DJgJBt5RQGBBHLDOTdj4sM-bQkQ5OX12aKBSw3xGl4f0HtECBvJJ_nlZEKkNLESVsr2z4rvGiXxXxvtHKrviDHI1MpIF8vPhVaNInSJHIqgx7KN3Fkxhf2apAy6r_0SN-LNuzSq7LwabOiwyQDpaauCSxEAXOgg3EYHdt2g8I0Ss00wjB5yC4N8eRZVlqN8DtymzFc9Yhds8t66_jIa6DXV9_8xXdt0MEMvNwwbWxTdJMXhzPC0Ohr7gh7U3oyrAAlm4AoPSaM2JgPHcZrtLJZMj7By23079TJnJh2wD3tK2kfyH3DuzDj1NCpBnmoiAgdPpAK_D1vLtnGESHhg8UZaMXQxAEo9dmMtsqkE_8OsKuVwCsu6QcXPICSQGv2inOvsV1M20c9XLATgwj_Sv9qc0f2Lx1dIXFDHT4izSC5cNmaVan2GTFVjyxxl70dV-RXv36k3tlGW2IM_K9iDUU5aYmKWHIZQ_VZOkfI7aAMwlS3TVxUbTZCoZVymQnYAKPuit2JyFy3OOus7wR6s-2z09oIwXhAap8l3IEQxNrfOThDNPrqwqaWJUl51LpwNQNQK-ZFc6hVkaiSB20up1oS--Veenk0dP2H4aQVXmJCwhaJN74QlzsoX5AqtH3Jx3lcesKwZhqGb5A",
+  "expiresAt": "2023-02-15T21:57:01.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "challenge-authenticator",
+        "relatesTo": ["$.currentAuthenticatorEnrollment"],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                { "name": "passcode", "label": "Password", "secret": true }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.ct6sFpqCSbUM_o3PRVL6XSeCY1FNF97IkY6fRpWx~c.kH42N1c7ABFLw_EdDcks3Zq9VL_KtiYYjDb5gJHb_9TZ7jf7LuSjuQ9NDrO3n4lPWNUZOlH3s13XDDekIoTfWskKmCdb-HQm1a_VBWg_ZW6J48G6JpCqIO8_6ExwgpybaeWKcwzDo7uwprDS1-CwMLaxaifzhQcOGQqABKVbao0Mh3phZequ6LiP9-w5A4y9FQ2XXRCXp7TPAa0L1nLJdeUvy0jmwNod_Zbc5UR0VmmdpzDcsZGH5-gQaVOnKEmQSLXUlFY13DJgJBt5RQGBBHLDOTdj4sM-bQkQ5OX12aKBSw3xGl4f0HtECBvJJ_nlZEKkNLESVsr2z4rvGiXxXxvtHKrviDHI1MpIF8vPhVaNInSJHIqgx7KN3Fkxhf2apAy6r_0SN-LNuzSq7LwabOiwyQDpaauCSxEAXOgg3EYHdt2g8I0Ss00wjB5yC4N8eRZVlqN8DtymzFc9Yhds8t66_jIa6DXV9_8xXdt0MEMvNwwbWxTdJMXhzPC0Ohr7gh7U3oyrAAlm4AoPSaM2JgPHcZrtLJZMj7By23079TJnJh2wD3tK2kfyH3DuzDj1NCpBnmoiAgdPpAK_D1vLtnGESHhg8UZaMXQxAEo9dmMtsqkE_8OsKuVwCsu6QcXPICSQGv2inOvsV1M20c9XLATgwj_Sv9qc0f2Lx1dIXFDHT4izSC5cNmaVan2GTFVjyxxl70dV-RXv36k3tlGW2IM_K9iDUU5aYmKWHIZQ_VZOkfI7aAMwlS3TVxUbTZCoZVymQnYAKPuit2JyFy3OOus7wR6s-2z09oIwXhAap8l3IEQxNrfOThDNPrqwqaWJUl51LpwNQNQK-ZFc6hVkaiSB20up1oS--Veenk0dP2H4aQVXmJCwhaJN74QlzsoX5AqtH3Jx3lcesKwZhqGb5A",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": ["create-form"],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut2h3ffszv3me6O31d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "password",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.ct6sFpqCSbUM_o3PRVL6XSeCY1FNF97IkY6fRpWx~c.kH42N1c7ABFLw_EdDcks3Zq9VL_KtiYYjDb5gJHb_9TZ7jf7LuSjuQ9NDrO3n4lPWNUZOlH3s13XDDekIoTfWskKmCdb-HQm1a_VBWg_ZW6J48G6JpCqIO8_6ExwgpybaeWKcwzDo7uwprDS1-CwMLaxaifzhQcOGQqABKVbao0Mh3phZequ6LiP9-w5A4y9FQ2XXRCXp7TPAa0L1nLJdeUvy0jmwNod_Zbc5UR0VmmdpzDcsZGH5-gQaVOnKEmQSLXUlFY13DJgJBt5RQGBBHLDOTdj4sM-bQkQ5OX12aKBSw3xGl4f0HtECBvJJ_nlZEKkNLESVsr2z4rvGiXxXxvtHKrviDHI1MpIF8vPhVaNInSJHIqgx7KN3Fkxhf2apAy6r_0SN-LNuzSq7LwabOiwyQDpaauCSxEAXOgg3EYHdt2g8I0Ss00wjB5yC4N8eRZVlqN8DtymzFc9Yhds8t66_jIa6DXV9_8xXdt0MEMvNwwbWxTdJMXhzPC0Ohr7gh7U3oyrAAlm4AoPSaM2JgPHcZrtLJZMj7By23079TJnJh2wD3tK2kfyH3DuzDj1NCpBnmoiAgdPpAK_D1vLtnGESHhg8UZaMXQxAEo9dmMtsqkE_8OsKuVwCsu6QcXPICSQGv2inOvsV1M20c9XLATgwj_Sv9qc0f2Lx1dIXFDHT4izSC5cNmaVan2GTFVjyxxl70dV-RXv36k3tlGW2IM_K9iDUU5aYmKWHIZQ_VZOkfI7aAMwlS3TVxUbTZCoZVymQnYAKPuit2JyFy3OOus7wR6s-2z09oIwXhAap8l3IEQxNrfOThDNPrqwqaWJUl51LpwNQNQK-ZFc6hVkaiSB20up1oS--Veenk0dP2H4aQVXmJCwhaJN74QlzsoX5AqtH3Jx3lcesKwZhqGb5A",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Account successfully unlocked!<br>Verify your account with a security method to continue.",
+        "i18n": {
+          "key": "oie.selfservice.unlock_user.landing.to.app.success.message",
+          "params": []
+        },
+        "class": "INFO"
+      }
+    ]
+  },
+  "currentAuthenticatorEnrollment": {
+    "type": "object",
+    "value": {
+      "recover": {
+        "rel": ["create-form"],
+        "name": "recover",
+        "href": "http://localhost:3000/idp/idx/recover",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.ct6sFpqCSbUM_o3PRVL6XSeCY1FNF97IkY6fRpWx~c.kH42N1c7ABFLw_EdDcks3Zq9VL_KtiYYjDb5gJHb_9TZ7jf7LuSjuQ9NDrO3n4lPWNUZOlH3s13XDDekIoTfWskKmCdb-HQm1a_VBWg_ZW6J48G6JpCqIO8_6ExwgpybaeWKcwzDo7uwprDS1-CwMLaxaifzhQcOGQqABKVbao0Mh3phZequ6LiP9-w5A4y9FQ2XXRCXp7TPAa0L1nLJdeUvy0jmwNod_Zbc5UR0VmmdpzDcsZGH5-gQaVOnKEmQSLXUlFY13DJgJBt5RQGBBHLDOTdj4sM-bQkQ5OX12aKBSw3xGl4f0HtECBvJJ_nlZEKkNLESVsr2z4rvGiXxXxvtHKrviDHI1MpIF8vPhVaNInSJHIqgx7KN3Fkxhf2apAy6r_0SN-LNuzSq7LwabOiwyQDpaauCSxEAXOgg3EYHdt2g8I0Ss00wjB5yC4N8eRZVlqN8DtymzFc9Yhds8t66_jIa6DXV9_8xXdt0MEMvNwwbWxTdJMXhzPC0Ohr7gh7U3oyrAAlm4AoPSaM2JgPHcZrtLJZMj7By23079TJnJh2wD3tK2kfyH3DuzDj1NCpBnmoiAgdPpAK_D1vLtnGESHhg8UZaMXQxAEo9dmMtsqkE_8OsKuVwCsu6QcXPICSQGv2inOvsV1M20c9XLATgwj_Sv9qc0f2Lx1dIXFDHT4izSC5cNmaVan2GTFVjyxxl70dV-RXv36k3tlGW2IM_K9iDUU5aYmKWHIZQ_VZOkfI7aAMwlS3TVxUbTZCoZVymQnYAKPuit2JyFy3OOus7wR6s-2z09oIwXhAap8l3IEQxNrfOThDNPrqwqaWJUl51LpwNQNQK-ZFc6hVkaiSB20up1oS--Veenk0dP2H4aQVXmJCwhaJN74QlzsoX5AqtH3Jx3lcesKwZhqGb5A",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "type": "password",
+      "key": "okta_password",
+      "id": "laehspkckQ73kDbzn1d6",
+      "displayName": "Password",
+      "methods": [{ "type": "password" }]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "aut2h3ffszv3me6O31d7",
+        "displayName": "Password",
+        "methods": [{ "type": "password" }],
+        "allowedFor": "sso"
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "laehspkckQ73kDbzn1d6",
+        "displayName": "Password",
+        "methods": [{ "type": "password" }]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u2kk7x4ni8vYvuO1d7",
+      "identifier": "tester.test@okta.com",
+      "profile": {
+        "firstName": "Okta tester",
+        "lastName": "test (Okta)",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.ct6sFpqCSbUM_o3PRVL6XSeCY1FNF97IkY6fRpWx~c.kH42N1c7ABFLw_EdDcks3Zq9VL_KtiYYjDb5gJHb_9TZ7jf7LuSjuQ9NDrO3n4lPWNUZOlH3s13XDDekIoTfWskKmCdb-HQm1a_VBWg_ZW6J48G6JpCqIO8_6ExwgpybaeWKcwzDo7uwprDS1-CwMLaxaifzhQcOGQqABKVbao0Mh3phZequ6LiP9-w5A4y9FQ2XXRCXp7TPAa0L1nLJdeUvy0jmwNod_Zbc5UR0VmmdpzDcsZGH5-gQaVOnKEmQSLXUlFY13DJgJBt5RQGBBHLDOTdj4sM-bQkQ5OX12aKBSw3xGl4f0HtECBvJJ_nlZEKkNLESVsr2z4rvGiXxXxvtHKrviDHI1MpIF8vPhVaNInSJHIqgx7KN3Fkxhf2apAy6r_0SN-LNuzSq7LwabOiwyQDpaauCSxEAXOgg3EYHdt2g8I0Ss00wjB5yC4N8eRZVlqN8DtymzFc9Yhds8t66_jIa6DXV9_8xXdt0MEMvNwwbWxTdJMXhzPC0Ohr7gh7U3oyrAAlm4AoPSaM2JgPHcZrtLJZMj7By23079TJnJh2wD3tK2kfyH3DuzDj1NCpBnmoiAgdPpAK_D1vLtnGESHhg8UZaMXQxAEo9dmMtsqkE_8OsKuVwCsu6QcXPICSQGv2inOvsV1M20c9XLATgwj_Sv9qc0f2Lx1dIXFDHT4izSC5cNmaVan2GTFVjyxxl70dV-RXv36k3tlGW2IM_K9iDUU5aYmKWHIZQ_VZOkfI7aAMwlS3TVxUbTZCoZVymQnYAKPuit2JyFy3OOus7wR6s-2z09oIwXhAap8l3IEQxNrfOThDNPrqwqaWJUl51LpwNQNQK-ZFc6hVkaiSB20up1oS--Veenk0dP2H4aQVXmJCwhaJN74QlzsoX5AqtH3Jx3lcesKwZhqGb5A",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "SIW Next",
+      "id": "0oa2h3j3ysoR3eHN11d7"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "OAUTH2.0",
+      "issuer": {
+        "id": "aus2h3f9n6mV9Rynu1d7",
+        "name": "default",
+        "uri": "http://localhost:3000/oauth2/default"
+      },
+      "request": {
+        "max_age": -1,
+        "scope": "openid profile email",
+        "response_type": "code",
+        "redirect_uri": "http://localhost:3000/login/callback",
+        "state": "yq2ffhWXlpiC1cIr0oMkUerd9B465dVDn90qXnP8IZvCudCDEkresDiLDQntzfQC",
+        "code_challenge_method": "S256",
+        "nonce": "l6cBsTOyEiScvqjU97JgOpLCQfNNaE5uJS3cHApaPBGjWcCDa2eY7c7ySw0K5NOo",
+        "code_challenge": "Nm6_X2a2SSaAoBDw0K3RT1TN5QMWLQ4TS4zA45LLTxo",
+        "response_mode": "query"
+      }
+    }
+  }
+}

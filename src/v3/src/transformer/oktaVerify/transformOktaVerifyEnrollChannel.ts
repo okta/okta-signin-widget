@@ -16,7 +16,7 @@ import {
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
-  TextWithHtmlElement,
+  TextWithActionLinkElement,
   TitleElement,
   UISchemaElement,
 } from '../../types';
@@ -86,12 +86,11 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
     },
   } as ButtonElement);
 
-  const switchChannelLink: TextWithHtmlElement = {
-    type: 'TextWithHtml',
+  const switchChannelLink: TextWithActionLinkElement = {
+    type: 'TextWithActionLink',
     options: {
       content: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
       contentClassname: 'switch-channel-link',
-      submitOnClick: true,
       step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
       stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
     },

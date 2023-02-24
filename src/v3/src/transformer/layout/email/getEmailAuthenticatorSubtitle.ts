@@ -10,14 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { TokenReplacement } from 'src/types';
+
 import { loc } from '../../../util';
 
 export const getEmailAuthenticatorSubtitle = (
   emailAddress: unknown | undefined,
   useEmailMagicLink: boolean,
+  tokenReplacement?: TokenReplacement,
 ): string => {
   const instructionPrefixText = typeof emailAddress !== 'undefined'
-    ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [emailAddress])
+    ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [emailAddress], tokenReplacement)
     : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
 
   const instructionPostfixText = useEmailMagicLink

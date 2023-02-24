@@ -12,6 +12,7 @@
 
 export * from './useAutoFocus';
 export * from './useFormFieldValidation';
+export * from './useHtmlContentParser';
 export * from './useOnChange';
 export * from './useOnSubmit';
 export * from './useOnSubmitValidation';

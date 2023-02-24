@@ -21,6 +21,7 @@ import {
   StepperButtonElement,
   StepperLayout,
   TitleElement,
+  TokenReplacement,
   UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
@@ -65,11 +66,18 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
   }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
+  const tokenReplacement: TokenReplacement | undefined = typeof redactedEmailAddress !== 'undefined'
+    ? { $1: { element: 'span', attributes: { class: 'strong no-translate' } } }
+    : undefined;
   const informationalText: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     options: {
-      content: getEmailAuthenticatorSubtitle(redactedEmailAddress, useEmailMagicLink),
+      content: getEmailAuthenticatorSubtitle(
+        redactedEmailAddress,
+        useEmailMagicLink,
+        tokenReplacement,
+      ),
     },
   };
 

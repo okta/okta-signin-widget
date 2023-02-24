@@ -21,6 +21,7 @@ import { h } from 'preact';
 import { useWidgetContext } from '../../contexts';
 import {
   useAutoFocus,
+  useHtmlContentParser,
   useValue,
 } from '../../hooks';
 import {
@@ -51,6 +52,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
     dataSe,
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
+  const parsedExplainContent = useHtmlContentParser(explain);
   const hasErrors = typeof errors !== 'undefined';
   // TODO: OKTA-569647 - refactor logic
   const hintId = hint && `${name}-hint`;
@@ -115,7 +117,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
             // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
             sx={{ textAlign: 'start' }}
           >
-            {explain}
+            {parsedExplainContent}
           </FormHelperText>
         )
       }

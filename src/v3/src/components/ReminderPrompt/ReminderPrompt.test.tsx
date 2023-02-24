@@ -29,6 +29,8 @@ jest.useFakeTimers('modern');
 
 const mockSubmitHook = jest.fn().mockImplementation(() => ({}));
 jest.mock('../../hooks', () => ({
+  // @ts-expect-error require the implementation for HTML parser hook
+  ...jest.requireActual('../../hooks'),
   useOnSubmit: () => mockSubmitHook,
 }));
 

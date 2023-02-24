@@ -16,7 +16,7 @@ import {
   ButtonElement,
   ButtonType,
   FieldElement,
-  TextWithHtmlElement,
+  TextWithActionLinkElement,
   TitleElement,
   WidgetProps,
 } from 'src/types';
@@ -77,13 +77,13 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
       .toBe('oie.enroll.okta_verify.setupLink');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options.type)
       .toBe(ButtonType.SUBMIT);
-    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.content)
+    expect((updatedFormBag.uischema.elements[4] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
-    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.contentClassname)
-      .toBe('switch-channel-link');
-    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.step)
+    expect((updatedFormBag.uischema.elements[4] as TextWithActionLinkElement)
+      .options.contentClassname).toBe('switch-channel-link');
+    expect((updatedFormBag.uischema.elements[4] as TextWithActionLinkElement).options.step)
       .toBe('select-enrollment-channel');
-    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.stepToRender)
+    expect((updatedFormBag.uischema.elements[4] as TextWithActionLinkElement).options.stepToRender)
       .toBe('select-enrollment-channel');
   });
 
@@ -112,13 +112,13 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
       .toBe('oie.enroll.okta_verify.setupLink');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options.type)
       .toBe(ButtonType.SUBMIT);
-    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.content)
+    expect((updatedFormBag.uischema.elements[4] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
-    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.contentClassname)
-      .toBe('switch-channel-link');
-    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.step)
+    expect((updatedFormBag.uischema.elements[4] as TextWithActionLinkElement)
+      .options.contentClassname).toBe('switch-channel-link');
+    expect((updatedFormBag.uischema.elements[4] as TextWithActionLinkElement).options.step)
       .toBe('select-enrollment-channel');
-    expect((updatedFormBag.uischema.elements[4] as TextWithHtmlElement).options.stepToRender)
+    expect((updatedFormBag.uischema.elements[4] as TextWithActionLinkElement).options.stepToRender)
       .toBe('select-enrollment-channel');
   });
 });

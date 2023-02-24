@@ -1441,25 +1441,21 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 <div
                   class="MuiBox-root emotion-9"
                 >
-                  <div
-                    class="MuiBox-root emotion-37"
+                  Or 
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-37"
+                    href="#"
                   >
-                    Or 
-                    <a
-                      class="switch-channel-link"
-                      href="#"
-                    >
-                      try a different way
-                    </a>
-                     to set up Okta Verify.
-                  </div>
+                    try a different way
+                  </a>
+                   to set up Okta Verify.
                 </div>
               </div>
               <div
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1470,7 +1466,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -2927,25 +2923,21 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                 <div
                   class="MuiBox-root emotion-9"
                 >
-                  <div
-                    class="MuiBox-root emotion-37"
+                  Or 
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-37"
+                    href="#"
                   >
-                    Or 
-                    <a
-                      class="switch-channel-link"
-                      href="#"
-                    >
-                      try a different way
-                    </a>
-                     to set up Okta Verify.
-                  </div>
+                    try a different way
+                  </a>
+                   to set up Okta Verify.
                 </div>
               </div>
               <div
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -2956,7 +2948,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

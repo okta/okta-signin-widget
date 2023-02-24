@@ -46,7 +46,12 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
     contentType: 'subtitle',
     options: {
       content: redactedEmailAddress
-        ? loc('oie.email.verify.subtitleWithEmailAddress', 'login', [redactedEmailAddress])
+        ? loc(
+          'oie.email.verify.subtitleWithEmailAddress',
+          'login',
+          [redactedEmailAddress],
+          { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+        )
         : loc('oie.email.verify.subtitleWithoutEmailAddress', 'login'),
     },
   };

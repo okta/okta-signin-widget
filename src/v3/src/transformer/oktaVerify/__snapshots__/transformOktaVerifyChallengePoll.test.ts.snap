@@ -31,6 +31,7 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
           "SVGIcon": "MockSVGIcon",
           "id": "code",
@@ -72,8 +73,9 @@ Object {
           "actionParams": Object {
             "resend": true,
           },
-          "buttonText": "email.button.resend",
           "content": "oie.numberchallenge.warning",
+          "contentClassname": "resend-number-challenge",
+          "contentHasHtml": true,
           "isActionStep": true,
           "step": "resend",
         },
@@ -94,6 +96,7 @@ Object {
         "type": "Description",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
           "SVGIcon": "MockSVGIcon",
           "id": "code",

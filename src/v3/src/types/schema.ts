@@ -114,6 +114,27 @@ export type ElementContentType = 'subtitle' | 'footer';
 
 export type LanguageDirection = 'rtl' | 'ltr';
 
+/**
+ * @description Token value to search for in a translated string
+ */
+export type TokenSearchValue = '$1' | '$2';
+/**
+ * @description Record containing properties to use in the replacement of a translated string
+ * @prop {string} element - Target element with which to replace a token
+ * @prop {Object} attributes - Object containing any optional attributes that can be added to the target element
+ * @prop {string} attributes.class - Class name to apply to the target element
+ * @prop {string} attributes.href - href value to apply to the target element
+ */
+export type TokenReplacementValue = {
+  element: 'span' | 'a';
+  attributes?: {
+    class?: string;
+    href?: string;
+  };
+};
+
+export type TokenReplacement = Partial<Record<TokenSearchValue, TokenReplacementValue>>;
+
 export interface UISchemaElement {
   type: string;
   id?: string;
@@ -136,6 +157,7 @@ export interface UISchemaElement {
    * view/step within the {@link StepperLayout} this element belongs to.
    */
   viewIndex?: number;
+  noTranslate?: boolean;
 }
 
 export interface UISchemaLayout {
@@ -300,12 +322,11 @@ export interface DescriptionElement extends UISchemaElement {
   };
 }
 
-export interface TextWithHtmlElement extends UISchemaElement {
-  type: 'TextWithHtml';
+export interface TextWithActionLinkElement extends UISchemaElement {
+  type: 'TextWithActionLink';
   options: ActionOptions & {
     content: string;
     contentClassname: string;
-    submitOnClick: boolean;
     stepToRender?: string;
   };
 }
@@ -334,7 +355,7 @@ export interface ListElement extends UISchemaElement {
      * Items to render in the list.
      *
      * **NOTE**: Only string and UISchemaElement with type
-     * 'Button', 'Description', or 'TextWithHtml'
+     * 'Button' or 'Description'
      * are supported. Other UISchemaElement types will
      * not render and print a warning to the console.
      */

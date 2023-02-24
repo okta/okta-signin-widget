@@ -20,6 +20,7 @@ const ImageWithText: UISchemaElementComponent<{
   uischema: ImageWithTextElement
 }> = ({ uischema }) => {
   const Icon = uischema.options.SVGIcon;
+  const { noTranslate } = uischema;
   const { textContent, alignment = 'flex-start' } = uischema.options;
 
   return (
@@ -47,6 +48,7 @@ const ImageWithText: UISchemaElementComponent<{
         <Box>
           <Typography
             component="span"
+            className={noTranslate ? 'no-translate' : undefined}
             data-se={`text-${uischema.options.id}`}
           >
             {textContent}

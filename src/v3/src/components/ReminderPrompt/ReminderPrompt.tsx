@@ -15,9 +15,9 @@ import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
-import { useOnSubmit } from '../../hooks';
+import { useHtmlContentParser, useOnSubmit } from '../../hooks';
 import { ReminderElement, UISchemaElementComponent } from '../../types';
-import TextWithHtml from '../TextWithHtml';
+import TextWithActionLink from '../TextWithActionLink';
 
 export const DEFAULT_TIMEOUT_MS = 30_000;
 
@@ -38,6 +38,7 @@ const ReminderPrompt: UISchemaElementComponent<{
     contentHasHtml,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
+  const parsedContent = useHtmlContentParser(content);
 
   const [show, setShow] = useState<boolean>(false);
   const timerRef = useRef<number | undefined>();
@@ -46,14 +47,12 @@ const ReminderPrompt: UISchemaElementComponent<{
   const removeResendTimestamp = () => {
     sessionStorage.removeItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
   };
-  const setResendTimestamp = (token: string) => {
-    sessionStorage.setItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY, token);
+  const setResendTimestamp = (timestampStr: string) => {
+    sessionStorage.setItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY, timestampStr);
   };
 
-  // eslint-disable-next-line arrow-body-style
-  const getResendTimestamp = (): string | null => {
-    return sessionStorage.getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
-  };
+  const getResendTimestamp = (): string | null => sessionStorage
+    .getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
 
   const startTimer = () => {
     setShow(false);
@@ -66,7 +65,8 @@ const ReminderPrompt: UISchemaElementComponent<{
     }
 
     timerRef.current = window.setInterval(() => {
-      const start = parseInt(getResendTimestamp() as string);
+      const ts = getResendTimestamp() || Date.now().toString();
+      const start = parseInt(ts, 10);
       const now = Date.now();
       const timeout = typeof customTimeout === 'number' ? customTimeout : DEFAULT_TIMEOUT_MS;
       if (now - start >= timeout) {
@@ -116,13 +116,12 @@ const ReminderPrompt: UISchemaElementComponent<{
   const renderAlertContent = () => {
     if (contentHasHtml && contentClassname) {
       return (
-        <TextWithHtml
+        <TextWithActionLink
           uischema={{
-            type: 'TextWithHtml',
+            type: 'TextWithActionLink',
             options: {
               contentClassname,
               content,
-              submitOnClick: true,
               step,
               isActionStep,
               actionParams,
@@ -131,7 +130,9 @@ const ReminderPrompt: UISchemaElementComponent<{
         />
       );
     }
-    return (<Box marginBlockEnd={2}>{content}</Box>);
+    return (
+      <Box marginBlockEnd={2}>{parsedContent}</Box>
+    );
   };
 
   return show ? (

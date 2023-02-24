@@ -58,8 +58,14 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
         uischema.elements.unshift({
           type: 'Reminder',
           options: {
-            content: loc('oie.numberchallenge.warning', 'login'),
-            buttonText: loc('email.button.resend', 'login'),
+            contentHasHtml: true,
+            contentClassname: 'resend-number-challenge',
+            content: loc(
+              'oie.numberchallenge.warning',
+              'login',
+              undefined,
+              { $1: { element: 'a', attributes: { href: '#', class: 'resend-number-challenge' } } },
+            ),
             step: name,
             isActionStep: true,
             actionParams: { resend: true },
@@ -69,6 +75,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
 
       const phoneIconImage: ImageWithTextElement = {
         type: 'ImageWithText',
+        noTranslate: true,
         options: {
           id: 'code',
           SVGIcon: PhoneSvg,
@@ -80,7 +87,12 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
         type: 'Description',
         contentType: 'subtitle',
         options: {
-          content: loc('oie.numberchallenge.instruction', 'login', [correctAnswer]),
+          content: loc(
+            'oie.numberchallenge.instruction',
+            'login',
+            [correctAnswer],
+            { $1: { element: 'span', attributes: { class: 'strong' } } },
+          ),
           dataSe: 'numberchallenge-instr-value',
         },
       };

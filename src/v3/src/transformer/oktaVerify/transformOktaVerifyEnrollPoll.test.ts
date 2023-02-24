@@ -19,7 +19,7 @@ import {
   QRCodeElement,
   ReminderElement,
   StepperLayout,
-  TextWithHtmlElement,
+  TextWithActionLinkElement,
   TitleElement,
   WidgetProps,
 } from 'src/types';
@@ -116,14 +116,14 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('oie.enroll.okta_verify.setup.sms.title');
     expect((layoutTwo.elements[2] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.email.info');
-    expect(layoutTwo.elements[3].type).toBe('TextWithHtml');
-    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.content)
+    expect(layoutTwo.elements[3].type).toBe('TextWithActionLink');
+    expect((layoutTwo.elements[3] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
-    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.contentClassname)
+    expect((layoutTwo.elements[3] as TextWithActionLinkElement).options.contentClassname)
       .toBe('switch-channel-link');
-    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.step)
+    expect((layoutTwo.elements[3] as TextWithActionLinkElement).options.step)
       .toBe('select-enrollment-channel');
-    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.stepToRender)
+    expect((layoutTwo.elements[3] as TextWithActionLinkElement).options.stepToRender)
       .toBe('select-enrollment-channel');
 
     expect(layoutThree.elements.length).toBe(4);
@@ -141,14 +141,14 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('oie.enroll.okta_verify.setup.sms.title');
     expect((layoutThree.elements[2] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.sms.info');
-    expect(layoutThree.elements[3].type).toBe('TextWithHtml');
-    expect((layoutThree.elements[3] as TextWithHtmlElement).options.content)
+    expect(layoutThree.elements[3].type).toBe('TextWithActionLink');
+    expect((layoutThree.elements[3] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
-    expect((layoutThree.elements[3] as TextWithHtmlElement).options.contentClassname)
+    expect((layoutThree.elements[3] as TextWithActionLinkElement).options.contentClassname)
       .toBe('switch-channel-link');
-    expect((layoutThree.elements[3] as TextWithHtmlElement).options.step)
+    expect((layoutThree.elements[3] as TextWithActionLinkElement).options.step)
       .toBe('select-enrollment-channel');
-    expect((layoutThree.elements[3] as TextWithHtmlElement).options.stepToRender)
+    expect((layoutThree.elements[3] as TextWithActionLinkElement).options.stepToRender)
       .toBe('select-enrollment-channel');
   });
 
@@ -227,14 +227,14 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('oie.enroll.okta_verify.setup.email.title');
     expect((layoutTwo.elements[2] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.email.info');
-    expect(layoutTwo.elements[3].type).toBe('TextWithHtml');
-    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.content)
+    expect(layoutTwo.elements[3].type).toBe('TextWithActionLink');
+    expect((layoutTwo.elements[3] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
-    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.contentClassname)
+    expect((layoutTwo.elements[3] as TextWithActionLinkElement).options.contentClassname)
       .toBe('switch-channel-link');
-    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.step)
+    expect((layoutTwo.elements[3] as TextWithActionLinkElement).options.step)
       .toBe('select-enrollment-channel');
-    expect((layoutTwo.elements[3] as TextWithHtmlElement).options.stepToRender)
+    expect((layoutTwo.elements[3] as TextWithActionLinkElement).options.stepToRender)
       .toBe('select-enrollment-channel');
 
     expect(layoutThree.elements.length).toBe(4);
@@ -252,14 +252,14 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('oie.enroll.okta_verify.setup.email.title');
     expect((layoutThree.elements[2] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.sms.info');
-    expect(layoutThree.elements[3].type).toBe('TextWithHtml');
-    expect((layoutThree.elements[3] as TextWithHtmlElement).options.content)
+    expect(layoutThree.elements[3].type).toBe('TextWithActionLink');
+    expect((layoutThree.elements[3] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
-    expect((layoutThree.elements[3] as TextWithHtmlElement).options.contentClassname)
+    expect((layoutThree.elements[3] as TextWithActionLinkElement).options.contentClassname)
       .toBe('switch-channel-link');
-    expect((layoutThree.elements[3] as TextWithHtmlElement).options.step)
+    expect((layoutThree.elements[3] as TextWithActionLinkElement).options.step)
       .toBe('select-enrollment-channel');
-    expect((layoutThree.elements[3] as TextWithHtmlElement).options.stepToRender)
+    expect((layoutThree.elements[3] as TextWithActionLinkElement).options.stepToRender)
       .toBe('select-enrollment-channel');
   });
 
@@ -317,14 +317,14 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('oie.enroll.okta_verify.setup.title');
     expect((layoutTwo.elements[1] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.email.info');
-    expect(layoutTwo.elements[2].type).toBe('TextWithHtml');
-    expect((layoutTwo.elements[2] as TextWithHtmlElement).options.content)
+    expect(layoutTwo.elements[2].type).toBe('TextWithActionLink');
+    expect((layoutTwo.elements[2] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
-    expect((layoutTwo.elements[2] as TextWithHtmlElement).options.contentClassname)
+    expect((layoutTwo.elements[2] as TextWithActionLinkElement).options.contentClassname)
       .toBe('switch-channel-link');
-    expect((layoutTwo.elements[2] as TextWithHtmlElement).options.step)
+    expect((layoutTwo.elements[2] as TextWithActionLinkElement).options.step)
       .toBe('select-enrollment-channel');
-    expect((layoutTwo.elements[2] as TextWithHtmlElement).options.stepToRender)
+    expect((layoutTwo.elements[2] as TextWithActionLinkElement).options.stepToRender)
       .toBe('select-enrollment-channel');
 
     expect(layoutThree.elements.length).toBe(3);
@@ -332,14 +332,14 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('oie.enroll.okta_verify.setup.title');
     expect((layoutThree.elements[1] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.sms.info');
-    expect(layoutThree.elements[2].type).toBe('TextWithHtml');
-    expect((layoutThree.elements[2] as TextWithHtmlElement).options.content)
+    expect(layoutThree.elements[2].type).toBe('TextWithActionLink');
+    expect((layoutThree.elements[2] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
-    expect((layoutThree.elements[2] as TextWithHtmlElement).options.contentClassname)
+    expect((layoutThree.elements[2] as TextWithActionLinkElement).options.contentClassname)
       .toBe('switch-channel-link');
-    expect((layoutThree.elements[2] as TextWithHtmlElement).options.step)
+    expect((layoutThree.elements[2] as TextWithActionLinkElement).options.step)
       .toBe('select-enrollment-channel');
-    expect((layoutThree.elements[2] as TextWithHtmlElement).options.stepToRender)
+    expect((layoutThree.elements[2] as TextWithActionLinkElement).options.stepToRender)
       .toBe('select-enrollment-channel');
   });
 });

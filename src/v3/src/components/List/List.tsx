@@ -19,7 +19,6 @@ import {
   ButtonElement,
   DescriptionElement,
   ListElement,
-  TextWithHtmlElement,
   UISchemaElement,
   UISchemaElementComponent,
   UISchemaLayout,
@@ -27,7 +26,6 @@ import {
 import { getElementKey } from '../../util';
 import Button from '../Button';
 import InformationalText from '../InformationalText';
-import TextWithHtml from '../TextWithHtml';
 
 const renderElement = (item: UISchemaElement) => {
   const Container: FunctionComponent = ({ children }) => (
@@ -50,12 +48,6 @@ const renderElement = (item: UISchemaElement) => {
       return (
         <Container>
           <InformationalText uischema={item as DescriptionElement} />
-        </Container>
-      );
-    case 'TextWithHtml':
-      return (
-        <Container>
-          <TextWithHtml uischema={item as TextWithHtmlElement} />
         </Container>
       );
     default:

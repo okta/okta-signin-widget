@@ -10,6 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import TextWithHtml from './TextWithHtml';
+import { setup } from './util';
 
-export default TextWithHtml;
+import mockResponse from '../../src/mocks/response/idp/idx/authenticator-verification-unlock-success.json';
+
+describe('authenticator-verification-unlock-success', () => {
+  it('should render form', async () => {
+    const { container, findByRole } = await setup({ mockResponse });
+    const heading = await findByRole('heading', { level: 2 });
+
+    expect(heading.textContent).toBe('Verify with your password');
+    expect(container).toMatchSnapshot();
+  });
+});

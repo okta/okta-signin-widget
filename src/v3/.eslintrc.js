@@ -129,35 +129,6 @@ module.exports = {
           json: 'always',
         }],
 
-        'react/forbid-dom-props': ['error', {
-          forbid: [{
-            propName: 'style',
-            message: 'Inline styles cause CSP issues',
-          }],
-        }],
-
-        // use @typescript-eslint/no-unused-vars
-        'no-unused-vars': 'off',
-
-        // allow '_' prefix for unuse vars
-        '@typescript-eslint/no-unused-vars': [
-          'error',
-          {
-            argsIgnorePattern: '^_',
-          },
-        ],
-
-        // allow ts-directives with a description >= 8 chars
-        '@typescript-eslint/ban-ts-comment': ['warn', {
-          'ts-expect-error': 'allow-with-description',
-          'ts-ignore': 'allow-with-description',
-          'ts-nocheck': 'allow-with-description',
-          'ts-check': 'allow-with-description',
-          minimumDescriptionLength: 8,
-        }],
-
-        'class-methods-use-this': 'off',
-
         'react/forbid-component-props': [
           'error',
           {
@@ -202,6 +173,34 @@ module.exports = {
             ],
           },
         ],
+        'react/forbid-dom-props': ['error', {
+          forbid: [{
+            propName: 'style',
+            message: 'Inline styles cause CSP issues',
+          }],
+        }],
+
+        // use @typescript-eslint/no-unused-vars
+        'no-unused-vars': 'off',
+
+        // allow '_' prefix for unuse vars
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          {
+            argsIgnorePattern: '^_',
+          },
+        ],
+
+        // allow ts-directives with a description >= 8 chars
+        '@typescript-eslint/ban-ts-comment': ['warn', {
+          'ts-expect-error': 'allow-with-description',
+          'ts-ignore': 'allow-with-description',
+          'ts-nocheck': 'allow-with-description',
+          'ts-check': 'allow-with-description',
+          minimumDescriptionLength: 8,
+        }],
+
+        'class-methods-use-this': 'off',
       },
       globals: {
         COMMITHASH: false,
