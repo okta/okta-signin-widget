@@ -392,7 +392,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -1179,7 +1179,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 class="MuiBox-root emotion-19"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1190,7 +1190,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 class="MuiBox-root emotion-19"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

@@ -286,7 +286,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >

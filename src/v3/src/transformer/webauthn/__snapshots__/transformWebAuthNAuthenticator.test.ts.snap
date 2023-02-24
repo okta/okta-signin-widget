@@ -229,7 +229,7 @@ Object {
                         "oie.verify.webauthn.cant.verify.enrollment.step3",
                         "oie.verify.webauthn.cant.verify.enrollment.step4",
                       ],
-                      "type": "ordered",
+                      "type": "ol",
                     },
                     "type": "List",
                   },

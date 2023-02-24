@@ -122,7 +122,7 @@ const getCantVerifyEnrollContent = (): UISchemaLayout => ({
           loc('oie.verify.webauthn.cant.verify.enrollment.step3', 'login'),
           loc('oie.verify.webauthn.cant.verify.enrollment.step4', 'login'),
         ],
-        type: 'ordered',
+        type: 'ol',
       },
     } as ListElement,
   ],

@@ -169,7 +169,7 @@ export const transformOdaEnrollmentLoopback: IdxStepTransformer = ({ formBag, tr
     type: 'List',
     noMargin: true,
     options: {
-      type: 'ordered',
+      type: 'ol',
       items: listItems,
     },
   } as ListElement);

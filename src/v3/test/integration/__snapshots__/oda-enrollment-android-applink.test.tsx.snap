@@ -320,10 +320,10 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                     class="MuiBox-root emotion-16"
                   >
                     <ol
-                      class="ods-WBGspT ods-OWSpcm ods-vhS2n4 ods-6fHBGU ods-1RXKSO ods-pMtclx ods-Xtd4sS ods-M9dxDe"
+                      class="MuiList-root MuiList-padding emotion-17"
                     >
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-18"
                       >
                         <div
                           class="MuiBox-root emotion-7"
@@ -340,7 +340,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                               >
                                 If you don’t have Okta Verify installed, 
                                 <a
-                                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways download-ov-link emotion-21"
+                                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways download-ov-link emotion-23"
                                   href="https://play.google.com/store/apps/details?id=com.okta.android.auth"
                                   id="download-ov"
                                 >
@@ -352,7 +352,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                         </div>
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-18"
                       >
                         <div
                           class="MuiBox-root emotion-7"
@@ -374,7 +374,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                         </div>
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-18"
                       >
                         <div
                           class="MuiBox-root emotion-7"
@@ -411,7 +411,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                             class="MuiBox-root emotion-9"
                           >
                             <button
-                              class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
+                              class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-38"
                               tabindex="0"
                               type="button"
                             >
@@ -421,7 +421,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                         </div>
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-18"
                       >
                         Finish setting up your account in Okta Verify, then try signing in again.
                       </li>
@@ -548,10 +548,10 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                       Already have Okta FastPass enabled for your account?
                     </p>
                     <ul
-                      class="ods-WBGspT ods-OWSpcm ods-vhS2n4 ods-6fHBGU ods-1RXKSO ods-pMtclx ods-Xtd4sS ods-nX4722"
+                      class="MuiList-root MuiList-padding emotion-18"
                     >
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-19"
                       >
                         <div
                           class="MuiBox-root emotion-7"
@@ -573,7 +573,7 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                         </div>
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-19"
                       >
                         <div
                           class="MuiBox-root emotion-7"
@@ -595,7 +595,7 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                         </div>
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-19"
                       >
                         <div
                           class="MuiBox-root emotion-7"
@@ -631,10 +631,10 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                       Need to set up Okta FastPass for your account?
                     </p>
                     <ol
-                      class="ods-WBGspT ods-OWSpcm ods-vhS2n4 ods-6fHBGU ods-1RXKSO ods-pMtclx ods-Xtd4sS ods-M9dxDe"
+                      class="MuiList-root MuiList-padding emotion-37"
                     >
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-19"
                       >
                         <div
                           class="MuiBox-root emotion-7"
@@ -656,7 +656,7 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                         </div>
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-19"
                       >
                         <div
                           class="MuiBox-root emotion-7"
@@ -678,7 +678,7 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                         </div>
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-19"
                       >
                         <div
                           class="MuiBox-root emotion-7"
@@ -700,7 +700,7 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                         </div>
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-19"
                       >
                         <div
                           class="MuiBox-root emotion-7"

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { List as ListOdyssey } from '@okta/odyssey-react';
+import { List as ListMui, ListItem } from '@mui/material';
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
@@ -84,15 +84,24 @@ const List: UISchemaElementComponent<{
       marginBlockEnd={4}
     >
       { options.description && <Typography component="p">{options.description}</Typography> }
-      <ListOdyssey listType={options.type ?? 'unordered'}>
+      <ListMui
+        component={options.type}
+        sx={{ listStyleType: options.type === 'ol' ? 'decimal' : 'disc', pl: 4 }}
+      >
         {
           options.items.map((item: string | UISchemaLayout, index: number) => (
-            <ListOdyssey.Item key={typeof item === 'string' ? item : getElementKey(item, index)}>
+            <ListItem
+              component="li"
+              disableGutters
+              disablePadding
+              key={typeof item === 'string' ? item : getElementKey(item, index)}
+              sx={{ display: 'list-item' }}
+            >
               {typeof item === 'string' ? item : renderLayout(item) }
-            </ListOdyssey.Item>
+            </ListItem>
           ))
         }
-      </ListOdyssey>
+      </ListMui>
     </Box>
   ) : null;
 };

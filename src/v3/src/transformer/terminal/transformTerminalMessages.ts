@@ -87,7 +87,10 @@ const appendBiometricsErrorBox = (
       class: 'ERROR',
       contentType: 'string',
       dataSe: 'callout',
-      listOptions: { items: bulletPoints },
+      listOptions: {
+        type: 'ul',
+        items: bulletPoints,
+      },
     },
   } as InfoboxElement);
 };

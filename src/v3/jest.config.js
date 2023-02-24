@@ -16,8 +16,6 @@ const PROJECT_ROOT = path.resolve(__dirname, '../..');
 const PACKAGES = path.resolve(PROJECT_ROOT, 'packages');
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
 const esModules = [
-  '@okta/odyssey-react',
-  '@okta/odyssey-react-theme',
   '@okta/odyssey-design-tokens',
   '@okta/odyssey-react-mui',
 ].join('|');

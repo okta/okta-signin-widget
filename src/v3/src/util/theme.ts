@@ -12,9 +12,7 @@
 
 import { ThemeOptions } from '@mui/material';
 import { Theme } from '@mui/material/styles/createTheme';
-import { Button } from '@okta/odyssey-react';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
-import { PartialTheme } from '@okta/odyssey-react-theme/dist/ThemeProvider/context';
 import chroma from 'chroma-js';
 import { cloneDeep, merge } from 'lodash';
 
@@ -123,37 +121,4 @@ export const mapMuiThemeFromBrand = (
 
   // @ts-expect-error Error thrown from difference of component props between ODS and MUI
   return merge(odysseyThemeCopy, muiThemeOverrides);
-};
-
-export const mapThemeFromBrand = (brand: BrandColors | undefined): PartialTheme => {
-  if (brand) {
-    const derivedTheme = deriveThemeFromBrand(brand);
-
-    if (derivedTheme) {
-      return {
-        ColorPrimaryBase: derivedTheme.primaryColor,
-        ColorPrimaryDark: derivedTheme.primaryColorDark,
-        ColorPrimaryLight: derivedTheme.primaryColorLight,
-
-        ColorBackgroundPrimaryBase: derivedTheme.primaryColor,
-        ColorBackgroundPrimaryDark: derivedTheme.primaryColorDark,
-        ColorBackgroundPrimaryLight: derivedTheme.primaryColorLightest,
-
-        ColorBorderPrimaryBase: derivedTheme.primaryColor,
-        ColorBorderPrimaryDark: derivedTheme.primaryColorDark,
-
-        ColorTextPrimary: derivedTheme.primaryColor,
-        ColorTextBody: derivedTheme.textColor,
-        ColorTextHeading: derivedTheme.textColor,
-        ColorTextBodyInverse: derivedTheme.inverseTextColor,
-
-        FocusOutlineColorPrimary: derivedTheme.primaryColor,
-
-        [Button.theme]: {
-          SecondaryHoverBorderColor: derivedTheme.primaryColorLight,
-        },
-      };
-    }
-  }
-  return {};
 };

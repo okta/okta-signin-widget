@@ -128,20 +128,20 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-18"
                   >
                     <ol
-                      class="ods-WBGspT ods-OWSpcm ods-vhS2n4 ods-6fHBGU ods-1RXKSO ods-pMtclx ods-Xtd4sS ods-M9dxDe"
+                      class="MuiList-root MuiList-padding emotion-19"
                     >
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-20"
                       >
                         On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-20"
                       >
                         Open the app and follow the instructions to add your account
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-20"
                       >
                         When prompted, tap Scan a QR code, then scan the QR code below:
                       </li>
@@ -152,11 +152,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="qrContainer MuiBox-root emotion-20"
+                    class="qrContainer MuiBox-root emotion-24"
                   >
                     <img
                       alt="QR code"
-                      class="qrImg MuiBox-root emotion-21"
+                      class="qrImg MuiBox-root emotion-25"
                       src="data:image/png;base64,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"
                     />
                   </div>
@@ -167,7 +167,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   <button
                     aria-describedby="enroll-poll_Title_Set_up_Okta_Verify_okta_verify_aut2h3fft4y9pDPCS1d7_2_1"
                     aria-label="Setup without scanning a QR code."
-                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                     tabindex="0"
                     type="button"
                   >
@@ -179,7 +179,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -190,7 +190,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -468,7 +468,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -479,7 +479,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -692,7 +692,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -703,7 +703,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -929,7 +929,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -940,7 +940,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -1357,20 +1357,20 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-18"
                   >
                     <ol
-                      class="ods-WBGspT ods-OWSpcm ods-vhS2n4 ods-6fHBGU ods-1RXKSO ods-pMtclx ods-Xtd4sS ods-M9dxDe"
+                      class="MuiList-root MuiList-padding emotion-19"
                     >
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-20"
                       >
                         On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-20"
                       >
                         Open the app and follow the instructions to add your account
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-20"
                       >
                         When prompted, tap Scan a QR code, then scan the QR code below:
                       </li>
@@ -1381,11 +1381,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="qrContainer MuiBox-root emotion-20"
+                    class="qrContainer MuiBox-root emotion-24"
                   >
                     <img
                       alt="QR code"
-                      class="qrImg MuiBox-root emotion-21"
+                      class="qrImg MuiBox-root emotion-25"
                       src="data:image/png;base64,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"
                     />
                   </div>
@@ -1396,7 +1396,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   <button
                     aria-describedby="enroll-poll_Title_Set_up_Okta_Verify_okta_verify_aut2h3fft4y9pDPCS1d7_2_1"
                     aria-label="Setup without scanning a QR code."
-                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                     tabindex="0"
                     type="button"
                   >
@@ -1408,7 +1408,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1419,7 +1419,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -1563,20 +1563,20 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiBox-root emotion-18"
                   >
                     <ol
-                      class="ods-WBGspT ods-OWSpcm ods-vhS2n4 ods-6fHBGU ods-1RXKSO ods-pMtclx ods-Xtd4sS ods-M9dxDe"
+                      class="MuiList-root MuiList-padding emotion-19"
                     >
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-20"
                       >
                         On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-20"
                       >
                         Open the app and follow the instructions to add your account
                       </li>
                       <li
-                        class="ods-NS6FkZ"
+                        class="MuiListItem-root emotion-20"
                       >
                         When prompted, tap Scan a QR code, then scan the QR code below:
                       </li>
@@ -1587,11 +1587,11 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="qrContainer MuiBox-root emotion-20"
+                    class="qrContainer MuiBox-root emotion-24"
                   >
                     <img
                       alt="QR code"
-                      class="qrImg MuiBox-root emotion-21"
+                      class="qrImg MuiBox-root emotion-25"
                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAFq0lEQVR42u3dy07kQAwF0P7/n4YFayRCfG1Xcq40G4S6SVJnFNfz8yUiv+bjFogAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIICKAiAAiIoCIACICiAggIoCIAPLzRZ9P+b/fPv/O33PnMxOfX3Vdf/l77vwNf7nGxHMHBBBAAAEEEEBKLrDzQSQacOc92dCAO68REEAAAQQQQAC59IASDzr9mel6If1+fhVd4t4CAggggAACCCCrgNz5/KpGeEoXceKeAwIIIIAAAgggjwEy9eC2dUdX1SwbuuUBAQQQQAABBJDoO/mdG76hWzINrbNG66zFAAEEEEAAAQSQf3ddpifF+fmen1sPAoifAwKInwPyyCTeh9Pv5OnJkFVdwVMNGBBAAAEEEEBeDqTq5ieWuHa+G2/7rsTfmb7/gAACCCCAAALIJSAbaoR0V/bV6003wsTv3OkWVoMAAggggAACyHhXbdWkwalu2/R+wp31y1O7jgEBBBBAAAHkAUA6d9Wo6t5MdGneuZbOhr1hEikggAACCCCAvBxI57v3VJdpYoQ6/R/F5hHzV9UggAACCCCAANJTX0zVMunR/M21TGIv39PXlQACCCCAAALIQd28p4/wdv6H0Dl6nr5vJy7RBQQQQAABBJCDgFR1UVY90M4jCRI7jUxN2kz8vsmKgAACCCCAAFJed0wdCtl5tMGG89y3jZ5vrlkAAQQQQAAB5AE1SOf6iDtdsp27eaQPD03cz0R3sSIdEEAAAQQQQEoaTHokOv1Qpkb2N+xj3AkWEEAAAQQQQAAZWXORfm9PXHti8mT62tP33DgIIIAAAggggJR3e06NjKe7ptObs21owIkjIQABBBBAAAEEkLb35/RI8YbN7tLfu2F/YAumAAEEEEAAASTandi5fLVzYuGGE6+2LUPeHEAAAQQQQAA5CEi6YUx1mSZG5Kf2Ct62sd5rp5oAAggggAACSK4GSTfCdN2RxtW5cdxTD+sEBBBAAAEEkIcBmfr9zsZ8ynEPU7u1WHILCCCAAAIIICNAOt+f0yO/G/bIraoT0zUOIIAAAggggABS8s6Z6CLuxNLZwBJd3527uBhJBwQQQAABBJCvTYjSI86dNUW6juicJJk+DBQQQAABBBBAACmpKRI3p3PtQ7pbu6rW6PxPxsZxgAACCCCAADJSayQa8NQ7ebr+2nwyV+ekR0AAAQQQQAB5OZCp/WA3v+dX3cOq+5+YqLnhvgECCCCAAALIyzeOSzSS9J69pxymmT6GoHMDQEAAAQQQQAABJPqOvWEJauc7/9SpVYnr6jwLHhBAAAEEEEBeUoNUvRunuwq31SNVtV4a+ClduIAAAggggADysBpk2yGPGybgTTWezpH0RLc2IIAAAggggLwcyLZ1HOkz1jd8V1U37NQ6lA11CiCAAAIIIIAcVINs6/69873p76qqIxJ1wdSERkAAAQQQQAAB5N+Np6ohpU8+6pxgWQVnc/esbX8AAQQQQAABpPzBTa0H2bwZWueIdqL+OvHgTkAAAQQQQAA5CEjnyHgaQqKeOn0Dt221HiCAAAIIIIC8BMgUwMT79obDNNOHnKbrLOtBAAEEEEAAAaStBpk6Z3zD4Z4bToZKfP7Uga2AAAIIIIAA8kIgic9Jb78/taV/Z5dvYsmtGgQQQAABBBBARoBsWC6aaEib668NZ9MbSQcEEEAAAQSQI4BcfY9Nv2+n65SpYwg2zzoABBBAAAEEEEDagFR1gXY+0EQX6LZZCqdgAQQQQAABBJBDgXRCmxoBT9c+m89kT4MFBBBAAAEEEEDaTjhKdzlOTeTbUE9tG3kHBBBAAAEEkJcDETkxgIgAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIICKAiAAiIoCIACICiAggIoCIACJybr4BVbQ91L3A8YAAAAAASUVORK5CYII="
                     />
                   </div>
@@ -1602,7 +1602,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   <button
                     aria-describedby="enroll-poll_Title_Set_up_Okta_Verify_okta_verify_aut2h3fft4y9pDPCS1d7_2_1"
                     aria-label="Setup without scanning a QR code."
-                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                     tabindex="0"
                     type="button"
                   >
@@ -1614,7 +1614,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1625,7 +1625,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -1903,7 +1903,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1914,7 +1914,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -2065,16 +2065,14 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       Country
                     </label>
                     <div
-                      class="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-20"
-                      required="true"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-20"
                     >
                       <select
                         aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                         autocomplete="tel-country-code"
-                        class="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input emotion-21"
+                        class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-21"
                         data-se="country"
                         id="country"
-                        required=""
                       >
                         <option
                           value="AF"
@@ -3284,7 +3282,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       </select>
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-22"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-22"
                         data-testid="ArrowDropDownIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -3293,13 +3291,27 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           d="M7 10l5 5 5-5z"
                         />
                       </svg>
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline emotion-23"
+                      >
+                        <legend
+                          class="emotion-24"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-23"
+                    class="MuiBox-root emotion-25"
                   >
                     <div
-                      class="MuiBox-root emotion-24"
+                      class="MuiBox-root emotion-26"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
@@ -3308,14 +3320,14 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         Phone number
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-26"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-28"
                         required="true"
                       >
                         <span
-                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-27"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-29"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-28"
+                            class="MuiTypography-root MuiTypography-body1 emotion-30"
                           >
                             +1
                           </p>
@@ -3324,7 +3336,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                           aria-invalid="false"
                           autocomplete="tel-national"
-                          class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-29"
+                          class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-31"
                           data-se="phoneNumber"
                           id="phoneNumber"
                           inputmode="tel"
@@ -3344,7 +3356,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-32"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-34"
                     data-se="o-form-explain"
                     id="enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                   >
@@ -3357,7 +3369,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               >
                 <button
                   aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-36"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -3373,7 +3385,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 >
                   Or 
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-37"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-39"
                     href="#"
                   >
                     try a different way
@@ -3385,7 +3397,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -3396,7 +3408,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -3622,7 +3634,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -3633,7 +3645,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
