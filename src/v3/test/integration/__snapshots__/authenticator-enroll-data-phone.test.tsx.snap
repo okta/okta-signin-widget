@@ -102,7 +102,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester13@test.com
@@ -1531,7 +1531,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-50"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"
@@ -1703,7 +1703,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester13@test.com
@@ -3132,7 +3132,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-50"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"
@@ -3304,7 +3304,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester13@test.com
@@ -4733,7 +4733,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-50"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"

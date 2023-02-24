@@ -55,7 +55,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-8"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-8"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -178,7 +178,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="okta_password_0-label"
                         >
@@ -291,7 +291,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="phone_number_1-label"
                         >
@@ -414,7 +414,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="webauthn_2-label"
                         >

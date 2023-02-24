@@ -55,7 +55,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-8"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-8"
                 data-se="identifier"
               >
                 tester13@test.com
@@ -250,7 +250,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="google_otp_0-label"
                         >
@@ -349,7 +349,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="okta_verify_1-label"
                         >
@@ -462,7 +462,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="phone_number_2-label"
                         >
@@ -585,7 +585,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="webauthn_3-label"
                         >
@@ -755,7 +755,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester13@test.com

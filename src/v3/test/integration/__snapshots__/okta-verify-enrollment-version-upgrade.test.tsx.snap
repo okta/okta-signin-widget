@@ -88,7 +88,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com

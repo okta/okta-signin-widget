@@ -88,7 +88,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester@okta1.com
@@ -281,7 +281,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester@okta1.com

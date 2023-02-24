@@ -55,7 +55,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-8"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-8"
                 data-se="identifier"
               >
                 testUser@okta.com

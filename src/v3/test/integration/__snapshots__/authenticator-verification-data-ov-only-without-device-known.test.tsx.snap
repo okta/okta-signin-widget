@@ -88,7 +88,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -192,7 +192,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                         class="authenticator-description infoSection MuiBox-root emotion-9"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-26"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-26"
                           data-se="authenticator-button-label"
                           id="okta_verify_0-label"
                         >
@@ -291,7 +291,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                         class="authenticator-description infoSection MuiBox-root emotion-9"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-26"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-26"
                           data-se="authenticator-button-label"
                           id="okta_verify_1-label"
                         >
@@ -390,7 +390,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                         class="authenticator-description infoSection MuiBox-root emotion-9"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-26"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-26"
                           data-se="authenticator-button-label"
                           id="okta_verify_2-label"
                         >

@@ -233,7 +233,11 @@ exports[`oda-enrollment-ios should render form 1`] = `
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-13"
                               data-se="o-form-explain"
                             >
-                              https://idx.okta1.com
+                              <span
+                                class="no-translate"
+                              >
+                                https://idx.okta1.com
+                              </span>
                             </p>
                           </div>
                         </div>

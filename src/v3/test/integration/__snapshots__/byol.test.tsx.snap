@@ -102,7 +102,7 @@ exports[`byol loading custom language should load custom language with "language
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -1532,6 +1532,7 @@ exports[`byol loading custom language should load custom language with "language
                         >
                           <span
                             class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"
@@ -1703,7 +1704,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -3133,6 +3134,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                         >
                           <span
                             class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"
@@ -3304,7 +3306,7 @@ exports[`byol loading default language should not load custom language when the 
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -4734,6 +4736,7 @@ exports[`byol loading default language should not load custom language when the 
                         >
                           <span
                             class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"
@@ -4905,7 +4908,7 @@ exports[`byol loading default language should not load custom language with "lan
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -6335,6 +6338,7 @@ exports[`byol loading default language should not load custom language with "lan
                         >
                           <span
                             class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"

@@ -92,7 +92,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester35@test.com
@@ -500,7 +500,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester35@test.com
@@ -1030,7 +1030,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester35@test.com
@@ -1560,7 +1560,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester35@test.com

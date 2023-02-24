@@ -102,7 +102,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester3@test.com

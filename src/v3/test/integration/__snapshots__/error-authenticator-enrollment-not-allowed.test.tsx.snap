@@ -55,7 +55,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-8"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-8"
                 data-se="identifier"
               >
                 tester@okta1.com

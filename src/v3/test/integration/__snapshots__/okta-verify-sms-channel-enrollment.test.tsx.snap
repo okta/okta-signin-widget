@@ -88,7 +88,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester2@test.com
@@ -1395,6 +1395,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                       >
                         <span
                           class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-29"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-27"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 emotion-30"
@@ -1582,7 +1583,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester2@test.com
@@ -2889,6 +2890,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                       >
                         <span
                           class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-29"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-27"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 emotion-30"
