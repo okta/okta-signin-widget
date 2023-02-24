@@ -131,9 +131,7 @@ const ReminderPrompt: UISchemaElementComponent<{
       );
     }
     return (
-      <Box marginBlockEnd={2}>
-        {parsedContent}
-      </Box>
+      <Box marginBlockEnd={2}>{parsedContent}</Box>
     );
   };
 
