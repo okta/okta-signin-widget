@@ -304,17 +304,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       <OdysseyCacheProvider nonce={cspNonce}>
-        {/* the style is to allow the widget to inherit the parent's bg color */}
-        <ScopedCssBaseline
-          sx={{
-            backgroundColor: 'inherit',
-            'span.strong': {
-              fontWeight: 'bold',
-              wordBreak: 'break-all',
-            },
-          }}
-        >
-          <MuiThemeProvider theme={brandedTheme}>
+        <MuiThemeProvider theme={brandedTheme}>
+          {/* the style is to allow the widget to inherit the parent's bg color */}
+          <ScopedCssBaseline
+            sx={{
+              backgroundColor: 'inherit',
+              'span.strong': {
+                fontWeight: 'bold',
+                wordBreak: 'break-all',
+              },
+            }}
+          >
             <AuthContainer>
               <AuthHeader
                 logo={logo}
@@ -331,8 +331,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 }
               </AuthContent>
             </AuthContainer>
-          </MuiThemeProvider>
-        </ScopedCssBaseline>
+          </ScopedCssBaseline>
+        </MuiThemeProvider>
       </OdysseyCacheProvider>
     </WidgetContextProvider>
   );
