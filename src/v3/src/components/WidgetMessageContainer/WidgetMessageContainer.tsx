@@ -97,22 +97,19 @@ const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
           if (error.type === 'list') {
             return createListMessages(error, index);
           }
-          if (error.type === 'string') {
-            return (
-              <FormHelperText
-                key={error.message}
-                id={buildElementId(index)}
-                role="alert"
-                data-se={buildElementId(index)}
-                error
-                // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
-                sx={{ textAlign: 'start' }}
-              >
-                {error.message}
-              </FormHelperText>
-            );
-          }
-          return null;
+          return (
+            <FormHelperText
+              key={error.message}
+              id={buildElementId(index)}
+              role="alert"
+              data-se={buildElementId(index)}
+              error
+              // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
+              sx={{ textAlign: 'start' }}
+            >
+              {error.message}
+            </FormHelperText>
+          );
         })
       }
     </Box>
