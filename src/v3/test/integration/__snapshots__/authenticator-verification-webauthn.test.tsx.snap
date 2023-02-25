@@ -112,7 +112,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester@okta1.com
@@ -446,7 +446,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester@okta1.com
@@ -773,7 +773,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester@okta1.com

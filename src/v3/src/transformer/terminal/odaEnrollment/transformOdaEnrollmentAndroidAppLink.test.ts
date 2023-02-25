@@ -75,6 +75,6 @@ describe('Terminal ODA enrollment Android App Link transformer', () => {
 
     expect((layoutThreeListItemThree.elements[1] as DescriptionElement).type).toBe('Description');
     expect((layoutThreeListItemThree.elements[1] as DescriptionElement).options.content)
-      .toBe('https://okta.com');
+      .toBe('<span class="no-translate">https://okta.com</span>');
   });
 });

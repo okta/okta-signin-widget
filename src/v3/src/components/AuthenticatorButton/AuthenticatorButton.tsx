@@ -41,6 +41,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     translations = [],
     focus,
     ariaDescribedBy,
+    noTranslate,
     options: {
       type,
       key: authenticationKey,
@@ -142,7 +143,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
           id={`${iconName}-label`}
           sx={{ fontSize: '1rem', margin: 0, textAlign: 'start' }}
           data-se="authenticator-button-label"
-          className="authenticator-label"
+          className="authenticator-label no-translate"
         >
           {label}
         </Typography>
@@ -152,7 +153,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             id={`${iconName}-description`}
             sx={{ fontSize: '.875rem', margin: 0, textAlign: 'start' }}
             data-se="authenticator-button-description"
-            className="authenticator-description--text"
+            className={classNames('authenticator-description--text', { 'no-translate': noTranslate })}
           >
             {description}
           </Typography>

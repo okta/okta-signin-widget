@@ -102,7 +102,7 @@ exports[`byol loading custom language should load custom language with "language
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -272,14 +272,16 @@ exports[`byol loading custom language should load custom language with "language
                         Country
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-41"
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-41"
+                        required="true"
                       >
                         <select
                           aria-describedby="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
                           autocomplete="tel-country-code"
-                          class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-42"
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-42"
                           data-se="country"
                           id="country"
+                          required=""
                         >
                           <option
                             value="AF"
@@ -1489,7 +1491,7 @@ exports[`byol loading custom language should load custom language with "language
                         </select>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-43"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-43"
                           data-testid="ArrowDropDownIcon"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -1498,27 +1500,13 @@ exports[`byol loading custom language should load custom language with "language
                             d="M7 10l5 5 5-5z"
                           />
                         </svg>
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-44"
-                        >
-                          <legend
-                            class="emotion-45"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-46"
+                      class="MuiBox-root emotion-44"
                     >
                       <div
-                        class="MuiBox-root emotion-47"
+                        class="MuiBox-root emotion-45"
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
@@ -1527,14 +1515,14 @@ exports[`byol loading custom language should load custom language with "language
                           Phone number
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-49"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-47"
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 emotion-51"
+                              class="MuiTypography-root MuiTypography-body1 emotion-49"
                             >
                               +1
                             </p>
@@ -1543,7 +1531,7 @@ exports[`byol loading custom language should load custom language with "language
                             aria-describedby="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
                             aria-invalid="false"
                             autocomplete="tel-national"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-52"
+                            class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
                             data-se="authenticator.phoneNumber"
                             id="authenticator.phoneNumber"
                             inputmode="tel"
@@ -1561,7 +1549,7 @@ exports[`byol loading custom language should load custom language with "language
                 >
                   <button
                     aria-describedby="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-54"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-52"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -1574,7 +1562,7 @@ exports[`byol loading custom language should load custom language with "language
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1585,7 +1573,7 @@ exports[`byol loading custom language should load custom language with "language
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -1703,7 +1691,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -1873,14 +1861,16 @@ exports[`byol loading custom language should load custom language with assets.ba
                         Country
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-41"
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-41"
+                        required="true"
                       >
                         <select
                           aria-describedby="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
                           autocomplete="tel-country-code"
-                          class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-42"
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-42"
                           data-se="country"
                           id="country"
+                          required=""
                         >
                           <option
                             value="AF"
@@ -3090,7 +3080,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                         </select>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-43"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-43"
                           data-testid="ArrowDropDownIcon"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -3099,27 +3089,13 @@ exports[`byol loading custom language should load custom language with assets.ba
                             d="M7 10l5 5 5-5z"
                           />
                         </svg>
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-44"
-                        >
-                          <legend
-                            class="emotion-45"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-46"
+                      class="MuiBox-root emotion-44"
                     >
                       <div
-                        class="MuiBox-root emotion-47"
+                        class="MuiBox-root emotion-45"
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
@@ -3128,14 +3104,14 @@ exports[`byol loading custom language should load custom language with assets.ba
                           Phone number
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-49"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-47"
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 emotion-51"
+                              class="MuiTypography-root MuiTypography-body1 emotion-49"
                             >
                               +1
                             </p>
@@ -3144,7 +3120,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                             aria-describedby="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
                             aria-invalid="false"
                             autocomplete="tel-national"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-52"
+                            class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
                             data-se="authenticator.phoneNumber"
                             id="authenticator.phoneNumber"
                             inputmode="tel"
@@ -3162,7 +3138,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                 >
                   <button
                     aria-describedby="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-54"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-52"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -3175,7 +3151,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -3186,7 +3162,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -3304,7 +3280,7 @@ exports[`byol loading default language should not load custom language when the 
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -3474,14 +3450,16 @@ exports[`byol loading default language should not load custom language when the 
                         Country
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-41"
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-41"
+                        required="true"
                       >
                         <select
                           aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
                           autocomplete="tel-country-code"
-                          class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-42"
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-42"
                           data-se="country"
                           id="country"
+                          required=""
                         >
                           <option
                             value="AF"
@@ -4691,7 +4669,7 @@ exports[`byol loading default language should not load custom language when the 
                         </select>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-43"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-43"
                           data-testid="ArrowDropDownIcon"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -4700,27 +4678,13 @@ exports[`byol loading default language should not load custom language when the 
                             d="M7 10l5 5 5-5z"
                           />
                         </svg>
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-44"
-                        >
-                          <legend
-                            class="emotion-45"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-46"
+                      class="MuiBox-root emotion-44"
                     >
                       <div
-                        class="MuiBox-root emotion-47"
+                        class="MuiBox-root emotion-45"
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
@@ -4729,14 +4693,14 @@ exports[`byol loading default language should not load custom language when the 
                           Phone number
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-49"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-47"
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 emotion-51"
+                              class="MuiTypography-root MuiTypography-body1 emotion-49"
                             >
                               +1
                             </p>
@@ -4745,7 +4709,7 @@ exports[`byol loading default language should not load custom language when the 
                             aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
                             aria-invalid="false"
                             autocomplete="tel-national"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-52"
+                            class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
                             data-se="authenticator.phoneNumber"
                             id="authenticator.phoneNumber"
                             inputmode="tel"
@@ -4763,7 +4727,7 @@ exports[`byol loading default language should not load custom language when the 
                 >
                   <button
                     aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-54"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-52"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -4776,7 +4740,7 @@ exports[`byol loading default language should not load custom language when the 
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -4787,7 +4751,7 @@ exports[`byol loading default language should not load custom language when the 
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -4905,7 +4869,7 @@ exports[`byol loading default language should not load custom language with "lan
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -5075,14 +5039,16 @@ exports[`byol loading default language should not load custom language with "lan
                         Country
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary  emotion-41"
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-41"
+                        required="true"
                       >
                         <select
                           aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
                           autocomplete="tel-country-code"
-                          class="MuiNativeSelect-select MuiNativeSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-42"
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-42"
                           data-se="country"
                           id="country"
+                          required=""
                         >
                           <option
                             value="AF"
@@ -6292,7 +6258,7 @@ exports[`byol loading default language should not load custom language with "lan
                         </select>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined emotion-43"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-43"
                           data-testid="ArrowDropDownIcon"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -6301,27 +6267,13 @@ exports[`byol loading default language should not load custom language with "lan
                             d="M7 10l5 5 5-5z"
                           />
                         </svg>
-                        <fieldset
-                          aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline emotion-44"
-                        >
-                          <legend
-                            class="emotion-45"
-                          >
-                            <span
-                              class="notranslate"
-                            >
-                              ​
-                            </span>
-                          </legend>
-                        </fieldset>
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-46"
+                      class="MuiBox-root emotion-44"
                     >
                       <div
-                        class="MuiBox-root emotion-47"
+                        class="MuiBox-root emotion-45"
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
@@ -6330,14 +6282,14 @@ exports[`byol loading default language should not load custom language with "lan
                           Phone number
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-49"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-47"
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 emotion-51"
+                              class="MuiTypography-root MuiTypography-body1 emotion-49"
                             >
                               +1
                             </p>
@@ -6346,7 +6298,7 @@ exports[`byol loading default language should not load custom language with "lan
                             aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
                             aria-invalid="false"
                             autocomplete="tel-national"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-52"
+                            class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
                             data-se="authenticator.phoneNumber"
                             id="authenticator.phoneNumber"
                             inputmode="tel"
@@ -6364,7 +6316,7 @@ exports[`byol loading default language should not load custom language with "lan
                 >
                   <button
                     aria-describedby="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1 authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
-                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-54"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-52"
                     data-type="save"
                     tabindex="0"
                     type="submit"
@@ -6377,7 +6329,7 @@ exports[`byol loading default language should not load custom language with "lan
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -6388,7 +6340,7 @@ exports[`byol loading default language should not load custom language with "lan
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

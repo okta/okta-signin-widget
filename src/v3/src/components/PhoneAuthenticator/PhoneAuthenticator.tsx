@@ -10,15 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import {
   Box,
   InputAdornment,
   InputBase,
   InputLabel,
+  Select,
 } from '@okta/odyssey-react-mui';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
@@ -156,6 +154,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         id="country"
         labelId="countryLabel"
         disabled={loading}
+        variant="standard"
         native
         onChange={(e: SelectChangeEvent<string>) => {
           const selectTarget = (
@@ -221,6 +220,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               <InputAdornment
                 component="span"
                 position="start"
+                className="no-translate"
               >
                 {phoneCode}
               </InputAdornment>

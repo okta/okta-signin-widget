@@ -55,7 +55,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-8"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-8"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -178,7 +178,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="okta_password_0-label"
                         >
@@ -291,7 +291,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="phone_number_1-label"
                         >
@@ -414,7 +414,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="webauthn_2-label"
                         >
@@ -517,7 +517,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="security_question_3-label"
                         >
@@ -616,7 +616,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="okta_verify_4-label"
                         >
@@ -791,7 +791,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="google_otp_5-label"
                         >
@@ -894,7 +894,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="onprem_mfa_6-label"
                         >
@@ -991,7 +991,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="rsa_token_7-label"
                         >
@@ -1090,7 +1090,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="duo_8-label"
                         >
@@ -1198,7 +1198,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="external_idp_9-label"
                         >
@@ -1306,7 +1306,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="custom_otp_10-label"
                         >
@@ -1411,7 +1411,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="symantec_vip_11-label"
                         >
@@ -1516,7 +1516,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-8"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-28"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-28"
                           data-se="authenticator-button-label"
                           id="yubikey_token_12-label"
                         >

@@ -251,7 +251,7 @@ Object {
                         Object {
                           "noMargin": true,
                           "options": Object {
-                            "content": "https://okta.com",
+                            "content": "<span class=\\"no-translate\\">https://okta.com</span>",
                           },
                           "type": "Description",
                         },

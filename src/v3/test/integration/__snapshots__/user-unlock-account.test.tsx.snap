@@ -142,7 +142,7 @@ exports[`user-unlock-account renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-11"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-22"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-22"
                           data-se="authenticator-button-label"
                           id="okta_email_0-label"
                         >
@@ -248,7 +248,7 @@ exports[`user-unlock-account renders form 1`] = `
                         class="authenticator-description infoSection MuiBox-root emotion-11"
                       >
                         <h3
-                          class="MuiTypography-root MuiTypography-h3 authenticator-label emotion-22"
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-22"
                           data-se="authenticator-button-label"
                           id="phone_number_1-label"
                         >

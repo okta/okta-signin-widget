@@ -70,7 +70,7 @@ describe('Terminal ODA enrollment Loopback transformer', () => {
     expect(((listItemFour as UISchemaLayout).elements[0] as DescriptionElement).options.content).toBe('enroll.oda.step1');
 
     const listItemFive = listItems[4];
-    expect(((listItemFive as UISchemaLayout).elements[1] as DescriptionElement).options.content).toBe('https://okta.com');
+    expect(((listItemFive as UISchemaLayout).elements[1] as DescriptionElement).options.content).toBe('<span class="no-translate">https://okta.com</span>');
   });
 
   it('adds iOS UI elements appropriately when platform is Android and challenge method is loopback', () => {
@@ -105,6 +105,6 @@ describe('Terminal ODA enrollment Loopback transformer', () => {
     expect(((listItemOne as UISchemaLayout).elements[0] as DescriptionElement).options.content).toBe('enroll.oda.android.step1');
 
     const listItemThree = listItems[2];
-    expect(((listItemThree as UISchemaLayout).elements[1] as DescriptionElement).options.content).toBe('https://okta.com');
+    expect(((listItemThree as UISchemaLayout).elements[1] as DescriptionElement).options.content).toBe('<span class="no-translate">https://okta.com</span>');
   });
 });

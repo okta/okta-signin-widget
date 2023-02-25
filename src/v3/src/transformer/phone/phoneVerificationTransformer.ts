@@ -59,7 +59,8 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   uischema.elements.unshift(carrierInfoText);
 
   const redactedPhoneNumber = nextStep.relatesTo?.value?.profile?.phoneNumber as string;
-  const phoneInfoText = redactedPhoneNumber || loc('oie.phone.alternate.title', 'login');
+  const phoneNumberSpan = redactedPhoneNumber ? `<span class="strong no-translate">${redactedPhoneNumber}</span>` : null;
+  const phoneInfoText = phoneNumberSpan || loc('oie.phone.alternate.title', 'login');
   const smsInfoTextElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',

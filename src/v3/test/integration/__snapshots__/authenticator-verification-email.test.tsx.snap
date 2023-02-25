@@ -92,7 +92,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 firstname.lastname@example.com
@@ -274,7 +274,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 firstname.lastname@example.com
@@ -500,7 +500,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 firstname.lastname@example.com
@@ -714,7 +714,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -984,7 +984,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 testUser@okta.com
@@ -1391,7 +1391,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 firstname.lastname@example.com

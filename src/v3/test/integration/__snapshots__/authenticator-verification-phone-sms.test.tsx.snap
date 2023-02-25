@@ -102,7 +102,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester@okta1.com
@@ -144,9 +144,15 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                     data-se="o-form-explain"
-                    id="challenge-authenticator_Description_A_code_was_sent_to_1_XXX-XXX-4601_Enter_the_code_below_to_verify_phone_number_sms4bvjioge7Sdu3p5d7_3"
+                    id="challenge-authenticator_Description_A_code_was_sent_to_<span_class=strong_no-translate>1_XXX-XXX-4601</span>_Enter_the_code_below_to_verify_phone_number_sms4bvjioge7Sdu3p5d7_3"
                   >
-                    A code was sent to +1 XXX-XXX-4601. Enter the code below to verify.
+                    A code was sent to 
+                    <span
+                      class="strong no-translate"
+                    >
+                      +1 XXX-XXX-4601
+                    </span>
+                    . Enter the code below to verify.
                   </p>
                 </div>
               </div>
@@ -182,7 +188,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="challenge-authenticator_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_2 challenge-authenticator_Description_A_code_was_sent_to_1_XXX-XXX-4601_Enter_the_code_below_to_verify_phone_number_sms4bvjioge7Sdu3p5d7_3 challenge-authenticator_Description_Carrier_messaging_charges_may_apply_phone_number_sms4bvjioge7Sdu3p5d7_4"
+                      aria-describedby="challenge-authenticator_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_2 challenge-authenticator_Description_A_code_was_sent_to_<span_class=strong_no-translate>1_XXX-XXX-4601</span>_Enter_the_code_below_to_verify_phone_number_sms4bvjioge7Sdu3p5d7_3 challenge-authenticator_Description_Carrier_messaging_charges_may_apply_phone_number_sms4bvjioge7Sdu3p5d7_4"
                       aria-invalid="false"
                       autocomplete="off"
                       class="MuiInputBase-input emotion-27"
@@ -200,7 +206,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="challenge-authenticator_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_2 challenge-authenticator_Description_A_code_was_sent_to_1_XXX-XXX-4601_Enter_the_code_below_to_verify_phone_number_sms4bvjioge7Sdu3p5d7_3 challenge-authenticator_Description_Carrier_messaging_charges_may_apply_phone_number_sms4bvjioge7Sdu3p5d7_4"
+                  aria-describedby="challenge-authenticator_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_2 challenge-authenticator_Description_A_code_was_sent_to_<span_class=strong_no-translate>1_XXX-XXX-4601</span>_Enter_the_code_below_to_verify_phone_number_sms4bvjioge7Sdu3p5d7_3 challenge-authenticator_Description_Carrier_messaging_charges_may_apply_phone_number_sms4bvjioge7Sdu3p5d7_4"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
                   data-type="save"
                   tabindex="0"

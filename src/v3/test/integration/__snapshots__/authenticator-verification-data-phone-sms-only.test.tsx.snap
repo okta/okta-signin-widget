@@ -102,7 +102,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                 </svg>
               </span>
               <span
-                class="identifier identifierSpan MuiBox-root emotion-9"
+                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
               >
                 tester@okta1.com
@@ -141,9 +141,14 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
-                    id="authenticator-verification-data_Description_Send_a_code_via_SMS_to_1_XXX-XXX-4601_phone_number_sms4bvjioge7Sdu3p5d7_2"
+                    id="authenticator-verification-data_Description_Send_a_code_via_SMS_to_<span_class=strong_no-translate>1_XXX-XXX-4601</span>_phone_number_sms4bvjioge7Sdu3p5d7_2"
                   >
-                    Send a code via SMS to +1 XXX-XXX-4601
+                    Send a code via SMS to 
+                    <span
+                      class="strong no-translate"
+                    >
+                      +1 XXX-XXX-4601
+                    </span>
                   </p>
                 </div>
               </div>
@@ -166,7 +171,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="authenticator-verification-data_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_1 authenticator-verification-data_Description_Send_a_code_via_SMS_to_1_XXX-XXX-4601_phone_number_sms4bvjioge7Sdu3p5d7_2 authenticator-verification-data_Description_Carrier_messaging_charges_may_apply_phone_number_sms4bvjioge7Sdu3p5d7_3"
+                  aria-describedby="authenticator-verification-data_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_1 authenticator-verification-data_Description_Send_a_code_via_SMS_to_<span_class=strong_no-translate>1_XXX-XXX-4601</span>_phone_number_sms4bvjioge7Sdu3p5d7_2 authenticator-verification-data_Description_Carrier_messaging_charges_may_apply_phone_number_sms4bvjioge7Sdu3p5d7_3"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
                   data-type="save"
                   tabindex="0"

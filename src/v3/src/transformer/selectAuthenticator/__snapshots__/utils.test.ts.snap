@@ -5,6 +5,7 @@ Array [
   Object {
     "id": "auth_btn_onprem_mfa_undefined",
     "label": "On Prem",
+    "noTranslate": false,
     "options": Object {
       "actionParams": Object {
         "authenticator.enrollmentId": undefined,
@@ -133,6 +134,7 @@ Array [
   Object {
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
+    "noTranslate": true,
     "options": Object {
       "actionParams": Object {
         "authenticator.enrollmentId": undefined,
@@ -175,6 +177,7 @@ Array [
   Object {
     "id": "auth_btn_okta_verify_abc234",
     "label": "Okta Verify",
+    "noTranslate": false,
     "options": Object {
       "actionParams": Object {
         "authenticator.enrollmentId": undefined,
@@ -209,6 +212,7 @@ Array [
   Object {
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
+    "noTranslate": true,
     "options": Object {
       "actionParams": Object {
         "authenticator.enrollmentId": undefined,
@@ -361,6 +365,7 @@ Array [
   Object {
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
+    "noTranslate": true,
     "options": Object {
       "actionParams": Object {
         "authenticator.enrollmentId": undefined,
@@ -445,6 +450,7 @@ Array [
   Object {
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
+    "noTranslate": true,
     "options": Object {
       "actionParams": Object {
         "authenticator.enrollmentId": undefined,
