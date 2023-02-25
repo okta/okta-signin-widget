@@ -3324,8 +3324,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         required="true"
                       >
                         <span
-                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-29"
-                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-27"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-29"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 emotion-30"

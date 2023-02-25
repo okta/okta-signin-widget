@@ -1394,8 +1394,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                         required="true"
                       >
                         <span
-                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-29"
-                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-27"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-29"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 emotion-30"
@@ -2889,8 +2888,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                         required="true"
                       >
                         <span
-                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-29"
-                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-27"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-29"
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 emotion-30"

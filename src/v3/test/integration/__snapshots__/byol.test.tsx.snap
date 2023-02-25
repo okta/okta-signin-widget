@@ -1531,8 +1531,7 @@ exports[`byol loading custom language should load custom language with "language
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-50"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"
@@ -3133,8 +3132,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-50"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"
@@ -4735,8 +4733,7 @@ exports[`byol loading default language should not load custom language when the 
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-50"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"
@@ -6337,8 +6334,7 @@ exports[`byol loading default language should not load custom language with "lan
                           required="true"
                         >
                           <span
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined emotion-50"
-                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-48"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-50"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 emotion-51"
