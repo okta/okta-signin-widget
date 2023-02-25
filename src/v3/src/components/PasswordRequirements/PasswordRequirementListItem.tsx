@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Typography } from '@mui/material';
-import { Box } from '@okta/odyssey-react-mui';
+import { Box, Typography } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementProps } from '../../types';

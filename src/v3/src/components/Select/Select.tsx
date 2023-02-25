@@ -10,11 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  Select as MuiSelect,
-  SelectChangeEvent,
-} from '@mui/material';
-import { FormControl, InputLabel } from '@okta/odyssey-react-mui';
+import { SelectChangeEvent } from '@mui/material';
+import { FormControl, InputLabel, Select as MuiSelect } from '@okta/odyssey-react-mui';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { h } from 'preact';
 
@@ -59,6 +56,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       <InputLabel htmlFor={name}>{label}</InputLabel>
       <MuiSelect
         native
+        variant="standard"
         onChange={(e: SelectChangeEvent<string>) => {
           const selectTarget = (
             e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
