@@ -38,7 +38,7 @@ async function setup(t) {
   return enrollPasswordPage;
 }
 
-test.only.requestHooks(successMock)('should have both password and confirmPassword fields and both are required', async t => {
+test.requestHooks(successMock)('should have both password and confirmPassword fields and both are required', async t => {
   const enrollPasswordPage = await setup(t);
 
   // Check title
