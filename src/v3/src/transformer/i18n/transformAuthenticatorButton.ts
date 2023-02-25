@@ -79,4 +79,3 @@ export const transformAuthenticatorButton: TransformStepFnWithOptions = ({
   });
   return formbag;
 };
-// test
