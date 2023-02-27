@@ -56,7 +56,7 @@ test_suites:
       sort_order: '8'
       timeout: '15'
       script_name: unit-jest
-      criteria: OPTIONAL
+      criteria: MERGE
       queue_name: small
     - name: testcafe
       script_path: /root/okta/okta-signin-widget/scripts
