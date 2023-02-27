@@ -305,7 +305,7 @@ describe('v2/ion/responseTransformer', function() {
             action: expect.any(Function),
             href: 'http://localhost:3000/idp/idx/identify',
             value: [
-              { name: 'identifier', label: 'Username' },
+              { name: 'identifier', label: 'Username', required: true },
               { name: 'rememberMe', label: 'Remember Me', type: 'boolean' },
               {
                 name: 'stateHandle',

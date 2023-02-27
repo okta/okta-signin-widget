@@ -36,6 +36,7 @@ exports[`v2/view-builder/views/AutoRedirectView renders user identifier in title
         <div
           class="o-form-error-container"
           data-se="o-form-error-container"
+          role="alert"
         />
         <div
           class="o-form-fieldset-container"
@@ -105,6 +106,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders corectly - default 
         <div
           class="o-form-error-container"
           data-se="o-form-error-container"
+          role="alert"
         />
         <div
           class="o-form-fieldset-container"
@@ -170,6 +172,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
         <div
           class="o-form-error-container"
           data-se="o-form-error-container"
+          role="alert"
         />
         <div
           class="o-form-fieldset-container"
@@ -235,6 +238,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
         <div
           class="o-form-error-container"
           data-se="o-form-error-container"
+          role="alert"
         />
         <div
           class="o-form-fieldset-container"
