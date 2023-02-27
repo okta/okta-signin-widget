@@ -268,6 +268,8 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
     // v3 implements requirements as a client-side error so we must complete and resubmit for
     // additional errors
     await identityPage.fillPasswordField('invalid3A');
+    // v3 triggers field level validation on blur, so to prevent a mis-click we are triggering the blur
+    await t.pressKey('tab');
     await enrollProfilePage.form.clickSaveButton('Sign Up');
   }
 
