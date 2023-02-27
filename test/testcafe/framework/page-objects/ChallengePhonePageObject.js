@@ -44,7 +44,7 @@ export default class ChallengePhonePageObject extends ChallengeFactorPageObject 
       return this.form.hasAlertBox(index);
     }
 
-    const isHidden = await this.form.getElement(RESEND_VIEW_SELECTOR).hasClass('hide')
+    const isHidden = await this.form.getElement(RESEND_VIEW_SELECTOR).hasClass('hide');
     return !isHidden;
   }
 }

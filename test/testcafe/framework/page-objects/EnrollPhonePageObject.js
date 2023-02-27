@@ -5,7 +5,7 @@ const PASSCODE_FIELD_NAME = 'credentials.passcode';
 const PHONE_NUMBER_SELECTOR = '.phone-authenticator-enroll__phone';
 const PHONE_NUMBER_EXTENSION_SELECTOR = '.phone-authenticator-enroll__phone-ext';
 const PHONE_FIELD_NAME = 'authenticator\\.phoneNumber';
-const PHONE_CODE_FIELD_NAME = "phoneCode";
+const PHONE_CODE_FIELD_NAME = 'phoneCode';
 const RESEND_VIEW_SELECTOR = '.phone-authenticator-enroll--warning';
 
 export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
@@ -106,7 +106,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
       return this.form.hasAlertBox(index);
     }
 
-    const isHidden = await this.form.getElement(RESEND_VIEW_SELECTOR).hasClass('hide')
+    const isHidden = await this.form.getElement(RESEND_VIEW_SELECTOR).hasClass('hide');
     return !isHidden;
   }
 

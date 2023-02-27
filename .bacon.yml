@@ -49,7 +49,7 @@ test_suites:
       sort_order: '7'
       timeout: '10'
       script_name: lint
-      criteria: OPTIONAL
+      criteria: MERGE
       queue_name: small
     - name: unit-jest
       script_path: /root/okta/okta-signin-widget/scripts
