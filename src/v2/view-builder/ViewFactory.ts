@@ -22,6 +22,7 @@ import EnduserEmailConsentView from './views/consent/EnduserEmailConsentView';
 
 // Device (Okta Verify)
 import DeviceChallengePollView from './views/device/DeviceChallengePollView';
+import DeviceIdentificationChallengeView from './views/device/DeviceIdentificationChallengeView';
 import SSOExtensionView from './views/device/SSOExtensionView';
 import SignInDeviceView from './views/device/SignInDeviceView';
 import DeviceEnrollmentTerminalView from './views/device/DeviceEnrollmentTerminalView';
@@ -268,6 +269,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.USER_CODE] : {
     [DEFAULT] : DeviceCodeActivateView
+  },
+  [RemediationForms.DEVICE_IDENTIFICATION_CHALLENGE] : {
+    [DEFAULT] : DeviceIdentificationChallengeView,
   },
   [RemediationForms.TERMINAL]: {
     [DEFAULT]: TerminalView,
