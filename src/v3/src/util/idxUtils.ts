@@ -220,13 +220,12 @@ export const updateTransactionWithNextStep = (
 export const convertIdxMessageToWidgetMessage = (
   messages?: any[],
 ): WidgetMessage[] | undefined => messages?.map((message) => {
-  // If type is set, this was manually done which means the object is already in expected format
-  if (typeof message?.type !== 'undefined') {
+  // If message is an array, it has already been translated earlier in the flow
+  if (Array.isArray(message?.message)) {
     return message as WidgetMessage;
   }
   return {
     ...(message as IdxMessage),
     message: getMessage(message),
-    type: 'string',
   };
 });

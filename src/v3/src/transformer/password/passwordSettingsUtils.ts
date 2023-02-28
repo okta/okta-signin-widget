@@ -12,7 +12,6 @@
 
 import { PASSWORD_REQUIREMENTS_KEYS } from '../../constants';
 import {
-  AgeRequirements,
   ComplexityKeys,
   ComplexityRequirements,
   GetAgeFromMinutes,
@@ -64,51 +63,6 @@ export const getComplexityItems = (complexity?: ComplexityRequirements): ListIte
       items.push(item);
     }
   });
-
-  return items;
-};
-
-/**
- *
- * @deprecated This function is no longer used as v3 decided not to display
- * server-side requirements in the list of password requirements.
- */
-export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
-  const items: ListItem[] = [];
-
-  if (!age) {
-    return items;
-  }
-
-  if (age.historyCount > 0) {
-    items.push({
-      ruleKey: 'historyCount',
-      label: loc(PASSWORD_REQUIREMENTS_KEYS.age.historyCount, 'login', [age.historyCount]),
-    });
-  }
-
-  if (age.minAgeMinutes > 0) {
-    const { unitLabel, value } = getAgeFromMinutes(age.minAgeMinutes);
-
-    items.push({
-      ruleKey: 'minAgeMinutes',
-      label: loc(unitLabel, 'login', [value]),
-    });
-  }
-
-  if (age.minAgeHours > 0) {
-    items.push({
-      ruleKey: 'minAgeHours',
-      label: loc(PASSWORD_REQUIREMENTS_KEYS.age.minAgeHours, 'login', [age.minAgeHours]),
-    });
-  }
-
-  if (age.minAgeDays > 0) {
-    items.push({
-      ruleKey: 'minAgeDays',
-      label: loc(PASSWORD_REQUIREMENTS_KEYS.age.minAgeDays, 'login', [age.minAgeDays]),
-    });
-  }
 
   return items;
 };

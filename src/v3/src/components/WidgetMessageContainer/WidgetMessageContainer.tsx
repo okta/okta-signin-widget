@@ -39,7 +39,7 @@ const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (
       >
         {
           (widgetMsg.message as WidgetMessage[])?.map((wm: WidgetMessage) => {
-            if (wm.type === 'string') {
+            if (typeof wm.message === 'string') {
               return (
                 <ListItem
                   key={wm.message}
@@ -51,7 +51,7 @@ const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (
                 </ListItem>
               );
             }
-            if (wm.type === 'list' && Array.isArray(wm.message)) {
+            if (Array.isArray(wm.message)) {
               return wm.message.map((msg: WidgetMessage) => (
                 <WidgetMessageContainer
                   key={msg}
@@ -67,7 +67,7 @@ const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (
   );
 
   if (typeof message !== 'undefined') {
-    return message.type === 'list' && Array.isArray(message.message)
+    return Array.isArray(message.message)
       ? createListMessages(message)
       : <React.Fragment>{message.message}</React.Fragment>;
   }

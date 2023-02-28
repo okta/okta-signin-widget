@@ -196,7 +196,6 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
       type: 'InfoBox',
       options: {
         message: {
-          type: 'string',
           class: 'ERROR',
           message: loc('oie.webauthn.error.not.supported', 'login'),
           i18n: { key: 'oie.webauthn.error.not.supported' },

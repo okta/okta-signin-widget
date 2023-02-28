@@ -48,7 +48,6 @@ const getWidgetMessage = (
         }
 
         return {
-          type: 'string',
           class: 'ERROR',
           message: getMessage(message),
           i18n: { key: message.i18n?.key },
@@ -59,7 +58,6 @@ const getWidgetMessage = (
     {
       tester: (err?: AuthApiError) => !!err?.errorCode && !!err?.errorSummary,
       message: (err?: AuthApiError) => ({
-        type: 'string',
         class: 'ERROR',
         message: err!.errorSummary,
       }),
@@ -69,7 +67,6 @@ const getWidgetMessage = (
     {
       tester: (err?: OAuthError) => err?.error === 'invalid_request' && err?.error_description === 'The recovery token is invalid',
       message: () => ({
-        type: 'string',
         class: 'ERROR',
         message: loc('oie.invalid.recovery.token', 'login'),
         i18n: { key: 'oie.invalid.recovery.token' },
@@ -78,7 +75,6 @@ const getWidgetMessage = (
     {
       tester: (err?: OAuthError) => err?.error === 'access_denied' && !!err?.error_description,
       message: () => ({
-        type: 'string',
         class: 'ERROR',
         message: loc('oie.feature.disabled', 'login'),
         i18n: { key: 'oie.feature.disabled' },
@@ -87,7 +83,6 @@ const getWidgetMessage = (
     {
       tester: (err?: OAuthError) => !!err?.error && !!err?.error_description,
       message: () => ({
-        type: 'string',
         class: 'ERROR',
         message: loc('oie.configuration.error', 'login'),
         i18n: { key: 'oie.configuration.error' },
@@ -111,7 +106,6 @@ const getWidgetMessage = (
   }
   // default fall back for unknown errors
   return message || {
-    type: 'string',
     class: 'ERROR',
     message: loc('oform.error.unexpected', 'login'),
     i18n: { key: 'oform.error.unexpected' },

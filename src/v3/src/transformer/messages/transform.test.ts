@@ -60,7 +60,6 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: 'oie.authenticator.app.non_fips_compliant_enrollment_device_incompatible' },
         message: 'oie.authenticator.app.non_fips_compliant_enrollment_device_incompatible',
         title: 'oie.okta_verify.enroll.force.upgrade.title',
-        type: 'string',
       });
   });
 
@@ -83,7 +82,6 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: 'oie.authenticator.app.method.push.enroll.enable.biometrics' },
         message: 'oie.authenticator.app.method.push.enroll.enable.biometrics',
         title: 'oie.authenticator.app.method.push.enroll.enable.biometrics.title',
-        type: 'string',
       });
   });
 });

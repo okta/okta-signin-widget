@@ -82,7 +82,7 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
   }
 
   transactionMessageTransformer(transaction);
-  const displayedMessages: WidgetMessage[] = messages.map((message) => ({ ...message, type: 'string' }));
+  const displayedMessages: WidgetMessage[] = messages.map((message) => (message));
 
   if (containsOneOfMessageKeys(CUSTOM_MESSAGE_KEYS, displayedMessages)) {
     return transformCustomMessages(formBag, displayedMessages);

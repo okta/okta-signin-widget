@@ -43,7 +43,6 @@ export const transformRequestActivation: IdxStepTransformer = ({ formBag, transa
     options: {
       class: 'ERROR',
       message: {
-        type: 'string',
         class: 'ERROR',
         message: loc('idx.expired.activation.token', 'login'),
         i18n: { key: 'idx.expired.activation.token' },

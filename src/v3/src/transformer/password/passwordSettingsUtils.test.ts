@@ -11,14 +11,8 @@
  */
 
 import { PASSWORD_REQUIREMENTS_KEYS } from '../../constants';
-import {
-  AgeRequirements,
-  ComplexityRequirements,
-} from '../../types';
-import {
-  getAgeItems,
-  getComplexityItems,
-} from './passwordSettingsUtils';
+import { ComplexityRequirements } from '../../types';
+import { getComplexityItems } from './passwordSettingsUtils';
 
 jest.mock('okta', () => ({
   loc: jest.fn().mockImplementation(
@@ -85,50 +79,6 @@ describe('getComplexityItems', () => {
       { ruleKey: 'minLowerCase', label: PASSWORD_REQUIREMENTS_KEYS.complexity.minLowerCase },
       { ruleKey: 'minNumber', label: PASSWORD_REQUIREMENTS_KEYS.complexity.minNumber },
       { ruleKey: 'minSymbol', label: PASSWORD_REQUIREMENTS_KEYS.complexity.minSymbol },
-    ]);
-  });
-});
-
-describe('getAgeItems', () => {
-  it('should return historyCount item with value', () => {
-    const age = {
-      historyCount: 5,
-    } as unknown as AgeRequirements;
-
-    const result = getAgeItems(age);
-    expect(result).toEqual([{ ruleKey: 'historyCount', label: PASSWORD_REQUIREMENTS_KEYS.age.historyCount }]);
-  });
-
-  it('should return minAgeMinutes as minutes', () => {
-    const age = {
-      minAgeMinutes: 40,
-    } as unknown as AgeRequirements;
-
-    const result = getAgeItems(age);
-    expect(result).toEqual([
-      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeMinutes },
-    ]);
-  });
-
-  it('should return minAgeMinutes as hours', () => {
-    const age = {
-      minAgeMinutes: 120,
-    } as unknown as AgeRequirements;
-
-    const result = getAgeItems(age);
-    expect(result).toEqual([
-      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeHours },
-    ]);
-  });
-
-  it('should return minAgeMinutes as days', () => {
-    const age = {
-      minAgeMinutes: 2880,
-    } as unknown as AgeRequirements;
-
-    const result = getAgeItems(age);
-    expect(result).toEqual([
-      { ruleKey: 'minAgeMinutes', label: PASSWORD_REQUIREMENTS_KEYS.age.minAgeDays },
     ]);
   });
 });

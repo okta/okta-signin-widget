@@ -50,7 +50,6 @@ export type WidgetMessage = Modify<IdxMessage, {
     params?: unknown[];
   };
   message?: string | WidgetMessage[];
-  type?: 'list' | 'string';
   title?: string;
   name?: string;
   description?: string;

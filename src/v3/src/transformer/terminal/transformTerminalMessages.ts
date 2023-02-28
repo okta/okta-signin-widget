@@ -60,12 +60,11 @@ const appendBiometricsErrorBox = (
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point1', 'login'),
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point2', 'login'),
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point3', 'login'),
-  ].map((msg: string) => ({ type: 'string', class: 'INFO', message: msg }));
+  ].map((msg: string) => ({ class: 'INFO', message: msg }));
 
   // Add an additional bullet point for desktop devices
   if (isBiometricsRequiredDesktop) {
     listMessages.push({
-      type: 'string',
       class: 'INFO',
       message: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point4', 'login'),
     });
@@ -99,7 +98,6 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
       type: 'InfoBox',
       options: {
         message: {
-          type: 'string',
           class: 'ERROR',
           message: loc('oform.error.unexpected', 'login'),
           i18n: { key: 'oform.error.unexpected' },
@@ -116,7 +114,6 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
         type: 'InfoBox',
         options: {
           message: {
-            type: 'string',
             class: 'ERROR',
             message: loc('error.unsupported.response', 'login'),
             i18n: { key: 'error.unsupported.response' },
@@ -130,7 +127,7 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
 
   transactionMessageTransformer(transaction);
 
-  const displayedMessages: WidgetMessage[] = messages.map((message) => ({ ...message, type: 'string' }));
+  const displayedMessages: WidgetMessage[] = messages.map((message) => (message));
 
   if (containsMessageKey(TERMINAL_KEY.OPERATION_CANCELED_ON_OTHER_DEVICE_KEY, displayedMessages)) {
     displayedMessages[0].message = loc('idx.operation.cancelled.on.other.device', 'login');

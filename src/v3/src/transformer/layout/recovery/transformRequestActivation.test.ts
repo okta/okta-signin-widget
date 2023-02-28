@@ -39,7 +39,6 @@ describe('Identity Request Activation Transformer Tests', () => {
         class: 'ERROR',
         i18n: { key: 'idx.expired.activation.token' },
         message: 'idx.expired.activation.token',
-        type: 'string',
       });
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toBe('oie.activation.request.email.button');

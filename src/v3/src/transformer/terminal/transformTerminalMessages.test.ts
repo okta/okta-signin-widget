@@ -64,7 +64,6 @@ describe('Terminal Message Transformer Tests', () => {
       class: 'ERROR',
       i18n: { key: 'oform.error.unexpected' },
       message: 'oform.error.unexpected',
-      type: 'string',
     });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
@@ -106,7 +105,6 @@ describe('Terminal Message Transformer Tests', () => {
       class: 'ERROR',
       i18n: { key: 'some.test.key' },
       message: 'Test error message',
-      type: 'string',
     });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
@@ -131,7 +129,6 @@ describe('Terminal Message Transformer Tests', () => {
       class: 'ERROR',
       i18n: { key: 'idx.return.link.expired' },
       message: 'idx.return.link.expired',
-      type: 'string',
     });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
@@ -174,7 +171,6 @@ describe('Terminal Message Transformer Tests', () => {
       class: 'ERROR',
       i18n: { key: 'idx.operation.cancelled.on.other.device' },
       message: 'idx.operation.cancelled.on.other.device',
-      type: 'string',
     });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
@@ -201,7 +197,6 @@ describe('Terminal Message Transformer Tests', () => {
       class: 'ERROR',
       i18n: { key: 'tooManyRequests' },
       message: 'oie.tooManyRequests',
-      type: 'string',
     });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
@@ -226,7 +221,6 @@ describe('Terminal Message Transformer Tests', () => {
       class: 'ERROR',
       i18n: { key: 'idx.session.expired' },
       message: 'idx.session.expired',
-      type: 'string',
     });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
@@ -252,7 +246,6 @@ describe('Terminal Message Transformer Tests', () => {
       i18n: { key: 'core.auth.factor.signedNonce.error.invalidDevice' },
       message: 'core.auth.factor.signedNonce.error.invalidDevice',
       title: 'user.fail.verifyIdentity',
-      type: 'string',
     });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement

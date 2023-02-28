@@ -41,7 +41,6 @@ describe('Unhandled Error Transformer Tests', () => {
         class: 'ERROR',
         i18n: { key: 'oform.error.unexpected' },
         message: 'oform.error.unexpected',
-        type: 'string',
       });
       expect(el.options?.class).toBe('ERROR');
     });
@@ -62,7 +61,6 @@ describe('Unhandled Error Transformer Tests', () => {
       expect(el.options?.message).toEqual({
         class: 'ERROR',
         message: 'Custom error message',
-        type: 'string',
       });
       expect(el.options?.class).toBe('ERROR');
     });
@@ -95,7 +93,6 @@ describe('Unhandled Error Transformer Tests', () => {
         class: 'ERROR',
         i18n: { key: 'oform.error.unexpected' },
         message: 'oform.error.unexpected',
-        type: 'string',
       });
       expect(el.options?.class).toBe('ERROR');
     });
@@ -117,7 +114,6 @@ describe('Unhandled Error Transformer Tests', () => {
           class: 'ERROR',
           i18n: { key: 'oie.invalid.recovery.token' },
           message: 'oie.invalid.recovery.token',
-          type: 'string',
         });
       expect((
         formBag.uischema.elements[0] as InfoboxElement
@@ -141,7 +137,6 @@ describe('Unhandled Error Transformer Tests', () => {
         class: 'ERROR',
         i18n: { key: 'oie.feature.disabled' },
         message: 'oie.feature.disabled',
-        type: 'string',
       });
       expect(el.options?.class).toBe('ERROR');
     });
@@ -162,7 +157,6 @@ describe('Unhandled Error Transformer Tests', () => {
         class: 'ERROR',
         i18n: { key: 'oie.configuration.error' },
         message: 'oie.configuration.error',
-        type: 'string',
       });
       expect(el.options?.class).toBe('ERROR');
     });

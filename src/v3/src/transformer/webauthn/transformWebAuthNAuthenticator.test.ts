@@ -81,7 +81,6 @@ describe('WebAuthN Transformer Tests', () => {
           class: 'ERROR',
           i18n: { key: 'oie.webauthn.error.not.supported' },
           message: 'oie.webauthn.error.not.supported',
-          type: 'string',
         });
     });
 
@@ -216,7 +215,6 @@ describe('WebAuthN Transformer Tests', () => {
           class: 'ERROR',
           i18n: { key: 'oie.webauthn.error.not.supported' },
           message: 'oie.webauthn.error.not.supported',
-          type: 'string',
         });
       expect(updatedFormBag.uischema.elements[2].type).toBe('Accordion');
       expect((updatedFormBag.uischema.elements[2] as AccordionLayout).elements.length).toBe(1);

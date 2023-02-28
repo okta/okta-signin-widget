@@ -35,7 +35,7 @@ export const useFormFieldValidation = (
       const widgetMessages = convertIdxMessageToWidgetMessage(messages);
       const matchingMessages = widgetMessages?.filter(
         (message) => (message.name === undefined || message.name === name)
-          && typeof message.type !== 'undefined' && typeof message.message !== 'undefined',
+          && typeof message.message !== 'undefined',
       );
       if (matchingMessages?.length) {
         setErrors?.(matchingMessages);

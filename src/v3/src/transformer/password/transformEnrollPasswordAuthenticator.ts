@@ -160,7 +160,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       const confirmPw = data.confirmPassword;
       if (!confirmPw) {
         return [{
-          type: 'string',
           name: 'confirmPassword',
           class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
@@ -179,7 +178,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       const errorMessages: WidgetMessage[] = [];
       if (!newPw) {
         errorMessages.push({
-          type: 'string',
           name: passwordFieldName,
           class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
@@ -188,7 +186,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       }
       if (!confirmPw) {
         errorMessages.push({
-          type: 'string',
           name: 'confirmPassword',
           class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
@@ -215,7 +212,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
         // This error is not displayed by the component, however it is used to block
         // form submission by marking the field as invalid
         return [{
-          type: 'string',
           name: 'passwordMatchesValidation',
           class: 'ERROR',
           message: loc('password.error.match', 'login'),
