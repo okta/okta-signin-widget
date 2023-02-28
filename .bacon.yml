@@ -94,6 +94,7 @@ test_suites:
       script_name: tsd
       criteria: MERGE
       queue_name: small
+      # FIXME: revert criteria to "MERGE" when merging 0.0 to master
     - name: detect-english-leaks
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '14'
