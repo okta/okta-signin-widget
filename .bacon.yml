@@ -49,14 +49,14 @@ test_suites:
       sort_order: '7'
       timeout: '10'
       script_name: lint
-      criteria: OPTIONAL
+      criteria: MERGE
       queue_name: small
     - name: unit-jest
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '8'
       timeout: '15'
       script_name: unit-jest
-      criteria: OPTIONAL
+      criteria: MERGE
       queue_name: small
     - name: testcafe
       script_path: /root/okta/okta-signin-widget/scripts
@@ -92,9 +92,9 @@ test_suites:
       sort_order: '13'
       timeout: '15'
       script_name: tsd
-      criteria: OPTIONAL
+      criteria: MERGE
       queue_name: small
-    # FIXME: revert criteria to "MERGE" when merging 0.0 to master
+      # FIXME: revert criteria to "MERGE" when merging 0.0 to master
     - name: detect-english-leaks
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '14'
@@ -102,11 +102,10 @@ test_suites:
       script_name: detect-english-leaks
       criteria: OPTIONAL
       queue_name: small
-    # FIXME: revert criteria to "MERGE" when merging 0.0 to master
     - name: unit-karma
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '15'
       timeout: '15'
       script_name: unit-karma
-      criteria: OPTIONAL
+      criteria: MERGE
       queue_name: small

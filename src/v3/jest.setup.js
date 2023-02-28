@@ -13,6 +13,7 @@
 /* eslint-disable import/extensions */
 import 'jest-canvas-mock';
 import { toHaveBeenCalledBefore } from 'jest-extended';
+import mockBundles from '../util/Bundles.ts';
 
 expect.extend({ toHaveBeenCalledBefore });
 
@@ -30,3 +31,13 @@ global.COMMITHASH = 'b9bbc0140703c3fbf0e2e58920362e70'; // "echo jest | md5"
 global.DEBUG = false;
 
 expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));
+
+jest.mock('okta', () => {
+  return {
+    ...jest.requireActual('okta'),
+    loc: jest.fn().mockImplementation(
+      // eslint-disable-next-line no-unused-vars
+      (key, bundle, params) => (mockBundles.login[key] ? key : new Error(`Invalid i18n key: ${key}`)),
+    ),
+  };
+});

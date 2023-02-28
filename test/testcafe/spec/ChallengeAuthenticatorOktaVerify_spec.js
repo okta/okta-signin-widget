@@ -7,7 +7,7 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrOktaVerifyOnlyMethodsWithoutDeviceKnown
   from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known';
 import xhrOktaVerifyOnlyMethodsWithDeviceKnown
-from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-with-device-known';
+  from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-with-device-known';
 import xhrOktaVerifyPushOnlyWithoutAutoChallenge
   from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-okta-verify-push-only-without-autochallenge';
 import xhrChallengeTotpOktaVerifyOnly

@@ -23,7 +23,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   async enterCodeFromEmailLinkExists() {
     if (userVariables.v3) {
-     return this.form.queryButton(ENTER_CODE_FROM_EMAIL_TEXT).exists;
+      return this.form.queryButton(ENTER_CODE_FROM_EMAIL_TEXT).exists;
     } 
     return Selector(ENTER_CODE_FROM_EMAIL_CLASS).exists;
   }
@@ -45,7 +45,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
       return this.form.hasErrorBox();
     }
 
-    const isHidden = await Selector(RESEND_EMAIL).hasClass('hide')
+    const isHidden = await Selector(RESEND_EMAIL).hasClass('hide');
     return !isHidden;
   }
 
@@ -53,7 +53,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
     if (userVariables.v3) {
       return this.form.el.find('[role="alert"]').textContent;
     }
-      return this.form.el.find(RESEND_EMAIL).textContent;
+    return this.form.el.find(RESEND_EMAIL).textContent;
   }
 
   async clickResendEmail() {
