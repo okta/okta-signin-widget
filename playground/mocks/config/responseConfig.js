@@ -18,9 +18,9 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-identify-multiple-errors',
-    // 'authenticator-enroll-ov-qr-enable-biometrics',
+    'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
     // 'error-401-invalid-otp-passcode',
     // 'error-with-failure-redirect',

@@ -160,6 +160,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       const confirmPw = data.confirmPassword;
       if (!confirmPw) {
         return [{
+          type: 'string',
           name: 'confirmPassword',
           class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),

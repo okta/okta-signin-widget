@@ -11,109 +11,67 @@
  */
 
 import { List, ListItem } from '@mui/material';
-import { Box, FormHelperText, Typography } from '@okta/odyssey-react-mui';
+import { Box, Typography } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
+import React from 'preact/compat';
 
 import { WidgetMessage } from '../../types';
-import { buildErrorMessageIds } from '../../util';
 
-type FieldErrorProps = {
-  messages?: WidgetMessage[];
-  fieldName: string;
-};
+const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (props) => {
+  const { message } = props;
 
-const WidgetMessageContainer: FunctionComponent<FieldErrorProps> = (props) => {
-  const { fieldName, messages } = props;
-
-  const buildElementId = (errorIndex: number): string => {
-    if (typeof messages === 'undefined') {
-      return `${fieldName}-error`;
-    }
-    const errorIdStr = buildErrorMessageIds(messages, fieldName);
-    return errorIdStr.split(' ')[errorIndex];
-  };
-
-  const createListMessages = (error: WidgetMessage, index: number) => {
-    if (error.type !== 'list') {
-      return null;
-    }
-    return (
-      <Box
-        marginBlockStart={2}
-        sx={(theme) => ({
-          color: theme.palette.error.main,
-          fontSize: theme.typography.caption.fontSize,
-        })}
-        id={buildElementId(index)}
-        data-se={buildElementId(index)}
+  const createListMessages = (widgetMsg: WidgetMessage) => (
+    <Box marginBlockStart={2}>
+      {
+        widgetMsg.description && (
+          <Typography
+            component="p"
+            fontSize="inherit"
+          >
+            {widgetMsg.description}
+          </Typography>
+        )
+      }
+      <List
+        dense
+        disablePadding
+        sx={{ listStyleType: 'disc', paddingInlineStart: 4 }}
       >
         {
-          error.description && (
-            <Typography
-              component="p"
-              fontSize="inherit"
-            >
-              {error.description}
-            </Typography>
-          )
-        }
-        <List
-          dense
-          disablePadding
-          sx={{ listStyleType: 'disc', paddingInlineStart: 4 }}
-        >
-          {
-            error.messages?.map((message: WidgetMessage) => {
-              if (message.type === 'string') {
-                return (
-                  <ListItem
-                    key={message.message}
-                    sx={{ display: 'list-item' }}
-                    dense
-                    disablePadding
-                  >
-                    {message.message}
-                  </ListItem>
-                );
-              }
+          (widgetMsg.message as WidgetMessage[])?.map((wm: WidgetMessage) => {
+            if (wm.type === 'string') {
               return (
-                <WidgetMessageContainer
-                  key=""
-                  messages={message.messages}
-                  fieldName={fieldName}
-                />
+                <ListItem
+                  key={wm.message}
+                  sx={{ display: 'list-item' }}
+                  dense
+                  disablePadding
+                >
+                  {wm.message}
+                </ListItem>
               );
-            })
-          }
-        </List>
-      </Box>
-    );
-  };
-
-  return typeof messages !== 'undefined' ? (
-    <Box>
-      {
-        messages.map((message: WidgetMessage, index: number) => {
-          if (message.type === 'list') {
-            return createListMessages(message, index);
-          }
-          return (
-            <FormHelperText
-              key={message.message}
-              id={buildElementId(index)}
-              role="alert"
-              data-se={buildElementId(index)}
-              error
-              // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
-              sx={{ textAlign: 'start' }}
-            >
-              {message.message}
-            </FormHelperText>
-          );
-        })
-      }
+            }
+            if (wm.type === 'list' && Array.isArray(wm.message)) {
+              return wm.message.map((msg: WidgetMessage) => (
+                <WidgetMessageContainer
+                  key={msg}
+                  message={msg}
+                />
+              ));
+            }
+            return null;
+          })
+        }
+      </List>
     </Box>
-  ) : null;
+  );
+
+  if (typeof message !== 'undefined') {
+    return message.type === 'list' && Array.isArray(message.message)
+      ? createListMessages(message)
+      : <React.Fragment>{message.message}</React.Fragment>;
+  }
+  return null;
 };
 
 export default WidgetMessageContainer;

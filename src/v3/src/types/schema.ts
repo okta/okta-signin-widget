@@ -49,8 +49,7 @@ export type WidgetMessage = Modify<IdxMessage, {
     key: string;
     params?: unknown[];
   };
-  message?: string;
-  messages?: WidgetMessage[];
+  message?: string | WidgetMessage[];
   type?: 'list' | 'string';
   title?: string;
   name?: string;
@@ -443,11 +442,9 @@ export interface SpinnerElement extends UISchemaElement {
 
 export interface InfoboxElement extends UISchemaElement {
   options: {
-    message: string;
+    message: WidgetMessage;
     class: string;
-    title?: string;
     dataSe?: string;
-    listOptions?: ListElement['options'];
   }
 }
 

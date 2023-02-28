@@ -228,7 +228,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                               class="MuiBox-root emotion-12"
                             >
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-33"
@@ -241,7 +241,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-14"
@@ -269,7 +269,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-33"
@@ -555,7 +555,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                               class="MuiBox-root emotion-12"
                             >
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-33"
@@ -568,7 +568,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-14"
@@ -596,7 +596,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-33"
@@ -882,7 +882,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                               class="MuiBox-root emotion-12"
                             >
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-33"
@@ -895,7 +895,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-14"
@@ -923,7 +923,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-33"

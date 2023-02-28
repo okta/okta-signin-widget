@@ -29,13 +29,13 @@ export const buildPasswordRequirementNotMetErrorList = (
   });
 
   if (errorMessages.length > 0) {
-    // TODO: Add ticket here to create new translation key that includes colon
+    // TODO: OKTA-581769 - Update the translation key which would include the colon
     widgetMessages.push({
       type: 'list',
       description: loc('registration.error.password.passwordRequirementsNotMet', 'login'),
-      messages: errorMessages.map((message) => ({
+      message: errorMessages.map((message) => ({
         type: 'string', class: 'ERROR', i18n: { key: '' }, name: fieldName, message,
-      })),
+      } as WidgetMessage)),
     });
   }
 

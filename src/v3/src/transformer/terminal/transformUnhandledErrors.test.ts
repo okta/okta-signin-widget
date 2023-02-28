@@ -37,7 +37,12 @@ describe('Unhandled Error Transformer Tests', () => {
       expect(formBag.uischema.elements.length).toBe(1);
       const el = formBag.uischema.elements[0] as InfoboxElement;
       expect(el.type).toBe('InfoBox');
-      expect(el.options?.message).toBe('oform.error.unexpected');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        i18n: { key: 'oform.error.unexpected' },
+        message: 'oform.error.unexpected',
+        type: 'string',
+      });
       expect(el.options?.class).toBe('ERROR');
     });
 
@@ -54,7 +59,11 @@ describe('Unhandled Error Transformer Tests', () => {
       expect(formBag.uischema.elements.length).toBe(1);
       const el = formBag.uischema.elements[0] as InfoboxElement;
       expect(el.type).toBe('InfoBox');
-      expect(el.options?.message).toBe(mockErrorMessage);
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        message: 'Custom error message',
+        type: 'string',
+      });
       expect(el.options?.class).toBe('ERROR');
     });
   });
@@ -82,7 +91,12 @@ describe('Unhandled Error Transformer Tests', () => {
       expect(formBag.uischema.elements.length).toBe(1);
       const el = formBag.uischema.elements[0] as InfoboxElement;
       expect(el.type).toBe('InfoBox');
-      expect(el.options?.message).toBe('oform.error.unexpected');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        i18n: { key: 'oform.error.unexpected' },
+        message: 'oform.error.unexpected',
+        type: 'string',
+      });
       expect(el.options?.class).toBe('ERROR');
     });
 
@@ -98,7 +112,13 @@ describe('Unhandled Error Transformer Tests', () => {
       expect(formBag).toMatchSnapshot();
       expect(formBag.uischema.elements.length).toBe(1);
       expect(formBag.uischema.elements[0].type).toBe('InfoBox');
-      expect((formBag.uischema.elements[0] as InfoboxElement).options?.message).toBe('oie.invalid.recovery.token');
+      expect((formBag.uischema.elements[0] as InfoboxElement).options?.message)
+        .toEqual({
+          class: 'ERROR',
+          i18n: { key: 'oie.invalid.recovery.token' },
+          message: 'oie.invalid.recovery.token',
+          type: 'string',
+        });
       expect((
         formBag.uischema.elements[0] as InfoboxElement
       ).options?.class).toBe('ERROR');
@@ -117,7 +137,12 @@ describe('Unhandled Error Transformer Tests', () => {
       expect(formBag.uischema.elements.length).toBe(1);
       const el = formBag.uischema.elements[0] as InfoboxElement;
       expect(el.type).toBe('InfoBox');
-      expect(el.options?.message).toBe('oie.feature.disabled');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        i18n: { key: 'oie.feature.disabled' },
+        message: 'oie.feature.disabled',
+        type: 'string',
+      });
       expect(el.options?.class).toBe('ERROR');
     });
 
@@ -133,7 +158,12 @@ describe('Unhandled Error Transformer Tests', () => {
       expect(formBag.uischema.elements.length).toBe(1);
       const el = formBag.uischema.elements[0] as InfoboxElement;
       expect(el.type).toBe('InfoBox');
-      expect(el.options?.message).toBe('oie.configuration.error');
+      expect(el.options?.message).toEqual({
+        class: 'ERROR',
+        i18n: { key: 'oie.configuration.error' },
+        message: 'oie.configuration.error',
+        type: 'string',
+      });
       expect(el.options?.class).toBe('ERROR');
     });
   });

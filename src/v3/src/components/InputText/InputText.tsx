@@ -29,8 +29,8 @@ import {
   UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
+import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
-import WidgetMessageContainer from '../WidgetMessageContainer';
 
 const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   type,
@@ -103,7 +103,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         inputRef={focusRef}
       />
       {hasErrors && (
-        <WidgetMessageContainer
+        <FieldLevelMessageContainer
           messages={errors}
           fieldName={name}
         />

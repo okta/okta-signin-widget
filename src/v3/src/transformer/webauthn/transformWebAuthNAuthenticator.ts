@@ -81,6 +81,7 @@ const getCantVerifyChallengeContent = (): UISchemaLayout => ({
   elements: [
     {
       type: 'Heading',
+      noMargin: true,
       options: {
         level: 6,
         visualLevel: 3,
@@ -89,6 +90,7 @@ const getCantVerifyChallengeContent = (): UISchemaLayout => ({
     } as HeadingElement,
     {
       type: 'Description',
+      noMargin: true,
       options: { content: loc('oie.verify.webauthn.cant.verify.biometric.authenticator.description1', 'login') },
     } as DescriptionElement,
     {
@@ -97,6 +99,7 @@ const getCantVerifyChallengeContent = (): UISchemaLayout => ({
     } as DescriptionElement,
     {
       type: 'Heading',
+      noMargin: true,
       options: {
         level: 6,
         visualLevel: 3,
@@ -192,7 +195,12 @@ export const transformWebAuthNAuthenticator: IdxStepTransformer = ({ transaction
     uischema.elements.unshift({
       type: 'InfoBox',
       options: {
-        message: loc('oie.webauthn.error.not.supported', 'login'),
+        message: {
+          type: 'string',
+          class: 'ERROR',
+          message: loc('oie.webauthn.error.not.supported', 'login'),
+          i18n: { key: 'oie.webauthn.error.not.supported' },
+        },
         class: 'ERROR',
         dataSe: 'callout',
       },

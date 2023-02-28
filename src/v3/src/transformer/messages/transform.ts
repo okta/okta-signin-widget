@@ -48,9 +48,9 @@ const overrideMessagesWithTitle = (msgs: WidgetMessage[]): WidgetMessage[] => {
   // only transform the first message (only contains one in this scenario)
   const [message]: WidgetMessage[] = msgs;
   if (containsOneOfMessageKeys(fipsComplianceKeys, msgs)) {
-    message.title = 'oie.okta_verify.enroll.force.upgrade.title';
+    message.title = loc('oie.okta_verify.enroll.force.upgrade.title', 'login');
   } else if (containsMessageKey(OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY, msgs)) {
-    message.title = 'oie.authenticator.app.method.push.enroll.enable.biometrics.title';
+    message.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
   }
   return msgs;
 };
@@ -64,8 +64,7 @@ const transformCustomMessages = (formBag: FormBag, messages: WidgetMessage[]): F
     type: 'InfoBox',
     options: {
       class: message.class ?? 'INFO',
-      message: message.message,
-      title: message.title && loc(message.title, 'login'),
+      message,
       dataSe: 'callout',
     },
   } as InfoboxElement));
@@ -103,7 +102,7 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
       type: 'InfoBox',
       options: {
         class: messageClass,
-        message: message.message,
+        message,
         dataSe: 'callout',
       },
     } as InfoboxElement);

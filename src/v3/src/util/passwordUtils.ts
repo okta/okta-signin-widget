@@ -172,7 +172,7 @@ export const validatePassword = (
 ): PasswordValidation => {
   let passwordValidations: PasswordValidation = {};
 
-  if (!settings?.complexity || !Object.keys(settings.complexity).length) {
+  if (!settings?.complexity || Object.keys(settings.complexity).length === 0) {
     return passwordValidations;
   }
 

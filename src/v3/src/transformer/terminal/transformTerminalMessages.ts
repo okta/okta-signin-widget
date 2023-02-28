@@ -34,7 +34,7 @@ const appendMessageElements = (uischema: UISchemaLayout, messages: WidgetMessage
       const messageElement: DescriptionElement = {
         type: 'Description',
         contentType: 'subtitle',
-        options: { content: message.message! },
+        options: { content: (message.message! as string) },
       };
       uischema.elements.push(messageElement);
     } else {
@@ -42,10 +42,9 @@ const appendMessageElements = (uischema: UISchemaLayout, messages: WidgetMessage
       const infoBoxElement: InfoboxElement = {
         type: 'InfoBox',
         options: {
-          message: message.message!,
+          message,
           class: messageClass,
           dataSe: 'callout',
-          title: message.title,
         },
       };
       uischema.elements.push(infoBoxElement);
@@ -57,30 +56,36 @@ const appendBiometricsErrorBox = (
   uischema: UISchemaLayout,
   isBiometricsRequiredDesktop = false,
 ) => {
-  const bulletPoints = [
+  const listMessages: WidgetMessage[] = [
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point1', 'login'),
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point2', 'login'),
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point3', 'login'),
-  ];
+  ].map((msg: string) => ({ type: 'string', class: 'INFO', message: msg }));
 
   // Add an additional bullet point for desktop devices
   if (isBiometricsRequiredDesktop) {
-    bulletPoints.push(
-      loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point4', 'login'),
-    );
+    listMessages.push({
+      type: 'string',
+      class: 'INFO',
+      message: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point4', 'login'),
+    });
   }
 
   uischema.elements.push({
     type: 'InfoBox',
     options: {
-      message: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description', 'login'),
-      title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'),
       class: 'ERROR',
-      contentType: 'string',
       dataSe: 'callout',
       listOptions: {
         type: 'ul',
-        items: bulletPoints,
+        items: listMessages,
+      },
+      message: {
+        type: 'list',
+        class: 'ERROR',
+        title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'),
+        description: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description', 'login'),
+        message: listMessages,
       },
     },
   } as InfoboxElement);
@@ -93,7 +98,12 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
     uischema.elements.push({
       type: 'InfoBox',
       options: {
-        message: loc('oform.error.unexpected', 'login'),
+        message: {
+          type: 'string',
+          class: 'ERROR',
+          message: loc('oform.error.unexpected', 'login'),
+          i18n: { key: 'oform.error.unexpected' },
+        },
         class: 'ERROR',
       },
     } as InfoboxElement);
@@ -105,7 +115,12 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
       uischema.elements.push({
         type: 'InfoBox',
         options: {
-          message: loc('error.unsupported.response', 'login'),
+          message: {
+            type: 'string',
+            class: 'ERROR',
+            message: loc('error.unsupported.response', 'login'),
+            i18n: { key: 'error.unsupported.response' },
+          },
           class: 'ERROR',
         },
       } as InfoboxElement);

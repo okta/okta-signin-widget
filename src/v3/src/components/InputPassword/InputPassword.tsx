@@ -37,8 +37,8 @@ import {
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
+import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
-import WidgetMessageContainer from '../WidgetMessageContainer';
 
 const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
@@ -139,7 +139,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         )}
       />
       {hasErrors && (
-        <WidgetMessageContainer
+        <FieldLevelMessageContainer
           messages={errors}
           fieldName={name}
         />

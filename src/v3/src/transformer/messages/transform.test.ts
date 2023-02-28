@@ -55,9 +55,13 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
       .toBe('ERROR');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
-      .toBe(OV_OVERRIDE_MESSAGE_KEY.OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS);
-    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.title)
-      .toBe('oie.okta_verify.enroll.force.upgrade.title');
+      .toEqual({
+        class: 'ERROR',
+        i18n: { key: 'oie.authenticator.app.non_fips_compliant_enrollment_device_incompatible' },
+        message: 'oie.authenticator.app.non_fips_compliant_enrollment_device_incompatible',
+        title: 'oie.okta_verify.enroll.force.upgrade.title',
+        type: 'string',
+      });
   });
 
   it('should add title when OV QR enroll biometrics key exists in transaction', () => {
@@ -74,8 +78,12 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
       .toBe('ERROR');
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
-      .toBe(OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY);
-    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.title)
-      .toBe('oie.authenticator.app.method.push.enroll.enable.biometrics.title');
+      .toEqual({
+        class: 'ERROR',
+        i18n: { key: 'oie.authenticator.app.method.push.enroll.enable.biometrics' },
+        message: 'oie.authenticator.app.method.push.enroll.enable.biometrics',
+        title: 'oie.authenticator.app.method.push.enroll.enable.biometrics.title',
+        type: 'string',
+      });
   });
 });

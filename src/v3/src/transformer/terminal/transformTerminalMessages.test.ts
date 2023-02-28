@@ -60,7 +60,12 @@ describe('Terminal Message Transformer Tests', () => {
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
-    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message).toBe('oform.error.unexpected');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message).toEqual({
+      class: 'ERROR',
+      i18n: { key: 'oform.error.unexpected' },
+      message: 'oform.error.unexpected',
+      type: 'string',
+    });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
     ).options?.class).toBe('ERROR');
@@ -97,7 +102,12 @@ describe('Terminal Message Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.message).toBe(mockErrorMessage);
+    ).options?.message).toEqual({
+      class: 'ERROR',
+      i18n: { key: 'some.test.key' },
+      message: 'Test error message',
+      type: 'string',
+    });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
     ).options?.class).toBe('ERROR');
@@ -117,7 +127,12 @@ describe('Terminal Message Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.message).toBe('idx.return.link.expired');
+    ).options?.message).toEqual({
+      class: 'ERROR',
+      i18n: { key: 'idx.return.link.expired' },
+      message: 'idx.return.link.expired',
+      type: 'string',
+    });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
     ).options?.class).toBe('ERROR');
@@ -155,7 +170,12 @@ describe('Terminal Message Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.message).toBe('idx.operation.cancelled.on.other.device');
+    ).options?.message).toEqual({
+      class: 'ERROR',
+      i18n: { key: 'idx.operation.cancelled.on.other.device' },
+      message: 'idx.operation.cancelled.on.other.device',
+      type: 'string',
+    });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
     ).options?.class).toBe('ERROR');
@@ -177,7 +197,12 @@ describe('Terminal Message Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.message).toBe('oie.tooManyRequests');
+    ).options?.message).toEqual({
+      class: 'ERROR',
+      i18n: { key: 'tooManyRequests' },
+      message: 'oie.tooManyRequests',
+      type: 'string',
+    });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
     ).options?.class).toBe('ERROR');
@@ -197,7 +222,12 @@ describe('Terminal Message Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.message).toBe(TERMINAL_KEY.SESSION_EXPIRED);
+    ).options?.message).toEqual({
+      class: 'ERROR',
+      i18n: { key: 'idx.session.expired' },
+      message: 'idx.session.expired',
+      type: 'string',
+    });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
     ).options?.class).toBe('ERROR');
@@ -217,13 +247,16 @@ describe('Terminal Message Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.message).toBe('core.auth.factor.signedNonce.error.invalidDevice');
+    ).options?.message).toEqual({
+      class: 'ERROR',
+      i18n: { key: 'core.auth.factor.signedNonce.error.invalidDevice' },
+      message: 'core.auth.factor.signedNonce.error.invalidDevice',
+      title: 'user.fail.verifyIdentity',
+      type: 'string',
+    });
     expect((
       updatedFormBag.uischema.elements[0] as InfoboxElement
     ).options?.class).toBe('ERROR');
-    expect((
-      updatedFormBag.uischema.elements[0] as InfoboxElement
-    ).options?.title).toBe('user.fail.verifyIdentity');
   });
 
   it('should return custom formBag when message key contains idx.enter.otp.in.original.tab', () => {
