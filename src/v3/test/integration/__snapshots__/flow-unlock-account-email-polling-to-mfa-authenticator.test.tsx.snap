@@ -230,7 +230,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                               class="MuiBox-root emotion-12"
                             >
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-33"
@@ -243,7 +243,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-14"
@@ -271,7 +271,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                 </div>
                               </div>
                               <div
-                                class="MuiBox-root emotion-13"
+                                class="MuiBox-root emotion-9"
                               >
                                 <div
                                   class="MuiBox-root emotion-33"

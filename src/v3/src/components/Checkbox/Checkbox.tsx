@@ -25,7 +25,7 @@ import {
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
-import FieldErrorContainer from '../FieldErrorContainer';
+import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
 
 const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
@@ -74,8 +74,8 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
         label={label as string}
       />
       {hasErrors && (
-        <FieldErrorContainer
-          errors={errors}
+        <FieldLevelMessageContainer
+          messages={errors}
           fieldName={name}
         />
       )}

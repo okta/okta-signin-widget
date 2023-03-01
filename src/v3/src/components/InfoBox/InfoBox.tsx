@@ -24,7 +24,7 @@ import {
   MessageTypeVariant,
   UISchemaElementComponent,
 } from '../../types';
-import List from '../List';
+import WidgetMessageContainer from '../WidgetMessageContainer';
 
 const InfoBox: UISchemaElementComponent<{
   uischema: InfoboxElement
@@ -36,10 +36,8 @@ const InfoBox: UISchemaElementComponent<{
   const {
     options: {
       message,
-      title,
       class: messageClass,
       dataSe,
-      listOptions,
     },
   } = uischema;
 
@@ -56,16 +54,15 @@ const InfoBox: UISchemaElementComponent<{
         {...({ 'data-se': dataSe })}
         className={`infobox-${messageClass.toLowerCase()}`}
       >
-        { title && (
+        { message.title && (
         <Typography
           component="h2"
           variant="h6"
         >
-          {title}
+          {message.title}
         </Typography>
         ) }
-        { message }
-        { listOptions && <List uischema={{ type: 'List', options: listOptions }} /> }
+        <WidgetMessageContainer message={message} />
       </Alert>
     </Box>
   );

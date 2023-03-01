@@ -12,11 +12,11 @@
 
 import { Input } from '@okta/okta-auth-js';
 
-import { IdxMessageWithName } from '../types';
+import { WidgetMessage } from '../types';
 
 export function resetMessagesToInputs(
   inputs: Input[],
-  messagesByField: Record<string, IdxMessageWithName[]>,
+  messagesByField: Record<string, WidgetMessage[]>,
 ): void {
   const fn = (items: Input[], namePrefix: string) => {
     items.forEach((input) => {

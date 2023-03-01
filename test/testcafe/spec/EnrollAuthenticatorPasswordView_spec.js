@@ -68,7 +68,7 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await t.expect(enrollPasswordPage.getConfirmPasswordError()).eql('This field cannot be left blank');
 
   // password must match
-  await enrollPasswordPage.fillPassword('abcd');
+  await enrollPasswordPage.fillPassword('Abcdef1@');
   await enrollPasswordPage.fillConfirmPassword('1234');
   await enrollPasswordPage.clickNextButton();
   await enrollPasswordPage.waitForErrorBox();
@@ -92,8 +92,8 @@ test.meta('v3', false).requestHooks(logger, successMock)('should succeed when sa
   await checkA11y(t);
   const successPage = new SuccessPageObject(t);
 
-  await enrollPasswordPage.fillPassword('abcdabcd');
-  await enrollPasswordPage.fillConfirmPassword('abcdabcd');
+  await enrollPasswordPage.fillPassword('abcdabcdA3@');
+  await enrollPasswordPage.fillConfirmPassword('abcdabcdA3@');
   await enrollPasswordPage.clickNextButton();
 
   const { request: {
@@ -147,8 +147,8 @@ test.requestHooks(errorMock)('should show a callout when server-side field error
   const enrollPasswordPage = await setup(t);
   await checkA11y(t);
 
-  await enrollPasswordPage.fillPassword('abcdabcd');
-  await enrollPasswordPage.fillConfirmPassword('abcdabcd');
+  await enrollPasswordPage.fillPassword('abcdabcdA3@');
+  await enrollPasswordPage.fillConfirmPassword('abcdabcdA3@');
   await enrollPasswordPage.clickNextButton();
 
   await enrollPasswordPage.waitForErrorBox();

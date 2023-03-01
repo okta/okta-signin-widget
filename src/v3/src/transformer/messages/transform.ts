@@ -10,14 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage } from '@okta/okta-auth-js';
-
 import { IDX_STEP, OV_UV_ENABLE_BIOMETRIC_SERVER_KEY } from '../../constants';
 import {
   FormBag,
   InfoboxElement,
   TransformStepFnWithOptions,
   UISchemaElement,
+  WidgetMessage,
 } from '../../types';
 import { containsMessageKey, containsOneOfMessageKeys, loc } from '../../util';
 import { transactionMessageTransformer } from '../i18n';
@@ -45,22 +44,18 @@ const EXCLUDE_MESSAGE_STEPS = [
   IDX_STEP.REQUEST_ACTIVATION,
 ];
 
-interface IdxMessageWithTitle extends IdxMessage {
-  title?: string;
-}
-
-const overrideMessagesWithTitle = (msgs: IdxMessage[]): IdxMessageWithTitle[] => {
+const overrideMessagesWithTitle = (msgs: WidgetMessage[]): WidgetMessage[] => {
   // only transform the first message (only contains one in this scenario)
-  const [message]: IdxMessageWithTitle[] = msgs;
+  const [message]: WidgetMessage[] = msgs;
   if (containsOneOfMessageKeys(fipsComplianceKeys, msgs)) {
-    message.title = 'oie.okta_verify.enroll.force.upgrade.title';
+    message.title = loc('oie.okta_verify.enroll.force.upgrade.title', 'login');
   } else if (containsMessageKey(OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY, msgs)) {
-    message.title = 'oie.authenticator.app.method.push.enroll.enable.biometrics.title';
+    message.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
   }
   return msgs;
 };
 
-const transformCustomMessages = (formBag: FormBag, messages: IdxMessage[]): FormBag => {
+const transformCustomMessages = (formBag: FormBag, messages: WidgetMessage[]): FormBag => {
   const { uischema } = formBag;
   const formattedMessages = overrideMessagesWithTitle(messages);
 
@@ -69,8 +64,7 @@ const transformCustomMessages = (formBag: FormBag, messages: IdxMessage[]): Form
     type: 'InfoBox',
     options: {
       class: message.class ?? 'INFO',
-      message: message.message,
-      title: message.title && loc(message.title, 'login'),
+      message,
       dataSe: 'callout',
     },
   } as InfoboxElement));
@@ -88,9 +82,10 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
   }
 
   transactionMessageTransformer(transaction);
+  const displayedMessages: WidgetMessage[] = messages.map((message) => (message));
 
-  if (containsOneOfMessageKeys(CUSTOM_MESSAGE_KEYS, messages)) {
-    return transformCustomMessages(formBag, messages);
+  if (containsOneOfMessageKeys(CUSTOM_MESSAGE_KEYS, displayedMessages)) {
+    return transformCustomMessages(formBag, displayedMessages);
   }
 
   const shouldExcludeMessages = transaction?.nextStep?.name
@@ -101,13 +96,13 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
   }
 
   const messageElements: UISchemaElement[] = [];
-  messages.forEach((message) => {
+  displayedMessages.forEach((message) => {
     const messageClass = message.class ?? 'INFO';
     messageElements.push({
       type: 'InfoBox',
       options: {
         class: messageClass,
-        message: message.message,
+        message,
         dataSe: 'callout',
       },
     } as InfoboxElement);

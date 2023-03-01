@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import EnrollProfileViewPageObject from '../framework/page-objects/EnrollProfileViewPageObject';
@@ -244,8 +244,15 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
   // Verify error handling
   await enrollProfilePage.form.waitForErrorBox();
 
-  await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
-    .eql('Password requirements were not met');
+  // Field level error for v3 has been changed to display a list of failed requirements
+  // Prefixed with "Password requirements were not met"
+  const passwordErrorMessage = await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode');
+  await t.expect(passwordErrorMessage).contains('Password requirements were not met');
+  if (userVariables.v3) {
+    await t.expect(passwordErrorMessage).contains('A number');
+    await t.expect(passwordErrorMessage).contains('At least 8 characters');
+    await t.expect(passwordErrorMessage).contains('An uppercase letter'); 
+  }
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMock)('should show multiple errors when multiple fields are invalid, including invalid password', async t => {
@@ -267,9 +274,24 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
   // Verify error handling
   await enrollProfilePage.form.waitForErrorBox();
 
+  // Field level error for v3 has been changed to display a list of failed requirements
+  // Prefixed with "Password requirements were not met"
+  const passwordErrorMessage = await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode');
+  await t.expect(passwordErrorMessage).contains('Password requirements were not met');
+  if (userVariables.v3) {
+    await t.expect(passwordErrorMessage).contains('A number');
+    await t.expect(passwordErrorMessage).contains('At least 8 characters');
+    await t.expect(passwordErrorMessage).contains('An uppercase letter');
+
+    // v3 implements requirements as a client-side error so we must complete and resubmit for
+    // additional errors
+    await identityPage.fillPasswordField('invalid3A');
+    // v3 triggers field level validation on blur, so to prevent a mis-click we are triggering the blur
+    await t.pressKey('tab');
+    await enrollProfilePage.form.clickSaveButton('Sign Up');
+  }
+
   await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email', 0)).eql(true);
-  await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
-    .eql('Password requirements were not met');
 });
 
 // OKTA-585923 Custom IDPs not yet supported in gen 3 widget

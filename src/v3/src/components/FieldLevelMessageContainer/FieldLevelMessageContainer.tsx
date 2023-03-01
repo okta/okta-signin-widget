@@ -13,26 +13,31 @@
 import { Box, FormHelperText } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
+import { WidgetMessage } from '../../types';
 import { buildErrorMessageIds } from '../../util';
+import WidgetMessageContainer from '../WidgetMessageContainer';
 
-type FieldErrorProps = {
-  errors: string[];
+type FieldLevelMessageProps = {
+  messages?: WidgetMessage[];
   fieldName: string;
 };
 
-const FieldErrorContainer: FunctionComponent<FieldErrorProps> = (props) => {
-  const { fieldName, errors } = props;
+const FieldLevelMessageContainer: FunctionComponent<FieldLevelMessageProps> = (props) => {
+  const { fieldName, messages } = props;
 
   const buildElementId = (errorIndex: number): string => {
-    const errorIdStr = buildErrorMessageIds(errors, fieldName);
+    if (typeof messages === 'undefined') {
+      return `${fieldName}-error`;
+    }
+    const errorIdStr = buildErrorMessageIds(messages, fieldName);
     return errorIdStr.split(' ')[errorIndex];
   };
 
-  return (
+  return typeof messages !== 'undefined' ? (
     <Box>
-      {errors.map((error: string, index: number) => (
+      {messages.map((message: WidgetMessage, index: number) => (
         <FormHelperText
-          key={error}
+          key={message}
           id={buildElementId(index)}
           role="alert"
           data-se={buildElementId(index)}
@@ -40,11 +45,11 @@ const FieldErrorContainer: FunctionComponent<FieldErrorProps> = (props) => {
           // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
           sx={{ textAlign: 'start' }}
         >
-          {error}
+          <WidgetMessageContainer message={message} />
         </FormHelperText>
       ))}
     </Box>
-  );
+  ) : null;
 };
 
-export default FieldErrorContainer;
+export default FieldLevelMessageContainer;

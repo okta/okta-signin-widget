@@ -12,6 +12,7 @@
 
 export * from './browserUtils';
 export * from './buildErrorMessageIds';
+export * from './buildPasswordRequirementNotMetErrorList';
 export * from './clipboard';
 export * from './cookieUtils';
 export * from './environmentUtils';

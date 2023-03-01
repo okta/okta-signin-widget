@@ -55,8 +55,6 @@ export type WidgetMessage = Modify<IdxMessage, {
   description?: string;
 }>;
 
-export type IdxMessageWithName = IdxMessage & { name?: string; };
-
 export type AutoCompleteValue = 'username'
 | 'current-password'
 | 'one-time-code'
@@ -444,11 +442,9 @@ export interface SpinnerElement extends UISchemaElement {
 
 export interface InfoboxElement extends UISchemaElement {
   options: {
-    message: string;
+    message: WidgetMessage;
     class: string;
-    title?: string;
     dataSe?: string;
-    listOptions?: ListElement['options'];
   }
 }
 
@@ -514,7 +510,7 @@ export interface HiddenInputElement extends UISchemaElement {
   options: { name: string; value: string; };
 }
 
-type ValidateFunction = (data: FormBag['data']) => IdxMessageWithName[] | undefined;
+type ValidateFunction = (data: FormBag['data']) => WidgetMessage[] | undefined;
 
 export interface DataSchema {
   validate?: ValidateFunction;

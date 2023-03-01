@@ -43,7 +43,7 @@ describe('authenticator-enroll-security-question', () => {
     it('should send correct payload', async () => {
       const {
         authClient, user, findByTestId, findByText,
-      } = await setup({ mockResponse });
+      } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
       await findByText(/Set up security question/);
 

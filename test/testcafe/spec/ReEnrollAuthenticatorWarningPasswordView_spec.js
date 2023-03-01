@@ -109,7 +109,7 @@ test
     await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('This field cannot be left blank');
 
     // password must match
-    await passwordExpiryWarningPage.fillPassword('abcd');
+    await passwordExpiryWarningPage.fillPassword('abcdabcdA3@');
     await passwordExpiryWarningPage.fillConfirmPassword('1234');
     await passwordExpiryWarningPage.clickChangePasswordButton();
     await passwordExpiryWarningPage.waitForErrorBox();
@@ -134,8 +134,8 @@ test
     await checkA11y(t);
     const successPage = new SuccessPageObject(t);
 
-    await passwordExpiryWarningPage.fillPassword('abcdabcd');
-    await passwordExpiryWarningPage.fillConfirmPassword('abcdabcd');
+    await passwordExpiryWarningPage.fillPassword('abcdabcdA3@');
+    await passwordExpiryWarningPage.fillConfirmPassword('abcdabcdA3@');
     await passwordExpiryWarningPage.clickChangePasswordButton();
 
     const pageUrl = await successPage.getPageUrl();
@@ -147,7 +147,7 @@ test
     await t.expect(method).eql('post');
     const requestBody = JSON.parse(body);
     await t.expect(requestBody).eql({
-      credentials: { passcode: 'abcdabcd' },
+      credentials: { passcode: 'abcdabcdA3@' },
       stateHandle: '022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP'
     });
   });

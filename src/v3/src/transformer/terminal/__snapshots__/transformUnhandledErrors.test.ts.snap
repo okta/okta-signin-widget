@@ -13,7 +13,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "oform.error.unexpected",
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "oform.error.unexpected",
+            },
+            "message": "oform.error.unexpected",
+          },
         },
         "type": "InfoBox",
       },
@@ -36,7 +42,10 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "Custom error message",
+          "message": Object {
+            "class": "ERROR",
+            "message": "Custom error message",
+          },
         },
         "type": "InfoBox",
       },
@@ -59,7 +68,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "oform.error.unexpected",
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "oform.error.unexpected",
+            },
+            "message": "oform.error.unexpected",
+          },
         },
         "type": "InfoBox",
       },
@@ -82,7 +97,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "oie.configuration.error",
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "oie.configuration.error",
+            },
+            "message": "oie.configuration.error",
+          },
         },
         "type": "InfoBox",
       },
@@ -105,7 +126,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "oie.feature.disabled",
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "oie.feature.disabled",
+            },
+            "message": "oie.feature.disabled",
+          },
         },
         "type": "InfoBox",
       },
@@ -128,7 +155,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "oie.invalid.recovery.token",
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "oie.invalid.recovery.token",
+            },
+            "message": "oie.invalid.recovery.token",
+          },
         },
         "type": "InfoBox",
       },
