@@ -1,3 +1,4 @@
+import { userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const CODE_FIELD_NAME = 'credentials.passcode';
@@ -57,6 +58,9 @@ export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject 
   }
 
   getNextButton() {
+    if (userVariables.v3) {
+      return this.form.getButton('Next');
+    }
     return this.form.getElement('.google-authenticator-next');
   }
 }
