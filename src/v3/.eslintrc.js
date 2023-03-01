@@ -33,7 +33,7 @@ module.exports = {
     node: true,
   },
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2018,
     sourceType: 'module',
   },
   settings: {
@@ -91,7 +91,7 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './tsconfig.json',
-        ecmaVersion: 2019,
+        ecmaVersion: 2018,
         sourceType: 'module',
       },
       plugins: [
@@ -122,7 +122,7 @@ module.exports = {
       parserOptions: {
         project: './src/tsconfig.json',
         ecmaFeatures: { jsx: true },
-        ecmaVersion: 2019,
+        ecmaVersion: 2018,
         sourceType: 'module',
       },
       plugins: [
@@ -191,6 +191,57 @@ module.exports = {
           json: 'always',
         }],
 
+        'react/forbid-component-props': [
+          'error',
+          {
+            forbid: [
+              // prevent inline styles which cause CSP violations
+              { propName: 'style', message: 'Inline styles cause CSP issues' },
+              // ensure RTL friendly properties
+              { propName: 'margin', message: 'Use "marginBlock" and "marginInline" instead.' },
+              { propName: 'marginTop', message: 'Use "marginBlockStart" instead.' },
+              { propName: 'marginBottom', message: 'Use "marginBlockEnd" instead.' },
+              { propName: 'marginLeft', message: 'Use "marginInlineStart" instead.' },
+              { propName: 'marginRight', message: 'Use "marginInlineEnd" instead.' },
+              { propName: 'mt', message: 'Use "marginBlockStart" instead.' },
+              { propName: 'mb', message: 'Use "marginBlockEnd" instead.' },
+              { propName: 'ml', message: 'Use "marginInlineStart" instead.' },
+              { propName: 'mr', message: 'Use "marginInlineEnd" instead.' },
+
+              { propName: 'padding', message: 'Use "paddingBlock" and "paddingInline" instead.' },
+              { propName: 'paddingTop', message: 'Use "paddingBlockStart" instead.' },
+              { propName: 'paddingBottom', message: 'Use "paddingBlockEnd" instead.' },
+              { propName: 'paddingLeft', message: 'Use "paddingInlineStart" instead.' },
+              { propName: 'paddingRight', message: 'Use "paddingInlineEnd" instead.' },
+              { propName: 'pt', message: 'Use "paddingBlockStart" instead.' },
+              { propName: 'pb', message: 'Use "paddingBlockEnd" instead.' },
+              { propName: 'pl', message: 'Use "paddingInlineStart" instead.' },
+              { propName: 'pr', message: 'Use "paddingInlineEnd" instead.' },
+
+              { propName: 'borderTop', message: 'Use "borderBlockStart" instead.' },
+              { propName: 'borderBottom', message: 'Use "borderBlockEnd" instead.' },
+              { propName: 'borderLeft', message: 'Use "borderInlineStart" instead.' },
+              { propName: 'borderRight', message: 'Use "borderInlineEnd" instead.' },
+
+              { propName: 'borderTopLeftRadius', message: 'Use "borderStartStartRadius" instead.' },
+              { propName: 'borderTopRightRadius', message: 'Use "borderEndStartRadius" instead.' },
+              { propName: 'borderBottomLeftRadius', message: 'Use "borderEndStartRadius" instead.' },
+              { propName: 'borderBottomRightRadius', message: 'Use "borderEndEndRadius" instead.' },
+
+              { propName: 'top', message: 'Use "insetBlockStart" instead.' },
+              { propName: 'bottom', message: 'Use "insetBlockEnd" instead.' },
+              { propName: 'left', message: 'Use "insetInlineStart" instead.' },
+              { propName: 'right', message: 'Use "insetInlineEnd" instead.' },
+            ],
+          },
+        ],
+        'react/forbid-dom-props': ['error', {
+          forbid: [{
+            propName: 'style',
+            message: 'Inline styles cause CSP issues',
+          }],
+        }],
+
         // use @typescript-eslint/no-unused-vars
         'no-unused-vars': 'off',
 
@@ -230,7 +281,7 @@ module.exports = {
       parserOptions: {
         project: './src/tsconfig.json',
         ecmaFeatures: { jsx: true },
-        ecmaVersion: 2019,
+        ecmaVersion: 2018,
         sourceType: 'module',
       },
       plugins: [
