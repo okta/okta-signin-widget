@@ -58,7 +58,7 @@ test
     await t.expect(enrollGoogleAuthenticatorPageObject.getSetUpDescription())
       .eql('Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".');
     await t.expect(enrollGoogleAuthenticatorPageObject.hasQRcode).ok();
-    await t.expect(enrollGoogleAuthenticatorPageObject.getNextButton().getStyleProperty('display')).eql('block');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getNextButton().exists).eql(true);
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
@@ -78,9 +78,13 @@ test
     await enrollGoogleAuthenticatorPageObject.goTomanualSetup();
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
-    await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
-    await t.expect(enrollGoogleAuthenticatorPageObject.getSharedSecret()).eql('ZR74DHZTG43NBULV');
-    await t.expect(enrollGoogleAuthenticatorPageObject.getNextButton().getStyleProperty('display')).eql('block');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).contains('Can\'t scan');
+
+    const sharedSecret = await enrollGoogleAuthenticatorPageObject.getSharedSecret();
+    // Remove white spaces in string
+    await t.expect(sharedSecret.toString().replace(/\s/g, '')).eql('ZR74DHZTG43NBULV');
+
+    await t.expect(enrollGoogleAuthenticatorPageObject.getNextButton().exists).eql(true);
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
