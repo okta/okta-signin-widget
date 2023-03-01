@@ -1,9 +1,5 @@
 #!/bin/bash -x
 
-# Monolith version to test against
-# TODO: auto-select a recent stable version OKTA-561403
-export MONOLITH_BUILDVERSION=2023.01.0-begin-28-g616122a68e33
-
 export WIDGET_HOME="$(readlink -f "$(dirname "$0")/..")"
 export LOCAL_MONOLITH=true
 export CI=true
@@ -12,6 +8,7 @@ export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 export ORG_OIE_ENABLED=true
+export DOCKOLITH_BRANCH=${DOCKOLITH_BRANCH:-dockolith-1.6.0}
 
 set +e
 source $OKTA_HOME/$REPO/scripts/setup.sh

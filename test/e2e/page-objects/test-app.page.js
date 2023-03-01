@@ -98,12 +98,7 @@ class TestAppPage {
   }
 
   async assertWidget(displayed) {
-    if (displayed) {
-      await waitForLoad(this.widget);
-    }
-    await this.widget.then(el => el.isDisplayed()).then(isDisplayed => {
-      expect(isDisplayed).toBe(displayed);
-    });
+    await this.widget.waitForDisplayed({ reverse: !displayed });
   }
 
   async assertWidgetRemoved() {
