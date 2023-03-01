@@ -22,7 +22,7 @@ import {
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
-import FieldErrorContainer from '../FieldErrorContainer';
+import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
 
 const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
@@ -101,8 +101,8 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         }
       </MuiSelect>
       {hasErrors && (
-        <FieldErrorContainer
-          errors={errors}
+        <FieldLevelMessageContainer
+          messages={errors}
           fieldName={name}
         />
       )}

@@ -12,7 +12,6 @@
 
 import { PASSWORD_REQUIREMENTS_KEYS } from '../../constants';
 import {
-  AgeRequirements,
   ComplexityKeys,
   ComplexityRequirements,
   GetAgeFromMinutes,
@@ -41,19 +40,16 @@ export const getComplexityItems = (complexity?: ComplexityRequirements): ListIte
   }
 
   Object.entries(complexity).forEach(([key, value]) => {
-    if (key === 'excludeAttributes' && value.length > 0) {
-      if (value.includes('firstName')) {
-        items.push({
-          ruleKey: 'firstName',
-          label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity.excludeFirstName, 'login'),
+    if (key === 'excludeAttributes' && Array.isArray(value) && value.length > 0) {
+      value
+        .filter((rule) => ['username', 'firstName', 'lastName'].includes(rule))
+        .forEach((ruleAttr: string) => {
+          const ruleExclusionKey = `exclude${ruleAttr.charAt(0).toUpperCase() + ruleAttr.slice(1)}`;
+          items.push({
+            ruleKey: ruleAttr,
+            label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity[ruleExclusionKey], 'login'),
+          });
         });
-      }
-      if (value.includes('lastName')) {
-        items.push({
-          ruleKey: 'lastName',
-          label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity.excludeLastName, 'login'),
-        });
-      }
     } else if (key === 'minLength' && value > 0) {
       items.push({
         ruleKey: key,
@@ -71,33 +67,6 @@ export const getComplexityItems = (complexity?: ComplexityRequirements): ListIte
   return items;
 };
 
-export const getAgeItems = (age?: AgeRequirements): ListItem[] => {
-  const items: ListItem[] = [];
-
-  if (!age) {
-    return items;
-  }
-
-  if (age.historyCount > 0) {
-    items.push({
-      ruleKey: 'historyCount',
-      label: loc(PASSWORD_REQUIREMENTS_KEYS.age.historyCount, 'login', [age.historyCount]),
-    });
-  }
-
-  if (age.minAgeMinutes > 0) {
-    const { unitLabel, value } = getAgeFromMinutes(age.minAgeMinutes);
-
-    items.push({
-      ruleKey: 'minAgeMinutes',
-      label: loc(unitLabel, 'login', [value]),
-    });
-  }
-
-  return items;
-};
-
-// eslint-disable-next-line arrow-body-style
-export const buildPasswordRequirementListItems = (data: PasswordSettings): ListItem[] => {
-  return getComplexityItems(data.complexity);
-};
+export const buildPasswordRequirementListItems = (
+  data: PasswordSettings,
+): ListItem[] => getComplexityItems(data.complexity);

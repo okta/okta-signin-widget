@@ -10,12 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { WidgetMessage } from '../types';
+import FieldLevelMessageContainer from './FieldLevelMessageContainer';
 
-export const buildErrorMessageIds = (messages: WidgetMessage[], fieldName: string): string => {
-  if (messages.length === 1) {
-    return `${fieldName}-error`;
-  }
-  const ids = messages.map((_: WidgetMessage, index: number) => `${fieldName}-error-${index}`);
-  return ids.join(' ');
-};
+export default FieldLevelMessageContainer;

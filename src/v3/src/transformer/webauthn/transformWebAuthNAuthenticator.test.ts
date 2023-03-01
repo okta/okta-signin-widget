@@ -77,7 +77,11 @@ describe('WebAuthN Transformer Tests', () => {
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('oie.enroll.webauthn.title');
       expect((updatedFormBag.uischema.elements[1] as InfoboxElement).options.message)
-        .toBe('oie.webauthn.error.not.supported');
+        .toEqual({
+          class: 'ERROR',
+          i18n: { key: 'oie.webauthn.error.not.supported' },
+          message: 'oie.webauthn.error.not.supported',
+        });
     });
 
     it('should render title, description and button elements when WebAuthN API is available', () => {
@@ -207,7 +211,11 @@ describe('WebAuthN Transformer Tests', () => {
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('oie.verify.webauth.title');
       expect((updatedFormBag.uischema.elements[1] as InfoboxElement).options.message)
-        .toBe('oie.webauthn.error.not.supported');
+        .toEqual({
+          class: 'ERROR',
+          i18n: { key: 'oie.webauthn.error.not.supported' },
+          message: 'oie.webauthn.error.not.supported',
+        });
       expect(updatedFormBag.uischema.elements[2].type).toBe('Accordion');
       expect((updatedFormBag.uischema.elements[2] as AccordionLayout).elements.length).toBe(1);
       expect((updatedFormBag.uischema.elements[2] as AccordionLayout).elements[0].options.summary)

@@ -158,7 +158,7 @@ describe('identify-with-password', () => {
         findByTestId,
         queryByTestId,
         findByText,
-      } = await setup({ mockResponse });
+      } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
       const identifierEle = await findByTestId('identifier') as HTMLInputElement;
       await findByTestId('credentials.passcode') as HTMLInputElement;

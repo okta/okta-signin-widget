@@ -151,8 +151,8 @@ const excludeAttributes = (
   password: string,
   ruleVal: unknown,
   userInfo: UserInfo,
-): { [key: string]: boolean } => {
-  const ruleValidations: { [key: string]: boolean } = {};
+): PasswordValidation => {
+  const ruleValidations: PasswordValidation = {};
   if (Array.isArray(ruleVal)) {
     ruleVal.forEach((attr) => {
       const validatorFn = ValidatorFunctions[`exclude${attr.charAt(0).toUpperCase() + attr.slice(1)}Validator`];
@@ -172,7 +172,7 @@ export const validatePassword = (
 ): PasswordValidation => {
   let passwordValidations: PasswordValidation = {};
 
-  if (!settings || (!settings.complexity && !settings.age)) {
+  if (!settings?.complexity || Object.keys(settings.complexity).length === 0) {
     return passwordValidations;
   }
 

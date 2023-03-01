@@ -22,6 +22,7 @@ import { FunctionComponent } from 'preact';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
+import { Modify } from './jsonforms';
 import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
 
@@ -42,7 +43,17 @@ export type FormBag = {
   dataSchema: DataSchemaBag;
 };
 
-export type IdxMessageWithName = IdxMessage & { name?: string; };
+export type WidgetMessage = Modify<IdxMessage, {
+  class?: string;
+  i18n?: {
+    key: string;
+    params?: unknown[];
+  };
+  message?: string | WidgetMessage[];
+  title?: string;
+  name?: string;
+  description?: string;
+}>;
 
 export type AutoCompleteValue = 'username'
 | 'current-password'
@@ -430,11 +441,9 @@ export interface SpinnerElement extends UISchemaElement {
 
 export interface InfoboxElement extends UISchemaElement {
   options: {
-    message: string;
+    message: WidgetMessage;
     class: string;
-    title?: string;
     dataSe?: string;
-    listOptions?: ListElement['options'];
   }
 }
 
@@ -500,7 +509,7 @@ export interface HiddenInputElement extends UISchemaElement {
   options: { name: string; value: string; };
 }
 
-type ValidateFunction = (data: FormBag['data']) => IdxMessageWithName[] | undefined;
+type ValidateFunction = (data: FormBag['data']) => WidgetMessage[] | undefined;
 
 export interface DataSchema {
   validate?: ValidateFunction;

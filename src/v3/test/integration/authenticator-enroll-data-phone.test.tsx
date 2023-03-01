@@ -52,7 +52,7 @@ describe('authenticator-enroll-data-phone', () => {
   it('should send correct payload when selecting sms', async () => {
     const {
       authClient, user, findByTestId, findByText,
-    } = await setup({ mockResponse });
+    } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     await findByText(/Set up phone authentication/);
     await findByText(/Enter your phone number to receive a verification code via SMS./);

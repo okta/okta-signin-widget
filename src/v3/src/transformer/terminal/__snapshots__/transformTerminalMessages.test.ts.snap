@@ -45,8 +45,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "oie.tooManyRequests",
-          "title": undefined,
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "tooManyRequests",
+            },
+            "message": "oie.tooManyRequests",
+          },
         },
         "type": "InfoBox",
       },
@@ -74,8 +79,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "idx.operation.cancelled.on.other.device",
-          "title": undefined,
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "idx.operation.cancelled.on.other.device",
+            },
+            "message": "idx.operation.cancelled.on.other.device",
+          },
         },
         "type": "InfoBox",
       },
@@ -110,8 +120,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "idx.session.expired",
-          "title": undefined,
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "idx.session.expired",
+            },
+            "message": "idx.session.expired",
+          },
         },
         "type": "InfoBox",
       },
@@ -139,8 +154,14 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "core.auth.factor.signedNonce.error.invalidDevice",
-          "title": "user.fail.verifyIdentity",
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "core.auth.factor.signedNonce.error.invalidDevice",
+            },
+            "message": "core.auth.factor.signedNonce.error.invalidDevice",
+            "title": "user.fail.verifyIdentity",
+          },
         },
         "type": "InfoBox",
       },
@@ -168,8 +189,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "idx.return.link.expired",
-          "title": undefined,
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "idx.return.link.expired",
+            },
+            "message": "idx.return.link.expired",
+          },
         },
         "type": "InfoBox",
       },
@@ -196,7 +222,13 @@ Object {
       Object {
         "options": Object {
           "class": "ERROR",
-          "message": "oform.error.unexpected",
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "oform.error.unexpected",
+            },
+            "message": "oform.error.unexpected",
+          },
         },
         "type": "InfoBox",
       },
@@ -224,8 +256,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "Test error message",
-          "title": undefined,
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "some.test.key",
+            },
+            "message": "Test error message",
+          },
         },
         "type": "InfoBox",
       },

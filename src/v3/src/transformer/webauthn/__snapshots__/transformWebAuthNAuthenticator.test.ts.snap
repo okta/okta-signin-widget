@@ -24,7 +24,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "oie.webauthn.error.not.supported",
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "oie.webauthn.error.not.supported",
+            },
+            "message": "oie.webauthn.error.not.supported",
+          },
         },
         "type": "InfoBox",
       },
@@ -36,6 +42,7 @@ Object {
               "content": Object {
                 "elements": Array [
                   Object {
+                    "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.title",
                       "level": 6,
@@ -44,6 +51,7 @@ Object {
                     "type": "Heading",
                   },
                   Object {
+                    "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description1",
                     },
@@ -56,6 +64,7 @@ Object {
                     "type": "Description",
                   },
                   Object {
+                    "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.security.key.title",
                       "level": 6,
@@ -129,6 +138,7 @@ Object {
               "content": Object {
                 "elements": Array [
                   Object {
+                    "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.title",
                       "level": 6,
@@ -137,6 +147,7 @@ Object {
                     "type": "Heading",
                   },
                   Object {
+                    "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description1",
                     },
@@ -149,6 +160,7 @@ Object {
                     "type": "Description",
                   },
                   Object {
+                    "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.security.key.title",
                       "level": 6,
@@ -300,6 +312,7 @@ Object {
               "content": Object {
                 "elements": Array [
                   Object {
+                    "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.title",
                       "level": 6,
@@ -308,6 +321,7 @@ Object {
                     "type": "Heading",
                   },
                   Object {
+                    "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.biometric.authenticator.description1",
                     },
@@ -320,6 +334,7 @@ Object {
                     "type": "Description",
                   },
                   Object {
+                    "noMargin": true,
                     "options": Object {
                       "content": "oie.verify.webauthn.cant.verify.security.key.title",
                       "level": 6,
@@ -374,7 +389,13 @@ Object {
         "options": Object {
           "class": "ERROR",
           "dataSe": "callout",
-          "message": "oie.webauthn.error.not.supported",
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "oie.webauthn.error.not.supported",
+            },
+            "message": "oie.webauthn.error.not.supported",
+          },
         },
         "type": "InfoBox",
       },

@@ -65,7 +65,7 @@ test
     await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('This field cannot be left blank');
 
     // password must match
-    await resetPasswordPage.fillPassword('abcd');
+    await resetPasswordPage.fillPassword('abcdabcdA3@');
     await resetPasswordPage.fillConfirmPassword('1234');
     await resetPasswordPage.clickResetPasswordButton();
     await resetPasswordPage.waitForErrorBox();
@@ -88,8 +88,8 @@ test
     const resetPasswordPage = await setup(t);
     const successPage = new SuccessPageObject(t);
 
-    await resetPasswordPage.fillPassword('abcdabcd');
-    await resetPasswordPage.fillConfirmPassword('abcdabcd');
+    await resetPasswordPage.fillPassword('abcdabcdA3@');
+    await resetPasswordPage.fillConfirmPassword('abcdabcdA3@');
     await resetPasswordPage.clickResetPasswordButton();
 
     const pageUrl = await successPage.getPageUrl();
@@ -104,7 +104,7 @@ test
     await t.expect(requestBody).eql({
       'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
       'credentials': {
-        'passcode': 'abcdabcd'
+        'passcode': 'abcdabcdA3@'
       },
     });
   });

@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage } from '@okta/okta-auth-js';
-
 import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
@@ -20,30 +18,23 @@ import {
 import {
   DescriptionElement,
   InfoboxElement,
-  Modify,
   TerminalKeyTransformer,
   UISchemaLayout,
+  WidgetMessage,
 } from '../../types';
-import { containsMessageKey, containsMessageKeyPrefix, loc } from '../../util';
+import {
+  containsMessageKey, containsMessageKeyPrefix, containsOneOfMessageKeys, loc,
+} from '../../util';
 import { transactionMessageTransformer } from '../i18n';
 import { transformEmailMagicLinkOTPOnly } from './transformEmailMagicLinkOTPOnlyElements';
 
-type ModifiedIdxMessage = Modify<IdxMessage, {
-  class?: string;
-  i18n?: {
-    key: string;
-    params?: unknown[];
-  };
-  title?: string;
-}>;
-
-const appendMessageElements = (uischema: UISchemaLayout, messages: ModifiedIdxMessage[]): void => {
+const appendMessageElements = (uischema: UISchemaLayout, messages: WidgetMessage[]): void => {
   messages.forEach((message) => {
     if (!message.class || message.class === 'INFO') {
       const messageElement: DescriptionElement = {
         type: 'Description',
         contentType: 'subtitle',
-        options: { content: message.message },
+        options: { content: (message.message! as string) },
       };
       uischema.elements.push(messageElement);
     } else {
@@ -51,10 +42,9 @@ const appendMessageElements = (uischema: UISchemaLayout, messages: ModifiedIdxMe
       const infoBoxElement: InfoboxElement = {
         type: 'InfoBox',
         options: {
-          message: message.message,
+          message,
           class: messageClass,
           dataSe: 'callout',
-          title: message.title,
         },
       };
       uischema.elements.push(infoBoxElement);
@@ -66,30 +56,35 @@ const appendBiometricsErrorBox = (
   uischema: UISchemaLayout,
   isBiometricsRequiredDesktop = false,
 ) => {
-  const bulletPoints = [
+  const listMessages: WidgetMessage[] = [
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point1', 'login'),
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point2', 'login'),
     loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point3', 'login'),
-  ];
+  ].map((msg: string) => ({ class: 'INFO', message: msg }));
 
   // Add an additional bullet point for desktop devices
   if (isBiometricsRequiredDesktop) {
-    bulletPoints.push(
-      loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point4', 'login'),
-    );
+    listMessages.push({
+      class: 'INFO',
+      message: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.point4', 'login'),
+    });
   }
 
   uischema.elements.push({
     type: 'InfoBox',
     options: {
-      message: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description', 'login'),
-      title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'),
       class: 'ERROR',
-      contentType: 'string',
       dataSe: 'callout',
       listOptions: {
         type: 'ul',
-        items: bulletPoints,
+        items: listMessages,
+      },
+      message: {
+        type: 'list',
+        class: 'ERROR',
+        title: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.title', 'login'),
+        description: loc('oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.description', 'login'),
+        message: listMessages,
       },
     },
   } as InfoboxElement);
@@ -102,7 +97,11 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
     uischema.elements.push({
       type: 'InfoBox',
       options: {
-        message: loc('oform.error.unexpected', 'login'),
+        message: {
+          class: 'ERROR',
+          message: loc('oform.error.unexpected', 'login'),
+          i18n: { key: 'oform.error.unexpected' },
+        },
         class: 'ERROR',
       },
     } as InfoboxElement);
@@ -114,7 +113,11 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
       uischema.elements.push({
         type: 'InfoBox',
         options: {
-          message: loc('error.unsupported.response', 'login'),
+          message: {
+            class: 'ERROR',
+            message: loc('error.unsupported.response', 'login'),
+            i18n: { key: 'error.unsupported.response' },
+          },
           class: 'ERROR',
         },
       } as InfoboxElement);
@@ -124,37 +127,42 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
 
   transactionMessageTransformer(transaction);
 
-  const displayedMessages: ModifiedIdxMessage[] = messages;
+  const displayedMessages: WidgetMessage[] = messages.map((message) => (message));
 
-  if (containsMessageKey(TERMINAL_KEY.OPERATION_CANCELED_ON_OTHER_DEVICE_KEY, messages)) {
+  if (containsMessageKey(TERMINAL_KEY.OPERATION_CANCELED_ON_OTHER_DEVICE_KEY, displayedMessages)) {
     displayedMessages[0].message = loc('idx.operation.cancelled.on.other.device', 'login');
     displayedMessages.push({ message: loc('oie.consent.enduser.deny.description', 'login') });
-  } else if (containsMessageKey(TERMINAL_KEY.UNLOCK_ACCOUNT_KEY, messages)) {
+  } else if (containsMessageKey(TERMINAL_KEY.UNLOCK_ACCOUNT_KEY, displayedMessages)) {
     displayedMessages[0].message = loc(TERMINAL_KEY.UNLOCK_ACCOUNT_KEY, 'login');
-  } else if (containsMessageKey(TERMINAL_KEY.RETURN_TO_ORIGINAL_TAB_KEY, messages)) {
+  } else if (containsMessageKey(TERMINAL_KEY.RETURN_TO_ORIGINAL_TAB_KEY, displayedMessages)) {
     displayedMessages[0].message = loc('oie.consent.enduser.email.allow.description', 'login');
     displayedMessages.push({ message: loc('oie.return.to.original.tab', 'login') });
-  } else if (containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, messages)) {
+  } else if (containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, displayedMessages)) {
     displayedMessages[0].message = loc('oie.tooManyRequests', 'login');
-  } else if (containsMessageKey(TERMINAL_KEY.RETURN_LINK_EXPIRED_KEY, messages)) {
+  } else if (containsMessageKey(TERMINAL_KEY.RETURN_LINK_EXPIRED_KEY, displayedMessages)) {
     displayedMessages[0].class = 'ERROR';
-  } else if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
+  } else if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, displayedMessages)) {
     displayedMessages[0].class = 'ERROR';
     displayedMessages[0].message = loc(TERMINAL_KEY.SESSION_EXPIRED, 'login');
-  } else if (containsMessageKeyPrefix('core.auth.factor.signedNonce.error', messages)) {
+  } else if (containsMessageKeyPrefix('core.auth.factor.signedNonce.error', displayedMessages)) {
     // custom title for signed nonce errors
     displayedMessages[0].title = loc('user.fail.verifyIdentity', 'login');
-  } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, messages)) {
+  } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, displayedMessages)) {
     return transformEmailMagicLinkOTPOnly(transaction, formBag);
-  } else if (containsMessageKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE, messages)) {
-    appendBiometricsErrorBox(uischema);
-    return formBag;
-  } else if (containsMessageKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP, messages)) {
-    appendBiometricsErrorBox(uischema, true);
+  } else if (
+    containsOneOfMessageKeys(
+      [OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE, OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP],
+      displayedMessages,
+    )
+  ) {
+    appendBiometricsErrorBox(
+      uischema,
+      containsMessageKey(OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP, displayedMessages),
+    );
     return formBag;
   }
 
-  appendMessageElements(uischema, messages);
+  appendMessageElements(uischema, displayedMessages);
 
   return formBag;
 };
