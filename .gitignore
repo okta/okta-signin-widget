@@ -31,5 +31,3 @@ package-lock.json
 # Test dist package
 node_modules2
 /test/package/**/yarn.lock
-
-/src/g3/widgetrc.ts
