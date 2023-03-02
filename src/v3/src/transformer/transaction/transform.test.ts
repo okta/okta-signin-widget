@@ -38,7 +38,9 @@ describe('Transaction Data transformer tests', () => {
     }];
     // @ts-expect-error OKTA-565392 type missing from NextStep type
     transaction.nextStep = { href: 'https://okta1.com/mtls/idp', name: IDX_STEP.REDIRECT_IDP, type: PIV_TYPE };
-    const options = { transaction, widgetProps, step: '' };
+    const options = {
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    };
     transformTransactionData(options)(formBag);
 
     expect(options.transaction.neededToProceed[0].name).toBe(IDX_STEP.PIV_IDP);
@@ -52,7 +54,13 @@ describe('Transaction Data transformer tests', () => {
       { name: IDX_STEP.REDIRECT_IDP, type: PIV_TYPE },
     ];
     transaction.nextStep = { name: IDX_STEP.IDENTIFY };
-    const options = { transaction, widgetProps, step: IDX_STEP.IDENTIFY };
+    const options = {
+      transaction,
+      widgetProps,
+      step: IDX_STEP.IDENTIFY,
+      isClientTransaction: false,
+      setMessage: () => {},
+    };
     transformTransactionData(options)(formBag);
 
     expect(options.transaction.neededToProceed[1].name).toBe(IDX_STEP.PIV_IDP);
@@ -63,7 +71,13 @@ describe('Transaction Data transformer tests', () => {
   it('should not update remediation name when PIV does not exist in remediation', async () => {
     transaction.neededToProceed = [{ name: IDX_STEP.IDENTIFY }];
     transaction.nextStep = { name: IDX_STEP.IDENTIFY };
-    const options = { transaction, widgetProps, step: IDX_STEP.IDENTIFY };
+    const options = {
+      transaction,
+      widgetProps,
+      step: IDX_STEP.IDENTIFY,
+      isClientTransaction: false,
+      setMessage: () => {},
+    };
     transformTransactionData(options)(formBag);
 
     expect(options.transaction.neededToProceed[0].name).toBe(IDX_STEP.IDENTIFY);

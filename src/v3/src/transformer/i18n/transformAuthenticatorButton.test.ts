@@ -58,9 +58,9 @@ describe('Authenticator Button transformer tests', () => {
       name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
       relatesTo: { type: '', value: { key: AUTHENTICATOR_KEY.EMAIL } as IdxAuthenticator },
     };
-    const updatedFormBag = transformAuthenticatorButton(
-      { transaction, widgetProps, step: '' },
-    )(formBag);
+    const updatedFormBag = transformAuthenticatorButton({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(((updatedFormBag.uischema.elements[1] as AuthenticatorButtonListElement)
@@ -96,9 +96,9 @@ describe('Authenticator Button transformer tests', () => {
       } as AuthenticatorButtonListElement,
       { type: 'Button', options: { type: ButtonType.SUBMIT } } as ButtonElement,
     ];
-    const updatedFormBag = transformAuthenticatorButton(
-      { transaction, widgetProps, step: '' },
-    )(formBag);
+    const updatedFormBag = transformAuthenticatorButton({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(((updatedFormBag.uischema.elements[1] as AuthenticatorButtonListElement)
@@ -135,9 +135,9 @@ describe('Authenticator Button transformer tests', () => {
       } as AuthenticatorButtonListElement,
       { type: 'Button', options: { type: ButtonType.SUBMIT } } as ButtonElement,
     ];
-    const updatedFormBag = transformAuthenticatorButton(
-      { transaction, widgetProps, step: '' },
-    )(formBag);
+    const updatedFormBag = transformAuthenticatorButton({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(((updatedFormBag.uischema.elements[1] as AuthenticatorButtonListElement)

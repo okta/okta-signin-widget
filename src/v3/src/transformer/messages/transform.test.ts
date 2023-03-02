@@ -26,7 +26,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
   });
 
   it('should not update formBag when no messages exist in the transaction', () => {
-    expect(transformMessages({ transaction, widgetProps, step: '' })(formBag)).toEqual(formBag);
+    expect(transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag)).toEqual(formBag);
   });
 
   it('should add simple message to formBag when messages in transaction are not to be customized', () => {
@@ -37,7 +39,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: 'some.standard.key' },
       },
     ];
-    const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
       .toBe('ERROR');
@@ -57,7 +61,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: OV_OVERRIDE_MESSAGE_KEY.OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS },
       },
     ];
-    const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
@@ -79,7 +85,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY },
       },
     ];
-    const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
@@ -101,7 +109,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: OV_NMC_FORCE_UPGRAGE_SERVER_KEY },
       },
     ];
-    const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
@@ -123,7 +133,9 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: OV_UV_ENABLE_BIOMETRIC_SERVER_KEY },
       },
     ];
-    const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
