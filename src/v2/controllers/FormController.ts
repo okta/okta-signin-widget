@@ -328,7 +328,6 @@ export default Controller.extend({
       //      - FORGOT_PASSWORD
       //      - UNLOCK_ACCOUNT
       const operation = FORM_NAME_TO_OPERATION_MAP[formName];
-      console.log('operation:', operation);
       modelJSON.identifier = this.settings.transformUsername(modelJSON.identifier, operation);
     }
     return modelJSON;
