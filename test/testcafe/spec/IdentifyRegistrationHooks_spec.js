@@ -20,7 +20,8 @@ const logger = RequestLogger(
 );
 
 
-fixture('Registration Hooks');
+fixture('Registration Hooks')
+  .meta('v3', true);
 
 async function setup(t) {
   const registrationPage = new RegistrationPageObject(t);
