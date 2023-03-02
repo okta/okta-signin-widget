@@ -1,15 +1,18 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
+import { oktaDashboardContent } from '../framework/shared';
 import { renderWidget } from '../framework/shared';
 import SelectAuthenticatorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrOktaVerifyOnlyMethodsWithoutDeviceKnown
-from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known';
+  from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known';
+import xhrOktaVerifyOnlyMethodsWithDeviceKnown
+  from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-with-device-known';
 import xhrOktaVerifyPushOnlyWithoutAutoChallenge
-from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-okta-verify-push-only-without-autochallenge';
+  from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-okta-verify-push-only-without-autochallenge';
 import xhrChallengeTotpOktaVerifyOnly
-from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp-onlyOV';
+  from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp-onlyOV';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const FORM_TITLE = 'Verify it\'s you with a security method';
@@ -34,7 +37,9 @@ const mockChallengeOVSelectMethod = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrOktaVerifyOnlyMethodsWithoutDeviceKnown)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const mockChallengeOVTotpMethod = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -42,16 +47,16 @@ const mockChallengeOVTotpMethod = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrChallengeTotpOktaVerifyOnly)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
-
-const xhrOktaVerifyOnlyMethodsWithDeviceKnown = JSON.parse(JSON.stringify((xhrOktaVerifyOnlyMethodsWithoutDeviceKnown)));
-xhrOktaVerifyOnlyMethodsWithDeviceKnown.currentAuthenticator.value.deviceKnown = true;
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const mockChallengeOVOnlyMethodsWithDeviceKnown = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrOktaVerifyOnlyMethodsWithDeviceKnown);
 
-fixture('Select Method screen for Okta verify');
+fixture('Select Method screen for Okta verify')
+  .meta('v3', true);
 
 async function verifyFactorByIndex(t, selectAuthenticatorPage, index, expectedLabel) {
   await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(index)).eql(expectedLabel);
@@ -178,7 +183,7 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
   // The response contains the same select-authenticator-authenticate form as other views
   // So we need to be sure we don't display a switch authenticator link in this page specifically
   // since this page itself is a select authenticator page
-  await t.expect(await selectAuthenticatorPage.switchAuthenticatorLinkExists()).notOk();
+  await t.expect(await selectAuthenticatorPage.verifyWithSomethingElseLinkExists()).notOk();
 
   await selectAuthenticatorPage.selectFactorByIndex(2);
   const challengeOktaVerifyTOTPPageObject = new ChallengeOktaVerifyTotpPageObject(t);
@@ -187,7 +192,7 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
 
   // Once we select a method and move to a challenge view, we should see the link to switch authenticator
   // Since there are 3 possible choices (OV FastPass, OV Push, OV TOTP)
-  await t.expect(await challengeOktaVerifyTOTPPageObject.switchAuthenticatorLinkExists()).ok();
+  await t.expect(await challengeOktaVerifyTOTPPageObject.verifyWithSomethingElseLinkExists()).ok();
   await t.expect(challengeOktaVerifyTOTPPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
 
   // verify sign out link
@@ -195,14 +200,15 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
   await t.expect(challengeOktaVerifyTOTPPageObject.getSignoutLinkText()).eql('Back to sign in');
 
   await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '1234');
-  await challengeOktaVerifyTOTPPageObject.clickNextButton();
+  await challengeOktaVerifyTOTPPageObject.clickVerifyButton();
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test.requestHooks(mockChallengeOVTotpMethod)('should show custom factor page link', async t => {
+// Help links are not implemented in v3
+test.meta('v3', false).requestHooks(mockChallengeOVTotpMethod)('should show custom factor page link', async t => {
   const selectAuthenticatorPage = await setup(t);
   await checkA11y(t);
 

@@ -77,7 +77,7 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able 
   const deviceCodeActivatePageObject = await setup(t);
   await checkA11y(t);
 
-  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Activate your device');
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Activate your device');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
   await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
@@ -117,7 +117,7 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able 
   await t.expect(reqIdentify.url).eql('http://localhost:3000/idp/idx/identify');
 
   // expect device activated screen
-  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Device activated');
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device activated');
   await t.expect(deviceCodeActivatePageObject.getTerminalContent()).eql('Follow the instructions on your device for next steps');
   await t.expect(deviceCodeActivatePageObject.isTerminalSuccessIconPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
@@ -138,7 +138,7 @@ test.requestHooks(deviceCodeConsentDeniedMock)('should be able to get device not
   await deviceCodeActivatePageObject.clickNextButton();
 
   // expect device not activated screen
-  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Device not activated');
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device not activated');
   await t.expect(deviceCodeActivatePageObject.getTerminalContent()).contains('Your device cannot be activated because you did not allow access');
   await t.expect(deviceCodeActivatePageObject.isTerminalErrorIconPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
@@ -159,7 +159,7 @@ test.requestHooks(deviceCodeInternalErrorMock)('should be able to get device not
   await deviceCodeActivatePageObject.clickNextButton();
 
   // expect device not activated screen
-  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Device not activated');
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device not activated');
   await t.expect(deviceCodeActivatePageObject.getTerminalContent()).contains('Your device cannot be activated because of an internal error');
   await t.expect(deviceCodeActivatePageObject.isTerminalErrorIconPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
@@ -212,7 +212,7 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessWithUserCodeMock)('sho
   const deviceCodeActivatePageObject = await setup(t);
   await checkA11y(t);
 
-  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Activate your device');
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Activate your device');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
   await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
@@ -254,7 +254,7 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessWithUserCodeMock)('sho
   await t.expect(reqIdentify.url).eql('http://localhost:3000/idp/idx/identify');
 
   // expect device activated screen
-  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Device activated');
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device activated');
   await t.expect(deviceCodeActivatePageObject.getTerminalContent()).eql('Follow the instructions on your device for next steps');
   await t.expect(deviceCodeActivatePageObject.isTerminalSuccessIconPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);

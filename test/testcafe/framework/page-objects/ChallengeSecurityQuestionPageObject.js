@@ -16,7 +16,7 @@ export default class ChallengeSecurityQuestionPageObject extends BasePageObject 
   }
 
   clickVerifyButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickButton('Verify');
   }
 
 }

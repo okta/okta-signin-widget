@@ -45,4 +45,23 @@ export default class EnrollProfileViewPageObject extends BasePageObject {
     return Selector(CUSTOM_IDP_BUTTON).nth(index).textContent;
   }
 
+  signUpButtonExists() {
+    return this.form.getButton('Sign Up').exists;
+  }
+
+  submitButtonExists() {
+    return this.form.getButton('Submit').exists;
+  }
+
+  formFieldExistsByLabel(label) {
+    return this.form.fieldByLabelExists(label);
+  }
+
+  dropDownExistsByLabel(label) {
+    return this.form.fieldByLabelExists(label, { selector: 'select' });
+  }
+
+  hasText(text) {
+    return this.form.getByText(text).exists;
+  }
 }

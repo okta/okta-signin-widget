@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransformOktaVerifyEnrollChannel Tests should append email input field to elements list when email is the selectedChannel 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.enroll.channel.email.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "email",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.enroll.okta_verify.channel.email.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.setupLink",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.switch.channel.link.text",
+          "contentClassname": "switch-channel-link",
+          "step": "select-enrollment-channel",
+          "stepToRender": "select-enrollment-channel",
+        },
+        "type": "TextWithActionLink",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`TransformOktaVerifyEnrollChannel Tests should append phone input field to elements list when sms is the selectedChannel 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.enroll.channel.sms.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "phoneNumber",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.enroll.okta_verify.channel.sms.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.setupLink",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.switch.channel.link.text",
+          "contentClassname": "switch-channel-link",
+          "step": "select-enrollment-channel",
+          "stepToRender": "select-enrollment-channel",
+        },
+        "type": "TextWithActionLink",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

@@ -5,6 +5,8 @@ import enrollProfileNewWithRecaptcha from '../../../playground/mocks/data/idp/id
 import enrollProfileNewWithHCaptcha from '../../../playground/mocks/data/idp/idx/enroll-profile-new-with-hcaptcha';
 import enrollProfileFinish from '../../../playground/mocks/data/idp/idx/terminal-registration';
 
+const BEACON_CLASS = 'mfa-okta-email';
+
 const mockWithReCaptcha = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(enrollProfileNewWithRecaptcha)
@@ -78,9 +80,10 @@ test.requestHooks(mockWithHCaptcha)('should be able to create account with hCapt
   // Wait for the hCaptcha container to appear in the DOM and become visible.
   await t.expect(Selector('#captcha-container').find('iframe').exists).ok();
   await registrationPage.clickRegisterButton();
+  await t.expect(registrationPage.getBeaconClass()).contains(BEACON_CLASS);
 
   // show registration success terminal view
-  await t.expect(registrationPage.getTerminalContent()).eql('To finish signing in, check your email.');
+  await t.expect(registrationPage.terminalMessageExist('To finish signing in, check your email.')).eql(true);
   await checkConsoleMessages([
     'ready',
     'afterRender',

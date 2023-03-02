@@ -11,7 +11,8 @@ const userNotAssignedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrErrorWithFailureRedirect);
 
-fixture('Failure with redirect');
+fixture('Failure with redirect')
+  .meta('v3', true);
 
 test.requestHooks(userNotAssignedMock)('generic case: redirects', async t => {
   const terminalPage = new TerminalPageObject(t);
@@ -31,8 +32,9 @@ test.requestHooks(userNotAssignedMock)('oauth: shows the error message', async t
       pkce: true // required for interaction code flow
     }
   });
+  await t.expect(terminalPage.formExists()).eql(true);
   await terminalPage.waitForErrorBox();
-  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('You are not allowed to access this app. To request access, contact an admin.');
+  await t.expect(terminalPage.getErrorBoxText()).eql('You are not allowed to access this app. To request access, contact an admin.');
 });
 
 test.requestHooks(userNotAssignedMock)('oauth: will redirect if `redirect === "always"`', async t => {

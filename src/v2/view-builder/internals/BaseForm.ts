@@ -84,7 +84,9 @@ export default Form.extend({
      * Rerender would clear infoContainer or views classes can clear it explicitly.
      */
     const infoContainer= '<div class=\'o-form-info-container\'></div>';
-    this.$el.find('.o-form-error-container').before(infoContainer);
+    this.$el.find('.o-form-error-container')
+      .attr('role', 'alert')
+      .before(infoContainer);
 
     this.addIdentifier();
   },

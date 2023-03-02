@@ -55,7 +55,7 @@ test
       methodType: 'otp',
     });
 
-    const pageTitle = challengeGoogleAuthenticatorPageObject.getPageTitle();
+    const pageTitle = challengeGoogleAuthenticatorPageObject.getFormTitle();
     const saveBtnText = challengeGoogleAuthenticatorPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Google Authenticator');

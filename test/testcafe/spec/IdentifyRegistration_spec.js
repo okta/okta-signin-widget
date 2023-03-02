@@ -47,7 +47,8 @@ const logger = RequestLogger(
   }
 );
 
-fixture('Registration');
+fixture('Registration')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -77,12 +78,12 @@ test.requestHooks(mock)('should have editable fields and have account label', as
   await verifyRegistrationPageEvent();
 
   /* i18n tests */
-  await t.expect(registrationPage.getHaveAccountLabel()).eql('Already have an account?');
+  await t.expect(registrationPage.alreadyHaveAccountExists()).eql(true);
   await t.expect(await registrationPage.signoutLinkExists()).notOk();
 
-  await t.expect(await registrationPage.getFormFieldLabel('userProfile.email')).eql('Email');
-  await t.expect(await registrationPage.getFormFieldLabel('userProfile.firstName')).eql('First name');
-  await t.expect(await registrationPage.getFormFieldLabel('userProfile.lastName')).eql('Last name');
+  await t.expect(await registrationPage.form.fieldByLabelExists('Email')).eql(true);
+  await t.expect(await registrationPage.form.fieldByLabelExists('First name')).eql(true);
+  await t.expect(await registrationPage.form.fieldByLabelExists('Last name')).eql(true);
 
   await registrationPage.fillFirstNameField('Test First Name');
   await registrationPage.fillLastNameField('Test Last Name');
@@ -112,7 +113,9 @@ test.requestHooks(mock)('should show errors if required fields are empty', async
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
 });
 
-test.requestHooks(mock)('should show errors after empty required fields are focused out', async t => {
+// In v3 UX made a conscious decision to remove the onBlur field validation trigger because it causes unnecessary noise
+// in the application, so we are leaving this disabled for v3.
+test.meta('v3', false).requestHooks(mock)('should show errors after empty required fields are focused out', async t => {
   const registrationPage = await setup(t);
   await checkA11y(t);
   await verifyRegistrationPageEvent();
@@ -145,9 +148,9 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
 
   await registrationPage.waitForEmailError();
 
-  await t.expect(registrationPage.hasEmailError()).eql(true);
-  await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
-  await t.expect(registrationPage.getEmailErrorMessage()).contains('\'Email\' must be in the form of an email address');
+  await t.expect(registrationPage.hasEmailError(0)).eql(true);
+  await t.expect(registrationPage.hasEmailErrorMessage(0)).eql(true);
+  await t.expect(registrationPage.getEmailErrorMessage(0)).contains('\'Email\' must be in the form of an email address');
 
   const { log } = await t.getBrowserConsoleMessages();
   await t.expect(log.length).eql(8);
@@ -195,9 +198,7 @@ test.requestHooks(mock)('should show terminal screen after registration', async 
   await registrationPage.clickRegisterButton();
 
   // show successful terminal view and fires after render event
-  await t.expect(registrationPage.getTerminalContent()).eql(
-    'To finish signing in, check your email.'
-  );
+  await t.expect(registrationPage.terminalMessageExist('To finish signing in, check your email.')).eql(true);
 
   await checkConsoleMessages([
     'ready',
@@ -243,7 +244,7 @@ test.requestHooks(mock)('should be able to create account', async t => {
   await registrationPage.clickRegisterButton();
 
   // show registration success terminal view
-  await t.expect(registrationPage.getTerminalContent()).eql('To finish signing in, check your email.');
+  await t.expect(registrationPage.terminalMessageExist('To finish signing in, check your email.')).eql(true);
   await checkConsoleMessages([
     'ready',
     'afterRender',
@@ -307,7 +308,7 @@ test.requestHooks(mock)('should call settings.registration.click on "Sign Up" cl
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
 
-  await t.expect(identityPage.getPageTitle()).eql('Sign In');
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
   await rerenderWidget({
     registration: {
       // eslint-disable-next-line
@@ -321,7 +322,7 @@ test.requestHooks(mock)('should call settings.registration.click on "Sign Up" cl
   await t.expect(log[log.length - 1]).eql('registration click handler fired');
 
   // will not navigate to register page
-  await t.expect(identityPage.getPageTitle()).eql('Sign In');
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
 });
 
 // TODO : OKTA-397225

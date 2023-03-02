@@ -1301,6 +1301,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
               {
                 name: 'identifier',
                 label: 'Username',
+                required: true,
               },
               {
                 name: 'rememberMe',
@@ -1320,6 +1321,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 name: 'identifier',
                 label: 'Username',
                 type: 'text',
+                required: true,
                 'label-top': true,
                 'multirowError': true,
                 'data-se': 'o-form-fieldset-identifier',
@@ -1416,6 +1418,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             {
               name: 'identifier',
               label: 'Username',
+              required: true,
             },
             {
               'form':  {
@@ -1450,6 +1453,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
               name: 'identifier',
               label: 'Username',
               type: 'text',
+              required: true,
               'label-top': true,
               'multirowError': true,
               'data-se': 'o-form-fieldset-identifier',
@@ -1503,6 +1507,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             {
               name: 'identifier',
               label: 'Username',
+              required: true,
             },
             {
               'form':  {
@@ -1537,6 +1542,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
               name: 'identifier',
               label: 'Username',
               type: 'text',
+              required: true,
               'label-top': true,
               'multirowError': true,
               'data-se': 'o-form-fieldset-identifier',
@@ -1593,6 +1599,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             {
               name: 'identifier',
               label: 'Username',
+              required: true,
             },
             {
               'form':  {
@@ -1626,6 +1633,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
               name: 'identifier',
               label: 'Username',
               type: 'text',
+              required: true,
               'label-top': true,
               'multirowError': true,
               'data-se': 'o-form-fieldset-identifier',

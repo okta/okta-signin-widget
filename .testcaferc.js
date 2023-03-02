@@ -22,6 +22,9 @@ module.exports = {
   clientScripts: [
     {
       module: 'axe-core/axe.min.js'
+    },
+    {
+      module: '@testing-library/dom/dist/@testing-library/dom.umd.js'
     }
   ],
   src: [
@@ -29,5 +32,8 @@ module.exports = {
   ],
   hooks: {
     request: mocks,
-  }
+  },
+  userVariables: {
+    v3: false,
+  },
 }

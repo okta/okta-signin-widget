@@ -25,7 +25,8 @@ const mockChallengeOVSendPush = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorOVPushWithAutoChallenge);
 
-fixture('Challenge Authenticator Okta Verify Push Only With Auto Challenge Form');
+fixture('Challenge Authenticator Okta Verify Push Only With Auto Challenge Form')
+  .meta('v3', true);
 
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
@@ -48,11 +49,11 @@ test.requestHooks(mockOktaVerifySendPushOnly)(
     await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).ok();
     const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel();
     await t.expect(checkboxLabel.hasClass('checked')).notOk();
-    await t.expect(checkboxLabel.textContent).eql('Send push automatically');
+    await t.expect(await challengeOktaVerifyPushPageObject.form.fieldByLabelExists('Send push automatically')).eql(true);
 
     // select checkbox on click
     await challengeOktaVerifyPushPageObject.clickAutoChallengeCheckbox();
-    await t.expect(checkboxLabel.hasClass('checked')).ok();
+    await t.expect(challengeOktaVerifyPushPageObject.getAutoPushValue()).eql(true);
 
     // signout link at enroll page
     await t.expect(await challengeOktaVerifyPushPageObject.signoutLinkExists()).ok();

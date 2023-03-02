@@ -45,7 +45,7 @@ test.requestHooks(mockChallengeAuthenticatorRsa)('challenge RSA authenticator', 
     methodType: 'otp'
   });
 
-  const pageTitle = challengeRsaPage.getPageTitle();
+  const pageTitle = challengeRsaPage.getFormTitle();
   const saveBtnText = challengeRsaPage.getSaveButtonLabel();
   await t.expect(saveBtnText).contains('Verify');
   await t.expect(pageTitle).contains('Verify with RSA SecurID');

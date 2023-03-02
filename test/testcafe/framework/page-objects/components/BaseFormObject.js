@@ -1,37 +1,22 @@
-import { Selector, ClientFunction } from 'testcafe';
+import { Selector, ClientFunction, userVariables } from 'testcafe';
+import { screen, within } from '@testing-library/testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 const CALLOUT = '[data-se="callout"]';
 
-const SUBMIT_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="save"]';
-const CANCEL_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="cancel"]';
+const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
+const SAVE_BUTTON_SELECTOR = '[data-type="save"]';
 
 const focusOnSubmitButton = () => {
-  // Client Function is not able to refer any variables defined outside this function.
-  // Not sure why at the time of writing.
-  const submitButton = '.o-form-button-bar input[data-type="save"]';
-  document.querySelector(submitButton).focus();
+  // client function is not able to refer any variables defined outside
+  document.querySelector('[data-type="save"]').focus();
 };
 
 export default class BaseFormObject {
   constructor(t, index) {
     this.t = t;
     this.el = new Selector('.o-form').nth(index || 0);
-  }
-
-  async setTextBoxValue(name, text) {
-    const element = this.el.find(`input[name="${name}"]`);
-
-    // clear exists text
-    await this.t
-      .selectText(element)
-      .pressKey('delete');
-
-    // type new text
-    if (text) {
-      await this.t.typeText(element, text);
-    }
   }
 
   async getFormFieldLabel(fieldName) {
@@ -47,33 +32,94 @@ export default class BaseFormObject {
     return this.el.find(selector).exists;
   }
 
+  fieldByLabelExists(label, options = undefined) {
+    return within(this.el).queryByLabelText(new RegExp(label), options).exists;
+  }
+
   getElement(selector) {
     return this.el.find(selector);
   }
 
   getTitle() {
-    return this.el.find('[data-se="o-form-head"]').innerText;
+    return screen.findByRole('heading', {
+      level: 2,
+    }).innerText;
   }
 
-  getSubtitle() {
-    return this.el.find('[data-se="o-form-explain"]').innerText;
+  getSubtitle(index) {
+    if (index === undefined) {
+      index = 0;
+    }
+    return this.el.find('[data-se="o-form-explain"]').nth(index).innerText;
   }
 
   getSelectFormButtonLabel(selector) {
     return this.el.find(selector).innerText;
   }
 
+  /**
+    * @param {string} name the text of the link to return
+    */
+  getLink(name) {
+    return screen.queryByRole('link', {
+      name,
+    });
+  }
+
+  /**
+   * @param {string} name The name or label of the text box to get
+   * @param {boolean} findByLabel Find the text box by its label rather than name attribute
+   */
+  getTextBoxValue(name, findByLabel = false) {
+    return findByLabel ?
+      within(this.el).getByLabelText(name).value :
+      this.el.find(`input[name="${name}"]`).value;
+  }
+
+  /**
+   * @param {string} name The name or label of the text box to change
+   * @param {string} text The text to set
+   * @param {boolean} findByLabel Find the text box by its label rather than name attribute
+   */
+  async setTextBoxValue(name, text, findByLabel = false) {
+    const element = findByLabel ?
+      within(this.el).getByLabelText(new RegExp(name)) :
+      this.el.find(`input[name="${name}"]`);
+
+    // clear existing text
+    await this.t
+      .selectText(element)
+      .pressKey('delete');
+
+    // type new text
+    if (text) {
+      await this.t.typeText(element, text);
+    }
+  }
+
   // =====================================
   // Checkbox
   // =====================================
-  getTextBoxValue(name) {
-    return this.el.find(`input[name="${name}"]`).value;
+
+  getCheckbox(label) {
+    return within(this.el).queryByRole('checkbox', {
+      name: label,
+    });
   }
 
-  async setCheckbox(name, value) {
-    const checked = await this.el.find(`input[name="${name}"]`).checked;
+  /**
+   * @param {string} name The name or label of the checkbox to change
+   * @param {boolean} value The checkbox value to set
+   * @param {boolean} findByLabel Find the checkbox by its label rather than name attribute
+   */
+  async setCheckbox(name, value, findByLabel = false) {
+    const checkbox = findByLabel ?
+      this.getCheckbox(name) :
+      this.el.find(`input[name="${name}"]`);
+
+    const checked = checkbox.checked;
     if (value !== checked) {
-      await this.t.click(this.el.find(`input[name="${name}"] + label`));
+      await this.t.click(checkbox);
     }
   }
 
@@ -91,8 +137,51 @@ export default class BaseFormObject {
     await focus();
   }
 
-  async clickSaveButton() {
-    await this.t.click(this.el.find(SUBMIT_BUTTON_SELECTOR));
+  /**
+   * @param {(string|RegExp)} name the text of the button to return
+   */
+  getButton(name) {
+    const options = userVariables.v3 ? { name } : { value: name };
+    return within(this.el).getByRole('button', options);
+  }
+
+  /**
+   * @param {string} name the text of the button to return
+   */
+  queryButton(name) {
+    const options = userVariables.v3 ? { name } : { value: name };
+    return within(this.el).queryByRole('button', options);
+  }
+
+  /**
+   * @param {string} name the text of the button to click
+   */
+  async clickButton(name) {
+    const buttonToClick = this.getButton(name);
+
+    await this.t.click(buttonToClick);
+  }
+
+  getAllButtons() {
+    return within(this.el).getAllByRole('button');
+  }
+
+  /**
+   * @param {string} name the text of the save button to click
+   */
+  async clickSaveButton(name = 'Next') {
+    await this.clickButton(name);
+  }
+
+  /**
+   * @deprecated
+   * @see clickSaveButton
+   * Clicks the button with type=save, regardless of the button value
+   */
+  async clickSaveButtonAsInput() {
+    const buttonToClick = this.el.find(SAVE_BUTTON_SELECTOR);
+
+    await this.t.click(buttonToClick);
   }
 
   async clickCancelButton() {
@@ -100,7 +189,19 @@ export default class BaseFormObject {
   }
 
   getSaveButtonLabel() {
-    return this.el.find(SUBMIT_BUTTON_SELECTOR).value;
+    // in v3 buttons dont have a value prop
+    if (userVariables.v3) {
+      return this.el.find(SAVE_BUTTON_SELECTOR).textContent;
+    }
+    return this.el.find(SAVE_BUTTON_SELECTOR).value;
+  }
+
+  getByLabelText(text, options = undefined) {
+    return within(this.el).getByLabelText(new RegExp(text), options);
+  }
+
+  getByText(text, options = undefined) {
+    return within(this.el).getByText(text, options);
   }
 
   getCancelButtonLabel() {
@@ -113,14 +214,24 @@ export default class BaseFormObject {
 
   // Error banner
   async waitForErrorBox() {
-    await this.el.find(FORM_INFOBOX_ERROR).exists;
+    await within(this.el).findByRole('alert', {
+      name: /We found some errors/,
+    }).exists;
   }
 
   getErrorBoxCount() {
+    if (userVariables.v3) {
+      return within(this.el).queryAllByRole('alert').count;
+    }
+
     return this.el.find(FORM_INFOBOX_ERROR).count;
   }
 
   getErrorBoxText() {
+    if (userVariables.v3) {
+      return within(this.el).queryAllByRole('alert').nth(0).innerText;
+    }
+
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
@@ -128,35 +239,75 @@ export default class BaseFormObject {
     return this.getCallout(CALLOUT).innerHTML;
   }
 
+  getAlertBoxText() {
+    if (userVariables.v3) {
+      return within(this.el).queryAllByRole('alert').nth(0).innerText;
+    } else {
+      // Not implemented/required in v2
+    }
+  }
+
+  hasErrorBox() {
+    return within(this.el).queryByRole('alert').exists;
+  }
+
+  hasAlertBox(index) {
+    if (index === undefined) {
+      index = 0;
+    }
+    return within(this.el).queryAllByRole('alert').nth(index).exists;
+  }
+
   getAllErrorBoxTexts() {
     return this.getInnerTexts(FORM_INFOBOX_ERROR);
   }
 
+  async getErrorBoxTextByIndex(index) {
+    if (userVariables.v3) {
+      return await within(this.el).findAllByRole('alert').nth(index).innerText;
+    }
+    const errors = await this.getAllErrorBoxTexts();
+    return errors[index];
+  }
+
   // Field error
   /**
-   * @deprecated see hasTextBoxErrorMessage
+   * @deprecated
+   * @see hasTextBoxErrorMessage
    */
   hasTextBoxError(name) {
     return this.el.find(`.o-form-input-name-${name}.o-form-has-errors`).exists;
   }
 
   async waitForTextBoxError(name) {
-    await this.hasTextBoxError(name);
+    await this.hasTextBoxErrorMessage(name);
   }
 
-  hasTextBoxErrorMessage(fieldName) {
+  hasTextBoxErrorMessage(fieldName, index = undefined) {
+    if (userVariables.v3) {
+      return this.el.find(`[id="${fieldName}-error${index !== undefined ? '-' + index : ''}"]`).exists;
+    }
+
     const selectContainer = this.findFormFieldInput(fieldName)
       .sibling('.o-form-input-error');
+
     return selectContainer.exists;
   }
 
-  getTextBoxErrorMessage(fieldName) {
+  getTextBoxErrorMessage(fieldName, index = undefined) {
+    if (userVariables.v3) {
+      return this.el.find(`[id="${fieldName}-error${index !== undefined ? '-' + index : ''}"]`).innerText;
+    }
+
     const selectContainer = this.findFormFieldInput(fieldName)
       .sibling('.o-form-input-error');
     return selectContainer.innerText;
   }
 
   getNthErrorMessage(fieldName, value) {
+    if (userVariables.v3) {
+      return this.el.find(`#${fieldName}-error-${value}`).innerText;
+    }
     const selectContainer = this.findFormFieldInput(fieldName).sibling('.o-form-input-error').nth(value);
     return selectContainer.innerText;
   }
@@ -164,12 +315,27 @@ export default class BaseFormObject {
   // Chozen Dropdown
   // =====================================
 
-  getValueFromDropdown(fieldName) {
+  getValueFromDropdown(fieldName, index = 0) {
+    if (userVariables.v3) {
+      const selectEle = this.el.find(`[data-se="${fieldName}"]`);
+      const option = selectEle.child().nth(index);
+  
+      return option.textContent;
+    }
     const selectContainer = this.findFormFieldInput(fieldName).find('.chzn-container');
     return selectContainer.innerText;
   }
 
   async selectValueChozenDropdown(fieldName, index) {
+    if (userVariables.v3) {
+      const selectEle = await this.el.find(`[data-se="${fieldName}"]`);
+
+      await this.t.click(selectEle);
+      
+      const option = selectEle.child().nth(index);
+      await this.t.click(option);
+      return;
+    }
     const selectContainer = await this.findFormFieldInput(fieldName)
       .find('.chzn-container');
     const containerId = await selectContainer.getAttribute('id');
@@ -180,12 +346,20 @@ export default class BaseFormObject {
     await this.t.click(option);
   }
 
-
   // =====================================
   // radio button
   // =====================================
 
   async selectRadioButtonOption(fieldName, index) {
+    if (userVariables.v3) {
+      const radioEle = await this.el.find(`[data-se="${fieldName}"]`);
+
+      const radioOpt = await radioEle.child().nth(index);
+      await this.t.click(radioOpt);
+      const optionLabel = await radioOpt.textContent;
+
+      return optionLabel;
+    }
     const radioOption = await this.findFormFieldInput(fieldName)
       .find('.radio-label')
       .nth(index);
@@ -197,6 +371,19 @@ export default class BaseFormObject {
   }
 
   async selectRadioButtonOptionByValue(fieldName, value) {
+    if (userVariables.v3) {
+      const radioOption = await this.el.find(`input[type="radio"][value="${value}"]`);
+      await this.t.click(radioOption); 
+
+      const label = this.el
+        .find(`input[type="radio"][value="${value}"]`)
+        .parent('span')
+        .parent('label')
+        .textContent;
+
+      return label; 
+    }
+    
     const radioOption = await this.findFormFieldInput(fieldName)
       .find(`input[value="${value}"] + .radio-label`);
 
@@ -212,6 +399,10 @@ export default class BaseFormObject {
   // =====================================
 
   findFormFieldInput(fieldName) {
+    if (userVariables.v3) {
+      return this.el
+        .find(`[data-se="${fieldName}"]`);     
+    }
     return this.el
       .find(`[data-se="o-form-input-${fieldName}"]`);
   }
@@ -246,6 +437,14 @@ export default class BaseFormObject {
 
   async clickElement(selector) {
     await this.t.click(this.el.find(selector));
+  }
+
+  getSpinner() {
+    return within(this.el).queryByLabelText('Loading...');
+  }
+
+  getButtonIcon(buttonName) {
+    return within(this.getButton(buttonName)).getByRole('img');
   }
 
   /**

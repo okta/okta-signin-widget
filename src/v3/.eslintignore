@@ -1,0 +1,25 @@
+# lint these files
+!.*.json
+!.eslintrc.js
+!tsconfig.json
+
+# do NOT lint these files
+size-plugin.json
+packages/**/*.js
+src/static/mockServiceWorker.js
+
+# do NOT lint these directories
+assets/
+build/
+build2/
+coverage/
+dist/
+node_modules/
+scripts/
+static/
+target
+test-reports/
+test/unit/helpers/xhr/
+vendor/
+src/properties/json/
+mocks/

@@ -17,6 +17,6 @@ export default class RequestActivationEmailPageObject extends BasePageObject {
   }
 
   clickRequestActivationEmailButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickButton('Request activation email');
   }
 }

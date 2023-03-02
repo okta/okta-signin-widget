@@ -8,10 +8,6 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
     super(t);
   }
 
-  getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
-  }
-
   getPageSubtitle() {
     return this.form.getElement('.okta-form-subtitle').textContent;
   }
@@ -69,7 +65,7 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
   }
 
   isBeaconTerminalPresent() {
-    return this.beacon.find('[data-se="factor-beacon"]').exists;
+    return Selector('[data-se="factor-beacon"]').exists;
   }
 
   isTryAgainButtonPresent() {

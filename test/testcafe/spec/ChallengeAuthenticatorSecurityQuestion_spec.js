@@ -1,6 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 
+import { oktaDashboardContent } from '../framework/shared';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeSecurityQuestionPageObject from '../framework/page-objects/ChallengeSecurityQuestionPageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
@@ -12,7 +13,9 @@ const authenticatorRequiredSecurityQuestionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorVerifySecurityQuestion)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(success);
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const answerRequestLogger = RequestLogger(
   /idx\/challenge\/answer/,
@@ -22,11 +25,13 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture('Challenge Security Question Form');
+fixture('Challenge Security Question Form')
+  .meta('v3', true);  
 
 async function setup(t) {
   const challengeFactorPage = new ChallengeSecurityQuestionPageObject(t);
   await challengeFactorPage.navigateToPage();
+  await t.expect(challengeFactorPage.formExists()).eql(true);
 
   await checkConsoleMessages({
     controller: 'mfa-verify-question',
@@ -41,10 +46,10 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
   const challengeFactorPageObject = await setup(t);
   await checkA11y(t);
 
-  await t.expect(await challengeFactorPageObject.getAnswerLabel()).eql('Where did you go for your favorite vacation?');
+  await t.expect(await challengeFactorPageObject.form.fieldByLabelExists('Where did you go for your favorite vacation?')).eql(true);
 
   // Verify links
-  await t.expect(await challengeFactorPageObject.switchAuthenticatorLinkExists()).ok();
+  await t.expect(await challengeFactorPageObject.verifyWithSomethingElseLinkExists()).ok();
   await t.expect(challengeFactorPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
   await t.expect(await challengeFactorPageObject.signoutLinkExists()).ok();
   await t.expect(challengeFactorPageObject.getSignoutLinkText()).eql('Back to sign in');
@@ -70,7 +75,8 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 });
 
-test.requestHooks(authenticatorRequiredSecurityQuestionMock)('should show custom factor page link', async t => {
+// Help links are not implemented in v3
+test.meta('v3', false).requestHooks(authenticatorRequiredSecurityQuestionMock)('should show custom factor page link', async t => {
   const challengeSecurityQuestionPageObject = await setup(t);
   await checkA11y(t);
 

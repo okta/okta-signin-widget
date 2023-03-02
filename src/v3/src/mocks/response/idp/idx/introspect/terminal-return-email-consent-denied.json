@@ -1,0 +1,18 @@
+{
+  "stateHandle":"027wt5IOXtqcKRjNSE7AKFAHDEOJs5lCLFDqe9QVv-",
+  "version":"1.0.0",
+  "expiresAt":"2021-03-18T15:49:41.000Z",
+  "intent":"CONSENT",
+  "messages":{
+    "type":"array",
+    "value":[
+      {
+        "message":"Access denied on other device.",
+        "i18n":{
+          "key":"idx.operation.cancelled.on.other.device"
+        },
+        "class":"ERROR"
+      }
+    ]
+  }
+}

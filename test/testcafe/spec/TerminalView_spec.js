@@ -6,6 +6,7 @@ import terminalReturnExpiredEmail from '../../../playground/mocks/data/idp/idx/t
 import terminalRegistrationEmail from '../../../playground/mocks/data/idp/idx/terminal-registration';
 import terminalReturnEmailConsentDenied from '../../../playground/mocks/data/idp/idx/terminal-enduser-email-consent-denied';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import TerminalPageObjectV3 from '../framework/page-objects/TerminalPageObjectV3';
 import sessionExpired from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
 import noPermissionForAction from '../../../playground/mocks/data/idp/idx/error-403-security-access-denied';
 import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-polling-window-expired';
@@ -14,6 +15,8 @@ import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/te
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 import errorTerminalMultipleErrors from '../../../playground/mocks/data/idp/idx/error-terminal-multiple-errors';
 import customAccessDeniedErrorMessage from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message.json';
+
+import { userVariables } from 'testcafe';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -68,10 +71,13 @@ const terminalCustomAccessDeniedErrorMessageMock = RequestMock()
   .respond(customAccessDeniedErrorMessage);
 
 fixture('Terminal view');
+fixture('Terminal view').meta('v3', true);
 
 async function setup(t) {
-  const terminalPageObject = new TerminalPageObject(t);
+  const terminalPageObject = userVariables.v3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
+  // ensure form has loaded
+  await t.expect(terminalPageObject.formExists()).eql(true);
   return terminalPageObject;
 }
 
@@ -151,7 +157,9 @@ async function setup(t) {
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
       await checkA11y(t);
-      await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+      if(!userVariables.v3) {
+        await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+      }
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
     });
 });
@@ -160,15 +168,13 @@ test.requestHooks(terminalMultipleErrorsMock)('should render each error message 
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 
-  const errors = terminalViewPage.form.getAllErrorBoxTexts();
-  await t.expect(errors).eql([
-    'Please enter a username',
-    'Please enter a password',
-    'Your session has expired. Please try to sign in again.'
-  ]);
+  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(0)).eql('Please enter a username');
+  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(1)).eql('Please enter a password');
+  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
 });
 
-test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
+// OKTA-585921 - custom error message not supported in gen3 widget
+test.meta('v3', false).requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 

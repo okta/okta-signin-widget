@@ -1,0 +1,381 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transform Okta Verify Device Challenge Poll Tests where remediation is challenge-poll should transform elements when challengeMethod is APP_LINK 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "appLink.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "type": "Spinner",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "appLink.content",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "challengeMethod": "APP_LINK",
+          "href": "okta-verify.html",
+          "step": "challenge-poll",
+        },
+        "type": "OpenOktaVerifyFPButton",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Device Challenge Poll Tests where remediation is challenge-poll should transform elements when challengeMethod is CUSTOM_URI 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "customUri.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "customUri.required.content.prompt",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "challengeMethod": "CUSTOM_URI",
+          "href": "okta-verify.html",
+          "step": "challenge-poll",
+        },
+        "type": "OpenOktaVerifyFPButton",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "customUri.required.content.download.title",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "href": "https://apps.apple.com/us/app/okta-verify/id490179405",
+          "label": "customUri.required.content.download.linkText",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Device Challenge Poll Tests where remediation is challenge-poll should transform elements when challengeMethod is UNIVERSAL_LINK 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "universalLink.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "type": "Spinner",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "universalLink.content",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "challengeMethod": "UNIVERSAL_LINK",
+          "href": "okta-verify.html",
+          "step": "challenge-poll",
+        },
+        "type": "OpenOktaVerifyFPButton",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Device Challenge Poll Tests where remediation is device-challenge-poll should transform elements when challengeMethod is APP_LINK 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "appLink.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "callback": [Function],
+                },
+                "type": "StepperNavigator",
+                "viewIndex": 0,
+              },
+              Object {
+                "type": "Spinner",
+                "viewIndex": 0,
+              },
+              Object {
+                "contentType": "footer",
+                "options": Object {
+                  "actionParams": Object {
+                    "reason": "USER_CANCELED",
+                    "statusCode": null,
+                  },
+                  "isActionStep": true,
+                  "label": "goback",
+                  "step": "authenticatorChallenge-cancel",
+                },
+                "type": "Link",
+                "viewIndex": 0,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "contentType": "subtitle",
+                "options": Object {
+                  "content": "appLink.content",
+                },
+                "type": "Description",
+                "viewIndex": 1,
+              },
+              Object {
+                "options": Object {
+                  "challengeMethod": "APP_LINK",
+                  "href": "okta-verify.html",
+                  "step": "device-challenge-poll",
+                },
+                "type": "OpenOktaVerifyFPButton",
+                "viewIndex": 1,
+              },
+              Object {
+                "contentType": "footer",
+                "options": Object {
+                  "isActionStep": true,
+                  "label": "goback",
+                  "step": "cancel",
+                },
+                "type": "Link",
+                "viewIndex": 1,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Device Challenge Poll Tests where remediation is device-challenge-poll should transform elements when challengeMethod is CUSTOM_URI 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "customUri.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "customUri.required.content.prompt",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "challengeMethod": "CUSTOM_URI",
+          "href": "okta-verify.html",
+          "step": "device-challenge-poll",
+        },
+        "type": "OpenOktaVerifyFPButton",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "customUri.required.content.download.title",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "href": "https://apps.apple.com/us/app/okta-verify/id490179405",
+          "label": "customUri.required.content.download.linkText",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Device Challenge Poll Tests where remediation is device-challenge-poll should transform elements when challengeMethod is UNIVERSAL_LINK 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "universalLink.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "type": "Spinner",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "universalLink.content",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "challengeMethod": "UNIVERSAL_LINK",
+          "href": "okta-verify.html",
+          "step": "device-challenge-poll",
+        },
+        "type": "OpenOktaVerifyFPButton",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

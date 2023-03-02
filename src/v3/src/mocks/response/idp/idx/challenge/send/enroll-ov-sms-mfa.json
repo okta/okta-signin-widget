@@ -1,0 +1,306 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02zioVP4fg1BBlENfGy8mye8LOJVzsbNJdoAz-mux-",
+  "expiresAt": "2022-04-21T21:55:49.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-poll",
+        "href": "http://localhost:3000/idp/idx/challenge/poll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "refresh": 4000,
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02zioVP4fg1BBlENfGy8mye8LOJVzsbNJdoAz-mux-",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-enrollment-channel",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "label": "Okta Verify",
+            "value": {
+              "form": {
+                "value": [
+                  {
+                    "name": "id",
+                    "required": true,
+                    "value": "aut2h3fft4y9pDPCS1d7",
+                    "mutable": false
+                  },
+                  {
+                    "name": "channel",
+                    "type": "string",
+                    "required": false,
+                    "options": [
+                      {
+                        "label": "QRCODE",
+                        "value": "qrcode"
+                      },
+                      {
+                        "label": "EMAIL",
+                        "value": "email"
+                      },
+                      {
+                        "label": "SMS",
+                        "value": "sms"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02zioVP4fg1BBlENfGy8mye8LOJVzsbNJdoAz-mux-",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut2h3fft4y9pDPCS1d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "channel",
+                        "type": "string",
+                        "required": false,
+                        "options": [
+                          {
+                            "label": "QRCODE",
+                            "value": "qrcode"
+                          },
+                          {
+                            "label": "EMAIL",
+                            "value": "email"
+                          },
+                          {
+                            "label": "SMS",
+                            "value": "sms"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02zioVP4fg1BBlENfGy8mye8LOJVzsbNJdoAz-mux-",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "resend": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "resend",
+        "href": "http://localhost:3000/idp/idx/challenge/resend",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02zioVP4fg1BBlENfGy8mye8LOJVzsbNJdoAz-mux-",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "contextualData": {
+        "selectedChannel": "sms",
+        "phoneNumber": "+12165332241"
+      },
+      "type": "app",
+      "key": "okta_verify",
+      "id": "aut2h3fft4y9pDPCS1d7",
+      "displayName": "Okta Verify",
+      "methods": [
+        {
+          "type": "push"
+        }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "okta_verify",
+        "id": "aut2h3fft4y9pDPCS1d7",
+        "displayName": "Okta Verify",
+        "methods": [
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "email",
+        "key": "okta_email",
+        "id": "eae2h3ilhjtGogbXR1d7",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "type": "app",
+        "key": "google_otp",
+        "id": "uft2u1db0h4X0vJ0o1d7",
+        "displayName": "Google Authenticator",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      },
+      {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "fwf2hobi25M8MUtgW1d7",
+        "displayName": "MacBook Touch ID",
+        "credentialId": "AW2zRxnSgeNuw6WAcgWqnDkZweFt5F-pLR1z6VEkylXhJBwFP8cmT2WfzdSAN-8hVnx1PmJ0MYakoirqf268Igo5f5beHqP_tbkjV94DvvG7X6j-FcA",
+        "methods": [
+          {
+            "type": "webauthn"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "laegruwukSVv5Z7CA1d6",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    ]
+  },
+  "enrollmentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "app",
+      "key": "okta_verify",
+      "id": "aut2h3fft4y9pDPCS1d7",
+      "displayName": "Okta Verify",
+      "methods": [
+        {
+          "type": "push"
+        }
+      ]
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u2h3ilhim6Vq57C1d7",
+      "identifier": "tester3@test.com",
+      "profile": {
+        "firstName": "Tester",
+        "lastName": "McTesterson II",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02zioVP4fg1BBlENfGy8mye8LOJVzsbNJdoAz-mux-",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa2h3ffrkQcybnQ21d7"
+    }
+  }
+}

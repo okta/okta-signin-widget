@@ -2,7 +2,7 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, oktaDashboardContent } from '../framework/shared';
 
 import totpChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -20,7 +20,9 @@ const validTOTPmock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(totpChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(success);
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const invalidTOTPMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -34,11 +36,13 @@ const totpEnableBiometricsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(errorEnableBiometricsOktaVerifyTotp, 400);
 
-fixture('Challenge Okta Verify Totp Form');
+fixture('Challenge Okta Verify Totp Form')
+  .meta('v3', true);
 
 async function setup(t) {
   const challengeOktaVerifyTOTPPageObject = new ChallengeOktaVerifyTotpPageObject(t);
   await challengeOktaVerifyTOTPPageObject.navigateToPage();
+  await t.expect(challengeOktaVerifyTOTPPageObject.formExists()).eql(true);
   return challengeOktaVerifyTOTPPageObject;
 }
 
@@ -53,21 +57,20 @@ test
       methodType: 'totp',
     });
 
-    const pageTitle = challengeOktaVerifyTOTPPageObject.getPageTitle();
+    const pageTitle = challengeOktaVerifyTOTPPageObject.getFormTitle();
     const saveBtnText = challengeOktaVerifyTOTPPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Enter a code');
-    await t.expect(await challengeOktaVerifyTOTPPageObject.getTotpLabel())
-      .contains('Enter code from Okta Verify app');
+    await t.expect(await challengeOktaVerifyTOTPPageObject.
+      formFieldExistsByLabel('Enter code from Okta Verify app')).eql(true);
 
     // Verify links
-    await t.expect(await challengeOktaVerifyTOTPPageObject.switchAuthenticatorLinkExists()).ok();
-    await t.expect(challengeOktaVerifyTOTPPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
+    await t.expect(await challengeOktaVerifyTOTPPageObject.verifyWithSomethingElseLinkExists()).ok();
     await t.expect(await challengeOktaVerifyTOTPPageObject.signoutLinkExists()).ok();
     await t.expect(challengeOktaVerifyTOTPPageObject.getSignoutLinkText()).eql('Back to sign in');
 
     await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '1234');
-    await challengeOktaVerifyTOTPPageObject.clickNextButton();
+    await challengeOktaVerifyTOTPPageObject.clickVerifyButton();
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
@@ -96,17 +99,18 @@ test
     const challengeOktaVerifyTOTPPageObject = await setup(t);
     await checkA11y(t);
     await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '123');
-    await challengeOktaVerifyTOTPPageObject.clickNextButton();
+    await challengeOktaVerifyTOTPPageObject.clickVerifyButton();
     await challengeOktaVerifyTOTPPageObject.waitForErrorBox();
     await t.expect(challengeOktaVerifyTOTPPageObject.getAnswerInlineError()).contains('Invalid code. Try again.');
   });
 
-test
+// Enable after fixing OKTA-577972
+test.meta('v3', false)
   .requestHooks(logger, totpEnableBiometricsMock)('challenge okta verify totp uv enable biometrics message', async t => {
     const challengeOktaVerifyTOTPPageObject = await setup(t);
     await checkA11y(t);
     await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '123');
-    await challengeOktaVerifyTOTPPageObject.clickNextButton();
+    await challengeOktaVerifyTOTPPageObject.clickVerifyButton();
     const pageTitle = challengeOktaVerifyTOTPPageObject.getFormTitle();
     await t.expect(pageTitle).contains('Enter a code');
     await challengeOktaVerifyTOTPPageObject.waitForErrorBox();

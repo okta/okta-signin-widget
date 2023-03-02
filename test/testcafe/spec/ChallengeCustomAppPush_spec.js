@@ -108,7 +108,7 @@ test
       methodType: 'push',
     });
 
-    const pageTitle = challengeCustomAppPushPageObject.getPageTitle();
+    const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
@@ -134,7 +134,7 @@ test
       methodType: 'push',
     });
 
-    const pageTitle = challengeCustomAppPushPageObject.getPageTitle();
+    const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const checkboxLabel = challengeCustomAppPushPageObject.getAutoChallengeCheckboxLabel();
@@ -169,7 +169,7 @@ test
     await checkA11y(t);
     
     // all UI elements should be present except the checkbox
-    const pageTitle = challengeCustomAppPushPageObject.getPageTitle();
+    const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
@@ -221,6 +221,33 @@ test
     await t.expect(challengeCustomAppPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
     await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(pushNoAutoChallengeMock)(`challenge custom app push screen does not have checkbox
+    when autoChallenge object is missing from IDX remediation response`, async t => {
+    
+    const challengeCustomAppPushPageObject = await setup(t);
+    
+    // all UI elements should be present except the checkbox
+    const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
+    const pushBtn = challengeCustomAppPushPageObject.getPushButton();
+    const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
+    const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
+    await t.expect(pushBtn.textContent).contains('Push notification sent');
+    await t.expect(a11ySpan.textContent).contains('Push notification sent');
+    await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
+    await t.expect(logoClass).contains('custom-app-logo');
+    await t.expect(pageTitle).contains('Verify with Custom Push');
+
+    // Verify links
+    await t.expect(await challengeCustomAppPushPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(challengeCustomAppPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
+    await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeCustomAppPushPageObject.getSignoutLinkText()).eql('Back to sign in');
+
+    // assert checkbox not visible
+    await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputIsVisible()).notOk();
   });
 
 test

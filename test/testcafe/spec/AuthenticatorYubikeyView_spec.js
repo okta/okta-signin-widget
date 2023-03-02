@@ -36,11 +36,15 @@ async function setup(t) {
   return pageObject;
 }
 
-fixture('Enroll YubiKey Authenticator');
+fixture('Enroll YubiKey Authenticator').meta('v3', true);
+
 test
   .requestHooks(logger, enrollMock)('enroll with YubiKey authenticator', async t => {
     const pageObject = await setup(t);
     await checkA11y(t);
+
+    await t.expect(pageObject.getFormTitle()).eql('Set up YubiKey');
+    await t.expect(pageObject.getFormSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
 
     await checkConsoleMessages({
       controller: 'enroll-yubikey',
@@ -48,13 +52,10 @@ test
       authenticatorKey:'yubikey_token',
       methodType: 'otp'
     });
-
-    await t.expect(pageObject.getFormTitle()).eql('Set up YubiKey');
-    await t.expect(pageObject.getFormSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');
-    await pageObject.submit();
+    await pageObject.clickEnrollButton();
 
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl).eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
@@ -68,17 +69,20 @@ test
     await t.expect(pageObject.getFormTitle()).eql('Set up YubiKey');
     
     // Do not fill out the form and submit
-    await pageObject.submit();
+    await pageObject.clickEnrollButton();
 
-    pageObject.form.waitForErrorBox();
+    await pageObject.form.waitForErrorBox();
     await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
   });
 
-fixture('Verify YubiKey Authenticator');
+fixture('Verify YubiKey Authenticator').meta('v3', true);
 test
   .requestHooks(logger, verifyMock)('verify with YubiKey authenticator', async t => {
     const pageObject = await setup(t);
     await checkA11y(t);
+
+    await t.expect(pageObject.getFormTitle()).eql('Verify with YubiKey');
+    await t.expect(pageObject.getFormSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
 
     await checkConsoleMessages({
       controller: 'mfa-verify',
@@ -86,13 +90,10 @@ test
       authenticatorKey:'yubikey_token',
       methodType: 'otp'
     });
-
-    await t.expect(pageObject.getFormTitle()).eql('Verify with YubiKey');
-    await t.expect(pageObject.getFormSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');
-    await pageObject.submit();
+    await pageObject.clickVerifyButton();
 
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl).eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
@@ -105,13 +106,13 @@ test
 
     await t.expect(pageObject.getFormTitle()).eql('Verify with YubiKey');
     
-    await pageObject.submit();
+    await pageObject.clickVerifyButton();
 
-    pageObject.form.waitForErrorBox();
+    await pageObject.form.waitForErrorBox();
     await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
   });
 
-test.requestHooks(verifyMock)('should show custom factor page link', async t => {
+test.meta('v3', false).requestHooks(verifyMock)('should show custom factor page link', async t => {
   const pageObject = await setup(t);
   await checkA11y(t);
 

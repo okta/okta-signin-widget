@@ -1,0 +1,188 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.LIXBfLYzLfIGVMA0N7dDhhSB263Wp7OSR2mshFZv",
+  "expiresAt": "2022-09-26T17:16:21.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "identify",
+        "href": "http://localhost:3000/idp/idx/identify",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          { "name": "identifier", "label": "Username", "required": true },
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                { "name": "passcode", "label": "Password", "secret": true }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "rememberMe",
+            "type": "boolean",
+            "label": "Remember this device"
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.LIXBfLYzLfIGVMA0N7dDhhSB263Wp7OSR2mshFZv",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": ["create-form"],
+        "name": "launch-authenticator",
+        "relatesTo": ["authenticatorChallenge"],
+        "href": "http://localhost:3000/idp/idx/authenticators/okta-verify/launch",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.LIXBfLYzLfIGVMA0N7dDhhSB263Wp7OSR2mshFZv",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": ["create-form"],
+        "name": "select-enroll-profile",
+        "href": "http://localhost:3000/idp/idx/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.LIXBfLYzLfIGVMA0N7dDhhSB263Wp7OSR2mshFZv",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": ["create-form"],
+        "name": "unlock-account",
+        "href": "http://localhost:3000/idp/idx/unlock-account",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.LIXBfLYzLfIGVMA0N7dDhhSB263Wp7OSR2mshFZv",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "There is no account with the Username testeruser@okta1.com.",
+        "i18n": { "key": "idx.unknown.user", "params": [] },
+        "class": "WARNING"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "recover": {
+        "rel": ["create-form"],
+        "name": "recover",
+        "href": "http://localhost:3000/idp/idx/recover",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.LIXBfLYzLfIGVMA0N7dDhhSB263Wp7OSR2mshFZv",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "type": "password",
+      "key": "okta_password",
+      "id": "aut1egri5t7iomJ3l1d7",
+      "displayName": "Password",
+      "methods": [{ "type": "password" }]
+    }
+  },
+  "user": { "type": "object", "value": { "identifier": "testeruser@okta1.com" } },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.LIXBfLYzLfIGVMA0N7dDhhSB263Wp7OSR2mshFZv",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "SIW Next",
+      "id": "0oa2h3j3ysoR3eHN11d7"
+    }
+  },
+  "authenticatorChallenge": {
+    "type": "object",
+    "value": {
+      "challengeMethod": "CUSTOM_URI",
+      "href": "com-okta-authenticator:/deviceChallenge?challengeRequest=eyJraWQiOiJNd2lINFJ2SFpSa0pvUFJVWkZwcWZzdzU4dWdqNjdaYWlGLW9DNFpuT2VzIiwidHlwIjoib2t0YS1kZXZpY2ViaW5kK2p3dCIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJodHRwczovL29pZS00Njk1NDYyLm9rdGFwcmV2aWV3LmNvbSIsImF1ZCI6Im9rdGEuNjNjMDgxZGItMWYxMy01MDg0LTg4MmYtZTc5ZTFlNWUyZGE3IiwiZXhwIjoxNjY0MTk5MDc2LCJpYXQiOjE2NjQxOTg3NzYsImp0aSI6ImZ0ZndYOEt0c0cxQkkyTDBRZWdQZWZrd3luaHVfc2NKZmwiLCJub25jZSI6IkJkRHphejF5R2Q5V1QxZmxOZ0lFIiwidHJhbnNhY3Rpb25JZCI6ImZ0ZndYOEt0c0cxQkkyTDBRZWdQZWZrd3luaHVfc2NKZmwiLCJzaWduYWxzIjpbImlkIiwiZGlzcGxheU5hbWUiLCJwbGF0Zm9ybSIsIm1hbnVmYWN0dXJlciIsIm1vZGVsIiwib3NWZXJzaW9uIiwic2VyaWFsTnVtYmVyIiwidWRpZCIsInNpZCIsImltZWkiLCJtZWlkIiwidHBtUHVibGljS2V5SGFzaCIsInNlY3VyZUhhcmR3YXJlUHJlc2VudCIsImRldmljZUF0dGVzdGF0aW9uIiwiZGV2aWNlSW50ZWdyaXR5Iiwic2NyZWVuTG9ja1R5cGUiLCJkaXNrRW5jcnlwdGlvblR5cGUiLCJjbGllbnRJbnN0YW5jZUJ1bmRsZUlkIiwiY2xpZW50SW5zdGFuY2VEZXZpY2VTZGtWZXJzaW9uIiwiY2xpZW50SW5zdGFuY2VJZCIsImNsaWVudEluc3RhbmNlVmVyc2lvbiJdLCJ2ZXJpZmljYXRpb25VcmkiOiJodHRwczovL29pZS00Njk1NDYyLm9rdGFwcmV2aWV3LmNvbS9pZHAvYXV0aGVudGljYXRvcnMvYXV0MmgzZmZ0NHk5cERQQ1MxZDcvdHJhbnNhY3Rpb25zL2Z0ZndYOEt0c0cxQkkyTDBRZWdQZWZrd3luaHVfc2NKZmwvdmVyaWZ5IiwiY2FTdWJqZWN0TmFtZXMiOltdLCJtZG1BdHRlc3RhdGlvbklzc3VlcnMiOltdLCJrZXlUeXBlIjoicHJvb2ZPZlBvc3Nlc3Npb24iLCJrZXlUeXBlcyI6WyJ1c2VyVmVyaWZpY2F0aW9uIiwicHJvb2ZPZlBvc3Nlc3Npb24iXSwiZmFjdG9yVHlwZSI6InNpZ25lZF9ub25jZSIsIm9yZ0lkIjoiMDBvMmgzZmZvYVR3S1cwRU0xZDciLCJhcHBJbnN0YW5jZU5hbWUiOiJTSVcgTmV4dCIsIm1ldGhvZCI6InNpZ25lZF9ub25jZSIsInJlcXVlc3RSZWZlcnJlciI6Imh0dHBzOi8vb2llLTQ2OTU0NjIub2t0YXByZXZpZXcuY29tIiwidXNlck1lZGlhdGlvbiI6IlJFUVVJUkVEIiwidXNlclZlcmlmaWNhdGlvbiI6IlBSRUZFUlJFRCIsInZlciI6MH0.ny-tOaJAS_-o3E9enescqREvoOMJ8-0uvQbvCv2pq5YaUUkNyTQyAf6FNC8EHzvRosk-mYpfyIcC5Aiz6SS34kDWI6U2ceMxVzTkdolmxR-1C9gMrwolOkebqAKniVRznRUMqrpZcYAfCUQoTK2dAB393Lr-DF-y8wY2WuW2UATGD1XK0DTeqgaKEyDzFVpdx-YqyvFUdR2BFkRhaUyRc6J3Pu46unNoVAbRqc1VlUYF_Qxu2-akfTOrQkh31Xhn_y1HPV-ZN6pXEeI1QCS1xHwfRqAMJw17F0XL_k8cTiBLdABdNYmBbnD3-ocVXpbcdCA6JWbk4RiQV1KBtyahUw",
+      "downloadHref": "https://apps.apple.com/us/app/okta-verify/id490179405"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "OAUTH2.0",
+      "issuer": {
+        "id": "aus2h3f9n6mV9Rynu1d7",
+        "name": "default",
+        "uri": "http://localhost:3000/oauth2/default"
+      },
+      "request": {
+        "max_age": -1,
+        "scope": "openid profile email",
+        "response_type": "code",
+        "redirect_uri": "http://localhost:3000/login/callback",
+        "state": "ab7azU3hplpqX7sZvdhxMhyshYnA4apkpubwAknfcTL2WeNqvRYVUZoeH9GXRYt3",
+        "code_challenge_method": "S256",
+        "code_challenge": "tABD8EVLKzIIOrK1DLB_mAbgYWarUwTH6zAU4hmLZvo",
+        "response_mode": "query"
+      }
+    }
+  }
+}

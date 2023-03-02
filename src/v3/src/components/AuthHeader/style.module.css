@@ -1,0 +1,15 @@
+.siwHeader h1 {
+  line-height: 0;
+  margin-block: 0;
+  text-align: center;
+}
+
+.siwOrgLogo {
+  max-inline-size: 200px;
+  max-block-size: 40px;
+}
+
+.authCoinOverlay {
+  margin: auto;
+  inset-block-start: 24px;
+}

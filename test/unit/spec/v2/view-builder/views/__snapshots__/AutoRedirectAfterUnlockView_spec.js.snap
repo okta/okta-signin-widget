@@ -47,6 +47,7 @@ exports[`v2/view-builder/views/AutoRedirectViewAfterUnlock renders view after un
         <div
           class="o-form-error-container"
           data-se="o-form-error-container"
+          role="alert"
         >
           <div
             class="ion-messages-container"

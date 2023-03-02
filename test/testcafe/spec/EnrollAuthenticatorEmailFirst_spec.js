@@ -7,10 +7,6 @@ import { checkConsoleMessages } from '../framework/shared';
 import emailAuthenticatorPreEnrollData from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-first';
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-first-emailmagiclink-true';
 
-const getVerificationEmailTitle = 'Get a verification email';
-const saveBtnLabelText = 'Send me an email';
-const enterVerificationCode = 'Enter a verification code instead';
-
 fixture('Pre-Enroll Email Authenticator Form');
 
 async function setup(t) {
@@ -38,8 +34,8 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).eql(getVerificationEmailTitle);
-    await t.expect(saveBtnText).eql(saveBtnLabelText);
+    await t.expect(pageTitle).eql('Get a verification email');
+    await t.expect(saveBtnText).eql('Send me an email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql('Send a verification email by clicking on "Send me an email".');
@@ -50,7 +46,7 @@ test
     await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
 
     // clicking switch authenticator link should display only email authenticator
-    await challengeEmailPageObject.clickSwitchAuthenticatorButton();
+    await challengeEmailPageObject.clickReturnToAuthenticatorListLink();
     const selectFactorPageObject = new SelectFactorPageObject(t);
     await t.expect(selectFactorPageObject.getFormTitle()).eql('Set up security methods');
     await t.expect(selectFactorPageObject.getFormSubtitle()).eql(
@@ -75,8 +71,7 @@ test
     const emailAddress = emailVerification.user.value.identifier;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
-    const enterVerificationCodeText = challengeEmailPageObject.getEnterVerificationCodeText();
-    await t.expect(enterVerificationCodeText).eql(enterVerificationCode);
+    await t.expect(challengeEmailPageObject.getEnterCodeInsteadButton().exists).eql(true);
 
     // Verify links (switch authenticator link present since for the only email authenticator available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).ok();
@@ -84,7 +79,7 @@ test
     await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
 
     // clicking switch authenticator link should display only email authenticator
-    await challengeEmailPageObject.clickSwitchAuthenticatorButton();
+    await challengeEmailPageObject.clickReturnToAuthenticatorListLink();
     const selectFactorPageObject = new SelectFactorPageObject(t);
     await t.expect(selectFactorPageObject.getFormTitle()).eql('Set up security methods');
     await t.expect(selectFactorPageObject.getFormSubtitle()).eql(

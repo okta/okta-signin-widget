@@ -1,9 +1,9 @@
 import BasePageObject from './BasePageObject';
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 
 const PASSCODE_FIELD_NAME = 'credentials.passcode';
 const SWITCH_FACTOR_SELECTOR = '.auth-footer .js-switchFactor';
-const SWITCH_AUTHENTICATOR_SELECTOR = '.auth-footer .js-switchAuthenticator';
+const SWITCH_AUTHENTICATOR_SELECTOR = '[data-se="switchAuthenticator"]';
 
 export default class ChallengeFactorPageObject extends BasePageObject {
   constructor(t) {
@@ -26,7 +26,11 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return Selector(SWITCH_AUTHENTICATOR_SELECTOR).textContent;
   }
 
-  clickNextButton() {
+  clickNextButton(name) {
+    if (userVariables.v3) {
+      return this.form.clickSaveButton(name);
+    }
+    
     return this.form.clickSaveButton();
   }
 
@@ -34,11 +38,8 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.t.pressKey('enter');
   }
 
-  /**
-   * @deprecated {@see this.form.getTitle}
-   */
-  getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
+  clickVerifyButton() {
+    return this.form.clickButton('Verify');
   }
 
   waitForErrorBox() {
@@ -52,30 +53,24 @@ export default class ChallengeFactorPageObject extends BasePageObject {
   getErrorFromErrorBox() {
     return this.form.getErrorBoxText();
   }
-  
+
   getInvalidOTPFieldError() {
     return this.form.getTextBoxErrorMessage(PASSCODE_FIELD_NAME);
   }
 
   /**
-   * @deprecated {@see ChallengeEmailPageObject}
+   * @deprecated
+   * @see ChallengeEmailPageObject
    */
   resendEmailView() {
     return this.form.getElement('.resend-email-view');
   }
 
   /**
-   * @deprecated {@see ChallengeEmailPageObject}
+   * @deprecated
+   * @see ChallengeEmailPageObject
    */
   async clickSendAgainLink() {
     await this.form.clickElement('.resend-email-view a.resend-link');
-  }
-
-  getSaveButtonLabel() {
-    return this.form.getElement('.button-primary').value;
-  }
-
-  getEnterVerificationCodeText() {
-    return this.form.getElement('.enter-auth-code-instead-link').textContent;
   }
 }

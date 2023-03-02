@@ -1,0 +1,249 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Terminal ODA enrollment Loopback transformer adds iOS UI elements appropriately when platform is Android and challenge method is loopback 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "enroll.title.oda",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "enroll.explanation.p1",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "items": Array [
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.oda.android.step1",
+                  },
+                  "type": "Description",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.oda.step1",
+                  },
+                  "type": "Description",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.oda.step2",
+                  },
+                  "type": "Description",
+                },
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "<span class=\\"no-translate\\">https://okta.com</span>",
+                  },
+                  "type": "Description",
+                },
+                Object {
+                  "label": "enroll.oda.org.copyLink",
+                  "options": Object {
+                    "onClick": [Function],
+                    "step": "",
+                    "type": "button",
+                    "variant": "secondary",
+                  },
+                  "type": "Button",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.oda.step6",
+                  },
+                  "type": "Description",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+          ],
+          "type": "ol",
+        },
+        "type": "List",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal ODA enrollment Loopback transformer adds iOS UI elements appropriately when platform is iOS 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "enroll.title.oda",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "enroll.explanation.p1",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "items": Array [
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.mdm.step.copyLink",
+                  },
+                  "type": "Description",
+                },
+                Object {
+                  "label": "enroll.mdm.copyLink",
+                  "options": Object {
+                    "onClick": [Function],
+                    "step": "",
+                    "type": "button",
+                    "variant": "secondary",
+                  },
+                  "type": "Button",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.mdm.step.pasteLink",
+                  },
+                  "type": "Description",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.oda.step3",
+                  },
+                  "type": "Description",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.oda.step1",
+                  },
+                  "type": "Description",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.oda.step2",
+                  },
+                  "type": "Description",
+                },
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "<span class=\\"no-translate\\">https://okta.com</span>",
+                  },
+                  "type": "Description",
+                },
+                Object {
+                  "label": "enroll.oda.org.copyLink",
+                  "options": Object {
+                    "onClick": [Function],
+                    "step": "",
+                    "type": "button",
+                    "variant": "secondary",
+                  },
+                  "type": "Button",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.oda.step6",
+                  },
+                  "type": "Description",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+          ],
+          "type": "ol",
+        },
+        "type": "List",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

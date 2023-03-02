@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PIV Authenticator Transformer Tests should create PIV/CAC button, title, and description elements for display 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "piv.cac.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "piv.cac.card.insert",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "retry",
+        "translations": Array [
+          Object {
+            "i18nKey": "retry",
+            "name": "label",
+            "value": "retry",
+          },
+        ],
+        "type": "PIVButton",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

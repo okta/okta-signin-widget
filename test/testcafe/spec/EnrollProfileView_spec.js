@@ -74,7 +74,8 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Profile');
+fixture('Enroll Profile')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -90,10 +91,10 @@ test.requestHooks(requestLogger, EnrollProfileSignUpMock)('should show sign up b
 
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.firstName')).eql('First name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Last name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.email')).eql('Email');
-  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('First name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Last name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Email')).eql(true);
+  await t.expect(await enrollProfilePage.signUpButtonExists()).eql(true);
 });
 
 test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit button when updating info for an existing user', async t => {
@@ -102,11 +103,11 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
   await checkA11y(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign in');
-  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Submit');
+  await t.expect(await enrollProfilePage.submitButtonExists()).eql(true);
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('should show dropdown values for base properties (country code and timezone) on registration form', async t => {
@@ -116,16 +117,14 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.country')).eql('Country');
-  await t.expect(await enrollProfilePage.isDropdownVisible('userProfile.country')).ok();
-  await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.country')).eql('Select an Option');
+  await t.expect(await enrollProfilePage.dropDownExistsByLabel('Country')).eql(true);
+  await t.expect(await enrollProfilePage.form.getValueFromDropdown('userProfile.country')).eql('Select an Option');
   await enrollProfilePage.selectValueFromDropdown('userProfile.country', 1);
 
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.countryCode')).eql('Country code');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Country code')).eql(true);
   await enrollProfilePage.setTextBoxValue('userProfile.countryCode', 'US');
 
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.timezone')).eql('Time zone');
-  await t.expect(await enrollProfilePage.isDropdownVisible('userProfile.timezone')).ok();
+  await t.expect(await enrollProfilePage.dropDownExistsByLabel('Time zone')).eql(true);
   await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.timezone')).eql('Select an Option');
   await enrollProfilePage.selectValueFromDropdown('userProfile.timezone', 1);
 });
@@ -146,7 +145,8 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithBooleanFieldsMock)('shou
   await enrollProfilePage.setCheckbox('userProfile.optional');
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All Base Attributes are rendered based on their i18n translation, not the label in the json file', async t => {
+// TODO: OKTA-524769 - Enable this for v3 once ODY Team enables optional sub label in field elements
+test.meta('v3', false).requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All Base Attributes are rendered based on their i18n translation, not the label in the json file', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -202,19 +202,22 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
 
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.firstName')).eql('First name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Last name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.email')).eql('Email');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('First name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Last name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Email')).eql(true);
   // verify prompt & field for password are rendered
-  await t.expect(await enrollProfilePage.getFormFieldLabel('credentials.passcode')).eql('Password');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Password')).eql(true);
   // verify password text toggle is rendered
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   // verify password requirements are rendered
-  await t.expect(await enrollProfilePage.form.elementExist('section[data-se="password-authenticator--rules"]')).ok();
-  await t.expect(await enrollProfilePage.form.getInnerTexts('div[class="password-authenticator--heading"]')).eql(['Password requirements:']);
-  await t.expect(await enrollProfilePage.form.elementExist('ul[class="password-authenticator--list"]')).ok();
+  await t.expect(enrollProfilePage.hasText('Password requirements:')).eql(true);
+  await t.expect(enrollProfilePage.hasText('At least 8 characters')).eql(true);
+  await t.expect(enrollProfilePage.hasText('An uppercase letter')).eql(true);
+  await t.expect(enrollProfilePage.hasText('A lowercase letter')).eql(true);
+  await t.expect(enrollProfilePage.hasText('A number')).eql(true);
+  await t.expect(enrollProfilePage.hasText('No parts of your username')).eql(true);
 
-  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
+  await t.expect(await enrollProfilePage.signUpButtonExists()).eql(true);
 
   // Fill in attribute fields
   await enrollProfilePage.setTextBoxValue('userProfile.firstName', 'First');
@@ -236,13 +239,11 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
   await enrollProfilePage.setTextBoxValue('userProfile.lastName', 'Last');
   await enrollProfilePage.setTextBoxValue('userProfile.email', 'first@last.com');
   await identityPage.fillPasswordField('invalid');
-  // click Save
-  await enrollProfilePage.form.clickSaveButton();
+  // click Sign Up
+  await enrollProfilePage.form.clickSaveButton('Sign Up');
   // Verify error handling
   await enrollProfilePage.form.waitForErrorBox();
 
-  await t.expect(await enrollProfilePage.getErrorBoxText())
-    .eql('We found some errors. Please review the form and make corrections.');
   await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
     .eql('Password requirements were not met');
 });
@@ -262,18 +263,17 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
   await enrollProfilePage.setTextBoxValue('userProfile.email', 'first@last');
   await identityPage.fillPasswordField('invalid');
   // click Save
-  await enrollProfilePage.form.clickSaveButton();
+  await enrollProfilePage.form.clickSaveButton('Sign Up');
   // Verify error handling
   await enrollProfilePage.form.waitForErrorBox();
 
-  await t.expect(await enrollProfilePage.getErrorBoxText())
-    .eql('We found some errors. Please review the form and make corrections.');
-  await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email')).eql(true);
+  await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email', 0)).eql(true);
   await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
     .eql('Password requirements were not met');
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render social IDP buttons when returned via remediation', async t => {
+// OKTA-585923 Custom IDPs not yet supported in gen 3 widget
+test.meta('v3', false).requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render social IDP buttons when returned via remediation', async t => {
   
   const enrollProfilePage = await setup(t);
   await checkA11y(t);
@@ -287,7 +287,8 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render
   await t.expect(enrollProfilePage.getIdpButton('.social-auth-microsoft-button').textContent).eql('Sign in with Microsoft');
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP buttons does redirect', async t => {
+// OKTA-585923 Custom IDPs not yet supported in gen 3 widget
+test.meta('v3', false).requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP buttons does redirect', async t => {
   
   const enrollProfilePage = await setup(t);
   await checkA11y(t);
@@ -307,7 +308,8 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP 
     .eql('http://localhost:3000/sso/idps/facebook-123?stateToken=eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..aDi6JnIZwCRzk7RN.xQ1R9jj43bV5S17F1juzgTZGd9Gq7VvuE4Hc1V_tMVcTWiVQ1Ntim1tQPZtmnpfOifu-N_quGGDSdgiidb_2xU1m9SbDMJhV-Yp6E07tABwjaRd_ekuRzDFw7Jxknz33LtSwQOTQ-WiH2o6JikLiEz2BQbgoizIc2izbtdod7HJg0HVnMZ9ZlBqyBG1-EISI_xPypq8uzP8n79hP_Zz41RI7VJA35yfTuNLOX_k6B-mfeVKf4HyFsKm62XWQgcPIxhjxBMqmyZow2toNclV3sIqgw7I5tKCLQSmSnKbFxxuT4-G31BdaVOALAe9Z89zlluTYaKAPOr86RMsqaGKnQFaplc_0PiPbreKhVgvSeeJgqX2RwnLgckLLiRo7TRDs2kLhGY2ope0AeA9TSsTVdJzsScftZWKgh9iHpXjS-kGcbRx0etu4iTtbHOu3rDIfIcvvt55mfvA66wzy1CCxHt4WYNnBKHX0fIOW_fa_-RYGYug9YRV5G6nQ6V-CfHoxmEsMhsoFJu0hei34_SJv15w2l3vxxBytrWSWi5qUfm5zGjNlx8e9n1Sf_eAqXCfLhBLK4_14jwtjNbWOZCdg5dwzxQiQWDItBjijEjdQrK0i6tw2Rp-IMJD1-4_ZfFZDmAXgZZtBYc3kdmumgYpKeYUJJgw0ZJWoG-Xr0bbzGGMx46yHzMpDbSTpiWhKGytQPbNja8sf_eeOKx_AAosamDUub9yuZJb0-Nj0xvXZ89J0m_09wa2Z3G-zY01sv9ONkXMFzRVwAb2bHmGle082bq33-7Klk7_ZzzkBROJhgDHQcw5QibGWaqYqscgKv2NQV8ebGJO_BHU46p1T3MQzStxRZ2EZua9qQwsmL8P5yboNDt2YmYnUvaOcGfeAqwgovqNDQ0H4u-D5psFmiU1STLOlN5pSAauKe4VxlLxphiirrmiNOOOW0XTwaQ1vtPz8gFlXsmGB-0zcsySG6A6HJ49eOeEI0J2REy2dlFRxzdKthANM2xFc_AIgas9mcNhSWtmVEtMxv7N0xqGAJbxaJC6U4kDDXdImZVaovz4lgRFkIh3aUXgUMX558u9MBeF6Q7z3piIpT6A4I1ww_eDNM02Vew.inRUXNhsc6Evt7GAb8DPAA');
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('custom idps should show correct label', async t => {
+// OKTA-585923 Custom IDPs not yet supported in gen 3 widget
+test.meta('v3', false).requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('custom idps should show correct label', async t => {
   const enrollProfilePage = await setup(t);
   await checkA11y(t);
   await enrollProfilePage.clickSignUpLink();

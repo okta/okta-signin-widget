@@ -104,7 +104,8 @@ const idx = {
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
     // 'authenticator-verification-custom-app-push',
-    // 'authenticator-enroll-custom-app-push'    
+    // 'authenticator-enroll-custom-app-push',
+    // 'request-activation-email'    
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',

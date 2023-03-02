@@ -10,6 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 const fn: Record<string, (...any: any[]) => any> = {};
 const hasFullCorsSupport = 'withCredentials' in new window.XMLHttpRequest();
 const hasXDomainRequest = typeof window.XDomainRequest !== 'undefined';

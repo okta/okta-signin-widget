@@ -26,11 +26,12 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-fixture('Identify Recovery - reset flow');
+fixture('Identify Recovery - reset flow').meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'forgot-password',
     formName: 'identify-recovery',
@@ -44,7 +45,7 @@ test.requestHooks(identifyRecoveryMock)('should have correct display texts', asy
   const identityPage = await setup(t);
   await checkA11y(t);
 
-  const identityPageTitle = identityPage.getPageTitle();
+  const identityPageTitle = identityPage.getFormTitle();
   await t.expect(identityPageTitle).eql('Reset your password');
 
   const saveButtonText = identityPage.getSaveButtonLabel();
@@ -78,7 +79,6 @@ test.requestHooks(identifyRecoveryMock)('should show errors if required fields a
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
 });
 

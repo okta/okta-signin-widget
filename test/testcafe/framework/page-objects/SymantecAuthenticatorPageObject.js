@@ -9,10 +9,6 @@ export default class SymantecAuthenticatorPageObject extends BasePageObject {
     return this.form.setTextBoxValue(name, value);
   }
 
-  getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
-  }
-
   getPageSubtitle() {
     return this.form.getElement('.okta-form-subtitle').textContent;
   }

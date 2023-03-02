@@ -58,7 +58,7 @@ test
       methodType: 'otp'
     });
 
-    await t.expect(pageObject.getPageTitle()).eql('Set up Symantec VIP');
+    await t.expect(pageObject.getFormTitle()).eql('Set up Symantec VIP');
     await t.expect(pageObject.getPageSubtitle()).eql('From the Symantec VIP app, enter your credential ID and two consecutive generated codes');
     
     // Fill out form and submit
@@ -76,7 +76,7 @@ test
     const pageObject = await setup(t);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Set up Symantec VIP');
+    await t.expect(pageObject.getFormTitle()).eql('Set up Symantec VIP');
     
     // Fill out only first part of the form and submit
     await pageObject.verifyFactor('credentials.credentialId', '1234');
@@ -99,7 +99,7 @@ test
       methodType: 'otp'
     });
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with Symantec VIP');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with Symantec VIP');
     await t.expect(pageObject.getPageSubtitle()).eql('Enter the generated security code from the Symantec VIP app.');
     
     // Fill out form and submit
@@ -115,7 +115,7 @@ test
     const pageObject = await setup(t);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with Symantec VIP');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with Symantec VIP');
     
     await pageObject.submit();
 
@@ -128,7 +128,7 @@ test
     const pageObject = await setup(t);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with Symantec VIP');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with Symantec VIP');
 
     // Fill out form and submit
     const fieldName = 'credentials.passcode';
