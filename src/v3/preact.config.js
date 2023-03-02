@@ -42,7 +42,12 @@ const mergeContentSecurityPolicies = (...policies) => {
 };
 
 export default {
-  webpack(config, env) {
+  webpack(config, env, helpers) {
+    const { plugin } = helpers.getPluginsByName(config, 'MiniCssExtractPlugin')[0];
+    // sets the name of the css bundle
+    plugin.options.filename = 'okta-sign-in.next.css';
+    delete plugin.options.chunkFilename;
+
     config.output.libraryTarget = 'umd';
     config.output.filename = ({ chunk }) => (
       chunk.name === 'bundle' ? 'okta-sign-in.next.js' : '[name].next.js'
