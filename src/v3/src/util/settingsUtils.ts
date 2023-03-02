@@ -10,14 +10,27 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { APIError, IdxActionParams } from '@okta/okta-auth-js';
 import union from 'lodash/union';
 
 import config from '../../../config/config.json';
-import { LanguageCode } from '../../../types';
+import {
+  LanguageCode,
+  RegistrationErrorCallback,
+  RegistrationPostSubmitCallback,
+  UserOperation,
+} from '../../../types';
 import BrowserFeatures from '../../../util/BrowserFeatures';
 import CountryUtil from '../../../util/CountryUtil';
 import Util from '../../../util/Util';
-import { WidgetProps } from '../types';
+import { FORM_NAME_TO_OPERATION_MAP } from '../constants';
+import {
+  RegistrationDataCallbackV3,
+  RegistrationElementSchema,
+  RegistrationSchemaCallbackV3,
+  WidgetProps,
+} from '../types';
+import { loc } from './locUtil';
 
 export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   const { i18n, language, assets: { languages } = {} } = widgetProps;
@@ -106,4 +119,86 @@ export const getDefaultCountryCode = (widgetProps: WidgetProps): string => {
   const countries = CountryUtil.getCountries();
   return Object.keys(countries).includes(defaultCountryCode)
     ? defaultCountryCode : defaultCountry;
+};
+
+export const parseRegistrationSchema = (
+  widgetProps: WidgetProps,
+  schema: RegistrationElementSchema[],
+  onSuccess: RegistrationSchemaCallbackV3,
+  onFailure: RegistrationErrorCallback,
+): void => {
+  const { registration: { parseSchema } = {} } = widgetProps;
+  if (typeof parseSchema !== 'function') {
+    onSuccess(schema);
+  }
+
+  parseSchema?.(
+    schema,
+    (modifiedSchema: RegistrationElementSchema[]) => onSuccess(modifiedSchema),
+    (error: APIError) => {
+      const errorObj = error || {
+        errorSummary: loc('registration.default.callbackhook.error', 'login'),
+      };
+      onFailure(errorObj);
+    },
+  );
+};
+
+export const preRegistrationSubmit = (
+  widgetProps: WidgetProps,
+  data: IdxActionParams,
+  onSuccess: RegistrationDataCallbackV3,
+  onFailure: RegistrationErrorCallback,
+): void => {
+  const { registration: { preSubmit } = {} } = widgetProps;
+  if (typeof preSubmit !== 'function') {
+    onSuccess(data);
+  }
+
+  preSubmit?.(
+    data,
+    (postData) => onSuccess(postData),
+    (error: APIError) => {
+      const errorObj = error || {
+        errorSummary: loc('registration.default.callbackhook.error', 'login'),
+      };
+      onFailure(errorObj);
+    },
+  );
+};
+
+export const postRegistrationSubmit = (
+  widgetProps: WidgetProps,
+  response: string,
+  onSuccess: RegistrationPostSubmitCallback,
+  onFailure: RegistrationErrorCallback,
+): void => {
+  const { registration: { postSubmit } = {} } = widgetProps;
+  if (typeof postSubmit !== 'function') {
+    onSuccess(response);
+  }
+
+  postSubmit?.(
+    response,
+    (responseStr) => onSuccess(responseStr),
+    (error: APIError) => {
+      const errorObj = error || {
+        errorSummary: loc('registration.default.callbackhook.error', 'login'),
+      };
+      onFailure(errorObj);
+    },
+  );
+};
+
+export const transformIdentifier = (
+  widgetProps: WidgetProps,
+  step: string,
+  username: string,
+): string => {
+  const { transformUsername } = widgetProps;
+  if (typeof transformUsername !== 'function') {
+    return username;
+  }
+  const operation: UserOperation = FORM_NAME_TO_OPERATION_MAP[step];
+  return transformUsername(username, operation);
 };

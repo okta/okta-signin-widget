@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { UserOperation } from '../../../types';
+
 export const PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS = 50;
 
 export const OKTA_VERIFY_APP_URL: Record<string, string> = {
@@ -210,3 +212,9 @@ export enum InterstitialRedirectView {
   DEFAULT = 'DEFAULT',
   NONE = 'NONE',
 }
+
+export const FORM_NAME_TO_OPERATION_MAP: Record<string, UserOperation> = {
+  [IDX_STEP.SELECT_AUTHENTICATOR_UNLOCK]: 'UNLOCK_ACCOUNT',
+  [IDX_STEP.IDENTIFY]: 'PRIMARY_AUTH',
+  [IDX_STEP.IDENTIFY_RECOVERY]: 'FORGOT_PASSWORD',
+};

@@ -11,11 +11,15 @@
  */
 
 import {
+  APIError,
+  FieldError,
   IdxMessage,
   IdxRemediation,
   IdxTransaction,
+  Input,
   NextStep,
 } from '@okta/okta-auth-js';
+import { StateUpdater } from 'preact/hooks';
 
 import { getMessage } from '../../../v2/ion/i18nTransformer';
 import {
@@ -28,14 +32,19 @@ import {
   AppInfo,
   AuthCoinProps,
   IWidgetContext,
+  RegistrationElementSchema,
   RequiredKeys,
   UserInfo,
   WidgetMessage,
   WidgetProps,
 } from '../types';
+import { flattenInputs } from './flattenInputs';
 import { getAuthenticatorKey } from './getAuthenticatorKey';
 import { getCurrentAuthenticator } from './getCurrentAuthenticator';
 import { loc } from './locUtil';
+import { resetMessagesToInputs } from './resetMessagesToInputs';
+
+type RegistrationFieldError = FieldError & { property: string };
 
 export const getUserInfo = (transaction: IdxTransaction): UserInfo => {
   const { context: { user } } = transaction;
@@ -237,3 +246,90 @@ export const convertIdxMessageToWidgetMessage = (
     message: getMessage(message),
   };
 });
+
+export const convertIdxInputsToRegistrationSchema = (
+  inputs: Input[],
+): RegistrationElementSchema[] => (
+  inputs.reduce((acc: Input[], input: Input) => {
+    const flattenedInputs = flattenInputs(input);
+    return [...acc, ...flattenedInputs];
+  }, []).map((flattendInput: Input) => ({
+    ...flattendInput,
+    'label-top': true,
+    'data-se': flattendInput.name,
+    wide: true,
+  } as RegistrationElementSchema))
+);
+
+export const convertRegistrationSchemaToIdxInputs = (
+  schema: RegistrationElementSchema[],
+  idxInputs: Input[],
+): void => {
+  schema.forEach((schemaEle: RegistrationElementSchema) => {
+    if (schemaEle.name?.includes('.')) {
+      // nested object (only go one level deep)
+      const [schemaGroupName, schemaGrpFieldName] = schemaEle.name.split('.');
+      const inputGroupIndex = idxInputs.findIndex(({ name }) => name === schemaGroupName);
+      if (inputGroupIndex !== -1 && Array.isArray(idxInputs[inputGroupIndex]?.value)) {
+        // Existing input
+        const inputGroupFieldIndex = (
+          idxInputs[inputGroupIndex]?.value as Input[]
+        )?.findIndex(({ name }) => name === schemaGrpFieldName);
+        if (inputGroupFieldIndex !== -1) {
+          // Update existing field
+          const srcObj = (idxInputs[inputGroupIndex]?.value as Input[])?.[inputGroupFieldIndex];
+          Object.assign(srcObj, { ...schemaEle, name: schemaGrpFieldName });
+        } else {
+          // Add new field
+          const schemaInputField = { ...schemaEle, name: schemaGrpFieldName };
+          (idxInputs[inputGroupIndex]?.value as Record<string, unknown>[]).push(schemaInputField);
+        }
+      } else {
+        // New top level input
+        idxInputs.push({
+          name: schemaGroupName,
+          type: 'object',
+          required: schemaEle.required,
+          // @ts-expect-error Registration Schema Element has extra fields that are not in Input
+          value: { ...schemaEle, name: schemaGrpFieldName },
+        });
+      }
+    } else {
+      // not nested
+      const existFieldIdx = idxInputs.findIndex(({ name }) => name === schemaEle.name);
+      if (existFieldIdx !== -1) {
+        // Existing Field (modify)
+        Object.assign(idxInputs[existFieldIdx], schemaEle);
+      } else {
+        // New Field (create)
+        // @ts-expect-error Registration Schema Element has extra fields that are not in Input
+        idxInputs.push(schemaEle);
+      }
+    }
+  });
+};
+
+export const triggerRegistrationErrorMessages = (
+  error: APIError,
+  inputs: Input[],
+  setMessage: StateUpdater<IdxMessage | undefined>,
+): void => {
+  if (Array.isArray(error.errorCauses)) {
+    // field level error messages
+    const messagesByField: Record<string, WidgetMessage[]> = error.errorCauses
+      .reduce((acc, err) => {
+        const { errorSummary, property } = err as RegistrationFieldError;
+        return {
+          ...acc,
+          [property]: [{ class: 'ERROR', message: errorSummary }],
+        };
+      }, {});
+    resetMessagesToInputs(inputs, messagesByField);
+  }
+
+  setMessage({
+    class: 'ERROR',
+    i18n: { key: '' },
+    message: error.errorSummary || loc('oform.errorbanner.title', 'login'),
+  });
+};

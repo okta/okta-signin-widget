@@ -106,6 +106,7 @@ const ReminderPrompt: UISchemaElementComponent<{
       <Link
         // eslint-disable-next-line no-script-url
         href="javascript:void(0);"
+        variant="monochrome"
         onClick={() => resendHandler()}
       >
         {buttonText}

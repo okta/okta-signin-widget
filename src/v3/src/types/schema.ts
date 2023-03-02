@@ -146,6 +146,15 @@ export type TokenReplacementValue = {
 
 export type TokenReplacement = Partial<Record<TokenSearchValue, TokenReplacementValue>>;
 
+export type RegistrationElementSchema = Modify<Input, {
+  'label-top'?: boolean;
+  placeholder?: string;
+  'data-se'?: string;
+  options?: IdxOption[] | Record<string, string>[];
+  sublabel?: string;
+  wide?: boolean;
+}>;
+
 export interface UISchemaElement {
   type: string;
   id?: string;
