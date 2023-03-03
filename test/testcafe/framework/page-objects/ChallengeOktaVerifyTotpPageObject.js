@@ -1,9 +1,7 @@
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
+import { screen, within } from '@testing-library/testcafe';
 
 const TOTP_FIELD = 'credentials.totp';
-const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
-const FORM_INFOBOX_ERROR_SUBTITLE = '[data-se="o-form-error-container"] [data-se="callout"] > p';
-const FORM_INFOBOX_ERROR_BULLETS = '[data-se="o-form-error-container"] [data-se="callout"] > ul li';
 
 export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPageObject {
   constructor(t) {
@@ -19,15 +17,25 @@ export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPa
   }
 
   getErrorTitle() {
-    return this.form.getElement(FORM_INFOBOX_ERROR_TITLE);
+    return screen.findByRole('heading', {
+      level: 3,
+    }).innerText;
   }
 
-  getErrorSubtitle() {
-    return this.form.getElement(FORM_INFOBOX_ERROR_SUBTITLE);
+  errorHasSubtitle(subtitle) {
+    const alertBox = this.form.getAlertBox();
+    return within(alertBox).getByText(subtitle).exists;
+  }
+
+  getErrorListContent() {
+    const alertBox = this.form.getAlertBox();
+    return within(alertBox).getByRole('list');
   }
 
   getNthErrorBulletPoint(index) {
-    return this.form.getElement(FORM_INFOBOX_ERROR_BULLETS).nth(index);
+    const alertBox = this.form.getAlertBox();
+    const listItems = within(alertBox).getAllByRole('listitem');
+    return listItems.nth(index).innerText;
   }
 
   formFieldExistsByLabel(label) {

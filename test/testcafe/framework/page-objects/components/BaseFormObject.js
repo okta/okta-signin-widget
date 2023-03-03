@@ -219,9 +219,13 @@ export default class BaseFormObject {
     }).exists;
   }
 
+  getAlertBox() {
+    return within(this.el).queryAllByRole('alert');
+  }
+
   getErrorBoxCount() {
     if (userVariables.v3) {
-      return within(this.el).queryAllByRole('alert').count;
+      return this.getAlertBox().count;
     }
 
     return this.el.find(FORM_INFOBOX_ERROR).count;
@@ -229,7 +233,7 @@ export default class BaseFormObject {
 
   getErrorBoxText() {
     if (userVariables.v3) {
-      return within(this.el).queryAllByRole('alert').nth(0).innerText;
+      return this.getAlertBox().nth(0).innerText;
     }
 
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
@@ -241,7 +245,7 @@ export default class BaseFormObject {
 
   getAlertBoxText() {
     if (userVariables.v3) {
-      return within(this.el).queryAllByRole('alert').nth(0).innerText;
+      return this.getAlertBox().nth(0).innerText;
     } else {
       // Not implemented/required in v2
     }
@@ -255,7 +259,7 @@ export default class BaseFormObject {
     if (index === undefined) {
       index = 0;
     }
-    return within(this.el).queryAllByRole('alert').nth(index).exists;
+    return this.getAlertBox().nth(index).exists;
   }
 
   getAllErrorBoxTexts() {

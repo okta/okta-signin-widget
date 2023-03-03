@@ -55,9 +55,32 @@ const overrideMessagesWithTitle = (msgs: WidgetMessage[]): WidgetMessage[] => {
   return msgs;
 };
 
+const overrideBiometricsErrorMessage = (msgs: WidgetMessage[]): void => {
+  const msgIndex = msgs.findIndex(
+    (msg) => msg.i18n?.key === OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+  );
+  if (msgIndex === -1) {
+    return;
+  }
+
+  const messageBullets: WidgetMessage[] = [
+    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point1', 'login'),
+    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point2', 'login'),
+    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point3', 'login'),
+  ].map((msg: string) => ({ class: 'INFO', message: msg }));
+  const message = {
+    class: 'ERROR',
+    title: loc('oie.authenticator.app.method.push.verify.enable.biometrics.title', 'login'),
+    description: loc('oie.authenticator.app.method.push.verify.enable.biometrics.description', 'login'),
+    message: messageBullets,
+  };
+  msgs.splice(msgIndex, 1, message);
+};
+
 const transformCustomMessages = (formBag: FormBag, messages: WidgetMessage[]): FormBag => {
   const { uischema } = formBag;
   const formattedMessages = overrideMessagesWithTitle(messages);
+  overrideBiometricsErrorMessage(messages);
 
   const messageElements: UISchemaElement[] = [];
   formattedMessages.forEach((message) => messageElements.push({
