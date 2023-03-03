@@ -49,22 +49,23 @@ async function setup(t) {
   return enrollGoogleAuthenticatorPageObject;
 }
 
-test.only
+test
   .requestHooks(invalidOTPMock)('enroll with Barcode with invalid OTP', async t => {
     const enrollGoogleAuthenticatorPageObject = await setup(t);
 
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
-    // await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan barcode');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan barcode');
     await t.expect(enrollGoogleAuthenticatorPageObject.getSetUpDescription())
       .eql('Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".');
     await t.expect(enrollGoogleAuthenticatorPageObject.hasQRcode).ok();
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
+    await t.expect(await enrollGoogleAuthenticatorPageObject.getOtpLabel()).contains('Enter code');
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
-    
+
     await t.expect(enrollGoogleAuthenticatorPageObject.getCodeFieldError()).contains('Invalid code. Try again.');
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).contains('We found some errors.');
   });
@@ -76,15 +77,16 @@ test
     await enrollGoogleAuthenticatorPageObject.goTomanualSetup();
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
-    // await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).contains('Can\'t scan');
 
     const sharedSecret = await enrollGoogleAuthenticatorPageObject.getSharedSecret();
     // Remove white spaces in string
-    await t.expect(sharedSecret.toString().replace(/\s/g, "")).eql('ZR74DHZTG43NBULV');
+    await t.expect(sharedSecret.toString().replace(/\s/g, '')).eql('ZR74DHZTG43NBULV');
 
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
+    await t.expect(await enrollGoogleAuthenticatorPageObject.getOtpLabel()).contains('Enter code');
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
@@ -98,7 +100,7 @@ test
 
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
-    // await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan barcode');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan barcode');
     await t.expect(enrollGoogleAuthenticatorPageObject.hasQRcode).ok();
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available))
@@ -108,6 +110,7 @@ test
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
+    await t.expect(await enrollGoogleAuthenticatorPageObject.getOtpLabel()).contains('Enter code');
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
@@ -117,17 +120,17 @@ test
       .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
   });
 
-test.
-  requestHooks(logger, validOTPmock)('enroll with manual setup with valid OTP', async t => {
+test
+  .requestHooks(logger, validOTPmock)('enroll with manual setup with valid OTP', async t => {
     const enrollGoogleAuthenticatorPageObject = await setup(t);
 
     await enrollGoogleAuthenticatorPageObject.goTomanualSetup();
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
-    // await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
     const sharedSecret = await enrollGoogleAuthenticatorPageObject.getSharedSecret();
     // Remove white spaces in string
-    await t.expect(sharedSecret.toString().replace(/\s/g, "")).eql('ZR74DHZTG43NBULV');
+    await t.expect(sharedSecret.toString().replace(/\s/g, '')).eql('ZR74DHZTG43NBULV');
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available))
@@ -135,6 +138,7 @@ test.
     await t.expect(await enrollGoogleAuthenticatorPageObject.signoutLinkExists()).ok();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
+    await t.expect(await enrollGoogleAuthenticatorPageObject.getOtpLabel()).contains('Enter code');
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
