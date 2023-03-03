@@ -207,7 +207,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
             widgetProps,
             // @ts-expect-error Type is object but TS disallows object for Record
             payload.userProfile.email,
-            () => { onSuccess(resolve); },
+            (_response) => { onSuccess(resolve); },
             (error) => {
               triggerRegistrationErrorMessages(
                 error,

@@ -130,9 +130,10 @@ export const parseRegistrationSchema = (
   const { registration: { parseSchema } = {} } = widgetProps;
   if (typeof parseSchema !== 'function') {
     onSuccess(schema);
+    return;
   }
 
-  parseSchema?.(
+  parseSchema(
     schema,
     (modifiedSchema: RegistrationElementSchema[]) => onSuccess(modifiedSchema),
     (error: APIError) => {
@@ -153,9 +154,10 @@ export const preRegistrationSubmit = (
   const { registration: { preSubmit } = {} } = widgetProps;
   if (typeof preSubmit !== 'function') {
     onSuccess(data);
+    return;
   }
 
-  preSubmit?.(
+  preSubmit(
     data,
     (postData) => onSuccess(postData),
     (error: APIError) => {
@@ -176,9 +178,10 @@ export const postRegistrationSubmit = (
   const { registration: { postSubmit } = {} } = widgetProps;
   if (typeof postSubmit !== 'function') {
     onSuccess(response);
+    return;
   }
 
-  postSubmit?.(
+  postSubmit(
     response,
     (responseStr) => onSuccess(responseStr),
     (error: APIError) => {

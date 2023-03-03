@@ -150,7 +150,7 @@ export type RegistrationElementSchema = Modify<Input, {
   'label-top'?: boolean;
   placeholder?: string;
   'data-se'?: string;
-  options?: IdxOption[] | Record<string, string>[];
+  options?: IdxOption[] | Record<string, string>[] | Record<string, string>;
   sublabel?: string;
   wide?: boolean;
 }>;

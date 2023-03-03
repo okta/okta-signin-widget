@@ -57,7 +57,9 @@ const transformRegistrationSchema: TransformStepFnWithOptions = (options) => (fo
     setMessage,
     isClientTransaction,
   } = options;
-  if (nextStep?.name !== IDX_STEP.ENROLL_PROFILE) {
+  const { registration: { parseSchema } = {} } = widgetProps;
+  // If the step is not enroll-profile or if parseSchema is not defined, no need to evaluate
+  if (nextStep?.name !== IDX_STEP.ENROLL_PROFILE || typeof parseSchema !== 'function') {
     return formbag;
   }
 
