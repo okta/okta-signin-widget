@@ -127,6 +127,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
         <Box
           className="authenticator-icon-container"
           data-se="authenticator-icon"
+          aria-hidden
         >
           <AuthCoin
             authenticatorKey={authenticationKey}
