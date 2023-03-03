@@ -118,6 +118,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -214,6 +215,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -330,6 +332,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -426,6 +429,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -539,6 +543,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -652,6 +657,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -748,6 +754,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -847,6 +854,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -1015,6 +1023,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -1111,6 +1120,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -1201,6 +1211,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -1293,6 +1304,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -1394,6 +1406,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -1495,6 +1508,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -1593,6 +1607,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -1691,6 +1706,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >

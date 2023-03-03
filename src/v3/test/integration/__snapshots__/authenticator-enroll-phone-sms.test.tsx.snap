@@ -133,6 +133,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -308,6 +309,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -407,6 +409,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
@@ -520,6 +523,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >

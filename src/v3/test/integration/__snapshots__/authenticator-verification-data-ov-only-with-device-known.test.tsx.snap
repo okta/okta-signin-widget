@@ -151,6 +151,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-9"
                         data-se="authenticator-icon"
                       >
@@ -250,6 +251,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-9"
                         data-se="authenticator-icon"
                       >
@@ -349,6 +351,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-9"
                         data-se="authenticator-icon"
                       >

@@ -97,6 +97,7 @@ exports[`user-unlock-account renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-11"
                         data-se="authenticator-icon"
                       >
@@ -193,6 +194,7 @@ exports[`user-unlock-account renders form 1`] = `
                       type="button"
                     >
                       <div
+                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-11"
                         data-se="authenticator-icon"
                       >
