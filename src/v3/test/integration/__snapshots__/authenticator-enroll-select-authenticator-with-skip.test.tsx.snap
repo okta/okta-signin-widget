@@ -133,11 +133,11 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
-                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-okta-password authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -237,11 +237,11 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
-                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-okta-phone authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -351,11 +351,11 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       type="button"
                     >
                       <div
-                        aria-hidden="true"
                         class="authenticator-icon-container MuiBox-root emotion-8"
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-webauthn authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
