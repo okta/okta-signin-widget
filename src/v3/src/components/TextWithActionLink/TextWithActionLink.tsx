@@ -33,9 +33,10 @@ const TextWithActionLink: UISchemaElementComponent<{
     stepToRender,
     contentClassname,
     isActionStep,
+    variant,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
-  const parsedContent = useHtmlContentParser(content);
+  const parsedContent = useHtmlContentParser(content, { variant });
 
   const handleClick = async (e: Event) => {
     e.preventDefault();

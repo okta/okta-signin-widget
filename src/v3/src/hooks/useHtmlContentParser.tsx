@@ -23,7 +23,7 @@ import preact, { h } from 'preact';
 
 export const useHtmlContentParser = (
   content: string | undefined,
-  options?: HTMLReactParserOptions,
+  options?: HTMLReactParserOptions & { variant?: 'monochrome'; },
 ): string | h.JSX.Element | h.JSX.Element[] | undefined => {
   if (typeof content === 'undefined') {
     return undefined;
@@ -39,8 +39,15 @@ export const useHtmlContentParser = (
     parserOptions.replace = (node: DOMNode) => {
       if (node instanceof Element && node.type === 'tag' && node.name === 'a') {
         const props = attributesToProps(node.attribs);
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        return <Link {...props}>{domToReact(node.children, parserOptions)}</Link>;
+        return (
+          <Link
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...props}
+            variant={options?.variant}
+          >
+            {domToReact(node.children, parserOptions)}
+          </Link>
+        );
       }
       return undefined;
     };

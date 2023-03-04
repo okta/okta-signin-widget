@@ -126,6 +126,7 @@ const ReminderPrompt: UISchemaElementComponent<{
               step,
               isActionStep,
               actionParams,
+              variant: 'monochrome',
             },
           }}
         />

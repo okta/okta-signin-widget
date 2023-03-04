@@ -865,7 +865,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         >
                           Haven’t received an email? Check your spam folder or 
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways resend-link emotion-21"
+                            class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways resend-link emotion-21"
                             href="#"
                           >
                             send again
@@ -919,7 +919,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     Or 
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-21"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-30"
                       href="#"
                     >
                       try a different way
@@ -3561,7 +3561,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         >
                           Haven’t received an SMS? 
                           <a
-                            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways resend-link emotion-21"
+                            class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways resend-link emotion-21"
                             href="#"
                           >
                             Send again
@@ -3615,7 +3615,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     Or 
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-21"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-30"
                       href="#"
                     >
                       try a different way

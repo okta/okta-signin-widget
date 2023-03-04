@@ -373,6 +373,7 @@ export interface TextWithActionLinkElement extends UISchemaElement {
     content: string;
     contentClassname: string;
     stepToRender?: string;
+    variant?: 'monochrome';
   };
 }
 
