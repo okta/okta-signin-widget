@@ -1,5 +1,6 @@
 import { userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
+import { userVariables } from 'testcafe';
 
 const CODE_FIELD_NAME = 'credentials.passcode';
 const CODE_FIELD_SELECTOR = 'label[for="credentials.passcode"]';
