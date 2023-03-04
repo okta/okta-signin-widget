@@ -68,6 +68,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     <Box
       className={containerClasses}
       data-se="factor-beacon"
+      aria-hidden
       sx={(theme) => ({
         '--PrimaryFill': theme.palette.primary.main,
         '--SecondaryFill': theme.palette.primary.light,

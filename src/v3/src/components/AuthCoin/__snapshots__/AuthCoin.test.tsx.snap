@@ -3,6 +3,7 @@
 exports[`AuthCoin tests should display Branded AuthCoin and disallow style customization 1`] = `
 <div>
   <div
+    aria-hidden="true"
     class="iconContainer mfa-duo MuiBox-root emotion-0"
     data-se="factor-beacon"
   >
@@ -41,6 +42,7 @@ exports[`AuthCoin tests should display Branded AuthCoin and disallow style custo
 exports[`AuthCoin tests should display Non-Branded AuthCoin with style customizations 1`] = `
 <div>
   <div
+    aria-hidden="true"
     class="iconContainer mfa-hotp MuiBox-root emotion-0"
     data-se="factor-beacon"
   >
@@ -88,6 +90,7 @@ exports[`AuthCoin tests should display Non-Branded AuthCoin with style customiza
 exports[`AuthCoin tests should display branded AuthCoin when image URL is provided and AuthenticatorKey requires a branded Type 1`] = `
 <div>
   <div
+    aria-hidden="true"
     class="iconContainer mfa-duo MuiBox-root emotion-0"
     data-se="factor-beacon"
   >
@@ -126,6 +129,7 @@ exports[`AuthCoin tests should display branded AuthCoin when image URL is provid
 exports[`AuthCoin tests should display custom image in place of standard Non-Branded AuthCoin when image URL is provided 1`] = `
 <div>
   <div
+    aria-hidden="true"
     class="iconContainer mfa-hotp MuiBox-root emotion-0"
     data-se="factor-beacon"
   >
@@ -141,6 +145,7 @@ exports[`AuthCoin tests should display custom image in place of standard Non-Bra
 exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin without style customization 1`] = `
 <div>
   <div
+    aria-hidden="true"
     class="iconContainer mfa-hotp MuiBox-root emotion-0"
     data-se="factor-beacon"
   >

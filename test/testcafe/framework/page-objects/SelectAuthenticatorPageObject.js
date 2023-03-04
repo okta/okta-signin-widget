@@ -59,7 +59,7 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   getFactorIconBgImageByIndex(index) {
     if (userVariables.v3) {
-      return within(this.form.getElement(factorIconSelector).nth(index)).queryByRole('img').getAttribute('src');
+      return within(this.form.getElement(factorIconSelector).nth(index)).queryByRole('img', { hidden: true }).getAttribute('src');
     }
     return this.form.getElement(factorIconSelector).nth(index).getStyleProperty('background-image');
   }
