@@ -26,8 +26,21 @@ Object {
             "elements": Array [
               Object {
                 "contentType": "subtitle",
+                "noMargin": true,
+                "options": Object {
+                  "content": "oie.enroll.google_authenticator.scanBarcode.title",
+                  "dataSe": "barcode-setup-title",
+                  "level": 5,
+                  "visualLevel": 3,
+                },
+                "type": "Heading",
+                "viewIndex": 0,
+              },
+              Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.enroll.google_authenticator.scanBarcode.description",
+                  "dataSe": "google-authenticator-setup-info",
                 },
                 "type": "Description",
                 "viewIndex": 0,
@@ -40,7 +53,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "label": "oie.enroll.google_authenticator.cannotScanBarcode.title",
+                "label": "oie.enroll.google_authenticator.scanBarcode.cannotScan",
                 "options": Object {
                   "nextStepIndex": 1,
                   "type": "button",
@@ -66,8 +79,21 @@ Object {
             "elements": Array [
               Object {
                 "contentType": "subtitle",
+                "noMargin": true,
+                "options": Object {
+                  "content": "oie.enroll.google_authenticator.cannotScanBarcode.title",
+                  "dataSe": "manual-setup-title",
+                  "level": 5,
+                  "visualLevel": 3,
+                },
+                "type": "Heading",
+                "viewIndex": 1,
+              },
+              Object {
+                "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.enroll.google_authenticator.manualSetupInstructions",
+                  "dataSe": "google-authenticator-setup-info",
                 },
                 "type": "Description",
                 "viewIndex": 1,
@@ -99,6 +125,7 @@ Object {
                 "contentType": "subtitle",
                 "options": Object {
                   "content": "oie.enroll.google_authenticator.enterCode.title",
+                  "dataSe": "enter-code-title",
                 },
                 "type": "Description",
                 "viewIndex": 2,
