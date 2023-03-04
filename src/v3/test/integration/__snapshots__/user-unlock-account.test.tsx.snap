@@ -101,6 +101,7 @@ exports[`user-unlock-account renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-okta-email authenticator-icon MuiBox-root emotion-20"
                           data-se="factor-beacon"
                         >
@@ -197,6 +198,7 @@ exports[`user-unlock-account renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-okta-phone authenticator-icon MuiBox-root emotion-20"
                           data-se="factor-beacon"
                         >

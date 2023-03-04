@@ -36,21 +36,21 @@ describe('AuthCoin tests', () => {
 
     const { container, findByRole } = render(<AuthCoin {...props} />);
 
-    expect(await findByRole('img')).toBeDefined();
+    expect(await findByRole('img', { hidden: true })).toBeDefined();
     expect(container).toMatchSnapshot();
   });
 
   it('should display standard theme Non-Branded AuthCoin without style customization', async () => {
     const { container, findByRole } = render(<AuthCoin {...props} />);
 
-    expect(await findByRole('img')).toBeDefined();
+    expect(await findByRole('img', { hidden: true })).toBeDefined();
     expect(container).toMatchSnapshot();
   });
 
   it('should display Non-Branded AuthCoin with style customizations', async () => {
     const { container, findByRole } = render(<AuthCoin {...props} />);
 
-    expect(await findByRole('img')).toBeDefined();
+    expect(await findByRole('img', { hidden: true })).toBeDefined();
     expect(container).toMatchSnapshot();
   });
 
@@ -63,7 +63,7 @@ describe('AuthCoin tests', () => {
 
     const { container, findByRole } = render(<AuthCoin {...props} />);
 
-    expect(await findByRole('img')).toBeDefined();
+    expect(await findByRole('img', { hidden: true })).toBeDefined();
     expect(container).toMatchSnapshot();
   });
 
@@ -76,7 +76,7 @@ describe('AuthCoin tests', () => {
 
     const { container, findByRole } = render(<AuthCoin {...props} />);
 
-    expect(await findByRole('img')).toBeDefined();
+    expect(await findByRole('img', { hidden: true })).toBeDefined();
     expect(container).toMatchSnapshot();
   });
 
@@ -88,7 +88,7 @@ describe('AuthCoin tests', () => {
     const { queryByRole, container } = render(<AuthCoin {...props} />);
 
     expect(container.childElementCount).toBe(0);
-    expect(await queryByRole('img')).not.toBeInTheDocument();
+    expect(await queryByRole('img', { hidden: true })).not.toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 });

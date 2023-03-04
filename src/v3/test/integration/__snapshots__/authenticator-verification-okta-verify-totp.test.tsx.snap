@@ -23,6 +23,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
             class="MuiTypography-root MuiTypography-h1 emotion-4"
           />
           <div
+            aria-hidden="true"
             class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-5"
             data-se="factor-beacon"
           >
@@ -216,6 +217,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
             class="MuiTypography-root MuiTypography-h1 emotion-4"
           />
           <div
+            aria-hidden="true"
             class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-5"
             data-se="factor-beacon"
           >
