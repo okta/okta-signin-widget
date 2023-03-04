@@ -2,6 +2,7 @@ import { userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const CODE_FIELD_NAME = 'credentials.passcode';
+const CODE_FIELD_SELECTOR = 'label[for="credentials.passcode"]';
 
 export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject {
 
@@ -10,42 +11,72 @@ export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject 
   }
 
   getBarcodeSubtitle() {
+    if (userVariables.v3) {
+      return this.getTextContent('[data-se="barcode-setup-title"]');
+    }
     return this.getTextContent('.barcode-setup-title');
   }
 
   getmanualSetupSubtitle() {
+    if (userVariables.v3) {
+      return this.getTextContent('[data-se="manual-setup-title"]');
+    }
     return this.getTextContent('.manual-setup-title');
   }
 
   isEnterCodeSubtitleVisible() {
+    if (userVariables.v3) {
+      return this.form.getElement(CODE_FIELD_SELECTOR).visible;
+    }
     return this.form.getElement('.enter-code-title').visible;
   }
 
   getSetUpDescription() {
+    if (userVariables.v3) {
+      return this.getTextContent('[data-se="google-authenticator-setup-info"]');
+    }
     return this.getTextContent('.google-authenticator-setup-info');
   }
 
   hasQRcode() {
+    if (userVariables.v3) {
+      return this.form.elementExist('.qrImg');
+    }
     return this.form.elementExist('.qrcode');
   }
 
   getSharedSecret() {
+    if (userVariables.v3) {
+      return this.form.getSubtitle();
+    }
     return this.form.getElement('.shared-secret input').getAttribute('placeholder');
   }
 
   async goTomanualSetup() {
+    if (userVariables.v3) {
+      return this.form.clickButton('Can\'t scan?');
+    }
     await this.form.clickElement('.cannot-scan-link');
   }
 
   async goToNextPage() {
+    if (userVariables.v3) {
+      return this.form.clickButton('Next');
+    }
     await this.form.clickElement('.google-authenticator-next');
   }
 
   async submit() {
+    if (userVariables.v3) {
+      return this.form.clickButton('Verify');
+    }
     await this.form.clickElement('.google-authenticator-verify');
   }
 
   getOtpLabel() {
+    if (userVariables.v3) {
+      return this.getTextContent(CODE_FIELD_SELECTOR);
+    }
     return this.form.getFormFieldLabel(CODE_FIELD_NAME);
   }
 

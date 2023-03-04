@@ -327,7 +327,7 @@ test.page(
   await takeScreenshot(t, 'authenticator-enroll-google-authenticator-qrcode');
 
   await t
-    .click(Selector('button').withExactText('Can\'t scan barcode?'));
+    .click(Selector('button').withExactText('Can\'t scan?'));
 
   await checkA11y(t);
   await takeScreenshot(t, 'authenticator-enroll-google-authenticator-secret-key');

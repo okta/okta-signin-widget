@@ -24,7 +24,7 @@ describe('authenticator-enroll-google-authenticator', () => {
 
     it('renders secret key view', async () => {
       const { container, user, findByText } = await setup({ mockResponse });
-      const cantScanBtn = await findByText(/Can't scan barcode?/);
+      const cantScanBtn = await findByText(/Can't scan?/);
       await user.click(cantScanBtn);
       await findByText(/input the following in the Secret Key Field/);
       expect(container).toMatchSnapshot();
