@@ -137,6 +137,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-okta-password authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -240,6 +241,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-okta-phone authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -353,6 +355,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-webauthn authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -476,6 +479,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-okta-security-question authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -579,6 +583,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-okta-verify authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -678,6 +683,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-google-auth authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -853,6 +859,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-onprem authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -956,6 +963,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-rsa authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -1053,6 +1061,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-duo authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -1152,6 +1161,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-custom-factor authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -1260,6 +1270,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-hotp authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -1368,6 +1379,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-symantec authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >
@@ -1473,6 +1485,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-icon"
                       >
                         <div
+                          aria-hidden="true"
                           class="iconContainer mfa-yubikey authenticator-icon MuiBox-root emotion-26"
                           data-se="factor-beacon"
                         >

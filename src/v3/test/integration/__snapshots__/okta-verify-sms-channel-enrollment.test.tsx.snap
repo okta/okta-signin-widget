@@ -23,6 +23,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
             class="MuiTypography-root MuiTypography-h1 emotion-4"
           />
           <div
+            aria-hidden="true"
             class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-5"
             data-se="factor-beacon"
           >
@@ -1505,6 +1506,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
             class="MuiTypography-root MuiTypography-h1 emotion-4"
           />
           <div
+            aria-hidden="true"
             class="iconContainer mfa-okta-verify authCoinOverlay MuiBox-root emotion-5"
             data-se="factor-beacon"
           >
