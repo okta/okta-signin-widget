@@ -1,5 +1,6 @@
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 import { screen, within } from '@testing-library/testcafe';
+import { userVariables } from 'testcafe';
 
 const TOTP_FIELD = 'credentials.totp';
 
@@ -17,6 +18,9 @@ export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPa
   }
 
   getErrorTitle() {
+    if (userVariables.v3) {
+      return this.form.getNthTitle(0);
+    }
     return screen.findByRole('heading', {
       level: 3,
     }).innerText;

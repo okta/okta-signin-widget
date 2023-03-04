@@ -46,6 +46,12 @@ export default class BaseFormObject {
     }).innerText;
   }
 
+  getNthTitle(index) {
+    return screen.findAllByRole('heading', {
+      level: 2,
+    }).nth(index).innerText;
+  }
+
   getSubtitle(index) {
     if (index === undefined) {
       index = 0;

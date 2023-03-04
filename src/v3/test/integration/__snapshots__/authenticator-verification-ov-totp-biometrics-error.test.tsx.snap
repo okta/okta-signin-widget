@@ -137,11 +137,11 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     <div
                       class="MuiAlert-message emotion-18"
                     >
-                      <h3
+                      <h2
                         class="MuiTypography-root MuiTypography-h6 emotion-19"
                       >
                         Enable biometrics in Okta Verify
-                      </h3>
+                      </h2>
                       <div
                         class="MuiBox-root emotion-20"
                       >

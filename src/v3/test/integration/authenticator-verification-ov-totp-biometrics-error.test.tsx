@@ -15,10 +15,11 @@ import { setup } from './util';
 
 describe('authenticator-verification-ov-totp-biometrics-error', () => {
   it('should render form with Biometrics error', async () => {
-    const { container, findByRole } = await setup({ mockResponse });
-    const heading = await findByRole('heading', { level: 2 });
+    const { container, findAllByRole, findByRole } = await setup({ mockResponse });
+    const [alertBoxTitle, pageTitle] = await findAllByRole('heading', { level: 2 });
     await findByRole('alert');
-    expect(heading.textContent).toBe('Enter a code');
+    expect(pageTitle.textContent).toBe('Enter a code');
+    expect(alertBoxTitle.textContent).toBe('Enable biometrics in Okta Verify');
     expect(container).toMatchSnapshot();
   });
 });
