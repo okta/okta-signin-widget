@@ -15,6 +15,7 @@ import {
   ButtonType,
   DescriptionElement,
   FieldElement,
+  HeadingElement,
   IdxStepTransformer,
   QRCodeElement,
   StepperButtonElement,
@@ -68,7 +69,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
 
   const stepOneStepperButton: StepperButtonElement = {
     type: 'StepperButton',
-    label: loc('oie.enroll.google_authenticator.cannotScanBarcode.title', 'login'),
+    label: loc('oie.enroll.google_authenticator.scanBarcode.cannotScan', 'login'),
     options: {
       type: ButtonType.BUTTON,
       variant: 'secondary',
@@ -89,14 +90,27 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
   const googleAuthStepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
     elements: [
+      // Initial Google Auth view w/ QR code scan
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
+          {
+            type: 'Heading',
+            contentType: 'subtitle',
+            noMargin: true,
+            options: {
+              content: loc('oie.enroll.google_authenticator.scanBarcode.title', 'login'),
+              level: 5,
+              visualLevel: 3,
+              dataSe: 'barcode-setup-title',
+            },
+          } as HeadingElement,
           {
             type: 'Description',
             contentType: 'subtitle',
             options: {
               content: loc('oie.enroll.google_authenticator.scanBarcode.description', 'login'),
+              dataSe: 'google-authenticator-setup-info',
             },
           } as DescriptionElement,
           qrCodeElement,
@@ -104,6 +118,34 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
           nextButton,
         ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
       },
+      // Manual entry view (after clicking "Can't scan?" link)
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          {
+            type: 'Heading',
+            contentType: 'subtitle',
+            noMargin: true,
+            options: {
+              content: loc('oie.enroll.google_authenticator.cannotScanBarcode.title', 'login'),
+              level: 5,
+              visualLevel: 3,
+              dataSe: 'manual-setup-title',
+            },
+          } as HeadingElement,
+          {
+            type: 'Description',
+            contentType: 'subtitle',
+            options: {
+              content: loc('oie.enroll.google_authenticator.manualSetupInstructions', 'login'),
+              dataSe: 'google-authenticator-setup-info',
+            },
+          } as DescriptionElement,
+          manualKeyElement,
+          nextButton,
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
+      },
+      // Code entry view
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
@@ -111,20 +153,9 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
             type: 'Description',
             contentType: 'subtitle',
             options: {
-              content: loc('oie.enroll.google_authenticator.manualSetupInstructions', 'login'),
+              content: loc('oie.enroll.google_authenticator.enterCode.title', 'login'),
+              dataSe: 'enter-code-title',
             },
-          } as DescriptionElement,
-          manualKeyElement,
-          nextButton,
-        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
-      },
-      {
-        type: UISchemaLayoutType.VERTICAL,
-        elements: [
-          {
-            type: 'Description',
-            contentType: 'subtitle',
-            options: { content: loc('oie.enroll.google_authenticator.enterCode.title', 'login') },
           } as DescriptionElement,
           passcodeElement,
           {
