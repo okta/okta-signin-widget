@@ -9,6 +9,11 @@ export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPa
     super(t);
   }
 
+  getFormTitleWithError() {
+    const titlePosition = userVariables.v3 ? 1 : 0;
+    return this.form.getNthTitle(titlePosition);
+  }
+
   getTotpLabel() {
     return this.form.getFormFieldLabel(TOTP_FIELD);
   }
