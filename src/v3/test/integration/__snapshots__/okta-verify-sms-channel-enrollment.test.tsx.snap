@@ -91,6 +91,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
@@ -1574,6 +1575,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>

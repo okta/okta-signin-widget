@@ -59,6 +59,7 @@ const IdentifierContainer: FunctionComponent = () => {
       justifyContent="center"
       alignItems="center"
       marginBlockEnd={4}
+      maxWidth={1}
       className={mainContainerClasses}
       sx={(theme) => ({
         '--PrimaryFill': theme.palette.primary.main,
@@ -87,6 +88,7 @@ const IdentifierContainer: FunctionComponent = () => {
           component="span"
           className={identifierSpanClasses}
           data-se="identifier"
+          title={identifier}
         >
           {identifier}
         </Box>

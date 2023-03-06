@@ -95,6 +95,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester14@test.com"
               >
                 tester14@test.com
               </span>
@@ -504,6 +505,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester14@test.com"
               >
                 tester14@test.com
               </span>
@@ -868,6 +870,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester14@test.com"
               >
                 tester14@test.com
               </span>
@@ -1343,6 +1346,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester14@test.com"
               >
                 tester14@test.com
               </span>

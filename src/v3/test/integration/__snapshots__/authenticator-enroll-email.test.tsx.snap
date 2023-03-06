@@ -95,6 +95,7 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>

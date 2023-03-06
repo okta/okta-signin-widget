@@ -95,6 +95,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="firstname.lastname@example.com"
               >
                 firstname.lastname@example.com
               </span>
@@ -278,6 +279,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="firstname.lastname@example.com"
               >
                 firstname.lastname@example.com
               </span>
@@ -505,6 +507,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="firstname.lastname@example.com"
               >
                 firstname.lastname@example.com
               </span>
@@ -720,6 +723,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>
@@ -991,6 +995,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>
@@ -1399,6 +1404,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="firstname.lastname@example.com"
               >
                 firstname.lastname@example.com
               </span>

@@ -91,6 +91,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester@okta1.com"
               >
                 tester@okta1.com
               </span>
@@ -394,6 +395,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester@okta1.com"
               >
                 tester@okta1.com
               </span>

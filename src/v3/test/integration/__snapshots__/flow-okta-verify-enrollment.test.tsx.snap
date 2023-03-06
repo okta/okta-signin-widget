@@ -91,6 +91,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
@@ -298,6 +299,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
@@ -588,6 +590,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
@@ -813,6 +816,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester@okta1.com"
               >
                 tester@okta1.com
               </span>
@@ -1051,6 +1055,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
@@ -1325,6 +1330,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
@@ -1532,6 +1538,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
@@ -1739,6 +1746,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
@@ -2029,6 +2037,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
@@ -3512,6 +3521,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester3@test.com"
               >
                 tester3@test.com
               </span>
@@ -3750,6 +3760,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
