@@ -95,7 +95,8 @@ const List: UISchemaElementComponent<{
               disableGutters
               disablePadding
               key={typeof item === 'string' ? item : getElementKey(item, index)}
-              sx={{ display: 'list-item' }}
+              // TODO: OKTA-577905 - (textAlign: 'start') Temporary fix until we can upgrade to the latest version of Odyssey
+              sx={{ display: 'list-item', textAlign: 'start' }}
             >
               {typeof item === 'string' ? item : renderLayout(item) }
             </ListItem>

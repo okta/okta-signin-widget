@@ -15,6 +15,7 @@ import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementStatus } from '../../types';
+import { CheckCircle } from '../Icon';
 
 type PasswordRequirementIconProps = {
   status: PasswordRequirementStatus;
@@ -36,13 +37,22 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
       className={iconClasses}
       marginInlineEnd={1}
       display="flex"
+      aria-hidden
     >
-      <OdyIcon
-        aria-hidden
-        titleAccess={status}
-        name={statusToIconProps[status].name}
-        color={statusToIconProps[status].color}
-      />
+      {
+        statusToIconProps[status].name === 'check-circle-filled' ? (
+          <CheckCircle
+            name="complete"
+            description="complete"
+          />
+        ) : (
+          <OdyIcon
+            titleAccess={status}
+            name={statusToIconProps[status].name}
+            color={statusToIconProps[status].color}
+          />
+        )
+      }
     </Box>
   );
 };
