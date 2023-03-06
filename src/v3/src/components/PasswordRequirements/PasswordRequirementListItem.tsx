@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { green } from '@mui/material/colors';
+import * as Tokens from '@okta/odyssey-design-tokens';
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
@@ -26,7 +26,7 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
     <Box
       component="li"
       sx={{ marginBlockEnd: (theme) => theme.spacing(2) }}
-      color={status === 'complete' ? green[600] : undefined}
+      color={status === 'complete' ? Tokens.ColorPaletteGreen600 : undefined}
     >
       <Box
         display="flex"
