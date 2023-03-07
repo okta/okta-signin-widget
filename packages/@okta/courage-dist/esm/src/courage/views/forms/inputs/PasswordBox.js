@@ -28,6 +28,14 @@ var PasswordBox = TextBox.extend({
 
     TextBox.prototype.postRender.apply(this, arguments);
   },
+
+  /**
+   * @Override
+   * Overrides the default val method in order to avoid whitespace trimming
+   */
+  val: function () {
+    return this.$('input[type="' + this.options.type + '"]').val();
+  },
   __showPasswordToggle: function () {
     return this.options.params && this.options.params.showPasswordToggle;
   },
