@@ -68,15 +68,6 @@ export default {
       delimiters: ['', ''],
       preventAssignment: true
     }),
-    replace({
-      // remove moment / helper-date
-      include: ['**/courage/util/handlebars-wrapper.*'],
-      values: {
-        'import "./handlebars/helper-date";': '// helper-date removed by rollup'
-      },
-      delimiters: ['', ''],
-      preventAssignment: true
-    }),
     commonjs(),
     resolve({
       extensions,
