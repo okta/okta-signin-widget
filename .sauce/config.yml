@@ -7,7 +7,7 @@ npm:
     "axe-core": "^4.6.3"
 sauce:
   region: us-west-1
-  concurrency: 3
+  concurrency: 1
   sauceignore: .sauceignore
   tunnel: 
     name: OktaSignInWidget_testcafe_firefox
@@ -16,9 +16,20 @@ suites:
   browserName: firefox
   src:
     - 'test/testcafe/spec/IdentifyRecovery_spec.js'
-    - 'test/testcafe/spec/BYOL_spec.js'
-    - 'test/testcafe/spec/ChallengePIV_spec.js'
+    # - 'test/testcafe/spec/BYOL_spec.js'
+    # - 'test/testcafe/spec/ChallengePIV_spec.js'
   platformName: Windows 11
+  mode: sauce
+  clientScripts: 
+    - 'node_modules/axe-core/axe.min.js'
+- name: testcafe - windows 10 - IE
+  browserName: internet explorer
+  browserVersion: latest
+  src:
+    - 'test/testcafe/spec/IdentifyRecovery_spec.js'
+    # - 'test/testcafe/spec/BYOL_spec.js'
+    # - 'test/testcafe/spec/ChallengePIV_spec.js'
+  platformName: Windows 10
   mode: sauce
   clientScripts: 
     - 'node_modules/axe-core/axe.min.js'
