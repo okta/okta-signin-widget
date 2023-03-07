@@ -57,6 +57,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-8"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>
@@ -293,6 +294,7 @@ exports[`enroll-profile-update should render form 1`] = `
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-8"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>

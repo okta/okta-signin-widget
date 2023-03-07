@@ -105,6 +105,7 @@ exports[`byol loading custom language should load custom language with "language
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>
@@ -1695,6 +1696,7 @@ exports[`byol loading custom language should load custom language with assets.ba
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>
@@ -3285,6 +3287,7 @@ exports[`byol loading default language should not load custom language when the 
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>
@@ -4875,6 +4878,7 @@ exports[`byol loading default language should not load custom language with "lan
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>

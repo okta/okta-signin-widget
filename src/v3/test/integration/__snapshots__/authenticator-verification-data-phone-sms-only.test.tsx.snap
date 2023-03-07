@@ -105,6 +105,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester@okta1.com"
               >
                 tester@okta1.com
               </span>

@@ -91,6 +91,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester2@test.com"
               >
                 tester2@test.com
               </span>
