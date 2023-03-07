@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { OV_UV_ENABLE_BIOMETRIC_SERVER_KEY } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import {
-  InfoboxElement, WidgetProps,
-} from 'src/types';
+import { InfoboxElement, WidgetProps } from 'src/types';
 
 import { OV_OVERRIDE_MESSAGE_KEY, transformMessages } from './transform';
 
@@ -30,7 +29,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(transformMessages({ transaction, widgetProps, step: '' })(formBag)).toEqual(formBag);
   });
 
-  it('should not update formBag when messages in transaction are not to be customized', () => {
+  it('should add simple message to formBag when messages in transaction are not to be customized', () => {
     transaction.messages = [
       {
         message: 'This is a standard message',
@@ -38,7 +37,16 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: 'some.standard.key' },
       },
     ];
-    expect(transformMessages({ transaction, widgetProps, step: '' })(formBag)).toEqual(formBag);
+    const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        i18n: { key: 'some.standard.key' },
+        message: 'This is a standard message',
+      });
   });
 
   it('should add title when fips compliance message key exists in transaction', () => {
@@ -82,6 +90,32 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: 'oie.authenticator.app.method.push.enroll.enable.biometrics' },
         message: 'oie.authenticator.app.method.push.enroll.enable.biometrics',
         title: 'oie.authenticator.app.method.push.enroll.enable.biometrics.title',
+      });
+  });
+
+  it('should add message list when biometrics error key exists in transaction', () => {
+    transaction.messages = [
+      {
+        message: 'This is a biometrics compatibility error.',
+        class: 'ERROR',
+        i18n: { key: OV_UV_ENABLE_BIOMETRIC_SERVER_KEY },
+      },
+    ];
+    const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        message: [
+          { class: 'INFO', message: 'oie.authenticator.app.method.push.verify.enable.biometrics.point1' },
+          { class: 'INFO', message: 'oie.authenticator.app.method.push.verify.enable.biometrics.point2' },
+          { class: 'INFO', message: 'oie.authenticator.app.method.push.verify.enable.biometrics.point3' },
+        ],
+        description: 'oie.authenticator.app.method.push.verify.enable.biometrics.description',
+        title: 'oie.authenticator.app.method.push.verify.enable.biometrics.title',
       });
   });
 });

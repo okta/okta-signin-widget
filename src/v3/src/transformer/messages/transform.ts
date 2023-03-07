@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import flow from 'lodash/flow';
+
 import { IDX_STEP, OV_UV_ENABLE_BIOMETRIC_SERVER_KEY } from '../../constants';
 import {
-  FormBag,
   InfoboxElement,
   TransformStepFnWithOptions,
   UISchemaElement,
@@ -33,8 +34,7 @@ const fipsComplianceKeys = [
 ];
 
 export const CUSTOM_MESSAGE_KEYS = [
-  OV_OVERRIDE_MESSAGE_KEY.OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS,
-  OV_OVERRIDE_MESSAGE_KEY.OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS,
+  ...fipsComplianceKeys,
   OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY,
   OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
 ];
@@ -44,46 +44,49 @@ const EXCLUDE_MESSAGE_STEPS = [
   IDX_STEP.REQUEST_ACTIVATION,
 ];
 
-const overrideMessagesWithTitle = (msgs: WidgetMessage[]): WidgetMessage[] => {
+const localizeTransactionMessages: TransformStepFnWithOptions = ({
+  transaction,
+}) => (formbag) => {
+  if (!transaction.messages || transaction.messages.length < 1) {
+    return formbag;
+  }
+
+  transactionMessageTransformer(transaction);
+
+  return formbag;
+};
+
+const transformMessagesWithTitle: TransformStepFnWithOptions = ({
+  transaction,
+}) => (formbag) => {
+  if (
+    !transaction.messages
+    || transaction.messages.length < 1
+    || !containsOneOfMessageKeys(
+      [...fipsComplianceKeys, OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY],
+      transaction.messages,
+    )) {
+    return formbag;
+  }
+  const { messages = [] } = transaction;
+  const { uischema } = formbag;
+
+  const messagesWithTitle: WidgetMessage[] = messages
+    .filter((message) => [...fipsComplianceKeys,
+      OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY].includes(message.i18n?.key));
   // only transform the first message (only contains one in this scenario)
-  const [message]: WidgetMessage[] = msgs;
-  if (containsOneOfMessageKeys(fipsComplianceKeys, msgs)) {
-    message.title = loc('oie.okta_verify.enroll.force.upgrade.title', 'login');
-  } else if (containsMessageKey(OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY, msgs)) {
-    message.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
+  const [widgetMessage]: WidgetMessage[] = messagesWithTitle;
+  if (containsOneOfMessageKeys(fipsComplianceKeys, messagesWithTitle)) {
+    widgetMessage.title = loc('oie.okta_verify.enroll.force.upgrade.title', 'login');
+  } else if (containsMessageKey(
+    OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY,
+    messagesWithTitle,
+  )) {
+    widgetMessage.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
   }
-  return msgs;
-};
-
-const overrideBiometricsErrorMessage = (msgs: WidgetMessage[]): void => {
-  const msgIndex = msgs.findIndex(
-    (msg) => msg.i18n?.key === OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
-  );
-  if (msgIndex === -1) {
-    return;
-  }
-
-  const messageBullets: WidgetMessage[] = [
-    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point1', 'login'),
-    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point2', 'login'),
-    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point3', 'login'),
-  ].map((msg: string) => ({ class: 'INFO', message: msg }));
-  const message = {
-    class: 'ERROR',
-    title: loc('oie.authenticator.app.method.push.verify.enable.biometrics.title', 'login'),
-    description: loc('oie.authenticator.app.method.push.verify.enable.biometrics.description', 'login'),
-    message: messageBullets,
-  };
-  msgs.splice(msgIndex, 1, message);
-};
-
-const transformCustomMessages = (formBag: FormBag, messages: WidgetMessage[]): FormBag => {
-  const { uischema } = formBag;
-  const formattedMessages = overrideMessagesWithTitle(messages);
-  overrideBiometricsErrorMessage(messages);
 
   const messageElements: UISchemaElement[] = [];
-  formattedMessages.forEach((message) => messageElements.push({
+  messagesWithTitle.forEach((message) => messageElements.push({
     type: 'InfoBox',
     options: {
       class: message.class ?? 'INFO',
@@ -94,32 +97,66 @@ const transformCustomMessages = (formBag: FormBag, messages: WidgetMessage[]): F
 
   uischema.elements = messageElements.concat(uischema.elements);
 
-  return formBag;
+  return formbag;
 };
 
-export const transformMessages: TransformStepFnWithOptions = ({ transaction }) => (formBag) => {
+const transformBiometricsErrorMessage: TransformStepFnWithOptions = ({
+  transaction,
+}) => (formbag) => {
+  if (
+    !transaction.messages
+    || transaction.messages.length === 0
+    || !containsMessageKey(OV_UV_ENABLE_BIOMETRIC_SERVER_KEY, transaction.messages)
+  ) {
+    return formbag;
+  }
   const { messages = [] } = transaction;
-  const { uischema } = formBag;
-  if (!messages.length) {
-    return formBag;
-  }
+  const { uischema } = formbag;
+  const biometricsErrorMessages: WidgetMessage[] = messages
+    .filter((message) => OV_UV_ENABLE_BIOMETRIC_SERVER_KEY === message.i18n?.key);
 
-  transactionMessageTransformer(transaction);
-  const displayedMessages: WidgetMessage[] = messages.map((message) => (message));
+  const messageBullets: WidgetMessage[] = [
+    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point1', 'login'),
+    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point2', 'login'),
+    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point3', 'login'),
+  ].map((msg: string) => ({ class: 'INFO', message: msg }));
+  const customMessage = {
+    class: 'ERROR',
+    title: loc('oie.authenticator.app.method.push.verify.enable.biometrics.title', 'login'),
+    description: loc('oie.authenticator.app.method.push.verify.enable.biometrics.description', 'login'),
+    message: messageBullets,
+  };
 
-  if (containsOneOfMessageKeys(CUSTOM_MESSAGE_KEYS, displayedMessages)) {
-    return transformCustomMessages(formBag, displayedMessages);
-  }
+  const messageElements: UISchemaElement[] = [];
+  biometricsErrorMessages.forEach((message) => messageElements.push({
+    type: 'InfoBox',
+    options: {
+      class: message.class ?? 'INFO',
+      message: customMessage,
+      dataSe: 'callout',
+    },
+  } as InfoboxElement));
 
-  const shouldExcludeMessages = transaction?.nextStep?.name
+  uischema.elements = messageElements.concat(uischema.elements);
+
+  return formbag;
+};
+
+const transformGeneralMessages: TransformStepFnWithOptions = ({
+  transaction,
+}) => (formbag) => {
+  const { messages = [] } = transaction;
+  const { uischema } = formbag;
+
+  const containsCustomMessages = containsOneOfMessageKeys(CUSTOM_MESSAGE_KEYS, messages);
+  const shouldExcludeMessagesForStep = transaction?.nextStep?.name
     && EXCLUDE_MESSAGE_STEPS.includes(transaction.nextStep.name);
-
-  if (shouldExcludeMessages) {
-    return formBag;
+  if (shouldExcludeMessagesForStep || containsCustomMessages) {
+    return formbag;
   }
 
   const messageElements: UISchemaElement[] = [];
-  displayedMessages.forEach((message) => {
+  messages.forEach((message) => {
     const messageClass = message.class ?? 'INFO';
     messageElements.push({
       type: 'InfoBox',
@@ -133,5 +170,12 @@ export const transformMessages: TransformStepFnWithOptions = ({ transaction }) =
 
   uischema.elements = messageElements.concat(uischema.elements);
 
-  return formBag;
+  return formbag;
 };
+
+export const transformMessages: TransformStepFnWithOptions = (options) => (formbag) => flow(
+  localizeTransactionMessages(options),
+  transformMessagesWithTitle(options),
+  transformBiometricsErrorMessage(options),
+  transformGeneralMessages(options),
+)(formbag);
