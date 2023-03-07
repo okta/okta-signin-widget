@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button as OdyButton, CircularProgress } from '@okta/odyssey-react-mui';
+import { Box, Button } from '@okta/odyssey-react-mui';
 import { IdxActionParams } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
@@ -88,29 +88,16 @@ const WebAuthNSubmit: UISchemaElementComponent<{
       display={showLoading ? 'flex' : undefined}
       justifyContent={showLoading ? 'center' : undefined}
     >
-      {
-        showLoading
-          ? (
-            <CircularProgress
-              id="okta-spinner"
-              data-se="okta-spinner"
-              // TODO: OKTA-518793 - replace english string with key once created
-              aria-label="Loading..."
-              aria-valuetext="Loading..."
-            />
-          )
-          : (
-            <OdyButton
-              data-se="button"
-              onClick={handleClick}
-              variant="primary"
-              aria-describedby={ariaDescribedBy}
-              fullWidth
-            >
-              { label }
-            </OdyButton>
-          )
-      }
+      <Button
+        disabled={showLoading}
+        data-se="button"
+        onClick={handleClick}
+        variant="primary"
+        aria-describedby={ariaDescribedBy}
+        fullWidth
+      >
+        {label}
+      </Button>
     </Box>
   );
 };

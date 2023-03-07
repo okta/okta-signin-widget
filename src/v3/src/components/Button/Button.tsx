@@ -47,6 +47,7 @@ const Button: UISchemaElementComponent<{
       step,
       stepToRender,
       classes,
+      disabled,
       onClick,
     },
   } = uischema;
@@ -71,7 +72,7 @@ const Button: UISchemaElementComponent<{
       variant={variant ?? 'primary'}
       fullWidth={wide ?? true}
       ref={focusRef}
-      disabled={loading}
+      disabled={loading || disabled}
       className={classes}
       // Fixes text overflow
       sx={{ display: 'flex', whiteSpace: 'normal' }}

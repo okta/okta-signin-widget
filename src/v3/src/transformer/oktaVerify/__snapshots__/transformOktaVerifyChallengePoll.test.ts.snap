@@ -34,17 +34,20 @@ Object {
         "noTranslate": true,
         "options": Object {
           "SVGIcon": "MockSVGIcon",
+          "alignment": "center",
           "id": "code",
           "textContent": "42",
         },
         "type": "ImageWithText",
       },
       Object {
+        "contentType": "footer",
         "options": Object {
-          "label": "Loading...",
-          "valueText": "Loading...",
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
         },
-        "type": "Spinner",
+        "type": "Link",
       },
     ],
     "type": "VerticalLayout",
@@ -69,6 +72,7 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "noMargin": true,
         "options": Object {
           "actionParams": Object {
             "resend": true,
@@ -99,17 +103,98 @@ Object {
         "noTranslate": true,
         "options": Object {
           "SVGIcon": "MockSVGIcon",
+          "alignment": "center",
           "id": "code",
           "textContent": "42",
         },
         "type": "ImageWithText",
       },
       Object {
+        "contentType": "footer",
         "options": Object {
-          "label": "Loading...",
-          "valueText": "Loading...",
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
         },
-        "type": "Spinner",
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform elements when method type is push and has enhanced security with resend avaialable and include verify with other link when additional options exist in remediation 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "actionParams": Object {
+            "resend": true,
+          },
+          "content": "oie.numberchallenge.warning",
+          "contentClassname": "resend-number-challenge",
+          "contentHasHtml": true,
+          "isActionStep": true,
+          "step": "resend",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.numberchallenge.instruction",
+          "dataSe": "numberchallenge-instr-value",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "SVGIcon": "MockSVGIcon",
+          "alignment": "center",
+          "id": "code",
+          "textContent": "42",
+        },
+        "type": "ImageWithText",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
       },
     ],
     "type": "VerticalLayout",
@@ -140,24 +225,87 @@ Object {
         "type": "Title",
       },
       Object {
+        "noMargin": true,
         "options": Object {
           "content": "oktaverify.warning",
         },
         "type": "Reminder",
       },
       Object {
-        "contentType": "subtitle",
+        "label": "oie.okta_verify.push.sent",
         "options": Object {
-          "content": "oie.okta_verify.push.sent",
+          "disabled": true,
         },
-        "type": "Description",
+        "type": "Button",
       },
       Object {
+        "contentType": "footer",
         "options": Object {
-          "label": "Loading...",
-          "valueText": "Loading...",
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
         },
-        "type": "Spinner",
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform elements when method type is standard push only and include verify with other link when additional options exist in remediation 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "oktaverify.warning",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "label": "oie.okta_verify.push.sent",
+        "options": Object {
+          "disabled": true,
+        },
+        "type": "Button",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
       },
     ],
     "type": "VerticalLayout",

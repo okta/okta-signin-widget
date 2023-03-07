@@ -13,13 +13,17 @@
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
+  ButtonElement,
   DescriptionElement,
   ImageWithTextElement,
+  LinkElement,
   ReminderElement,
   TitleElement,
   WidgetProps,
 } from 'src/types';
 
+import { IDX_STEP } from '../../constants';
+import * as utils from '../../util/idxUtils';
 import { transformOktaVerifyDeviceChallengePoll } from '../layout/oktaVerify/transformOktaVerifyDeviceChallengePoll';
 import { transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify/transformOktaVerifyFPLoopbackPoll';
 import { transformOktaVerifyChallengePoll } from './transformOktaVerifyChallengePoll';
@@ -42,6 +46,10 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
         } as IdxAuthenticator,
       },
     };
+    transaction.availableSteps = [
+      { name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE },
+      { name: 'cancel' },
+    ];
   });
 
   it('should not update formBag when there are no selected authenticator methods', () => {
@@ -79,14 +87,33 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       .toBe('oie.okta_verify.push.title');
     expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
       .toBe('oktaverify.warning');
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toBe('oie.okta_verify.push.sent');
-    expect(updatedFormBag.uischema.elements[3].type).toBe('Spinner');
+    expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
+      .toBe('goback');
+  });
+
+  it('should transform elements when method type is standard push only and include verify with other link when additional options exist in remediation', () => {
+    jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
+    const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.okta_verify.push.title');
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
+      .toBe('oktaverify.warning');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oie.okta_verify.push.sent');
+    expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
+      .toBe('oie.verification.switch.authenticator');
+    expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
+      .toBe('goback');
   });
 
   it('should transform elements when method type is push and '
     + 'has enhanced security with resend avaialable', () => {
-    transaction.availableSteps = [{ name: 'resend' }];
+    transaction.availableSteps?.push({ name: 'resend' });
     const correctAnswer = '42';
     transaction.nextStep = {
       ...transaction.nextStep,
@@ -120,12 +147,55 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).options.textContent)
       .toBe('42');
     expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).options.id).toBe('code');
-    expect(updatedFormBag.uischema.elements[4].type).toBe('Spinner');
+    expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
+      .toBe('goback');
+  });
+
+  it('should transform elements when method type is push and '
+    + 'has enhanced security with resend avaialable and include verify with other link when additional options exist in remediation', () => {
+    transaction.availableSteps?.push({ name: 'resend' });
+    const correctAnswer = '42';
+    transaction.nextStep = {
+      ...transaction.nextStep,
+      canResend: true,
+      relatesTo: {
+        value: {
+          methods: [{ type: 'push' }],
+          contextualData: {
+            // @ts-ignore OKTA-496373 correctAnswer is missing from interface
+            correctAnswer,
+          },
+        },
+      },
+    };
+    jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
+    const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.content)
+      .toBe('oie.numberchallenge.warning');
+    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.step)
+      .toBe('resend');
+    expect((updatedFormBag.uischema.elements[1] as TitleElement).options.content)
+      .toBe('oie.okta_verify.push.sent');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.numberchallenge.instruction');
+    expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).type)
+      .toBe('ImageWithText');
+    expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).options.textContent)
+      .toBe('42');
+    expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).options.id).toBe('code');
+    expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
+      .toBe('oie.verification.switch.authenticator');
+    expect((updatedFormBag.uischema.elements[5] as LinkElement).options.label)
+      .toBe('goback');
   });
 
   it('should transform elements when method type is push and '
     + 'has enhanced security when resend is unavailable', () => {
-    transaction.availableSteps = [];
     const correctAnswer = '42';
     transaction.nextStep = {
       ...transaction.nextStep,
@@ -152,7 +222,6 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options.textContent)
       .toBe('42');
     expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options.id).toBe('code');
-    expect(updatedFormBag.uischema.elements[3].type).toBe('Spinner');
   });
 
   it('should call device challenge poll transformer when selected authenticator method is signed_nonce', () => {
