@@ -91,6 +91,7 @@ exports[`authenticator-verification-okta-verify-totp-only-ov should render form 
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>

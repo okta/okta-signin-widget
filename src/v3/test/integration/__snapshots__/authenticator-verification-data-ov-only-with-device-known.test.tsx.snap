@@ -91,6 +91,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>

@@ -57,6 +57,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-8"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>

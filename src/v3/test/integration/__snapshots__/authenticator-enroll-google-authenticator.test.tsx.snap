@@ -167,6 +167,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester19@test.com"
               >
                 tester19@test.com
               </span>
@@ -464,6 +465,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester19@test.com"
               >
                 tester19@test.com
               </span>
@@ -753,6 +755,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester19@test.com"
               >
                 tester19@test.com
               </span>
@@ -1040,6 +1043,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester19@test.com"
               >
                 tester19@test.com
               </span>

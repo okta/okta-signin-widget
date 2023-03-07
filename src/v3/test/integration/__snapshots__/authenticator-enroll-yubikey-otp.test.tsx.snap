@@ -97,6 +97,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="testUser@okta.com"
               >
                 testUser@okta.com
               </span>
