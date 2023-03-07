@@ -40,6 +40,7 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
       aria-hidden
     >
       {
+        // Using a custom Icon for the Success/Check Instead of default ODY Icon
         statusToIconProps[status].name === 'check-circle-filled' ? (
           <CheckCircle
             name="complete"
