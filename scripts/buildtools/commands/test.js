@@ -11,6 +11,7 @@ exports.builder = {
       'karma',
       'jest',
       'testcafe',
+      'testcafe-saucelabs',
     ],
     required: true,
   },
@@ -39,6 +40,12 @@ const suiteMap = {
   },
   testcafe: {
     cmd: 'testcafe',
+    preReq: [
+      'wait-on http-get://localhost:3000', // Requires the dev-server to run
+    ]
+  },
+  'testcafe-saucelabs': {
+    cmd: 'saucectl run',
     preReq: [
       'wait-on http-get://localhost:3000', // Requires the dev-server to run
     ]
