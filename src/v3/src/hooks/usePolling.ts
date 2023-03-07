@@ -11,12 +11,14 @@
  */
 
 import { IdxActionParams, IdxTransaction, NextStep } from '@okta/okta-auth-js';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   useEffect, useMemo, useRef, useState,
 } from 'preact/hooks';
 
+import { TERMINAL_KEY } from '../constants';
 import { FormBag, WidgetOptions } from '../types';
-import { isPollingStep } from '../util';
+import { containsMessageKey, isPollingStep } from '../util';
 
 const DEFAULT_TIMEOUT = 4000;
 
@@ -35,6 +37,11 @@ const getPollingStep = (
 
   if (!pollingStep) {
     return undefined;
+  }
+
+  if (containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, transaction?.messages)) {
+    // When polling encounter too many requests error, wait 60 sec for rate limit bucket to reset before polling again
+    pollingStep.refresh = 60000;
   }
 
   return pollingStep;
@@ -100,6 +107,19 @@ export const usePolling = (
         stateHandle: stateToken && idxTransaction?.context?.stateHandle,
         ...payload,
       });
+
+      // @ts-expect-error OKTA-585869 errorCode & errorIntent properties missing from context type
+      if (newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent) {
+        // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
+        const clonedTransaction = cloneDeep(idxTransaction);
+        const clonedPollingStep = getPollingStep(clonedTransaction);
+        if(clonedPollingStep !== undefined) {
+          clonedPollingStep.refresh = 60000;
+        }
+        setTransaction(clonedTransaction);
+        return;
+      }
+
       setTransaction(newTransaction);
     }, refresh);
 
