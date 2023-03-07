@@ -1,8 +1,6 @@
 #!/bin/bash
 
-source $OKTA_HOME/$REPO/scripts/setup.sh
-
-setup_service node v16.16.0
+source $OKTA_HOME/$REPO/scripts/setup.sh "v16.16.0"
 
 export TEST_SUITE_TYPE="junit"
 export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
