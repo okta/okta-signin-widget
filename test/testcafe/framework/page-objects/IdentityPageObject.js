@@ -217,4 +217,8 @@ export default class IdentityPageObject extends BasePageObject {
   getCustomIdpButtonLabel(index) {
     return Selector(CUSTOM_IDP_BUTTON).nth(index).textContent;
   }
+
+  async clickShowPasswordIcon() {
+    await this.t.click(Selector('.password-toggle .button-show'));
+  }
 }
