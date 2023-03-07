@@ -95,6 +95,7 @@ exports[`terminal-return-otp-only-full-location-unlock renders form 1`] = `
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="test@okta.com"
               >
                 test@okta.com
               </span>

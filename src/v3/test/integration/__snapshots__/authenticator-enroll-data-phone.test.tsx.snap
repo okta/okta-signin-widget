@@ -105,6 +105,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester13@test.com"
               >
                 tester13@test.com
               </span>
@@ -1695,6 +1696,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester13@test.com"
               >
                 tester13@test.com
               </span>
@@ -3285,6 +3287,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester13@test.com"
               >
                 tester13@test.com
               </span>

@@ -95,6 +95,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester35@test.com"
               >
                 tester35@test.com
               </span>
@@ -504,6 +505,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester35@test.com"
               >
                 tester35@test.com
               </span>
@@ -1024,6 +1026,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester35@test.com"
               >
                 tester35@test.com
               </span>
@@ -1545,6 +1548,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
               <span
                 class="identifier no-translate identifierSpan MuiBox-root emotion-9"
                 data-se="identifier"
+                title="tester35@test.com"
               >
                 tester35@test.com
               </span>
