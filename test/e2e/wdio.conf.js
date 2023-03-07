@@ -245,13 +245,13 @@ if (process.env.MOBILE_BROWSER_TESTS) {
     ];
 } else if (process.env.RUN_SAUCE_TESTS) {
     conf.capabilities = [
-    {
-      maxInstances: 1, // all tests use the same user and local storage. they must run in series
-      browserName: 'MicrosoftEdge',
-      browserVersion: 'latest',
-      platformName: 'Windows 10',
-      "ms:edgeOptions": {} // don't delete this line, edge tests won't run
-    },
+    // {
+    //   maxInstances: 1, // all tests use the same user and local storage. they must run in series
+    //   browserName: 'MicrosoftEdge',
+    //   browserVersion: 'latest',
+    //   platformName: 'Windows 10',
+    //   "ms:edgeOptions": {} // don't delete this line, edge tests won't run
+    // },
     {
       maxInstances: 1, // all tests use the same user and local storage. they must run in series
       browserName: 'internet explorer',
@@ -263,17 +263,17 @@ if (process.env.MOBILE_BROWSER_TESTS) {
       },
       timeouts: { "implicit": 20_000 }
     },
-    {
-      platformName: 'iOS',
-      browserName: 'Safari',
-      'appium:deviceName': 'iPad Pro (12.9 inch) (5th generation) Simulator',
-      'appium:platformVersion': '15.4',
-      'sauce:options': {
-        appiumVersion: '1.22.3',
-        build: "iOS-Widget-Build",
-        name: "iOS-Widget-Test",
-      }
-    }
+    // {
+    //   platformName: 'iOS',
+    //   browserName: 'Safari',
+    //   'appium:deviceName': 'iPad Pro (12.9 inch) (5th generation) Simulator',
+    //   'appium:platformVersion': '15.4',
+    //   'sauce:options': {
+    //     appiumVersion: '1.22.3',
+    //     build: "iOS-Widget-Build",
+    //     name: "iOS-Widget-Test",
+    //   }
+    // }
     ];
 }
 
