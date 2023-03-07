@@ -22,6 +22,7 @@ import { FunctionComponent } from 'preact';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
+import { Modify } from './jsonforms';
 import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
 
@@ -41,6 +42,18 @@ export type FormBag = {
   // temp schema bag to handle client validation and form submission
   dataSchema: DataSchemaBag;
 };
+
+export type WidgetMessage = Modify<IdxMessage, {
+  class?: string;
+  i18n?: {
+    key: string;
+    params?: unknown[];
+  };
+  message?: string | WidgetMessage[];
+  title?: string;
+  name?: string;
+  description?: string;
+}>;
 
 export type IdxMessageWithName = IdxMessage & { name?: string; };
 
