@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   DescriptionElement,
@@ -22,6 +23,7 @@ import {
   WidgetProps,
 } from 'src/types';
 
+import * as utils from '../../../util/idxUtils';
 import { transformOktaVerifyDeviceChallengePoll } from './transformOktaVerifyDeviceChallengePoll';
 
 describe('Transform Okta Verify Device Challenge Poll Tests', () => {
@@ -43,6 +45,8 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
           },
         },
       };
+      transaction.availableSteps = [{ name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE }];
+      jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
     });
 
     it('should transform elements when challengeMethod is CUSTOM_URI', () => {
@@ -53,7 +57,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(6);
+      expect(updatedFormBag.uischema.elements.length).toBe(7);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('customUri.title');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
@@ -66,9 +70,11 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('customUri.required.content.download.linkText');
       expect((updatedFormBag.uischema.elements[4] as LinkElement).options.href)
         .toBe('https://apps.apple.com/us/app/okta-verify/id490179405');
-      expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.label)
+        .toBe('oie.verification.switch.authenticator');
+      expect((updatedFormBag.uischema.elements[6] as LinkElement).type)
         .toBe('Link');
-      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
+      expect((updatedFormBag.uischema.elements[6] as LinkElement).options.step)
         .toBe('cancel');
     });
 
@@ -91,22 +97,26 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       const stepperLayout = updatedFormBag.uischema.elements[1];
       const [layoutOne, layoutTwo] = (stepperLayout as StepperLayout).elements;
 
-      expect(layoutOne.elements.length).toBe(3);
+      expect(layoutOne.elements.length).toBe(4);
       expect((layoutOne.elements[0] as StepperNavigatorElement).type)
         .toBe('StepperNavigator');
       expect((layoutOne.elements[1] as SpinnerElement).type)
         .toBe('Spinner');
-      expect((layoutOne.elements[2] as LinkElement).options.step)
+      expect((layoutOne.elements[2] as LinkElement).options.label)
+        .toBe('oie.verification.switch.authenticator');
+      expect((layoutOne.elements[3] as LinkElement).options.step)
         .toBe('authenticatorChallenge-cancel');
 
-      expect(layoutTwo.elements.length).toBe(3);
+      expect(layoutTwo.elements.length).toBe(4);
       expect((layoutTwo.elements[0] as DescriptionElement).options.content)
         .toBe('appLink.content');
       expect((layoutTwo.elements[1] as OpenOktaVerifyFPButtonElement).options.href)
         .toBe('okta-verify.html');
-      expect((layoutTwo.elements[2] as LinkElement).type)
+      expect((layoutTwo.elements[2] as LinkElement).options.label)
+        .toBe('oie.verification.switch.authenticator');
+      expect((layoutTwo.elements[3] as LinkElement).type)
         .toBe('Link');
-      expect((layoutTwo.elements[2] as LinkElement).options.step)
+      expect((layoutTwo.elements[3] as LinkElement).options.step)
         .toBe('cancel');
     });
 
@@ -120,7 +130,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(6);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('universalLink.title');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
@@ -129,9 +139,11 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('universalLink.content');
       expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
         .toBe('okta-verify.html');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
+        .toBe('oie.verification.switch.authenticator');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
         .toBe('Link');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
         .toBe('cancel');
     });
   });
@@ -156,6 +168,8 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
           },
         },
       };
+      transaction.availableSteps = [{ name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE }];
+      jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
     });
 
     it('should transform elements when challengeMethod is CUSTOM_URI', () => {
@@ -166,7 +180,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(6);
+      expect(updatedFormBag.uischema.elements.length).toBe(7);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('customUri.title');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
@@ -179,9 +193,11 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('customUri.required.content.download.linkText');
       expect((updatedFormBag.uischema.elements[4] as LinkElement).options.href)
         .toBe('https://apps.apple.com/us/app/okta-verify/id490179405');
-      expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.label)
+        .toBe('oie.verification.switch.authenticator');
+      expect((updatedFormBag.uischema.elements[6] as LinkElement).type)
         .toBe('Link');
-      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
+      expect((updatedFormBag.uischema.elements[6] as LinkElement).options.step)
         .toBe('cancel');
     });
 
@@ -195,7 +211,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(6);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('appLink.title');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
@@ -204,9 +220,11 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('appLink.content');
       expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
         .toBe('okta-verify.html');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
+        .toBe('oie.verification.switch.authenticator');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
         .toBe('Link');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
         .toBe('cancel');
     });
 
@@ -220,7 +238,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(5);
+      expect(updatedFormBag.uischema.elements.length).toBe(6);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('universalLink.title');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
@@ -229,9 +247,11 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
         .toBe('universalLink.content');
       expect((updatedFormBag.uischema.elements[3] as OpenOktaVerifyFPButtonElement).options.href)
         .toBe('okta-verify.html');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
+        .toBe('oie.verification.switch.authenticator');
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
         .toBe('Link');
-      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
+      expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
         .toBe('cancel');
     });
   });

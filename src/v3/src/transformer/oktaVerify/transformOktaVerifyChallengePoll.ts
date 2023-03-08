@@ -12,18 +12,20 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
-import { CHALLENGE_METHOD } from '../../constants';
+import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import PhoneSvg from '../../img/phone-icon.svg';
 import {
+  ButtonElement,
   DescriptionElement,
   FieldElement,
   IdxStepTransformer,
   ImageWithTextElement,
+  IWidgetContext,
+  LinkElement,
   ReminderElement,
-  SpinnerElement,
   TitleElement,
 } from '../../types';
-import { loc } from '../../util';
+import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../util';
 import { transformOktaVerifyDeviceChallengePoll, transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 import { getUIElementWithName } from '../utils';
 
@@ -57,6 +59,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
         const { name } = resendStep;
         uischema.elements.unshift({
           type: 'Reminder',
+          noMargin: true,
           options: {
             contentHasHtml: true,
             contentClassname: 'resend-number-challenge',
@@ -80,6 +83,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
           id: 'code',
           SVGIcon: PhoneSvg,
           textContent: correctAnswer,
+          alignment: 'center',
         },
       };
 
@@ -99,17 +103,10 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
 
       uischema.elements.push(description);
       uischema.elements.push(phoneIconImage);
-      uischema.elements.push({
-        type: 'Spinner',
-        options: {
-          // TODO: OKTA-518793 - replace english string with key once created
-          label: 'Loading...',
-          valueText: 'Loading...',
-        },
-      } as SpinnerElement);
     } else {
       uischema.elements.unshift({
         type: 'Reminder',
+        noMargin: true,
         options: {
           content: loc('oktaverify.warning', 'login'),
         },
@@ -119,18 +116,49 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
         options: { content: loc('oie.okta_verify.push.title', 'login') },
       } as TitleElement);
       uischema.elements.push({
-        type: 'Description',
-        contentType: 'subtitle',
-        options: { content: loc('oie.okta_verify.push.sent', 'login') },
-      } as DescriptionElement);
-      uischema.elements.push({
-        type: 'Spinner',
+        type: 'Button',
+        label: loc('oie.okta_verify.push.sent', 'login'),
+        options: { disabled: true },
+      } as ButtonElement);
+    }
+
+    // Since this transformer is shared, we have to add applicable buttons manually
+    const hasMinAuthOptions = hasMinAuthenticatorOptions(
+      transaction,
+      IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+      1, // Min # of auth options for link to display
+    );
+    const selectVerifyStep = transaction.availableSteps
+      ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
+    if (selectVerifyStep && hasMinAuthOptions) {
+      const selectLink: LinkElement = {
+        type: 'Link',
+        contentType: 'footer',
         options: {
-          // TODO: OKTA-518793 - replace english string with key once created
-          label: 'Loading...',
-          valueText: 'Loading...',
+          label: loc('oie.verification.switch.authenticator', 'login'),
+          step: selectVerifyStep.name,
+          onClick: (widgetContext?: IWidgetContext): unknown => {
+            if (typeof widgetContext === 'undefined') {
+              return;
+            }
+            updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
+          },
         },
-      } as SpinnerElement);
+      };
+      uischema.elements.push(selectLink);
+    }
+    const cancelStep = transaction.availableSteps?.find(({ name }) => name === 'cancel');
+    if (cancelStep) {
+      const cancelLink: LinkElement = {
+        type: 'Link',
+        contentType: 'footer',
+        options: {
+          label: loc('goback', 'login'),
+          isActionStep: true,
+          step: 'cancel',
+        },
+      };
+      uischema.elements.push(cancelLink);
     }
   } else if (selectedMethod.type === 'signed_nonce') {
     // selectedMethod.type === 'signed_nonce' reflects a FastPass OV flow

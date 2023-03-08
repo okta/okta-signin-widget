@@ -43,6 +43,15 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
           "actionParams": Object {
             "reason": "USER_CANCELED",
             "statusCode": null,
@@ -98,6 +107,15 @@ Object {
           "step": "device-challenge-poll",
         },
         "type": "LoopbackProbe",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
       },
       Object {
         "contentType": "footer",
