@@ -10,14 +10,27 @@ const FORM_SELECTOR_V3 = '.mfa-okta-verify';
 const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name$="autoChallenge"]';
 const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name$="autoChallenge"]';
 const FACTOR_BEACON = '.auth-beacon.auth-beacon-factor';
+const INFOBOX_WARNING_V3 = '[role="alert"]';
 export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
-    this.beacon = new Selector('.beacon-container');
+    if (userVariables.v3) {
+      this.beacon = new Selector('[data-se="factor-beacon"]');
+    } else {
+      this.beacon = new Selector('.beacon-container');
+    }
   }
 
   getPushButton() {
+    if (userVariables.v3) {
+      return this.form.getButton('Push notification sent');
+    }
     return this.form.getElement('.send-push');
+  }
+
+  async isPushButtonDisabled() {
+    const pushBtnClass = await this.getPushButton().getAttribute('class');
+    return pushBtnClass.includes('disabled');
   }
 
   getA11ySpan() {
@@ -32,7 +45,10 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     return this.form.clickSaveButton();
   }
 
-  clickResendNumberChallenge() {
+  async clickResendNumberChallenge() {
+    if (userVariables.v3) {
+      return this.form.clickElement('a');
+    }
     return this.form.clickElement(RESEND_NUMBER_CHALLENGE_BUTTON);
   }
 
@@ -49,6 +65,9 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getWarningBox() {
+    if (userVariables.v3) {
+      return this.form.getElement(INFOBOX_WARNING_V3);
+    }
     return this.form.getElement(FORM_INFOBOX_WARNING);
   }
 
@@ -56,12 +75,28 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     return this.form.elementExist(AUTO_CHALLENGE_CHECKBOX_SELECTOR);
   }
 
-  getAutoChallengeCheckboxLabel() {
-    return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+  getAutoChallengeCheckbox() {
+    return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_SELECTOR);
   }
 
+  getAutoChallengeCheckboxLabelText() {
+    let label = '';
+    if (userVariables.v3) {
+      label = this.form.el
+      .find('input[type="checkbox"]')
+      .parent('span')
+      .parent('label')
+      .textContent;
+    } else {
+      label = this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR).textContent;
+    }
+
+    return label;
+  }
+
+
   async clickAutoChallengeCheckbox() {
-    await this.t.click(this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR));
+    await this.t.click(this.form.getElement(AUTO_CHALLENGE_CHECKBOX_SELECTOR));
   }
 
   async  isOktaVerifySendPushForm() {
@@ -82,6 +117,9 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getBeaconClass() {
+    if (userVariables.v3) {
+      return this.beacon.getAttribute('class');
+    }
     return this.beacon.find(FACTOR_BEACON).getAttribute('class');
   }
 
