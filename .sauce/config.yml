@@ -14,7 +14,7 @@ sauce:
 reporters:
   junit:
     enabled: true
-    filename: build2/reports/junit/testcafe-results.xml
+    filename: testcafe-results.xml
 suites:
 - name: testcafe - windows 11 - firefox
   browserName: firefox
@@ -31,6 +31,6 @@ rootDir: .
 artifacts:
   download:
     match:
-    - '*'
-    when: fail
-    directory: ./artifacts
+      - testcafe-results.xml
+    when: always
+    directory: ./build2/reports/junit
