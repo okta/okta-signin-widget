@@ -1,8 +1,6 @@
-/*! CSS Used from: Embedded */
 :global(.bgStyle) {
   background-image: none;
 }
-/*! CSS Used from: https://op3static.oktacdn.com/assets/js/sdk/okta-signin-widget/7.3.1/css/okta-sign-in.min.css */
 :global(.clearfix) {
   display: block;
 }
