@@ -14,7 +14,7 @@ sauce:
 reporters:
   junit:
     enabled: true
-    filename: testcafe-results.xml
+    filename: build2/reports/junit/testcafe-results.xml
 suites:
 - name: testcafe - windows 11 - firefox
   browserName: firefox
