@@ -121,13 +121,13 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-9"
               />
               <div
                 class="MuiBox-root emotion-13"
               >
                 <fieldset
-                  aria-describedby="challenge-poll_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1 challenge-poll_Description_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_4"
+                  aria-describedby="challenge-poll_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-18"
                 >
                   <label
@@ -167,56 +167,36 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
               <div
                 class="MuiBox-root emotion-13"
               >
-                <div
-                  class="MuiBox-root emotion-14"
+                <button
+                  aria-describedby="challenge-poll_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
+                  disabled=""
+                  tabindex="-1"
+                  type="button"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-26"
-                    data-se="o-form-explain"
-                    id="challenge-poll_Description_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_4"
-                  >
-                    Push notification sent
-                  </p>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <div
-                  class="MuiBox-root emotion-28"
-                >
-                  <span
-                    aria-label="Loading..."
-                    aria-valuetext="Loading..."
-                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-29"
-                    role="progressbar"
-                    style="width: 1.14285714rem; height: 1.14285714rem;"
-                  >
-                    <svg
-                      class="MuiCircularProgress-svg emotion-30"
-                      viewBox="22 22 44 44"
-                    >
-                      <circle
-                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-31"
-                        cx="44"
-                        cy="44"
-                        fill="none"
-                        r="18"
-                        stroke-width="8"
-                      />
-                    </svg>
-                  </span>
-                </div>
+                  Push notification sent
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
                   Verify with something else
+                </a>
+              </div>
+              <div
+                class="MuiBox-root emotion-13"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
+                  data-se="cancel"
+                  href="javascript:void(0)"
+                >
+                  Back to sign in
                 </a>
               </div>
             </div>

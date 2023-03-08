@@ -167,6 +167,7 @@ const TransformerMap: {
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: false,
+        showVerifyWithOtherLink: false,
       },
     },
   },

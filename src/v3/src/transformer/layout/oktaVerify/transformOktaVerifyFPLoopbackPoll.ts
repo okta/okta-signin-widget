@@ -13,12 +13,13 @@
 import { IDX_STEP } from '../../../constants';
 import {
   IdxStepTransformer,
+  IWidgetContext,
   LinkElement,
   LoopbackProbeElement,
   SpinnerElement,
   TitleElement,
 } from '../../../types';
-import { loc } from '../../../util';
+import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
 
 export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   transaction,
@@ -50,6 +51,32 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
       step: transaction.nextStep?.name,
     },
   } as LoopbackProbeElement);
+
+  // Since this transformer is shared, we have to add applicable buttons manually
+  const hasMinAuthOptions = hasMinAuthenticatorOptions(
+    transaction,
+    IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+    1, // Min # of auth options for link to display
+  );
+  const selectVerifyStep = transaction.availableSteps
+    ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
+  if (selectVerifyStep && hasMinAuthOptions) {
+    const selectLink: LinkElement = {
+      type: 'Link',
+      contentType: 'footer',
+      options: {
+        label: loc('oie.verification.switch.authenticator', 'login'),
+        step: selectVerifyStep.name,
+        onClick: (widgetContext?: IWidgetContext): unknown => {
+          if (typeof widgetContext === 'undefined') {
+            return;
+          }
+          updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
+        },
+      },
+    };
+    uischema.elements.push(selectLink);
+  }
 
   const cancelLink: LinkElement = {
     type: 'Link',
