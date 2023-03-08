@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import './style.module.css';
+
 import { ScopedCssBaseline } from '@mui/material';
 import { MuiThemeProvider, OdysseyCacheProvider } from '@okta/odyssey-react-mui';
 import {

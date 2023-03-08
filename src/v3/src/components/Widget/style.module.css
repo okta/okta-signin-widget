@@ -1,0 +1,237 @@
+/*! CSS Used from: Embedded */
+:global(.bgStyle) {
+  background-image: none;
+}
+/*! CSS Used from: https://op3static.oktacdn.com/assets/js/sdk/okta-signin-widget/7.3.1/css/okta-sign-in.min.css */
+:global(.clearfix) {
+  display: block;
+}
+:global(.clearfix:after,
+.clearfix:before) {
+  display: block;
+  block-size: 0;
+  clear: both;
+  content: ".";
+  visibility: hidden;
+}
+:global(.hide) {
+  display: none;
+}
+:global(.auth .content) {
+  min-block-size: 100%;
+  min-inline-size: 300px;
+  display: inline-block;
+  inline-size: 100%;
+}
+:global(.auth .content:after) {
+  content: "";
+  display: block;
+  block-size: 30px;
+}
+:global(.auth .footer) {
+  background-color: #fff;
+  min-inline-size: 300px;
+  position: absolute;
+  font-size: 12px;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: 34px;
+  overflow: hidden;
+}
+:global(.auth .footer .footer-container) {
+  padding-block: 9px;
+  padding-inline: 80px;
+  margin-block: 0;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+@media only screen and (max-width: 560px) {
+  :global(.auth .footer .footer-container) {
+    inline-size: 400px;
+    padding-inline: 20px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  :global(.auth .footer .footer-container) {
+    inline-size: 100%;
+  }
+}
+:global(.auth .footer a) {
+  color: #6e6e78;
+}
+:global(.auth .footer a:active,
+.auth .footer a:link,
+.auth .footer a:visited) {
+  text-decoration: none;
+  color: #6e6e78;
+}
+:global(.auth .footer a:focus,
+.auth .footer a:hover) {
+  text-decoration: underline;
+  color: #6e6e78;
+}
+:global(.auth .footer .copyright) {
+  float: inline-start;
+  color: #111;
+}
+:global(.auth .footer .copyright a) {
+  color: #111;
+}
+:global(.auth .footer .privacy-policy) {
+  float: inline-end;
+}
+:global(.login-bg-image) {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+}
+:global(.okta-container .applogin-banner) {
+  position: relative;
+  margin-block-end: 10px;
+  min-inline-size: 300px;
+}
+:global(.okta-container .applogin-banner .applogin-background) {
+  background-color: #fff;
+  opacity: 0.9;
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 2px 1px hsla(0, 0%, 68.6%, 0.3);
+}
+:global(.okta-container .applogin-banner .applogin-container) {
+  position: relative;
+  inline-size: 400px;
+  min-inline-size: 300px;
+  margin-block: 0;
+  margin-inline: auto;
+  padding-block: 20px;
+  padding-inline: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+:global(.okta-container .applogin-banner .applogin-container p) {
+  color: #111;
+}
+@media only screen and (max-width: 400px) {
+  :global(.okta-container .applogin-banner .applogin-container) {
+    inline-size: 100%;
+  }
+}
+@media only screen and (max-height: 750px) {
+  :global(.okta-container .applogin-banner .applogin-container) {
+    padding-block: 10px;
+    padding-inline: 0;
+  }
+}
+@media only screen and (max-height: 660px) {
+  :global(.okta-container .applogin-banner .applogin-container) {
+    padding-block: 5px;
+    padding-inline: 0;
+  }
+}
+:global(.okta-container .applogin-banner .applogin-container h1) {
+  font-size: 24px;
+  font-weight: lighter;
+  line-height: 26px;
+}
+@media only screen and (max-height: 660px) {
+  :global(.okta-container .applogin-banner .applogin-container p) {
+    display: none;
+  }
+}
+:global(.okta-container .applogin-banner .applogin-app-logo) {
+  display: inline-block;
+  vertical-align: middle;
+  margin-inline-start: 5px;
+}
+:global(.okta-container .applogin-banner .applogin-app-logo img) {
+  max-block-size: 26px;
+}
+@media only screen and (max-width: 600px) {
+  :global(.login-bg-image) {
+    background-image: none !important;
+    background-color: #fff !important;
+    -webkit-filter: unset !important;
+    filter: unset !important;
+  }
+}
+/*! CSS Used from: https://op3static.oktacdn.com/assets/loginpage/css/loginpage-theme.c1227d73b70be13e51aae80fe238b0ae.css */
+a,
+body,
+div,
+form,
+h1,
+h2,
+html,
+iframe,
+img,
+p {
+  background: transparent;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+body {
+  line-height: 1;
+}
+:focus {
+  outline: 0;
+}
+input[type="hidden"] {
+  display: none !important;
+}
+html {
+  block-size: 100%;
+}
+body {
+  background-color: #f9f9f9;
+  color: #777;
+  font-family: proxima nova, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  min-block-size: 100%;
+  min-inline-size: 100%;
+  overflow: auto;
+  position: relative;
+}
+:global(#inactive-tab-main-div .inactive-tab-container) {
+  background: #fff;
+  margin-block: 0;
+  margin-inline: auto;
+  padding-block: 30px 75px;
+  padding-inline: 90px;
+  text-align: center;
+  inline-size: 32rem;
+}
+:global(#inactive-tab-main-div .inactive-tab-container .inactive-tab-header) {
+  padding-block-end: 30px;
+}
+:global(#inactive-tab-main-div .inactive-tab-container .inactive-tab-header img) {
+  max-block-size: 50px;
+  max-inline-size: 100px;
+}
+:global(#inactive-tab-main-div .inactive-tab-container .inactive-tab-content-title) {
+  color: #5e5e5e;
+  font-weight: 600;
+  padding-block-end: 30px;
+}
+@media only screen and (max-device-width: 600px) {
+  :global(#inactive-tab-main-div .inactive-tab-container) {
+    margin: auto;
+    inline-size: 100%;
+  }
+}
+:global(.hide) {
+  display: none;
+}
+/*! CSS Used from: https://oie-4695462.oktapreview.com/api/internal/brand/theme/style-sheet?touch-point=SIGN_IN_PAGE&v=f991ebb043f05a9393f38ace2d7dafefc25baa57484ea41b8969a14da06b2d45c27314de737b7014d6aad7d515925099 */
+:global(.tb--background) {
+  background-color: #f9f9f9 !important;
+}
