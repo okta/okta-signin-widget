@@ -89,6 +89,8 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       .toBe('oktaverify.warning');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toBe('oie.okta_verify.push.sent');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.disabled)
+      .toBe(true);
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
       .toBe('goback');
   });

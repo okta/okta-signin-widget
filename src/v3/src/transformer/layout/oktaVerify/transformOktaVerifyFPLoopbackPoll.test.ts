@@ -10,11 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import {
   LinkElement, LoopbackProbeElement, SpinnerElement, TitleElement, WidgetProps,
 } from '../../../types';
+import * as utils from '../../../util/idxUtils';
 import { transformOktaVerifyFPLoopbackPoll } from './transformOktaVerifyFPLoopbackPoll';
 
 describe('Transform Okta Verify FP Loopback Poll', () => {
@@ -36,6 +38,8 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           },
         },
       };
+      transaction.availableSteps = [{ name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE }];
+      jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
     });
 
     it('should create Loopback Poll elements for display when step is device-challenge-poll', () => {
@@ -46,7 +50,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).type)
         .toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
@@ -65,9 +69,11 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           cancelStep: 'authenticatorChallenge-cancel',
           step: 'device-challenge-poll',
         });
-      expect((updatedFormBag.uischema.elements[3] as LinkElement).type)
+      expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
+        .toBe('oie.verification.switch.authenticator');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
         .toBe('Link');
-      expect((updatedFormBag.uischema.elements[3] as LinkElement).options.step)
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
         .toBe('authenticatorChallenge-cancel');
     });
   });
@@ -92,6 +98,8 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           },
         },
       };
+      transaction.availableSteps = [{ name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE }];
+      jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
     });
 
     it('should create Loopback Poll elements for display', () => {
@@ -102,7 +110,7 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
       });
 
       expect(updatedFormBag).toMatchSnapshot();
-      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect(updatedFormBag.uischema.elements.length).toBe(5);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).type)
         .toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
@@ -121,9 +129,11 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
           cancelStep: 'currentAuthenticator-cancel',
           step: 'challenge-poll',
         });
-      expect((updatedFormBag.uischema.elements[3] as LinkElement).type)
+      expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
+        .toBe('oie.verification.switch.authenticator');
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
         .toBe('Link');
-      expect((updatedFormBag.uischema.elements[3] as LinkElement).options.step)
+      expect((updatedFormBag.uischema.elements[4] as LinkElement).options.step)
         .toBe('currentAuthenticator-cancel');
     });
   });
