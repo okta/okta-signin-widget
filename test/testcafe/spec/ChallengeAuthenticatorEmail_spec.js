@@ -540,7 +540,6 @@ test.meta('v3', false)
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton('Verify');
     await challengeEmailPageObject.waitForErrorBox();
-    // TODO OKTA-566356 - The invalid code error doesn't show up in v3
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(5000);
