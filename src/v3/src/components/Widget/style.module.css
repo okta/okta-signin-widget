@@ -72,10 +72,10 @@
 }
 :global(.auth .footer .copyright) {
   float: inline-start;
-  color: #111;
+  color: var(--ColorTextSub);
 }
 :global(.auth .footer .copyright a) {
-  color: #111;
+  color: var(--ColorTextSub);
 }
 :global(.auth .footer .privacy-policy) {
   float: inline-end;
@@ -112,7 +112,7 @@
   text-align: center;
 }
 :global(.okta-container .applogin-banner .applogin-container p) {
-  color: #111;
+  color: var(--ColorTextSub);
 }
 @media only screen and (max-width: 400px) {
   :global(.okta-container .applogin-banner .applogin-container) {
