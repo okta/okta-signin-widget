@@ -114,12 +114,12 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     contentType: 'footer',
     options: {
       label: loc('oie.verification.switch.authenticator', 'login'),
-      step: selectVerifyStep!.name,
+      step: selectVerifyStep?.name || '',
       onClick: (widgetContext?: IWidgetContext): unknown => {
-        if (typeof widgetContext === 'undefined') {
+        if (typeof widgetContext === 'undefined' || typeof selectVerifyStep === 'undefined') {
           return;
         }
-        updateTransactionWithNextStep(transaction, selectVerifyStep!, widgetContext);
+        updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
       },
     },
   };
