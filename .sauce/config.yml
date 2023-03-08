@@ -10,10 +10,15 @@ sauce:
   concurrency: 1
   sauceignore: .sauceignore
   tunnel: 
-    name: OktaSignInWidget_testcafe_firefox_bacon
+    name: OktaSignInWidget_testcafe_firefox
+reporters:
+  junit:
+    enabled: true
+    filename: build2/reports/junit/testcafe-results.xml
 suites:
 - name: testcafe - windows 11 - firefox
   browserName: firefox
+  headless: true
   src:
     - 'test/testcafe/spec/IdentifyRecovery_spec.js'
   platformName: Windows 11
