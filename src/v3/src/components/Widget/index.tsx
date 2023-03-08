@@ -13,7 +13,6 @@
 import './style.module.css';
 
 import { ScopedCssBaseline } from '@mui/material';
-import * as Tokens from '@okta/odyssey-design-tokens';
 import { MuiThemeProvider, OdysseyCacheProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
@@ -316,7 +315,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 fontWeight: 'bold',
                 wordBreak: 'break-all',
               },
-              '--ColorTextSub': Tokens.ColorPaletteNeutral600,
             }}
           >
             <AuthContainer>

@@ -69,14 +69,18 @@
   color: #6e6e78;
 }
 :global(.auth .footer .copyright) {
-  float: inline-start;
-  color: var(--ColorTextSub);
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  float: left;
+  /* TODO: OKTA-586564 replace hardcoded value */
+  color: #6e6e78;
 }
 :global(.auth .footer .copyright a) {
-  color: var(--ColorTextSub);
+  /* TODO: OKTA-586564 replace hardcoded value */
+  color: #6e6e78;
 }
 :global(.auth .footer .privacy-policy) {
-  float: inline-end;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  float: right;
 }
 :global(.login-bg-image) {
   background-repeat: no-repeat;
@@ -110,7 +114,8 @@
   text-align: center;
 }
 :global(.okta-container .applogin-banner .applogin-container p) {
-  color: var(--ColorTextSub);
+  /* TODO: OKTA-586564 replace hardcoded value */
+  color: #6e6e78;
 }
 @media only screen and (max-width: 400px) {
   :global(.okta-container .applogin-banner .applogin-container) {
