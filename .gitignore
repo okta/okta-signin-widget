@@ -31,4 +31,3 @@ node_modules2
 /test/package/**/yarn.lock
 /test/package/**/dist/
 scripts/dockolith
-artifacts
