@@ -113,7 +113,7 @@ export const usePolling = (
         // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
         const clonedTransaction = cloneDeep(idxTransaction);
         const clonedPollingStep = getPollingStep(clonedTransaction);
-        if(clonedPollingStep !== undefined) {
+        if (clonedPollingStep !== undefined) {
           clonedPollingStep.refresh = 60000;
         }
         setTransaction(clonedTransaction);
