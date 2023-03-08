@@ -17,6 +17,7 @@ import {
   DescriptionElement,
   IdxStepTransformer,
   IStepperContext,
+  IWidgetContext,
   LinkElement,
   OpenOktaVerifyFPButtonElement,
   SpinnerElement,
@@ -26,7 +27,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
-import { loc } from '../../../util';
+import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
 
 const getTitleText = (challengeMethod: string) => {
   if (challengeMethod === CHALLENGE_METHOD.APP_LINK) {
@@ -100,6 +101,29 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     },
   };
 
+  // Since this transformer is shared, we have to add applicable buttons manually
+  const hasMinAuthOptions = hasMinAuthenticatorOptions(
+    transaction,
+    IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+    1, // Min # of auth options for link to display
+  );
+  const selectVerifyStep = transaction.availableSteps
+    ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
+  const selectLink: LinkElement = {
+    type: 'Link',
+    contentType: 'footer',
+    options: {
+      label: loc('oie.verification.switch.authenticator', 'login'),
+      step: selectVerifyStep?.name || '',
+      onClick: (widgetContext?: IWidgetContext): unknown => {
+        if (typeof widgetContext === 'undefined' || typeof selectVerifyStep === 'undefined') {
+          return;
+        }
+        updateTransactionWithNextStep(transaction, selectVerifyStep, widgetContext);
+      },
+    },
+  };
+
   uischema.elements.unshift(titleElement);
 
   // if the current step is device-challenge-poll and the challenge method is APP_LINK,
@@ -124,6 +148,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
           elements: [
             stepperNavigatorElement,
             spinnerElement,
+            ...(selectVerifyStep && hasMinAuthOptions ? [selectLink] : []),
             // cancel polling link is displayed during delay
             {
               type: 'Link',
@@ -145,6 +170,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
           elements: [
             descriptionElement,
             openOktaVerifyButton,
+            ...(selectVerifyStep && hasMinAuthOptions ? [selectLink] : []),
             // update footer link to standard cancel link
             cancelLink,
           ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
@@ -177,6 +203,9 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     } as LinkElement);
   }
 
+  if (selectVerifyStep && hasMinAuthOptions) {
+    uischema.elements.push(selectLink);
+  }
   // standard cancel link is used when there is no delay
   uischema.elements.push(cancelLink);
 

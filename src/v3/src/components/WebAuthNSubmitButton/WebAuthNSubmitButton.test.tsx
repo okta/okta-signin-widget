@@ -76,15 +76,14 @@ describe('WebAuthNControlSubmitControl Tests', () => {
     });
   });
 
-  it('should render loading spinner when there is a pending request', async () => {
+  it('should render disabled button when there is a pending request', async () => {
     mockLoading.mockReturnValue(true);
     const { queryByTestId } = render(<WebAuthNSubmitButton {...props} />);
 
-    const button = queryByTestId('button');
-    const spinner = queryByTestId('okta-spinner');
+    const button = queryByTestId('button') as HTMLButtonElement;
 
-    expect(button).toBeNull();
-    expect(spinner).toBeInTheDocument();
+    expect(button).toBeInTheDocument();
+    expect(button.getAttribute('disabled')).not.toBeUndefined();
   });
 
   it('should render webauthn verify button and handle click when known error occurs with retry label', async () => {

@@ -41,6 +41,15 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
           "isActionStep": true,
           "label": "goback",
           "step": "cancel",
@@ -105,6 +114,15 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
           "isActionStep": true,
           "label": "goback",
           "step": "cancel",
@@ -154,6 +172,15 @@ Object {
           "step": "challenge-poll",
         },
         "type": "OpenOktaVerifyFPButton",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
       },
       Object {
         "contentType": "footer",
@@ -208,6 +235,16 @@ Object {
               Object {
                 "contentType": "footer",
                 "options": Object {
+                  "label": "oie.verification.switch.authenticator",
+                  "onClick": [Function],
+                  "step": "select-authenticator-authenticate",
+                },
+                "type": "Link",
+                "viewIndex": 0,
+              },
+              Object {
+                "contentType": "footer",
+                "options": Object {
                   "actionParams": Object {
                     "reason": "USER_CANCELED",
                     "statusCode": null,
@@ -239,6 +276,16 @@ Object {
                   "step": "device-challenge-poll",
                 },
                 "type": "OpenOktaVerifyFPButton",
+                "viewIndex": 1,
+              },
+              Object {
+                "contentType": "footer",
+                "options": Object {
+                  "label": "oie.verification.switch.authenticator",
+                  "onClick": [Function],
+                  "step": "select-authenticator-authenticate",
+                },
+                "type": "Link",
                 "viewIndex": 1,
               },
               Object {
@@ -315,6 +362,15 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
           "isActionStep": true,
           "label": "goback",
           "step": "cancel",
@@ -364,6 +420,15 @@ Object {
           "step": "device-challenge-poll",
         },
         "type": "OpenOktaVerifyFPButton",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
       },
       Object {
         "contentType": "footer",

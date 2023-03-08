@@ -106,10 +106,10 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
               class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
                 >
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxWarning MuiAlert-infobox emotion-15"
@@ -154,7 +154,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <div
                   class="MuiBox-root emotion-22"
@@ -169,7 +169,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <fieldset
                   aria-describedby="challenge-poll_Title_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_2 challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<span_class=strong>52</span>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
@@ -210,7 +210,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 </fieldset>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <div
                   class="MuiBox-root emotion-22"
@@ -231,7 +231,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <div
                   class="MuiBox-root emotion-35"
@@ -256,43 +256,25 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-13"
-              >
-                <div
-                  class="MuiBox-root emotion-40"
-                >
-                  <span
-                    aria-label="Loading..."
-                    aria-valuetext="Loading..."
-                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-41"
-                    role="progressbar"
-                    style="width: 1.14285714rem; height: 1.14285714rem;"
-                  >
-                    <svg
-                      class="MuiCircularProgress-svg emotion-42"
-                      viewBox="22 22 44 44"
-                    >
-                      <circle
-                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-43"
-                        cx="44"
-                        cy="44"
-                        fill="none"
-                        r="18"
-                        stroke-width="8"
-                      />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
                   Verify with something else
+                </a>
+              </div>
+              <div
+                class="MuiBox-root emotion-14"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
+                  data-se="cancel"
+                  href="javascript:void(0)"
+                >
+                  Back to sign in
                 </a>
               </div>
             </div>
@@ -410,10 +392,10 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
               class="MuiBox-root emotion-12"
             >
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-9"
               />
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <div
                   class="MuiBox-root emotion-15"
@@ -428,7 +410,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <fieldset
                   aria-describedby="challenge-poll_Title_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_2 challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<span_class=strong>52</span>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
@@ -469,7 +451,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                 </fieldset>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <div
                   class="MuiBox-root emotion-15"
@@ -490,7 +472,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <div
                   class="MuiBox-root emotion-28"
@@ -515,43 +497,25 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                 </div>
               </div>
               <div
-                class="MuiBox-root emotion-13"
-              >
-                <div
-                  class="MuiBox-root emotion-33"
-                >
-                  <span
-                    aria-label="Loading..."
-                    aria-valuetext="Loading..."
-                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-34"
-                    role="progressbar"
-                    style="width: 1.14285714rem; height: 1.14285714rem;"
-                  >
-                    <svg
-                      class="MuiCircularProgress-svg emotion-35"
-                      viewBox="22 22 44 44"
-                    >
-                      <circle
-                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-36"
-                        cx="44"
-                        cy="44"
-                        fill="none"
-                        r="18"
-                        stroke-width="8"
-                      />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
+                class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
                   Verify with something else
+                </a>
+              </div>
+              <div
+                class="MuiBox-root emotion-14"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
+                  data-se="cancel"
+                  href="javascript:void(0)"
+                >
+                  Back to sign in
                 </a>
               </div>
             </div>
