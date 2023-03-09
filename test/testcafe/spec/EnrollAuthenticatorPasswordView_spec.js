@@ -104,7 +104,7 @@ test.meta('v3', false).requestHooks(logger, successMock)('should succeed when sa
   const answerRequestBody = JSON.parse(answerRequestBodyString);
   await t.expect(answerRequestBody).eql({
     credentials: {
-      passcode: 'abcdabcd',
+      passcode: 'abcdabcdA3@',
     },
     stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
   });
