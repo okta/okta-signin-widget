@@ -39,11 +39,6 @@ const getPollingStep = (
     return undefined;
   }
 
-  if (containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, transaction?.messages)) {
-    // When polling encounter too many requests error, wait 60 sec for rate limit bucket to reset before polling again
-    pollingStep.refresh = 60000;
-  }
-
   return pollingStep;
 };
 
@@ -109,7 +104,8 @@ export const usePolling = (
       });
 
       // @ts-expect-error OKTA-585869 errorCode & errorIntent properties missing from context type
-      if (newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent) {
+      if ((newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent)
+        || containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, transaction?.messages)) {
         // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
         const clonedTransaction = cloneDeep(idxTransaction);
         const clonedPollingStep = getPollingStep(clonedTransaction);
