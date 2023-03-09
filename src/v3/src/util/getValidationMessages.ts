@@ -14,7 +14,7 @@ import {
   ActionParams,
   DataSchema,
   FormBag,
-  IdxMessageWithName,
+  WidgetMessage,
 } from '../types';
 
 export const getValidationMessages = (
@@ -22,10 +22,10 @@ export const getValidationMessages = (
   fieldsToValidate: string[],
   data: FormBag['data'],
   params?: ActionParams,
-): Record<string, IdxMessageWithName[]> | undefined => {
+): Record<string, WidgetMessage[]> | undefined => {
   // aggregate field level messages based on validation rules in each field
   const messages = Object.entries(dataSchema)
-    .reduce((acc: Record<string, IdxMessageWithName[]>, [name, elementSchema]) => {
+    .reduce((acc: Record<string, WidgetMessage[]>, [name, elementSchema]) => {
       if (fieldsToValidate.includes(name) && typeof elementSchema.validate === 'function') {
         const validationMessages = elementSchema.validate({
           // data & params are passed here for validation in case a required field

@@ -15,14 +15,20 @@ import {
   FieldElement,
   FormBag,
   HiddenInputElement,
-  IdxMessageWithName,
   IdxStepTransformer,
   PasswordMatchesElement,
   PasswordRequirementsElement,
   PasswordSettings,
   TitleElement,
+  WidgetMessage,
 } from '../../types';
-import { getUserInfo, loc, updatePasswordRequirementsNotMetMessage } from '../../util';
+import {
+  buildPasswordRequirementNotMetErrorList,
+  getUserInfo,
+  loc,
+  updatePasswordRequirementsNotMetMessage,
+  validatePassword,
+} from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
@@ -34,6 +40,8 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
 
   const { uischema, dataSchema } = formBag;
+  const userInfo = getUserInfo(transaction);
+  const requirements = buildPasswordRequirementListItems(passwordSettings);
 
   let passwordFieldName = 'credentials.passcode';
   let passwordElement = getUIElementWithName(
@@ -80,7 +88,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   if (passwordElement.options.inputMeta.messages?.value?.length) {
     // @ts-ignore TODO: OKTA-539834 - messages missing from type
     const errorMessages = passwordElement.options.inputMeta.messages.value;
-    const newPasswordErrors = errorMessages.filter((message: IdxMessageWithName) => {
+    const newPasswordErrors = errorMessages.filter((message: WidgetMessage) => {
       const { name: newPwName } = passwordElement.options.inputMeta;
       return message.name === newPwName || message.name === undefined;
     });
@@ -93,7 +101,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       passwordElement.options.inputMeta.messages.value = undefined;
     }
 
-    const confirmPasswordError = errorMessages.find((message: IdxMessageWithName) => {
+    const confirmPasswordError = errorMessages.find((message: WidgetMessage) => {
       const { name: confirmPwName } = confirmPasswordElement.options.inputMeta;
       return message.name === confirmPwName;
     });
@@ -113,9 +121,9 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     options: {
       id: 'password-authenticator--list',
       header: loc('password.complexity.requirements.header', 'login'),
-      userInfo: getUserInfo(transaction),
+      userInfo,
       settings: passwordSettings,
-      requirements: buildPasswordRequirementListItems(passwordSettings),
+      requirements,
       validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
     },
   };
@@ -128,7 +136,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     },
   };
 
-  const userInfo = getUserInfo(transaction);
   uischema.elements.unshift(passwordMatchesElement);
   uischema.elements.unshift(confirmPasswordElement);
   uischema.elements.unshift(passwordElement);
@@ -166,9 +173,9 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   // Controls form submission validation
   dataSchema[passwordFieldName] = {
     validate: (data: FormBag['data']) => {
-      const newPw = data[passwordFieldName];
+      const newPw = data[passwordFieldName] as string;
       const confirmPw = data.confirmPassword;
-      const errorMessages: IdxMessageWithName[] = [];
+      const errorMessages: WidgetMessage[] = [];
       if (!newPw) {
         errorMessages.push({
           name: passwordFieldName,
@@ -184,6 +191,15 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
           message: loc('model.validation.field.blank', 'login'),
           i18n: { key: 'model.validation.field.blank' },
         });
+      }
+      if (newPw) {
+        const validations = validatePassword(newPw, userInfo, passwordSettings);
+        const requirementNotMetMessages = buildPasswordRequirementNotMetErrorList(
+          requirements,
+          validations,
+          passwordFieldName,
+        );
+        errorMessages.push(...requirementNotMetMessages);
       }
       return errorMessages.length > 0 ? errorMessages : undefined;
     },

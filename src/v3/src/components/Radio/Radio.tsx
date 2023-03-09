@@ -28,7 +28,7 @@ import {
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
-import FieldErrorContainer from '../FieldErrorContainer';
+import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
 
 const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
@@ -91,8 +91,8 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
         }
       </RadioGroup>
       {hasErrors && (
-        <FieldErrorContainer
-          errors={errors}
+        <FieldLevelMessageContainer
+          messages={errors}
           fieldName={name}
         />
       )}

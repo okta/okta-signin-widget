@@ -17,6 +17,7 @@ import {
   DescriptionElement,
   DividerElement,
   FieldElement,
+  FormBag,
   IdxStepTransformer,
   LinkElement,
   PasswordRequirementsData,
@@ -24,8 +25,15 @@ import {
   TitleElement,
   UISchemaElement,
   UISchemaLayoutType,
+  WidgetMessage,
 } from '../../types';
-import { getUserInfo, loc, updatePasswordRequirementsNotMetMessage } from '../../util';
+import {
+  buildPasswordRequirementNotMetErrorList,
+  getUserInfo,
+  loc,
+  updatePasswordRequirementsNotMetMessage,
+  validatePassword,
+} from '../../util';
 import { buildPasswordRequirementListItems } from '../password';
 import { getUIElementWithName } from '../utils';
 
@@ -40,7 +48,14 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
   const { uiDisplay: { value: { label, buttonLabel } = {} } = {} } = context;
   const currentRemediation = neededToProceed.find((remediation) => remediation.name === stepName);
   const isUpdateProfile = currentRemediation?.href?.endsWith('idp/idx/enroll/update');
-  const { uischema } = formBag;
+  const { dataSchema, uischema } = formBag;
+  const userInfo = getUserInfo(transaction);
+  const credentialsInput = inputs?.find((input) => input.name === 'credentials');
+  const passwordSettings = (
+    // @ts-ignore OKTA-545082 relatesTo prop missing from Input interface
+    credentialsInput?.relatesTo?.value?.settings || {}
+  ) as PasswordRequirementsData;
+  const requirements = buildPasswordRequirementListItems(passwordSettings);
 
   // If passcode exists in elements, add password requirements element to Ui
   const passwordElement = getUIElementWithName(
@@ -62,25 +77,38 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
       // @ts-ignore TODO: OKTA-539834 - messages missing from type
       passwordElement.options.inputMeta.messages.value = messages;
     }
-    const credentialsInput = inputs?.find((input) => input.name === 'credentials');
-    const passwordSettings = (
-      // @ts-ignore OKTA-545082 relatesTo prop missing from Input interface
-      credentialsInput?.relatesTo?.value?.settings || {}
-    ) as PasswordRequirementsData;
     const passwordRequirementsElement: PasswordRequirementsElement = {
       type: 'PasswordRequirements',
       options: {
         id: 'password-authenticator--list',
         header: loc('password.complexity.requirements.header', 'login'),
-        userInfo: getUserInfo(transaction),
+        userInfo,
         settings: passwordSettings,
-        requirements: buildPasswordRequirementListItems(passwordSettings),
+        requirements,
         validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
       },
     };
     if (Object.keys(passwordSettings)?.length) {
       uischema.elements.unshift(passwordRequirementsElement);
     }
+
+    // Controls form submission validation
+    dataSchema['credentials.passcode'] = {
+      validate: (data: FormBag['data']) => {
+        const newPw = data['credentials.passcode'] as string;
+        const errorMessages: WidgetMessage[] = [];
+        if (newPw) {
+          const validations = validatePassword(newPw, userInfo, passwordSettings);
+          const requirementNotMetMessages = buildPasswordRequirementNotMetErrorList(
+            requirements,
+            validations,
+            'credentials.passcode',
+          );
+          errorMessages.push(...requirementNotMetMessages);
+        }
+        return errorMessages.length > 0 ? errorMessages : undefined;
+      },
+    };
   }
 
   const titleElement: TitleElement = {

@@ -16,6 +16,7 @@ import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import {
   FormBag,
   InfoboxElement,
+  WidgetMessage,
   WidgetProps,
 } from '../../types';
 import { loc } from '../../util';
@@ -24,13 +25,13 @@ import { createForm } from '../utils';
 type ErrorTransformer = (widgetProps: WidgetProps, error?: (AuthApiError | OAuthError)) => FormBag;
 type ErrorTester<T extends (AuthApiError | OAuthError)> = {
   tester: (err?: T) => boolean,
-  message: (err?: T) => string,
+  message: (err?: T) => WidgetMessage,
 };
 
-const getErrorMessage = (
+const getWidgetMessage = (
   error?: (AuthApiError | OAuthError),
   widgetProps?: WidgetProps,
-) : string => {
+) : WidgetMessage => {
   const authApiErrorChecks: ErrorTester<AuthApiError>[] = [
     // error message comes from server response
     {
@@ -46,32 +47,51 @@ const getErrorMessage = (
           authClient?.transactionManager.clear();
         }
 
-        return getMessage(message);
+        return {
+          class: 'ERROR',
+          message: getMessage(message),
+          i18n: { key: message.i18n?.key },
+        };
       },
     },
     // special error messages
     {
       tester: (err?: AuthApiError) => !!err?.errorCode && !!err?.errorSummary,
-      message: (err?: AuthApiError) => err!.errorSummary,
+      message: (err?: AuthApiError) => ({
+        class: 'ERROR',
+        message: err!.errorSummary,
+      }),
     },
   ];
   const oauthErrorChecks: ErrorTester<OAuthError>[] = [
     {
       tester: (err?: OAuthError) => err?.error === 'invalid_request' && err?.error_description === 'The recovery token is invalid',
-      message: () => loc('oie.invalid.recovery.token', 'login'),
+      message: () => ({
+        class: 'ERROR',
+        message: loc('oie.invalid.recovery.token', 'login'),
+        i18n: { key: 'oie.invalid.recovery.token' },
+      }),
     },
     {
       tester: (err?: OAuthError) => err?.error === 'access_denied' && !!err?.error_description,
-      message: () => loc('oie.feature.disabled', 'login'),
+      message: () => ({
+        class: 'ERROR',
+        message: loc('oie.feature.disabled', 'login'),
+        i18n: { key: 'oie.feature.disabled' },
+      }),
     },
     {
       tester: (err?: OAuthError) => !!err?.error && !!err?.error_description,
-      message: () => loc('oie.configuration.error', 'login'),
+      message: () => ({
+        class: 'ERROR',
+        message: loc('oie.configuration.error', 'login'),
+        i18n: { key: 'oie.configuration.error' },
+      }),
     },
   ];
 
   // find the message that meets the tester condition
-  let message: string | undefined;
+  let message: WidgetMessage | undefined;
   switch (error?.name) {
     case 'AuthApiError':
       message = authApiErrorChecks
@@ -85,7 +105,11 @@ const getErrorMessage = (
       // intentionally fall through
   }
   // default fall back for unknown errors
-  return message || loc('oform.error.unexpected');
+  return message || {
+    class: 'ERROR',
+    message: loc('oform.error.unexpected', 'login'),
+    i18n: { key: 'oform.error.unexpected' },
+  };
 };
 
 export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) => {
@@ -94,7 +118,7 @@ export const transformUnhandledErrors: ErrorTransformer = (widgetProps, error) =
   formBag.uischema.elements = [{
     type: 'InfoBox',
     options: {
-      message: getErrorMessage(error, widgetProps),
+      message: getWidgetMessage(error, widgetProps),
       class: 'ERROR',
       dataSe: 'callout',
     },

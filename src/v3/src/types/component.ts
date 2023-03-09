@@ -17,6 +17,7 @@ import {
   ButtonElement,
   FieldElement,
   UISchemaElement,
+  WidgetMessage,
 } from './schema';
 
 export type TesterFunction = (
@@ -27,10 +28,10 @@ export type UISchemaElementComponentWithValidationProps = {
   uischema: FieldElement;
   type?: string;
   setTouched?: StateUpdater<boolean>,
-  errors?: string[],
-  setErrors?: StateUpdater<string[] | undefined>,
+  errors?: WidgetMessage[],
+  setErrors?: StateUpdater<WidgetMessage[] | undefined>,
   onValidateHandler?: (
-    setErrors?: StateUpdater<string[] | undefined>,
+    setErrors?: StateUpdater<WidgetMessage[] | undefined>,
     value?: string | boolean | number,
   ) => void,
   handleChange?: (value: string | number | boolean) => void;
