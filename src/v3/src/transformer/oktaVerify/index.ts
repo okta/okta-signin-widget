@@ -15,4 +15,5 @@ export * from './transformOktaVerifyChallengePoll';
 export * from './transformOktaVerifyChannelSelection';
 export * from './transformOktaVerifyEnrollChannel';
 export * from './transformOktaVerifyEnrollPoll';
+export * from './transformOktaVerifyResendPushNotification';
 export * from './transformTOTPChallenge';

@@ -434,3 +434,10 @@ test.page(
   await checkA11y(t);
   await takeScreenshot(t, 'authenticator-verification-data-with-email');
 });
+
+test.only.page(
+  'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/authenticator-verification-ov-resend-push-notification',
+)('authenticator-verification-ov-resend-push-notification', async (t) => {
+  await checkA11y(t);
+  await takeScreenshot(t, 'authenticator-verification-ov-resend-push-notification');
+});
