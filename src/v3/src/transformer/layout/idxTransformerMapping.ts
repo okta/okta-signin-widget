@@ -20,6 +20,7 @@ import {
   transformOktaVerifyChannelSelection,
   transformOktaVerifyEnrollChannel,
   transformOktaVerifyEnrollPoll,
+  transformOktaVerifyResendPushNotification,
   transformTOTPChallenge,
 } from '../oktaVerify';
 import {
@@ -331,6 +332,12 @@ const TransformerMap: {
         showDefaultCancel: false,
         showForgotPassword: false,
       },
+    },
+  },
+  [IDX_STEP.RESEND]: {
+    [AUTHENTICATOR_KEY.OV]: {
+      transform: transformOktaVerifyResendPushNotification,
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.RESET_AUTHENTICATOR]: {
