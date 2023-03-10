@@ -17,7 +17,7 @@ import {
   HiddenInputElement,
   UISchemaElementComponent,
 } from '../../types';
-import style from './style.css';
+import style from './style.module.css';
 
 const InputText: UISchemaElementComponent<{ uischema: HiddenInputElement }> = ({
   uischema,
