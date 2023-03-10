@@ -59,7 +59,7 @@ test
   });
 
 test
-  .meta('v3', false)
+  .meta('v3', false) // OKTA-587189 - disabled in v3 due to immediate polling issue
   .requestHooks(logger, numberChallengeWaitMock)('Calls resend when we click the resend link from within the warning modal', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
