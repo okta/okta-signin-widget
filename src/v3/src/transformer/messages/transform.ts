@@ -12,7 +12,11 @@
 
 import flow from 'lodash/flow';
 
-import { IDX_STEP, OV_UV_ENABLE_BIOMETRIC_SERVER_KEY } from '../../constants';
+import {
+  IDX_STEP,
+  OV_NMC_FORCE_UPGRAGE_SERVER_KEY,
+  OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+} from '../../constants';
 import {
   InfoboxElement,
   TransformStepFnWithOptions,
@@ -33,10 +37,17 @@ const fipsComplianceKeys = [
   OV_OVERRIDE_MESSAGE_KEY.OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS,
 ];
 
+const MESSAGE_KEYS_WITH_TITLE = [
+  ...fipsComplianceKeys,
+  OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY,
+  OV_NMC_FORCE_UPGRAGE_SERVER_KEY,
+];
+
 export const CUSTOM_MESSAGE_KEYS = [
   ...fipsComplianceKeys,
   OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY,
   OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+  OV_NMC_FORCE_UPGRAGE_SERVER_KEY,
 ];
 
 const EXCLUDE_MESSAGE_STEPS = [
@@ -62,18 +73,14 @@ const transformMessagesWithTitle: TransformStepFnWithOptions = ({
   if (
     !transaction.messages
     || transaction.messages.length < 1
-    || !containsOneOfMessageKeys(
-      [...fipsComplianceKeys, OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY],
-      transaction.messages,
-    )) {
+    || !containsOneOfMessageKeys(MESSAGE_KEYS_WITH_TITLE, transaction.messages)) {
     return formbag;
   }
   const { messages = [] } = transaction;
   const { uischema } = formbag;
 
   const messagesWithTitle: WidgetMessage[] = messages
-    .filter((message) => [...fipsComplianceKeys,
-      OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY].includes(message.i18n?.key));
+    .filter((message) => MESSAGE_KEYS_WITH_TITLE.includes(message.i18n?.key));
   // only transform the first message (only contains one in this scenario)
   const [widgetMessage]: WidgetMessage[] = messagesWithTitle;
   if (containsOneOfMessageKeys(fipsComplianceKeys, messagesWithTitle)) {
@@ -83,6 +90,8 @@ const transformMessagesWithTitle: TransformStepFnWithOptions = ({
     messagesWithTitle,
   )) {
     widgetMessage.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
+  } else if (containsMessageKey(OV_NMC_FORCE_UPGRAGE_SERVER_KEY, messagesWithTitle)) {
+    widgetMessage.title = loc('oie.numberchallenge.force.upgrade.title', 'login');
   }
 
   const messageElements: UISchemaElement[] = [];
