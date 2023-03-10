@@ -143,7 +143,7 @@
     "chalk": "^2.4.2",
     "concurrently": "^5.1.0",
     "core-js": "^3.9.1",
-    "cssnano": "^4.1.7",
+    "cssnano": "^5.1.15",
     "dotenv": "^8.0.0",
     "dyson": "^4.1.0",
     "eslint": "^7.23.0",
@@ -257,7 +257,12 @@
     "grunt/minimatch": "^3.1.2",
     "**/globule/minimatch": "^3.1.2",
     "ansi-regex": "^5.0.1",
-    "testcafe/**/jsonwebtoken": "^9.0.0"
+    "testcafe/**/jsonwebtoken": "^9.0.0",
+    "**/loader-utils/json5": "^1.0.2",
+    "**/tsconfig-paths/json5": "^1.0.2",
+    "**/find-babel-config/json5": "^1.0.2",
+    "postcss": "^8.4.21",
+    "**/download/normalize-url": "^4.5.1"
   },
   "workspaces": {
     "packages": [
