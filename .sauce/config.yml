@@ -21,11 +21,12 @@ suites:
   browserName: firefox
   headless: true
   src:
-    - 'test/testcafe/spec/AdminConsentView_spec.js'
-    - 'test/testcafe/spec/AuthenticatorIdPView_spec.js'
-    - 'test/testcafe/spec/AuthenticatorSymantecView_spec.js'
-    - 'test/testcafe/spec/BYOL_spec.js'
-    - 'test/testcafe/spec/ChallengeAuthenticatorDuo_spec.js'
+    - 'test/testcafe/spec/*_spec.js'
+    # - 'test/testcafe/spec/AdminConsentView_spec.js'
+    # - 'test/testcafe/spec/AuthenticatorIdPView_spec.js'
+    # - 'test/testcafe/spec/AuthenticatorSymantecView_spec.js'
+    # - 'test/testcafe/spec/BYOL_spec.js'
+    # - 'test/testcafe/spec/ChallengeAuthenticatorDuo_spec.js'
   platformName: macOS 12
   mode: sauce
   stopOnFirstFail: true
