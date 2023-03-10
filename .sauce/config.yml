@@ -8,6 +8,7 @@ npm:
 sauce:
   region: us-west-1
   concurrency: 5
+  retries: 3
   sauceignore: .sauceignore
   tunnel: 
     name: SIW_testcafe_saucelabs_tunnel
