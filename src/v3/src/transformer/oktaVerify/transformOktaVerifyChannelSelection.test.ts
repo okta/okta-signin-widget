@@ -52,7 +52,10 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
   });
 
   it('should only append (sms/email) channel options when on mobile and qrcode is the selectedChannel', () => {
+    // on mobile, the data we need is on current transaction context rather than previous transaction
     prevTransaction.context = {
+    } as unknown as IdxContext;
+    transaction.context = {
       // TODO: OKTA-503490 temporary sln access missing relatesTo obj
       currentAuthenticator: {
         value: {
@@ -95,7 +98,10 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
   });
 
   it('should only append (sms/email) channel options when on mobile and sms is the selectedChannel', () => {
+    // on mobile, the data we need is on current transaction context rather than previous transaction
     prevTransaction.context = {
+    } as unknown as IdxContext;
+    transaction.context = {
       // TODO: OKTA-503490 temporary sln access missing relatesTo obj
       currentAuthenticator: {
         value: {
@@ -132,7 +138,10 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
   });
 
   it('should only append (sms/email) channel options when on mobile and email is the selectedChannel', () => {
+    // on mobile, the data we need is on current transaction context rather than previous transaction
     prevTransaction.context = {
+    } as unknown as IdxContext;
+    transaction.context = {
       // TODO: OKTA-503490 temporary sln access missing relatesTo obj
       currentAuthenticator: {
         value: {

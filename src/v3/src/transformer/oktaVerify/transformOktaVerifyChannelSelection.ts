@@ -31,14 +31,20 @@ const CHANNEL_TO_LABEL_KEY_MAP: { [channel: string]: string } = {
 
 export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   prevTransaction,
+  transaction,
   formBag,
 }) => {
   const { context } = prevTransaction || {};
+  const { context: currentTransactionContext } = transaction;
   const { data, uischema } = formBag;
 
   const isAndroidOrIOSView = isAndroidOrIOS();
-  const lastSelectedChannel = context?.currentAuthenticator.value
-    .contextualData?.selectedChannel as string;
+  // Checking first if it's in the prev transaction otherwise, pulling from the current
+  // transaction (it has to be in one or the other)
+  const lastSelectedChannel = (
+    context?.currentAuthenticator?.value?.contextualData?.selectedChannel
+    || currentTransactionContext?.currentAuthenticator?.value?.contextualData?.selectedChannel
+  ) as string;
   const elements: UISchemaElement[] = [];
 
   const titleElement: TitleElement = {
