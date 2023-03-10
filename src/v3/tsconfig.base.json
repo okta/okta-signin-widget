@@ -4,17 +4,20 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "esModuleInterop": true,
-    "jsx": "react",
-    "jsxFactory": "h",
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "node",
+    "noEmit": true,
     "paths": {
       "@okta/courage": [
         "../../packages/@okta/courage-dist"
-      ],
-      "@okta/duo": [
-        "../../packages/vendor/duo_web_sdk/index.js",
-        "../../playground/mocks/spec-duo/duo-mock.js"
       ],
       "@okta/mocks/*": [
         "../../playground/mocks/*"
@@ -49,7 +52,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES5"
+    "target": "ES6",
+    "useDefineForClassFields": true
   },
   "extends": "../../tsconfig.json",
   "files": [

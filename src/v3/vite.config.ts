@@ -51,6 +51,10 @@ export default defineConfig(({ mode, command }) => ({
       v1: resolve(__dirname, '../v1'),
       v2: resolve(__dirname, '../v2'),
 
+      duo_web_sdk: process.env.mockDuo
+        ? resolve(__dirname, 'src/__mocks__/duo_web_sdk') // mock
+        : 'duo_web_sdk', // real
+
       // react -> preact alias
       react: 'preact/compat',
       'react-dom/test-utils': 'preact/test-utils',
@@ -61,31 +65,27 @@ export default defineConfig(({ mode, command }) => ({
 
   // not used in "dev" mode, i.e., when `command === 'serve'`
   build: ((): BuildOptions => {
+    const base: BuildOptions = {
+      // send output to ../../dist/dist
+      outDir,
+
+      // for debugging
+      sourcemap: 'inline',
+
+      // chained with g1,g2 in `yarn build:release`
+      emptyOutDir: false,
+
+      // playground assets, e.g., logo, favicon
+      copyPublicDir: true,
+    };
+
     if (mode === 'testcafe') {
-      return {
-        // send output to ../../dist/dist
-        outDir,
-
-        // for debugging
-        sourcemap: 'inline',
-
-        // chained with g1,g2 in `yarn build:release`
-        emptyOutDir: false,
-
-        // playground assets, e.g., logo, favicon
-        copyPublicDir: true,
-      };
+      return base;
     }
 
     // default mode for build is "production"
     return {
-      outDir,
-
-      // chained with g1, g2 in `yarn build:release`
-      emptyOutDir: false,
-
-      // do not copy public assets
-      copyPublicDir: false,
+      ...base,
 
       // hide sourcemaps
       sourcemap: 'hidden',
