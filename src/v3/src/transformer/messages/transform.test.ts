@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OV_UV_ENABLE_BIOMETRIC_SERVER_KEY } from 'src/constants';
+import { OV_NMC_FORCE_UPGRAGE_SERVER_KEY, OV_UV_ENABLE_BIOMETRIC_SERVER_KEY } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import { InfoboxElement, WidgetProps } from 'src/types';
 
@@ -90,6 +90,28 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         i18n: { key: 'oie.authenticator.app.method.push.enroll.enable.biometrics' },
         message: 'oie.authenticator.app.method.push.enroll.enable.biometrics',
         title: 'oie.authenticator.app.method.push.enroll.enable.biometrics.title',
+      });
+  });
+
+  it('should add title when messages contains "oie.authenticator.app.method.push.force.upgrade.number_challenge" key', () => {
+    transaction.messages = [
+      {
+        message: 'OV push force upgrade number challenge message.',
+        class: 'ERROR',
+        i18n: { key: OV_NMC_FORCE_UPGRAGE_SERVER_KEY },
+      },
+    ];
+    const updatedFormBag = transformMessages({ transaction, widgetProps, step: '' })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        i18n: { key: OV_NMC_FORCE_UPGRAGE_SERVER_KEY },
+        message: OV_NMC_FORCE_UPGRAGE_SERVER_KEY,
+        title: 'oie.numberchallenge.force.upgrade.title',
       });
   });
 
