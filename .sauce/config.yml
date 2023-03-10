@@ -1,28 +1,34 @@
 apiVersion: v1alpha
 kind: testcafe
-showConsoleLog: false
+showConsoleLog: true
 npm:
   packages:
     "@testcafe-community/axe": "^3.5.0"
     "axe-core": "^4.6.3"
 sauce:
   region: us-west-1
-  concurrency: 1
+  concurrency: 5
   sauceignore: .sauceignore
   tunnel: 
-    name: SIW_testcafe_bacon
+    name: SIW_testcafe_saucelabs_tunnel
 reporters:
   junit:
     enabled: true
     filename: build2/reports/junit/testcafe-results.xml
 suites:
-- name: testcafe - windows 11 - firefox
+- name: testcafe - macOS 12 - firefox
   browserName: firefox
   headless: true
   src:
-    - 'test/testcafe/spec/IdentifyRecovery_spec.js'
-  platformName: Windows 11
+    - 'test/testcafe/spec/AdminConsentView_spec.js'
+    - 'test/testcafe/spec/AuthenticatorIdPView_spec.js'
+    - 'test/testcafe/spec/AuthenticatorSymantecView_spec.js'
+    - 'test/testcafe/spec/BYOL_spec.js'
+    - 'test/testcafe/spec/ChallengeAuthenticatorDuo_spec.js'
+  platformName: macOS 12
   mode: sauce
+  stopOnFirstFail: true
+  shard: concurrency
   clientScripts: 
     - 'node_modules/axe-core/axe.min.js'
 testcafe:
