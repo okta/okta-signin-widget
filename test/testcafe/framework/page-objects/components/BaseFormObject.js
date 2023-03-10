@@ -450,7 +450,7 @@ export default class BaseFormObject {
   }
 
   getSpinner() {
-    return within(this.el).queryByLabelText('Loading...');
+    return within(this.el).queryByLabelText('Processing...');
   }
 
   getButtonIcon(buttonName) {
