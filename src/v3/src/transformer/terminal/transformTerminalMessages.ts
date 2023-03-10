@@ -75,10 +75,6 @@ const appendBiometricsErrorBox = (
     options: {
       class: 'ERROR',
       dataSe: 'callout',
-      listOptions: {
-        type: 'ul',
-        items: listMessages,
-      },
       message: {
         type: 'list',
         class: 'ERROR',

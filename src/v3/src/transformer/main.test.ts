@@ -25,6 +25,9 @@ jest.mock('./button', () => ({
 jest.mock('./layout', () => ({
   transformLayout: () => () => ({}),
 }));
+jest.mock('./messages', () => ({
+  transformMessages: () => () => ({}),
+}));
 jest.mock('./i18n', () => ({
   transformI18n: () => () => ({}),
   transactionMessageTransformer: () => {},
@@ -45,6 +48,7 @@ const mocked = {
   transactionData: require('./transaction'),
   button: require('./button'),
   layout: require('./layout'),
+  messages: require('./messages'),
   i18n: require('./i18n'),
   uischema: require('./uischema'),
   dataSchema: require('./dataSchema'),
@@ -58,6 +62,7 @@ describe('main transformer', () => {
     jest.spyOn(mocked.field, 'transformFields');
     jest.spyOn(mocked.button, 'transformButtons');
     jest.spyOn(mocked.layout, 'transformLayout');
+    jest.spyOn(mocked.messages, 'transformMessages');
     jest.spyOn(mocked.i18n, 'transformI18n');
     jest.spyOn(mocked.uischema, 'transformUISchema');
     jest.spyOn(mocked.dataSchema, 'transformDataSchema');

@@ -46,6 +46,12 @@ export default class BaseFormObject {
     }).innerText;
   }
 
+  getNthTitle(index) {
+    return screen.findAllByRole('heading', {
+      level: 2,
+    }).nth(index).innerText;
+  }
+
   getSubtitle(index) {
     if (index === undefined) {
       index = 0;
@@ -217,6 +223,10 @@ export default class BaseFormObject {
     await within(this.el).findByRole('alert', {
       name: /We found some errors/,
     }).exists;
+  }
+
+  getAlertBox() {
+    return within(this.el).getByRole('alert');
   }
 
   getErrorBoxCount() {
