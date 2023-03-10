@@ -1,21 +1,29 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "ES5",
-    "module": "ESNext",
     "allowJs": true,
-    "jsx": "react",
-    "jsxFactory": "h",
-    "strict": true,
-    "skipLibCheck": false,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "paths": {
-      "src/*": [
-        "./src/*"
+      "@okta/courage": [
+        "../../packages/@okta/courage-dist"
+      ],
+      "@okta/duo": [
+        "../../packages/vendor/duo_web_sdk/index.js",
+        "../../playground/mocks/spec-duo/duo-mock.js"
+      ],
+      "@okta/mocks/*": [
+        "../../playground/mocks/*"
+      ],
+      "@okta/okta-i18n-bundles": [
+        "../util/Bundles.ts"
+      ],
+      "@okta/qtip": [
+        "../../packages/@okta/qtip2/dist/jquery.qtip.js"
       ],
       "config/config.json": [
         "../config/config.json"
@@ -23,36 +31,28 @@
       "nls/*": [
         "../../packages/@okta/i18n/src/json/*"
       ],
-      "@okta/okta-i18n-bundles": [
-        "../util/Bundles.ts"
-      ],
-      "@okta/courage": [
-        "../../packages/@okta/courage-dist"
-      ],
-      "@okta/qtip": [
-        "../../packages/@okta/qtip2/dist/jquery.qtip.js"
-      ],
-      "@okta/duo": [
-        "../../packages/vendor/duo_web_sdk/index.js",
-        "../../playground/mocks/spec-duo/duo-mock.js"
-      ],
-      "util/*": [
-        "../util/*"
-      ],
       "preact/hooks": [
         "./node_modules/preact/hooks"
       ],
       "react": [
-        "node_modules/preact/compat"
+        "./node_modules/preact/compat"
       ],
       "react-dom": [
-        "node_modules/preact/compat"
+        "./node_modules/preact/compat"
       ],
-      "@okta/mocks/*": [
-        "../../playground/mocks/*"
+      "src/*": [
+        "./src/*"
+      ],
+      "util/*": [
+        "../util/*"
       ]
-    }
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": false,
+    "strict": true,
+    "target": "ES5"
   },
+  "extends": "../../tsconfig.json",
   "files": [
     "global.d.ts"
   ]

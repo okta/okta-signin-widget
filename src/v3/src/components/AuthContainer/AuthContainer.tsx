@@ -16,7 +16,7 @@ import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import style from './style.css';
+import style from './style.module.css';
 
 const AuthContainer: FunctionComponent = ({ children }) => {
   const { languageDirection, languageCode } = useWidgetContext();

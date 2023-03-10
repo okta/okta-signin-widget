@@ -16,9 +16,9 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   import('./mocks/browser')
     .then(({ getWorker }) => getWorker())
     .then((worker) => worker?.start());
-}
 
-if (typeof window !== 'undefined') {
-  // @ts-ignore OKTA-487668
-  window.OktaSignIn = OktaSignIn;
+
+  import('../widgetrc').then(({ config }) => {
+    new OktaSignIn(config);
+  });
 }
