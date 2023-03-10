@@ -48,6 +48,7 @@ const suiteMap = {
     cmd: 'saucectl run',
     preReq: [
       'wait-on http-get://localhost:3000', // Requires the dev-server to run
+      'wait-on .ready.json'
     ]
   }
 };
