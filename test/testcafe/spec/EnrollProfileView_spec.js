@@ -118,14 +118,15 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
 
   requestLogger.clear();
   await t.expect(await enrollProfilePage.dropDownExistsByLabel('Country')).eql(true);
-  await t.expect(await enrollProfilePage.form.getValueFromDropdown('userProfile.country')).eql('Select an Option');
+  const defaultOptionLabel = userVariables.v3 ? 'Select an option' : 'Select an Option';
+  await t.expect(await enrollProfilePage.form.getValueFromDropdown('userProfile.country')).eql(defaultOptionLabel);
   await enrollProfilePage.selectValueFromDropdown('userProfile.country', 1);
 
   await t.expect(await enrollProfilePage.formFieldExistsByLabel('Country code')).eql(true);
   await enrollProfilePage.setTextBoxValue('userProfile.countryCode', 'US');
 
   await t.expect(await enrollProfilePage.dropDownExistsByLabel('Time zone')).eql(true);
-  await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.timezone')).eql('Select an Option');
+  await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.timezone')).eql(defaultOptionLabel);
   await enrollProfilePage.selectValueFromDropdown('userProfile.timezone', 1);
 });
 

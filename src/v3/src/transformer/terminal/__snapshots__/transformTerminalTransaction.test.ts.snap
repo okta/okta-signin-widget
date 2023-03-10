@@ -10,10 +10,6 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "options": Object {
-          "label": "Loading...",
-          "valueText": "Loading...",
-        },
         "type": "Spinner",
       },
       Object {
@@ -70,10 +66,6 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "options": Object {
-          "label": "Loading...",
-          "valueText": "Loading...",
-        },
         "type": "Spinner",
       },
       Object {

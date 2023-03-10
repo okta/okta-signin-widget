@@ -11,13 +11,10 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
-import { InterstitialRedirectView } from 'src/constants';
-import { getStubTransaction } from 'src/mocks/utils/utils';
-import {
-  DescriptionElement, RedirectElement,
-  SpinnerElement, WidgetProps,
-} from 'src/types';
 
+import { InterstitialRedirectView } from '../../constants';
+import { getStubTransaction } from '../../mocks/utils/utils';
+import { DescriptionElement, RedirectElement, WidgetProps } from '../../types';
 import { redirectTransformer } from '.';
 
 describe('Success Redirect Transform Tests', () => {
@@ -76,8 +73,6 @@ describe('Success Redirect Transform Tests', () => {
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('Loading...');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('Loading...');
   });
 
   it('should add generic description & redirect elements for DEFAULT Interstitial view '
@@ -101,8 +96,6 @@ describe('Success Redirect Transform Tests', () => {
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('Loading...');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('Loading...');
   });
 
   it('should add app name to description element for DEFAULT Interstitial view '
@@ -123,8 +116,5 @@ describe('Success Redirect Transform Tests', () => {
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('Loading...');
-    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText)
-      .toBe('Loading...');
   });
 });

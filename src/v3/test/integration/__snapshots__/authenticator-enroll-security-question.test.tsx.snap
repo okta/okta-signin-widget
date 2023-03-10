@@ -1035,7 +1035,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                         <option
                           value=""
                         >
-                          Select an Option
+                          Select an option
                         </option>
                         <option
                           value="disliked_food"
@@ -1511,7 +1511,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                         <option
                           value=""
                         >
-                          Select an Option
+                          Select an option
                         </option>
                         <option
                           value="disliked_food"

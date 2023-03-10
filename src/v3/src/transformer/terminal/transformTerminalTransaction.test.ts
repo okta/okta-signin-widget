@@ -14,7 +14,6 @@ import { IdxContext, IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 import {
   FormBag,
   LinkElement,
-  SpinnerElement,
   SuccessCallback,
   TitleElement,
   WidgetProps,
@@ -116,8 +115,6 @@ describe('Terminal Transaction Transformer Tests', () => {
       expect(formBag).toMatchSnapshot();
       expect(formBag.uischema.elements.length).toBe(2);
       expect(formBag.uischema.elements[0].type).toBe('Spinner');
-      expect((formBag.uischema.elements[0] as SpinnerElement).options?.label).toBe('Loading...');
-      expect((formBag.uischema.elements[0] as SpinnerElement).options?.valueText).toBe('Loading...');
       expect(formBag.uischema.elements[1].type).toBe('SuccessCallback');
       expect((formBag.uischema.elements[1] as SuccessCallback).options?.data)
         .toEqual({ status: IdxStatus.SUCCESS, tokens: mockTokens });
@@ -136,8 +133,6 @@ describe('Terminal Transaction Transformer Tests', () => {
       expect(formBag).toMatchSnapshot();
       expect(formBag.uischema.elements.length).toBe(2);
       expect(formBag.uischema.elements[0].type).toBe('Spinner');
-      expect((formBag.uischema.elements[0] as SpinnerElement).options?.label).toBe('Loading...');
-      expect((formBag.uischema.elements[0] as SpinnerElement).options?.valueText).toBe('Loading...');
       expect(formBag.uischema.elements[1].type).toBe('SuccessCallback');
       expect((formBag.uischema.elements[1] as SuccessCallback).options?.data)
         .toEqual({

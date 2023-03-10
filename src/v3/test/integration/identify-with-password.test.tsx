@@ -46,8 +46,7 @@ describe('identify-with-password', () => {
 
   it('renders the loading state first', async () => {
     const { container, findByLabelText } = await setup({ mockResponse });
-    // TODO: OKTA-518793 - replace english string with key once created
-    await findByLabelText('Loading...');
+    await findByLabelText('Processing...');
     expect(container).toMatchSnapshot();
   });
 

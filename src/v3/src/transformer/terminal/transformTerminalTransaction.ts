@@ -166,11 +166,6 @@ const buildFormBagForInteractionCodeFlow = (
   const formBag: FormBag = createForm();
   formBag.uischema.elements.push({
     type: 'Spinner',
-    options: {
-      // TODO: OKTA-518793 - replace english string with key once created
-      label: 'Loading...',
-      valueText: 'Loading...',
-    },
   } as SpinnerElement);
 
   if (isRemediationMode) {

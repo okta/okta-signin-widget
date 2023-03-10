@@ -13,25 +13,34 @@
 import { Box, CircularProgress } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
-const Spinner: FunctionComponent<{
-  label?: string;
-  valueText?: string;
-}> = ({
-  label,
-  valueText,
-}) => (
-  <Box
-    display="flex"
-    flexDirection="column"
-    justifyContent="center"
-    alignItems="center"
-  >
-    <CircularProgress
-      // TODO: OKTA-518793 - replace english string with key once created
-      aria-label={label || 'Loading...'}
-      aria-valuetext={valueText || 'Loading...'}
-    />
-  </Box>
-);
+import { SpinnerElement } from '../../types';
+import { loc } from '../../util';
+
+type SpinnerProps = { dataSe?: string; color?: string; };
+const Spinner: FunctionComponent<SpinnerProps | SpinnerElement> = (
+  props,
+) => {
+  const { dataSe = undefined, color = undefined } = 'type' in props
+    ? {}
+    : props as SpinnerProps;
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <CircularProgress
+        id={dataSe}
+        data-se={dataSe}
+        // Using loc here because this component is not only used by transformers
+        // but also directly in widget component
+        aria-label={loc('processing.alt.text', 'login')}
+        aria-valuetext={loc('processing.alt.text', 'login')}
+        sx={{ color }}
+      />
+    </Box>
+  );
+};
 
 export default Spinner;

@@ -36,6 +36,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const { loading } = useWidgetContext();
   const { focus, required, translations = [] } = uischema;
   const label = getTranslation(translations, 'label');
+  const emptyOptionLabel = getTranslation(translations, 'empty-option-label');
   const {
     attributes,
     inputMeta: {
@@ -46,6 +47,19 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
+
+  const getOptions = (): IdxOption[] | undefined => {
+    if (Array.isArray(customOptions) || Array.isArray(options)) {
+      return customOptions ?? options;
+    }
+
+    if (typeof options === 'object') {
+      return Object.entries(options)
+        .filter(([key, val]) => key !== '' && val !== '')
+        .map(([key, val]) => ({ label: val, value: key } as IdxOption));
+    }
+    return undefined;
+  };
 
   return (
     <FormControl
@@ -85,11 +99,10 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
               value=""
               key="empty"
             >
-              {/* TODO: OKTA-518793 - need translation key for this string */}
-              Select an Option
+              {emptyOptionLabel}
             </option>,
           ].concat(
-            (customOptions ?? options)?.map((option: IdxOption) => (
+            getOptions()?.map((option: IdxOption) => (
               <option
                 key={option.value}
                 value={option.value as string}

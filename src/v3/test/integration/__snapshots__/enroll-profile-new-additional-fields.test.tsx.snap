@@ -265,7 +265,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       <option
                         value=""
                       >
-                        Select an Option
+                        Select an option
                       </option>
                       <option
                         value="AF"
@@ -1582,7 +1582,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       <option
                         value=""
                       >
-                        Select an Option
+                        Select an option
                       </option>
                       <option
                         value="GMT"
@@ -2031,7 +2031,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       <option
                         value=""
                       >
-                        Select an Option
+                        Select an option
                       </option>
                       <option
                         value="AF"
@@ -3324,7 +3324,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       <option
                         value=""
                       >
-                        Select an Option
+                        Select an option
                       </option>
                       <option
                         value="GMT"
