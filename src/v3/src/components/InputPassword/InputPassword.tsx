@@ -57,8 +57,6 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const label = getTranslation(translations, 'label');
   const hint = getTranslation(translations, 'hint');
   const explain = getTranslation(translations, 'bottomExplain');
-  const showVisibilityToggleLabel = getTranslation(translations, 'showToggleLabel');
-  const hideVisibilityToggleLabel = getTranslation(translations, 'hideToggleLabel');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const parsedExplainContent = useHtmlContentParser(explain);
   const hasErrors = typeof errors !== 'undefined';
@@ -120,7 +118,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           <InputAdornment position="end">
             <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
               <IconButton
-                aria-label={showPassword ? hideVisibilityToggleLabel : showVisibilityToggleLabel}
+                aria-label={getTranslation(translations, 'visibilityToggleLabel')}
                 aria-pressed={showPassword}
                 aria-controls={name}
                 onClick={handleClickShowPassword}

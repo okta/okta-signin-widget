@@ -45,22 +45,8 @@ export const transformInputPassword: TransformStepFn = (formBag: FormBag) => {
       }
       addTranslation({
         element,
-        name: 'showToggleLabel',
+        name: 'visibilityToggleLabel',
         i18nKey: showLabelKey,
-      });
-
-      // TODO: OKTA-587112 request translation keys for hide labels
-      let hideLabelKey = 'Hide password';
-      if (fieldName === 'confirmPassword') {
-        hideLabelKey = 'Hide re-entered password';
-      } else if (fieldName === 'credentials.answer') {
-        hideLabelKey = 'Hide answer';
-      }
-      addTranslation({
-        element,
-        name: 'hideToggleLabel',
-        i18nKey: '',
-        defaultValue: hideLabelKey,
       });
     },
   });
