@@ -10,7 +10,7 @@ sauce:
   concurrency: 1
   sauceignore: .sauceignore
   tunnel: 
-    name: OktaSignInWidget_testcafe_firefox
+    name: SIW_testcafe_bacon
 reporters:
   junit:
     enabled: true
