@@ -14,11 +14,7 @@ import { FunctionComponent, h } from 'preact';
 
 import { IconProps } from '../../types';
 
-<<<<<<< HEAD
 export const CheckCircle: FunctionComponent<IconProps> = ({ description }) => (
-=======
-export const CheckCircle: FunctionComponent<IconProps> = ({ name, description }) => (
->>>>>>> 4f5eacc8b (OKTA-547451 : g3 : Updating icon for password requirements list component (#3114))
   <svg
     width="16"
     height="16"
@@ -26,14 +22,8 @@ export const CheckCircle: FunctionComponent<IconProps> = ({ name, description })
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     role="img"
-<<<<<<< HEAD
   >
     <title>{description}</title>
-=======
-    aria-labelledby={name}
-  >
-    <title id={name}>{description}</title>
->>>>>>> 4f5eacc8b (OKTA-547451 : g3 : Updating icon for password requirements list component (#3114))
     <path
       fillRule="evenodd"
       clipRule="evenodd"
