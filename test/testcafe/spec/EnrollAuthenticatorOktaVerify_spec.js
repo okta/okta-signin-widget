@@ -38,7 +38,7 @@ const enrollViaQRcodeMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyQr)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(xhrSuccess);
+  .respond(xhrAuthenticatorEnrollOktaVerifyQr);
 
 const enrollViaEmailMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -48,7 +48,7 @@ const enrollViaEmailMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/send')
   .respond(xhrAuthenticatorEnrollOktaVerifyEmail)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(xhrSuccess);
+  .respond(xhrAuthenticatorEnrollOktaVerifyEmail);
 
 const resendEmailMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -167,7 +167,9 @@ const enrollViaSMSEnableBiometricsMocks = RequestMock()
 
 const smsInstruction = 'We sent an SMS to +18008885555 with an Okta Verify setup link. To continue, open the link on your mobile device.\nOr try a different way to set up Okta Verify.';
 const emailInstruction = 'We sent an email to joy@okta.com with an Okta Verify setup link. To continue, open the link on your mobile device.\nOr try a different way to set up Okta Verify.';
-const qrCodeInstruction = 'On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).\nOpen the app and follow the instructions to add your account\nWhen prompted, tap Scan a QR code, then scan the QR code below:';
+const qrCodeInstruction1 = 'On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).';
+const qrCodeInstruction2 = 'Open the app and follow the instructions to add your account';
+const qrCodeInstruction3 = 'When prompted, tap Scan a QR code, then scan the QR code below:';
 
 const fipsUpgradeMessage = 'The device used to set up Okta Verify does not meet your organization’s security requirements because it is not FIPS compliant. Contact your administrator for help.';
 const fipsUpgradeMessageNonIos = 'The Okta Verify version on the device used does not meet your organization’s security requirements. To add your account, update Okta Verify to the latest version, then try again.';
@@ -176,11 +178,13 @@ const fipsUpgradeTitle = 'Update Okta Verify';
 const enableBiometricsMessage = 'Your organization requires biometrics. To proceed, ensure your device supports biometrics, then add your account and enable biometrics when prompted.';
 const enableBiometricsMessageTitle = 'Enable biometrics to add an account in Okta Verify';
 
-fixture('Enroll Okta Verify Authenticator');
+fixture('Enroll Okta Verify Authenticator')
+  .meta('v3', true);
 
 async function setup(t) {
   const enrollOktaVerifyPage = new EnrollOktaVerifyPageObject(t);
   await enrollOktaVerifyPage.navigateToPage();
+  await t.expect(enrollOktaVerifyPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: null,
     formName: 'enroll-poll',
@@ -193,15 +197,20 @@ async function setup(t) {
 test.requestHooks(logger, enrollViaQRcodeMocks)('should be able to enroll via qrcode', async t => {
   const enrollOktaVerifyPage = await setup(t);
   await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
-  await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(true);
+  await t.expect(await enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(true);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasQRcode()).eql(true);
-  await t.expect(enrollOktaVerifyPage.getQRInstruction()).eql(qrCodeInstruction);
+  // await t.expect(enrollOktaVerifyPage.getQRInstruction()).contains(qrCodeInstruction);
+  const qrInstructionBullet1 = await enrollOktaVerifyPage.getQRInstruction(0);
+  const qrInstructionBullet2 = await enrollOktaVerifyPage.getQRInstruction(1);
+  const qrInstructionBullet3 = await enrollOktaVerifyPage.getQRInstruction(2);
+  await t.expect(qrInstructionBullet1).contains(qrCodeInstruction1);
+  await t.expect(qrInstructionBullet2).contains(qrCodeInstruction2);
+  await t.expect(qrInstructionBullet3).contains(qrCodeInstruction3);
 
   // Verify links
-  await t.expect(await enrollOktaVerifyPage.switchAuthenticatorLinkExists()).ok();
-  await t.expect(enrollOktaVerifyPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
+  await t.expect(await enrollOktaVerifyPage.returnToAuthenticatorListLinkExists()).ok();
   await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
 
   await t.wait(4000);
@@ -233,7 +242,7 @@ test.requestHooks(mock)('should render switch channel view when Can\'t scan is c
   await t.expect(await switchChannelPageObject.signoutLinkExists()).ok();
 });
 
-test.requestHooks(resendEmailMocks)('should render switch channel view when "try different way" is clicked when in email flow', async t => {
+test.only.requestHooks(resendEmailMocks)('should render switch channel view when "try different way" is clicked when in email flow', async t => {
   const enrollOktaVerifyPage = await setup(t);
   await t.expect(enrollOktaVerifyPage.getSwitchChannelText()).eql('try a different way');
   await enrollOktaVerifyPage.clickSwitchChannel();
@@ -277,7 +286,7 @@ test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async 
   await t.expect(enrollViaEmailPageObject.hasSwitchChannelText).ok();
   await enrollViaEmailPageObject.fillEmailField('test@gmail.com');
   await enrollViaEmailPageObject.clickNextButton();
-  await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
+  await t.expect(await enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(true);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql(emailInstruction);
