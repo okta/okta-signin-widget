@@ -19,12 +19,12 @@ import HtmlReactParser, {
   Element,
   HTMLReactParserOptions,
 } from 'html-react-parser';
-import preact, { h } from 'preact';
+import * as preact from 'preact';
 
 export const useHtmlContentParser = (
   content: string | undefined,
   options?: HTMLReactParserOptions,
-): string | h.JSX.Element | h.JSX.Element[] | undefined => {
+): string | preact.JSX.Element | preact.JSX.Element[] | undefined => {
   if (typeof content === 'undefined') {
     return undefined;
   }
