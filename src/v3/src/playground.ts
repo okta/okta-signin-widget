@@ -10,8 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw/';
+import OktaSignIn from './OktaSignIn';
 
-setupRouting();
-setupPrecaching(getFiles());
+if (process.env.NODE_ENV !== 'production') {
+  import('./mocks/browser')
+    .then(({ getWorker }) => getWorker())
+    .then((worker) => worker?.start());
+  import('../widgetrc').then(({ config }) => {
+    // eslint-disable-next-line no-new
+    new OktaSignIn(config);
+  });
+}

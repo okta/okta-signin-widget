@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint-disable import/no-extraneous-dependencies,no-param-reassign */
+/* eslint-disable no-param-reassign */
+
 import { resolve } from 'path';
 import { DefinePlugin } from 'webpack';
 import { merge as webpackMerge } from 'webpack-merge';
@@ -55,9 +56,9 @@ export default {
 
     config.plugins.push(new DefinePlugin({
       // for OktaSignIn.__version, AuthContainer[data-version]
-      VERSION: JSON.stringify(`okta-signin-widget-${version}`),
+      OKTA_SIW_VERSION: JSON.stringify(`okta-signin-widget-${version}`),
       // for OktaSignIn.__commit, AuthContainer[data-commit]
-      COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
+      OKTA_SIW_COMMIT_HASH: JSON.stringify(gitRevisionPlugin.commithash()),
       // for v2/util/Logger file
       DEBUG: env !== 'production',
     }));
