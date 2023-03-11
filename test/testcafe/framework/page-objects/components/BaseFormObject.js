@@ -229,13 +229,13 @@ export default class BaseFormObject {
     return within(this.el).queryAllByRole('alert');
   }
 
-  getAlertBoxByIndex(index = 0) {
-    return this.getAllAlertBox().nth(index);
+  getAlertBox() {
+    return this.getAllAlertBoxes().nth(0);
   }
 
   getErrorBoxCount() {
     if (userVariables.v3) {
-      return this.getAllAlertBox().count;
+      return this.getAllAlertBoxes().count;
     }
 
     return this.el.find(FORM_INFOBOX_ERROR).count;
@@ -243,7 +243,7 @@ export default class BaseFormObject {
 
   getErrorBox() {
     if (userVariables.v3) {
-      return this.getAlertBoxByIndex(0);
+      return this.getAlertBox();
     }
 
     return this.el.find(FORM_INFOBOX_ERROR);
@@ -259,7 +259,7 @@ export default class BaseFormObject {
 
   getAlertBoxText() {
     if (userVariables.v3) {
-      return this.getAlertBoxByIndex(0).innerText;
+      return this.getAlertBox().innerText;
     } else {
       // Not implemented/required in v2
     }
