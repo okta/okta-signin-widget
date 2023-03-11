@@ -11,55 +11,20 @@
  */
 
 /// <reference types="vite/client" />
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
 import { ModuleFormat } from 'rollup';
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
-
-const cjs = ([name]: TemplateStringsArray) => ({
-  find: name,
-  replacement: require.resolve(name),
-})
-/*
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [preact()],
-  resolve: {
-    alias: [
-      { find: 'react', replacement: 'preact/compat' },
-      { find: 'react-dom/test-utils', replacement: 'preact/test-utils' },
-      { find: 'react-dom', replacement: 'preact/compat' },
-      { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' }
-    ]
-  },
-  test: {
-    globals: true, // for jest-dom
-    environment: 'jsdom',
-    setupFiles: './vitest.setup.ts',
-    css: false,
-    alias: [
-      // cjs libs: https://github.com/vitest-dev/vitest/issues/1652
-      cjs`preact/hooks`,
-      cjs`@testing-library/preact`
-    ],
-  }
-});
- */
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     preact(),
-    // splitVendorChunkPlugin(),
+    splitVendorChunkPlugin(),
   ],
   define: {
     OKTA_SIW_VERSION: '"0.0.0"',
-    VERSION: '"0.0.0"',
     OKTA_SIW_COMMIT_HASH: '"67f7d01358bee1853391565b300f196dc5291ce2"',
-    COMMITHASH: '"67f7d01358bee1853391565b300f196dc5291ce2"',
     DEBUG: true,
   },
   resolve: {
@@ -72,7 +37,12 @@ export default defineConfig({
       'okta': resolve(__dirname, '../../packages/@okta/courage-dist'),
       '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
       'src': resolve(__dirname, './src'),
-      'util': resolve(__dirname, '../util'),
+      'util/Logger': resolve(__dirname, `../util/Logger`),
+      'util/Bundles': resolve(__dirname, `../util/Bundles`),
+      'util/Enums': resolve(__dirname, `../util/Enums`),
+      'util/FactorUtil': resolve(__dirname, `../util/FactorUtil`),
+      'util/TimeUtil': resolve(__dirname, `../util/TimeUtil`),
+      'util/BrowserFeatures': resolve(__dirname, `../util/BrowserFeatures`),
       'v1': resolve(__dirname, '../v1'),
       'v2': resolve(__dirname, '../v2'),
 
@@ -87,8 +57,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'OktaSignIn',
-      formats: ['umd', 'es'],
-      fileName: (fmt, entry) => {
+      fileName: (fmt) => {
         const ext: Record<ModuleFormat, string> = {
           es: 'mjs',
           cjs: 'js',
@@ -99,6 +68,7 @@ export default defineConfig({
       },
     },
     sourcemap: true,
+    copyPublicDir: false,
   },
   server: {
     host: 'localhost',
