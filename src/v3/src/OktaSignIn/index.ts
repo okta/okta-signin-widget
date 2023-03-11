@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
+import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 
@@ -23,10 +23,6 @@ import {
   WidgetProps,
 } from '../types/widget';
 import { RenderErrorCallback, RenderResult, RenderSuccessCallback } from '../../../types';
-
-// TODO: Once SIW is merged into okta-signin-widget repo, remove these
-// export type RenderResult = JsonObject;
-export type Tokens = JsonObject;
 
 console.debug(`${OKTA_SIW_VERSION}-g${OKTA_SIW_COMMIT_HASH.substring(0, 7)}`);
 
