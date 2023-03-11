@@ -13,5 +13,5 @@
 /* eslint-disable */
 import JSX = preact.JSX;
 
-declare const COMMITHASH: string;
-declare const VERSION: string;
+declare const OKTA_SIW_COMMIT_HASH: string;
+declare const OKTA_SIW_VERSION: string;
