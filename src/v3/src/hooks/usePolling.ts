@@ -106,17 +106,17 @@ export const usePolling = (
       // error code E0000047 is from a standard API error (unhandled)
       // TERMINAL_KEY.TOO_MANY_REQUESTS is error key from IDX API error message
       // check that there is no errorIntent to make sure it is not a standard IDX message error
-      if ((newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent)
-        || containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, newTransaction?.messages)) {
-        // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
-        const clonedTransaction = cloneDeep(idxTransaction);
-        const clonedPollingStep = getPollingStep(clonedTransaction);
-        if (clonedPollingStep !== undefined) {
-          clonedPollingStep.refresh = 60000;
-        }
-        setTransaction(clonedTransaction);
-        return;
-      }
+      // if ((newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent)
+      //   || containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, newTransaction?.messages)) {
+      //   // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
+      //   const clonedTransaction = cloneDeep(idxTransaction);
+      //   const clonedPollingStep = getPollingStep(clonedTransaction);
+      //   if (clonedPollingStep !== undefined) {
+      //     clonedPollingStep.refresh = 60000;
+      //   }
+      //   setTransaction(clonedTransaction);
+      //   return;
+      // }
 
       setTransaction(newTransaction);
     }, refresh);
