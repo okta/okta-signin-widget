@@ -86,8 +86,7 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await t.expect(await enrollPasswordPage.signoutLinkExists()).ok();
 });
 
-// OKTA-585934 Gen 3 widget does not respect 'showSessionRevocation' FF
-test.meta('v3', false).requestHooks(logger, successMock)('should succeed when same values are filled', async t => {
+test.requestHooks(logger, successMock)('should succeed when same values are filled', async t => {
   const enrollPasswordPage = await setup(t);
   await checkA11y(t);
   const successPage = new SuccessPageObject(t);
@@ -100,14 +99,21 @@ test.meta('v3', false).requestHooks(logger, successMock)('should succeed when sa
     body: answerRequestBodyString,
   }
   } = logger.requests[0];
-
-  const answerRequestBody = JSON.parse(answerRequestBodyString);
-  await t.expect(answerRequestBody).eql({
+  const expectedResponse = {
     credentials: {
       passcode: 'abcdabcdA3@',
     },
     stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-  });
+  };
+  // In v3, if a boolean field is present in the idx response,
+  // and the user does not check it, we send 'false' by default for the value
+  // V2 will ignore the boolean field unless they check and uncheck it.
+  if (userVariables.v3) {
+    expectedResponse.credentials.revokeSessions = false;
+  }
+
+  const answerRequestBody = JSON.parse(answerRequestBodyString);
+  await t.expect(answerRequestBody).eql(expectedResponse);
 
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
