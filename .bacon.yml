@@ -34,6 +34,13 @@ test_suites:
       script_name: testcafe
       criteria: MERGE
       queue_name: small
+    - name: testcafe-saucelabs
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '5'
+      timeout: '30'
+      script_name: testcafe-saucelabs
+      criteria: OPTIONAL
+      queue_name: small
     - name: e2e
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '6'
