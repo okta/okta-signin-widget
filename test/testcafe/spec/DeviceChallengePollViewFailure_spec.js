@@ -112,9 +112,7 @@ test
       'Your device or account was invalidated. If this is unexpected, contact your administrator for help.');
   });
 
-// OKTA-586543 Re-enable this quarantined test
 test
-  .meta('v3', false)
   .requestHooks(logger, baseMock, initialPoll)('Non IDX error', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
