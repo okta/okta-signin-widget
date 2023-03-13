@@ -167,7 +167,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <button
-                    aria-describedby="enroll-poll_Title_Set_up_Okta_Verify_okta_verify_aut2h3fft4y9pDPCS1d7_2_1"
                     aria-label="Setup without scanning a QR code."
                     class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                     tabindex="0"
@@ -340,7 +339,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     Which option do you want to try?
                   </label>
                   <div
-                    aria-describedby="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     class="MuiFormGroup-root emotion-19"
                     data-se="authenticator.channel"
                     id="authenticator.channel"
@@ -443,7 +441,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
                   data-type="save"
                   tabindex="0"
@@ -636,7 +633,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     required="true"
                   >
                     <input
-                      aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_email_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                       aria-invalid="false"
                       autocomplete="email"
                       class="MuiInputBase-input emotion-20"
@@ -669,7 +665,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_email_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
                   data-type="save"
                   tabindex="0"
@@ -1096,7 +1091,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     Which option do you want to try?
                   </label>
                   <div
-                    aria-describedby="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     class="MuiFormGroup-root emotion-19"
                     data-se="authenticator.channel"
                     id="authenticator.channel"
@@ -1199,7 +1193,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
                   data-type="save"
                   tabindex="0"
@@ -1406,7 +1399,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <button
-                    aria-describedby="enroll-poll_Title_Set_up_Okta_Verify_okta_verify_aut2h3fft4y9pDPCS1d7_2_1"
                     aria-label="Setup without scanning a QR code."
                     class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                     tabindex="0"
@@ -1614,7 +1606,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <button
-                    aria-describedby="enroll-poll_Title_Set_up_Okta_Verify_okta_verify_aut2h3fft4y9pDPCS1d7_2_1"
                     aria-label="Setup without scanning a QR code."
                     class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                     tabindex="0"
@@ -1787,7 +1778,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     Which option do you want to try?
                   </label>
                   <div
-                    aria-describedby="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     class="MuiFormGroup-root emotion-19"
                     data-se="authenticator.channel"
                     id="authenticator.channel"
@@ -1890,7 +1880,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
                   data-type="save"
                   tabindex="0"
@@ -2087,7 +2076,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                       required="true"
                     >
                       <select
-                        aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                         autocomplete="tel-country-code"
                         class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-21"
                         data-se="country"
@@ -3339,7 +3327,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           </p>
                         </span>
                         <input
-                          aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                           aria-invalid="false"
                           autocomplete="tel-national"
                           class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-29"
@@ -3374,7 +3361,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
                   data-type="save"
                   tabindex="0"
@@ -3801,7 +3787,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     Which option do you want to try?
                   </label>
                   <div
-                    aria-describedby="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     class="MuiFormGroup-root emotion-19"
                     data-se="authenticator.channel"
                     id="authenticator.channel"
@@ -3904,7 +3889,6 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="enroll-poll_Title_More_options_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
                   data-type="save"
                   tabindex="0"

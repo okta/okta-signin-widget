@@ -103,7 +103,6 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     required="true"
                   >
                     <input
-                      aria-describedby="profile-update_Title_Additional_Profile_information_1"
                       aria-invalid="false"
                       class="MuiInputBase-input emotion-19"
                       data-se="userProfile.newAttribute"
@@ -132,7 +131,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     required="true"
                   >
                     <input
-                      aria-describedby="profile-update_Title_Additional_Profile_information_1 userProfile.secondEmail-explain"
+                      aria-describedby="userProfile.secondEmail-explain"
                       aria-invalid="false"
                       class="MuiInputBase-input emotion-19"
                       data-se="userProfile.secondEmail"
@@ -174,7 +173,6 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     required="true"
                   >
                     <input
-                      aria-describedby="profile-update_Title_Additional_Profile_information_1"
                       aria-invalid="false"
                       class="MuiInputBase-input emotion-19"
                       data-se="userProfile.newAttribute2"
@@ -190,7 +188,6 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  aria-describedby="profile-update_Title_Additional_Profile_information_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-32"
                   data-type="save"
                   tabindex="0"
@@ -203,7 +200,6 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                 class="MuiBox-root emotion-12"
               >
                 <a
-                  aria-describedby="profile-update_Title_Additional_Profile_information_1"
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-34"
                   data-se="skip"
                   href="javascript:void(0)"

@@ -53,7 +53,6 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-piv-class piv-button emotion-11"
                   tabindex="0"
                   type="button"
@@ -97,7 +96,6 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     required="true"
                   >
                     <input
-                      aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                       aria-invalid="false"
                       autocomplete="username"
                       class="MuiInputBase-input emotion-20"
@@ -127,7 +125,6 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     required="true"
                   >
                     <input
-                      aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                       aria-invalid="false"
                       autocomplete="current-password"
                       class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-20"
@@ -173,7 +170,6 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <fieldset
-                  aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-30"
                 >
                   <label
@@ -214,7 +210,6 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-37"
                   data-type="save"
                   tabindex="0"
@@ -344,7 +339,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth  piv-button emotion-11"
                   tabindex="0"
                   type="button"
@@ -388,7 +382,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     required="true"
                   >
                     <input
-                      aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                       aria-invalid="false"
                       autocomplete="username"
                       class="MuiInputBase-input emotion-20"
@@ -418,7 +411,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     required="true"
                   >
                     <input
-                      aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                       aria-invalid="false"
                       autocomplete="current-password"
                       class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-20"
@@ -464,7 +456,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <fieldset
-                  aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-30"
                 >
                   <label
@@ -505,7 +496,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-37"
                   data-type="save"
                   tabindex="0"
@@ -648,7 +638,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     required="true"
                   >
                     <input
-                      aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                       aria-invalid="false"
                       autocomplete="username"
                       class="MuiInputBase-input emotion-14"
@@ -678,7 +667,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     required="true"
                   >
                     <input
-                      aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                       aria-invalid="false"
                       autocomplete="current-password"
                       class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-14"
@@ -724,7 +712,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 class="MuiBox-root emotion-7"
               >
                 <fieldset
-                  aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
                 >
                   <label
@@ -765,7 +752,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-31"
                   data-type="save"
                   tabindex="0"
@@ -792,7 +778,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="identify_Title_Sign_In_aut2h3ffszv3me6O31d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth  piv-button emotion-36"
                   tabindex="0"
                   type="button"

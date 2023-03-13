@@ -127,7 +127,6 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                 class="MuiBox-root emotion-13"
               >
                 <fieldset
-                  aria-describedby="challenge-poll_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-18"
                 >
                   <label
@@ -168,7 +167,6 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="challenge-poll_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
                   disabled=""
                   tabindex="-1"

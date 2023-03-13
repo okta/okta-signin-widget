@@ -111,7 +111,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 okta_password_0-ctaLabel"
+                      aria-describedby="okta_password_0-ctaLabel"
                       aria-labelledby="okta_password_0-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -208,7 +208,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 webauthn_1-ctaLabel"
+                      aria-describedby="webauthn_1-ctaLabel"
                       aria-labelledby="webauthn_1-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -325,7 +325,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 okta_email_2-ctaLabel"
+                      aria-describedby="okta_email_2-ctaLabel"
                       aria-labelledby="okta_email_2-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -422,7 +422,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 phone_number_3-description phone_number_3-ctaLabel"
+                      aria-describedby="phone_number_3-description phone_number_3-ctaLabel"
                       aria-labelledby="phone_number_3-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -536,7 +536,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 phone_number_4-description phone_number_4-ctaLabel"
+                      aria-describedby="phone_number_4-description phone_number_4-ctaLabel"
                       aria-labelledby="phone_number_4-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -650,7 +650,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 security_question_5-ctaLabel"
+                      aria-describedby="security_question_5-ctaLabel"
                       aria-labelledby="security_question_5-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -747,7 +747,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 okta_verify_6-description okta_verify_6-ctaLabel"
+                      aria-describedby="okta_verify_6-description okta_verify_6-ctaLabel"
                       aria-labelledby="okta_verify_6-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -847,7 +847,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 google_otp_7-ctaLabel"
+                      aria-describedby="google_otp_7-ctaLabel"
                       aria-labelledby="google_otp_7-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -1016,7 +1016,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 onprem_mfa_8-ctaLabel"
+                      aria-describedby="onprem_mfa_8-ctaLabel"
                       aria-labelledby="onprem_mfa_8-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -1113,7 +1113,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 rsa_token_9-ctaLabel"
+                      aria-describedby="rsa_token_9-ctaLabel"
                       aria-labelledby="rsa_token_9-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -1204,7 +1204,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 duo_10-ctaLabel"
+                      aria-describedby="duo_10-ctaLabel"
                       aria-labelledby="duo_10-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -1297,7 +1297,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 external_idp_11-ctaLabel"
+                      aria-describedby="external_idp_11-ctaLabel"
                       aria-labelledby="external_idp_11-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -1399,7 +1399,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 custom_otp_12-ctaLabel"
+                      aria-describedby="custom_otp_12-ctaLabel"
                       aria-labelledby="custom_otp_12-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -1501,7 +1501,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 symantec_vip_13-ctaLabel"
+                      aria-describedby="symantec_vip_13-ctaLabel"
                       aria-labelledby="symantec_vip_13-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -1600,7 +1600,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 yubikey_token_14-ctaLabel"
+                      aria-describedby="yubikey_token_14-ctaLabel"
                       aria-labelledby="yubikey_token_14-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"
@@ -1699,7 +1699,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiBox-root emotion-12"
                   >
                     <button
-                      aria-describedby="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1 select-authenticator-authenticate_Description_Select_from_the_following_options_2 custom_app_15-description custom_app_15-ctaLabel"
+                      aria-describedby="custom_app_15-description custom_app_15-ctaLabel"
                       aria-labelledby="custom_app_15-label"
                       class="authenticator-row authButton MuiBox-root emotion-21"
                       data-se="authenticator-button"

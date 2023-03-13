@@ -137,7 +137,6 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                     required="true"
                   >
                     <input
-                      aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_email_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                       aria-invalid="false"
                       autocomplete="email"
                       class="MuiInputBase-input emotion-20"
@@ -170,7 +169,6 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_email_link_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_email_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
                   data-type="save"
                   tabindex="0"

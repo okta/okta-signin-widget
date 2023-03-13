@@ -73,7 +73,6 @@ exports[`enroll-profile-new should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="family-name"
                       class="MuiInputBase-input emotion-15"
@@ -110,7 +109,6 @@ exports[`enroll-profile-new should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="given-name"
                       class="MuiInputBase-input emotion-15"
@@ -147,7 +145,6 @@ exports[`enroll-profile-new should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="email"
                       class="MuiInputBase-input emotion-15"
@@ -165,7 +162,6 @@ exports[`enroll-profile-new should render form 1`] = `
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="enroll-profile_Title_Sign_up_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
                   data-type="save"
                   tabindex="0"

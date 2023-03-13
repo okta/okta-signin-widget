@@ -178,7 +178,6 @@ exports[`email-challenge-consent should render form 1`] = `
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="email-challenge-consent_Title_Did_you_just_try_to_sign_in_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                   data-type="cancel"
                   tabindex="0"
@@ -191,7 +190,6 @@ exports[`email-challenge-consent should render form 1`] = `
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="email-challenge-consent_Title_Did_you_just_try_to_sign_in_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
                   data-type="save"
                   tabindex="0"

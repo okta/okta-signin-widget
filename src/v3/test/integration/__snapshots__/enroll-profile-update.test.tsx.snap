@@ -143,7 +143,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.favoriteSport-error enroll-profile_Title_Sign_in_1 "
+                      aria-describedby=" userProfile.favoriteSport-error  "
                       aria-invalid="true"
                       class="MuiInputBase-input emotion-25"
                       data-se="userProfile.favoriteSport"
@@ -191,7 +191,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.newAttribute-error enroll-profile_Title_Sign_in_1 "
+                      aria-describedby=" userProfile.newAttribute-error  "
                       aria-invalid="true"
                       class="MuiInputBase-input emotion-25"
                       data-se="userProfile.newAttribute"
@@ -219,7 +219,6 @@ exports[`enroll-profile-update fails client side validation with empty required 
                 class="MuiBox-root emotion-17"
               >
                 <button
-                  aria-describedby="enroll-profile_Title_Sign_in_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-37"
                   data-type="save"
                   tabindex="0"
@@ -347,7 +346,6 @@ exports[`enroll-profile-update should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_in_1"
                       aria-invalid="false"
                       class="MuiInputBase-input emotion-20"
                       data-se="userProfile.favoriteSport"
@@ -383,7 +381,6 @@ exports[`enroll-profile-update should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_in_1"
                       aria-invalid="false"
                       class="MuiInputBase-input emotion-20"
                       data-se="userProfile.newAttribute"
@@ -399,7 +396,6 @@ exports[`enroll-profile-update should render form 1`] = `
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  aria-describedby="enroll-profile_Title_Sign_in_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-28"
                   data-type="save"
                   tabindex="0"

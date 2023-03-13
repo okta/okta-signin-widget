@@ -159,7 +159,6 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_2"
                       aria-invalid="false"
                       autocomplete="off"
                       class="MuiInputBase-input emotion-24"
@@ -177,7 +176,6 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_2"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                   data-type="save"
                   tabindex="0"

@@ -106,7 +106,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.firstName-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.firstName-error  "
                       aria-invalid="true"
                       autocomplete="given-name"
                       class="MuiInputBase-input emotion-20"
@@ -155,7 +155,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.lastName-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.lastName-error  "
                       aria-invalid="true"
                       autocomplete="family-name"
                       class="MuiInputBase-input emotion-20"
@@ -204,7 +204,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.email-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.email-error  "
                       aria-invalid="true"
                       autocomplete="email"
                       class="MuiInputBase-input emotion-20"
@@ -254,7 +254,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     required="true"
                   >
                     <select
-                      aria-describedby=" userProfile.country-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.country-error  "
                       aria-invalid="true"
                       class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-44"
                       data-se="userProfile.country"
@@ -1523,7 +1523,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.countryCode-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.countryCode-error  "
                       aria-invalid="true"
                       class="MuiInputBase-input emotion-20"
                       data-se="userProfile.countryCode"
@@ -1571,7 +1571,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     required="true"
                   >
                     <select
-                      aria-describedby=" userProfile.timezone-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.timezone-error  "
                       aria-invalid="true"
                       class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-44"
                       data-se="userProfile.timezone"
@@ -1780,7 +1780,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  aria-describedby="enroll-profile_Title_Sign_up_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-66"
                   data-type="save"
                   tabindex="0"
@@ -1908,7 +1907,6 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="given-name"
                       class="MuiInputBase-input emotion-15"
@@ -1945,7 +1943,6 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="family-name"
                       class="MuiInputBase-input emotion-15"
@@ -1982,7 +1979,6 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="email"
                       class="MuiInputBase-input emotion-15"
@@ -2020,7 +2016,6 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     required="true"
                   >
                     <select
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-33"
                       data-se="userProfile.country"
@@ -3277,7 +3272,6 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       class="MuiInputBase-input emotion-15"
                       data-se="userProfile.countryCode"
@@ -3313,7 +3307,6 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     required="true"
                   >
                     <select
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-33"
                       data-se="userProfile.timezone"
@@ -3510,7 +3503,6 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="enroll-profile_Title_Sign_up_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-49"
                   data-type="save"
                   tabindex="0"

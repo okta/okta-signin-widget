@@ -208,7 +208,6 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     required="true"
                   >
                     <input
-                      aria-describedby="challenge-authenticator_Title_Enter_a_code_okta_verify_aut1kxbY4k3KnPvvd0g4_2"
                       aria-invalid="false"
                       autocomplete="off"
                       class="MuiInputBase-input emotion-33"
@@ -226,7 +225,6 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="challenge-authenticator_Title_Enter_a_code_okta_verify_aut1kxbY4k3KnPvvd0g4_2"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
                   data-type="save"
                   tabindex="0"
