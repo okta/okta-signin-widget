@@ -15,8 +15,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   useEffect, useMemo, useRef, useState,
 } from 'preact/hooks';
-import { TERMINAL_KEY } from '../constants';
 
+import { TERMINAL_KEY } from '../constants';
 import { FormBag, WidgetOptions } from '../types';
 import { containsMessageKey, isPollingStep } from '../util';
 
