@@ -101,22 +101,23 @@ export const usePolling = (
       const newTransaction = await authClient?.idx.proceed({
         stateHandle: stateToken && idxTransaction?.context?.stateHandle,
         ...payload,
-      }); //.catch((error: any) => error);
+      });
 
       // error code E0000047 is from a standard API error (unhandled)
       // TERMINAL_KEY.TOO_MANY_REQUESTS is error key from IDX API error message
       // check that there is no errorIntent to make sure it is not a standard IDX message error
-      // if ((newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent)
-      //   || containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, newTransaction?.messages)) {
-      //   // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
-      //   const clonedTransaction = cloneDeep(idxTransaction);
-      //   const clonedPollingStep = getPollingStep(clonedTransaction);
-      //   if (clonedPollingStep !== undefined) {
-      //     clonedPollingStep.refresh = 60000;
-      //   }
-      //   setTransaction(clonedTransaction);
-      //   return;
-      // }
+      // @ts-expect-error OKTA-585869 errorCode & errorIntent properties missing from context type
+      if ((newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent)
+        || containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, newTransaction?.messages)) {
+        // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
+        const clonedTransaction = cloneDeep(idxTransaction);
+        const clonedPollingStep = getPollingStep(clonedTransaction);
+        if (clonedPollingStep !== undefined) {
+          clonedPollingStep.refresh = 60000;
+        }
+        setTransaction(clonedTransaction);
+        return;
+      }
 
       setTransaction(newTransaction);
     }, refresh);
