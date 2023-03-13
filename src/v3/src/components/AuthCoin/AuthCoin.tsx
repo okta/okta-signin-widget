@@ -15,7 +15,7 @@ import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { AuthCoinProps } from '../../types';
-import AuthCoinByAuthenticatorKey from './AuthCoinConfig';
+import { getAuthCoinConfiguration } from './authCoinConfigUtil';
 import style from './style.module.css';
 
 const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
@@ -27,11 +27,12 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     description: authcoinDescr,
   } = props;
 
-  const authCoinConfig = AuthCoinByAuthenticatorKey[authenticatorKey];
+  const authCoinConfiguration = getAuthCoinConfiguration();
+  const authCoinConfigByAuthKey = authCoinConfiguration[authenticatorKey];
 
   const containerClasses = classNames(
     style.iconContainer,
-    authCoinConfig?.iconClassName,
+    authCoinConfigByAuthKey?.iconClassName,
     customClasses,
   );
 
@@ -39,12 +40,12 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     // TODO: OKTA-467022 - Add warning when attempted to customize non-customizeable authenticator
     // if URL is provided it should be with an authenticator
     // key that can be customized or custom push app
-    if (url && (authCoinConfig?.customizable || !authCoinConfig?.icon)) {
+    if (url && (authCoinConfigByAuthKey?.customizable || !authCoinConfigByAuthKey?.icon)) {
       return (
         <Box
           as="img"
           src={url}
-          alt={authCoinConfig.description}
+          alt={authCoinConfigByAuthKey.description}
           className="custom-logo"
           sx={{
             width: (theme) => theme.spacing(6),
@@ -53,9 +54,9 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
         />
       );
     }
-    const name = authcoinName || authCoinConfig?.name;
-    const description = authcoinDescr || authCoinConfig?.description;
-    const AuthCoinIcon = authCoinConfig?.icon;
+    const name = authcoinName || authCoinConfigByAuthKey?.name;
+    const description = authcoinDescr || authCoinConfigByAuthKey?.description;
+    const AuthCoinIcon = authCoinConfigByAuthKey?.icon;
     return AuthCoinIcon && (
       <AuthCoinIcon
         name={name}
@@ -64,7 +65,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     );
   }
 
-  return authCoinConfig && (
+  return authCoinConfigByAuthKey && (
     <Box
       className={containerClasses}
       data-se="factor-beacon"
