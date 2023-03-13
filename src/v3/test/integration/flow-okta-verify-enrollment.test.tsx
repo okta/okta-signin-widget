@@ -323,4 +323,32 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/When prompted, tap Scan a QR code/);
     await findByAltText('QR code');
   });
+
+  // eslint-disable-next-line jest/expect-expect
+  it('qr polling -> channel selection -> Return to authenticator list -> authenticator selection', async () => {
+    const {
+      user, findByText, findByAltText, findAllByRole, findByRole,
+    } = await createTestContext();
+
+    // qr polling
+    await findByText(/Set up Okta Verify/);
+    await findByText(/When prompted, tap Scan a QR code/);
+    await findByAltText('QR code');
+    await user.click(await findByText(/Can't scan\?/));
+
+    // channel selection
+    await findByText(/More options/);
+    await findByText(/Email me a setup link/);
+    await findByText(/Text me a setup link/);
+    await user.click(await findByText(/Next/));
+
+    // data enrollment
+    const [returnToAuthListLink] = await findAllByRole('link', { name: 'Return to authenticator list' });
+    await user.click(returnToAuthListLink);
+
+    // authenticator selection
+    await findByText(/Set up security methods/);
+    await findByText(/Security methods help protect your account by ensuring only you have access./);
+    await user.click(await findByRole('button', { name: 'Okta Verify' }));
+  });
 });
