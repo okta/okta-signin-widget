@@ -164,6 +164,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
 
     if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
+        || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
         || !idxTransaction.nextStep) {
       return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
     }
