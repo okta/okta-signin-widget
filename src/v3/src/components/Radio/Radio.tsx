@@ -17,7 +17,7 @@ import {
   Radio as RadioMui,
   RadioGroup,
 } from '@okta/odyssey-react-mui';
-import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
