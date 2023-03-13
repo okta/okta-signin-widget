@@ -14,6 +14,7 @@ import { flow } from 'lodash';
 
 import { TransformStepFnWithOptions } from '../../types';
 import { transformAuthenticatorButton } from './transformAuthenticatorButton';
+import { transformDefaultSelectOptionLabel } from './transformDefaultSelectOptionLabel';
 import { transformField } from './transformField';
 import { transformIdentifierHint } from './transformIdentifierHint';
 import { transformInputPassword } from './transformInputPassword';
@@ -39,4 +40,5 @@ export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) 
   transformLaunchAuthenticatorButton,
   transformOpenOktaVerifyFPButton,
   transformPasswordMatches(options),
+  transformDefaultSelectOptionLabel,
 )(formbag);

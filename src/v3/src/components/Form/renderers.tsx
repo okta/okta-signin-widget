@@ -13,6 +13,13 @@
 import { Input } from '@okta/okta-auth-js';
 
 import { FieldElement, Renderer } from '../../types';
+import {
+  isCheckboxFieldElement,
+  isInputTextFieldElement,
+  isPhoneNumberElement,
+  isRadioFieldElement,
+  isSelectFieldElement,
+} from '../../util';
 import AuthenticatorButtonList from '../AuthenticatorButton';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
@@ -134,14 +141,7 @@ export default [
     renderer: HiddenInput,
   },
   {
-    tester: (uischema: FieldElement) => {
-      const {
-        options: {
-          inputMeta: { name } = {},
-        } = {},
-      } = uischema;
-      return name?.endsWith('phoneNumber');
-    },
+    tester: (element: FieldElement) => isPhoneNumberElement(element),
     renderer: PhoneAuthenticator,
   },
   {
@@ -165,35 +165,15 @@ export default [
     renderer: Divider,
   },
   {
-    tester: ({
-      options: {
-        inputMeta: { options } = {} as Input,
-        format,
-        customOptions,
-      },
-    }: FieldElement) => (Array.isArray(customOptions) || Array.isArray(options)) && format === 'radio',
+    tester: (element: FieldElement) => isRadioFieldElement(element),
     renderer: Radio,
   },
   {
-    tester: ({
-      options: {
-        inputMeta: { options } = {} as Input,
-        format,
-        customOptions,
-      },
-    }: FieldElement) => (Array.isArray(customOptions) || Array.isArray(options)) && format === 'select',
+    tester: (element: FieldElement) => isSelectFieldElement(element),
     renderer: Select,
   },
   {
-    tester: ({
-      options: {
-        type: defaultType,
-        inputMeta: {
-          type, options, name, secret,
-        } = {} as Input,
-      },
-    }: FieldElement) => ((type === 'string' || defaultType === 'string') && !options && !secret)
-      || (name === 'credentials.passcode' && !secret),
+    tester: (element: FieldElement) => isInputTextFieldElement(element),
     renderer: InputText,
   },
   {
@@ -201,7 +181,7 @@ export default [
     renderer: InputPassword,
   },
   {
-    tester: ({ options: { inputMeta: { type } = {} as Input } }: FieldElement) => type === 'boolean',
+    tester: (element: FieldElement) => isCheckboxFieldElement(element),
     renderer: Checkbox,
   },
   {

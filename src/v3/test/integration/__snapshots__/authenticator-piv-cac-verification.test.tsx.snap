@@ -985,29 +985,33 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                 <div
                   class="MuiBox-root emotion-15"
                 >
-                  <span
-                    aria-label="Loading..."
-                    aria-valuetext="Loading..."
-                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-16"
-                    data-se="okta-spinner"
-                    id="okta-spinner"
-                    role="progressbar"
-                    style="width: 1.14285714rem; height: 1.14285714rem;"
+                  <div
+                    class="MuiBox-root emotion-16"
                   >
-                    <svg
-                      class="MuiCircularProgress-svg emotion-17"
-                      viewBox="22 22 44 44"
+                    <span
+                      aria-label="Processing..."
+                      aria-valuetext="Processing..."
+                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-17"
+                      data-se="okta-spinner"
+                      id="okta-spinner"
+                      role="progressbar"
+                      style="width: 1.14285714rem; height: 1.14285714rem;"
                     >
-                      <circle
-                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-18"
-                        cx="44"
-                        cy="44"
-                        fill="none"
-                        r="18"
-                        stroke-width="8"
-                      />
-                    </svg>
-                  </span>
+                      <svg
+                        class="MuiCircularProgress-svg emotion-18"
+                        viewBox="22 22 44 44"
+                      >
+                        <circle
+                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-19"
+                          cx="44"
+                          cy="44"
+                          fill="none"
+                          r="18"
+                          stroke-width="8"
+                        />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

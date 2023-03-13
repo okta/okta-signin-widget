@@ -703,7 +703,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         <option
                           value=""
                         >
-                          Select an Option
+                          Select an option
                         </option>
                         <option
                           value="disliked_food"
@@ -1198,7 +1198,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         <option
                           value=""
                         >
-                          Select an Option
+                          Select an option
                         </option>
                         <option
                           value="disliked_food"
@@ -1396,27 +1396,31 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     <span
                       class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-52"
                     >
-                      <span
-                        aria-label="Loading..."
-                        aria-valuetext="Loading..."
-                        class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-53"
-                        role="progressbar"
-                        style="width: 1.14285714rem; height: 1.14285714rem;"
+                      <div
+                        class="MuiBox-root emotion-53"
                       >
-                        <svg
-                          class="MuiCircularProgress-svg emotion-54"
-                          viewBox="22 22 44 44"
+                        <span
+                          aria-label="Processing..."
+                          aria-valuetext="Processing..."
+                          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-54"
+                          role="progressbar"
+                          style="width: 1.14285714rem; height: 1.14285714rem;"
                         >
-                          <circle
-                            class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-55"
-                            cx="44"
-                            cy="44"
-                            fill="none"
-                            r="18"
-                            stroke-width="8"
-                          />
-                        </svg>
-                      </span>
+                          <svg
+                            class="MuiCircularProgress-svg emotion-55"
+                            viewBox="22 22 44 44"
+                          >
+                            <circle
+                              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-56"
+                              cx="44"
+                              cy="44"
+                              fill="none"
+                              r="18"
+                              stroke-width="8"
+                            />
+                          </svg>
+                        </span>
+                      </div>
                     </span>
                     Verify
                   </button>
@@ -1426,7 +1430,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1437,7 +1441,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -1746,7 +1750,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         <option
                           value=""
                         >
-                          Select an Option
+                          Select an option
                         </option>
                         <option
                           value="disliked_food"

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Button as OdyButton, CircularProgress } from '@okta/odyssey-react-mui';
+import { Button as OdyButton } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -20,6 +20,7 @@ import {
   ClickHandler,
   UISchemaElementComponent,
 } from '../../types';
+import Spinner from '../Spinner';
 
 const Button: UISchemaElementComponent<{
   uischema: ButtonElement
@@ -76,16 +77,7 @@ const Button: UISchemaElementComponent<{
       className={classes}
       // Fixes text overflow
       sx={{ display: 'flex', whiteSpace: 'normal' }}
-      startIcon={
-        loading ? (
-          <CircularProgress
-            // TODO: OKTA-518793 - replace english string with key once created
-            aria-label="Loading..."
-            aria-valuetext="Loading..."
-            sx={{ color: 'white' }}
-          />
-        ) : Icon && <Icon />
-      }
+      startIcon={loading ? <Spinner color="white" /> : Icon && <Icon />}
       aria-describedby={ariaDescribedBy}
       data-type={dataType}
       data-se={dataSe}

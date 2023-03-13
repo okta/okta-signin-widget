@@ -28,27 +28,25 @@ export const transformInputPassword: TransformStepFn = (formBag: FormBag) => {
       addTranslation({
         element,
         name: 'show',
-        i18nKey: 'mfa.challenge.answer.showAnswer',
+        i18nKey: 'sensitive.input.show',
       });
       addTranslation({
         element,
         name: 'hide',
-        i18nKey: 'mfa.challenge.answer.hideAnswer',
+        i18nKey: 'sensitive.input.hide',
       });
 
       const { options: { inputMeta: { name: fieldName } } } = (element as FieldElement);
-      let showLabel = 'Show password';
+      let showLabelKey = 'oie.password.showPassword';
       if (fieldName === 'confirmPassword') {
-        showLabel = 'Show re-enter password';
+        showLabelKey = 'oie.password.showConfirmPassword';
       } else if (fieldName === 'credentials.answer') {
-        showLabel = 'Show answer';
+        showLabelKey = 'oie.challenge.answer.showAnswer';
       }
-      // TODO: OKTA-558040 request translation keys for labels
       addTranslation({
         element,
         name: 'visibilityToggleLabel',
-        i18nKey: '',
-        defaultValue: showLabel,
+        i18nKey: showLabelKey,
       });
     },
   });

@@ -434,10 +434,6 @@ export interface QRCodeElement extends UISchemaElement {
 
 export interface SpinnerElement extends UISchemaElement {
   type: 'Spinner';
-  options: {
-    label: string;
-    valueText: string;
-  };
 }
 
 export interface InfoboxElement extends UISchemaElement {

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button as OdyButton, CircularProgress } from '@okta/odyssey-react-mui';
+import { Box, Button as OdyButton } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
@@ -22,6 +22,7 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 import { getTranslation } from '../../util';
+import Spinner from '../Spinner';
 
 const PIVButton: UISchemaElementComponent<{
   uischema: PIVButtonElement
@@ -66,15 +67,7 @@ const PIVButton: UISchemaElementComponent<{
     >
       {
         showLoading
-          ? (
-            <CircularProgress
-              id="okta-spinner"
-              data-se="okta-spinner"
-              // TODO: OKTA-518793 - replace english string with key once created
-              aria-label="Loading..."
-              aria-valuetext="Loading..."
-            />
-          )
+          ? <Spinner dataSe="okta-spinner" />
           : (
             <OdyButton
               data-se="button"
@@ -83,7 +76,7 @@ const PIVButton: UISchemaElementComponent<{
               aria-describedby={ariaDescribedBy}
               fullWidth
             >
-              { btnLabel }
+              {btnLabel}
             </OdyButton>
           )
       }

@@ -35,6 +35,7 @@ export * from './languageUtils';
 export * from './locUtil';
 export * from './passwordUtils';
 export * from './removeFieldLevelMessages';
+export * from './rendererUtils';
 export * from './resetMessagesToInputs';
 export * from './settingsUtils';
 export * from './setUrlQueryParams';
