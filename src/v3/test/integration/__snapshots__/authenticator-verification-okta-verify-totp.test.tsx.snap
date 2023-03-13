@@ -137,7 +137,6 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                     required="true"
                   >
                     <input
-                      aria-describedby="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                       aria-invalid="false"
                       autocomplete="one-time-code"
                       class="MuiInputBase-input emotion-20"
@@ -155,7 +154,6 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-22"
                   data-type="save"
                   tabindex="0"
@@ -332,7 +330,6 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     required="true"
                   >
                     <input
-                      aria-describedby="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                       aria-invalid="false"
                       autocomplete="off"
                       class="MuiInputBase-input emotion-20"
@@ -350,7 +347,6 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-22"
                   data-type="save"
                   tabindex="0"

@@ -211,7 +211,6 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                   class="MuiBox-root emotion-13"
                 >
                   <button
-                    aria-describedby="enroll-poll_Title_Set_up_Okta_Verify_okta_verify_3_1"
                     aria-label="Setup without scanning a QR code."
                     class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
                     tabindex="0"

@@ -168,7 +168,6 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                   >
                     
                     <div
-                      aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
                       class="MuiFormGroup-root emotion-24"
                       role="radiogroup"
                     >
@@ -282,7 +281,6 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                       required="true"
                     >
                       <input
-                        aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
                         aria-invalid="false"
                         autocomplete="off"
                         class="MuiInputBase-input emotion-43"
@@ -312,7 +310,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                       required="true"
                     >
                       <input
-                        aria-describedby=" credentials.answer-error enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2 "
+                        aria-describedby=" credentials.answer-error  "
                         aria-invalid="true"
                         class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-43"
                         data-se="credentials.answer"
@@ -369,7 +367,6 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                   class="MuiBox-root emotion-19"
                 >
                   <button
-                    aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
                     class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-55"
                     data-type="save"
                     tabindex="0"
@@ -578,7 +575,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   >
                     
                     <div
-                      aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                       class="MuiFormGroup-root emotion-24"
                       role="radiogroup"
                     >
@@ -692,7 +688,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       required="true"
                     >
                       <select
-                        aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                         aria-invalid="false"
                         class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-43"
                         data-se="credentials.questionKey"
@@ -832,7 +827,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       required="true"
                     >
                       <input
-                        aria-describedby=" credentials.answer-error enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1 "
+                        aria-describedby=" credentials.answer-error  "
                         aria-invalid="true"
                         autocomplete="off"
                         class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-49"
@@ -890,7 +885,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   class="MuiBox-root emotion-19"
                 >
                   <button
-                    aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                     class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-56"
                     data-type="save"
                     tabindex="0"
@@ -1066,7 +1060,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   >
                     
                     <div
-                      aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                       class="MuiFormGroup-root emotion-19"
                       role="radiogroup"
                     >
@@ -1186,7 +1179,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       required="true"
                     >
                       <select
-                        aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                         aria-invalid="false"
                         class="MuiNativeSelect-select MuiNativeSelect-standard Mui-disabled MuiInputBase-input MuiInput-input Mui-disabled emotion-38"
                         data-se="credentials.questionKey"
@@ -1327,7 +1319,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       required="true"
                     >
                       <input
-                        aria-describedby=" credentials.answer-error enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1 "
+                        aria-describedby=" credentials.answer-error  "
                         aria-invalid="true"
                         autocomplete="off"
                         class="MuiInputBase-input Mui-disabled MuiInputBase-inputAdornedEnd emotion-44"
@@ -1386,7 +1378,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   class="MuiBox-root emotion-14"
                 >
                   <button
-                    aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                     class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-51"
                     data-type="save"
                     disabled=""
@@ -1621,7 +1612,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   >
                     
                     <div
-                      aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                       class="MuiFormGroup-root emotion-24"
                       role="radiogroup"
                     >
@@ -1735,7 +1725,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       required="true"
                     >
                       <select
-                        aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                         aria-invalid="false"
                         class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-43"
                         data-se="credentials.questionKey"
@@ -1875,7 +1864,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       required="true"
                     >
                       <input
-                        aria-describedby=" credentials.answer-error enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1 "
+                        aria-describedby=" credentials.answer-error  "
                         aria-invalid="true"
                         autocomplete="off"
                         class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-49"
@@ -1933,7 +1922,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   class="MuiBox-root emotion-19"
                 >
                   <button
-                    aria-describedby="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                     class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-56"
                     data-type="save"
                     tabindex="0"

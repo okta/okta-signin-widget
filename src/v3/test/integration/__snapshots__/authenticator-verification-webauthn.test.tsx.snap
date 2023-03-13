@@ -502,7 +502,6 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                   class="MuiBox-root emotion-13"
                 >
                   <button
-                    aria-describedby="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 challenge-authenticator_Description_You_will_be_prompted_to_use_a_security_key_or_biometric_verification_(Windows_Hello,_Touch_ID,_etc)_Follow_the_instructions_to_complete_verification_webauthn_aut2h3f9ovE2RV96P1d7_2"
                     class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-21"
                     data-se="button"
                     tabindex="0"
@@ -831,7 +830,6 @@ exports[`authenticator-verification-webauthn should render form with required us
                   class="MuiBox-root emotion-13"
                 >
                   <button
-                    aria-describedby="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1 challenge-authenticator_Description_You_will_be_prompted_to_use_a_security_key_or_biometric_verification_(Windows_Hello,_Touch_ID,_etc)_Follow_the_instructions_to_complete_verification_webauthn_aut2h3f9ovE2RV96P1d7_2"
                     class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-21"
                     data-se="button"
                     tabindex="0"

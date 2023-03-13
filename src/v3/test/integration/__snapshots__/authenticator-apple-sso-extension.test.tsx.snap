@@ -66,7 +66,6 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     required="true"
                   >
                     <input
-                      aria-describedby="identify_Title_Sign_In_1"
                       aria-invalid="false"
                       autocomplete="username"
                       class="MuiInputBase-input emotion-14"
@@ -83,7 +82,6 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                 class="MuiBox-root emotion-7"
               >
                 <fieldset
-                  aria-describedby="identify_Title_Sign_In_1"
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-16"
                 >
                   <label
@@ -124,7 +122,6 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="identify_Title_Sign_In_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
                   data-type="save"
                   tabindex="0"
@@ -245,7 +242,6 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     required="true"
                   >
                     <input
-                      aria-describedby="identify_Title_Sign_In_1"
                       aria-invalid="false"
                       autocomplete="username"
                       class="MuiInputBase-input emotion-14"
@@ -262,7 +258,6 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                 class="MuiBox-root emotion-7"
               >
                 <fieldset
-                  aria-describedby="identify_Title_Sign_In_1"
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-16"
                 >
                   <label
@@ -303,7 +298,6 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="identify_Title_Sign_In_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
                   data-type="save"
                   tabindex="0"
@@ -424,7 +418,6 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     required="true"
                   >
                     <input
-                      aria-describedby="identify_Title_Sign_In_1"
                       aria-invalid="false"
                       autocomplete="username"
                       class="MuiInputBase-input emotion-14"
@@ -441,7 +434,6 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                 class="MuiBox-root emotion-7"
               >
                 <fieldset
-                  aria-describedby="identify_Title_Sign_In_1"
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-16"
                 >
                   <label
@@ -482,7 +474,6 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="identify_Title_Sign_In_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
                   data-type="save"
                   tabindex="0"

@@ -129,7 +129,6 @@ exports[`request-activation-email renders form 1`] = `
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  aria-describedby="request-activation-email_Title_Activation_link_has_expired_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-22"
                   data-type="save"
                   tabindex="0"

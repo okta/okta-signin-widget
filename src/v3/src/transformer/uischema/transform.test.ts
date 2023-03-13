@@ -33,9 +33,6 @@ jest.mock('./setFocusOnFirstElement', () => ({
 jest.mock('./updateRequiredFields', () => ({
   updateRequiredFields: () => () => ({}),
 }));
-jest.mock('./updateInteractiveElementsDescribedByValue', () => ({
-  updateInteractiveElementsDescribedByValue: () => ({}),
-}));
 jest.mock('./updatePasswordDescribedByValue', () => ({
   updatePasswordDescribedByValue: () => ({}),
 }));
@@ -48,7 +45,6 @@ const mocked = {
   updateCustomField: require('./updateCustomFields'),
   setFocus: require('./setFocusOnFirstElement'),
   updateRequiredField: require('./updateRequiredFields'),
-  updateInteractiveEle: require('./updateInteractiveElementsDescribedByValue'),
   updatePasswordEle: require('./updatePasswordDescribedByValue'),
 };
 /* eslint-enable global-require */
@@ -61,7 +57,6 @@ describe('UISchema transformer', () => {
     jest.spyOn(mocked.updateCustomField, 'updateCustomFields');
     jest.spyOn(mocked.setFocus, 'setFocusOnFirstElement');
     jest.spyOn(mocked.updateRequiredField, 'updateRequiredFields');
-    jest.spyOn(mocked.updateInteractiveEle, 'updateInteractiveElementsDescribedByValue');
     jest.spyOn(mocked.updatePasswordEle, 'updatePasswordDescribedByValue');
 
     const formBag = getStubFormBag();
@@ -73,11 +68,9 @@ describe('UISchema transformer', () => {
 
     expect(mocked.updateEleKey.updateElementKeys)
       .toHaveBeenCalledBefore(mocked.addIdToEle.addIdToElements);
-    expect(mocked.updateInteractiveEle.updateInteractiveElementsDescribedByValue)
-      .toHaveBeenCalledBefore(mocked.updatePasswordEle.updatePasswordDescribedByValue);
     expect(mocked.addIdToEle.addIdToElements)
       .toHaveBeenCalledBefore(
-        mocked.updateInteractiveEle.updateInteractiveElementsDescribedByValue,
+        mocked.updatePasswordEle.updatePasswordDescribedByValue,
       );
 
     expect(mocked.createTextEleKey.createTextElementKeys).toHaveBeenCalled();
@@ -86,8 +79,6 @@ describe('UISchema transformer', () => {
     expect(mocked.updateCustomField.updateCustomFields).toHaveBeenCalled();
     expect(mocked.setFocus.setFocusOnFirstElement).toHaveBeenCalled();
     expect(mocked.updateRequiredField.updateRequiredFields).toHaveBeenCalled();
-    expect(mocked.updateInteractiveEle.updateInteractiveElementsDescribedByValue)
-      .toHaveBeenCalled();
     expect(mocked.updatePasswordEle.updatePasswordDescribedByValue).toHaveBeenCalled();
   });
 });

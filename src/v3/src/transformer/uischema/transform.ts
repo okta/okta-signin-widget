@@ -20,7 +20,6 @@ import { createTextElementKeys } from './createTextElementKeys';
 import { setFocusOnFirstElement } from './setFocusOnFirstElement';
 import { updateCustomFields } from './updateCustomFields';
 import { updateElementKeys } from './updateElementKeys';
-import { updateInteractiveElementsDescribedByValue } from './updateInteractiveElementsDescribedByValue';
 import { updatePasswordDescribedByValue } from './updatePasswordDescribedByValue';
 import { updateRequiredFields } from './updateRequiredFields';
 
@@ -34,6 +33,5 @@ export const transformUISchema: TransformStepFnWithOptions = (
   createTextElementKeys,
   updateElementKeys(options),
   addIdToElements,
-  updateInteractiveElementsDescribedByValue,
   updatePasswordDescribedByValue,
 )(formbag);

@@ -141,7 +141,6 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                       required="true"
                     >
                       <select
-                        aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                         autocomplete="tel-country-code"
                         class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-21"
                         data-se="country"
@@ -1393,7 +1392,6 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                           </p>
                         </span>
                         <input
-                          aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                           aria-invalid="false"
                           autocomplete="tel-national"
                           class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-29"
@@ -1428,7 +1426,6 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
                   data-type="save"
                   tabindex="0"
@@ -1625,7 +1622,6 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                       required="true"
                     >
                       <select
-                        aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                         autocomplete="tel-country-code"
                         class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-21"
                         data-se="country"
@@ -2877,7 +2873,6 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                           </p>
                         </span>
                         <input
-                          aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                           aria-invalid="false"
                           autocomplete="tel-national"
                           class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-29"
@@ -2912,7 +2907,6 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  aria-describedby="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1 enrollment-channel-data_Description_Make_sure_you_can_access_the_text_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_3"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
                   data-type="save"
                   tabindex="0"

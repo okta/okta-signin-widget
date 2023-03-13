@@ -246,7 +246,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                   class="MuiBox-root emotion-13"
                 >
                   <button
-                    aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_4_1"
                     class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                     tabindex="0"
                     type="button"
@@ -258,7 +257,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                   class="MuiBox-root emotion-13"
                 >
                   <button
-                    aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_4_1"
                     class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
                     tabindex="0"
                     type="button"
@@ -529,7 +527,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                       required="true"
                     >
                       <input
-                        aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_12_3"
                         aria-invalid="false"
                         autocomplete="off"
                         class="MuiInputBase-input emotion-24"
@@ -547,7 +544,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   class="MuiBox-root emotion-13"
                 >
                   <button
-                    aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_12_3"
                     class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                     data-type="save"
                     tabindex="0"
@@ -836,7 +832,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-13"
                 >
                   <button
-                    aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_To_set_up_manually_enter_your_Okta_Account_username_and_then_input_the_following_in_the_Secret_Key_Field_google_otp_aut2m5drzzUlo4Bn81d7_9_2 enroll-authenticator_Description_K_A_G_W_B_I_X_A_K_O_L_P_E_F_M_Y_google_otp_aut2m5drzzUlo4Bn81d7_10_2"
                     class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                     tabindex="0"
                     type="button"
@@ -1107,7 +1102,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                       required="true"
                     >
                       <input
-                        aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_12_3"
                         aria-invalid="false"
                         autocomplete="off"
                         class="MuiInputBase-input emotion-24"
@@ -1125,7 +1119,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-13"
                 >
                   <button
-                    aria-describedby="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1 enroll-authenticator_Description_Enter_code_displayed_from_application_google_otp_aut2m5drzzUlo4Bn81d7_12_3"
                     class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                     data-type="save"
                     tabindex="0"
