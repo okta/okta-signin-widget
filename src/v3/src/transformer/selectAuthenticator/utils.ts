@@ -299,7 +299,6 @@ const getAuthenticatorButtonElements = (
   if (!methodType?.options?.find((option: IdxOption) => option.value === 'signed_nonce')) {
     return formattedOptions;
   }
-  // @ts-expect-error OKTA-541266 - deviceKnown missing from type
   const deviceKnown = ovRemediation?.relatesTo?.deviceKnown;
   return reorderAuthenticatorButtons(formattedOptions, deviceKnown);
 };
