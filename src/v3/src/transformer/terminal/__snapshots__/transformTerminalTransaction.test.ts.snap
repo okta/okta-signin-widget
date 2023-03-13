@@ -278,6 +278,27 @@ Object {
 }
 `;
 
+exports[`Terminal Transaction Transformer Tests should add title only for idx.error.server.safe.mode.enrollment.unavailable message key when intent is "CREDENTIAL_ENROLLMENT" 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.safe.mode.title",
+        },
+        "type": "Title",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
 exports[`Terminal Transaction Transformer Tests should add title when terminal key indicates to return to orig tab 1`] = `
 Object {
   "data": Object {},

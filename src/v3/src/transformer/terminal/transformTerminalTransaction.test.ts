@@ -275,6 +275,23 @@ describe('Terminal Transaction Transformer Tests', () => {
     ).options?.step).toBe('skip');
   });
 
+  it('should add title only for idx.error.server.safe.mode.enrollment.unavailable'
+    + ' message key when intent is "CREDENTIAL_ENROLLMENT"', () => {
+    const mockErrorMessage = 'Set up is temporarily unavailable due to server maintenance. Try again later.';
+    transaction.context.intent = 'CREDENTIAL_ENROLLMENT';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'ERROR',
+      'idx.error.server.safe.mode.enrollment.unavailable',
+    ));
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(1);
+    expect(formBag.uischema.elements[0].type).toBe('Title');
+    expect((formBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.safe.mode.title');
+  });
+
   it('should add title and try again link for'
     + ' idx.device.not.activated.consent.denied message key', () => {
     const mockErrorMessage = 'Set up is temporarily unavailable due to server maintenance. Try again later.';
