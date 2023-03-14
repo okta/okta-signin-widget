@@ -91,7 +91,7 @@ test
     await t.expect(logger.count(() => true)).eql(1);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
     // Check that the reminder prompt is not displayed
-    await t.expect(challengeOktaVerifyPushPageObject.form.getErrorBoxCount()).eql(1);
+    await t.expect(challengeOktaVerifyPushPageObject.form.getAllAlertBoxes().count).eql(1);
     const error = challengeOktaVerifyPushPageObject.getErrorBoxText();
     await t.expect(error).contains('Internal Server Error');
   });

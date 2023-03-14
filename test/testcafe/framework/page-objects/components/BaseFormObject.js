@@ -270,9 +270,6 @@ export default class BaseFormObject {
   }
 
   hasAlertBox(index = 0) {
-    if (index === undefined) {
-      index = 0;
-    }
     return within(this.el).queryAllByRole('alert').nth(index).exists;
   }
 
