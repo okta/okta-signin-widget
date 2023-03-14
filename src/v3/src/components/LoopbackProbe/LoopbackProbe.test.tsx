@@ -12,7 +12,7 @@
 
 import { cleanup, render, waitFor } from '@testing-library/preact';
 import { rest } from 'msw';
-import { setupServer, SetupServerApi } from 'msw/node';
+import { SetupServer, setupServer } from 'msw/node';
 import { h } from 'preact';
 import { LoopbackProbeElement } from 'src/types';
 
@@ -37,7 +37,7 @@ jest.mock('../../contexts', () => ({
 jest.mock('../../../../util/Logger');
 
 describe('LoopbackProbe', () => {
-  const server: SetupServerApi = setupServer();
+  const server: SetupServer = setupServer();
 
   beforeAll(() => {
     server.listen({

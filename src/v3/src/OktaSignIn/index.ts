@@ -159,7 +159,7 @@ export default class OktaSignIn {
         if (target) {
           // @ts-ignore OKTA-508744
           render(h(Widget, {
-            // events: this.events,
+            events: this.events,
             authClient: this.authClient,
             globalSuccessFn: onSuccessWrapper,
             globalErrorFn: onErrorWrapper,

@@ -9,6 +9,8 @@ const ORIGIN = `${PROTOCOL}://${HOSTNAME}:${PORT}`;
 const common: Partial<WidgetOptions> = {
   // target element
   el: '#okta-signin-container',
+
+  // base url for building issuer
   baseUrl: ORIGIN,
 
   // https://github.com/okta/okta-signin-widget#logo
@@ -67,18 +69,17 @@ export const configs: Record<string, WidgetOptions> = {
   // NOTE: (online) connects to an online preview org
   preview: {
     ...common,
-    baseUrl: 'https://oie-1234567.oktapreview.com', // TODO change to match your preview org
-    clientId: 'YOUR_CLIENT_ID', // TODO change to match your application client id
+    // TODO change to match your preview org
+    baseUrl: 'https://oie-1234567.oktapreview.com',
+
+    // TODO change to match your application client id
+    clientId: 'YOUR_CLIENT_ID',
   },
 
   // NOTE: (local) connects to mock service worker, see handlers.ts
-  msw: {
-    ...common,
-    clientId: 'DUMMY_CLIENT_ID',
-  },
+  msw: common,
 
-  // NOTE: (local) run the following from the project root
-  // yarn start:mock-server
+  // NOTE: (local) run `yarn start:mock-server` from project root
   playground: {
     ...common,
     issuer: `${ORIGIN}/oauth2/default`,
