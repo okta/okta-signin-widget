@@ -61,6 +61,7 @@ const PasswordMatches: UISchemaElementComponent<{
         component="ul"
         id="credentials.newPassword-list"
         sx={{ listStyle: 'none', padding: '0', marginBlockStart: '0' }}
+        aria-hidden
       >
         <PasswordRequirementListItem
           status={isMatching ? 'complete' : 'incomplete'}
