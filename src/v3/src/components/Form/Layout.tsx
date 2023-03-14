@@ -51,7 +51,12 @@ const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) =
 
           if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
             .includes((element as UISchemaLayout).type)) {
-            return <Layout uischema={element as UISchemaLayout} />;
+            return (
+              <Layout
+                key={(element as UISchemaLayout).key}
+                uischema={element as UISchemaLayout}
+              />
+            );
           }
 
           return (

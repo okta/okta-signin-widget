@@ -182,6 +182,16 @@ export const areTransactionsEqual = (
     return false;
   }
 
+  const tx1RefreshInterval = typeof tx1 !== 'undefined'
+    ? tx1.nextStep?.refresh
+    : undefined;
+  const tx2RefreshInterval = typeof tx2 !== 'undefined'
+    ? tx2.nextStep?.refresh
+    : undefined;
+  if (tx1RefreshInterval !== tx2RefreshInterval) {
+    return false;
+  }
+
   return true;
 };
 

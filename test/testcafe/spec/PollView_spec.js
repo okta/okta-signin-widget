@@ -34,8 +34,7 @@ async function setup(t) {
   return identityPage;
 }
 
-// OKTA-546860 "Safe mode" UI in v3 not yet implemented
-test.meta('v3', false).requestHooks(requestLogger, identifyMock)('should make request based on timer in response', async t => {
+test.requestHooks(requestLogger, identifyMock)('should make request based on timer in response', async t => {
   let identityPage  = await setup(t);
   await checkA11y(t);
 
@@ -48,7 +47,7 @@ test.meta('v3', false).requestHooks(requestLogger, identifyMock)('should make re
   await t.expect(requestLogger.count(() => true)).eql(1);
 
   await t.expect(pollingPageObject.getHeader()).eql('Unable to complete your request');
-  await t.expect(pollingPageObject.getContent().innerText).contains('We will automatically retry in');
+  await t.expect(pollingPageObject.getRetryMessage().exists).eql(true);
   await t.wait(3000);
   await t.expect(requestLogger.count(() => true)).eql(2);
 });
@@ -61,5 +60,5 @@ test.requestHooks(requestLogger, identifyPollErrorMock)('not poll on error', asy
   await identityPage.clickSignInButton();
   const pollingPageObject = new PollingPageObject();
   await t.expect(pollingPageObject.getErrorMessages().getTextContent()).eql('Server is unable to respond at the moment.');
-  await t.expect(pollingPageObject.getContent().length).eql(0);
+  await t.expect(pollingPageObject.getRetryMessage().length).eql(0);
 });

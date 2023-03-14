@@ -12,18 +12,37 @@
 
 import { Box, CircularProgress } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
 
 import { SpinnerElement } from '../../types';
 import { loc } from '../../util';
 
 type SpinnerProps = { dataSe?: string; color?: string; };
-const Spinner: FunctionComponent<SpinnerProps | SpinnerElement> = (
+
+const Spinner: FunctionComponent<SpinnerProps | {
+  uischema: SpinnerElement
+}> = (
   props,
 ) => {
-  const { dataSe = undefined, color = undefined } = 'type' in props
+  const { dataSe = undefined, color = undefined } = 'uischema' in props
     ? {}
     : props as SpinnerProps;
-  return (
+
+  const delay = 'uischema' in props ? props.uischema.options.delayMs : null;
+  // show by default unless there is a delay set
+  const [show, setShow] = useState(typeof delay === 'number' ? false : true);
+
+  useEffect(() => {
+    if (typeof delay !== 'number') {
+      return;
+    }
+    const ref = setTimeout(() => setShow(true), delay);
+    return () => {
+      clearTimeout(ref);
+    };
+  }, [])
+
+  return show ? (
     <Box
       display="flex"
       flexDirection="column"
@@ -40,7 +59,7 @@ const Spinner: FunctionComponent<SpinnerProps | SpinnerElement> = (
         sx={{ color }}
       />
     </Box>
-  );
+  ) : null;
 };
 
 export default Spinner;
