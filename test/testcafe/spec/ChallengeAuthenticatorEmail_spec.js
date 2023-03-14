@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
+import { RequestMock, RequestLogger, ClientFunction, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
@@ -545,10 +545,11 @@ test
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(5000);
     // TODO - In v3 there are more than 5 poll requests in 5 seconds
+    const expectedPollCount = userVariables.v3 ? 5 : 4;
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
-    )).eql(5);
+    )).eql(expectedPollCount);
   });
 
 test
