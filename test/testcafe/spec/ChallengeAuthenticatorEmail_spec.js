@@ -511,8 +511,7 @@ test.meta('v3', false)
     )).eql(0);
   });
 
-// Disabled in v3 - OKTA-566356
-test.meta('v3', false)
+test
   .requestHooks(logger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
@@ -526,6 +525,7 @@ test.meta('v3', false)
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(2);
+    logger.clear();
 
     await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
     await t.addRequestHooks(invalidOTPMockContinuePoll);
@@ -536,6 +536,7 @@ test.meta('v3', false)
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(3);
+    logger.clear();
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton('Verify');
