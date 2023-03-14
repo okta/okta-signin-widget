@@ -10,14 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { generateRandomString, loc } from '../../../util';
-
 import {
   DescriptionElement,
   IdxStepTransformer,
   SpinnerElement,
   TitleElement,
 } from '../../../types';
+import { generateRandomString, loc } from '../../../util';
 
 export const transformSafeModePoll: IdxStepTransformer = ({
   transaction,
@@ -47,7 +46,7 @@ export const transformSafeModePoll: IdxStepTransformer = ({
       content: loc(
         'poll.form.message',
         'login',
-        [pollIntervalSec], 
+        [pollIntervalSec],
         { $1: { element: 'span' } },
       ),
     },

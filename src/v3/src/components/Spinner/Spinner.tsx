@@ -28,19 +28,22 @@ const Spinner: FunctionComponent<SpinnerProps | {
     ? {}
     : props as SpinnerProps;
 
-  const delay = 'uischema' in props ? props.uischema.options.delayMs : null;
+  // eslint-disable-next-line react/destructuring-assignment
+  const delayMs = 'uischema' in props ? props.uischema.options.delayMs : null;
   // show by default unless there is a delay set
-  const [show, setShow] = useState(typeof delay === 'number' ? false : true);
+  const [show, setShow] = useState(typeof delayMs !== 'number');
 
   useEffect(() => {
-    if (typeof delay !== 'number') {
-      return;
+    let ref: ReturnType<typeof setTimeout>;
+
+    if (typeof delayMs === 'number') {
+      ref = setTimeout(() => setShow(true), delayMs);
     }
-    const ref = setTimeout(() => setShow(true), delay);
+
     return () => {
       clearTimeout(ref);
     };
-  }, [])
+  }, [delayMs]);
 
   return show ? (
     <Box
