@@ -99,7 +99,6 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
     const buttonElements = getOVMethodTypeAuthenticatorButtonElements(
       authenticator,
       stepName,
-      // @ts-expect-error deviceKnown is missing from IdxAuthenticator
       relatesTo?.value?.deviceKnown,
     );
     uischema.elements = removeUIElementWithName(

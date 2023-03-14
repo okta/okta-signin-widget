@@ -56,6 +56,16 @@ export const getStubTransaction = (status: IdxStatus = IdxStatus.PENDING): IdxTr
         type: '',
       },
     },
+    currentAuthenticatorEnrollment: {
+      type: '',
+      value: {
+        displayName: '',
+        id: '',
+        methods: [],
+        key: '',
+        type: '',
+      },
+    },
     user: {
       type: '',
       value: {},
