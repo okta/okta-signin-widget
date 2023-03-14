@@ -40,7 +40,8 @@ const suiteMap = {
   testcafe: {
     cmd: 'testcafe',
     preReq: [
-      'wait-on http-get://localhost:3000', // Requires the dev-server to run
+      // FIXME
+      // 'wait-on http-get://localhost:3000', // Requires the dev-server to run
     ]
   }
 };

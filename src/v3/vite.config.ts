@@ -57,18 +57,20 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'OktaSignIn',
-      fileName: (fmt) => {
+      formats: ['umd'],
+      fileName: (fmt, entry) => {
+        console.log(entry);
         const ext: Record<ModuleFormat, string> = {
           es: 'mjs',
           cjs: 'js',
           umd: 'min.js',
           iife: 'min.js',
         }[fmt];
-        return `js/okta-sign-in.${ext}`;
+        return `okta-sign-in.${ext}`;
       },
     },
-    sourcemap: true,
-    copyPublicDir: false,
+    // sourcemap: true,
+    // copyPublicDir: false,
   },
   server: {
     host: 'localhost',
