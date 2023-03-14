@@ -46,6 +46,8 @@ export default defineConfig({
       'v1': resolve(__dirname, '../v1'),
       'v2': resolve(__dirname, '../v2'),
 
+      'models/Settings': resolve(__dirname, '../models/Settings.ts'),
+
       // react -> preact alias
       'react': 'preact/compat',
       'react-dom/test-utils': 'preact/test-utils',
@@ -58,8 +60,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'OktaSignIn',
       formats: ['umd'],
-      fileName: (fmt, entry) => {
-        console.log(entry);
+      fileName: (fmt) => {
         const ext: Record<ModuleFormat, string> = {
           es: 'mjs',
           cjs: 'js',
@@ -69,8 +70,8 @@ export default defineConfig({
         return `okta-sign-in.${ext}`;
       },
     },
-    // sourcemap: true,
-    // copyPublicDir: false,
+    sourcemap: true,
+    copyPublicDir: false,
   },
   server: {
     host: 'localhost',

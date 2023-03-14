@@ -32,7 +32,7 @@
     "test:e2e:screenshots": "yarn test:e2e -s path=test/e2e/screenshots,thumbnails=false",
     "test:report": "yarn && PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage",
     "test:parity-setup": "yarn build && yarn serve",
-    "test:parity-run": "yarn testcafe --config-file ../../.testcaferc-parity.js -c4",
+    "test:parity-run": "yarn testcafe --config-file ../../.testcaferc-parity.js chrome:headless",
     "test:parity-ci": "yarn codegen && run-p -r test:parity-setup test:parity-run"
   },
   "browserslist": [

@@ -1,13 +1,22 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "esModuleInterop": true,
-    "jsx": "react",
+    "esModuleInterop": false,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
     "jsxFactory": "h",
+    "jsxImportSource": "preact",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
+    "noEmit": true,
     "paths": {
       "@okta/courage": [
         "../../packages/@okta/courage-dist"
@@ -51,5 +60,10 @@
   "extends": "../../tsconfig.json",
   "files": [
     "global.d.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
   ]
 }
