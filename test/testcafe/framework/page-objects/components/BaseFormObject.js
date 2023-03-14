@@ -225,24 +225,32 @@ export default class BaseFormObject {
     }).exists;
   }
 
+  getAllAlertBoxes() {
+    return within(this.el).queryAllByRole('alert');
+  }
+
   getAlertBox() {
-    return within(this.el).getByRole('alert');
+    return this.getAllAlertBoxes().nth(0);
   }
 
   getErrorBoxCount() {
     if (userVariables.v3) {
-      return within(this.el).queryAllByRole('alert').count;
+      return this.getAllAlertBoxes().count;
     }
 
     return this.el.find(FORM_INFOBOX_ERROR).count;
   }
 
-  getErrorBoxText() {
+  getErrorBox() {
     if (userVariables.v3) {
-      return within(this.el).queryAllByRole('alert').nth(0).innerText;
+      return this.getAlertBox();
     }
 
-    return this.el.find(FORM_INFOBOX_ERROR).innerText;
+    return this.el.find(FORM_INFOBOX_ERROR);
+  }
+
+  getErrorBoxText() {
+    return this.getErrorBox().innerText;
   }
 
   getErrorBoxHtml() {
@@ -251,7 +259,7 @@ export default class BaseFormObject {
 
   getAlertBoxText() {
     if (userVariables.v3) {
-      return within(this.el).queryAllByRole('alert').nth(0).innerText;
+      return this.getAlertBox().innerText;
     } else {
       // Not implemented/required in v2
     }
@@ -261,10 +269,7 @@ export default class BaseFormObject {
     return within(this.el).queryByRole('alert').exists;
   }
 
-  hasAlertBox(index) {
-    if (index === undefined) {
-      index = 0;
-    }
+  hasAlertBox(index = 0) {
     return within(this.el).queryAllByRole('alert').nth(index).exists;
   }
 

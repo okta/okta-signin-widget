@@ -2,7 +2,6 @@ import { Selector, userVariables } from 'testcafe';
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 
 const FORM_INFOBOX_WARNING = '.okta-form-infobox-warning';
-const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
 const RESEND_NUMBER_CHALLENGE_BUTTON = '.okta-form-infobox-warning .resend-number-challenge';
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const FORM_SELECTOR = '.okta-verify-send-push-form';
@@ -37,11 +36,11 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   async waitForErrorBox() {
-    await this.form.el.find(FORM_INFOBOX_ERROR).exists;
+    await this.form.waitForErrorBox();
   }
 
   getErrorBox() {
-    return this.form.getElement(FORM_INFOBOX_ERROR);
+    return this.form.getErrorBox();
   }
 
   getErrorTitle() {
@@ -49,6 +48,10 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getWarningBox() {
+    if (userVariables.v3) {
+      return this.form.getAlertBox();
+    }
+
     return this.form.getElement(FORM_INFOBOX_WARNING);
   }
 
