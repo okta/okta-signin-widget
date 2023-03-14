@@ -50,8 +50,10 @@ describe('Transform Safe Mode Poll Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect((updatedFormBag.uischema.elements[0] as UISchemaLayout).type)
       .toBe(UISchemaLayoutType.STEPPER);
-    
-    const [step1, step2] = (updatedFormBag.uischema.elements[0] as UISchemaLayout).elements as UISchemaLayout[];
+
+    const [step1, step2] = (
+      updatedFormBag.uischema.elements[0] as UISchemaLayout
+    ).elements as UISchemaLayout[];
 
     expect(step1.type).toBe(UISchemaLayoutType.VERTICAL);
     expect(step1.elements.length).toBe(3);
