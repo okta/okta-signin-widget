@@ -42,7 +42,12 @@ const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) =
           const elementKey = getElementKey(element, index);
 
           if (element.type === UISchemaLayoutType.STEPPER) {
-            return <Stepper uischema={element as StepperLayout} />;
+            return (
+              <Stepper
+                key={(element as StepperLayout).key}
+                uischema={element as StepperLayout}
+              />
+            );
           }
 
           if (element.type === UISchemaLayoutType.ACCORDION) {
@@ -51,12 +56,7 @@ const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) =
 
           if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
             .includes((element as UISchemaLayout).type)) {
-            return (
-              <Layout
-                key={(element as UISchemaLayout).key}
-                uischema={element as UISchemaLayout}
-              />
-            );
+            return <Layout uischema={element as UISchemaLayout} />
           }
 
           return (

@@ -13,8 +13,13 @@
 import {
   DescriptionElement,
   IdxStepTransformer,
+  IStepperContext,
   SpinnerElement,
+  StepperNavigatorElement,
   TitleElement,
+  UISchemaElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
 } from '../../../types';
 import { generateRandomString, loc } from '../../../util';
 
@@ -54,19 +59,38 @@ export const transformSafeModePoll: IdxStepTransformer = ({
 
   const spinnerElement = {
     type: 'Spinner',
-    // random key to force re-render of this element during polling
-    key: generateRandomString(),
-    options: {
-      // show spinner for a maximum of one second before view re-renders
-      delayMs: Math.max(pollIntervalMs - 1000, 0),
-    },
   } as SpinnerElement;
 
-  uischema.elements.push(
-    titleElement,
-    descriptionElement,
-    spinnerElement,
-  );
+  const stepperNavigatorElement: StepperNavigatorElement = {
+    type: 'StepperNavigator',
+    options: {
+      callback: (stepperContext: IStepperContext) => {
+        const { setStepIndex } = stepperContext;
+        setTimeout(() => setStepIndex!(1), Math.max(pollIntervalMs - 1000, 0));
+      },
+    },
+  };
+
+  uischema.elements.push({
+    type: UISchemaLayoutType.STEPPER,
+    key: generateRandomString(),
+    elements: [
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          titleElement,
+          descriptionElement,
+          stepperNavigatorElement,
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
+      } as UISchemaLayout,
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          titleElement,
+          spinnerElement,
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
+      } as UISchemaLayout],
+  });
 
   return formBag;
 };

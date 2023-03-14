@@ -173,7 +173,6 @@ export interface UISchemaElement {
 
 export interface UISchemaLayout {
   type: UISchemaLayoutType;
-  key?: string;
   elements: (UISchemaElement | UISchemaLayout | StepperLayout | AccordionLayout)[];
   options?: {
     onClick?: ClickHandler;
@@ -435,12 +434,6 @@ export interface QRCodeElement extends UISchemaElement {
 
 export interface SpinnerElement extends UISchemaElement {
   type: 'Spinner';
-  options: {
-    /**
-     * Delay (in milliseconds) before spinner appears
-     */
-    delayMs?: number;
-  };
 }
 
 export interface InfoboxElement extends UISchemaElement {
@@ -459,6 +452,7 @@ export interface SuccessCallback extends UISchemaElement {
 
 export interface StepperLayout {
   type: UISchemaLayoutType.STEPPER;
+  key?: string;
   elements: Omit<UISchemaLayout, 'StepperLayout'>[];
   options?: {
     defaultStepIndex: () => number;
