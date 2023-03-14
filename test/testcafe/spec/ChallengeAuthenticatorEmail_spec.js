@@ -544,7 +544,7 @@ test
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(5000);
-    // TODO - In v3 there are more than 5 poll requests in 5 seconds
+    // In v3 there is an extra poll request compared to v2
     const expectedPollCount = userVariables.v3 ? 5 : 4;
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
