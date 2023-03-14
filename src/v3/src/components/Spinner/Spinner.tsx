@@ -29,7 +29,7 @@ const Spinner: FunctionComponent<SpinnerProps | {
     : props as SpinnerProps;
 
   // eslint-disable-next-line react/destructuring-assignment
-  const delayMs = 'uischema' in props ? props.uischema.options.delayMs : null;
+  const delayMs = 'uischema' in props ? props.uischema.options?.delayMs : null;
   // show by default unless there is a delay set
   const [show, setShow] = useState(typeof delayMs !== 'number');
 
