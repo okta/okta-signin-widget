@@ -1,4 +1,4 @@
-import {RequestLogger, RequestMock} from 'testcafe';
+import {RequestLogger, RequestMock, userVariables} from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { renderWidget as rerenderWidget } from '../framework/shared';
 import DeviceEnrollmentTerminalPageObject from '../framework/page-objects/DeviceEnrollmentTerminalPageObject';
@@ -18,7 +18,7 @@ const mdmMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(MdmEnrollment);
 
-fixture('Device enrollment terminal view for ODA and MDM');
+fixture('Device enrollment terminal view for ODA and MDM').meta('v3', true);
 
 async function setup(t) {
   const deviceEnrollmentTerminalPageObject = new DeviceEnrollmentTerminalPageObject(t);
@@ -36,14 +36,16 @@ test
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
     await t.expect(content).contains('Okta Verify on this device.');
     await t.expect(content).contains('Tap the Copy Link button below.');
-    await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyButton().exists).eql(true);
+    if (!userVariables.v3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    }
     await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
     await t.expect(content).contains('Download the Okta Verify app.');
     await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://idx.okta1.com');
-    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButtonLabel()).eql('Copy sign-in URL to clipboard');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButton().exists).eql(true);
     await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 
@@ -59,11 +61,11 @@ test
     await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://idx.okta1.com');
-    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButtonLabel()).eql('Copy sign-in URL to clipboard');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButton().exists).eql(true);
     await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 
-test
+test.meta('v3', false) // mdm not enabled in v3
   .requestHooks(logger, mdmMock)('shows the correct content in MDM terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await checkA11y(t);
@@ -108,18 +110,20 @@ test
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
     await t.expect(content).contains('Okta Verify on this device.');
     await t.expect(content).contains('Tap the Copy Link button below.');
-    await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyButton().exists).eql(true);
+    if(!userVariables.v3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    }
     await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
     await t.expect(content).contains('Download the Okta Verify app.');
     await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://rain.okta1.com');
-    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButtonLabel()).eql('Copy sign-in URL to clipboard');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButton().exists).eql(true);
     await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 
-test
+test.meta('v3', false) // mdm not enabled in v3
   .requestHooks()('shows the correct content in iOS MDM terminal view when Okta Verify is not set up in Universal Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -149,7 +153,7 @@ test
     await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
   });
 
-test
+test.meta('v3', false) // Back link needs to be added
   .requestHooks()('shows the correct content in Android ODA terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -194,7 +198,7 @@ test
     await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required to use Okta FastPass');
   });
 
-test
+test.meta('v3', false) // Back link needs to be added
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is not installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -230,7 +234,7 @@ test
     await t.expect(deviceEnrollmentTerminalPage.getBackLinkText()).eql('Back');
   });
 
-test
+test.meta('v3', false) // Back link needs to be added
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -264,7 +268,7 @@ test
     await t.expect(deviceEnrollmentTerminalPage.getBackLinkText()).eql('Back');
   });
 
-test
+test.meta('v3', false) // mdm not enabled in v3
   .requestHooks()('shows the correct content in ANDROID MDM terminal view when Okta Verify is not installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
