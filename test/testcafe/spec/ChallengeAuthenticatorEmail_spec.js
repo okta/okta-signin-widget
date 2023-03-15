@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
+import { RequestMock, RequestLogger, ClientFunction, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
@@ -511,8 +511,7 @@ test.meta('v3', false)
     )).eql(0);
   });
 
-// Disabled in v3 - OKTA-566356
-test.meta('v3', false)
+test
   .requestHooks(logger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
@@ -526,6 +525,7 @@ test.meta('v3', false)
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(2);
+    logger.clear();
 
     await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
     await t.addRequestHooks(invalidOTPMockContinuePoll);
@@ -536,6 +536,7 @@ test.meta('v3', false)
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(3);
+    logger.clear();
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton('Verify');
@@ -543,11 +544,12 @@ test.meta('v3', false)
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(5000);
-    // TODO - In v3 there are more than 5 poll requests in 5 seconds
+    // In v3 there is an extra poll request compared to v2
+    const expectedPollCount = userVariables.v3 ? 5 : 4;
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
-    )).eql(5);
+    )).eql(expectedPollCount);
   });
 
 test
