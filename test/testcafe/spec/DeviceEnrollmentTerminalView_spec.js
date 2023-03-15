@@ -153,7 +153,7 @@ test.meta('v3', false) // mdm not enabled in v3
     await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
   });
 
-test.meta('v3', false) // Back link needs to be added
+test.meta('v3', false) // OKTA-588701 - Back link needs to be added
   .requestHooks()('shows the correct content in Android ODA terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -198,7 +198,7 @@ test.meta('v3', false) // Back link needs to be added
     await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required to use Okta FastPass');
   });
 
-test.meta('v3', false) // Back link needs to be added
+test.meta('v3', false) // OKTA-588701 - Back link needs to be added
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is not installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -234,7 +234,7 @@ test.meta('v3', false) // Back link needs to be added
     await t.expect(deviceEnrollmentTerminalPage.getBackLinkText()).eql('Back');
   });
 
-test.meta('v3', false) // Back link needs to be added
+test.meta('v3', false) // OKTA-588701 - Back link needs to be added
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
