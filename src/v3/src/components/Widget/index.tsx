@@ -81,6 +81,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     logoText,
     onSuccess,
     stateToken,
+    proxyIdxResponse,
   } = widgetProps;
 
   const [data, setData] = useState<FormBag['data']>({});
@@ -130,6 +131,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const bootstrap = useCallback(async () => {
     await initLanguage();
     try {
+      if(typeof proxyIdxResponse !== 'undefined') {
+        setIdxTransaction({
+          // @ts-expect-error proxyIdxResponse has missing types
+          rawIdxState: proxyIdxResponse,
+          // @ts-expect-error proxyIdxResponse has missing types
+          context: proxyIdxResponse,
+        });
+        return;
+      }
       const transaction = await authClient.idx.start({
         stateHandle: stateToken,
       });
@@ -215,6 +225,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const resume = useCallback(async () => {
     await initLanguage();
     try {
+      if(typeof proxyIdxResponse !== 'undefined') {
+        setIdxTransaction({
+          // @ts-ignore proxyIdxResponse has missing types
+          rawIdxState: proxyIdxResponse,
+          // @ts-ignore proxyIdxResponse has missing types
+          context: proxyIdxResponse,
+        });
+        return;
+      }
       const transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
       });
