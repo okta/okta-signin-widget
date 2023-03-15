@@ -42,7 +42,7 @@ type AuthCoinConfig = {
   iconClassName: string;
 };
 
-const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
+export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
   [AUTHENTICATOR_KEY.CUSTOM_OTP]: {
     icon: CustomOTPIcon,
     customizable: true,
@@ -183,6 +183,4 @@ const AuthCoinByAuthenticatorKey: Record<string, AuthCoinConfig> = {
     description: loc('factor.totpSoft.oktaVerify', 'login'),
     iconClassName: 'mfa-okta-verify',
   },
-};
-
-export default AuthCoinByAuthenticatorKey;
+});
