@@ -23,18 +23,13 @@ import { traverseLayout } from '../util';
 export const updateElementKeys: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
   traverseLayout({
     layout: formbag.uischema,
-    predicate: (element) => {
-      // never add a synthetic key to layout elements' uischema
-      if ([
+    // never add a synthetic key to layout elements' uischema
+    predicate: (element) => ![
         UISchemaLayoutType.STEPPER,
         UISchemaLayoutType.ACCORDION,
         UISchemaLayoutType.HORIZONTAL,
         UISchemaLayoutType.VERTICAL,
-      ].includes((element.type) as UISchemaLayoutType)) {
-        return false;
-      }
-      return !!element.type;
-    },
+      ].includes((element.type) as UISchemaLayoutType),
     callback: (element) => {
       const { nextStep: { name } = {} } = transaction;
       const authKey = getAuthenticatorKey(transaction);
