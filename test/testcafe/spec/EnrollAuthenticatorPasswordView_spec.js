@@ -99,7 +99,7 @@ test.requestHooks(logger, successMock)('should succeed when same values are fill
     body: answerRequestBodyString,
   }
   } = logger.requests[0];
-  const expectedResponse = {
+  const expectedPayload = {
     credentials: {
       passcode: 'abcdabcdA3@',
     },
@@ -109,11 +109,11 @@ test.requestHooks(logger, successMock)('should succeed when same values are fill
   // and the user does not check it, we send 'false' by default for the value
   // V2 will ignore the boolean field unless they check and uncheck it.
   if (userVariables.v3) {
-    expectedResponse.credentials.revokeSessions = false;
+    expectedPayload.credentials.revokeSessions = false;
   }
 
   const answerRequestBody = JSON.parse(answerRequestBodyString);
-  await t.expect(answerRequestBody).eql(expectedResponse);
+  await t.expect(answerRequestBody).eql(expectedPayload);
 
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
