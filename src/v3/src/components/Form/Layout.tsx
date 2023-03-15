@@ -51,12 +51,22 @@ const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) =
           }
 
           if (element.type === UISchemaLayoutType.ACCORDION) {
-            return <Accordion uischema={element as AccordionLayout} />;
+            return (
+              <Accordion
+                key={(element as AccordionLayout).key}
+                uischema={element as AccordionLayout}
+              />
+            );
           }
 
           if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
             .includes((element as UISchemaLayout).type)) {
-            return <Layout uischema={element as UISchemaLayout} />;
+            return (
+              <Layout
+                key={(element as UISchemaLayout).key}
+                uischema={element as UISchemaLayout}
+              />
+            );
           }
 
           return (

@@ -171,21 +171,14 @@ export interface UISchemaElement {
   noTranslate?: boolean;
 }
 
-export interface UISchemaLayout {
-  type: UISchemaLayoutType;
-  elements: (UISchemaElement | UISchemaLayout | StepperLayout | AccordionLayout)[];
-  options?: {
-    onClick?: ClickHandler;
-  }
-}
-
-export type PickerSchema = {
-  tester: (schema: UISchemaElement) => boolean;
-  mapper?: (schema: UISchemaElement) => UISchemaElement;
-};
-export interface CustomLayout {
-  type: UISchemaLayoutType;
-  elements: (CustomLayout | UISchemaElement | PickerSchema)[];
+/**
+ * Parent interface for all Layout types with common properties
+ */
+interface Layout {
+  type: string;
+  key?: string;
+  elements: unknown[];
+  options?: Record<string, unknown>;
 }
 
 export enum UISchemaLayoutType {
@@ -195,9 +188,40 @@ export enum UISchemaLayoutType {
   ACCORDION = 'Accordion',
 }
 
+export interface UISchemaLayout extends Layout {
+  type: UISchemaLayoutType;
+  elements: (UISchemaElement | UISchemaLayout | StepperLayout | AccordionLayout)[];
+  options?: {
+    onClick?: ClickHandler;
+  }
+}
+
+export interface StepperLayout extends Layout {
+  type: UISchemaLayoutType.STEPPER;
+  elements: Omit<UISchemaLayout, 'StepperLayout'>[];
+  options?: {
+    defaultStepIndex: () => number;
+  }
+}
+
+export interface AccordionLayout extends Layout {
+  type: UISchemaLayoutType.ACCORDION;
+  elements: AccordionPanelElement[];
+}
+
+export interface CustomLayout extends Layout {
+  type: UISchemaLayoutType;
+  elements: (CustomLayout | UISchemaElement | PickerSchema)[];
+}
+
 export function isUISchemaLayoutType(type: string): boolean {
   return Object.values(UISchemaLayoutType).includes(type as UISchemaLayoutType);
 }
+
+export type PickerSchema = {
+  tester: (schema: UISchemaElement) => boolean;
+  mapper?: (schema: UISchemaElement) => UISchemaElement;
+};
 
 export interface FieldElement extends UISchemaElement {
   type: 'Field';
@@ -448,20 +472,6 @@ export interface SuccessCallback extends UISchemaElement {
   options: {
     data: Record<string, unknown>;
   }
-}
-
-export interface StepperLayout {
-  type: UISchemaLayoutType.STEPPER;
-  key?: string;
-  elements: Omit<UISchemaLayout, 'StepperLayout'>[];
-  options?: {
-    defaultStepIndex: () => number;
-  }
-}
-
-export interface AccordionLayout {
-  type: UISchemaLayoutType.ACCORDION;
-  elements: AccordionPanelElement[];
 }
 
 export interface StepperButtonElement extends UISchemaElement {
