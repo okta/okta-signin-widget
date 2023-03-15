@@ -253,10 +253,10 @@ export const convertIdxInputsToRegistrationSchema = (
   inputs.reduce((acc: Input[], input: Input) => {
     const flattenedInputs = flattenInputs(input);
     return [...acc, ...flattenedInputs];
-  }, []).map((flattendInput: Input) => ({
-    ...flattendInput,
+  }, []).map((flattenedInput: Input) => ({
+    ...flattenedInput,
     'label-top': true,
-    'data-se': flattendInput.name,
+    'data-se': flattenedInput.name,
     wide: true,
   } as RegistrationElementSchema))
 );
@@ -275,14 +275,14 @@ export const convertRegistrationSchemaToIdxInputs = (
         const inputGroupFieldIndex = (
           idxInputs[inputGroupIndex]?.value as Input[]
         )?.findIndex(({ name }) => name === schemaGrpFieldName);
-        if (inputGroupFieldIndex !== -1) {
+        if (inputGroupFieldIndex !== -1 && Array.isArray(idxInputs[inputGroupIndex].value)) {
           // Update existing field
-          const srcObj = (idxInputs[inputGroupIndex]?.value as Input[])?.[inputGroupFieldIndex];
+          const srcObj = (idxInputs[inputGroupIndex].value as Input[])[inputGroupFieldIndex];
           Object.assign(srcObj, { ...schemaEle, name: schemaGrpFieldName });
         } else {
           // Add new field
           const schemaInputField = { ...schemaEle, name: schemaGrpFieldName };
-          (idxInputs[inputGroupIndex]?.value as Record<string, unknown>[]).push(schemaInputField);
+          (idxInputs[inputGroupIndex].value as Record<string, unknown>[]).push(schemaInputField);
         }
       } else {
         // New top level input

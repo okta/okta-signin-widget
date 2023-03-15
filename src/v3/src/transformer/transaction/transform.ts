@@ -52,18 +52,17 @@ const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => 
 
 const transformRegistrationSchema: TransformStepFnWithOptions = (options) => (formbag) => {
   const {
-    transaction: { nextStep },
+    transaction: { nextStep: { inputs = [], name } = {} },
     widgetProps,
     setMessage,
     isClientTransaction,
   } = options;
   const { registration: { parseSchema } = {} } = widgetProps;
   // If the step is not enroll-profile or if parseSchema is not defined, no need to evaluate
-  if (nextStep?.name !== IDX_STEP.ENROLL_PROFILE || typeof parseSchema !== 'function') {
+  if (name !== IDX_STEP.ENROLL_PROFILE || typeof parseSchema !== 'function') {
     return formbag;
   }
 
-  const inputs = nextStep.inputs!;
   // Converts IDX Input array into Registration Schema element array
   const registrationSchema = convertIdxInputsToRegistrationSchema(inputs);
 
