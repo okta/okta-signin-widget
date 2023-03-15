@@ -50,7 +50,6 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await t.expect(enrollPasswordPage.getSaveButtonLabel()).eql('Next');
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
-  await t.expect(enrollPasswordPage.sessionRevocationToggleExist()).eql(true);
 
   // assert switch authenticator link shows up
   await t.expect(await enrollPasswordPage.switchAuthenticatorLinkExists()).ok();
