@@ -66,6 +66,8 @@ export const transformSafeModePoll: IdxStepTransformer = ({
     options: {
       callback: (stepperContext: IStepperContext) => {
         const { setStepIndex } = stepperContext;
+        // show the second step (with the spinner) at most one second before the
+        // call to the endpoint happens
         setTimeout(() => setStepIndex!(1), Math.max(pollIntervalMs - 1000, 0));
       },
     },
@@ -73,6 +75,8 @@ export const transformSafeModePoll: IdxStepTransformer = ({
 
   uischema.elements.push({
     type: UISchemaLayoutType.STEPPER,
+    // Always re-render this stepper and children components when this transformer is
+    // called so that the stepper gets reset after the polling happens
     key: generateRandomString(),
     elements: [
       {
