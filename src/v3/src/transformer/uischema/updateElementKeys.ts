@@ -24,6 +24,7 @@ export const updateElementKeys: TransformStepFnWithOptions = ({ transaction }) =
   traverseLayout({
     layout: formbag.uischema,
     predicate: (element) => {
+      // never add a synthetic key to layout elements' uischema
       if ([
         UISchemaLayoutType.STEPPER,
         UISchemaLayoutType.ACCORDION,

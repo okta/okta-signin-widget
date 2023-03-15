@@ -182,6 +182,9 @@ export const areTransactionsEqual = (
     return false;
   }
 
+  // on the safe mode poll remediation (IDX_STEP.POLL) we _always_
+  // want to view the incoming poll transaction as unequal to force
+  // the transformer to run again and re-render the view
   if (typeof tx2 !== 'undefined' && tx2.nextStep?.name === IDX_STEP.POLL) {
     return false;
   }
