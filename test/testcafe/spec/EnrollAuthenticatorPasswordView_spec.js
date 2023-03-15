@@ -101,35 +101,6 @@ test.requestHooks(logger, successMock)('should succeed when same values are fill
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test.requestHooks(logger, successMock)('should succeed when session revocation is checked', async t => {
-  const enrollPasswordPage = await setup(t);
-  await checkA11y(t);
-  const successPage = new SuccessPageObject(t);
-
-  await enrollPasswordPage.fillPassword('abcdabcd');
-  await enrollPasswordPage.fillConfirmPassword('abcdabcd');
-  await enrollPasswordPage.checkSessionRevocationToggle();
-  await enrollPasswordPage.clickNextButton();
-
-  const { request: {
-    body: answerRequestBodyString,
-  }
-  } = logger.requests[0];
-
-  const answerRequestBody = JSON.parse(answerRequestBodyString);
-  await t.expect(answerRequestBody).eql({
-    credentials: {
-      passcode: 'abcdabcd',
-      revokeSessions: true
-    },
-    stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-  });
-
-  const pageUrl = await successPage.getPageUrl();
-  await t.expect(pageUrl)
-    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
-});
-
 test.requestHooks(errorMock)('should show a callout when server-side field errors are received', async t => {
   const enrollPasswordPage = await setup(t);
   await checkA11y(t);

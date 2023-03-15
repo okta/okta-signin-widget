@@ -27,9 +27,6 @@ const ignoredMocks = [
   'error-custom-access-denied-success-redirect.json', // custom message
   'error-identify-access-denied-custom-message.json', // custom message
   'enroll-profile-new-boolean-fields.json', // custom registration fields
-
-  // OKTA-535435 "Sign me out of all other devices." (enroll-authenticator.okta_password.credentials.revokeSessions) has no entry in login.properties
-  'authenticator-enroll-password.json',
   'authenticator-expired-custom-password.json' // seems to be flaky
 ];
 
