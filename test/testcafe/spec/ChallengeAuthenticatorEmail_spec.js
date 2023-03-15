@@ -225,7 +225,7 @@ test
       methodType: 'email',
     });
 
-    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const pageTitle = await challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(pageTitle).eql('Get a verification email');
     await t.expect(saveBtnText).eql('Send me an email');
@@ -245,7 +245,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
 
-    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const pageTitle = await challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(pageTitle).eql('Get a verification email');
     await t.expect(saveBtnText).eql('Send me an email');
@@ -259,7 +259,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
 
-    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const pageTitle = await challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(pageTitle).contains('Get a verification email');
     await t.expect(saveBtnText).eql('Send me an email');
@@ -273,7 +273,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
 
-    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const pageTitle = await challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(pageTitle).contains('Get a verification email');
     await t.expect(saveBtnText).eql('Send me an email');
@@ -287,7 +287,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await challengeEmailPageObject.clickNextButton('Send me an email');
-    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const pageTitle = await challengeEmailPageObject.getFormTitle();
     await t.expect(pageTitle).eql('Verify with your email');
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
@@ -306,7 +306,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await challengeEmailPageObject.clickNextButton('Send me an email');
-    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const pageTitle = await challengeEmailPageObject.getFormTitle();
     await t.expect(pageTitle).eql('Verify with your email');
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
@@ -332,7 +332,7 @@ test
     await t.expect(challengeEmailPageObject.getEnterCodeInsteadButton().exists).eql(true);
     await challengeEmailPageObject.clickEnterCodeLink();
 
-    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const pageTitle = await challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(pageTitle).eql('Verify with your email');
     await t.expect(saveBtnText).eql('Verify');
@@ -355,7 +355,7 @@ test
     await challengeEmailPageObject.clickEnterCodeLink();
     await t.expect(challengeEmailPageObject.form.getElement('.enter-auth-code-instead-link').exists).eql(false);
 
-    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const pageTitle = await challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
@@ -369,7 +369,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
 
-    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const pageTitle = await challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
@@ -385,7 +385,7 @@ test
     await t.expect(challengeEmailPageObject.getEnterCodeInsteadButton().exists).eql(true);
     await challengeEmailPageObject.clickEnterCodeLink();
 
-    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const pageTitle = await challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
@@ -401,7 +401,7 @@ test
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton('Verify');
-    await challengeEmailPageObject.waitForErrorBox();
+    await challengeEmailPageObject.waitorErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
   });
@@ -501,7 +501,7 @@ test.meta('v3', false)
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
     await t.wait(5000);
     await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
-    
+
     // TODO: verify OTP UI is as expected OTP OKTA-480518
 
     // Check no poll requests were made further. There seems to be no way to interrupt a poll with mock response.
@@ -599,7 +599,7 @@ test
   });
 
 // Test fails in v3. After re-render we still have to wait for 30 seconds
-// Enable after fixing - OKTA-561098  
+// Enable after fixing - OKTA-561098
 test.meta('v3', false)
   .requestHooks(logger, validOTPmock)('resend after at most 30 seconds even after re-render', async t => {
     const challengeEmailPageObject = await setup(t);

@@ -11,6 +11,7 @@
  */
 
 import config from '../../../.widgetrc';
+import OktaSignIn from './OktaSignIn';
 
 import {
   OktaSignInConstructor,
@@ -20,6 +21,7 @@ import {
   RenderResultSuccessNonOIDCSession,
 } from '../../types';
 
+// @ts-expect-error
 import { assertNoEnglishLeaks } from '../../../playground/LocaleUtils';
 
 declare global {
@@ -49,7 +51,7 @@ function createWidgetInstance(options: WidgetOptions = {}) {
   if (signIn) {
     signIn.remove();
   }
-  signIn = new window.OktaSignIn(Object.assign({}, config, options));
+  signIn = new OktaSignIn(Object.assign({}, config, options));
   return signIn;
 }
 

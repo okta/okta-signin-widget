@@ -250,7 +250,7 @@ test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen
 
   const selectAuthenticatorPage = new SelectFactorPageObject();
 
-  await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with a security method');
+  await t.expect(await selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with a security method');
 
   const { log } = await t.getBrowserConsoleMessages();
 

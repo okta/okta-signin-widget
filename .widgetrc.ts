@@ -4,7 +4,7 @@ const config: WidgetOptions = {
   baseUrl: 'http://localhost:3000',
   logo: '/img/logo_widgico.png',
   logoText: 'Windico',
-  language: 'ok-PL',
+  language: 'en',
   features: {
     router: true,
     rememberMe: true,

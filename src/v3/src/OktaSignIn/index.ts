@@ -237,6 +237,8 @@ export default class OktaSignIn {
     this.events[eventName] = eventHandler;
   }
 
+  off(): void { }
+
   private buildRenderOptions(
     options: WidgetProps & Record<string, string> = {},
   ): RenderOptions {

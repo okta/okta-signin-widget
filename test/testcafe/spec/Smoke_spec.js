@@ -3,6 +3,7 @@ import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import xhrInteract from '../../../playground/mocks/data/oauth2/interact.json';
+import { checkA11y } from '../framework/a11y';
 
 const mocks = RequestMock()
   .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
@@ -28,10 +29,11 @@ async function setup(t) {
     authenticatorKey: 'okta_password',
     methodType: 'password',
   });
+  await checkA11y(t);
   return identityPage;
 }
 
-test.requestHooks(logger, mocks)('should have identifier and password fields', async t => {
+test.requestHooks(logger, mocks)('should have identifier and password fields', async (t) => {
   const identityPage = await setup(t);
   await renderWidget({});
   await identityPage.fillIdentifierField('myusername');
