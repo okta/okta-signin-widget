@@ -105,7 +105,6 @@ const I18N_OVERRIDE_MAPPINGS = {
   'authenticator-enrollment-data.phone_number.authenticator.methodType.voice': 'oie.phone.enroll.voice.label',
 
   'enroll-authenticator.okta_password.credentials.passcode': 'oie.password.passwordLabel',
-  'enroll-authenticator.okta_password.credentials.revokeSessions': 'password.reset.revokeSessions',
   'enroll-authenticator.okta_email.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'enroll-authenticator.phone_number.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'enroll-authenticator.security_question.sub_schema_local_credentials.0': 'oie.security.question.questionKey.label',
@@ -143,11 +142,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.credentials.passcode': 'oie.password.label',
 
   'reset-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
-  'reset-authenticator.okta_password.credentials.revokeSessions': 'password.reset.revokeSessions',
   'reenroll-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
-  'reenroll-authenticator.okta_password.credentials.revokeSessions': 'password.reset.revokeSessions',
   'reenroll-authenticator-warning.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
-  'reenroll-authenticator-warning.okta_password.credentials.revokeSessions': 'password.reset.revokeSessions',
   'incorrectPassword': 'oie.password.incorrect.message',
   
   'profile-update.userProfile.secondEmail': 'oie.user.profile.secondary.email',
