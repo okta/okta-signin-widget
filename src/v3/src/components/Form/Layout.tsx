@@ -39,8 +39,8 @@ const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) =
     >
       {
         elements.map((element, index) => {
-          const elementKey = getElementKey(element, index);
-
+          // for the layout element types attach the explicitly set key if
+          // one was added to the uischema in the transformer
           if (element.type === UISchemaLayoutType.STEPPER) {
             return (
               <Stepper
@@ -68,6 +68,8 @@ const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) =
               />
             );
           }
+
+          const elementKey = getElementKey(element, index);
 
           return (
             <ElementContainer
