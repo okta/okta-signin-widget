@@ -11,7 +11,7 @@
  */
 
 import {
-  TransformStepFnWithOptions,
+  TransformStepFnWithOptions, UISchemaLayoutType,
 } from '../../types';
 import {
   generateRandomString,
@@ -23,7 +23,17 @@ import { traverseLayout } from '../util';
 export const updateElementKeys: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
   traverseLayout({
     layout: formbag.uischema,
-    predicate: (element) => !!element.type,
+    predicate: (element) => {
+      if ([
+        UISchemaLayoutType.STEPPER,
+        UISchemaLayoutType.ACCORDION,
+        UISchemaLayoutType.HORIZONTAL,
+        UISchemaLayoutType.VERTICAL,
+      ].includes((element.type) as UISchemaLayoutType)) {
+        return false;
+      }
+      return !!element.type;
+    },
     callback: (element) => {
       const { nextStep: { name } = {} } = transaction;
       const authKey = getAuthenticatorKey(transaction);
