@@ -74,11 +74,11 @@ test
     await resetPasswordPage.waitForErrorBox();
     await t.expect(resetPasswordPage.hasPasswordError()).eql(false);
 
-    // In v3, we do not show the error for password match on the field, but rather display the
-    // 'incomplete'/'complete' checkmark next to the 'Passwords must match' label below the
-    // two password fields, so we check this state differently.
+    // In v3, we display the incomplete/complete checkmark next to the 'Passwords must match'
+    // list item label below the confirm password field in addition to the field level error message
     if (userVariables.v3) {
       await t.expect(resetPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
+      await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('Passwords must match');
     } else {
       await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
     }

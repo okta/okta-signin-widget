@@ -74,11 +74,11 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await enrollPasswordPage.waitForErrorBox();
   await t.expect(enrollPasswordPage.hasPasswordError()).eql(false);
 
-  // In v3, we do not show the error for password match on the field, but rather display the
-  // 'incomplete'/'complete' checkmark next to the 'Passwords must match' label below the
-  // two password fields, so we check this state differently.
+  // In v3, we display the incomplete/complete checkmark next to the 'Passwords must match'
+  // list item label below the confirm password field in addition to the field level error message
   if (userVariables.v3) {
     await t.expect(enrollPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
+    await t.expect(enrollPasswordPage.getConfirmPasswordError()).eql('Passwords must match');
   } else {
     await t.expect(enrollPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
   }

@@ -201,24 +201,32 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
         );
         errorMessages.push(...requirementNotMetMessages);
       }
+      if (newPw && confirmPw && newPw !== confirmPw) {
+        errorMessages.push({
+          name: 'confirmPassword',
+          class: 'ERROR',
+          message: loc('password.enroll.error.match', 'login'),
+          i18n: { key: 'password.enroll.error.match' },
+        });
+      }
       return errorMessages.length > 0 ? errorMessages : undefined;
     },
   };
-  dataSchema.passwordMatchesValidation = {
+
+  dataSchema.confirmPassword = {
     validate: (data: FormBag['data']) => {
-      const newPw = data[passwordFieldName];
+      const newPw = data[passwordFieldName] as string;
       const confirmPw = data.confirmPassword;
-      if (newPw !== confirmPw) {
-        // This error is not displayed by the component, however it is used to block
-        // form submission by marking the field as invalid
-        return [{
-          name: 'passwordMatchesValidation',
+      const errorMessages: WidgetMessage[] = [];
+      if (newPw && newPw !== confirmPw) {
+        errorMessages.push({
+          name: 'confirmPassword',
           class: 'ERROR',
-          message: loc('password.error.match', 'login'),
-          i18n: { key: 'password.error.match' },
-        }];
+          message: loc('password.enroll.error.match', 'login'),
+          i18n: { key: 'password.enroll.error.match' },
+        });
       }
-      return undefined;
+      return errorMessages.length > 0 ? errorMessages : undefined;
     },
   };
 
