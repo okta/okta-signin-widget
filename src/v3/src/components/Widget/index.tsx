@@ -133,9 +133,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     try {
       if (typeof proxyIdxResponse !== 'undefined') {
         setIdxTransaction({
-          // @ts-expect-error proxyIdxResponse has missing types
+          // @ts-expect-error OKTA-589168 - RawIdxResponse type does not contain the properties from ProxyIdxResponse type yet
+          // remove ts-expect-error ASAP to avoid risk of trying to access property that does not exist
           rawIdxState: proxyIdxResponse,
-          // @ts-expect-error proxyIdxResponse has missing types
+          // @ts-expect-error OKTA-589168 - IdxContext type does not contain the properties from ProxyIdxResponse type yet
+          // remove ts-expect-error ASAP to avoid risk of trying to access property that does not exist
           context: proxyIdxResponse,
         });
         return;
@@ -227,9 +229,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     try {
       if (typeof proxyIdxResponse !== 'undefined') {
         setIdxTransaction({
-          // @ts-ignore proxyIdxResponse has missing types
+          // @ts-expect-error OKTA-589168 - RawIdxResponse type does not contain the properties from ProxyIdxResponse type yet
+          // remove ts-expect-error ASAP to avoid risk of trying to access property that does not exist
           rawIdxState: proxyIdxResponse,
-          // @ts-ignore proxyIdxResponse has missing types
+          // @ts-expect-error OKTA-589168 - IdxContext type does not contain the properties from ProxyIdxResponse type yet
+          // remove ts-expect-error ASAP to avoid risk of trying to access property that does not exist
           context: proxyIdxResponse,
         });
         return;
