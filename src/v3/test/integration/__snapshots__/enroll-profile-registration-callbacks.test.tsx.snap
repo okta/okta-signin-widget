@@ -73,7 +73,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="family-name"
                       class="MuiInputBase-input emotion-15"
@@ -110,7 +109,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="given-name"
                       class="MuiInputBase-input emotion-15"
@@ -147,7 +145,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="email"
                       class="MuiInputBase-input emotion-15"
@@ -185,7 +182,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       class="MuiInputBase-input emotion-15"
                       data-se="userProfile.address"
@@ -201,7 +197,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  aria-describedby="enroll-profile_Title_Sign_up_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
                   data-type="save"
                   tabindex="0"
@@ -362,7 +357,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.lastName-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.lastName-error  "
                       aria-invalid="true"
                       autocomplete="family-name"
                       class="MuiInputBase-input emotion-20"
@@ -411,7 +406,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="given-name"
                       class="MuiInputBase-input emotion-20"
@@ -448,7 +442,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="email"
                       class="MuiInputBase-input emotion-20"
@@ -466,7 +459,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  aria-describedby="enroll-profile_Title_Sign_up_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-36"
                   data-type="save"
                   tabindex="0"
@@ -627,7 +619,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.lastName-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.lastName-error  "
                       aria-invalid="true"
                       autocomplete="family-name"
                       class="MuiInputBase-input emotion-20"
@@ -676,7 +668,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="given-name"
                       class="MuiInputBase-input emotion-20"
@@ -713,7 +704,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="email"
                       class="MuiInputBase-input emotion-20"
@@ -731,7 +721,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  aria-describedby="enroll-profile_Title_Sign_up_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-36"
                   data-type="save"
                   tabindex="0"
@@ -892,7 +881,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="family-name"
                       class="MuiInputBase-input emotion-20"
@@ -929,7 +917,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="given-name"
                       class="MuiInputBase-input emotion-20"
@@ -966,7 +953,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     required="true"
                   >
                     <input
-                      aria-describedby="enroll-profile_Title_Sign_up_1"
                       aria-invalid="false"
                       autocomplete="email"
                       class="MuiInputBase-input emotion-20"
@@ -984,7 +970,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  aria-describedby="enroll-profile_Title_Sign_up_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
                   data-type="save"
                   tabindex="0"
@@ -1145,7 +1130,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.lastName-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.lastName-error  "
                       aria-invalid="true"
                       autocomplete="family-name"
                       class="MuiInputBase-input emotion-20"
@@ -1194,7 +1179,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.firstName-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.firstName-error  "
                       aria-invalid="true"
                       autocomplete="given-name"
                       class="MuiInputBase-input emotion-20"
@@ -1243,7 +1228,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.email-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.email-error  "
                       aria-invalid="true"
                       autocomplete="email"
                       class="MuiInputBase-input emotion-20"
@@ -1293,7 +1278,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     required="true"
                   >
                     <input
-                      aria-describedby=" userProfile.address-error enroll-profile_Title_Sign_up_1 "
+                      aria-describedby=" userProfile.address-error  "
                       aria-invalid="true"
                       class="MuiInputBase-input emotion-20"
                       data-se="userProfile.address"
@@ -1321,7 +1306,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  aria-describedby="enroll-profile_Title_Sign_up_1"
                   class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-48"
                   data-type="save"
                   tabindex="0"
