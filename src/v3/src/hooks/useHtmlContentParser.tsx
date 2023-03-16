@@ -10,20 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link } from '@okta/odyssey-react-mui';
 import dompurify from 'dompurify';
-import HtmlReactParser, {
-  attributesToProps,
-  DOMNode,
-  domToReact,
-  Element,
-  HTMLReactParserOptions,
-} from 'html-react-parser';
+import HtmlReactParser, { HTMLReactParserOptions } from 'html-react-parser';
 import preact, { h } from 'preact';
+
+import { getLinkReplacerFn } from '../util';
 
 export const useHtmlContentParser = (
   content: string | undefined,
-  options?: HTMLReactParserOptions & { variant?: 'monochrome'; },
+  options?: HTMLReactParserOptions,
 ): string | h.JSX.Element | h.JSX.Element[] | undefined => {
   if (typeof content === 'undefined') {
     return undefined;
@@ -35,22 +30,8 @@ export const useHtmlContentParser = (
   };
 
   if (typeof parserOptions.replace === 'undefined') {
-    // default replacer function
-    parserOptions.replace = (node: DOMNode) => {
-      if (node instanceof Element && node.type === 'tag' && node.name === 'a') {
-        const props = attributesToProps(node.attribs);
-        return (
-          <Link
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...props}
-            variant={options?.variant}
-          >
-            {domToReact(node.children, parserOptions)}
-          </Link>
-        );
-      }
-      return undefined;
-    };
+    // default link replacer function
+    parserOptions.replace = getLinkReplacerFn(parserOptions);
   }
 
   const sanitizedContent = dompurify.sanitize(content);

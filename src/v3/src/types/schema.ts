@@ -18,6 +18,7 @@ import {
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent } from 'preact';
 
 import { IStepperContext, IWidgetContext } from './context';
@@ -178,6 +179,11 @@ export interface UISchemaElement {
    */
   viewIndex?: number;
   noTranslate?: boolean;
+  /**
+   * The purpose of this property is to customize how HTML elements are parsed
+   * and rendered in the UI. See htmlContentParserUtils.tsx for reference.
+   */
+  parserOptions?: HTMLReactParserOptions;
 }
 
 /**
@@ -373,7 +379,6 @@ export interface TextWithActionLinkElement extends UISchemaElement {
     content: string;
     contentClassname: string;
     stepToRender?: string;
-    variant?: 'monochrome';
   };
 }
 

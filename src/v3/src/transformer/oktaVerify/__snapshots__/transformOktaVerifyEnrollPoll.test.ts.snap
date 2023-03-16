@@ -160,6 +160,9 @@ Object {
                   "isActionStep": true,
                   "step": "resend",
                 },
+                "parserOptions": Object {
+                  "replace": [Function],
+                },
                 "type": "Reminder",
                 "viewIndex": 0,
               },
@@ -217,6 +220,9 @@ Object {
                   "isActionStep": true,
                   "step": "resend",
                 },
+                "parserOptions": Object {
+                  "replace": [Function],
+                },
                 "type": "Reminder",
                 "viewIndex": 1,
               },
@@ -260,6 +266,9 @@ Object {
                   "contentHasHtml": true,
                   "isActionStep": true,
                   "step": "resend",
+                },
+                "parserOptions": Object {
+                  "replace": [Function],
                 },
                 "type": "Reminder",
                 "viewIndex": 2,
@@ -333,6 +342,9 @@ Object {
                   "isActionStep": true,
                   "step": "resend",
                 },
+                "parserOptions": Object {
+                  "replace": [Function],
+                },
                 "type": "Reminder",
                 "viewIndex": 0,
               },
@@ -390,6 +402,9 @@ Object {
                   "isActionStep": true,
                   "step": "resend",
                 },
+                "parserOptions": Object {
+                  "replace": [Function],
+                },
                 "type": "Reminder",
                 "viewIndex": 1,
               },
@@ -433,6 +448,9 @@ Object {
                   "contentHasHtml": true,
                   "isActionStep": true,
                   "step": "resend",
+                },
+                "parserOptions": Object {
+                  "replace": [Function],
                 },
                 "type": "Reminder",
                 "viewIndex": 2,

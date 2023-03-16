@@ -38,7 +38,7 @@ const ReminderPrompt: UISchemaElementComponent<{
     contentHasHtml,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
-  const parsedContent = useHtmlContentParser(content);
+  const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
 
   const [show, setShow] = useState<boolean>(false);
   const timerRef = useRef<number | undefined>();
@@ -120,13 +120,13 @@ const ReminderPrompt: UISchemaElementComponent<{
         <TextWithActionLink
           uischema={{
             type: 'TextWithActionLink',
+            parserOptions: uischema.parserOptions,
             options: {
               contentClassname,
               content,
               step,
               isActionStep,
               actionParams,
-              variant: 'monochrome',
             },
           }}
         />
