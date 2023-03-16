@@ -11,38 +11,42 @@
  */
 
 /// <reference types="vite/client" />
-import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import { BuildOptions, defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
-import { ModuleFormat } from 'rollup';
+
+const outDir = resolve(__dirname, '../../dist/dist');
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode, command }) => ({
+  root: command === 'serve' && mode === 'testcafe'
+    ? outDir
+    : process.cwd(),
+
   plugins: [
     preact(),
-    splitVendorChunkPlugin(),
   ],
   define: {
-    OKTA_SIW_VERSION: '"0.0.0"',
-    OKTA_SIW_COMMIT_HASH: '"67f7d01358bee1853391565b300f196dc5291ce2"',
+    OKTA_SIW_VERSION: '"10.0.0"',
+    OKTA_SIW_COMMIT_HASH: '"local"',
     DEBUG: true,
   },
   resolve: {
     alias: {
       '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
       '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
+      '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
+      '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
       'config': resolve(__dirname, '../config'),
       'nls': resolve(__dirname, '../../packages/@okta/i18n/src/json'),
-      '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
       'okta': resolve(__dirname, '../../packages/@okta/courage-dist'),
-      '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
       'src': resolve(__dirname, './src'),
-      'util/Logger': resolve(__dirname, `../util/Logger`),
+      'util/BrowserFeatures': resolve(__dirname, `../util/BrowserFeatures`),
       'util/Bundles': resolve(__dirname, `../util/Bundles`),
       'util/Enums': resolve(__dirname, `../util/Enums`),
       'util/FactorUtil': resolve(__dirname, `../util/FactorUtil`),
+      'util/Logger': resolve(__dirname, `../util/Logger`),
       'util/TimeUtil': resolve(__dirname, `../util/TimeUtil`),
-      'util/BrowserFeatures': resolve(__dirname, `../util/BrowserFeatures`),
       'v1': resolve(__dirname, '../v1'),
       'v2': resolve(__dirname, '../v2'),
 
@@ -53,23 +57,33 @@ export default defineConfig({
       'react/jsx-runtime': 'preact/jsx-runtime',
     },
   },
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'OktaSignIn',
-      fileName: (fmt) => {
-        const ext: Record<ModuleFormat, string> = {
-          es: 'mjs',
-          cjs: 'js',
-          umd: 'min.js',
-          iife: 'min.js',
-        }[fmt];
-        return `js/okta-sign-in.${ext}`;
-      },
-    },
-    sourcemap: true,
-    copyPublicDir: false,
-  },
+
+  build: ((): BuildOptions => {
+    if (mode === 'production') {
+      return {
+        outDir,
+        emptyOutDir: false,
+        copyPublicDir: false,
+        sourcemap: 'hidden',
+        lib: {
+          entry: resolve(__dirname, 'src/index.ts'),
+          name: 'OktaSignIn',
+          formats: ['umd'],
+          fileName: () => 'js/okta-sign-in.next.min.js',
+        },
+      };
+    }
+    if (mode === 'testcafe') {
+      return {
+        outDir,
+        sourcemap: 'inline',
+        emptyOutDir: false,
+        copyPublicDir: true,
+      };
+    }
+    return {}
+  })(),
+
   server: {
     host: 'localhost',
     proxy: {
@@ -85,4 +99,4 @@ export default defineConfig({
     },
     port: 3000,
   },
-});
+}));
