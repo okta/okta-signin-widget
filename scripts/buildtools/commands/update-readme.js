@@ -1,6 +1,7 @@
 const { resolve, join } = require('path');
 const { execSync } = require('child_process');
 const replace = require('replace-in-file');
+const pkg = require('../../../package.json');
 
 const ROOT_DIR = resolve(__dirname, '../../../');
 
@@ -20,7 +21,13 @@ exports.builder = {
   },
 };
 exports.handler = (argv) => {
-  const version = argv.ver ? argv.ver : getPublishedWidgetVersion();
+  let version = pkg.version;
+  if (argv.ver) {
+    version = argv.ver;
+  }
+  if (argv.publishedVer) {
+    version = getPublishedWidgetVersion();
+  }
   const options = {
     files: [
       resolve(join(ROOT_DIR, 'README.md')),
