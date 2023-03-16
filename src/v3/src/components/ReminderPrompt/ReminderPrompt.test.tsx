@@ -15,8 +15,10 @@ import '@testing-library/jest-dom';
 import {
   cleanup, fireEvent, render, within,
 } from '@testing-library/preact';
+import { HTMLReactParserOptions } from 'html-react-parser';
 import { h } from 'preact';
 import { act } from 'preact/test-utils';
+import { getLinkReplacerFn } from 'src/util';
 
 import {
   ReminderElement,
@@ -92,9 +94,12 @@ describe('ReminderPrompt', () => {
 
   it('should show prompt with working link after default timeout passes where ctaText contains HTML', async () => {
     const step = 'currentAuthenticator-resend';
+    const parserOptions: HTMLReactParserOptions = {};
+    parserOptions.replace = getLinkReplacerFn({}, 'monochrome');
     const props: UISchemaElementComponentProps & { uischema: ReminderElement; } = {
       uischema: {
         type: 'Reminder',
+        parserOptions,
         options: {
           content: "Didn't receive the email? Click <a href='#' class='send-again'>send again</a>",
           contentHasHtml: true,
