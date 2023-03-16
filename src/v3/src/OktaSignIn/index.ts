@@ -161,8 +161,10 @@ export default class OktaSignIn {
         if (target) {
           // @ts-ignore OKTA-508744
           render(h(Widget, {
+            // @ts-expect-error
             events: this.events,
             authClient: this.authClient,
+            // @ts-expect-error
             onSuccess: onSuccessWrapper,
             onError: onErrorWrapper,
             ...this.options,
@@ -235,6 +237,9 @@ export default class OktaSignIn {
 
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {
     this.events[eventName] = eventHandler;
+  }
+  off(eventName?: OktaWidgetEventType, eventHandler?: OktaWidgetEventHandler): void {
+    // TODO
   }
 
   private buildRenderOptions(

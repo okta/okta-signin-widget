@@ -29,7 +29,7 @@ exports.handler = async (argv) => {
 
   // use v3 workspace if --v3 flag is set or OKTA_SIW_V3 env var is truthy
   if (argv.v3 || process.env.OKTA_SIW_V3) {
-    startDevServer = 'yarn workspace v3 dev';
+    startDevServer = 'yarn --cwd src/v3 dev';
   }
 
   let cmd;
