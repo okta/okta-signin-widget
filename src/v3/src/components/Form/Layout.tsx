@@ -39,20 +39,37 @@ const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) =
     >
       {
         elements.map((element, index) => {
-          const elementKey = getElementKey(element, index);
-
+          // for the layout element types attach the explicitly set key if
+          // one was added to the uischema in the transformer
           if (element.type === UISchemaLayoutType.STEPPER) {
-            return <Stepper uischema={element as StepperLayout} />;
+            return (
+              <Stepper
+                key={(element as StepperLayout).key}
+                uischema={element as StepperLayout}
+              />
+            );
           }
 
           if (element.type === UISchemaLayoutType.ACCORDION) {
-            return <Accordion uischema={element as AccordionLayout} />;
+            return (
+              <Accordion
+                key={(element as AccordionLayout).key}
+                uischema={element as AccordionLayout}
+              />
+            );
           }
 
           if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
             .includes((element as UISchemaLayout).type)) {
-            return <Layout uischema={element as UISchemaLayout} />;
+            return (
+              <Layout
+                key={(element as UISchemaLayout).key}
+                uischema={element as UISchemaLayout}
+              />
+            );
           }
+
+          const elementKey = getElementKey(element, index);
 
           return (
             <ElementContainer

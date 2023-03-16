@@ -3,8 +3,6 @@ import { Selector, ClientFunction, userVariables } from 'testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
-const SKIP_LINK = '.auth-footer .js-skip';
-const SKIP_SET_UP_LINK = '.auth-footer .js-skip-setup';
 const SWITCH_AUTHENTICATOR_LINK = '[data-se="switchAuthenticator"]';
 const ionMessagesSelector = '.ion-messages-container';
 const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
@@ -165,34 +163,25 @@ export default class BasePageObject {
     await this.t.click(this.getCancelLink());
   }
 
-  async skipLinkExists() {
-    const elCount = await Selector(SKIP_LINK).count;
-    return elCount === 1;
-  }
-
+  /**
+   * @deprecated
+   */
   getSkipLinkText() {
+    const SKIP_LINK = '.auth-footer .js-skip';
+
     return Selector(SKIP_LINK).textContent;
   }
 
-  async clickSkipLink() {
-    await this.t.click(Selector(SKIP_LINK));
+  getSkipSetUpLink() {
+    return this.form.getLink('Skip set up');
   }
 
-  async skipSetUpLinkExists() {
-    const elCount = await Selector(SKIP_SET_UP_LINK).count;
-    return elCount === 1;
-  }
-
-  getSetUpSkipLinkText() {
-    return Selector(SKIP_SET_UP_LINK).textContent;
+  async clickSetUpSkipLink() {
+    await this.t.click(await this.getSkipSetUpLink());
   }
 
   getErrorBoxText() {
     return this.form.getErrorBoxText();
-  }
-
-  async clickSetUpSkipLink() {
-    await this.t.click(Selector(SKIP_SET_UP_LINK));
   }
 
   getReturnToAuthenticatorListLink() {

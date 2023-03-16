@@ -13,8 +13,8 @@ export default class PollingPageObject extends BasePageObject {
     return this.form.getTitle();
   }
 
-  getContent() {
-    return this.form.getElement('.ion-messages-container');
+  getRetryMessage() {
+    return this.form.getByText(/We will automatically retry/);
   }
 
   getErrorMessages() {

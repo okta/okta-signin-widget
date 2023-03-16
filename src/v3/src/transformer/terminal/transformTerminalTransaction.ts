@@ -96,6 +96,11 @@ const appendViewLinks = (
   };
 
   if (containsMessageKeyPrefix(TERMINAL_KEY.SAFE_MODE_KEY_PREFIX, transaction.messages)
+    && transaction.context.intent === 'CREDENTIAL_ENROLLMENT') {
+    return;
+  }
+
+  if (containsMessageKeyPrefix(TERMINAL_KEY.SAFE_MODE_KEY_PREFIX, transaction.messages)
       && skipStep) {
     cancelLink.options.label = loc('oie.enroll.skip.setup', 'login');
     cancelLink.options.step = skipStep.name;

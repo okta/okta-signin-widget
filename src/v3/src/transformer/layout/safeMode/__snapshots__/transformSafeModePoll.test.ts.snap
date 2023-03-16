@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transform Safe Mode Poll Tests renders safe mode poll view 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "poll.form.title",
+                },
+                "type": "Title",
+                "viewIndex": 0,
+              },
+              Object {
+                "contentType": "subtitle",
+                "options": Object {
+                  "content": "poll.form.message",
+                },
+                "type": "Description",
+                "viewIndex": 0,
+              },
+              Object {
+                "options": Object {
+                  "callback": [Function],
+                },
+                "type": "StepperNavigator",
+                "viewIndex": 0,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "poll.form.title",
+                },
+                "type": "Title",
+                "viewIndex": 1,
+              },
+              Object {
+                "type": "Spinner",
+                "viewIndex": 1,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "key": "random-string",
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

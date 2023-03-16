@@ -29,11 +29,13 @@ const skipRequestLogger = RequestLogger(
   }
 );
 
-fixture('Safe Mode during enrollment');
+fixture('Safe Mode during enrollment')
+  .meta('v3', true);
 
 async function setup(t) {
   const terminalPage = new TerminalPageObject(t);
   await terminalPage.navigateToPage();
+  await t.expect(terminalPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: null,
     formName: 'terminal',
@@ -48,7 +50,7 @@ test.requestHooks(skipRequestLogger, safeModeOptionalMock)('should display corre
 
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
-  await t.expect(await terminalPage.skipSetUpLinkExists()).ok();
+  await t.expect((await terminalPage.getSkipSetUpLink()).exists).eql(true);
   await t.expect(await terminalPage.signoutLinkExists()).notOk();
 
   // click skip link and ensure it goes to skip endpoint
@@ -68,7 +70,7 @@ test.requestHooks(safeModeRequiredMock)('should display correct error and sign o
   await checkA11y(t);
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
-  await t.expect(await terminalPage.skipSetUpLinkExists()).notOk();
+  await t.expect((await terminalPage.getSkipSetUpLink()).exists).eql(false);
   await t.expect(await terminalPage.signoutLinkExists()).ok();
 });
 
@@ -77,6 +79,6 @@ test.requestHooks(safeModeCredentialEnrollmentIntent)('should display correct er
   await checkA11y(t);
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
-  await t.expect(await terminalPage.skipSetUpLinkExists()).notOk();
+  await t.expect((await terminalPage.getSkipSetUpLink()).exists).eql(false);
   await t.expect(await terminalPage.signoutLinkExists()).notOk();
 });

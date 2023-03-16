@@ -66,6 +66,7 @@ import {
   transformIdentityRecovery,
   transformRequestActivation,
 } from './recovery';
+import { transformSafeModePoll } from './safeMode';
 import {
   transformSecurityQuestionEnroll,
   transformSecurityQuestionVerify,
@@ -370,6 +371,12 @@ const TransformerMap: {
   [IDX_STEP.SELECT_ENROLLMENT_CHANNEL]: {
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyChannelSelection,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.POLL]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformSafeModePoll,
       buttonConfig: { showDefaultSubmit: false },
     },
   },
