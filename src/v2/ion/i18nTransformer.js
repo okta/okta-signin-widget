@@ -142,6 +142,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.credentials.passcode': 'oie.password.label',
 
   'reset-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reset-authenticator.okta_password.credentials.revokeSessions': 'password.reset.revokeSessions',
   'reenroll-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
   'reenroll-authenticator-warning.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
   'incorrectPassword': 'oie.password.incorrect.message',
