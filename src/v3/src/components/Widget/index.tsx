@@ -131,7 +131,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const bootstrap = useCallback(async () => {
     await initLanguage();
     try {
-      if(typeof proxyIdxResponse !== 'undefined') {
+      if (typeof proxyIdxResponse !== 'undefined') {
         setIdxTransaction({
           // @ts-expect-error proxyIdxResponse has missing types
           rawIdxState: proxyIdxResponse,
@@ -225,7 +225,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const resume = useCallback(async () => {
     await initLanguage();
     try {
-      if(typeof proxyIdxResponse !== 'undefined') {
+      if (typeof proxyIdxResponse !== 'undefined') {
         setIdxTransaction({
           // @ts-ignore proxyIdxResponse has missing types
           rawIdxState: proxyIdxResponse,
