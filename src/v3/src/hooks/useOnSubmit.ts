@@ -35,6 +35,7 @@ import {
   postRegistrationSubmit,
   preRegistrationSubmit,
   toNestedObject,
+  transformIdentifier,
   triggerRegistrationErrorMessages,
 } from '../util';
 import { getEventContext } from '../util/getEventContext';
@@ -132,6 +133,12 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     if (includeImmutableData) {
       payload = merge(payload, immutableData);
     }
+
+    // Allow username transformation if applicable
+    if ('identifier' in payload) {
+      payload.identifier = transformIdentifier(widgetProps, step, payload.identifier as string);
+    }
+
     payload = toNestedObject(payload);
     if (step === IDX_STEP.ENROLL_PROFILE) {
       const preRegistrationSubmitPromise = new Promise((resolve) => {
