@@ -3,6 +3,7 @@
 // - events are missing properties such as "origin" that are bound to the source window
 // - ???
 module.exports = [
+  'Animations_spec.js',
   'AdminConsentRequired_spec.js',
   'DeviceCodeActivate_spec.js',
   'DeviceCodeActivateTerminal_spec.js',
