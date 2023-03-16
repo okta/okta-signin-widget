@@ -14,7 +14,7 @@ const common: Partial<WidgetOptions> = {
   baseUrl: ORIGIN,
 
   // https://github.com/okta/okta-signin-widget#logo
-  logo: '/logo_widgico.png',
+  logo: '/img/widgico.png',
 
   // https://github.com/okta/okta-signin-widget#logotext
   logoText: 'widgico',
@@ -61,7 +61,11 @@ const common: Partial<WidgetOptions> = {
   },
   // https://github.com/okta/okta-signin-widget#assets
   assets: {
-    baseUrl: '/',
+    baseUrl: ORIGIN,
+  },
+
+  authParams: {
+    pkce: false // pkce enabled by default in okta-auth-js@3.0
   },
 };
 
