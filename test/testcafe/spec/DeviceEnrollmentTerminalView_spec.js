@@ -36,7 +36,7 @@ test
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
     await t.expect(content).contains('Okta Verify on this device.');
     await t.expect(content).contains('Tap the Copy Link button below.');
-    await t.expect(deviceEnrollmentTerminalPage.getCopyButton().exists).eql(true);
+    await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
     if (!userVariables.v3) {
       await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
     }
@@ -45,7 +45,7 @@ test
     await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://idx.okta1.com');
-    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButton().exists).eql(true);
+    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButtonLabel()).eql('Copy sign-in URL to clipboard');
     await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 
@@ -61,7 +61,7 @@ test
     await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://idx.okta1.com');
-    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButton().exists).eql(true);
+    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButtonLabel()).eql('Copy sign-in URL to clipboard');
     await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 
@@ -110,7 +110,7 @@ test
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
     await t.expect(content).contains('Okta Verify on this device.');
     await t.expect(content).contains('Tap the Copy Link button below.');
-    await t.expect(deviceEnrollmentTerminalPage.getCopyButton().exists).eql(true);
+    await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
     if(!userVariables.v3) {
       await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
     }
@@ -119,7 +119,7 @@ test
     await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://rain.okta1.com');
-    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButton().exists).eql(true);
+    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButtonLabel()).eql('Copy sign-in URL to clipboard');
     await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 

@@ -41,7 +41,7 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getSubHeader() {
-    return this.form.getSubtitle();
+    return this.getTextContent('[data-se="subheader"]');
   }
 
   getContentText() {
@@ -63,16 +63,22 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
     return this.body.find('[data-se="app-store"] .app-store-logo').getAttribute('class');
   }
 
-  getCopyButton() {
-    return this.form.getButton('Copy link to clipboard');
+  getCopyButtonLabel() {
+    if(userVariables.v3) {
+      return this.form.getButton('Copy link to clipboard').innerText;
+    }
+    return this.getTextContent(COPY_BUTTON_CLASS);
   }
 
   getCopiedValue() {
     return this.body.find(COPY_BUTTON_CLASS).getAttribute('data-clipboard-text');
   }
 
-  getCopyOrgLinkButton() {
-    return this.form.getButton('Copy sign-in URL to clipboard');
+  getCopyOrgLinkButtonLabel() {
+    if(userVariables.v3) {
+      return this.form.getButton('Copy sign-in URL to clipboard').innerText;
+    }
+    return this.getTextContent(COPY_ORG_LINK_BUTTON_CLASS);
   }
 
   getCopiedOrgLinkValue() {
