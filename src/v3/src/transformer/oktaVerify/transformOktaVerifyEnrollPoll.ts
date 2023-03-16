@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { HTMLReactParserOptions } from 'html-react-parser';
-
 import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
@@ -27,7 +25,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { getLinkReplacerFn, loc } from '../../util';
+import { loc } from '../../util';
 
 const STEPS = {
   QR_POLLING: 0,
@@ -77,12 +75,9 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
   if (transaction!.nextStep!.canResend
     && selectedChannel
     && REMINDER_CHANNELS.includes(selectedChannel) && resendStep) {
-    const parserOptions: HTMLReactParserOptions = {};
-    parserOptions.replace = getLinkReplacerFn(parserOptions, 'monochrome');
     const { name } = resendStep;
     reminder = {
       type: 'Reminder',
-      parserOptions,
       options: {
         content: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
         contentHasHtml: true,

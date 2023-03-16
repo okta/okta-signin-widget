@@ -11,7 +11,6 @@
  */
 
 import { NextStep } from '@okta/okta-auth-js';
-import { HTMLReactParserOptions } from 'html-react-parser';
 
 import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import PhoneSvg from '../../img/phone-icon.svg';
@@ -27,7 +26,6 @@ import {
   TitleElement,
 } from '../../types';
 import {
-  getLinkReplacerFn,
   hasMinAuthenticatorOptions,
   loc,
   updateTransactionWithNextStep,
@@ -62,13 +60,10 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
 
       const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
       if (resendStep) {
-        const parserOptions: HTMLReactParserOptions = {};
-        parserOptions.replace = getLinkReplacerFn(parserOptions, 'monochrome');
         const { name } = resendStep;
         uischema.elements.unshift({
           type: 'Reminder',
           noMargin: true,
-          parserOptions,
           options: {
             contentHasHtml: true,
             contentClassname: 'resend-number-challenge',

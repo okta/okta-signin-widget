@@ -83,9 +83,6 @@ Object {
           "isActionStep": true,
           "step": "resend",
         },
-        "parserOptions": Object {
-          "replace": [Function],
-        },
         "type": "Reminder",
       },
       Object {
@@ -154,9 +151,6 @@ Object {
           "contentHasHtml": true,
           "isActionStep": true,
           "step": "resend",
-        },
-        "parserOptions": Object {
-          "replace": [Function],
         },
         "type": "Reminder",
       },

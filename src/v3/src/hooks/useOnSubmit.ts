@@ -19,9 +19,7 @@ import {
   OAuthError,
   RawIdxResponse,
 } from '@okta/okta-auth-js';
-import cloneDeep from 'lodash/cloneDeep';
-import merge from 'lodash/merge';
-import omit from 'lodash/omit';
+import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
 
 import { IDX_STEP } from '../constants';
