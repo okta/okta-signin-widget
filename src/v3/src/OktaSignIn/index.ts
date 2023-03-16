@@ -229,6 +229,9 @@ export default class OktaSignIn {
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {
     this.events[eventName] = eventHandler;
   }
+  off(eventName?: OktaWidgetEventType, eventHandler?: OktaWidgetEventHandler): void {
+    // TODO
+  }
 
   // eslint-disable-next-line class-methods-use-this
   off(): void { }
