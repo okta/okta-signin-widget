@@ -113,7 +113,7 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
 
   const showCodeStepperButton: StepperButtonElement = {
     type: 'StepperButton',
-    label: loc('oie.email.verify.alternate.showCodeTextField', 'login'),
+    label: loc('oie.email.verify.alternate.show.verificationCode.text', 'login'),
     options: {
       type: ButtonType.BUTTON,
       variant: 'secondary',

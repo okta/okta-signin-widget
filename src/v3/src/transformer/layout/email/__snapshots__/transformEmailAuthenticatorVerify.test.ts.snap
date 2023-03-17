@@ -221,7 +221,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "label": "oie.email.verify.alternate.showCodeTextField",
+                "label": "oie.email.verify.alternate.show.verificationCode.text",
                 "options": Object {
                   "nextStepIndex": 1,
                   "type": "button",
@@ -328,7 +328,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "label": "oie.email.verify.alternate.showCodeTextField",
+                "label": "oie.email.verify.alternate.show.verificationCode.text",
                 "options": Object {
                   "nextStepIndex": 1,
                   "type": "button",
@@ -435,7 +435,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "label": "oie.email.verify.alternate.showCodeTextField",
+                "label": "oie.email.verify.alternate.show.verificationCode.text",
                 "options": Object {
                   "nextStepIndex": 1,
                   "type": "button",
@@ -555,7 +555,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "label": "oie.email.verify.alternate.showCodeTextField",
+                "label": "oie.email.verify.alternate.show.verificationCode.text",
                 "options": Object {
                   "nextStepIndex": 1,
                   "type": "button",
@@ -662,7 +662,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "label": "oie.email.verify.alternate.showCodeTextField",
+                "label": "oie.email.verify.alternate.show.verificationCode.text",
                 "options": Object {
                   "nextStepIndex": 1,
                   "type": "button",
@@ -769,7 +769,7 @@ Object {
                 "viewIndex": 0,
               },
               Object {
-                "label": "oie.email.verify.alternate.showCodeTextField",
+                "label": "oie.email.verify.alternate.show.verificationCode.text",
                 "options": Object {
                   "nextStepIndex": 1,
                   "type": "button",

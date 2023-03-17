@@ -214,7 +214,7 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "oie.email.verify.alternate.showCodeTextField",
+                "label": "oie.email.verify.alternate.show.verificationCode.text",
                 "options": Object {
                   "nextStepIndex": 1,
                   "type": "button",
@@ -311,7 +311,7 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "oie.email.verify.alternate.showCodeTextField",
+                "label": "oie.email.verify.alternate.show.verificationCode.text",
                 "options": Object {
                   "nextStepIndex": 1,
                   "type": "button",
@@ -408,7 +408,7 @@ Object {
                 "type": "Description",
               },
               Object {
-                "label": "oie.email.verify.alternate.showCodeTextField",
+                "label": "oie.email.verify.alternate.show.verificationCode.text",
                 "options": Object {
                   "nextStepIndex": 1,
                   "type": "button",

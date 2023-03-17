@@ -53,7 +53,7 @@ describe('Email authenticator verification when email magic link = undefined', (
       // renders the form
       await findByText(/Verify with your email/);
       const codeEntryBtn = await findByRole(
-        'button', { name: 'Enter a code from the email instead' },
+        'button', { name: 'Enter a verification code instead' },
       ) as HTMLButtonElement;
       expect(codeEntryBtn).not.toHaveFocus();
       expect(container).toMatchSnapshot();
@@ -77,7 +77,7 @@ describe('Email authenticator verification when email magic link = undefined', (
       // renders the form
       await findByText(/Verify with your email/);
       const codeEntryBtn = await findByRole(
-        'button', { name: 'Enter a code from the email instead' },
+        'button', { name: 'Enter a verification code instead' },
       ) as HTMLButtonElement;
       await waitFor(() => expect(codeEntryBtn).toHaveFocus());
       // Advance system time to show resend email reminder element
@@ -111,7 +111,7 @@ describe('Email authenticator verification when email magic link = undefined', (
         widgetOptions: { features: { autoFocus: true } },
       });
       await findByText(/Verify with your email/);
-      await user.click(await findByText(/Enter a code from the email instead/));
+      await user.click(await findByText(/Enter a verification code instead/));
       await findByText(/Enter Code/);
 
       // Advance system time to show resend email reminder element
@@ -166,7 +166,7 @@ describe('Email authenticator verification when email magic link = undefined', (
       await findByText(/Verify with your email/);
 
       // render otp challenge form
-      const nextPageBtn = await findByText(/Enter a code from the email instead/);
+      const nextPageBtn = await findByText(/Enter a verification code instead/);
       await user.click(nextPageBtn);
       await findByText(/Enter Code/);
       expect(container).toMatchSnapshot();
@@ -244,7 +244,7 @@ describe('Email authenticator verification when email magic link = undefined', (
     await findByText(/Verify with your email/);
     await findByText(/We sent an email to/);
 
-    const nextPageBtn = await findByText(/Enter a code from the email instead/);
+    const nextPageBtn = await findByText(/Enter a verification code instead/);
 
     await user.click(nextPageBtn);
     await findByText(/Enter Code/);
@@ -277,7 +277,7 @@ describe('Email authenticator verification when email magic link = undefined', (
     await findByText(/Verify with your email/);
     await findByText(/We sent an email to/);
 
-    const nextPageBtn = await findByText(/Enter a code from the email instead/);
+    const nextPageBtn = await findByText(/Enter a verification code instead/);
 
     await user.click(nextPageBtn);
     await findByText(/Enter Code/);
@@ -316,7 +316,7 @@ describe('Email authenticator verification when email magic link = undefined', (
     await findByText(/Verify with your email/);
     await findByText(/We sent an email to/);
 
-    const nextPageBtn = await findByText(/Enter a code from the email instead/);
+    const nextPageBtn = await findByText(/Enter a verification code instead/);
 
     await user.click(nextPageBtn);
     await findByText(/Enter Code/);
