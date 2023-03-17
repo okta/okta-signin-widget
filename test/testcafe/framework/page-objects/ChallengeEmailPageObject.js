@@ -42,9 +42,6 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
   }
 
   getEnterCodeInsteadButton() {
-    if (userVariables.v3) {
-      return this.form.getButton('Enter a code from the email instead');
-    }
     return this.form.getButton('Enter a verification code instead');
   }
 }

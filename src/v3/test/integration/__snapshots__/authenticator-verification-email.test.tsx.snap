@@ -159,7 +159,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     tabindex="0"
                     type="button"
                   >
-                    Enter a code from the email instead
+                    Enter a verification code instead
                   </button>
                 </div>
               </div>
@@ -386,7 +386,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     tabindex="0"
                     type="button"
                   >
-                    Enter a code from the email instead
+                    Enter a verification code instead
                   </button>
                 </div>
               </div>

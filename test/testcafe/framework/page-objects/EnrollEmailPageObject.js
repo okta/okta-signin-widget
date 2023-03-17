@@ -3,7 +3,7 @@ import { Selector, userVariables } from 'testcafe';
 
 const CODE_FIELD_NAME = 'credentials.passcode';
 const ENTER_CODE_FROM_EMAIL_CLASS = '.enter-auth-code-instead-link';
-const ENTER_CODE_FROM_EMAIL_TEXT = 'Enter a code from the email instead';
+const ENTER_CODE_FROM_EMAIL_TEXT = 'Enter a verification code instead';
 const RESEND_EMAIL = '.resend-email-view';
 const RESEND_LINK = '.resend-link';
 
