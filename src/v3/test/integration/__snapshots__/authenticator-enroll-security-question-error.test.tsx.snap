@@ -681,6 +681,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-41"
+                      data-shrink="false"
                       for="credentials.questionKey"
                     >
                       Choose a security question
@@ -820,6 +821,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-47"
+                      data-shrink="false"
                       for="credentials.answer"
                     >
                       Answer
@@ -1173,6 +1175,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-36"
+                      data-shrink="false"
                       for="credentials.questionKey"
                     >
                       Choose a security question
@@ -1313,6 +1316,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-42"
+                      data-shrink="false"
                       for="credentials.answer"
                     >
                       Answer
@@ -1724,6 +1728,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-41"
+                      data-shrink="false"
                       for="credentials.questionKey"
                     >
                       Choose a security question
@@ -1863,6 +1868,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-47"
+                      data-shrink="false"
                       for="credentials.answer"
                     >
                       Answer

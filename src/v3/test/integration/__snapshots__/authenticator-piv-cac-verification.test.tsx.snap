@@ -88,6 +88,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    data-shrink="false"
                     for="identifier"
                   >
                     Username
@@ -117,6 +118,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    data-shrink="false"
                     for="credentials.passcode"
                   >
                     Password
@@ -181,6 +183,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-33"
+                        data-indeterminate="false"
                         data-se="rememberMe"
                         data-se-for-name="rememberMe"
                         id="rememberMe"
@@ -375,6 +378,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    data-shrink="false"
                     for="identifier"
                   >
                     Username
@@ -404,6 +408,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    data-shrink="false"
                     for="credentials.passcode"
                   >
                     Password
@@ -468,6 +473,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-33"
+                        data-indeterminate="false"
                         data-se="rememberMe"
                         data-se-for-name="rememberMe"
                         id="rememberMe"
@@ -632,6 +638,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="identifier"
                   >
                     Username
@@ -661,6 +668,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="credentials.passcode"
                   >
                     Password
@@ -725,6 +733,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-27"
+                        data-indeterminate="false"
                         data-se="rememberMe"
                         data-se-for-name="rememberMe"
                         id="rememberMe"

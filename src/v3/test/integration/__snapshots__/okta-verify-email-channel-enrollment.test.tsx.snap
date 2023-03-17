@@ -129,6 +129,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    data-shrink="false"
                     for="email"
                   >
                     Email

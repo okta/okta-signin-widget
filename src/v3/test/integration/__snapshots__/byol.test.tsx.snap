@@ -268,6 +268,7 @@ exports[`byol loading custom language should load custom language with "language
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                        data-shrink="false"
                         for="country"
                         id="countryLabel"
                       >
@@ -1511,6 +1512,7 @@ exports[`byol loading custom language should load custom language with "language
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                          data-shrink="false"
                           for="authenticator.phoneNumber"
                         >
                           Phone number
@@ -1856,6 +1858,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                        data-shrink="false"
                         for="country"
                         id="countryLabel"
                       >
@@ -3099,6 +3102,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                          data-shrink="false"
                           for="authenticator.phoneNumber"
                         >
                           Phone number
@@ -3444,6 +3448,7 @@ exports[`byol loading default language should not load custom language when the 
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                        data-shrink="false"
                         for="country"
                         id="countryLabel"
                       >
@@ -4687,6 +4692,7 @@ exports[`byol loading default language should not load custom language when the 
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                          data-shrink="false"
                           for="authenticator.phoneNumber"
                         >
                           Phone number
@@ -5032,6 +5038,7 @@ exports[`byol loading default language should not load custom language with "lan
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                        data-shrink="false"
                         for="country"
                         id="countryLabel"
                       >
@@ -6275,6 +6282,7 @@ exports[`byol loading default language should not load custom language with "lan
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                          data-shrink="false"
                           for="authenticator.phoneNumber"
                         >
                           Phone number

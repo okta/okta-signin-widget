@@ -95,6 +95,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.newAttribute"
                   >
                     Some custom attribute
@@ -123,6 +124,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.secondEmail"
                   >
                     Secondary email
@@ -165,6 +167,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.newAttribute2"
                   >
                     Some custom attribute 2

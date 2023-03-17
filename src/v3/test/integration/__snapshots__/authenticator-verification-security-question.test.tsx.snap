@@ -133,6 +133,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    data-shrink="false"
                     for="credentials.answer"
                   >
                     What is the food you least liked as a child?
