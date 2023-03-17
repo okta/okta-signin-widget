@@ -46,7 +46,9 @@ describe('IDP Button transformer tests', () => {
     transaction.neededToProceed = [
       { name: IDX_STEP.IDENTIFY },
     ];
-    const updatedFormBag = transformIDPButtons({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = transformIDPButtons({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
@@ -57,7 +59,9 @@ describe('IDP Button transformer tests', () => {
     transaction.neededToProceed = [
       { name: IDX_STEP.PIV_IDP, type: 'X509' },
     ];
-    const updatedFormBag = transformIDPButtons({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = transformIDPButtons({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
@@ -69,7 +73,9 @@ describe('IDP Button transformer tests', () => {
       { name: IDX_STEP.IDENTIFY },
       { name: IDX_STEP.PIV_IDP, type: 'X509' },
     ];
-    const updatedFormBag = transformIDPButtons({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = transformIDPButtons({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(7);
@@ -88,7 +94,9 @@ describe('IDP Button transformer tests', () => {
       { name: IDX_STEP.PIV_IDP, type: 'X509' },
     ];
     widgetProps = { idpDisplay: 'SECONDARY' };
-    const updatedFormBag = transformIDPButtons({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = transformIDPButtons({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(7);
@@ -106,7 +114,9 @@ describe('IDP Button transformer tests', () => {
       { name: IDX_STEP.IDENTIFY },
       { name: IDX_STEP.PIV_IDP, type: 'X509' },
     ];
-    const updatedFormBag = transformIDPButtons({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = transformIDPButtons({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
 
     const pivButton: ButtonElement = updatedFormBag.uischema.elements.find(
       (ele) => ele.type === 'Button' && (ele as ButtonElement).options.step === IDX_STEP.PIV_IDP,

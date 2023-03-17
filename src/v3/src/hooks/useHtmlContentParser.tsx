@@ -10,16 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link } from '@okta/odyssey-react-mui';
 import dompurify from 'dompurify';
-import HtmlReactParser, {
-  attributesToProps,
-  DOMNode,
-  domToReact,
-  Element,
-  HTMLReactParserOptions,
-} from 'html-react-parser';
+import HtmlReactParser, { HTMLReactParserOptions } from 'html-react-parser';
 import preact, { h } from 'preact';
+
+import { getLinkReplacerFn } from '../util';
 
 export const useHtmlContentParser = (
   content: string | undefined,
@@ -35,15 +30,8 @@ export const useHtmlContentParser = (
   };
 
   if (typeof parserOptions.replace === 'undefined') {
-    // default replacer function
-    parserOptions.replace = (node: DOMNode) => {
-      if (node instanceof Element && node.type === 'tag' && node.name === 'a') {
-        const props = attributesToProps(node.attribs);
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        return <Link {...props}>{domToReact(node.children, parserOptions)}</Link>;
-      }
-      return undefined;
-    };
+    // default link replacer function
+    parserOptions.replace = getLinkReplacerFn(parserOptions);
   }
 
   const sanitizedContent = dompurify.sanitize(content);

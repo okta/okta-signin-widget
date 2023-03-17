@@ -148,7 +148,7 @@ interface Piv {
 }
 
 // Types for config
-type UserOperation =
+export type UserOperation =
   'PRIMARY_AUTH' |
   'FORGOT_PASSWORD' |
   'UNLOCK_ACCOUNT';

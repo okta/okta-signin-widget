@@ -11,12 +11,14 @@
  */
 
 import { Alert, Box, Link } from '@okta/odyssey-react-mui';
+import { HTMLReactParserOptions } from 'html-react-parser';
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { useHtmlContentParser, useOnSubmit } from '../../hooks';
 import { ReminderElement, UISchemaElementComponent } from '../../types';
+import { getLinkReplacerFn } from '../../util';
 import TextWithActionLink from '../TextWithActionLink';
 
 export const DEFAULT_TIMEOUT_MS = 30_000;
@@ -38,7 +40,7 @@ const ReminderPrompt: UISchemaElementComponent<{
     contentHasHtml,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
-  const parsedContent = useHtmlContentParser(content);
+  const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
 
   const [show, setShow] = useState<boolean>(false);
   const timerRef = useRef<number | undefined>();
@@ -106,6 +108,7 @@ const ReminderPrompt: UISchemaElementComponent<{
       <Link
         // eslint-disable-next-line no-script-url
         href="javascript:void(0);"
+        variant="monochrome"
         onClick={() => resendHandler()}
       >
         {buttonText}
@@ -115,10 +118,13 @@ const ReminderPrompt: UISchemaElementComponent<{
 
   const renderAlertContent = () => {
     if (contentHasHtml && contentClassname) {
+      const parserOptions: HTMLReactParserOptions = {};
+      parserOptions.replace = getLinkReplacerFn(parserOptions, 'monochrome');
       return (
         <TextWithActionLink
           uischema={{
             type: 'TextWithActionLink',
+            parserOptions,
             options: {
               contentClassname,
               content,

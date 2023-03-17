@@ -49,7 +49,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
-  const { translations = [], focus, required } = uischema;
+  const {
+    translations = [], focus, required, parserOptions,
+  } = uischema;
   const {
     attributes,
     inputMeta: { name },
@@ -58,7 +60,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const hint = getTranslation(translations, 'hint');
   const explain = getTranslation(translations, 'bottomExplain');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
-  const parsedExplainContent = useHtmlContentParser(explain);
+  const parsedExplainContent = useHtmlContentParser(explain, parserOptions);
   const hasErrors = typeof errors !== 'undefined';
   // TODO: OKTA-569647 - refactor logic
   const hintId = hint && `${name}-hint`;

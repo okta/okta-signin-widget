@@ -11,16 +11,24 @@
  */
 
 import type { ThemeOptions as MuiThemeOptions } from '@mui/material';
-import { FlowIdentifier, OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
+import {
+  FlowIdentifier, IdxActionParams, OktaAuth, OktaAuthOptions,
+} from '@okta/okta-auth-js';
 import {
   RawIdxResponse,
 } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 
-import { LanguageCallback, LanguageCode } from '../../../types';
-import { RegistrationOptions as RegOptions } from '../../../types/registration';
+import {
+  LanguageCallback,
+  LanguageCode,
+  RegistrationErrorCallback,
+  RegistrationOptions as RegOptions,
+  UserOperation,
+} from '../../../types';
 import { InterstitialRedirectView } from '../constants';
 import { JsonObject } from './json';
-import { FormBag } from './schema';
+import { Modify } from './jsonforms';
+import { FormBag, RegistrationElementSchema } from './schema';
 
 // TODO: Once SIW is merged into okta-signin-widget repo, remove this. Ticket#: OKTA-508189
 export interface EventErrorContext {
@@ -66,6 +74,21 @@ export type WidgetResetArgs = {
   idxMethod?: IdxMethod,
   skipValidation?: boolean;
 };
+
+export type RegistrationSchemaCallbackV3 = (schema: RegistrationElementSchema[]) => void;
+export type RegistrationDataCallbackV3 = (postData: IdxActionParams) => void;
+export type RegistrationOptionsV3 = Modify<RegOptions, {
+  parseSchema?: (
+    schema: RegistrationElementSchema[],
+    onSuccess: RegistrationSchemaCallbackV3,
+    onFailure: RegistrationErrorCallback
+  ) => void;
+  preSubmit?: (
+    postData: IdxActionParams,
+    onSuccess: RegistrationDataCallbackV3,
+    onFailure: RegistrationErrorCallback
+  ) => void;
+}>;
 
 export type OktaWidgetEventType = 'ready' | 'afterError' | 'afterRender';
 export type IDPDisplayType = 'PRIMARY' | 'SECONDARY';
@@ -159,7 +182,7 @@ export type WidgetOptions = {
     className?: string;
   };
   customButtons?: CustomButton[];
-  registration?: RegOptions;
+  registration?: RegistrationOptionsV3;
   features?: OktaWidgetFeatures;
   language?: LanguageCode | LanguageCallback | string;
   helpSupportNumber?: string;
@@ -167,6 +190,7 @@ export type WidgetOptions = {
     custom?: CustomLink[];
   } & Record<string, string>;
   defaultCountryCode?: string;
+  transformUsername?: (username: string, operation: UserOperation) => string;
 };
 
 export type IdxMethod =

@@ -39,6 +39,7 @@ const map = new Map<string, JsonSchemaType>([
   ['pdatetime', 'string'],
   ['ptime', 'string'],
   ['string', 'string'],
+  ['text', 'string'],
   ['time', 'string'],
   ['url', 'string'],
 ]);

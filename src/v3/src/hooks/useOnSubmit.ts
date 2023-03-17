@@ -19,10 +19,10 @@ import {
   OAuthError,
   RawIdxResponse,
 } from '@okta/okta-auth-js';
-import { omit } from 'lodash';
-import merge from 'lodash/merge';
+import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
 
+import { IDX_STEP } from '../constants';
 import { useWidgetContext } from '../contexts';
 import { ErrorXHR, EventErrorContext, MessageType } from '../types';
 import {
@@ -30,7 +30,11 @@ import {
   formatError,
   getImmutableData,
   loc,
+  postRegistrationSubmit,
+  preRegistrationSubmit,
   toNestedObject,
+  transformIdentifier,
+  triggerRegistrationErrorMessages,
 } from '../util';
 import { getEventContext } from '../util/getEventContext';
 
@@ -55,8 +59,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setLoading,
     setMessage,
     setStepToRender,
-    widgetProps: { events },
+    widgetProps,
   } = useWidgetContext();
+  const { events } = widgetProps;
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
     setLoading(true);
@@ -126,7 +131,41 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     if (includeImmutableData) {
       payload = merge(payload, immutableData);
     }
+
+    // Allow username transformation if applicable
+    if ('identifier' in payload) {
+      payload.identifier = transformIdentifier(widgetProps, step, payload.identifier as string);
+    }
+
     payload = toNestedObject(payload);
+    if (step === IDX_STEP.ENROLL_PROFILE) {
+      const preRegistrationSubmitPromise = new Promise((resolve) => {
+        preRegistrationSubmit(
+          widgetProps,
+          payload,
+          (postData) => {
+            payload = { ...payload, ...postData };
+            resolve(true);
+          },
+          (error) => {
+            triggerRegistrationErrorMessages(
+              error,
+              currTransaction!.nextStep!.inputs!,
+              setMessage,
+            );
+            resolve(false);
+          },
+        );
+      });
+      if ((await preRegistrationSubmitPromise) === false) {
+        const updatedTransaction = cloneDeep(currTransaction);
+        setLoading(false);
+        setIdxTransaction(updatedTransaction);
+        setIsClientTransaction(true);
+        // Need to prevent submission from occuring
+        return;
+      }
+    }
     if (currTransaction?.context.stateHandle) {
       payload.stateHandle = currTransaction.context.stateHandle;
     }
@@ -140,36 +179,73 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
         [newTransaction.nextStep] = newTransaction.availableSteps;
       }
-      setIdxTransaction(newTransaction);
       const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
       );
-      if (newTransaction.requestDidSucceed === false) {
-        events?.afterError?.(
-          getEventContext(newTransaction),
-          getErrorEventContext(newTransaction.rawIdxState),
-        );
-      }
       const isClientTransaction = !newTransaction.requestDidSucceed
         || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
-      setIsClientTransaction(isClientTransaction);
-      if (isClientTransaction && !newTransaction.messages?.length) {
-        setMessage({
-          message: loc('oform.errorbanner.title', 'login'),
-          class: 'ERROR',
-          i18n: { key: 'oform.errorbanner.title' },
-        } as IdxMessage);
+
+      const onSuccess = (resolve?: (val: unknown) => void) => {
+        setIdxTransaction(newTransaction);
+        if (newTransaction.requestDidSucceed === false) {
+          events?.afterError?.(
+            getEventContext(newTransaction),
+            getErrorEventContext(newTransaction.rawIdxState),
+          );
+        }
+        setIsClientTransaction(isClientTransaction);
+        if (isClientTransaction && !newTransaction.messages?.length) {
+          setMessage({
+            message: loc('oform.errorbanner.title', 'login'),
+            class: 'ERROR',
+            i18n: { key: 'oform.errorbanner.title' },
+          } as IdxMessage);
+        }
+        setStepToRender(stepToRender);
+        setLoading(false);
+        resolve?.(true);
+      };
+
+      if (step === IDX_STEP.ENROLL_PROFILE && !isClientTransaction) {
+        const postRegistrationSubmitPromise = new Promise((resolve) => {
+          postRegistrationSubmit(
+            widgetProps,
+            // @ts-expect-error Type is object but TS disallows object for Record
+            payload.userProfile.email,
+            (_response) => { onSuccess(resolve); },
+            (error) => {
+              triggerRegistrationErrorMessages(
+                error,
+                currTransaction!.nextStep!.inputs!,
+                setMessage,
+              );
+              resolve(false);
+            },
+          );
+        });
+        if ((await postRegistrationSubmitPromise) === false) {
+          const updatedTransaction = cloneDeep(currTransaction);
+          setIdxTransaction(updatedTransaction);
+          setLoading(false);
+          setIsClientTransaction(true);
+          // Need to prevent remaining logic from executing
+          return;
+        }
+        // No need to continue since onSuccess is called in registration hook callback
+        return;
       }
-      setStepToRender(stepToRender);
+      onSuccess();
     } catch (error) {
       handleError(currTransaction, error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, [
     data,
     authClient,
     currTransaction,
     dataSchemaRef,
+    widgetProps,
     events,
     setResponseError,
     setIdxTransaction,

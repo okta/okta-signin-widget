@@ -97,6 +97,13 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
       validate: (data: FormBag['data']) => {
         const newPw = data['credentials.passcode'] as string;
         const errorMessages: WidgetMessage[] = [];
+        if (!newPw && passwordElement.options.inputMeta.required) {
+          errorMessages.push({
+            class: 'ERROR',
+            message: loc('model.validation.field.blank', 'login'),
+            i18n: { key: 'model.validation.field.blank' },
+          });
+        }
         if (newPw) {
           const validations = validatePassword(newPw, userInfo, passwordSettings);
           const requirementNotMetMessages = buildPasswordRequirementNotMetErrorList(

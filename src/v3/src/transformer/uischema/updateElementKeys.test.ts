@@ -53,7 +53,9 @@ describe('updateElementKeys Tests', () => {
       (ele: UISchemaElement, index: number) => ({ ...ele, key: `element_key${index}` }),
     );
 
-    const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = updateElementKeys({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
 
     expect(updatedFormBag).toMatchSnapshot();
@@ -70,7 +72,9 @@ describe('updateElementKeys Tests', () => {
   });
 
   it('should create unique element key when key value is not set and transaction does not contain authKey/authID', async () => {
-    const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = updateElementKeys({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
 
     expect(updatedFormBag).toMatchSnapshot();
@@ -94,7 +98,9 @@ describe('updateElementKeys Tests', () => {
       value: { key: AUTHENTICATOR_KEY.EMAIL } as unknown as IdxAuthenticator,
     };
 
-    const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = updateElementKeys({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
 
     expect(updatedFormBag).toMatchSnapshot();
@@ -116,7 +122,9 @@ describe('updateElementKeys Tests', () => {
       value: { key: authKey } as unknown as IdxAuthenticator,
     };
 
-    const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = updateElementKeys({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
 
     expect(updatedFormBag).toMatchSnapshot();
@@ -143,7 +151,9 @@ describe('updateElementKeys Tests', () => {
       } as unknown as IdxAuthenticator,
     };
 
-    const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = updateElementKeys({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
 
     expect(updatedFormBag).toMatchSnapshot();
@@ -168,7 +178,9 @@ describe('updateElementKeys Tests', () => {
       } as unknown as IdxAuthenticator,
     };
 
-    const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = updateElementKeys({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
 
     expect(updatedFormBag).toMatchSnapshot();
@@ -200,7 +212,9 @@ describe('updateElementKeys Tests', () => {
       } as unknown as IdxAuthenticator,
     };
 
-    const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = updateElementKeys({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
 
     expect(updatedFormBag).toMatchSnapshot();
@@ -229,7 +243,9 @@ describe('updateElementKeys Tests', () => {
       } as unknown as IdxAuthenticator,
     };
 
-    const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = updateElementKeys({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
 
     expect(updatedFormBag).toMatchSnapshot();
@@ -249,7 +265,9 @@ describe('updateElementKeys Tests', () => {
     jest.spyOn(randomStringUtil, 'generateRandomString').mockReturnValue('0987654321abc');
     formBag.uischema.elements.unshift({ type: 'Reminder', options: { content: 'See errors below' } } as ReminderElement);
 
-    const updatedFormBag = updateElementKeys({ transaction, widgetProps, step: '' })(formBag);
+    const updatedFormBag = updateElementKeys({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
 
     expect(updatedFormBag).toMatchSnapshot();

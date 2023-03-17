@@ -18,6 +18,7 @@ import {
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent } from 'preact';
 
 import { IStepperContext, IWidgetContext } from './context';
@@ -146,6 +147,15 @@ export type TokenReplacementValue = {
 
 export type TokenReplacement = Partial<Record<TokenSearchValue, TokenReplacementValue>>;
 
+export type RegistrationElementSchema = Modify<Input, {
+  'label-top'?: boolean;
+  placeholder?: string;
+  'data-se'?: string;
+  options?: IdxOption[] | Record<string, string>;
+  sublabel?: string;
+  wide?: boolean;
+}>;
+
 export interface UISchemaElement {
   type: string;
   id?: string;
@@ -169,6 +179,11 @@ export interface UISchemaElement {
    */
   viewIndex?: number;
   noTranslate?: boolean;
+  /**
+   * The purpose of this property is to customize how HTML elements are parsed
+   * and rendered in the UI. See htmlContentParserUtils.tsx for reference.
+   */
+  parserOptions?: HTMLReactParserOptions;
 }
 
 /**

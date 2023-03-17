@@ -25,7 +25,11 @@ import {
   ReminderElement,
   TitleElement,
 } from '../../types';
-import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../util';
+import {
+  hasMinAuthenticatorOptions,
+  loc,
+  updateTransactionWithNextStep,
+} from '../../util';
 import { transformOktaVerifyDeviceChallengePoll, transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 import { getUIElementWithName } from '../utils';
 

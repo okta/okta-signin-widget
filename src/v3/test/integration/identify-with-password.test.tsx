@@ -259,6 +259,68 @@ describe('identify-with-password', () => {
       );
     });
 
+    it('should modify username for PRIMARY_AUTH operation when transformUsername function is defined', async () => {
+      const {
+        authClient, user, findByTestId, findByText,
+      } = await setup({
+        mockResponse,
+        widgetOptions: {
+          transformUsername: (username: string, operation) => (
+            operation === 'PRIMARY_AUTH' ? username.split('@')[0] : username
+          ),
+        },
+      });
+
+      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const submitButton = await findByText('Sign in', { selector: 'button' });
+      const mockUsername = 'testuser@okta1.com';
+
+      await user.type(usernameEl, mockUsername);
+      expect(usernameEl.value).toEqual(mockUsername);
+      await user.type(passwordEl, 'fake-password');
+      expect(passwordEl.value).toEqual('fake-password');
+      await user.click(submitButton);
+
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/identify', {
+          identifier: 'testuser',
+          credentials: { passcode: 'fake-password' },
+        }),
+      );
+    });
+
+    it('should not modify username for when operation is PRIMARY_AUTH as defined in transformUsername function', async () => {
+      const {
+        authClient, user, findByTestId, findByText,
+      } = await setup({
+        mockResponse,
+        widgetOptions: {
+          transformUsername: (username: string, operation) => (
+            operation === 'PRIMARY_AUTH' ? username : 'DUMMY_USERNAME'
+          ),
+        },
+      });
+
+      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const submitButton = await findByText('Sign in', { selector: 'button' });
+      const mockUsername = 'testuser@okta1.com';
+
+      await user.type(usernameEl, mockUsername);
+      expect(usernameEl.value).toEqual(mockUsername);
+      await user.type(passwordEl, 'fake-password');
+      expect(passwordEl.value).toEqual('fake-password');
+      await user.click(submitButton);
+
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/identify', {
+          identifier: mockUsername,
+          credentials: { passcode: 'fake-password' },
+        }),
+      );
+    });
+
     it('should not remove padded spaces from password', async () => {
       const {
         authClient, user, findByTestId, findByText,

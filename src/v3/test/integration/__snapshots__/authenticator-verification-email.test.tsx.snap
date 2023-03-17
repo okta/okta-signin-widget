@@ -333,7 +333,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           Haven't received an email?
                         </div>
                         <a
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
+                          class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-21"
                           href="javascript:void(0);"
                         >
                           Send again
@@ -1078,7 +1078,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           Haven't received an email?
                         </div>
                         <a
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
+                          class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-26"
                           href="javascript:void(0);"
                         >
                           Send again

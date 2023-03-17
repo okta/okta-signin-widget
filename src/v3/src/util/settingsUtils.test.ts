@@ -11,7 +11,7 @@
  */
 
 import { WidgetProps } from '../types';
-import { getDefaultCountryCode, getLanguageCode } from './settingsUtils';
+import { getDefaultCountryCode, getLanguageCode, transformIdentifier } from './settingsUtils';
 
 jest.mock('../../../util/BrowserFeatures', () => ({
   getUserLanguages: jest.fn().mockReturnValue(['en', 'en-US']),
@@ -61,5 +61,18 @@ describe('Settings Utils Tests', () => {
     widgetProps.defaultCountryCode = 'BW';
 
     expect(getDefaultCountryCode(widgetProps)).toBe('BW');
+  });
+
+  it('should not modify identifier if transform function is not defined', () => {
+    const identifier = 'testuser@okta1.com';
+    expect(transformIdentifier(widgetProps, 'identify', identifier)).toBe(identifier);
+  });
+
+  it('should modify identifier when transform function is defined', () => {
+    widgetProps = {
+      transformUsername: (username: string) => username.split('@')[0],
+    };
+    const identifier = 'testuser@okta1.com';
+    expect(transformIdentifier(widgetProps, 'identify', identifier)).toBe('testuser');
   });
 });

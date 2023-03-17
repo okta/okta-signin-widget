@@ -42,7 +42,9 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
-  const { translations = [], focus, required } = uischema;
+  const {
+    translations = [], focus, required, parserOptions,
+  } = uischema;
   const label = getTranslation(translations, 'label');
   const hint = getTranslation(translations, 'hint');
   const explain = getTranslation(translations, 'bottomExplain');
@@ -52,7 +54,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
     dataSe,
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
-  const parsedExplainContent = useHtmlContentParser(explain);
+  const parsedExplainContent = useHtmlContentParser(explain, parserOptions);
   const hasErrors = typeof errors !== 'undefined';
   // TODO: OKTA-569647 - refactor logic
   const hintId = hint && `${name}-hint`;

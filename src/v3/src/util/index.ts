@@ -27,6 +27,7 @@ export * from './getImmutableData';
 export * from './getLanguageDirection';
 export * from './getTranslation';
 export * from './getValidationMessages';
+export * from './htmlContentParserUtils';
 export * from './idxUtils';
 export * from './isInteractiveElement';
 export * from './isPasswordRecovery';

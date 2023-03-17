@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from '@okta/okta-auth-js';
+import { IdxMessage, IdxTransaction } from '@okta/okta-auth-js';
+import { StateUpdater } from 'preact/hooks';
 
 import { FormBag } from './schema';
 import { WidgetProps } from './widget';
@@ -30,6 +31,8 @@ export type TransformationOptions = {
   transaction: IdxTransaction;
   prevTransaction?: IdxTransaction;
   step: string;
+  setMessage: StateUpdater<IdxMessage | undefined>;
+  isClientTransaction: boolean;
 };
 
 export type TransformStepFn = (formbag: FormBag) => FormBag;

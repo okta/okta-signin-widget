@@ -142,7 +142,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       >
                         Haven't received a push notification yet? Try opening the Okta Verify app on your device, or 
                         <a
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways resend-number-challenge emotion-20"
+                          class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways resend-number-challenge emotion-20"
                           href="#"
                         >
                           resend the push notification

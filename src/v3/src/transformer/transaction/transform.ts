@@ -10,11 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxRemediation } from '@okta/okta-auth-js';
+import { APIError, IdxRemediation } from '@okta/okta-auth-js';
 import { flow } from 'lodash';
 
 import { IDX_STEP } from '../../constants';
-import { TransformStepFnWithOptions } from '../../types';
+import { RegistrationElementSchema, TransformStepFnWithOptions } from '../../types';
+import {
+  convertIdxInputsToRegistrationSchema,
+  convertRegistrationSchemaToIdxInputs,
+  parseRegistrationSchema,
+  triggerRegistrationErrorMessages,
+} from '../../util';
 
 export const PIV_TYPE = 'X509';
 
@@ -44,6 +50,42 @@ const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => 
   return formbag;
 };
 
+const transformRegistrationSchema: TransformStepFnWithOptions = (options) => (formbag) => {
+  const {
+    transaction: { nextStep: { inputs = [], name } = {} },
+    widgetProps,
+    setMessage,
+    isClientTransaction,
+  } = options;
+  const { registration: { parseSchema } = {} } = widgetProps;
+  // If the step is not enroll-profile or if parseSchema is not defined, no need to evaluate
+  if (name !== IDX_STEP.ENROLL_PROFILE || typeof parseSchema !== 'function') {
+    return formbag;
+  }
+
+  // Converts IDX Input array into Registration Schema element array
+  const registrationSchema = convertIdxInputsToRegistrationSchema(inputs);
+
+  parseRegistrationSchema(
+    widgetProps,
+    registrationSchema,
+    (schema: RegistrationElementSchema[]) => {
+      // Converts Registration Schema Element array back into IDX Input array
+      // Also sets those inputs back into the nextStep.inputs property
+      convertRegistrationSchemaToIdxInputs(schema, inputs);
+    },
+    (error: APIError) => {
+      // Prioritize server side errors over custom error message
+      if (isClientTransaction) {
+        return;
+      }
+      triggerRegistrationErrorMessages(error, inputs, setMessage);
+    },
+  );
+  return formbag;
+};
+
 export const transformTransactionData: TransformStepFnWithOptions = (options) => (formbag) => flow(
   transformRemediationNameForIdp(options),
+  transformRegistrationSchema(options),
 )(formbag);
