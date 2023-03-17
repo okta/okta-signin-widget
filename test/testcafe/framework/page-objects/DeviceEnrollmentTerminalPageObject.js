@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const COPY_BUTTON_CLASS = '.copy-clipboard-button';
@@ -37,7 +37,7 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getHeader() {
-    return this.getTextContent('[data-se="o-form-head"]');
+    return this.form.getTitle();
   }
 
   getSubHeader() {
@@ -45,6 +45,9 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getContentText() {
+    if(userVariables.v3) {
+      return this.getTextContent('[data-se="o-form"]');
+    }
     return this.getTextContent('[data-se="o-form-fieldset-container"]');
   }
 
@@ -61,6 +64,9 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getCopyButtonLabel() {
+    if(userVariables.v3) {
+      return this.form.getButton('Copy link to clipboard').innerText;
+    }
     return this.getTextContent(COPY_BUTTON_CLASS);
   }
 
@@ -69,6 +75,9 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getCopyOrgLinkButtonLabel() {
+    if(userVariables.v3) {
+      return this.form.getButton('Copy sign-in URL to clipboard').innerText;
+    }
     return this.getTextContent(COPY_ORG_LINK_BUTTON_CLASS);
   }
 
