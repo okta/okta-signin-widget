@@ -132,6 +132,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
+                      data-shrink="false"
                       for="country"
                       id="countryLabel"
                     >
@@ -1375,6 +1376,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
+                        data-shrink="false"
                         for="phoneNumber"
                       >
                         Phone number
@@ -1614,6 +1616,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
+                      data-shrink="false"
                       for="country"
                       id="countryLabel"
                     >
@@ -2857,6 +2860,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
+                        data-shrink="false"
                         for="phoneNumber"
                       >
                         Phone number

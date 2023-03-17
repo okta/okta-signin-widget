@@ -157,6 +157,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                    data-shrink="false"
                     for="credentials.passcode"
                   >
                     Enter Code
