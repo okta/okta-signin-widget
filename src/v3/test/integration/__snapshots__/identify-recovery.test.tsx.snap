@@ -58,6 +58,7 @@ exports[`identify-recovery renders form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="identifier"
                   >
                     Email or Username

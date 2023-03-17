@@ -128,6 +128,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                    data-shrink="false"
                     for="userProfile.newAttribute"
                   >
                     Some custom attribute
@@ -156,6 +157,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                    data-shrink="false"
                     for="userProfile.secondEmail"
                   >
                     Secondary email
@@ -198,6 +200,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-22"
+                    data-shrink="false"
                     for="userProfile.newAttribute2"
                   >
                     Some custom attribute 2
@@ -365,6 +368,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.newAttribute"
                   >
                     Some custom attribute
@@ -393,6 +397,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.secondEmail"
                   >
                     Secondary email
@@ -435,6 +440,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.newAttribute2"
                   >
                     Some custom attribute 2

@@ -58,6 +58,7 @@ exports[`enroll-profile-new should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -94,6 +95,7 @@ exports[`enroll-profile-new should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -130,6 +132,7 @@ exports[`enroll-profile-new should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
