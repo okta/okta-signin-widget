@@ -48,6 +48,7 @@ import ReminderPrompt from '../ReminderPrompt';
 import Select from '../Select';
 import Spinner from '../Spinner';
 import StepperButton from '../StepperButton';
+import StepperLink from '../StepperLink';
 import StepperNavigator from '../StepperNavigator';
 import StepperRadio from '../StepperRadio';
 import SuccessCallback from '../SuccessCallback';
@@ -101,6 +102,10 @@ export default [
   {
     tester: ({ type }) => type === 'StepperButton',
     renderer: StepperButton,
+  },
+  {
+    tester: ({ type }) => type === 'StepperLink',
+    renderer: StepperLink,
   },
   {
     tester: ({ type }) => type === 'StepperRadio',
