@@ -182,6 +182,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-28"
+                        data-indeterminate="false"
                         data-se="autoChallenge"
                         data-se-for-name="autoChallenge"
                         id="autoChallenge"
@@ -258,7 +259,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -269,7 +270,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-20"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -422,6 +423,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-21"
+                        data-indeterminate="false"
                         data-se="autoChallenge"
                         data-se-for-name="autoChallenge"
                         id="autoChallenge"

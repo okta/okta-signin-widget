@@ -128,6 +128,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    data-shrink="false"
                     for="email"
                   >
                     Email
@@ -197,7 +198,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -208,7 +209,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                 class="MuiBox-root emotion-13"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >

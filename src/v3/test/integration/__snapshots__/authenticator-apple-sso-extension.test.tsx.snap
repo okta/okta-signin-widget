@@ -57,6 +57,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="identifier"
                   >
                     Username
@@ -92,6 +93,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-19"
+                        data-indeterminate="false"
                         data-se="rememberMe"
                         data-se-for-name="rememberMe"
                         id="rememberMe"
@@ -233,6 +235,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="identifier"
                   >
                     Username
@@ -268,6 +271,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-19"
+                        data-indeterminate="false"
                         data-se="rememberMe"
                         data-se-for-name="rememberMe"
                         id="rememberMe"
@@ -409,6 +413,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="identifier"
                   >
                     Username
@@ -444,6 +449,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-19"
+                        data-indeterminate="false"
                         data-se="rememberMe"
                         data-se-for-name="rememberMe"
                         id="rememberMe"

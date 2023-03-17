@@ -267,6 +267,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                        data-shrink="false"
                         for="country"
                         id="countryLabel"
                       >
@@ -1510,6 +1511,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                          data-shrink="false"
                           for="authenticator.phoneNumber"
                         >
                           Phone number
@@ -1854,6 +1856,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                        data-shrink="false"
                         for="country"
                         id="countryLabel"
                       >
@@ -3097,6 +3100,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                          data-shrink="false"
                           for="authenticator.phoneNumber"
                         >
                           Phone number
@@ -3441,6 +3445,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                        data-shrink="false"
                         for="country"
                         id="countryLabel"
                       >
@@ -4684,6 +4689,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                          data-shrink="false"
                           for="authenticator.phoneNumber"
                         >
                           Phone number
@@ -4719,6 +4725,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                       >
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
+                          data-shrink="false"
                           for="phoneExtension"
                         >
                           Extension

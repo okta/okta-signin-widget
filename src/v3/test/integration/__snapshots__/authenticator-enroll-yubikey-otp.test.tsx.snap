@@ -164,6 +164,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-24"
+                    data-shrink="false"
                     for="credentials.passcode"
                   >
                     Insert then tap your YubiKey

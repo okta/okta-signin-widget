@@ -90,6 +90,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -139,6 +140,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -188,6 +190,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -238,6 +241,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-41"
+                    data-shrink="false"
                     for="userProfile.country"
                   >
                     Country
@@ -1507,6 +1511,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.countryCode"
                   >
                     Country code
@@ -1555,6 +1560,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-41"
+                    data-shrink="false"
                     for="userProfile.timezone"
                   >
                     Time zone
@@ -1891,6 +1897,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -1927,6 +1934,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -1963,6 +1971,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -2000,6 +2009,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-30"
+                    data-shrink="false"
                     for="userProfile.country"
                   >
                     Country
@@ -3256,6 +3266,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.countryCode"
                   >
                     Country code
@@ -3291,6 +3302,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-30"
+                    data-shrink="false"
                     for="userProfile.timezone"
                   >
                     Time zone
