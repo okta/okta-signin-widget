@@ -5,7 +5,7 @@ const getOtpOnlyIconSelector = (fieldName) => {
   if (userVariables.v3) {
     return `[data-se=icon-${fieldName}]`;
   }
-  return `[class='enduser-email-otp-only--icon icon--${fieldName}']`;
+  return `.enduser-email-otp-only--icon.icon--${fieldName}`;
 };
 
 // OTP Only View constants
@@ -35,6 +35,8 @@ export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
   }
 
   doesBrowserOsIconExist() {
+    // Follow up Jira on data-se attr discrepancy
+    // https://oktainc.atlassian.net/browse/OKTA-589298
     if (userVariables.v3) {
       return this.form.elementExist(BROWSER_OS_ICON_SELECTOR_V3);
     }
