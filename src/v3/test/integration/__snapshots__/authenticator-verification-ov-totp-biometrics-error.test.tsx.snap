@@ -200,6 +200,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-31"
+                    data-shrink="false"
                     for="credentials.totp"
                   >
                     Enter code from Okta Verify app

@@ -347,10 +347,10 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-23"
+                    class="MuiBox-root emotion-16"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 emotion-24"
+                      class="MuiTypography-root MuiTypography-h4 emotion-17"
                       data-se="o-form-head"
                       id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1"
                       tabindex="-1"
@@ -363,10 +363,10 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-23"
+                    class="MuiBox-root emotion-16"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-27"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-20"
                       data-se="o-form-explain"
                       id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_4_1"
                     >
@@ -384,7 +384,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   class="MuiBox-root emotion-14"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-22"
                     tabindex="0"
                     type="button"
                   >
@@ -572,6 +572,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-23"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code
@@ -820,12 +821,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-28"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-29"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-29"
                       required="true"
                     >
                       <input
@@ -1136,6 +1138,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-35"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code
@@ -1468,6 +1471,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-23"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code

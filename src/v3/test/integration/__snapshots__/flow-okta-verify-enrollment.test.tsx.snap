@@ -169,7 +169,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 >
                   <button
                     aria-label="Setup without scanning a QR code."
-                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
                     tabindex="0"
                     type="button"
                   >
@@ -336,7 +336,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-17"
                 >
                   <label
-                    class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
+                    class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-focused emotion-18"
                   >
                     Which option do you want to try?
                     <p
@@ -632,12 +632,13 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    data-shrink="false"
                     for="email"
                   >
                     Email
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-19"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-19"
                     required="true"
                   >
                     <input
@@ -887,10 +888,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-23"
+                    class="MuiBox-root emotion-16"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 emotion-24"
+                      class="MuiTypography-root MuiTypography-h4 emotion-17"
                       data-se="o-form-head"
                       id="enroll-poll_Title_Check_your_email_okta_verify_aut2h3fft4y9pDPCS1d7_8_2"
                       tabindex="-1"
@@ -903,10 +904,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-23"
+                    class="MuiBox-root emotion-16"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-27"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-20"
                       data-se="o-form-explain"
                       id="enroll-poll_Description_We_sent_an_email_to_<span_class=strong>tester@okta1com</span>_with_an_Okta_Verify_setup_link_To_continue,_open_the_link_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_9_2"
                     >
@@ -1096,7 +1097,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-17"
                 >
                   <label
-                    class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
+                    class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-focused emotion-18"
                   >
                     Which option do you want to try?
                     <p
@@ -1791,7 +1792,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-17"
                 >
                   <label
-                    class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
+                    class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-focused emotion-18"
                   >
                     Which option do you want to try?
                     <p
@@ -2090,13 +2091,14 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
+                      data-shrink="false"
                       for="country"
                       id="countryLabel"
                     >
                       Country
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-20"
+                      class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-focused  emotion-20"
                       required="true"
                     >
                       <select
@@ -3333,6 +3335,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
+                        data-shrink="false"
                         for="phoneNumber"
                       >
                         Phone number
@@ -3599,10 +3602,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-23"
+                    class="MuiBox-root emotion-16"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 emotion-24"
+                      class="MuiTypography-root MuiTypography-h4 emotion-17"
                       data-se="o-form-head"
                       id="enroll-poll_Title_Check_your_text_messages_okta_verify_aut2h3fft4y9pDPCS1d7_12_3"
                       tabindex="-1"
@@ -3615,10 +3618,10 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-23"
+                    class="MuiBox-root emotion-16"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-27"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-20"
                       data-se="o-form-explain"
                       id="enroll-poll_Description_We_sent_an_SMS_to_<span_class=strong>12165332241</span>_with_an_Okta_Verify_setup_link_To_continue,_open_the_link_on_your_mobile_device_okta_verify_aut2h3fft4y9pDPCS1d7_13_3"
                     >
