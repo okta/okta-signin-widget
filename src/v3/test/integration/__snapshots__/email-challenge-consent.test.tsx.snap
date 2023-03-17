@@ -135,7 +135,10 @@ exports[`email-challenge-consent should render form 1`] = `
                     class="MuiBox-root emotion-18"
                     data-se="icon-browser"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt=""
+                      src="MockSVGIcon"
+                    />
                   </div>
                   <div
                     class="MuiBox-root emotion-9"
@@ -160,7 +163,10 @@ exports[`email-challenge-consent should render form 1`] = `
                     class="MuiBox-root emotion-18"
                     data-se="icon-appName"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt=""
+                      src="MockSVGIcon"
+                    />
                   </div>
                   <div
                     class="MuiBox-root emotion-9"

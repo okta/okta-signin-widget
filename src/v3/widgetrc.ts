@@ -29,7 +29,7 @@ const common: Partial<WidgetOptions> = {
   logoText: 'widgico',
 
   // https://github.com/okta/okta-signin-widget#language
-  language: 'en',
+  // language: 'en',
 
   // https://github.com/okta/okta-signin-widget#redirecturi
   redirectUri: `${ORIGIN}/login/callback`,
@@ -53,7 +53,7 @@ const common: Partial<WidgetOptions> = {
     // redirectByFormSubmit: true,
     // registration: true,
     rememberMe: false,
-    rememberMyUsernameOnOIE: false,
+    // rememberMyUsernameOnOIE: false,
     // restrictRedirectToForeground: true,
     // securityImage: true,
     // selfServiceUnlock: true,
@@ -101,4 +101,22 @@ export const configs: Record<string, WidgetOptions> = {
   },
 };
 
-export const config = configs.playground;
+export const config = {
+  baseUrl: 'http://localhost:3000',
+  logo: '/img/logo_widgico.png',
+  logoText: 'Windico',
+  // language: 'foo',
+  // assets: {
+  //   baseUrl: 'http://localhost:3000'
+  // },
+  features: {
+    router: true,
+    rememberMe: true,
+    multiOptionalFactorEnroll: true,
+  },
+  stateToken: 'DUMMY_STATE_TOKEN',
+  authParams: {
+    pkce: true,
+    codeChallenge: 'asdfasdf',
+  },
+};

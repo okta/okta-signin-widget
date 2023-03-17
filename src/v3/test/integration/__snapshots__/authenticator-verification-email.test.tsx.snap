@@ -297,59 +297,15 @@ exports[`Email authenticator verification when email magic link = undefined rend
               >
                 <div
                   class="MuiBox-root emotion-14"
-                >
-                  <div
-                    class="MuiBox-root emotion-14"
-                  >
-                    <div
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxWarning MuiAlert-infobox emotion-16"
-                      role="alert"
-                    >
-                      <div
-                        class="MuiAlert-icon emotion-17"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-18"
-                          fill="none"
-                          focusable="false"
-                          viewBox="0 0 16 16"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            clip-rule="evenodd"
-                            d="M13.983 14.6471C13.4706 15 12.6329 15 10.9575 15H5.04248C3.36707 15 2.52937 15 2.01699 14.6471C1.56939 14.3387 1.26655 13.8615 1.17816 13.3252C1.07698 12.7114 1.43367 11.9534 2.14706 10.4374L5.10455 4.15277C6.02878 2.18879 6.49089 1.2068 7.12576 0.898255C7.6777 0.630012 8.32225 0.630012 8.87419 0.898255C9.50906 1.2068 9.97117 2.18879 10.8954 4.15277L13.8529 10.4374C14.5663 11.9534 14.923 12.7114 14.8218 13.3252C14.7334 13.8615 14.4306 14.3387 13.983 14.6471ZM7.99998 10C7.72383 10 7.49998 9.77614 7.49998 9.5L7.49998 5H8.49998L8.49998 9.5C8.49998 9.77614 8.27612 10 7.99998 10ZM7.99998 13C8.14831 13 8.29332 12.956 8.41665 12.8736C8.53999 12.7912 8.63612 12.6741 8.69288 12.537C8.74965 12.4 8.7645 12.2492 8.73556 12.1037C8.70662 11.9582 8.6352 11.8246 8.53031 11.7197C8.42542 11.6148 8.29178 11.5434 8.14629 11.5144C8.00081 11.4855 7.85001 11.5003 7.71296 11.5571C7.57592 11.6139 7.45878 11.71 7.37637 11.8333C7.29396 11.9567 7.24998 12.1017 7.24998 12.25C7.24998 12.4489 7.32899 12.6397 7.46964 12.7803C7.6103 12.921 7.80106 13 7.99998 13Z"
-                            fill="currentColor"
-                            fill-rule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        class="MuiAlert-message emotion-19"
-                      >
-                        <div
-                          class="MuiBox-root emotion-20"
-                        >
-                          Haven't received an email?
-                        </div>
-                        <a
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
-                          href="javascript:void(0);"
-                        >
-                          Send again
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                />
                 <div
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-23"
+                    class="MuiBox-root emotion-16"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 emotion-24"
+                      class="MuiTypography-root MuiTypography-h4 emotion-17"
                       data-se="o-form-head"
                       id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1"
                     >
@@ -361,10 +317,10 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-23"
+                    class="MuiBox-root emotion-16"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-27"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-20"
                       data-se="o-form-explain"
                       id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_4_1"
                     >
@@ -382,7 +338,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   class="MuiBox-root emotion-14"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-focusVisible MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-22"
                     tabindex="0"
                     type="button"
                   >
@@ -394,7 +350,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 class="MuiBox-root emotion-14"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -569,6 +525,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-23"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code
@@ -816,12 +773,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-28"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-29"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-29"
                       required="true"
                     >
                       <input
@@ -1131,6 +1089,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-35"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code
@@ -1183,7 +1142,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 class="MuiBox-root emotion-19"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
                   data-se="switchAuthenticator"
                   href="javascript:void(0)"
                 >
@@ -1194,7 +1153,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                 class="MuiBox-root emotion-19"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
                   data-se="cancel"
                   href="javascript:void(0)"
                 >
@@ -1462,6 +1421,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-23"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code

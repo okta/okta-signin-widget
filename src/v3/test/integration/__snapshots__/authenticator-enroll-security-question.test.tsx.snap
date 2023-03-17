@@ -272,6 +272,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-41"
+                      data-shrink="false"
                       for="credentials.question"
                     >
                       Create my own security question
@@ -314,6 +315,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-41"
+                      data-shrink="false"
                       for="credentials.answer"
                     >
                       Answer
@@ -646,6 +648,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-36"
+                      data-shrink="false"
                       for="credentials.question"
                     >
                       Create my own security question
@@ -675,6 +678,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-36"
+                      data-shrink="false"
                       for="credentials.answer"
                     >
                       Answer
@@ -1007,6 +1011,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-36"
+                      data-shrink="false"
                       for="credentials.questionKey"
                     >
                       Choose a security question
@@ -1146,6 +1151,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-42"
+                      data-shrink="false"
                       for="credentials.answer"
                     >
                       Answer
@@ -1479,6 +1485,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-36"
+                      data-shrink="false"
                       for="credentials.questionKey"
                     >
                       Choose a security question
@@ -1618,6 +1625,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-42"
+                      data-shrink="false"
                       for="credentials.answer"
                     >
                       Answer

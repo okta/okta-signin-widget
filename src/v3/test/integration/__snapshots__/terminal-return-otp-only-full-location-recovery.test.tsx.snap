@@ -176,7 +176,10 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                     class="MuiBox-root emotion-27"
                     data-se="icon-browser"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt=""
+                      src="MockSVGIcon"
+                    />
                   </div>
                   <div
                     class="MuiBox-root emotion-9"
@@ -201,7 +204,10 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                     class="MuiBox-root emotion-27"
                     data-se="icon-app"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt=""
+                      src="MockSVGIcon"
+                    />
                   </div>
                   <div
                     class="MuiBox-root emotion-9"
@@ -226,7 +232,10 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                     class="MuiBox-root emotion-27"
                     data-se="icon-location"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt=""
+                      src="MockSVGIcon"
+                    />
                   </div>
                   <div
                     class="MuiBox-root emotion-9"

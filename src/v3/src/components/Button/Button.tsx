@@ -75,14 +75,19 @@ const Button: UISchemaElementComponent<{
       ref={focusRef}
       disabled={loading || disabled}
       className={classes}
-      // Fixes text overflow
+        // Fixes text overflow
       sx={{ display: 'flex', whiteSpace: 'normal' }}
-      startIcon={loading ? <Spinner color="white" /> : Icon && <Icon />}
+      startIcon={loading ? <Spinner color="white" /> : Icon && (
+        <img
+          src={Icon}
+          alt=""
+        />
+      )}
       aria-describedby={ariaDescribedBy}
       data-type={dataType}
       data-se={dataSe}
       aria-label={ariaLabel}
-      // eslint-disable-next-line react/jsx-props-no-spreading
+        // eslint-disable-next-line react/jsx-props-no-spreading
       {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
     >
       {label}

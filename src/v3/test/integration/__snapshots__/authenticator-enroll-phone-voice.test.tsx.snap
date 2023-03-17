@@ -175,6 +175,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
+                    data-shrink="false"
                     for="credentials.passcode"
                   >
                     Enter Code
