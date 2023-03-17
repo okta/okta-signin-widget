@@ -203,7 +203,13 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     // Bubble up all controller events
     this.listenTo(this.controller, 'all', this.trigger);
 
-    this.controller.render();
+    if (this.appState.get('idx') === undefined) {
+      // At the successful end of IDX flow `clearAppStateCache` has been called, 
+      //  but `setIonResponse` has not, so `appState` is empty.
+      // In such case `FormController` is not able to render any form.
+    } else {
+      this.controller.render();
+    }
 
     this.hasControllerRendered = true;
 

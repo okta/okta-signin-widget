@@ -18,10 +18,10 @@ export async function updateAppState(appState: AppState, idxResponse: IdxRespons
       sessionStorageHelper.removeStateHandle();
       // This is the end of the IDX flow, now entering OAuth
       const tokens = await interactionCodeFlow(settings, idxResponse);
-      // At the successful end of IDX flow `clearAppStateCache` has been called, 
-      //  but `setIonResponse` is not called, so `appState` is empty.
-      // In such case `FormController` is not able to render any form.
-      appState.unset('currentFormName', { silent: true });
+      // reset terminal view in case the were OAuth errors prior to successful token retrieval
+      if (appState.get('currentFormName') === FORMS.TERMINAL) {
+        appState.unset('currentFormName', { silent: true });
+      }
       return tokens;
     }  
   } else {

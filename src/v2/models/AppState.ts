@@ -150,12 +150,12 @@ export default class AppState extends Model {
     }
 
     // didn't expect `remediations` is empty. See `setIonResponse`.
-    const currentViewState = this.get('remediations').filter(r => r.name === currentFormName)[0];
+    const currentViewState = this.get('remediations')?.filter(r => r.name === currentFormName)[0];
 
     if (!currentViewState) {
       Logger.error('Panic!!');
       Logger.error(`\tCannot find view state for form ${currentFormName}.`);
-      const allFormNames = this.get('remediations').map(r => r.name);
+      const allFormNames = this.get('remediations')?.map(r => r.name);
       Logger.error(`\tAll available form names: ${allFormNames}`);
     }
 
