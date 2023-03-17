@@ -192,6 +192,15 @@ Object {
                 "type": "List",
                 "viewIndex": 1,
               },
+              Object {
+                "contentType": "footer",
+                "label": "oform.back",
+                "options": Object {
+                  "nextStepIndex": 0,
+                },
+                "type": "StepperLink",
+                "viewIndex": 1,
+              },
             ],
             "type": "VerticalLayout",
           },
@@ -273,6 +282,14 @@ Object {
                   "type": "ol",
                 },
                 "type": "List",
+              },
+              Object {
+                "contentType": "footer",
+                "label": "oform.back",
+                "options": Object {
+                  "nextStepIndex": 0,
+                },
+                "type": "StepperLink",
               },
             ],
             "type": "VerticalLayout",

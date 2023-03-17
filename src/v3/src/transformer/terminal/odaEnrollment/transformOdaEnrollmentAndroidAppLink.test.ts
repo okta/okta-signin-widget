@@ -17,6 +17,7 @@ import {
   DescriptionElement,
   ListElement,
   StepperLayout,
+  StepperLinkElement,
   TitleElement,
   UISchemaLayout,
   WidgetProps,
@@ -60,11 +61,14 @@ describe('Terminal ODA enrollment Android App Link transformer', () => {
     expect((layoutOne.elements[0] as TitleElement).options.content)
       .toBe('enroll.title.oda.with.account');
 
-    expect(layoutTwo.elements.length).toBe(4);
+    expect(layoutTwo.elements.length).toBe(5);
     expect((layoutTwo.elements[0] as TitleElement).options.content)
       .toBe('enroll.title.oda.with.account');
 
-    expect(layoutThree.elements.length).toBe(3);
+    expect((layoutTwo.elements[4] as StepperLinkElement).label)
+      .toBe('oform.back');
+
+    expect(layoutThree.elements.length).toBe(4);
     expect((layoutThree.elements[0] as TitleElement).options.content)
       .toBe('enroll.title.oda.without.account');
 
@@ -76,5 +80,7 @@ describe('Terminal ODA enrollment Android App Link transformer', () => {
     expect((layoutThreeListItemThree.elements[1] as DescriptionElement).type).toBe('Description');
     expect((layoutThreeListItemThree.elements[1] as DescriptionElement).options.content)
       .toBe('<span class="no-translate">https://okta.com</span>');
+    expect((layoutThree.elements[3] as StepperLinkElement).label)
+      .toBe('oform.back');
   });
 });
