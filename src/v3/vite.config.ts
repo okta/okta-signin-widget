@@ -69,8 +69,17 @@ export default defineConfig(({ mode, command }) => ({
           entry: resolve(__dirname, 'src/index.ts'),
           name: 'OktaSignIn',
           formats: ['umd'],
-          fileName: () => 'js/okta-sign-in.next.min.js',
+          fileName: () => 'js/okta-sign-in.next.js',
         },
+        rollupOptions: {
+          output: {
+            assetFileNames: ({ name }) => (
+              name === 'style.css'
+                ? 'css/okta-sign-in.next.css'
+                : '[name][hash][extname]'
+            )
+          }
+        }
       };
     }
     if (mode === 'testcafe') {
