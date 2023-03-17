@@ -14,8 +14,8 @@ import { Box, Typography } from '@okta/odyssey-react-mui';
 import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
-import { loc } from '../../util';
 
+import { loc } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
 import { getAuthCoinConfiguration } from '../AuthCoin/authCoinConfigUtil';
 import style from './style.module.css';
