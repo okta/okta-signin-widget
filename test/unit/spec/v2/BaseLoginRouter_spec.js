@@ -189,7 +189,7 @@ describe('v2/BaseLoginRouter', function() {
       expect(router.settings.callGlobalSuccess).toHaveBeenCalled();
       expect(Logger.error).not.toHaveBeenCalled();
 
-     expect(router.appState.getCurrentViewState()?.name).toBe(undefined);
+      expect(router.appState.getCurrentViewState()?.name).toBe(undefined);
     });
 
     it('re-renders', () => {
