@@ -14,6 +14,7 @@ import { Box, Typography } from '@okta/odyssey-react-mui';
 import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
+import { loc } from '../../util';
 
 import AuthCoin from '../AuthCoin/AuthCoin';
 import { getAuthCoinConfiguration } from '../AuthCoin/authCoinConfigUtil';
@@ -72,7 +73,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
       <Typography variant="h1">
         { logo && (
           <img
-            alt={logoText || (logo && brandName ? brandName : 'Logo')}
+            alt={logoText || brandName || loc('logo.default.alt.text', 'login')}
             src={logo}
             className={imageClasses}
           />
