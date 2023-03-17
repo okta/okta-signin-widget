@@ -61,7 +61,7 @@ describe('AuthHeader tests', () => {
     };
     const { container, findByAltText } = render(<AuthHeader {...props} />);
 
-    expect(await findByAltText('Logo')).toBeDefined();
+    expect(await findByAltText('logo.default.alt.text')).toBeDefined();
     expect(container.querySelector('[src="/img/socialButtonIcons/okta.svg"]')).toBeDefined();
   });
 
