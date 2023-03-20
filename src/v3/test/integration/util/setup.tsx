@@ -13,7 +13,7 @@
 import userEvent from '@testing-library/user-event';
 import { render, RenderResult } from '@testing-library/preact';
 import { h } from 'preact';
-import { UserEvent } from '@testing-library/user-event/dist/types/setup';
+import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { WidgetOptions } from 'src/types';
 import { createAuthClient, CreateAuthClientOptions } from './createAuthClient';
