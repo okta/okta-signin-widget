@@ -149,7 +149,7 @@ if [ -n "${TEST_SUITE_ID}" ]; then
   set +e
   # Verify minimum supported version of node
   export PATH=$ORIGINAL_PATH
-  setup_service node v14.18.0
+  setup_service node v16.19.1
 
   # Verify minimum supported version of yarn
   # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
