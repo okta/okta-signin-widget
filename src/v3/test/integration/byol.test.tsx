@@ -111,16 +111,16 @@ describe('byol', () => {
 
     it('should not load custom language when the language/assets.languages value is not provided '
       + 'while assets.baseUrl is set to a path containing the language assets and navigator.languages containing language', async () => {
-        const navigatorLanguagesSpy = jest.spyOn(global, 'navigator', 'get');
-        navigatorLanguagesSpy.mockReturnValue(
-          { languages: ['foo'] } as unknown as Navigator,
-        );
-        const { container, findByText } = await setup({
-          mockResponse,
-          widgetOptions: { assets: { baseUrl: 'http://localhost:1234/mocks' } },
-        });
-        await findByText(/Set up phone authentication/);
-        expect(container).toMatchSnapshot();
+      const navigatorLanguagesSpy = jest.spyOn(global, 'navigator', 'get');
+      navigatorLanguagesSpy.mockReturnValue(
+        { languages: ['foo'] } as unknown as Navigator,
+      );
+      const { container, findByText } = await setup({
+        mockResponse,
+        widgetOptions: { assets: { baseUrl: 'http://localhost:1234/mocks' } },
       });
+      await findByText(/Set up phone authentication/);
+      expect(container).toMatchSnapshot();
+    });
   });
 });
