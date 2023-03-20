@@ -16,6 +16,7 @@ import preact from '@preact/preset-vite';
 import { resolve } from 'path';
 
 const outDir = resolve(__dirname, '../../dist/dist');
+const mockServerBaseUrl = 'http://localhost:3030';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => ({
@@ -40,7 +41,7 @@ export default defineConfig(({ mode, command }) => ({
       'config': resolve(__dirname, '../config'),
       'nls': resolve(__dirname, '../../packages/@okta/i18n/src/json'),
       'okta': resolve(__dirname, '../../packages/@okta/courage-dist'),
-      'src': resolve(__dirname, './src'),
+      'src': resolve(__dirname, './src'), // FIXME use relative imports
       'util/BrowserFeatures': resolve(__dirname, `../util/BrowserFeatures`),
       'util/Bundles': resolve(__dirname, `../util/Bundles`),
       'util/Enums': resolve(__dirname, `../util/Enums`),
@@ -58,53 +59,70 @@ export default defineConfig(({ mode, command }) => ({
     },
   },
 
+  // not used in "dev" mode, i.e., when `command === 'serve'`
   build: ((): BuildOptions => {
-    if (mode === 'production') {
-      return {
-        outDir,
-        emptyOutDir: false,
-        copyPublicDir: false,
-        sourcemap: 'hidden',
-        lib: {
-          entry: resolve(__dirname, 'src/index.ts'),
-          name: 'OktaSignIn',
-          formats: ['umd'],
-          fileName: () => 'js/okta-sign-in.next.js',
-        },
-        rollupOptions: {
-          output: {
-            assetFileNames: ({ name }) => (
-              name === 'style.css'
-                ? 'css/okta-sign-in.next.css'
-                : '[name][hash][extname]'
-            )
-          }
-        }
-      };
-    }
     if (mode === 'testcafe') {
       return {
+        // send output to ../../dist/dist
         outDir,
+
+        // for debugging
         sourcemap: 'inline',
+
+        // chained with g1,g2 in `yarn build:release`
         emptyOutDir: false,
+
+        // playground assets, e.g., logo, favicon
         copyPublicDir: true,
       };
     }
-    return {}
+
+    // default mode for build is "production"
+    return {
+      outDir,
+
+      // chained with g1, g2 in `yarn build:release`
+      emptyOutDir: false,
+
+      // do not copy public assets
+      copyPublicDir: false,
+
+      // hide sourcemaps
+      sourcemap: 'hidden',
+
+      // set to library mode with "umd" format to expose `OktaSignIn` on the
+      // `window`
+      // https://vitejs.dev/guide/build.html#library-mode
+      lib: {
+        entry: resolve(__dirname, 'src/index.ts'),
+        name: 'OktaSignIn',
+        formats: ['umd'],
+        fileName: () => 'js/okta-sign-in.next.js',
+      },
+      rollupOptions: {
+        output: {
+          assetFileNames: ({ name }) => (
+            name === 'style.css'
+              ? 'css/okta-sign-in.next.css'
+              : '[name][hash][extname]'
+          )
+        }
+      }
+    };
   })(),
 
   server: {
     host: 'localhost',
     proxy: {
-      '/oauth2/': 'http://localhost:3030',
-      '/api/v1/': 'http://localhost:3030',
-      '/idp/idx/': 'http://localhost:3030',
-      '/login/getimage': 'http://localhost:3030',
-      '/sso/idps/': 'http://localhost:3030',
-      '/app/UserHome': 'http://localhost:3030',
-      '/oauth2/v1/authorize': 'http://localhost:3030',
-      '/auth/services/': 'http://localhost:3030',
-      '/.well-known/webfinger': 'http://localhost:3030',
+      '/oauth2/': mockServerBaseUrl,
+      '/api/v1/': mockServerBaseUrl,
+      '/idp/idx/': mockServerBaseUrl,
+      '/login/getimage': mockServerBaseUrl,
+      '/sso/idps/': mockServerBaseUrl,
+      '/app/UserHome': mockServerBaseUrl,
+      '/oauth2/v1/authorize': mockServerBaseUrl,
+      '/auth/services/': mockServerBaseUrl,
+      '/.well-known/webfinger': mockServerBaseUrl,
     },
     port: 3000,
   },
