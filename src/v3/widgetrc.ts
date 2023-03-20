@@ -46,7 +46,6 @@ const common: Partial<WidgetOptions> = {
     rememberMe: true,
     // rememberMyUsernameOnOIE: true,
     // restrictRedirectToForeground: true,
-    router: true,
     // securityImage: true,
     // selfServiceUnlock: true,
     // showIdentifier: true,
