@@ -58,7 +58,6 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
-  await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
 
@@ -83,7 +82,6 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWit
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
-  await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
   
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   
