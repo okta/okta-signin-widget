@@ -25,9 +25,9 @@ get-sum () {
 	fi
 }
 
-# udpates the cache file
+# updates the cache file
 update-cache () {
-	rm $CACHE_FILE # disable
+	rm -f $CACHE_FILE # disable
 	dir-sum packages/@okta/i18n >> $CACHE_FILE
 	dir-sum src/types >> $CACHE_FILE
 }
