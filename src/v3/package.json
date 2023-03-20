@@ -18,19 +18,19 @@
   "source": "components/widget/index.js",
   "scripts": {
     "build": "vite build",
-    "clean-svg": "svgo -f src/img/authCoinIcons",
-    "codegen": "echo 'codegen'",
+    "clean-svg": "svgo -f src/img",
+    "codegen": "yarn --cwd ../.. codegen",
     "dev": "yarn codegen && vite",
     "lint": "yarn codegen && eslint .",
     "lint:report": "scripts/buildtools/lint-report.sh",
-    "lint:styles": "npx stylelint **/*.css",
-    "lint:styles:report": "npx stylelint **/*.css --custom-formatter ../../node_modules/stylelint-checkstyle-formatter -o build2/reports/lint/OSW-stylelint-checkstyle-result.xml --quiet",
+    "lint:styles": "stylelint **/*.css",
+    "lint:styles:report": "stylelint **/*.css --custom-formatter ../../node_modules/stylelint-checkstyle-formatter -o build2/reports/lint/OSW-stylelint-checkstyle-result.xml --quiet",
     "serve": "vite preview --port 3000",
     "test": "yarn codegen && jest",
     "test:dev": "NODE_ENV=development jest",
     "test:e2e": "NODE_ENV=test testcafe test/e2e/tests/**/*.ts --config-file test/e2e/.testcaferc.js",
     "test:e2e:screenshots": "yarn test:e2e -s path=test/e2e/screenshots,thumbnails=false",
-    "test:report": "yarn && PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage"
+    "test:report": "PREACT_APP_USE_PKCE=false NODE_ENV=test yarn jest --coverage"
   },
   "browserslist": [
     "> 0.1%",
