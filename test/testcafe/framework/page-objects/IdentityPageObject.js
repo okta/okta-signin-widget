@@ -38,7 +38,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getSignupLinkText() {
-    return Selector(ENROLL_SELECTOR).textContent;
+    return this.form.getLink('Sign up').textContent;
   }
 
   getNeedhelpLinkText() {
@@ -220,7 +220,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async clickSignUpLink() {
-    await this.t.click(Selector(ENROLL_SELECTOR));
+    await this.t.click(this.form.getLink('Sign up'));
   }
 
   getUnlockAccountLink(name = 'Unlock account?') {
