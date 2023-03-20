@@ -74,6 +74,7 @@ const Link: UISchemaElementComponent<{
           '&:hover': {
             cursor: 'pointer',
           },
+          verticalAlign: 'baseline',
         }}
       >
         {label}

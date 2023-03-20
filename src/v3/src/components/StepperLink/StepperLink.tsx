@@ -54,6 +54,7 @@ const StepperLink: UISchemaElementComponent<{
       sx={{
         '&:hover': {
           cursor: 'pointer',
+          verticalAlign: 'baseline',
         },
       }}
     >
