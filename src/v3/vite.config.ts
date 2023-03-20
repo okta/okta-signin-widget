@@ -11,9 +11,9 @@
  */
 
 /// <reference types="vite/client" />
-import { BuildOptions, defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
+import { BuildOptions, defineConfig } from 'vite';
 
 const outDir = resolve(__dirname, '../../dist/dist');
 const mockServerBaseUrl = 'http://localhost:3030';
@@ -38,21 +38,21 @@ export default defineConfig(({ mode, command }) => ({
       '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
       '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
       '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
-      'config': resolve(__dirname, '../config'),
-      'nls': resolve(__dirname, '../../packages/@okta/i18n/src/json'),
-      'okta': resolve(__dirname, '../../packages/@okta/courage-dist'),
-      'src': resolve(__dirname, './src'), // FIXME use relative imports
-      'util/BrowserFeatures': resolve(__dirname, `../util/BrowserFeatures`),
-      'util/Bundles': resolve(__dirname, `../util/Bundles`),
-      'util/Enums': resolve(__dirname, `../util/Enums`),
-      'util/FactorUtil': resolve(__dirname, `../util/FactorUtil`),
-      'util/Logger': resolve(__dirname, `../util/Logger`),
-      'util/TimeUtil': resolve(__dirname, `../util/TimeUtil`),
-      'v1': resolve(__dirname, '../v1'),
-      'v2': resolve(__dirname, '../v2'),
+      config: resolve(__dirname, '../config'),
+      nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
+      okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
+      src: resolve(__dirname, './src'), // FIXME use relative imports
+      'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
+      'util/Bundles': resolve(__dirname, '../util/Bundles'),
+      'util/Enums': resolve(__dirname, '../util/Enums'),
+      'util/FactorUtil': resolve(__dirname, '../util/FactorUtil'),
+      'util/Logger': resolve(__dirname, '../util/Logger'),
+      'util/TimeUtil': resolve(__dirname, '../util/TimeUtil'),
+      v1: resolve(__dirname, '../v1'),
+      v2: resolve(__dirname, '../v2'),
 
       // react -> preact alias
-      'react': 'preact/compat',
+      react: 'preact/compat',
       'react-dom/test-utils': 'preact/test-utils',
       'react-dom': 'preact/compat',
       'react/jsx-runtime': 'preact/jsx-runtime',
@@ -105,9 +105,9 @@ export default defineConfig(({ mode, command }) => ({
             name === 'style.css'
               ? 'css/okta-sign-in.next.css'
               : '[name][hash][extname]'
-          )
-        }
-      }
+          ),
+        },
+      },
     };
   })(),
 
