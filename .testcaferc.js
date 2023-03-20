@@ -1,15 +1,38 @@
 const { readFileSync } = require('fs');
 const { RequestMock } = require('testcafe');
 
-const escapeRegExp = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+/**
+ * Escapes special regex chars in string so it can be used as the pattern for
+ * RegExp constructor. Useful when trying to match strings that frequently
+ * contain special chars, e.g., (parts of) a URL,
+ * currency, dates.
+ *
+ * NOTE: all special chars including "^" and "$" are escaped
+ *
+ * Examples:
+ *
+ * escapeRegex("http://example.com/path") // "http:\\/\\/example\\.com\\/path"
+ *
+ * escapeRegex('$12.34') // "\\$12\\.34"
+ *
+ * escapeRegex('7/12/2021') // "7\\/12\\/2021"
+ *
+ * @param s {string} the string to escape
+ * @returns {string} the escaped string
+ */
+const escapeRegex = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
 
-const _regex = (flags, strings, ...values) => {
-	const pattern = strings[0] + values.map((v, i) => escapeRegExp(v) + strings[i + 1]).join('');
-	return RegExp(pattern, flags);
+/**
+ * Creates an escaped regex from a string template literal.
+ *
+ * Example: regex`$12.34` // new RegExp("\\$12\\.34")
+ */
+const regex = (strings, ...values) => {
+	const pattern = strings[0] + values.map(
+    (v, i) => escapeRegex(v) + strings[i + 1]
+  ).join('');
+	return RegExp(pattern);
 };
-const regex = new Proxy(_regex.bind(undefined, ""), {
-	get: (t, property) => _regex.bind(undefined, property)
-});
 
 // common/shared mocks
 const mocks = RequestMock()
