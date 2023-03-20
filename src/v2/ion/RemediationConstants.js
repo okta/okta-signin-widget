@@ -70,8 +70,6 @@ const FORMS = {
 
   USER_CODE: 'user-code',
 
-  DEVICE_IDENTIFICATION_CHALLENGE: 'device-identification-challenge',
-
   // 'terminal` is not ION Form name but only coined in widget
   // for rendering a page that user has nothing to remediate.
   TERMINAL: 'terminal',
