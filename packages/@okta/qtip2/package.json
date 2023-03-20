@@ -21,7 +21,7 @@
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/qtip2/-/@okta/qtip2-3.0.6.tgz",
+  "_resolved": "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta/@okta/qtip2/-/@okta/qtip2-3.0.6.tgz",
   "_shasum": "6b453b3cef3a2e09ba2eebf66685e29fc3c998cc",
   "_shrinkwrap": null,
   "_spec": "@okta/qtip2@3.0.6",
@@ -54,7 +54,7 @@
   },
   "dist": {
     "shasum": "6b453b3cef3a2e09ba2eebf66685e29fc3c998cc",
-    "tarball": "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/qtip2/-/@okta/qtip2-3.0.6.tgz"
+    "tarball": "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta/@okta/qtip2/-/@okta/qtip2-3.0.6.tgz"
   },
   "files": [
     "dist"
@@ -83,7 +83,7 @@
   "name": "@okta/qtip2",
   "optionalDependencies": {},
   "publishConfig": {
-    "registry": "https://artifacts.aue1d.saasure.com/artifactory/api/npm/npm-okta"
+    "registry": "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta"
   },
   "readme": "ERROR: No README data found!",
   "repository": {
