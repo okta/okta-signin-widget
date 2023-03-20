@@ -258,7 +258,6 @@ test
     await deviceEnrollmentTerminalPage.clickWithOVAccount();
     await deviceEnrollmentTerminalPage.clickNextButton();
     await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required to use Okta FastPass');
-    await t.debug();
     await t.expect(deviceEnrollmentTerminalPage.getSubHeader()).eql('Okta FastPass is a security method that can sign you in without needing your username.');
     await t.expect(deviceEnrollmentTerminalPage.hasText('Already have Okta FastPass enabled for your account?')).eql(true);
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(1)).eql('On this device, open the Okta Verify app.');
