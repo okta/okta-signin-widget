@@ -63,6 +63,9 @@ const Link: UISchemaElementComponent<{
   return (
     typeof href === 'undefined' ? (
       <LinkMui
+        component="button"
+        variant="body1"
+        role="link"
         onClick={onClick}
         aria-describedby={ariaDescribedBy}
         ref={focusRef}

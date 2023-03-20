@@ -238,7 +238,6 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
                       noMargin: true,
                       options: {
                         content: loc('enroll.oda.without.account.step1', 'login', [OKTA_VERIFY_APP_URL.ANDROID]),
-                        dataSe: 'download-ov',
                       },
                     } as DescriptionElement,
                   ],

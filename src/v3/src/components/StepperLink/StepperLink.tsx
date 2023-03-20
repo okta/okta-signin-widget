@@ -44,6 +44,9 @@ const StepperLink: UISchemaElementComponent<{
 
   return (
     <LinkMui
+      component="button"
+      variant="body1"
+      role="link"
       onClick={handleClick}
       aria-describedby={ariaDescribedBy}
       ref={focusRef}
