@@ -73,7 +73,7 @@ const common: Partial<WidgetOptions> = {
   },
 
   authParams: {
-    pkce: false // pkce enabled by default in okta-auth-js@3.0
+    pkce: false, // pkce enabled by default in okta-auth-js@3.0
   },
 };
 
