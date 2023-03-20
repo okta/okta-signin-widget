@@ -64,6 +64,66 @@ module.exports = {
         'json-format',
       ],
     },
+    {
+      // typescript config files
+      env: { node: true },
+      files: ['./*.ts'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: './tsconfig.node.json',
+        ecmaVersion: 2018,
+        sourceType: 'module',
+      },
+      plugins: [
+        '@typescript-eslint',
+        'jsx-a11y',
+      ],
+      extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+        'airbnb-base',
+      ],
+      rules: {
+        // enforce simple-import-sort recommendations
+        'simple-import-sort/imports': 'error',
+        'simple-import-sort/exports': 'error',
+
+        // require follow curly brace convention
+        curly: ['error', 'all'],
+
+        // prefer named exports
+        // 'import/named': 'off',
+        // 'import/prefer-default-export': 'off',
+        // 'import/no-default-export': 'off',
+        'import/no-unresolved': ['error', {
+          ignore: [
+            '\\?\\w+',
+          ],
+          caseSensitiveStrict: true,
+        }],
+        // configs often import devDependencies
+        'import/no-extraneous-dependencies': ['off'],
+
+        // prevent conflicts with ts lint rule
+        'import/extensions': ['error', {
+          ts: 'never',
+          tsx: 'never',
+          json: 'always',
+        }],
+
+        // use @typescript-eslint/no-unused-vars
+        'no-unused-vars': 'off',
+
+        // allow ts-directives with a description >= 8 chars
+        '@typescript-eslint/ban-ts-comment': ['warn', {
+          'ts-expect-error': 'allow-with-description',
+          'ts-ignore': 'allow-with-description',
+          'ts-nocheck': 'allow-with-description',
+          'ts-check': 'allow-with-description',
+          minimumDescriptionLength: 8,
+        }],
+      },
+    },
     // all typescript files in src
     {
       env: { browser: true },
