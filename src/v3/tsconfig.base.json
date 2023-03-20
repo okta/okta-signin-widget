@@ -54,6 +54,7 @@
   },
   "extends": "../../tsconfig.json",
   "files": [
-    "global.d.ts"
+    "global.d.ts",
+    "widgetrc.ts"
   ]
 }
