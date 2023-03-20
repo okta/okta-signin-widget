@@ -213,22 +213,5 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     },
   };
 
-  dataSchema.confirmPassword = {
-    validate: (data: FormBag['data']) => {
-      const newPw = data[passwordFieldName] as string;
-      const confirmPw = data.confirmPassword;
-      const errorMessages: WidgetMessage[] = [];
-      if (newPw && newPw !== confirmPw) {
-        errorMessages.push({
-          name: 'confirmPassword',
-          class: 'ERROR',
-          message: loc('password.enroll.error.match', 'login'),
-          i18n: { key: 'password.enroll.error.match' },
-        });
-      }
-      return errorMessages.length > 0 ? errorMessages : undefined;
-    },
-  };
-
   return formBag;
 };
