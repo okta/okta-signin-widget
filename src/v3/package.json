@@ -114,7 +114,7 @@
     "jest-extended": "1.2.1",
     "jest-junit": "^12.2.0",
     "lint-staged": "^12.2.1",
-    "msw": "^0.35.0",
+    "msw": "^1.1.1",
     "postcss": "^8.4.13",
     "postcss-syntax": "^0.36.2",
     "preact-render-to-string": "^5.1.19",
