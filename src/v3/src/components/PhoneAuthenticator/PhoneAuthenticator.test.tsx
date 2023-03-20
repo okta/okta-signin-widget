@@ -17,7 +17,7 @@ import {
   waitFor,
 } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { UserEvent } from '@testing-library/user-event/dist/types/setup';
+import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { h, JSX } from 'preact';
 import { FieldElement, UISchemaElementComponentProps } from 'src/types';
 
@@ -71,7 +71,7 @@ jest.mock('../../contexts', () => ({
 let mockHandleFunction = jest.fn().mockImplementation(() => ({}));
 jest.mock('../../hooks', () => ({
   useOnChange: () => mockHandleFunction,
-  useFormFieldValidation: () => jest.fn().mockImplementation(() => {}),
+  useFormFieldValidation: () => jest.fn().mockImplementation(() => { }),
   useAutoFocus: () => jest.fn(),
 }));
 

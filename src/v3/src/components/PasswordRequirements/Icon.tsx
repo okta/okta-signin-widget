@@ -11,7 +11,7 @@
  */
 
 import { Box, Icon as OdyIcon } from '@okta/odyssey-react-mui';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementStatus } from '../../types';
