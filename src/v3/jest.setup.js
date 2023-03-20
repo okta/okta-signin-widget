@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint-disable import/extensions */
 import 'jest-canvas-mock';
 import { toHaveBeenCalledBefore } from 'jest-extended';
 import mockBundles from '../util/Bundles.ts';
@@ -26,8 +25,8 @@ configure({
   testIdAttribute: 'data-se',
 });
 
-global.VERSION = '0.0.0';
-global.COMMITHASH = 'b9bbc0140703c3fbf0e2e58920362e70'; // "echo jest | md5"
+global.OKTA_SIW_VERSION = '0.0.0';
+global.OKTA_SIW_COMMIT_HASH = 'b9bbc0140703c3fbf0e2e58920362e70'; // "echo jest | md5"
 global.DEBUG = false;
 
 expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));

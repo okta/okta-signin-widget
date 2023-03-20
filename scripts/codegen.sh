@@ -10,7 +10,7 @@ first () {
 # input: packages/@okta/i18n
 # output: d39d70a51af9ccba5710a089f87a4470 packages/@okta/i18n
 dir-sum () (
-	SUM=$(tar -cf - $@ | md5sum | first)
+	SUM=$(tar -cf - $@ | md5)
 	echo "$SUM $@"
 )
 
@@ -25,9 +25,9 @@ get-sum () {
 	fi
 }
 
-# udpates the cache file
+# updates the cache file
 update-cache () {
-	rm $CACHE_FILE # disable
+	rm -f $CACHE_FILE # disable
 	dir-sum packages/@okta/i18n >> $CACHE_FILE
 	dir-sum src/types >> $CACHE_FILE
 }

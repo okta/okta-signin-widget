@@ -31,8 +31,8 @@ const AuthContainer: FunctionComponent = ({ children }) => {
       justifyContent="center"
       alignItems="center"
       className={classes}
-      data-version={VERSION}
-      data-commit={COMMITHASH}
+      data-version={OKTA_SIW_VERSION}
+      data-commit={OKTA_SIW_COMMIT_HASH}
       lang={languageCode}
       dir={languageDirection}
     >

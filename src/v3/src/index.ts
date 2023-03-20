@@ -12,13 +12,4 @@
 
 import OktaSignIn from './OktaSignIn';
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-  import('./mocks/browser')
-    .then(({ getWorker }) => getWorker())
-    .then((worker) => worker?.start());
-
-
-  import('../widgetrc').then(({ config }) => {
-    new OktaSignIn(config);
-  });
-}
+export default OktaSignIn;

@@ -17,15 +17,15 @@
   "module": "dist/index.m.js",
   "source": "components/widget/index.js",
   "scripts": {
-    "build": "preact build --no-prerender --no-sw --dest ../../dist/dist/js",
+    "build": "vite build",
     "clean-svg": "svgo -f src/img/authCoinIcons",
-    "codegen": "yarn workspace @okta/okta-signin-widget codegen",
-    "dev": "yarn codegen && preact watch --no-prerender --no-sw --port 3000",
+    "codegen": "echo 'codegen'",
+    "dev": "yarn codegen && vite",
     "lint": "yarn codegen && eslint .",
     "lint:report": "scripts/buildtools/lint-report.sh",
     "lint:styles": "npx stylelint **/*.css",
     "lint:styles:report": "npx stylelint **/*.css --custom-formatter ../../node_modules/stylelint-checkstyle-formatter -o build2/reports/lint/OSW-stylelint-checkstyle-result.xml --quiet",
-    "serve": "sirv ../../dist/dist/js --port 3000",
+    "serve": "vite preview --port 3000",
     "test": "yarn codegen && jest",
     "test:dev": "NODE_ENV=development jest",
     "test:e2e": "NODE_ENV=test testcafe test/e2e/tests/**/*.ts --config-file test/e2e/.testcaferc.js",
@@ -68,6 +68,8 @@
     "@babel/plugin-transform-runtime": "^7.18.6",
     "@babel/preset-react": "^7.17.12",
     "@emotion/jest": "^11.9.3",
+    "@okta/courage": "file:../../packages/@okta/courage-dist",
+    "@okta/mocks": "file:../../playground/mocks",
     "@okta/odyssey-babel-loader": "^0.17.1",
     "@okta/odyssey-babel-preset": "^0.17.1",
     "@okta/odyssey-postcss-preset": "^0.15.3",
@@ -112,11 +114,9 @@
     "jest-extended": "1.2.1",
     "jest-junit": "^12.2.0",
     "lint-staged": "^12.2.1",
-    "msw": "^1.1.0",
+    "msw": "^1.1.1",
     "postcss": "^8.4.13",
     "postcss-syntax": "^0.36.2",
-    "preact-cli": "^3.3.5",
-    "preact-cli-plugin-env-vars": "^1.2.1",
     "preact-render-to-string": "^5.1.19",
     "preact-svg-loader": "^0.2.1",
     "properties": "^1.2.1",
@@ -133,7 +133,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "msw": {
     "workerDirectory": "src/static"

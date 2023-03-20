@@ -8,12 +8,6 @@
           "runtime": "classic"
         }
       }
-    ],
-    [
-      "preact-cli/babel",
-      {
-        "modules": "commonjs"
-      }
     ]
   ],
   "plugins": [

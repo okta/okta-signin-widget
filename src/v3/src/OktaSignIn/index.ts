@@ -34,7 +34,7 @@ export type RenderErrorCallback = {
 export type RenderResult = JsonObject;
 export type Tokens = JsonObject;
 
-console.debug(`${VERSION}-g${COMMITHASH.substring(0, 7)}`);
+console.debug(`${OKTA_SIW_VERSION}-g${OKTA_SIW_COMMIT_HASH.substring(0, 7)}`);
 
 export default class OktaSignIn {
   /**
@@ -45,12 +45,12 @@ export default class OktaSignIn {
   /**
    * Package version
    */
-  static readonly __version: string = VERSION;
+  static readonly __version: string = OKTA_SIW_VERSION;
 
   /**
    * Commit SHA
    */
-  static readonly __commit: string = COMMITHASH;
+  static readonly __commit: string = OKTA_SIW_COMMIT_HASH;
 
   /**
    * Okta Signin Widget options
@@ -72,7 +72,7 @@ export default class OktaSignIn {
   el: string | null;
 
   constructor(options: WidgetProps) {
-    this.version = VERSION;
+    this.version = OKTA_SIW_VERSION;
     this.options = options;
     this.el = null;
 
@@ -123,7 +123,7 @@ export default class OktaSignIn {
       const userAgent = this.authClient._oktaUserAgent;
       if (userAgent) {
         userAgent.addEnvironment('okta-signin-widget-next');
-        userAgent.addEnvironment(COMMITHASH);
+        userAgent.addEnvironment(OKTA_SIW_COMMIT_HASH);
       }
 
       if (options.el) {
@@ -161,8 +161,10 @@ export default class OktaSignIn {
         if (target) {
           // @ts-ignore OKTA-508744
           render(h(Widget, {
+            // @ts-expect-error
             events: this.events,
             authClient: this.authClient,
+            // @ts-expect-error
             onSuccess: onSuccessWrapper,
             onError: onErrorWrapper,
             ...this.options,
@@ -197,7 +199,7 @@ export default class OktaSignIn {
       ...this.buildRenderOptions(options),
       redirect: 'always',
     })
-      .then(() => {});
+      .then(() => { });
   }
 
   showSignIn(options = {}): Promise<RenderResult> {
@@ -207,16 +209,16 @@ export default class OktaSignIn {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  before(): void {}
+  before(): void { }
 
   // eslint-disable-next-line class-methods-use-this
-  after(): void {}
+  after(): void { }
 
   // eslint-disable-next-line class-methods-use-this
-  hide(): void {}
+  hide(): void { }
 
   // eslint-disable-next-line class-methods-use-this
-  show(): void {}
+  show(): void { }
 
   remove(): void {
     const target = typeof this.el === 'string'
@@ -231,10 +233,14 @@ export default class OktaSignIn {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  getUser(): void {}
+  getUser(): void { }
 
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {
     this.events[eventName] = eventHandler;
+  }
+
+  off(eventName?: OktaWidgetEventType, eventHandler?: OktaWidgetEventHandler): void {
+    // TODO
   }
 
   private buildRenderOptions(

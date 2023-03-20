@@ -11,108 +11,119 @@
  */
 
 /// <reference types="vite/client" />
-import { defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
-import { ModuleFormat } from 'rollup';
-import { createRequire } from 'module';
+import { BuildOptions, defineConfig } from 'vite';
 
-const require = createRequire(import.meta.url);
-
-const cjs = ([name]: TemplateStringsArray) => ({
-  find: name,
-  replacement: require.resolve(name),
-})
-/*
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [preact()],
-  resolve: {
-    alias: [
-      { find: 'react', replacement: 'preact/compat' },
-      { find: 'react-dom/test-utils', replacement: 'preact/test-utils' },
-      { find: 'react-dom', replacement: 'preact/compat' },
-      { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' }
-    ]
-  },
-  test: {
-    globals: true, // for jest-dom
-    environment: 'jsdom',
-    setupFiles: './vitest.setup.ts',
-    css: false,
-    alias: [
-      // cjs libs: https://github.com/vitest-dev/vitest/issues/1652
-      cjs`preact/hooks`,
-      cjs`@testing-library/preact`
-    ],
-  }
-});
- */
+const outDir = resolve(__dirname, '../../dist/dist');
+const mockServerBaseUrl = 'http://localhost:3030';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode, command }) => ({
+  root: command === 'serve' && mode === 'testcafe'
+    ? outDir
+    : process.cwd(),
+
   plugins: [
     preact(),
-    // splitVendorChunkPlugin(),
   ],
   define: {
-    OKTA_SIW_VERSION: '"0.0.0"',
-    VERSION: '"0.0.0"',
-    OKTA_SIW_COMMIT_HASH: '"67f7d01358bee1853391565b300f196dc5291ce2"',
-    COMMITHASH: '"67f7d01358bee1853391565b300f196dc5291ce2"',
+    OKTA_SIW_VERSION: '"10.0.0"',
+    OKTA_SIW_COMMIT_HASH: '"local"',
     DEBUG: true,
   },
   resolve: {
     alias: {
       '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
       '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
-      'config': resolve(__dirname, '../config'),
-      'nls': resolve(__dirname, '../../packages/@okta/i18n/src/json'),
       '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
-      'okta': resolve(__dirname, '../../packages/@okta/courage-dist'),
       '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
-      'src': resolve(__dirname, './src'),
-      'util': resolve(__dirname, '../util'),
-      'v1': resolve(__dirname, '../v1'),
-      'v2': resolve(__dirname, '../v2'),
+      config: resolve(__dirname, '../config'),
+      nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
+      okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
+      src: resolve(__dirname, './src'), // FIXME use relative imports
+      'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
+      'util/Bundles': resolve(__dirname, '../util/Bundles'),
+      'util/Enums': resolve(__dirname, '../util/Enums'),
+      'util/FactorUtil': resolve(__dirname, '../util/FactorUtil'),
+      'util/Logger': resolve(__dirname, '../util/Logger'),
+      'util/TimeUtil': resolve(__dirname, '../util/TimeUtil'),
+      v1: resolve(__dirname, '../v1'),
+      v2: resolve(__dirname, '../v2'),
 
       // react -> preact alias
-      'react': 'preact/compat',
+      react: 'preact/compat',
       'react-dom/test-utils': 'preact/test-utils',
       'react-dom': 'preact/compat',
       'react/jsx-runtime': 'preact/jsx-runtime',
     },
   },
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'OktaSignIn',
-      formats: ['umd', 'es'],
-      fileName: (fmt, entry) => {
-        const ext: Record<ModuleFormat, string> = {
-          es: 'mjs',
-          cjs: 'js',
-          umd: 'min.js',
-          iife: 'min.js',
-        }[fmt];
-        return `js/okta-sign-in.${ext}`;
+
+  // not used in "dev" mode, i.e., when `command === 'serve'`
+  build: ((): BuildOptions => {
+    if (mode === 'testcafe') {
+      return {
+        // send output to ../../dist/dist
+        outDir,
+
+        // for debugging
+        sourcemap: 'inline',
+
+        // chained with g1,g2 in `yarn build:release`
+        emptyOutDir: false,
+
+        // playground assets, e.g., logo, favicon
+        copyPublicDir: true,
+      };
+    }
+
+    // default mode for build is "production"
+    return {
+      outDir,
+
+      // chained with g1, g2 in `yarn build:release`
+      emptyOutDir: false,
+
+      // do not copy public assets
+      copyPublicDir: false,
+
+      // hide sourcemaps
+      sourcemap: 'hidden',
+
+      // set to library mode with "umd" format to expose `OktaSignIn` on the
+      // `window`
+      // https://vitejs.dev/guide/build.html#library-mode
+      lib: {
+        entry: resolve(__dirname, 'src/index.ts'),
+        name: 'OktaSignIn',
+        formats: ['umd'],
+        fileName: () => 'js/okta-sign-in.next.js',
       },
-    },
-    sourcemap: true,
-  },
+      rollupOptions: {
+        output: {
+          assetFileNames: ({ name }) => (
+            name === 'style.css'
+              ? 'css/okta-sign-in.next.css'
+              : '[name][hash][extname]'
+          ),
+        },
+      },
+    };
+  })(),
+
   server: {
     host: 'localhost',
     proxy: {
-      '/oauth2/': 'http://localhost:3030',
-      '/api/v1/': 'http://localhost:3030',
-      '/idp/idx/': 'http://localhost:3030',
-      '/login/getimage': 'http://localhost:3030',
-      '/sso/idps/': 'http://localhost:3030',
-      '/app/UserHome': 'http://localhost:3030',
-      '/oauth2/v1/authorize': 'http://localhost:3030',
-      '/auth/services/': 'http://localhost:3030',
-      '/.well-known/webfinger': 'http://localhost:3030',
+      '/oauth2/': mockServerBaseUrl,
+      '/api/v1/': mockServerBaseUrl,
+      '/idp/idx/': mockServerBaseUrl,
+      '/login/getimage': mockServerBaseUrl,
+      '/sso/idps/': mockServerBaseUrl,
+      '/app/UserHome': mockServerBaseUrl,
+      '/oauth2/v1/authorize': mockServerBaseUrl,
+      '/auth/services/': mockServerBaseUrl,
+      '/.well-known/webfinger': mockServerBaseUrl,
     },
     port: 3000,
   },
-});
+}));
