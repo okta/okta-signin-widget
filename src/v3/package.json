@@ -19,7 +19,7 @@
   "scripts": {
     "build": "vite build",
     "clean-svg": "svgo -f src/img/authCoinIcons",
-    "codegen": "echo 'codegen'",
+    "codegen": "yarn --cwd ../.. codegen",
     "dev": "yarn codegen && vite",
     "lint": "yarn codegen && eslint .",
     "lint:report": "scripts/buildtools/lint-report.sh",
