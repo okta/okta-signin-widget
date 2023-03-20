@@ -229,7 +229,6 @@ Object {
                           "noMargin": true,
                           "options": Object {
                             "content": "enroll.oda.without.account.step1",
-                            "dataSe": "download-ov",
                           },
                           "type": "Description",
                         },

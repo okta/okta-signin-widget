@@ -166,13 +166,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-24"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-24"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -393,13 +393,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-31"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -607,13 +607,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -867,24 +867,24 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <div
                 class="MuiBox-root emotion-19"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-36"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-36"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Verify with something else
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-19"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-36"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-36"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -1182,24 +1182,24 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <div
                 class="MuiBox-root emotion-19"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-43"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Verify with something else
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-19"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-43"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -1286,13 +1286,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
               <div
                 class="MuiBox-root emotion-7"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-14"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-14"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -1500,13 +1500,13 @@ exports[`Email authenticator verification when email magic link = undefined shou
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
