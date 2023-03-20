@@ -20,5 +20,5 @@ export const getMockCredentialsResponse = (): PublicKeyCredential => (
       clientDataJSON: new ArrayBuffer(10),
       attestationObject: new ArrayBuffer(10),
     } as AuthenticatorAttestationResponse,
-  } as PublicKeyCredential
+  } as unknown as PublicKeyCredential
 );
