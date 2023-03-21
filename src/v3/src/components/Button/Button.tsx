@@ -27,67 +27,72 @@ const Button: UISchemaElementComponent<{
 }> = ({
   uischema,
 }) => {
-    const widgetContext = useWidgetContext();
-    const { loading } = widgetContext;
-    const onSubmitHandler = useOnSubmit();
-    const {
-      label,
-      focus,
-      ariaDescribedBy,
-      options: {
-        type,
-        ariaLabel,
-        variant,
-        wide,
-        dataType,
-        dataSe,
-        actionParams,
-        Icon,
-        includeData,
-        isActionStep,
-        step,
-        stepToRender,
-        classes,
-        disabled,
-        onClick,
-      },
-    } = uischema;
+  const widgetContext = useWidgetContext();
+  const { loading } = widgetContext;
+  const onSubmitHandler = useOnSubmit();
+  const {
+    label,
+    focus,
+    ariaDescribedBy,
+    options: {
+      type,
+      ariaLabel,
+      variant,
+      wide,
+      dataType,
+      dataSe,
+      actionParams,
+      Icon,
+      includeData,
+      isActionStep,
+      step,
+      stepToRender,
+      classes,
+      disabled,
+      onClick,
+    },
+  } = uischema;
 
-    const focusRef = useAutoFocus<HTMLButtonElement>(focus);
+  const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
-    const customClickHandler = () => onClick?.(widgetContext);
+  const customClickHandler = () => onClick?.(widgetContext);
 
-    const handleClick: ClickHandler = async () => {
-      onSubmitHandler({
-        params: actionParams,
-        includeData: Boolean(includeData),
-        isActionStep,
-        step,
-        stepToRender,
-      });
-    };
-
-    return (
-      <OdyButton
-        type={type}
-        variant={variant ?? 'primary'}
-        fullWidth={wide ?? true}
-        ref={focusRef}
-        disabled={loading || disabled}
-        className={classes}
-        // Fixes text overflow
-        sx={{ display: 'flex', whiteSpace: 'normal' }}
-        startIcon={loading ? <Spinner color="white" /> : Icon && <img src={Icon} alt="" />}
-        aria-describedby={ariaDescribedBy}
-        data-type={dataType}
-        data-se={dataSe}
-        aria-label={ariaLabel}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
-      >
-        {label}
-      </OdyButton>
-    );
+  const handleClick: ClickHandler = async () => {
+    onSubmitHandler({
+      params: actionParams,
+      includeData: Boolean(includeData),
+      isActionStep,
+      step,
+      stepToRender,
+    });
   };
+
+  return (
+    <OdyButton
+      type={type}
+      variant={variant ?? 'primary'}
+      fullWidth={wide ?? true}
+      ref={focusRef}
+      disabled={loading || disabled}
+      className={classes}
+        // Fixes text overflow
+      sx={{ display: 'flex', whiteSpace: 'normal' }}
+      startIcon={loading ? <Spinner color="white" /> : Icon && (
+        <img
+          src={Icon}
+          alt=""
+        />
+      )}
+      aria-describedby={ariaDescribedBy}
+      data-type={dataType}
+      data-se={dataSe}
+      aria-label={ariaLabel}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+      {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
+    >
+      {label}
+    </OdyButton>
+  );
+};
 
 export default Button;
