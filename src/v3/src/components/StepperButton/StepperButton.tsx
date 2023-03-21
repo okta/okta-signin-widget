@@ -36,9 +36,9 @@ const StepperButton: UISchemaElementComponent<{
 
   const handleClick = () => {
     if (typeof nextStepIndex === 'function') {
-      setStepIndex!(nextStepIndex(widgetContext));
+      setStepIndex(nextStepIndex(widgetContext));
     } else {
-      setStepIndex!(nextStepIndex);
+      setStepIndex(nextStepIndex);
     }
   };
 
