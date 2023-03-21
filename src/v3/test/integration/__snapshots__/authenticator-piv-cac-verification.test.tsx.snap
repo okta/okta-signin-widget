@@ -61,7 +61,10 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   <span
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-12"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt=""
+                      src="MockSVGIcon"
+                    />
                   </span>
                   My custom PIV Button Label
                 </button>
@@ -351,7 +354,10 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   <span
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-12"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt=""
+                      src="MockSVGIcon"
+                    />
                   </span>
                   Sign in with PIV / CAC card
                 </button>
@@ -797,7 +803,10 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   <span
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-37"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt=""
+                      src="MockSVGIcon"
+                    />
                   </span>
                   Sign in with PIV / CAC card
                 </button>
