@@ -9,6 +9,7 @@ class TestAppPage {
   get tokens() { return $('#tokens-container'); }
   get code() { return $('#code-container'); }
   get cspErrors() { return $('#csp-errors-container'); }
+  get unhandledRejections() { return $('#unhandled-rejections-container'); }
   get oidcError() { return $('#oidc-error-container'); }
   // widget general elements
   get widgetTitle() { return $('[data-se="o-form-head"]'); }
@@ -49,6 +50,12 @@ class TestAppPage {
 
   async openInNewTab(path = '') {
     await browser.newWindow(`http://localhost:3000/${path}`, { windowFeatures: 'noopener=yes' });
+  }
+
+  async switchToPreviousTab() {
+    const windowHandles = await browser.getWindowHandles();
+    const previousHandle = windowHandles.slice(-2)[0];
+    await browser.switchToWindow(previousHandle);
   }
 
   async ssoLogout() {
@@ -136,6 +143,12 @@ class TestAppPage {
   async assertWidgetSigninError(errorMessage) {
     await PrimaryAuthPage.errorBox.then(el => el.getText()).then(txt => {
       expect(txt).toBe(errorMessage);
+    });
+  }
+
+  async assertNoUnhandledRejections() {
+    await this.unhandledRejections.then(el => el.getText()).then(txt => {
+      expect(txt).toBe('');
     });
   }
 
