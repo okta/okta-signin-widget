@@ -241,7 +241,10 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                     class="MuiBox-root emotion-36"
                     data-se="icon-code"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt=""
+                      src="MockSVGIcon"
+                    />
                   </div>
                   <div
                     class="MuiBox-root emotion-9"
@@ -482,7 +485,10 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-29"
                     data-se="icon-code"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt=""
+                      src="MockSVGIcon"
+                    />
                   </div>
                   <div
                     class="MuiBox-root emotion-9"

@@ -1043,7 +1043,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                   class="MuiFormControl-root MuiFormControl-marginNormal emotion-17"
                 >
                   <label
-                    class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
+                    class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-focused emotion-18"
                   >
                     Which option do you want to try?
                   </label>
