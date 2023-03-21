@@ -19,7 +19,7 @@ import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
 const ImageWithText: UISchemaElementComponent<{
   uischema: ImageWithTextElement
 }> = ({ uischema }) => {
-  const Icon = uischema.options.SVGIcon;
+  const iconUrl = uischema.options.SVGIcon; // FIXME
   const { noTranslate } = uischema;
   const { textContent, alignment = 'flex-start' } = uischema.options;
 
@@ -40,7 +40,10 @@ const ImageWithText: UISchemaElementComponent<{
         marginInlineEnd={2}
         data-se={`icon-${uischema.options.id}`}
       >
-        <Icon />
+        <img
+          src={iconUrl}
+          alt=""
+        />
       </Box>
       {
         textContent

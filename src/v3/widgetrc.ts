@@ -29,7 +29,7 @@ const common: Partial<WidgetOptions> = {
   logoText: 'widgico',
 
   // https://github.com/okta/okta-signin-widget#language
-  language: 'en',
+  // language: 'en',
 
   // https://github.com/okta/okta-signin-widget#redirecturi
   redirectUri: `${ORIGIN}/login/callback`,
@@ -53,7 +53,7 @@ const common: Partial<WidgetOptions> = {
     // redirectByFormSubmit: true,
     // registration: true,
     rememberMe: false,
-    rememberMyUsernameOnOIE: false,
+    // rememberMyUsernameOnOIE: false,
     // restrictRedirectToForeground: true,
     // securityImage: true,
     // selfServiceUnlock: true,
@@ -101,4 +101,35 @@ export const configs: Record<string, WidgetOptions> = {
   },
 };
 
-export const config = configs.playground;
+export const config = {
+  baseUrl: 'http://localhost:3000',
+  logo: '/img/logo_widgico.png',
+  logoText: 'Windico',
+  features: {
+    router: true,
+    rememberMe: true,
+    multiOptionalFactorEnroll: true
+  },
+  // Do not bootstrap stateToken if you want to enable v1
+  stateToken: 'dummy-state-token-wrc',
+  authParams: {
+    pkce: false // PKCE is enabled by default in okta-auth-js@3.0
+  },
+  // Host the assets (i.e. json files) locally
+  assets: {
+    baseUrl: '/'
+  },
+  // Hooks block processing and run custom logic before or after a form is rendered
+  hooks: {
+    'identify': {
+      after: [
+        // createDummyHook('after-identify', 0)
+      ]
+    },
+    'success-redirect': {
+      before: [
+        // createDummyHook('before-success-redirect',  1000)
+      ]
+    }
+  }
+};
