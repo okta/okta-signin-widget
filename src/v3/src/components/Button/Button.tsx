@@ -65,39 +65,40 @@ const Button: UISchemaElementComponent<{
 
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
-  const customClickHandler = () => onClick?.(widgetContext);
+    const customClickHandler = () => onClick?.(widgetContext);
 
-  const handleClick: ClickHandler = async () => {
-    onSubmitHandler({
-      params: actionParams,
-      includeData: Boolean(includeData),
-      isActionStep,
-      step,
-      stepToRender,
-    });
-  };
+    const handleClick: ClickHandler = async () => {
+      onSubmitHandler({
+        params: actionParams,
+        includeData: Boolean(includeData),
+        isActionStep,
+        step,
+        stepToRender,
+      });
+    };
 
-  return (
-    <OdyButton
-      type={type}
-      variant={variant ?? 'primary'}
-      fullWidth={wide ?? true}
-      ref={focusRef}
-      disabled={loading || disabled}
-      className={classes}
+    return (
+      <OdyButton
+        type={type}
+        variant={variant ?? 'primary'}
+        fullWidth={wide ?? true}
+        ref={focusRef}
+        disabled={loading || disabled}
+        className={classes}
         // Fixes text overflow
-      sx={{ display: 'flex', whiteSpace: 'normal' }}
-      startIcon={loading ? <Spinner color="white" /> : ButtonImageIcon}
-      aria-describedby={ariaDescribedBy}
-      data-type={dataType}
-      data-se={dataSe}
-      aria-label={ariaLabel}
+        sx={{ display: 'flex', whiteSpace: 'normal' }}
+        // @ts-expect-error
+        startIcon={loading ? <Spinner color="white" /> : ButtonImageIcon}
+        aria-describedby={ariaDescribedBy}
+        data-type={dataType}
+        data-se={dataSe}
+        aria-label={ariaLabel}
         // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
-    >
-      {label}
-    </OdyButton>
-  );
-};
+        {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
+      >
+        {label}
+      </OdyButton>
+    );
+  };
 
 export default Button;
