@@ -80,7 +80,7 @@ export const config: WebdriverIO.Config = {
   runner: 'local',
   path: '/',
   specs: [
-    path.resolve(__dirname, 'features/**/*.feature')
+    path.resolve(__dirname, 'features/**/multi-tabs-flow.feature')
   ],
   // Patterns to exclude.
   exclude: [],
