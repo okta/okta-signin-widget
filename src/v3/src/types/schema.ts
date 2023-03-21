@@ -18,7 +18,6 @@ import {
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
-import { FunctionComponent } from 'preact';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
@@ -56,21 +55,21 @@ export type WidgetMessage = Modify<IdxMessage, {
 }>;
 
 export type AutoCompleteValue = 'username'
-  | 'current-password'
-  | 'one-time-code'
-  | 'new-password'
-  | 'tel-national'
-  | 'given-name'
-  | 'family-name'
-  | 'email'
-  | 'off';
+| 'current-password'
+| 'one-time-code'
+| 'new-password'
+| 'tel-national'
+| 'given-name'
+| 'family-name'
+| 'email'
+| 'off';
 
 export type InputModeValue = 'numeric'
-  | 'decimal'
-  | 'tel'
-  | 'email'
-  | 'url'
-  | 'search';
+| 'decimal'
+| 'tel'
+| 'email'
+| 'url'
+| 'search';
 
 export type InputAttributes = {
   autocomplete?: AutoCompleteValue;
@@ -116,10 +115,10 @@ export type WebAuthNVerificationPayload = {
 };
 
 export type WebAuthNEnrollmentHandler = (transaction: IdxTransaction) =>
-  Promise<WebAuthNEnrollmentPayload>;
+Promise<WebAuthNEnrollmentPayload>;
 
 export type WebAuthNAuthenticationHandler = (transaction: IdxTransaction) =>
-  Promise<WebAuthNVerificationPayload>;
+Promise<WebAuthNVerificationPayload>;
 
 export type ElementContentType = 'subtitle' | 'footer';
 
