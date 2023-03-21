@@ -87,7 +87,6 @@ export const deriveThemeFromBrand = (brand: BrandColors): DerivedTheme | null =>
   } catch (e) {
     // eslint-disable-next-line no-console
     console.warn('Invalid theme color in configuration', brand);
-
     return null;
   }
 };

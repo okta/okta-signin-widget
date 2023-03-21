@@ -53,15 +53,16 @@ const InfoBox: UISchemaElementComponent<{
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...({ 'data-se': dataSe })}
         className={`infobox-${messageClass.toLowerCase()}`}
+        role="alert"
       >
-        { message.title && (
-        <Typography
-          component="h2"
-          variant="h6"
-        >
-          {message.title}
-        </Typography>
-        ) }
+        {message.title && (
+          <Typography
+            component="h2"
+            variant="h6"
+          >
+            {message.title}
+          </Typography>
+        )}
         <WidgetMessageContainer message={message} />
       </Alert>
     </Box>

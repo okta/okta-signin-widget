@@ -181,7 +181,7 @@ async function resolveMainClient(event) {
   const allClients = await self.clients.matchAll({
     type: 'window',
   })
-
+k
   return allClients
     .filter((client) => {
       // Get only those clients that are currently visible.

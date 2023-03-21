@@ -13,14 +13,14 @@
 /* eslint-disable no-console */
 import './scenario';
 
-import { setupWorker, SetupWorkerApi } from 'msw';
+import { setupWorker, SetupWorker } from 'msw';
 
 import { loadScenario } from './registry';
 
 const DEFAULT_SCENARIO_NAME = 'development';
 
 // This configures a Service Worker with the given request handlers.
-export const getWorker = async (): Promise<SetupWorkerApi | null> => {
+export const getWorker = async (): Promise<SetupWorker | null> => {
   const params = new URL(document.location.href).searchParams;
 
   const enableMocks = params.get('siw-use-mocks') === 'true';

@@ -1,7 +1,5 @@
 import BYOLPageObject from '../framework/page-objects/BYOLPageObject';
-import countryFooLanguageBundle from '../../../playground/mocks/labels/json/country_foo';
-import loginFooLanguageBundle from '../../../playground/mocks/labels/json/login_foo';
-import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
+import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
 import { ClientFunction, RequestMock } from 'testcafe';
 
 
@@ -9,9 +7,13 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollDataPhone)
   .onRequestTo('http://localhost:3000/mocks/labels/json/login_foo.json')
-  .respond(loginFooLanguageBundle)
+  .respond({
+    'oie.phone.enroll.title':'Set up foo authentication'
+  })
   .onRequestTo('http://localhost:3000/mocks/labels/json/country_foo.json')
-  .respond(countryFooLanguageBundle);
+  .respond({
+    'US': 'Foonited States'
+  });
 
 
 fixture('BYOL (Bring Your Own Language)')
