@@ -22,6 +22,8 @@ Feature: Multi Tabs
     # At the successful end of IDX flow server sets `idx` cookie.
     # When widget restarts login flow, IDX API will return 
     #  successful transaction containing interaction code.
+    # https://oktainc.atlassian.net/browse/OKTA-592098
+    @skip(okta:monolith=true)
     Scenario: It can load successful transaction after login flow restart without error
       Given transaction storage is empty
       And user opens the login page
