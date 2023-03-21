@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Button } from '@okta/odyssey-react-mui';
+import { Link as LinkMui } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
 import { useAutoFocus } from '../../hooks';
-import { StepperButtonElement, UISchemaElementComponent } from '../../types';
+import { StepperLinkElement, UISchemaElementComponent } from '../../types';
 
-const StepperButton: UISchemaElementComponent<{
-  uischema: StepperButtonElement
+const StepperLink: UISchemaElementComponent<{
+  uischema: StepperLinkElement
 }> = ({ uischema }) => {
   const { setStepIndex } = useStepperContext();
   const {
@@ -26,8 +26,8 @@ const StepperButton: UISchemaElementComponent<{
     focus,
     ariaDescribedBy,
     options: {
+      dataSe,
       nextStepIndex,
-      variant,
     },
   } = uischema;
 
@@ -43,20 +43,24 @@ const StepperButton: UISchemaElementComponent<{
   };
 
   return (
-    <Button
+    <LinkMui
+      component="button"
+      variant="body1"
+      role="link"
       onClick={handleClick}
-      variant={variant ?? 'primary'}
-      type="button"
-      fullWidth
-      ref={focusRef}
-      sx={{
-        whiteSpace: 'normal',
-      }}
       aria-describedby={ariaDescribedBy}
+      ref={focusRef}
+      data-se={dataSe}
+      sx={{
+        '&:hover': {
+          cursor: 'pointer',
+          verticalAlign: 'baseline',
+        },
+      }}
     >
       {label}
-    </Button>
+    </LinkMui>
   );
 };
 
-export default StepperButton;
+export default StepperLink;

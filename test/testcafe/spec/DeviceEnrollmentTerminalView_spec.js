@@ -30,7 +30,7 @@ test
   .requestHooks(logger, iosOdaMock)('shows the correct content in iOS ODA terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Download Okta Verify');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Download Okta Verify');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
@@ -53,7 +53,7 @@ test
   .requestHooks(logger, androidOdaLoopbackMock)('shows the correct content in Android ODA Loopback terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Download Okta Verify');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Download Okta Verify');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
@@ -69,7 +69,7 @@ test.meta('v3', false) // mdm not enabled in v3
   .requestHooks(logger, mdmMock)('shows the correct content in MDM terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To access this app, your device needs to meet your organization');
     await t.expect(content).contains('s security requirements. Follow the instructions below to continue.');
@@ -104,7 +104,7 @@ test
       }
     });
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Download Okta Verify');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Download Okta Verify');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
@@ -141,7 +141,7 @@ test.meta('v3', false) // mdm not enabled in v3
       }
     });
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To access this app, your device needs to meet your organization');
     await t.expect(content).contains('s security requirements. Follow the instructions below to continue.');
@@ -153,7 +153,7 @@ test.meta('v3', false) // mdm not enabled in v3
     await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
   });
 
-test.meta('v3', false) // OKTA-588701 - Back link needs to be added
+test
   .requestHooks()('shows the correct content in Android ODA terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -173,7 +173,7 @@ test.meta('v3', false) // OKTA-588701 - Back link needs to be added
       }
     });
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required to use Okta FastPass');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required to use Okta FastPass');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('On this device, do you already have an Okta Verify account for testOrg?');
@@ -195,10 +195,10 @@ test.meta('v3', false) // OKTA-588701 - Back link needs to be added
 
     await deviceEnrollmentTerminalPage.clickBackLink();
     await t.expect(deviceEnrollmentTerminalPage.getBackLink().exists).eql(false);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required to use Okta FastPass');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required to use Okta FastPass');
   });
 
-test.meta('v3', false) // OKTA-588701 - Back link needs to be added
+test
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is not installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -221,7 +221,7 @@ test.meta('v3', false) // OKTA-588701 - Back link needs to be added
     // switch to the next page when OV account is not setup
     await deviceEnrollmentTerminalPage.clickWithoutOVAccount();
     await deviceEnrollmentTerminalPage.clickNextButton();
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Set up an Okta Verify account');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Set up an Okta Verify account');
     await t.expect(deviceEnrollmentTerminalPage.getSubHeader()).eql('To sign in with Okta FastPass, you’ll need to set up Okta Verify on this device.');
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(1)).contains('If you don’t have Okta Verify installed,');
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(1)).contains('download the app.');
@@ -234,7 +234,7 @@ test.meta('v3', false) // OKTA-588701 - Back link needs to be added
     await t.expect(deviceEnrollmentTerminalPage.getBackLinkText()).eql('Back');
   });
 
-test.meta('v3', false) // OKTA-588701 - Back link needs to be added
+test
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -257,9 +257,9 @@ test.meta('v3', false) // OKTA-588701 - Back link needs to be added
     // go back then switch to the next page when OV account is setup
     await deviceEnrollmentTerminalPage.clickWithOVAccount();
     await deviceEnrollmentTerminalPage.clickNextButton();
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required to use Okta FastPass');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required to use Okta FastPass');
     await t.expect(deviceEnrollmentTerminalPage.getSubHeader()).eql('Okta FastPass is a security method that can sign you in without needing your username.');
-    await t.expect(deviceEnrollmentTerminalPage.getTextContent('.subtitle ')).eql('Already have Okta FastPass enabled for your account?');
+    await t.expect(deviceEnrollmentTerminalPage.hasText('Already have Okta FastPass enabled for your account?')).eql(true);
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(1)).eql('On this device, open the Okta Verify app.');
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(2)).eql('On the list of accounts, tap your account for https://rain.okta1.com.');
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(3)).eql('Under the “Okta FastPass” section, tap Setup, then follow the instructions.');
@@ -287,7 +287,7 @@ test.meta('v3', false) // mdm not enabled in v3
       }
     });
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To access this app, your device needs to meet your organization');
     await t.expect(content).contains('s security requirements. Follow the instructions below to continue.');

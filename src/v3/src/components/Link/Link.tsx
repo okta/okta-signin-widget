@@ -63,12 +63,19 @@ const Link: UISchemaElementComponent<{
   return (
     typeof href === 'undefined' ? (
       <LinkMui
-        // eslint-disable-next-line no-script-url
-        href="javascript:void(0)"
+        component="button"
+        variant="body1"
+        role="link"
         onClick={onClick}
         aria-describedby={ariaDescribedBy}
         ref={focusRef}
         data-se={dataSe}
+        sx={{
+          '&:hover': {
+            cursor: 'pointer',
+          },
+          verticalAlign: 'baseline',
+        }}
       >
         {label}
       </LinkMui>

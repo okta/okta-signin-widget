@@ -25,7 +25,7 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getBackLink() {
-    return Selector('[data-se="back-to-preselect"]');
+    return this.form.getLink('Back');
   }
 
   async clickBackLink() {
@@ -36,11 +36,10 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
     return this.getBackLink().innerText;
   }
 
-  getHeader() {
-    return this.form.getTitle();
-  }
-
   getSubHeader() {
+    if (userVariables.v3) {
+      return this.form.getSubtitle();
+    }
     return this.getTextContent('[data-se="subheader"]');
   }
 
@@ -52,6 +51,9 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getContentByIndex(idx = 1) {
+    if (userVariables.v3) {
+      return this.getTextContent(`ol li:nth-of-type(${idx})`);
+    }
     return this.getTextContent(`.o-form-fieldset-container ol li:nth-of-type(${idx})`);
   }
 

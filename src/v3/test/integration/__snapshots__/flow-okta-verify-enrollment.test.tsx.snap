@@ -179,24 +179,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -468,24 +468,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -692,24 +692,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-30"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-30"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -931,24 +931,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -1204,24 +1204,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -1411,24 +1411,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -1618,24 +1618,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -1907,24 +1907,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -3388,24 +3388,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-39"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -3627,24 +3627,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-14"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>
@@ -3900,24 +3900,24 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                   data-se="switchAuthenticator"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Return to authenticator list
-                </a>
+                </button>
               </div>
               <div
                 class="MuiBox-root emotion-13"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                   data-se="cancel"
-                  href="javascript:void(0)"
+                  role="link"
                 >
                   Back to sign in
-                </a>
+                </button>
               </div>
             </div>
           </form>

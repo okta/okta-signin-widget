@@ -20,6 +20,7 @@ describe('flow-enroll-profile-transition-clear-errors', () => {
       user,
       queryByText,
       findByText,
+      findByRole,
       authClient,
     } = await setup({
       mockResponses: {
@@ -43,7 +44,7 @@ describe('flow-enroll-profile-transition-clear-errors', () => {
       expect.anything(),
     );
     await findByText(/We found some errors./);
-    const signinLink = await findByText('Sign In', { selector: 'a' });
+    const signinLink = await findByRole('link', { name: 'Sign In' });
     await user.click(signinLink);
     await findByText(/Sign In/);
     expect(queryByText(/We found some errors./)).toBeNull();

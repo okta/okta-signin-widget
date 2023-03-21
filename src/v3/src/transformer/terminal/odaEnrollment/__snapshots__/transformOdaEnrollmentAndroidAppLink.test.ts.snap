@@ -192,6 +192,15 @@ Object {
                 "type": "List",
                 "viewIndex": 1,
               },
+              Object {
+                "contentType": "footer",
+                "label": "oform.back",
+                "options": Object {
+                  "nextStepIndex": 0,
+                },
+                "type": "StepperLink",
+                "viewIndex": 1,
+              },
             ],
             "type": "VerticalLayout",
           },
@@ -220,7 +229,6 @@ Object {
                           "noMargin": true,
                           "options": Object {
                             "content": "enroll.oda.without.account.step1",
-                            "dataSe": "download-ov",
                           },
                           "type": "Description",
                         },
@@ -273,6 +281,14 @@ Object {
                   "type": "ol",
                 },
                 "type": "List",
+              },
+              Object {
+                "contentType": "footer",
+                "label": "oform.back",
+                "options": Object {
+                  "nextStepIndex": 0,
+                },
+                "type": "StepperLink",
               },
             ],
             "type": "VerticalLayout",

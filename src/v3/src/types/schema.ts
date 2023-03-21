@@ -498,6 +498,15 @@ export interface StepperButtonElement extends UISchemaElement {
   }
 }
 
+export interface StepperLinkElement extends UISchemaElement {
+  type: 'StepperLink',
+  label: string;
+  options: Omit<LinkElement['options'], 'step'>
+  & {
+    nextStepIndex: number | ((widgetContext: IWidgetContext) => number);
+  }
+}
+
 export interface StepperNavigatorElement extends UISchemaElement {
   type: 'StepperNavigator',
   options: {

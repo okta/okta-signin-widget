@@ -19,6 +19,7 @@ import {
   IdxStepTransformer,
   ListElement,
   StepperButtonElement,
+  StepperLinkElement,
   TitleElement,
   UISchemaElement,
   UISchemaLayout,
@@ -200,6 +201,14 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
               ],
             },
           },
+          {
+            type: 'StepperLink',
+            contentType: 'footer',
+            label: loc('oform.back', 'login'),
+            options: {
+              nextStepIndex: 0,
+            },
+          } as StepperLinkElement,
         ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
       } as UISchemaLayout,
       // Android App Link without Account
@@ -229,7 +238,6 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
                       noMargin: true,
                       options: {
                         content: loc('enroll.oda.without.account.step1', 'login', [OKTA_VERIFY_APP_URL.ANDROID]),
-                        dataSe: 'download-ov',
                       },
                     } as DescriptionElement,
                   ],
@@ -277,6 +285,14 @@ export const transformOdaEnrollmentAndroidAppLink: IdxStepTransformer = ({
               ],
             },
           } as ListElement,
+          {
+            type: 'StepperLink',
+            contentType: 'footer',
+            label: loc('oform.back', 'login'),
+            options: {
+              nextStepIndex: 0,
+            },
+          } as StepperLinkElement,
         ],
       } as UISchemaLayout,
     ],

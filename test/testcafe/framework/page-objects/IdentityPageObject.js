@@ -2,7 +2,6 @@ import { Selector, userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '[data-se="callout"]';
-const ENROLL_SELECTOR = 'a[data-se="enroll"]';
 const NEEDHELP_SELECTOR = 'a[data-se="help"]';
 const FORGOT_PASSWORD_SELECTOR = 'a[data-se="forgot-password"]';
 const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
@@ -38,20 +37,15 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getSignupLinkText() {
-    return Selector(ENROLL_SELECTOR).textContent;
+    return this.form.getLink('Sign up').textContent;
   }
 
   getNeedhelpLinkText() {
     return Selector(NEEDHELP_SELECTOR).textContent;
   }
 
-  getForgotPasswordLinkText() {
-    return Selector(FORGOT_PASSWORD_SELECTOR).textContent;
-  }
-
   async hasForgotPasswordLinkText() {
-    const elCount = await Selector(FORGOT_PASSWORD_SELECTOR).count;
-    return elCount === 1;
+    return this.form.getLink('Forgot password?').exists;
   }
 
   async clickOktaVerifyButton() {
@@ -220,7 +214,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async clickSignUpLink() {
-    await this.t.click(Selector(ENROLL_SELECTOR));
+    await this.t.click(this.form.getLink('Sign up'));
   }
 
   getUnlockAccountLink(name = 'Unlock account?') {

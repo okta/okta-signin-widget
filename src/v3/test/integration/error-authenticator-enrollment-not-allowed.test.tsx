@@ -23,10 +23,10 @@ describe('error-authenticator-enrollment-not-allowed', () => {
 
   it('should send correct payload when clicking back to sign in link', async () => {
     const {
-      authClient, user, findByText,
+      authClient, user, findByRole,
     } = await setup({ mockResponse });
 
-    const cancelEle = await findByText('Back to sign in', { selector: 'a' });
+    const cancelEle = await findByRole('link', { name: 'Back to sign in' });
 
     await user.click(cancelEle);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
