@@ -27,6 +27,7 @@ class TestAppPage {
   get triggerCspEvalFail() { return $('button[name="fail-csp-eval"]'); }
   get triggerCspStyleAttrFail() { return $('button[name="fail-csp-style-attr"]'); }
   get flowDropdown() { return $('#f_flow'); }
+  get clearTransactionButton() { return $('button[name="clearTransaction"]'); }
 
   
   async open(path = '') {
@@ -150,6 +151,10 @@ class TestAppPage {
     await this.unhandledRejections.then(el => el.getText()).then(txt => {
       expect(txt).toBe('');
     });
+  }
+
+  async clearTransaction() {
+    await this.clearTransactionButton.click();
   }
 
 }

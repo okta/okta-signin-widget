@@ -23,7 +23,8 @@ Feature: Multi Tabs
     # When widget restarts login flow, IDX API will return 
     #  successful transaction containing interaction code.
     Scenario: It can load successful transaction after login flow restart without error
-      Given user opens the login page
+      Given transaction storage is empty
+      And user opens the login page
       When user navigates to forgot password form
       And user opens another instance in a new tab
       Then user sees primary signin form and not forgot password form
