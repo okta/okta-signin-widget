@@ -56,21 +56,21 @@ export type WidgetMessage = Modify<IdxMessage, {
 }>;
 
 export type AutoCompleteValue = 'username'
-| 'current-password'
-| 'one-time-code'
-| 'new-password'
-| 'tel-national'
-| 'given-name'
-| 'family-name'
-| 'email'
-| 'off';
+  | 'current-password'
+  | 'one-time-code'
+  | 'new-password'
+  | 'tel-national'
+  | 'given-name'
+  | 'family-name'
+  | 'email'
+  | 'off';
 
 export type InputModeValue = 'numeric'
-| 'decimal'
-| 'tel'
-| 'email'
-| 'url'
-| 'search';
+  | 'decimal'
+  | 'tel'
+  | 'email'
+  | 'url'
+  | 'search';
 
 export type InputAttributes = {
   autocomplete?: AutoCompleteValue;
@@ -116,10 +116,10 @@ export type WebAuthNVerificationPayload = {
 };
 
 export type WebAuthNEnrollmentHandler = (transaction: IdxTransaction) =>
-Promise<WebAuthNEnrollmentPayload>;
+  Promise<WebAuthNEnrollmentPayload>;
 
 export type WebAuthNAuthenticationHandler = (transaction: IdxTransaction) =>
-Promise<WebAuthNVerificationPayload>;
+  Promise<WebAuthNVerificationPayload>;
 
 export type ElementContentType = 'subtitle' | 'footer';
 
@@ -261,7 +261,7 @@ export interface ButtonElement extends UISchemaElement {
     ariaLabel?: string;
     classes?: string;
     disabled?: boolean;
-    Icon?: FunctionComponent;
+    Icon?: string;
     onClick?: (widgetContext: IWidgetContext) => unknown;
   };
 }
@@ -390,10 +390,9 @@ export interface ListElement extends UISchemaElement {
     /**
      * Items to render in the list.
      *
-     * **NOTE**: Only string and UISchemaElement with type
-     * 'Button' or 'Description'
-     * are supported. Other UISchemaElement types will
-     * not render and print a warning to the console.
+     * **NOTE**: Only string and UISchemaElement with type 'Button' or
+     * 'Description' are supported. Other UISchemaElement types will not render
+     * and print a warning to the console.
      */
     items: (string | UISchemaLayout)[];
     type: 'ul' | 'ol';
@@ -443,7 +442,7 @@ export interface ImageWithTextElement extends UISchemaElement {
   type: 'ImageWithText';
   options: {
     id: string;
-    SVGIcon: FunctionComponent;
+    SVGIcon: string;
     textContent?: string;
     alignment?: string;
   };

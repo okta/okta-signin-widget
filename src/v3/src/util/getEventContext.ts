@@ -61,12 +61,6 @@ export const getEventContext = (transaction: IdxTransaction): EventContext => {
     isPasswordRecoveryFlow,
   );
 
-  if (!controller) {
-    // TODO: Lester FIXME
-    // throw new Error(`Controller not found: ${controller}`);
-    console.warn(`Controller not found: ${controller}`);
-  }
-
   return {
     controller: controller ?? null,
     formName,
