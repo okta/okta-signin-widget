@@ -10,12 +10,10 @@ const mock = RequestMock()
   .respond({ 'oie.phone.enroll.title':'Set up foo authentication' })
   .onRequestTo('http://localhost:3000/mocks/labels/json/country_foo.json')
   .respond({ 'US': 'Foonited States' })
-  .onRequestTo('http://labels/json/login_foo.json')
+  .onRequestTo(/http:\/\/(localhost:3000\/)?labels\/json\/login_foo.json/)
   .respond(null, 404)
-  .onRequestTo('http://labels/json/country_foo.json')
+  .onRequestTo(/http:\/\/(localhost:3000\/)?labels\/json\/country_foo.json/)
   .respond(null, 404);
-// .onRequestTo(/.*/)
-// .respond(null, 404);
 
 
 fixture('BYOL (Bring Your Own Language)')
