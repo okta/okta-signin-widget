@@ -27,7 +27,7 @@ const mockEnrollAuthenticatorPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond(xhrAuthenticatorEnrollPassword);
 
-const mockEnrollAuthenticatorPhoneSms = RequestMock()
+const mockEnrollAuthenticatorPhoneSmsInvalidPhone = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticators)
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
@@ -37,9 +37,11 @@ const mockEnrollAuthenticatorPhoneSms = RequestMock()
     const body = req.body.toString('utf-8');
     const bodyJson = JSON.parse(body);
     if (bodyJson?.authenticator?.methodType) {
+      // if we POST with methodType its the enroll call when the user enters a phone number
       res.statusCode = '400';
       res.setBody(xhrAuthenticatorEnrollPhoneInvalidNumber);
     } else {
+      // if we POST with methodType its the enroll call when the user clicks the authenticator from the list
       res.statusCode = '200';
       res.setBody(xhrAuthenticatorEnrollDataPhone);
     }
@@ -278,7 +280,7 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
   await t.expect(req3.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
 });
 
-test.requestHooks(requestLogger, mockEnrollAuthenticatorPhoneSms)('select enroll phone sms, enter invalid phone, hit switch authenticator, and re-select phone', async t => {
+test.requestHooks(requestLogger, mockEnrollAuthenticatorPhoneSmsInvalidPhone)('select enroll phone sms, enter invalid phone, hit switch authenticator, and re-select phone', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
