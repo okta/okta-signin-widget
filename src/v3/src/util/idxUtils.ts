@@ -206,7 +206,9 @@ export const updateTransactionWithNextStep = (
   nextStep: NextStep,
   widgetContext: IWidgetContext,
 ): void => {
-  const { setIdxTransaction, setIsClientTransaction, setMessage, setStepToRender } = widgetContext;
+  const {
+    setIdxTransaction, setIsClientTransaction, setMessage, setStepToRender,
+  } = widgetContext;
   const availableSteps = transaction.availableSteps?.filter(
     ({ name }) => name !== nextStep.name,
   ) || [];
