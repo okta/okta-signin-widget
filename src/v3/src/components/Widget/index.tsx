@@ -347,7 +347,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           >
             <Box
               aria-live="assertive"
-              aria-busy={loading}
               // style to clip the Box out so content is hidden visually but will still be read by screen reader
               style={{
                 border: 0,
