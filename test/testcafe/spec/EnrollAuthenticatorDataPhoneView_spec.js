@@ -10,7 +10,7 @@ import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollDataPhone)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond(xhrSuccess)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
@@ -18,7 +18,7 @@ const mock = RequestMock()
 const voiceOnlyOptionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollDataPhoneVoice)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond(xhrSuccess)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
