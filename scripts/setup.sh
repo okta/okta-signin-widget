@@ -8,15 +8,12 @@ export AUTHJS_VERSION=""
 # Install required node version
 export REGISTRY_REPO="npm-topic"
 export REGISTRY="${ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
-setup_service node v14.18.2
-# Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
-setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
+setup_service node-and-yarn 14.18.2 1.22.19 
 
 cd ${OKTA_HOME}/${REPO}
 
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
-  npm config set strict-ssl false
 
   if ! yarn add -W --force --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-${AUTHJS_VERSION}.tgz ; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
@@ -31,6 +28,13 @@ if [ ! -z "$AUTHJS_VERSION" ]; then
   fi
   echo "AUTHJS_VERSION installed: ${AUTHJS_VERSION}"
 fi
+
+yarn config set registry https://registry.yarnpkg.com
+yarn config set cafile /etc/pki/tls/certs/ca-bundle.crt
+npm config set registry https://registry.yarnpkg.com
+npm config set cafile /etc/pki/tls/certs/ca-bundle.crt
+export NODE_OPTIONS=--use-openssl-ca
+export NODE_EXTRA_CA_CERTS=/etc/pki/tls/certs/ca-bundle.crt
 
 if ! yarn install ; then
   echo "yarn install failed! Exiting..."
