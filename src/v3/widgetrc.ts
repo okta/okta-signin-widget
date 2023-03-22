@@ -105,31 +105,18 @@ export const config = {
   baseUrl: 'http://localhost:3000',
   logo: '/img/logo_widgico.png',
   logoText: 'Windico',
+  // language: 'foo',
+  // assets: {
+  //   baseUrl: 'http://localhost:3000'
+  // },
   features: {
     router: true,
     rememberMe: true,
     multiOptionalFactorEnroll: true,
   },
-  // Do not bootstrap stateToken if you want to enable v1
-  stateToken: 'dummy-state-token-wrc',
+  stateToken: 'DUMMY_STATE_TOKEN',
   authParams: {
-    pkce: false, // PKCE is enabled by default in okta-auth-js@3.0
-  },
-  // Host the assets (i.e. json files) locally
-  assets: {
-    baseUrl: '/',
-  },
-  // Hooks block processing and run custom logic before or after a form is rendered
-  hooks: {
-    identify: {
-      after: [
-        // createDummyHook('after-identify', 0)
-      ],
-    },
-    'success-redirect': {
-      before: [
-        // createDummyHook('before-success-redirect',  1000)
-      ],
-    },
+    pkce: true,
+    codeChallenge: 'asdfasdf',
   },
 };
