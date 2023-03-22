@@ -18,7 +18,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    // 'identify',
+    'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -48,7 +48,7 @@ const idx = {
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
-    'authenticator-enroll-select-authenticator',
+    // 'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
     // 'authenticator-verification-data-phone-sms-then-voice',
@@ -106,8 +106,6 @@ const idx = {
     // 'authenticator-verification-custom-app-push',
     // 'authenticator-enroll-custom-app-push',
     // 'request-activation-email'    
-    // 'error-authenticator-enroll-phone-invalid-number',
-    // 'response-3',
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
@@ -120,11 +118,7 @@ const idx = {
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-google-authenticator',
     // 'authenticator-enroll-email-first-emailmagiclink-true',
-    // 'error-authenticator-enroll-phone-invalid-number',
-    // 'response-2',
-    // 'response-4',
-    // 'error-400-response-5',
-    // 'error-400-response-6',
+    'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
     // 'authenticator-verification-data-ov-only-without-device-known',
@@ -143,7 +137,7 @@ const idx = {
     // 'error-unsupported-idx-response'
   ],
   '/idp/idx/challenge/answer': [
-    // 'error-401-invalid-otp-passcode',
+    'error-401-invalid-otp-passcode',
     // 'error-401-invalid-otp-passcode',
     // 'error-429-too-many-request-operation-ratelimit',
     // 'error-429-too-many-request',
@@ -153,17 +147,15 @@ const idx = {
     // 'error-authenticator-enroll-security-question',
     // 'error-authenticator-webauthn-failure',
     // 'error-authenticator-enroll-password-common',
+    'error-authenticator-reset-password-requirement',
+    'error-authenticator-enroll-security-question-html-tags',
+    'error-authenticator-enroll-password-common',
     // 'error-authenticator-reset-password-requirement',
     // 'error-authenticator-enroll-security-question-html-tags',
-    // 'error-authenticator-enroll-password-common',
-    // 'error-authenticator-reset-password-requirement',
-    // 'error-authenticator-enroll-security-question-html-tags',
-    'response-3',
   ],
   '/idp/idx/challenge/send': [
     // 'authenticator-enroll-ov-sms',
-    // 'authenticator-enroll-ov-email',
-    'error-authenticator-enroll-phone-invalid-number',
+    'authenticator-enroll-ov-email',
   ],
   '/idp/idx/challenge/resend': [
     'authenticator-enroll-ov-sms',
