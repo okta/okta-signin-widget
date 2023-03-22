@@ -14,7 +14,6 @@ const logger = RequestLogger(/challenge|challenge\/poll/,
   }
 );
 
-
 const pushRejectMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll)
@@ -33,7 +32,8 @@ const pushEnableBiometricsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(pushEnableBiometricsOktaVerify);
 
-fixture('Challenge Okta Verify Push Resend');
+fixture('Challenge Okta Verify Push Resend')
+  .meta('v3', true);
 
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
@@ -51,12 +51,11 @@ test
     const errorBox = challengeOktaVerifyPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText).contains('You have chosen to reject this login.');
     const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
-    await t.expect(resendPushBtn.value).contains('Resend push notification');
+    await t.expect(challengeOktaVerifyPushPageObject.form.getButton('Resend push notification').exists).eql(true);
     await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();
 
     // Verify links
-    await t.expect(await challengeOktaVerifyPushPageObject.switchAuthenticatorLinkExists()).ok();
-    await t.expect(challengeOktaVerifyPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
+    await t.expect(await challengeOktaVerifyPushPageObject.verifyWithSomethingElseLinkExists()).ok();
     await t.expect(await challengeOktaVerifyPushPageObject.signoutLinkExists()).ok();
     await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
@@ -87,7 +86,6 @@ test
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge');
   });
 
-
 test
   .requestHooks(logger, pushOktaVerifyUpgradeMock)('challenge okta verify resend push with version upgrade message', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
@@ -112,11 +110,19 @@ test
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
     await t.expect(pageTitle).contains('Get a push notification');
     const errorBox = challengeOktaVerifyPushPageObject.getErrorBox();
-    await t.expect(errorBox.innerText).contains('Your response was received, but your organization requires biometrics. Make sure you meet the following requirements, then try again:\n\nYour device supports biometrics\nOkta Verify is up-to-date\nIn Okta Verify, biometrics are enabled for your account');
+    await t.expect(errorBox.innerText).contains('Your response was received, but your organization requires biometrics. Make sure you meet the following requirements, then try again:');
     const errorTitle = challengeOktaVerifyPushPageObject.getErrorTitle();
     await t.expect(errorTitle.innerText).contains('Enable biometrics in Okta Verify');
+
+    const errorSubtitleBullet1 = challengeOktaVerifyPushPageObject.getNthErrorBulletPoint(0);
+    await t.expect(errorSubtitleBullet1).contains('Your device supports biometrics');
+    const errorSubtitleBullet2 = challengeOktaVerifyPushPageObject.getNthErrorBulletPoint(1);
+    await t.expect(errorSubtitleBullet2).contains('Okta Verify is up-to-date');
+    const errorSubtitleBullet3 = challengeOktaVerifyPushPageObject.getNthErrorBulletPoint(2);
+    await t.expect(errorSubtitleBullet3).contains('In Okta Verify, biometrics are enabled for your account');
+
     const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
-    await t.expect(resendPushBtn.value).contains('Resend push notification');
+    await t.expect(challengeOktaVerifyPushPageObject.form.getButton('Resend push notification').exists).eql(true);
     await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();
   });
 
