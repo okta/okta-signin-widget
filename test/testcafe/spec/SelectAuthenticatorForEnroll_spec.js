@@ -302,19 +302,31 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPhoneSmsInvalidPhone)('s
   const req1 = requestLogger.requests[0].request;
   await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
 
+  // clicking phone in authenticator list
   const req2 = requestLogger.requests[1].request;
   await t.expect(req2.url).eql('http://localhost:3000/idp/idx/credential/enroll');
   await t.expect(req2.method).eql('post');
-  // await t.expect(req2.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+  const req2Body = JSON.parse(req2.body);
+  await t.expect(req2Body?.authenticator?.id).notEql(undefined);
+  await t.expect(req2Body?.stateHandle).notEql(undefined);
 
+  // clicking send sms button
   const req3 = requestLogger.requests[2].request;
   await t.expect(req3.url).eql('http://localhost:3000/idp/idx/credential/enroll');
   await t.expect(req3.method).eql('post');
-  // await t.expect(req3.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+  const req3Body = JSON.parse(req3.body);
+  await t.expect(req3Body?.authenticator?.id).notEql(undefined);
+  await t.expect(req3Body?.authenticator?.methodType).eql('sms');
+  await t.expect(req3Body?.authenticator?.phoneNumber).eql('+1123');
+  await t.expect(req3Body?.stateHandle).notEql(undefined);
 
-  const req4 = requestLogger.requests[2].request;
+  // clicking phone in authenticator list
+  const req4 = requestLogger.requests[3].request;
   await t.expect(req4.url).eql('http://localhost:3000/idp/idx/credential/enroll');
   await t.expect(req4.method).eql('post');
+  const req4Body = JSON.parse(req4.body);
+  await t.expect(req4Body?.authenticator?.id).notEql(undefined);
+  await t.expect(req4Body?.stateHandle).notEql(undefined);
 });
 
 test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enrollment and go to success', async t => {
