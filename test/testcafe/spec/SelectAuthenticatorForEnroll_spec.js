@@ -5,12 +5,15 @@ import { oktaDashboardContent } from '../framework/shared';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
+import FactorEnrollPhonePageObject from '../framework/page-objects/FactorEnrollPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator';
 import xhrSelectAuthenticatorsWithUsageInfo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-with-usage-info';
 import xhrSelectAuthenticatorsWithCustomApp from '../../../playground/mocks/data/idp/idx/authenticator-enroll-custom-app-push';
 import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
+import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
+import xhrAuthenticatorEnrollPhoneInvalidNumber from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-phone-invalid-number';
 
 import xhrSelectAuthenticatorsWithSkip from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-with-skip';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -23,6 +26,24 @@ const mockEnrollAuthenticatorPassword = RequestMock()
   .respond(xhrSelectAuthenticators)
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond(xhrAuthenticatorEnrollPassword);
+
+const mockEnrollAuthenticatorPhoneSms = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticators)
+  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
+  .respond((req, res) => {
+    res.headers['content-type'] = 'application/json';
+
+    const body = req.body.toString('utf-8');
+    const bodyJson = JSON.parse(body);
+    if (bodyJson?.authenticator?.methodType) {
+      res.statusCode = '400';
+      res.setBody(xhrAuthenticatorEnrollPhoneInvalidNumber);
+    } else {
+      res.statusCode = '200';
+      res.setBody(xhrAuthenticatorEnrollDataPhone);
+    }
+  });
 
 const mockEnrollAuthenticatorWithUsageInfo = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -255,6 +276,44 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
   await t.expect(req3.url).eql('http://localhost:3000/idp/idx/credential/enroll');
   await t.expect(req3.method).eql('post');
   await t.expect(req3.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+});
+
+test.requestHooks(requestLogger, mockEnrollAuthenticatorPhoneSms)('select enroll phone sms, enter invalid phone, hit switch authenticator, and re-select phone', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
+
+  selectFactorPage.selectFactorByIndex(1);
+  const enrollPhonePage = new FactorEnrollPhonePageObject(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up phone authentication');
+  await t.expect(enrollPhonePage.phoneNumberFieldExists()).eql(true);
+  await enrollPhonePage.fillPhoneNumber('123'); // an invalid phone number
+  await enrollPhonePage.clickReceiveSmsCodeButton();
+  await t.debug();
+  await t.expect(enrollPhonePage.getErrorBoxText()).eql('Invalid Phone Number.');
+  await enrollPhonePage.clickReturnToAuthenticatorListLink();
+  // re-select phone
+  selectFactorPage.selectFactorByIndex(1);
+  await t.expect(enrollPhonePage.hasErrorBox()).eql(false);
+  await t.expect(enrollPhonePage.phoneNumberFieldExists()).eql(true);
+
+  await t.expect(requestLogger.count(() => true)).eql(4);
+  const req1 = requestLogger.requests[0].request;
+  await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
+
+  const req2 = requestLogger.requests[1].request;
+  await t.expect(req2.url).eql('http://localhost:3000/idp/idx/credential/enroll');
+  await t.expect(req2.method).eql('post');
+  // await t.expect(req2.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+
+  const req3 = requestLogger.requests[2].request;
+  await t.expect(req3.url).eql('http://localhost:3000/idp/idx/credential/enroll');
+  await t.expect(req3.method).eql('post');
+  // await t.expect(req3.body).eql('{"authenticator":{"id":"autwa6eD9o02iBbtv0g3"},"stateHandle":"02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt"}');
+
+  const req4 = requestLogger.requests[2].request;
+  await t.expect(req4.url).eql('http://localhost:3000/idp/idx/credential/enroll');
+  await t.expect(req4.method).eql('post');
 });
 
 test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enrollment and go to success', async t => {
