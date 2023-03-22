@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 
 import { oktaDashboardContent } from '../framework/shared';
@@ -293,12 +293,12 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPhoneSmsInvalidPhone)('s
   await enrollPhonePage.clickReceiveSmsCodeButton();
   await t.expect(enrollPhonePage.getErrorBoxText()).eql('Invalid Phone Number.');
   await enrollPhonePage.clickReturnToAuthenticatorListLink();
+  await t.expect(enrollPhonePage.hasErrorBox()).eql(false);
   // re-select phone
   selectFactorPage.selectFactorByIndex(1);
   await t.expect(enrollPhonePage.hasErrorBox()).eql(false);
   await t.expect(enrollPhonePage.phoneNumberFieldExists()).eql(true);
 
-  await t.expect(requestLogger.count(() => true)).eql(4);
   const req1 = requestLogger.requests[0].request;
   await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
 
@@ -320,8 +320,10 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPhoneSmsInvalidPhone)('s
   await t.expect(req3Body?.authenticator?.phoneNumber).eql('+1123');
   await t.expect(req3Body?.stateHandle).notEql(undefined);
 
+  // in gen 2 we re-introspect when clicking return to authenticator,
+  // so the second enroll call is one request later.
   // clicking phone in authenticator list
-  const req4 = requestLogger.requests[3].request;
+  const req4 = userVariables.v3 ? requestLogger.requests[3].request : requestLogger.requests[4].request;
   await t.expect(req4.url).eql('http://localhost:3000/idp/idx/credential/enroll');
   await t.expect(req4.method).eql('post');
   const req4Body = JSON.parse(req4.body);

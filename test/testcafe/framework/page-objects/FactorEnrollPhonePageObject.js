@@ -1,7 +1,5 @@
 import BasePageObject from './BasePageObject';
 
-const confirmPasswordFieldName = 'confirmPassword';
-
 export default class EnrollPhonePageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -19,12 +17,8 @@ export default class EnrollPhonePageObject extends BasePageObject {
     return this.form.setTextBoxValue('Phone number', value, true);
   }
 
-  getConfirmPasswordError() {
-    return this.form.getTextBoxErrorMessage(confirmPasswordFieldName);
-  }
-
   hasErrorBox() {
-    return this.form.hasErrorBox();
+    return this.form.getErrorBox().exists;
   }
 
   getErrorBoxText() {
