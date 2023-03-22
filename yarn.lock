@@ -2362,6 +2362,10 @@
     node-properties-parser "^0.0.2"
     properties-to-json "^0.1.7"
 
+"@okta/okta-auth-js@link:../okta/okta-auth-js":
+  version "0.0.0"
+  uid ""
+
 "@okta/okta-auth-js@~7.0.0":
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-7.0.1.tgz#c3c068c48507bd3dca847855855566479d8dcb63"
@@ -2402,9 +2406,9 @@
     safe-flat "^2.0.2"
 
 "@okta/okta-signin-widget@link:dist":
-  version "7.3.0"
+  version "7.4.0"
   dependencies:
-    "@okta/okta-auth-js" "~7.0.0"
+    "@okta/okta-auth-js" "link:../okta/okta-auth-js"
     "@sindresorhus/to-milliseconds" "^1.0.0"
     "@types/backbone" "^1.4.15"
     "@types/jquery" "^3.5.14"
