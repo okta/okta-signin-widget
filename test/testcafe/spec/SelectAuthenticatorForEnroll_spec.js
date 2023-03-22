@@ -289,7 +289,6 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPhoneSms)('select enroll
   await t.expect(enrollPhonePage.phoneNumberFieldExists()).eql(true);
   await enrollPhonePage.fillPhoneNumber('123'); // an invalid phone number
   await enrollPhonePage.clickReceiveSmsCodeButton();
-  await t.debug();
   await t.expect(enrollPhonePage.getErrorBoxText()).eql('Invalid Phone Number.');
   await enrollPhonePage.clickReturnToAuthenticatorListLink();
   // re-select phone
