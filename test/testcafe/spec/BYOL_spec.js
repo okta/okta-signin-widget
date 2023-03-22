@@ -7,18 +7,21 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollDataPhone)
   .onRequestTo('http://localhost:3000/mocks/labels/json/login_foo.json')
-  .respond({
-    'oie.phone.enroll.title':'Set up foo authentication'
-  })
+  .respond({ 'oie.phone.enroll.title':'Set up foo authentication' })
   .onRequestTo('http://localhost:3000/mocks/labels/json/country_foo.json')
-  .respond({
-    'US': 'Foonited States'
-  });
+  .respond({ 'US': 'Foonited States' })
+  .onRequestTo('http://labels/json/login_foo.json')
+  .respond(null, 404)
+  .onRequestTo('http://labels/json/country_foo.json')
+  .respond(null, 404);
+// .onRequestTo(/.*/)
+// .respond(null, 404);
 
 
 fixture('BYOL (Bring Your Own Language)')
   .meta('v3', true);
 
+// NOTE: not rendering by default to override navigation.languages
 const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
   window.renderPlaygroundWidget(settings);
