@@ -12,7 +12,7 @@
 
 import './style.module.css';
 
-import { ScopedCssBaseline } from '@mui/material';
+import { ScopedCssBaseline, Box } from '@mui/material';
 import { MuiThemeProvider, OdysseyCacheProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
@@ -103,6 +103,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const languageCode = getLanguageCode(widgetProps);
   const languageDirection = getLanguageDirection(languageCode);
   const brandedTheme = mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides);
+  const [statusText, setStatusText] = useState<string | null>(null);
 
   // on unmount, remove the language
   useEffect(() => () => {
@@ -324,6 +325,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       dataSchemaRef,
       loading,
       setLoading,
+      setStatusText,
       setWidgetRendered,
       loginHint,
       setloginHint,
@@ -343,6 +345,23 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
               },
             }}
           >
+            <Box
+              aria-live="assertive"
+              aria-busy={loading}
+              // style to clip the Box out so content is hidden visually but will still be read by screen reader
+              style={{
+                border: 0,
+                clip: 'rect(1px, 1px, 1px, 1px)',
+                height: '1px',
+                margin: '-1px',
+                overflow: 'hidden',
+                padding: 0,
+                position: 'absolute',
+                width: '1px',
+              }}
+            >
+                {statusText}
+            </Box>
             <AuthContainer>
               <AuthHeader
                 logo={logo}

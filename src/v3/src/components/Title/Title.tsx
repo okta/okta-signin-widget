@@ -12,6 +12,8 @@
 
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
+import { useEffect } from 'preact/hooks';
+import { useWidgetContext } from '../../contexts';
 
 import { TitleElement, UISchemaElementComponent } from '../../types';
 
@@ -19,7 +21,13 @@ const Title: UISchemaElementComponent<{
   uischema: TitleElement
 }> = (
   { uischema: { id, options } },
-) => (
+) => {
+  const { setStatusText } = useWidgetContext();
+  useEffect(() => {
+    setStatusText(options?.content + " page has loaded")
+  }, [])
+
+  return (
   <Box
     display="flex"
     justifyContent="flex-start"
@@ -33,6 +41,6 @@ const Title: UISchemaElementComponent<{
       {options?.content}
     </Typography>
   </Box>
-);
+)};
 
 export default Title;
