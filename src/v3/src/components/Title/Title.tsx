@@ -16,7 +16,6 @@ import { useEffect, useRef } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { TitleElement, UISchemaElementComponent } from '../../types';
-import style from './style.css';
 
 const Title: UISchemaElementComponent<{
   uischema: TitleElement
@@ -41,12 +40,14 @@ const Title: UISchemaElementComponent<{
     >
       <Typography
         id={id}
-        className={style.noOutline}
         component="h2"
         variant="h4"
         data-se="o-form-head"
         ref={titleRef}
         tabIndex={-1}
+        sx={{
+          outline: 'none',
+        }}
       >
         {options?.content}
       </Typography>
