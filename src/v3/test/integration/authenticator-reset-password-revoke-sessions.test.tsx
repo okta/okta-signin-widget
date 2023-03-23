@@ -26,7 +26,8 @@ describe('authenticator-reset-password-revoke-sessions', () => {
       authClient, user, findByTestId, findByText, findByLabelText, findByRole,
     } = await setup({ mockResponse });
 
-    await findByText(/Reset your password/);
+    const titleElement = await findByText(/Reset your password/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
 
     const submitButton = await findByRole('button', { name: 'Reset Password' });
@@ -35,7 +36,6 @@ describe('authenticator-reset-password-revoke-sessions', () => {
     const revokeSessionsCheckbox = await findByLabelText(/Sign me out of all other devices/);
 
     const password = 'superSecretP@ssword12';
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(newPasswordEle, password);
     await user.type(confirmPasswordEle, password);
 
@@ -56,7 +56,8 @@ describe('authenticator-reset-password-revoke-sessions', () => {
       authClient, user, findByTestId, findByText, findByRole,
     } = await setup({ mockResponse });
 
-    await findByText(/Reset your password/);
+    const titleElement = await findByText(/Reset your password/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
 
     const submitButton = await await findByRole('button', { name: 'Reset Password' });
@@ -64,7 +65,6 @@ describe('authenticator-reset-password-revoke-sessions', () => {
     const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
 
     const password = 'superSecretP@ssword12';
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(newPasswordEle, password);
     await user.type(confirmPasswordEle, password);
 

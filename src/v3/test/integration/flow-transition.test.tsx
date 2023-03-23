@@ -57,10 +57,11 @@ describe('Flow transitions', () => {
     });
 
     // form: identify-with-password
+    const titleElement = await findByText('Sign In', { selector: 'h2' });
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const usernameEl = await findByTestId('identifier') as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Sign in', { selector: 'button' });
-    await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
 
     await user.type(usernameEl, 'testuser@okta.com');
     expect(usernameEl.value).toEqual('testuser@okta.com');

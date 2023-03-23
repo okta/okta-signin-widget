@@ -20,6 +20,7 @@ import {
 import { IdxActionParams } from '@okta/okta-auth-js';
 import { within } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
+import { waitFor } from '@testing-library/preact';
 import { RegistrationErrorCallback, RegistrationPostSubmitCallback } from '../../../types';
 
 describe('enroll-profile-with-password', () => {
@@ -83,6 +84,7 @@ describe('enroll-profile-with-password', () => {
     const emailEle = await findByLabelText(/Email/) as HTMLInputElement;
     const addressEle = await findByLabelText(/Street Address/) as HTMLInputElement;
 
+    await waitFor(() => expect(heading).toHaveFocus());
     expect(heading.textContent).toBe('Sign up');
     expect(container).toMatchSnapshot();
 
@@ -90,7 +92,7 @@ describe('enroll-profile-with-password', () => {
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
     const address = '123 Main St';
-    await user.tab();
+
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -193,6 +195,7 @@ describe('enroll-profile-with-password', () => {
       },
     });
     const heading = await findByRole('heading', { level: 2 });
+    await waitFor(() => expect(heading).toHaveFocus());
     expect(heading.textContent).toBe('Sign up');
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
@@ -203,7 +206,7 @@ describe('enroll-profile-with-password', () => {
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
-    await user.tab();
+
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -248,6 +251,7 @@ describe('enroll-profile-with-password', () => {
       },
     });
     const heading = await findByRole('heading', { level: 2 });
+    await waitFor(() => expect(heading).toHaveFocus());
     expect(heading.textContent).toBe('Sign up');
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
@@ -258,7 +262,7 @@ describe('enroll-profile-with-password', () => {
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
-    await user.tab();
+
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);

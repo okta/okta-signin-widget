@@ -28,10 +28,10 @@ describe('authenticator-verification-phone-sms', () => {
       user,
       findByText,
       findByTestId,
-      findByRole,
     } = await setup({ mockResponse });
 
-    await findByText(/Verify with your phone/);
+    const titleElement = await findByText(/Verify with your phone/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/A code was sent to/);
     await findByText(/Carrier messaging charges may apply/);
 
@@ -39,7 +39,6 @@ describe('authenticator-verification-phone-sms', () => {
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(codeEle, verificationCode);
     expect(codeEle.value).toEqual(verificationCode);
     await user.click(submitButton);

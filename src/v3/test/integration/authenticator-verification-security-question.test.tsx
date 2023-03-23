@@ -28,15 +28,14 @@ describe('authenticator-verification-security-question', () => {
       user,
       findByText,
       findByTestId,
-      findByRole,
     } = await setup({ mockResponse });
-    await findByText(/Verify with your Security Question/);
+    const titleElement = await findByText(/Verify with your Security Question/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/What is the food you least liked as a child\?/);
 
     const answerEl = await findByTestId('credentials.answer') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(answerEl, 'fake-answer');
     expect(answerEl.value).toEqual('fake-answer');
     await user.click(submitButton);

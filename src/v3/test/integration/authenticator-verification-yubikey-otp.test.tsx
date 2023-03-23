@@ -44,7 +44,8 @@ describe('authenticator-verification-yubikey-otp', () => {
       findByText,
     } = await setup({ mockResponse });
 
-    await waitFor(async () => expect(await findByText(/Verify with YubiKey/)).toHaveFocus());
+    const titleElement = await findByText(/Verify with YubiKey/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const yubikeyCodeEl = await findByTestId('credentials.passcode');
     await user.type(yubikeyCodeEl, '1234');
     await user.click(await findByText('Verify', { selector: 'button' }));

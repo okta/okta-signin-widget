@@ -28,10 +28,10 @@ describe('authenticator-expired-password-with-enrollment-authenticator', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Your password has expired/);
+    const titleElement = await findByText(/Your password has expired/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
     await findByText(/Return to authenticator list/);
-    await waitFor(async () => expect(await findByText(/Your password has expired/)).toHaveFocus());
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
@@ -57,9 +57,9 @@ describe('authenticator-expired-password-with-enrollment-authenticator', () => {
       authClient, user, findByTestId, findByText, container,
     } = await setup({ mockResponse });
 
-    await findByText(/Your password has expired/);
+    const titleElement = await findByText(/Your password has expired/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
-    await waitFor(async () => expect(await findByText(/Your password has expired/)).toHaveFocus());
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;

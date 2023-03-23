@@ -44,7 +44,8 @@ describe('authenticator-enroll-yubikey-otp', () => {
       findByText,
     } = await setup({ mockResponse });
 
-    await waitFor(async () => expect(await findByText(/Set up YubiKey/)).toHaveFocus());
+    const titleElement = await findByText(/Set up YubiKey/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const yubikeyCodeEl = await findByTestId('credentials.passcode');
     await user.type(yubikeyCodeEl, '1234');
     await user.click(await findByText('Set up', { selector: 'button' }));

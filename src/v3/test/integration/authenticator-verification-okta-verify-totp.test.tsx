@@ -27,8 +27,8 @@ describe('authenticator-verification-okta-verify-totp', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Enter a code/);
-    await waitFor(async () => expect(await findByText(/Enter a code/)).toHaveFocus());
+    const titleElement = await findByText(/Enter a code/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Verify', { selector: 'button' });
     const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;
@@ -51,8 +51,8 @@ describe('authenticator-verification-okta-verify-totp', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Enter a code/);
-    await waitFor(async () => expect(await findByText(/Enter a code/)).toHaveFocus());
+    const titleElement = await findByText(/Enter a code/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Verify', { selector: 'button' });
     const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;

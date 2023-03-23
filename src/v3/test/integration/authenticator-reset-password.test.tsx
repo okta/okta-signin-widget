@@ -38,9 +38,9 @@ describe('authenticator-reset-password', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Reset your password/);
+    const titleElement = await findByText(/Reset your password/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
-    await waitFor(async () => expect(await findByText(/Reset your password/)).toHaveFocus());
 
     const submitButton = await findByText('Reset Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;

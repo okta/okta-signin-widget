@@ -28,11 +28,11 @@ describe('authenticator-expiry-warning-password', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Your password will expire in/);
+    const titleElement = await findByText(/Your password will expire in/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/When your password expires you will be locked out of your Okta account./);
     await findByText(/Password requirements/);
     await findByText(/Remind me later/);
-    await waitFor(async () => expect(await findByText(/Your password will expire in/)).toHaveFocus());
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
@@ -58,9 +58,9 @@ describe('authenticator-expiry-warning-password', () => {
       authClient, user, findByTestId, findByText, container,
     } = await setup({ mockResponse });
 
-    await findByText(/Your password will expire in/);
+    const titleElement = await findByText(/Your password will expire in/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
-    await waitFor(async () => expect(await findByText(/Your password will expire in/)).toHaveFocus());
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;

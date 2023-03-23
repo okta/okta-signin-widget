@@ -44,7 +44,8 @@ describe('user-unlock-account', () => {
       const {
         authClient, user, findByTestId, findByText,
       } = await setup({ mockResponse });
-      await waitFor(async () => expect(await findByText(/Unlock account\?/)).toHaveFocus());
+      const titleElement = await findByText(/Unlock account\?/);
+      await waitFor(() => expect(titleElement).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
@@ -65,7 +66,8 @@ describe('user-unlock-account', () => {
         authClient, user, findByTestId, findByText,
       } = await setup({ mockResponse });
 
-      await waitFor(async () => expect(await findByText(/Unlock account\?/)).toHaveFocus());
+      const titleElement = await findByText(/Unlock account\?/);
+      await waitFor(() => expect(titleElement).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');

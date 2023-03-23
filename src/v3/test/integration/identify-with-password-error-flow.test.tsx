@@ -73,10 +73,11 @@ describe('identify-with-password-error-flow', () => {
       },
     });
 
+    const titleElement = await findByText('Sign In', { selector: 'h2' });
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const submitButton = await findByText('Sign in', { selector: 'button' });
     const usernameEl = await findByTestId('identifier') as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
-    await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
 
     const username = 'testeruser@okta1.com';
     const password = 'pass@word123';

@@ -22,7 +22,6 @@ describe('Flow transition from password authentication to security question auth
       user,
       findByTestId,
       findByText,
-      findByRole,
     } = await setup({
       mockResponses: {
         '/introspect': {
@@ -37,10 +36,11 @@ describe('Flow transition from password authentication to security question auth
     });
 
     // form: identify with password
+    const titleElement = await findByText('Verify with your password');
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(passwordEl, 'fake-password');
     expect(passwordEl.value).toEqual('fake-password');
     await user.click(submitButton);

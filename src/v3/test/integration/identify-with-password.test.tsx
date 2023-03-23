@@ -238,10 +238,11 @@ describe('identify-with-password', () => {
         authClient, user, findByTestId, findByText,
       } = await setup({ mockResponse });
 
+      const titleElement = await findByText('Sign In', { selector: 'h2' });
+      await waitFor(() => expect(titleElement).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
-      await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
 
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
@@ -271,12 +272,13 @@ describe('identify-with-password', () => {
         },
       });
 
+      const titleElement = await findByText('Sign In', { selector: 'h2' });
+      await waitFor(() => expect(titleElement).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
       const mockUsername = 'testuser@okta1.com';
 
-      await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       await user.type(usernameEl, mockUsername);
       expect(usernameEl.value).toEqual(mockUsername);
       await user.type(passwordEl, 'fake-password');
@@ -303,12 +305,13 @@ describe('identify-with-password', () => {
         },
       });
 
+      const titleElement = await findByText('Sign In', { selector: 'h2' });
+      await waitFor(() => expect(titleElement).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
       const mockUsername = 'testuser@okta1.com';
 
-      await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       await user.type(usernameEl, mockUsername);
       expect(usernameEl.value).toEqual(mockUsername);
       await user.type(passwordEl, 'fake-password');
@@ -328,12 +331,13 @@ describe('identify-with-password', () => {
         authClient, user, findByTestId, findByText,
       } = await setup({ mockResponse });
 
+      const titleElement = await findByText('Sign In', { selector: 'h2' });
+      await waitFor(() => expect(titleElement).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
 
       const password = '   fake-password   ';
-      await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
       await user.type(passwordEl, password);
@@ -355,12 +359,13 @@ describe('identify-with-password', () => {
         authClient, user, findByTestId, findByText,
       } = await setup({ mockResponse });
 
+      const titleElement = await findByText('Sign In', { selector: 'h2' });
+      await waitFor(() => expect(titleElement).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const rememberMeEl = await findByTestId('rememberMe');
       const submitButton = await findByText('Sign in', { selector: 'button' });
 
-      await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
       await user.type(passwordEl, 'fake-password');
@@ -385,11 +390,12 @@ describe('identify-with-password', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
+    const titleElement = await findByText('Sign In', { selector: 'h2' });
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const usernameEl = await findByTestId('identifier') as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Sign in', { selector: 'button' });
 
-    await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
     await user.type(usernameEl, 'testuser@okta.com');
     expect(usernameEl.value).toEqual('testuser@okta.com');
     await user.type(passwordEl, 'fake-password');

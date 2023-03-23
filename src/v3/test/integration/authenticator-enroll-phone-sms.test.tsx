@@ -28,10 +28,10 @@ describe('authenticator-enroll-phone-sms', () => {
         authClient, user, findByTestId, findByText,
       } = await setup({ mockResponse });
 
-      await findByText(/Set up phone authentication/);
+      const titleElement = await findByText(/Set up phone authentication/);
+      await waitFor(() => expect(titleElement).toHaveFocus());
       await findByText(/A code was sent to your phone. Enter the code below to verify./);
       await findByText(/Carrier messaging charges may apply/);
-      await waitFor(async () => expect(await findByText(/Set up phone authentication/)).toHaveFocus());
 
       const submitButton = await findByText('Verify', { selector: 'button' });
       const otpEle = await findByTestId('credentials.passcode') as HTMLInputElement;

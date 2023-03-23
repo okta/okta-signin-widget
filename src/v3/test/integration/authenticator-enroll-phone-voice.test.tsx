@@ -27,7 +27,8 @@ describe('authenticator-enroll-phone-voice', () => {
       authClient, user, findByTestId, findByText, findByRole,
     } = await setup({ mockResponse });
 
-    await findByText(/Set up phone authentication/);
+    const titleElement = await findByText(/Set up phone authentication/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Calling your phone. Enter the code below to verify./);
     await findByText(/Carrier messaging charges may apply/);
 

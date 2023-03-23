@@ -45,7 +45,8 @@ describe('identify-recovery', () => {
       findByText,
     } = await setup({ mockResponse });
 
-    await waitFor(async () => expect(await findByText('Reset your password')).toHaveFocus());
+    const titleElement = await findByText('Reset your password');
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const usernameEl = await findByTestId('identifier');
     await user.type(usernameEl, 'testuser@okta.com');
     await user.click(await findByText('Next', { selector: 'button' }));

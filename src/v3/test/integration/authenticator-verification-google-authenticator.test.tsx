@@ -27,17 +27,16 @@ describe('authenticator-verification-google-authenticator', () => {
       user,
       findByText,
       findByTestId,
-      findByRole,
     } = await setup({ mockResponse });
 
-    await findByText(/Verify with Google Authenticator/);
+    const titleElement = await findByText(/Verify with Google Authenticator/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Enter the temporary code generated in your Google Authenticator app/);
 
     const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(codeEle, verificationCode);
     expect(codeEle.value).toEqual(verificationCode);
     await user.click(submitButton);
@@ -57,7 +56,8 @@ describe('authenticator-verification-google-authenticator', () => {
       findByRole,
     } = await setup({ mockResponse });
 
-    await findByText(/Verify with Google Authenticator/);
+    const titleElement = await findByText(/Verify with Google Authenticator/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Enter the temporary code generated in your Google Authenticator app/);
 
     const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
@@ -65,7 +65,6 @@ describe('authenticator-verification-google-authenticator', () => {
 
     const otp = '123456';
     const verificationCodeWithSpaces = `  ${otp} `;
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(codeEle, verificationCodeWithSpaces);
     expect(codeEle.value).toEqual(verificationCodeWithSpaces);
     await user.click(submitButton);

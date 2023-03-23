@@ -17,17 +17,17 @@ import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enr
 describe('okta-verify-email-channel-enrollment', () => {
   it('should render email channel form and send correct payload', async () => {
     const {
-      container, findByText, findByTestId, user, authClient, findByRole,
+      container, findByText, findByTestId, user, authClient,
     } = await setup({ mockResponse });
 
-    await findByText(/Set up Okta Verify via email link/);
+    const headerEle = await findByText(/Set up Okta Verify via email link/);
+    await waitFor(() => expect(headerEle).toHaveFocus());
     await findByText(/Make sure you can access the email on your mobile device./);
     const emailEl = await findByTestId(/email/) as HTMLInputElement;
     const submitBtn = await findByText(/Send me the setup link/);
 
     expect(container).toMatchSnapshot();
 
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(emailEl, 'tester@okta1.com');
     expect(emailEl.value).toEqual('tester@okta1.com');
     await user.click(submitBtn);

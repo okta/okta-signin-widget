@@ -28,8 +28,8 @@ describe('authenticator-expired-password-no-complexity', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Your password has expired/);
-    await waitFor(async () => expect(await findByText(/Your password has expired/)).toHaveFocus());
+    const titleElement = await findByText(/Your password has expired/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
