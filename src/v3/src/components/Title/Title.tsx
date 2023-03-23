@@ -38,6 +38,9 @@ const Title: UISchemaElementComponent<{
         data-se="o-form-head"
         ref={titleRef}
         tabIndex={-1}
+        style={{
+          outline: 'none'
+        }}
       >
         {options?.content}
       </Typography>
