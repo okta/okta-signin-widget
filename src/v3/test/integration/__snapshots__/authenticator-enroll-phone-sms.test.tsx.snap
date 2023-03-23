@@ -78,7 +78,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                   class="MuiBox-root emotion-13"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-14"
                     data-se="o-form-head"
                     id="select-authenticator-enroll_Title_Set_up_security_methods_aut2h3fft10VeLDPD1d7_1"
                     tabindex="-1"
@@ -788,7 +788,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                   class="MuiBox-root emotion-15"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-16"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-16"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_2"
                     tabindex="-1"

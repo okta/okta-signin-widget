@@ -133,7 +133,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                   class="MuiBox-root emotion-17"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-18"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-18"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_YubiKey_yubikey_token_aut10faWWbNaNWBaH0g4_2"
                     tabindex="-1"

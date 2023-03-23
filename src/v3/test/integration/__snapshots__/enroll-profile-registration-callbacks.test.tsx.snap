@@ -41,7 +41,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                   class="MuiBox-root emotion-8"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-9"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-9"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_up_1"
                     tabindex="-1"
@@ -326,7 +326,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                   class="MuiBox-root emotion-13"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-14"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_up_1"
                     tabindex="-1"
@@ -589,7 +589,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                   class="MuiBox-root emotion-13"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-14"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_up_1"
                     tabindex="-1"
@@ -852,7 +852,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                   class="MuiBox-root emotion-13"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-14"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_up_1"
                     tabindex="-1"
@@ -1102,7 +1102,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                   class="MuiBox-root emotion-13"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-14"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_up_1"
                     tabindex="-1"

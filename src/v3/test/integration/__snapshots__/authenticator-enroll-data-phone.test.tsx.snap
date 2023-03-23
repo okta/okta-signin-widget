@@ -126,7 +126,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1"
                     tabindex="-1"
@@ -1714,7 +1714,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1"
                     tabindex="-1"
@@ -3302,7 +3302,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_1"
                     tabindex="-1"

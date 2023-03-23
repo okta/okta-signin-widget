@@ -129,7 +129,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                   class="MuiBox-root emotion-15"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-16"
+                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-16"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_phone_authentication_phone_number_aut2h3fft10VeLDPD1d7_2"
                     tabindex="-1"
