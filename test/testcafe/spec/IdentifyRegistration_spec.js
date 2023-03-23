@@ -40,7 +40,7 @@ identifyWithoutEnrollProfile.remediation.value = identifyWithoutEnrollProfile
   .filter(r => r.name !== 'select-enroll-profile');
 
 const logger = RequestLogger(
-  /new/,
+  /\/idp\/idx\/enroll\/new/,
   {
     logRequestBody: true,
     stringifyRequestBody: true,
