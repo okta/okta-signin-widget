@@ -13,6 +13,7 @@
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
+import { useWidgetContext } from '../../contexts';
 
 import { TitleElement, UISchemaElementComponent } from '../../types';
 import style from './style.css';
@@ -23,8 +24,13 @@ const Title: UISchemaElementComponent<{
   { uischema: { id, options } },
 ) => {
   const titleRef = useRef<HTMLTitleElement>(null);
+  const { widgetProps } = useWidgetContext();
+  const { features: { autoFocus = false } = {} } = widgetProps;
+
   useEffect(() => {
-    titleRef.current?.focus();
+    if(!autoFocus) {
+      titleRef.current?.focus();
+    }
   }, []);
 
   return (
