@@ -12,8 +12,17 @@ const AFTER_RENDER_MESSAGE = '===== playground widget afterRender event received
  * devtools
  */
 const LOG_IGNORE_PATTERNS = [
+  // example: console.log('[DEBUG]', {foo: 'baz'});
+  /\[DEBUG\]/,
+
+  // log from preact-cli
   /\[HMR\]/,
+
+  // log from msw
   /\[MSW-Wrapper\]/,
+
+  // log from vite
+  /\[vite\]/,
 ];
 
 export const renderWidget = ClientFunction((settings) => {
