@@ -15,6 +15,7 @@ import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 
 import { TitleElement, UISchemaElementComponent } from '../../types';
+import style from './style.css';
 
 const Title: UISchemaElementComponent<{
   uischema: TitleElement
@@ -33,14 +34,12 @@ const Title: UISchemaElementComponent<{
     >
       <Typography
         id={id}
+        className={style.noOutline}
         component="h2"
         variant="h4"
         data-se="o-form-head"
         ref={titleRef}
         tabIndex={-1}
-        style={{
-          outline: 'none'
-        }}
       >
         {options?.content}
       </Typography>
