@@ -114,7 +114,7 @@ export const config = {
     rememberMe: true,
     multiOptionalFactorEnroll: true,
   },
-  stateToken: 'DUMMY_STATE_TOKEN',
+  stateToken: 'dummy-state-token-wrc',
   authParams: {
     pkce: true,
     codeChallenge: 'asdfasdf',
