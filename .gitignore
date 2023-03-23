@@ -31,3 +31,12 @@ node_modules2
 /test/package/**/yarn.lock
 /test/package/**/dist/
 scripts/dockolith
+
+#.yarnrc related
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
