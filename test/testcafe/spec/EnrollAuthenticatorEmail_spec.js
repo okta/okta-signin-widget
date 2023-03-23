@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { oktaDashboardContent } from '../framework/shared';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -326,28 +326,26 @@ test
       record.request.url.match(/resend/)
     )).eql(1);
 
-    const { request: {
-      body: firstRequestBody,
-      method: firstRequestMethod,
-      url: firstRequestUrl,
-    }
-    } = logger.requests[0];
-    const { request: {
-      body: lastRequestBody,
-      method: lastRequestMethod,
-      url: lastRequestUrl,
-    }
-    } = logger.requests[logger.requests.length - 1];
-    let jsonBody = JSON.parse(firstRequestBody);
-    await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(firstRequestMethod).eql('post');
-    await t.expect(firstRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
+    const { request: firstRequest } = logger.requests[0];
+    const { request: lastRequest } = logger.requests[logger.requests.length - 1];
+    await t.expect(JSON.parse(firstRequest.body)).eql({'stateHandle':'eyJ6aXAiOiJER'});
+    await t.expect(firstRequest.method).eql('post');
+    await t.expect(firstRequest.url).eql('http://localhost:3000/idp/idx/challenge/poll');
 
-    jsonBody = JSON.parse(lastRequestBody);
-    // in V3, it's { resend: true, stateHandle: 'eyJ6aXAiOiJER' }
-    // await t.expect(jsonBody).contains({'stateHandle':'eyJ6aXAiOiJER'}); // FIXME
-    await t.expect(lastRequestMethod).eql('post');
-    await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
+    if (userVariables.v3) {
+      await t.expect(JSON.parse(lastRequest.body))
+        .contains({ resend: true, stateHandle: 'eyJ6aXAiOiJER' });
+    } else {
+      await t.expect(JSON.parse(lastRequest.body))
+        .contains({ stateHandle :'eyJ6aXAiOiJER'});
+    }
+    await t.expect(lastRequest.method).eql('post');
+    // FIXME flaky assertion
+    console.assert(
+      lastRequest.url === 'http://localhost:3000/idp/idx/challenge/resend',
+      JSON.stringify(logger.requests.map(({request})=> request.url), null, 2)
+    );
+    await t.expect(lastRequest.url).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
 
 test
@@ -373,27 +371,17 @@ test
       record.request.url.match(/resend/)
     )).eql(1);
 
-    const { request: {
-      body: firstRequestBody,
-      method: firstRequestMethod,
-      url: firstRequestUrl,
-    }
-    } = logger.requests[0];
-    const { request: {
-      body: lastRequestBody,
-      method: lastRequestMethod,
-      url: lastRequestUrl,
-    }
-    } = logger.requests[logger.requests.length - 1];
-    let jsonBody = JSON.parse(firstRequestBody);
+    const { request: firstRequest } = logger.requests[0];
+    const { request: lastRequest } = logger.requests[logger.requests.length - 1];
+    let jsonBody = JSON.parse(firstRequest.body);
     await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(firstRequestMethod).eql('post');
-    await t.expect(firstRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
+    await t.expect(firstRequest.method).eql('post');
+    await t.expect(firstRequest.url).eql('http://localhost:3000/idp/idx/challenge/poll');
 
-    jsonBody = JSON.parse(lastRequestBody);
+    jsonBody = JSON.parse(lastRequest.body);
     await t.expect(jsonBody).contains({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(lastRequestMethod).eql('post');
-    await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
+    await t.expect(lastRequest.method).eql('post');
+    await t.expect(lastRequest.url).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
 
 test
@@ -419,31 +407,27 @@ test
       record.request.url.match(/resend/)
     )).eql(1);
 
-    const { request: {
-      body: firstRequestBody,
-      method: firstRequestMethod,
-      url: firstRequestUrl,
-    }
-    } = logger.requests[0];
-    const { request: {
-      body: lastRequestBody,
-      method: lastRequestMethod,
-      url: lastRequestUrl,
-    }
-    } = logger.requests[logger.requests.length - 1];
-    let jsonBody = JSON.parse(firstRequestBody);
+    const { request: firstRequest } = logger.requests[0];
+    const { request: lastRequest } = logger.requests[logger.requests.length - 1];
+    let jsonBody = JSON.parse(firstRequest.body);
     await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(firstRequestMethod).eql('post');
-    await t.expect(firstRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
+    await t.expect(firstRequest.method).eql('post');
+    await t.expect(firstRequest.url).eql('http://localhost:3000/idp/idx/challenge/poll');
 
-    jsonBody = JSON.parse(lastRequestBody);
+    jsonBody = JSON.parse(lastRequest.body);
     await t.expect(jsonBody).contains({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(lastRequestMethod).eql('post');
-    await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
+    await t.expect(lastRequest.method).eql('post');
+
+    // FIXME flaky assertion
+    console.assert(
+      lastRequest.url === 'http://localhost:3000/idp/idx/challenge/resend',
+      JSON.stringify(logger.requests.map(({request})=> request.url), null, 2)
+    );
+    await t.expect(lastRequest.url).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
 
 test
-  .requestHooks(logger, validOTPmock)('resend after 30 seconds at most even after re-render', async t => {
+  .requestHooks(logger, validOTPmock)('resend after 30 seconds at most even after re-render (validOTPmock)', async t => {
     const enrollEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
@@ -455,7 +439,7 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmockWithEmailMagicLink)('resend after 30 seconds at most even after re-render', async t => {
+  .requestHooks(logger, validOTPmockWithEmailMagicLink)('resend after 30 seconds at most even after re-render (validOTPmockWithEmailMagicLink)', async t => {
     const enrollEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
@@ -467,7 +451,7 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('resend after 30 seconds at most even after re-render', async t => {
+  .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('resend after 30 seconds at most even after re-render (validOTPmockWithoutEmailMagicLink)', async t => {
     const enrollEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
