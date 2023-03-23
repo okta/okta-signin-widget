@@ -39,7 +39,6 @@ describe('enroll-profile-with-password', () => {
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
-    // const titleElement =
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -73,7 +72,6 @@ describe('enroll-profile-with-password', () => {
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
     const password = 'abc123';
-
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -109,7 +107,6 @@ describe('enroll-profile-with-password', () => {
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
     const password = 'abc123DE';
-
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);

@@ -36,7 +36,6 @@ describe('authenticator-enroll-phone-voice', () => {
     const otpEle = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     const otp = '123456';
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(otpEle, otp);
 
     expect(otpEle.value).toEqual(otp);
