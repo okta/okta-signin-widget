@@ -136,7 +136,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
                     tabindex="-1"

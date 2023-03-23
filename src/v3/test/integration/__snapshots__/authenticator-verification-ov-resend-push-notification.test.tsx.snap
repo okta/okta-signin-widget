@@ -112,7 +112,7 @@ exports[`authenticator-verification-ov-resend-push-notification renders form 1`]
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="resend_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     tabindex="-1"

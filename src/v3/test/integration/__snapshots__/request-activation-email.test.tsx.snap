@@ -78,7 +78,7 @@ exports[`request-activation-email renders form 1`] = `
                   class="MuiBox-root emotion-13"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 emotion-14"
                     data-se="o-form-head"
                     id="request-activation-email_Title_Activation_link_has_expired_1"
                     tabindex="-1"

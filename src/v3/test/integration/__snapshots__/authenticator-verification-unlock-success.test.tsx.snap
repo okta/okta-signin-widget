@@ -155,7 +155,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                   class="MuiBox-root emotion-20"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-21"
+                    class="MuiTypography-root MuiTypography-h4 emotion-21"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Verify_with_your_password_okta_password_laehspkckQ73kDbzn1d6_2"
                     tabindex="-1"

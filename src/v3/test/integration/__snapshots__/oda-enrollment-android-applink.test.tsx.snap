@@ -78,7 +78,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 noOutline emotion-11"
+                      class="MuiTypography-root MuiTypography-h4 emotion-11"
                       data-se="o-form-head"
                       tabindex="-1"
                     >
@@ -295,7 +295,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                     class="MuiBox-root emotion-10"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 noOutline emotion-11"
+                      class="MuiTypography-root MuiTypography-h4 emotion-11"
                       data-se="o-form-head"
                       tabindex="-1"
                     >
@@ -534,7 +534,7 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                     class="MuiBox-root emotion-10"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 noOutline emotion-11"
+                      class="MuiTypography-root MuiTypography-h4 emotion-11"
                       data-se="o-form-head"
                       tabindex="-1"
                     >

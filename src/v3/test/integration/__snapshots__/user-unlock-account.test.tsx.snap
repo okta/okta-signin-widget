@@ -41,7 +41,7 @@ exports[`user-unlock-account renders form 1`] = `
                   class="MuiBox-root emotion-8"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 noOutline emotion-9"
+                    class="MuiTypography-root MuiTypography-h4 emotion-9"
                     data-se="o-form-head"
                     id="select-authenticator-unlock-account_Title_Unlock_account_1"
                     tabindex="-1"
