@@ -154,22 +154,6 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   dataSchema.fieldsToValidate.push('confirmPassword');
   dataSchema.fieldsToValidate.push('passwordMatchesValidation');
 
-  // Controls live field change validation
-  dataSchema.confirmPassword = {
-    validate: (data: FormBag['data']) => {
-      const confirmPw = data.confirmPassword;
-      if (!confirmPw) {
-        return [{
-          name: 'confirmPassword',
-          class: 'ERROR',
-          message: loc('model.validation.field.blank', 'login'),
-          i18n: { key: 'model.validation.field.blank' },
-        }];
-      }
-      return undefined;
-    },
-  };
-
   // Controls form submission validation
   dataSchema[passwordFieldName] = {
     validate: (data: FormBag['data']) => {
