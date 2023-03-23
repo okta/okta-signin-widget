@@ -31,8 +31,6 @@ fi
 
 yarn config set registry https://registry.yarnpkg.com
 yarn config set cafile /etc/pki/tls/certs/ca-bundle.crt
-npm config set registry https://registry.yarnpkg.com
-npm config set cafile /etc/pki/tls/certs/ca-bundle.crt
 export NODE_OPTIONS=--use-openssl-ca
 export NODE_EXTRA_CA_CERTS=/etc/pki/tls/certs/ca-bundle.crt
 
