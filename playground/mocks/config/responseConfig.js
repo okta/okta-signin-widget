@@ -18,7 +18,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    // 'identify',
+    'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -48,7 +48,7 @@ const idx = {
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
-    'authenticator-enroll-select-authenticator',
+    // 'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
     // 'authenticator-verification-data-phone-sms-then-voice',
@@ -73,7 +73,6 @@ const idx = {
     // 'identify-unknown-user',
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',
-    // 'identify-with-universal-link-w-session',
     // 'identify-with-apple-sso-extension-fallback',
     // 'identify-with-device-launch-authenticator',
     // 'identify-with-device-probing-loopback',
@@ -119,8 +118,7 @@ const idx = {
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-google-authenticator',
     // 'authenticator-enroll-email-first-emailmagiclink-true',
-    // 'error-authenticator-enroll-phone-invalid-number',
-    'authenticator-enroll-password',
+    'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
     // 'authenticator-verification-data-ov-only-without-device-known',
