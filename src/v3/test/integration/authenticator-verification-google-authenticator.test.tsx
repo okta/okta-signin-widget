@@ -53,7 +53,6 @@ describe('authenticator-verification-google-authenticator', () => {
       user,
       findByText,
       findByTestId,
-      findByRole,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Verify with Google Authenticator/);

@@ -18,9 +18,8 @@ import {
   RegistrationSchemaCallbackV3,
 } from 'src/types';
 import { IdxActionParams } from '@okta/okta-auth-js';
-import { within } from '@testing-library/preact';
+import { within, waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
-import { waitFor } from '@testing-library/preact';
 import { RegistrationErrorCallback, RegistrationPostSubmitCallback } from '../../../types';
 
 describe('enroll-profile-with-password', () => {

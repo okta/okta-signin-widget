@@ -57,7 +57,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should display field level error when password does not fulfill requirements', async () => {
     const {
-      authClient, container, user, findByTestId, findByText, findByRole,
+      authClient, container, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
@@ -93,7 +93,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByText, findByTestId, findByRole,
+      authClient, user, findByText, findByTestId,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
@@ -109,7 +109,7 @@ describe('enroll-profile-with-password', () => {
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
     const password = 'abc123DE';
-    
+
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
