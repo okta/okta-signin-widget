@@ -13,8 +13,8 @@
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
-import { useWidgetContext } from '../../contexts';
 
+import { useWidgetContext } from '../../contexts';
 import { TitleElement, UISchemaElementComponent } from '../../types';
 import style from './style.css';
 
@@ -28,9 +28,10 @@ const Title: UISchemaElementComponent<{
   const { features: { autoFocus = false } = {} } = widgetProps;
 
   useEffect(() => {
-    if(!autoFocus) {
+    if (!autoFocus) {
       titleRef.current?.focus();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
