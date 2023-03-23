@@ -52,7 +52,7 @@ const loopbackSuccesskMock = RequestMock()
     'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
     'access-control-allow-methods': 'POST, OPTIONS'
   })
-  .onRequestTo({ url: /\/idp\/idx\/authenticators\/okta-verify\/launch/ })
+  .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
   .respond(identifyWithDeviceLaunchAuthenticator);
 
 const loopbackBiometricsErrorMobileMock = RequestMock()
