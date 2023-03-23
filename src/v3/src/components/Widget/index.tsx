@@ -12,7 +12,7 @@
 
 import './style.module.css';
 
-import { ScopedCssBaseline, Box } from '@mui/material';
+import { ScopedCssBaseline } from '@mui/material';
 import { MuiThemeProvider, OdysseyCacheProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
@@ -345,8 +345,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
               },
             }}
           >
-            <Box
+            {/* <Box
               aria-live="assertive"
+              // aria-busy={loading}
               // style to clip the Box out so content is hidden visually but will still be read by screen reader
               style={{
                 border: 0,
@@ -359,8 +360,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 width: '1px',
               }}
             >
-                {statusText}
-            </Box>
+                {loading ? "Loading" : ""}
+            </Box> */}
             <AuthContainer>
               <AuthHeader
                 logo={logo}

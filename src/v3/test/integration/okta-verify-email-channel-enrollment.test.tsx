@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-ov-email-channel.json';
 
 describe('okta-verify-email-channel-enrollment', () => {
   it('should render email channel form and send correct payload', async () => {
     const {
-      container, findByText, findByTestId, user, authClient,
+      container, findByText, findByTestId, user, authClient, findByRole,
     } = await setup({ mockResponse });
 
     await findByText(/Set up Okta Verify via email link/);
@@ -26,6 +27,7 @@ describe('okta-verify-email-channel-enrollment', () => {
 
     expect(container).toMatchSnapshot();
 
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(emailEl, 'tester@okta1.com');
     expect(emailEl.value).toEqual('tester@okta1.com');
     await user.click(submitBtn);

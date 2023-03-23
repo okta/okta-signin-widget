@@ -12,6 +12,7 @@
 
 import identifyWithPassword from '@okta/mocks/data/idp/idx/authenticator-verification-password.json';
 
+import { waitFor } from '@testing-library/preact';
 import authenticatorSecurityQuestion from '../../src/mocks/response/idp/idx/identify/securityquestion-verify.json';
 import { setup } from './util';
 
@@ -21,6 +22,7 @@ describe('Flow transition from password authentication to security question auth
       user,
       findByTestId,
       findByText,
+      findByRole,
     } = await setup({
       mockResponses: {
         '/introspect': {
@@ -38,6 +40,7 @@ describe('Flow transition from password authentication to security question auth
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(passwordEl, 'fake-password');
     expect(passwordEl.value).toEqual('fake-password');
     await user.click(submitButton);

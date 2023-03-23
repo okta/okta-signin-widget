@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/securityquestion-verify.json';
@@ -27,6 +28,7 @@ describe('authenticator-verification-security-question', () => {
       user,
       findByText,
       findByTestId,
+      findByRole,
     } = await setup({ mockResponse });
     await findByText(/Verify with your Security Question/);
     await findByText(/What is the food you least liked as a child\?/);
@@ -34,6 +36,7 @@ describe('authenticator-verification-security-question', () => {
     const answerEl = await findByTestId('credentials.answer') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(answerEl, 'fake-answer');
     expect(answerEl.value).toEqual('fake-answer');
     await user.click(submitButton);

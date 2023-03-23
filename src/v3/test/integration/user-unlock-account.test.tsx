@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { within } from '@testing-library/preact';
+import { within, waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/unlock-account/default.json';
@@ -41,8 +41,10 @@ describe('user-unlock-account', () => {
 
   describe('send corrent payload', () => {
     it('when select email authenticator', async () => {
-      const { authClient, user, findByTestId } = await setup({ mockResponse });
-
+      const {
+        authClient, user, findByTestId, findByText,
+      } = await setup({ mockResponse });
+      await waitFor(async () => expect(await findByText(/Unlock account\?/)).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
@@ -59,8 +61,11 @@ describe('user-unlock-account', () => {
     });
 
     it('when select phone authenticator', async () => {
-      const { authClient, user, findByTestId } = await setup({ mockResponse });
+      const {
+        authClient, user, findByTestId, findByText,
+      } = await setup({ mockResponse });
 
+      await waitFor(async () => expect(await findByText(/Unlock account\?/)).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');

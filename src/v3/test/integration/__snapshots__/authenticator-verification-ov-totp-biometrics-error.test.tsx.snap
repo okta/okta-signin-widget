@@ -186,6 +186,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     class="MuiTypography-root MuiTypography-h4 emotion-28"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Enter_a_code_okta_verify_aut1kxbY4k3KnPvvd0g4_2"
+                    tabindex="-1"
                   >
                     Enter a code
                   </h2>

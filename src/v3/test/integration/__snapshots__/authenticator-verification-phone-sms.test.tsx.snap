@@ -132,6 +132,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                     class="MuiTypography-root MuiTypography-h4 emotion-16"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_2"
+                    tabindex="-1"
                   >
                     Verify with your phone
                   </h2>

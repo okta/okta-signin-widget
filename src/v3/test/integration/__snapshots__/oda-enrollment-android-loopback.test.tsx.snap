@@ -77,6 +77,7 @@ exports[`oda-enrollment-android-loopback should render form 1`] = `
                   <h2
                     class="MuiTypography-root MuiTypography-h4 emotion-10"
                     data-se="o-form-head"
+                    tabindex="-1"
                   >
                     Download Okta Verify
                   </h2>

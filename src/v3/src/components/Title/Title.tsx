@@ -12,8 +12,7 @@
 
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { useEffect } from 'preact/hooks';
-import { useWidgetContext } from '../../contexts';
+import { useEffect, useRef } from 'preact/hooks';
 
 import { TitleElement, UISchemaElementComponent } from '../../types';
 
@@ -22,25 +21,28 @@ const Title: UISchemaElementComponent<{
 }> = (
   { uischema: { id, options } },
 ) => {
-  const { setStatusText } = useWidgetContext();
+  const titleRef = useRef<HTMLTitleElement>(null);
   useEffect(() => {
-    setStatusText(options?.content + " page has loaded")
-  }, [])
+    titleRef.current?.focus();
+  }, []);
 
   return (
-  <Box
-    display="flex"
-    justifyContent="flex-start"
-  >
-    <Typography
-      id={id}
-      component="h2"
-      variant="h4"
-      data-se="o-form-head"
+    <Box
+      display="flex"
+      justifyContent="flex-start"
     >
-      {options?.content}
-    </Typography>
-  </Box>
-)};
+      <Typography
+        id={id}
+        component="h2"
+        variant="h4"
+        data-se="o-form-head"
+        ref={titleRef}
+        tabIndex={-1}
+      >
+        {options?.content}
+      </Typography>
+    </Box>
+  );
+};
 
 export default Title;

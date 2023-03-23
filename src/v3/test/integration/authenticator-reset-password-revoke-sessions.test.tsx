@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
-
 import mockResponse from '../../src/mocks/response/idp/idx/authenticator-password-reset-revoke-sessions.json';
 
 describe('authenticator-reset-password-revoke-sessions', () => {
@@ -35,6 +35,7 @@ describe('authenticator-reset-password-revoke-sessions', () => {
     const revokeSessionsCheckbox = await findByLabelText(/Sign me out of all other devices/);
 
     const password = 'superSecretP@ssword12';
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(newPasswordEle, password);
     await user.type(confirmPasswordEle, password);
 
@@ -63,6 +64,7 @@ describe('authenticator-reset-password-revoke-sessions', () => {
     const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
 
     const password = 'superSecretP@ssword12';
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(newPasswordEle, password);
     await user.type(confirmPasswordEle, password);
 

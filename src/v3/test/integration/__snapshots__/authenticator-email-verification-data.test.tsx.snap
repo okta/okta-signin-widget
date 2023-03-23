@@ -119,6 +119,7 @@ exports[`authenticator-email-verification-data should render form 1`] = `
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="authenticator-verification-data_Title_Get_a_verification_email_okta_email_1"
+                    tabindex="-1"
                   >
                     Get a verification email
                   </h2>

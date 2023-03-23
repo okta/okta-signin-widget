@@ -114,6 +114,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     class="MuiTypography-root MuiTypography-h4 emotion-19"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_in_1"
+                    tabindex="-1"
                   >
                     Sign in
                   </h2>
@@ -317,6 +318,7 @@ exports[`enroll-profile-update should render form 1`] = `
                     class="MuiTypography-root MuiTypography-h4 emotion-14"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_in_1"
+                    tabindex="-1"
                   >
                     Sign in
                   </h2>

@@ -155,6 +155,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                       class="MuiTypography-root MuiTypography-h4 emotion-21"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
+                      tabindex="-1"
                     >
                       Set up security question
                     </h2>
@@ -562,6 +563,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       class="MuiTypography-root MuiTypography-h4 emotion-21"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
+                      tabindex="-1"
                     >
                       Set up security question
                     </h2>
@@ -1047,6 +1049,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       class="MuiTypography-root MuiTypography-h4 emotion-16"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
+                      tabindex="-1"
                     >
                       Set up security question
                     </h2>
@@ -1603,6 +1606,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       class="MuiTypography-root MuiTypography-h4 emotion-21"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
+                      tabindex="-1"
                     >
                       Set up security question
                     </h2>

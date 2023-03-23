@@ -191,6 +191,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
+                    tabindex="-1"
                   >
                     Set up Google Authenticator
                   </h2>
@@ -487,6 +488,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
+                    tabindex="-1"
                   >
                     Set up Google Authenticator
                   </h2>
@@ -775,6 +777,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
+                    tabindex="-1"
                   >
                     Set up Google Authenticator
                   </h2>
@@ -1062,6 +1065,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
+                    tabindex="-1"
                   >
                     Set up Google Authenticator
                   </h2>

@@ -11,6 +11,7 @@
  */
 
 import mockResponse from '@okta/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-false.json';
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('Email authenticator enroll when magic link = false Tests', () => {
@@ -42,6 +43,7 @@ describe('Email authenticator enroll when magic link = false Tests', () => {
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(codeEle, verificationCode);
     expect(codeEle.value).toEqual(verificationCode);
     await user.click(submitButton);

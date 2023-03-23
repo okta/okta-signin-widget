@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { setup } from './util';
 
 import identifyWithPassword from '../../src/mocks/response/idp/idx/introspect/default.json';
@@ -59,6 +60,7 @@ describe('Flow transitions', () => {
     const usernameEl = await findByTestId('identifier') as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Sign in', { selector: 'button' });
+    await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
 
     await user.type(usernameEl, 'testuser@okta.com');
     expect(usernameEl.value).toEqual('testuser@okta.com');

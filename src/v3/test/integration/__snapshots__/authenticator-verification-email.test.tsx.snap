@@ -125,6 +125,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-h4 emotion-17"
                       data-se="o-form-head"
                       id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1"
+                      tabindex="-1"
                     >
                       Verify with your email
                     </h2>
@@ -352,6 +353,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-h4 emotion-24"
                       data-se="o-form-head"
                       id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1"
+                      tabindex="-1"
                     >
                       Verify with your email
                     </h2>
@@ -535,6 +537,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-h4 emotion-17"
                       data-se="o-form-head"
                       id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2"
+                      tabindex="-1"
                     >
                       Verify with your email
                     </h2>
@@ -782,6 +785,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-h4 emotion-22"
                       data-se="o-form-head"
                       id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2"
+                      tabindex="-1"
                     >
                       Verify with your email
                     </h2>
@@ -1097,6 +1101,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-h4 emotion-29"
                       data-se="o-form-head"
                       id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2"
+                      tabindex="-1"
                     >
                       Verify with your email
                     </h2>
@@ -1428,6 +1433,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                       class="MuiTypography-root MuiTypography-h4 emotion-17"
                       data-se="o-form-head"
                       id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2"
+                      tabindex="-1"
                     >
                       Verify with your email
                     </h2>

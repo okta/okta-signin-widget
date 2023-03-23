@@ -11,6 +11,7 @@
  */
 
 import mockResponse from '@okta/mocks/data/idp/idx/enroll-profile-with-password.json';
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-with-password', () => {
@@ -24,7 +25,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should display field level error when password field is required but is not filled', async () => {
     const {
-      authClient, container, user, findByTestId, findByText,
+      authClient, container, user, findByTestId, findByText, findByRole,
     } = await setup({ mockResponse });
 
     await findByText(/Sign up/);
@@ -37,6 +38,8 @@ describe('enroll-profile-with-password', () => {
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
+    // const titleElement =
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -54,7 +57,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should display field level error when password does not fulfill requirements', async () => {
     const {
-      authClient, container, user, findByTestId, findByText,
+      authClient, container, user, findByTestId, findByText, findByRole,
     } = await setup({ mockResponse });
 
     await findByText(/Sign up/);
@@ -69,6 +72,7 @@ describe('enroll-profile-with-password', () => {
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
     const password = 'abc123';
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -88,7 +92,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByText, findByTestId,
+      authClient, user, findByText, findByTestId, findByRole,
     } = await setup({ mockResponse });
 
     await findByText(/Sign up/);
@@ -103,6 +107,7 @@ describe('enroll-profile-with-password', () => {
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
     const password = 'abc123DE';
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);

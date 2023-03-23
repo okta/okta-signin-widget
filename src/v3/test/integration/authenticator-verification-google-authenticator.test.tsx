@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/identify/google-auth-verify.json';
 
@@ -26,6 +27,7 @@ describe('authenticator-verification-google-authenticator', () => {
       user,
       findByText,
       findByTestId,
+      findByRole,
     } = await setup({ mockResponse });
 
     await findByText(/Verify with Google Authenticator/);
@@ -35,6 +37,7 @@ describe('authenticator-verification-google-authenticator', () => {
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(codeEle, verificationCode);
     expect(codeEle.value).toEqual(verificationCode);
     await user.click(submitButton);
@@ -51,6 +54,7 @@ describe('authenticator-verification-google-authenticator', () => {
       user,
       findByText,
       findByTestId,
+      findByRole,
     } = await setup({ mockResponse });
 
     await findByText(/Verify with Google Authenticator/);
@@ -61,6 +65,7 @@ describe('authenticator-verification-google-authenticator', () => {
 
     const otp = '123456';
     const verificationCodeWithSpaces = `  ${otp} `;
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(codeEle, verificationCodeWithSpaces);
     expect(codeEle.value).toEqual(verificationCodeWithSpaces);
     await user.click(submitButton);

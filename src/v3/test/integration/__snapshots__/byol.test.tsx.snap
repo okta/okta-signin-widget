@@ -129,6 +129,7 @@ exports[`byol loading custom language should load custom language with "language
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
+                    tabindex="-1"
                   >
                     Set up foo authentication
                   </h2>
@@ -1716,6 +1717,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
+                    tabindex="-1"
                   >
                     Set up foo authentication
                   </h2>
@@ -3303,6 +3305,7 @@ exports[`byol loading default language should not load custom language when the 
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
+                    tabindex="-1"
                   >
                     Set up phone authentication
                   </h2>
@@ -4890,6 +4893,7 @@ exports[`byol loading default language should not load custom language with "lan
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
+                    tabindex="-1"
                   >
                     Set up phone authentication
                   </h2>

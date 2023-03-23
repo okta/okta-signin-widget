@@ -139,6 +139,7 @@ exports[`webauthn-enroll should render form 1`] = `
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
+                    tabindex="-1"
                   >
                     Set up security key or biometric authenticator
                   </h2>
@@ -345,6 +346,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
+                    tabindex="-1"
                   >
                     Set up security key or biometric authenticator
                   </h2>
@@ -559,6 +561,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_security_key_or_biometric_authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
+                    tabindex="-1"
                   >
                     Set up security key or biometric authenticator
                   </h2>

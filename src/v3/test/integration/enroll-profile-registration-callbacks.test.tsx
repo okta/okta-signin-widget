@@ -90,6 +90,7 @@ describe('enroll-profile-with-password', () => {
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
     const address = '123 Main St';
+    await user.tab();
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -202,6 +203,7 @@ describe('enroll-profile-with-password', () => {
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
+    await user.tab();
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -256,6 +258,7 @@ describe('enroll-profile-with-password', () => {
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
+    await user.tab();
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);

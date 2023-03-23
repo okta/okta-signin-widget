@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/recover/default.json';
@@ -44,6 +45,7 @@ describe('identify-recovery', () => {
       findByText,
     } = await setup({ mockResponse });
 
+    await waitFor(async () => expect(await findByText('Reset your password')).toHaveFocus());
     const usernameEl = await findByTestId('identifier');
     await user.type(usernameEl, 'testuser@okta.com');
     await user.click(await findByText('Next', { selector: 'button' }));

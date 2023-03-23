@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateDynamicAttribute } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/answer/password-reset.json';
@@ -39,6 +40,7 @@ describe('authenticator-reset-password', () => {
 
     await findByText(/Reset your password/);
     await findByText(/Password requirements/);
+    await waitFor(async () => expect(await findByText(/Reset your password/)).toHaveFocus());
 
     const submitButton = await findByText('Reset Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;

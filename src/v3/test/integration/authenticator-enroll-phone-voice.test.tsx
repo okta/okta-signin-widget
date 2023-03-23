@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-phone-voice-code-mfa.json';
@@ -23,7 +24,7 @@ describe('authenticator-enroll-phone-voice', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByTestId, findByText, findByRole,
     } = await setup({ mockResponse });
 
     await findByText(/Set up phone authentication/);
@@ -34,6 +35,7 @@ describe('authenticator-enroll-phone-voice', () => {
     const otpEle = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     const otp = '123456';
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(otpEle, otp);
 
     expect(otpEle.value).toEqual(otp);

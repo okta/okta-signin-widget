@@ -13,6 +13,7 @@
 import yubikeyVerificationResponse from '@okta/mocks/data/idp/idx/authenticator-verification-yubikey.json';
 
 import identifyWithPassword from '@okta/mocks/data/idp/idx/authenticator-verification-password.json';
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('Flow transition from YubiKey verification to Password MFA', () => {
@@ -22,6 +23,7 @@ describe('Flow transition from YubiKey verification to Password MFA', () => {
       user,
       findByTestId,
       findByText,
+      findByRole,
     } = await setup({
       mockResponses: {
         '/introspect': {
@@ -37,6 +39,7 @@ describe('Flow transition from YubiKey verification to Password MFA', () => {
 
     // form: Yubikey code entry
     const yubikeyCodeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(yubikeyCodeEl, '1234abcd8520');
     expect(yubikeyCodeEl.value).toEqual('1234abcd8520');
     await user.click(await findByText('Verify', { selector: 'button' }));

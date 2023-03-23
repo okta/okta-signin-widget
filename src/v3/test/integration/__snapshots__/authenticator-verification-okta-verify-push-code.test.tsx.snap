@@ -163,6 +163,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                     class="MuiTypography-root MuiTypography-h4 emotion-23"
                     data-se="o-form-head"
                     id="challenge-poll_Title_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_2"
+                    tabindex="-1"
                   >
                     Push notification sent
                   </h2>
@@ -403,6 +404,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiTypography-root MuiTypography-h4 emotion-16"
                     data-se="o-form-head"
                     id="challenge-poll_Title_Push_notification_sent_okta_verify_aut2h3fft4y9pDPCS1d7_2"
+                    tabindex="-1"
                   >
                     Push notification sent
                   </h2>
