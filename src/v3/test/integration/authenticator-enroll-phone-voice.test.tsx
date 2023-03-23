@@ -24,7 +24,7 @@ describe('authenticator-enroll-phone-voice', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByText, findByRole,
+      authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Set up phone authentication/);
