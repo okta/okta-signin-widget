@@ -266,6 +266,7 @@ test.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error 
 
   const terminalPageObject = new TerminalPageObject(t);
   const errors = terminalPageObject.getErrorMessages();
+  await t.debug();
   await t.expect(errors.isError()).ok();
   await t.expect(errors.getTextContent()).eql('The recovery token is invalid.');
 
