@@ -39,9 +39,6 @@ const mocks = RequestMock()
   .onRequestTo({ url: regex`/app/UserHome` })
   .respond(readFileSync('./playground/mocks/app/UserHome.html', 'utf8'), 200, { 'content-type': 'text/html; charset=utf-8' })
 
-  .onRequestTo({ url: regex`/oauth2/default/v1/interact` })
-  .respond(require('./playground/mocks/data/oauth2/interact.json'))
-
   .onRequestTo({ url: regex`/idp/idx/cancel` })
   .respond(require('./playground/mocks/data/idp/idx/identify.json'))
 
