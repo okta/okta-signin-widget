@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-ov-email-channel.json';
 
@@ -19,7 +20,8 @@ describe('okta-verify-email-channel-enrollment', () => {
       container, findByText, findByTestId, user, authClient,
     } = await setup({ mockResponse });
 
-    await findByText(/Set up Okta Verify via email link/);
+    const headerEle = await findByText(/Set up Okta Verify via email link/);
+    await waitFor(() => expect(headerEle).toHaveFocus());
     await findByText(/Make sure you can access the email on your mobile device./);
     const emailEl = await findByTestId(/email/) as HTMLInputElement;
     const submitBtn = await findByText(/Send me the setup link/);

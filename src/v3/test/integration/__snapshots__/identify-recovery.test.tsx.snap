@@ -44,6 +44,7 @@ exports[`identify-recovery renders form 1`] = `
                     class="MuiTypography-root MuiTypography-h4 emotion-9"
                     data-se="o-form-head"
                     id="identify-recovery_Title_Reset_your_password_1"
+                    tabindex="-1"
                   >
                     Reset your password
                   </h2>

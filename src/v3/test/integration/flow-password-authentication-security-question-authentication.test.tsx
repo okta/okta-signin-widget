@@ -12,6 +12,7 @@
 
 import identifyWithPassword from '@okta/mocks/data/idp/idx/authenticator-verification-password.json';
 
+import { waitFor } from '@testing-library/preact';
 import authenticatorSecurityQuestion from '../../src/mocks/response/idp/idx/identify/securityquestion-verify.json';
 import { setup } from './util';
 
@@ -35,6 +36,8 @@ describe('Flow transition from password authentication to security question auth
     });
 
     // form: identify with password
+    const titleElement = await findByText('Verify with your password');
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 

@@ -115,6 +115,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
+                    tabindex="-1"
                   >
                     Enter a code
                   </h2>
@@ -308,6 +309,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Enter_a_code_okta_verify_aut2h3fft4y9pDPCS1d7_1"
+                    tabindex="-1"
                   >
                     Enter a code
                   </h2>

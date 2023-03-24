@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
-
 import mockResponse from '../../src/mocks/response/idp/idx/authenticator-password-reset-revoke-sessions.json';
 
 describe('authenticator-reset-password-revoke-sessions', () => {
@@ -26,7 +26,8 @@ describe('authenticator-reset-password-revoke-sessions', () => {
       authClient, user, findByTestId, findByText, findByLabelText, findByRole,
     } = await setup({ mockResponse });
 
-    await findByText(/Reset your password/);
+    const titleElement = await findByText(/Reset your password/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
 
     const submitButton = await findByRole('button', { name: 'Reset Password' });
@@ -55,7 +56,8 @@ describe('authenticator-reset-password-revoke-sessions', () => {
       authClient, user, findByTestId, findByText, findByRole,
     } = await setup({ mockResponse });
 
-    await findByText(/Reset your password/);
+    const titleElement = await findByText(/Reset your password/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
 
     const submitButton = await await findByRole('button', { name: 'Reset Password' });

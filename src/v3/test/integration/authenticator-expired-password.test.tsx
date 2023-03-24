@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { within } from '@testing-library/preact';
+import { within, waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateDynamicAttribute } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/authenticator-expired-password.json';
@@ -28,7 +28,8 @@ describe('authenticator-expired-password', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Your password has expired/);
+    const titleElement = await findByText(/Your password has expired/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
@@ -58,12 +59,12 @@ describe('authenticator-expired-password', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Your password has expired/);
+    const titleElement = await findByText(/Your password has expired/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-
     await user.type(newPasswordEle, 'superSecretP@ssword12');
 
     const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
@@ -110,7 +111,8 @@ describe('authenticator-expired-password', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Your password has expired/);
+    const titleElement = await findByText(/Your password has expired/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
@@ -160,7 +162,8 @@ describe('authenticator-expired-password', () => {
       authClient, user, findByTestId, findByText, container,
     } = await setup({ mockResponse });
 
-    await findByText(/Your password has expired/);
+    const titleElement = await findByText(/Your password has expired/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Password requirements/);
 
     const submitButton = await findByText('Change Password', { selector: 'button' });

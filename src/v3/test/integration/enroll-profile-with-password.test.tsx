@@ -11,6 +11,7 @@
  */
 
 import mockResponse from '@okta/mocks/data/idp/idx/enroll-profile-with-password.json';
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-with-password', () => {
@@ -27,7 +28,8 @@ describe('enroll-profile-with-password', () => {
       authClient, container, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Sign up/);
+    const titleElement = await findByText(/Sign up/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
     const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
@@ -57,7 +59,8 @@ describe('enroll-profile-with-password', () => {
       authClient, container, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Sign up/);
+    const titleElement = await findByText(/Sign up/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
     const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
@@ -91,7 +94,8 @@ describe('enroll-profile-with-password', () => {
       authClient, user, findByText, findByTestId,
     } = await setup({ mockResponse });
 
-    await findByText(/Sign up/);
+    const titleElement = await findByText(/Sign up/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
     const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;

@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-phone-sms-code-mfa.json';
@@ -27,7 +28,8 @@ describe('authenticator-enroll-phone-sms', () => {
         authClient, user, findByTestId, findByText,
       } = await setup({ mockResponse });
 
-      await findByText(/Set up phone authentication/);
+      const titleElement = await findByText(/Set up phone authentication/);
+      await waitFor(() => expect(titleElement).toHaveFocus());
       await findByText(/A code was sent to your phone. Enter the code below to verify./);
       await findByText(/Carrier messaging charges may apply/);
 

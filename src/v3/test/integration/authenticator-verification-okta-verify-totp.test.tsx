@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/verify-ov-code-mfa.json';
@@ -26,7 +27,8 @@ describe('authenticator-verification-okta-verify-totp', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Enter a code/);
+    const titleElement = await findByText(/Enter a code/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Verify', { selector: 'button' });
     const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;
@@ -49,7 +51,8 @@ describe('authenticator-verification-okta-verify-totp', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Enter a code/);
+    const titleElement = await findByText(/Enter a code/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Verify', { selector: 'button' });
     const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;

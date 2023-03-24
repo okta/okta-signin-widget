@@ -122,6 +122,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                     class="MuiTypography-root MuiTypography-h4 emotion-16"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_2"
+                    tabindex="-1"
                   >
                     Verify with your email
                   </h2>

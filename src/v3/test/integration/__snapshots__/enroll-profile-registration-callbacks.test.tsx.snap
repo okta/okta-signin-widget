@@ -44,6 +44,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     class="MuiTypography-root MuiTypography-h4 emotion-9"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_up_1"
+                    tabindex="-1"
                   >
                     Sign up
                   </h2>
@@ -328,6 +329,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     class="MuiTypography-root MuiTypography-h4 emotion-14"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_up_1"
+                    tabindex="-1"
                   >
                     Sign up
                   </h2>
@@ -590,6 +592,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     class="MuiTypography-root MuiTypography-h4 emotion-14"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_up_1"
+                    tabindex="-1"
                   >
                     Sign up
                   </h2>
@@ -852,6 +855,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     class="MuiTypography-root MuiTypography-h4 emotion-14"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_up_1"
+                    tabindex="-1"
                   >
                     Sign up
                   </h2>
@@ -1101,6 +1105,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     class="MuiTypography-root MuiTypography-h4 emotion-14"
                     data-se="o-form-head"
                     id="enroll-profile_Title_Sign_up_1"
+                    tabindex="-1"
                   >
                     Sign up
                   </h2>

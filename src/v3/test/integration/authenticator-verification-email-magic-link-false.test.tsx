@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
-
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/authenticator-verification-email-magic-link-false.json';
 
 describe('Email authenticator verification when email magic link = false Tests', () => {
@@ -28,6 +28,7 @@ describe('Email authenticator verification when email magic link = false Tests',
     });
 
     const headerEle = await findByRole('heading', { level: 2 });
+    await waitFor(() => expect(headerEle).toHaveFocus());
     expect(headerEle.textContent).toBe('Verify with your email');
     expect(container).toMatchSnapshot();
 

@@ -11,6 +11,7 @@
  */
 
 import mockResponse from '@okta/mocks/data/idp/idx/authenticator-enroll-yubikey.json';
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('authenticator-enroll-yubikey-otp', () => {
@@ -43,6 +44,8 @@ describe('authenticator-enroll-yubikey-otp', () => {
       findByText,
     } = await setup({ mockResponse });
 
+    const titleElement = await findByText(/Set up YubiKey/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const yubikeyCodeEl = await findByTestId('credentials.passcode');
     await user.type(yubikeyCodeEl, '1234');
     await user.click(await findByText('Set up', { selector: 'button' }));

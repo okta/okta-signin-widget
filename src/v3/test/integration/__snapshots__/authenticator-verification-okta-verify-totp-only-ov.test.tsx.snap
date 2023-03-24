@@ -115,6 +115,7 @@ exports[`authenticator-verification-okta-verify-totp-only-ov should render form 
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Enter_a_code_okta_verify_auttheidkwh282hv8g3_1"
+                    tabindex="-1"
                   >
                     Enter a code
                   </h2>

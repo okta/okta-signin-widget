@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateDynamicAttribute } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/authenticator-expired-password-no-complexity.json';
@@ -27,7 +28,8 @@ describe('authenticator-expired-password-no-complexity', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    await findByText(/Your password has expired/);
+    const titleElement = await findByText(/Your password has expired/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
     const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;

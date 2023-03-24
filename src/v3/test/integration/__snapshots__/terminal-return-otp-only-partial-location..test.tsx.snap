@@ -118,6 +118,7 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
                   <h2
                     class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
+                    tabindex="-1"
                   >
                     Your verification code
                   </h2>

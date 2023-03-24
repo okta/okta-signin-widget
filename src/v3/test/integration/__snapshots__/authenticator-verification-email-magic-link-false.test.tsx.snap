@@ -122,6 +122,7 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                     class="MuiTypography-root MuiTypography-h4 emotion-16"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_2"
+                    tabindex="-1"
                   >
                     Verify with your email
                   </h2>

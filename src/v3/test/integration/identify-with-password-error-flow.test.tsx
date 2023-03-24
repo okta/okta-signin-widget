@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import * as cookieUtils from '../../src/util/cookieUtils';
@@ -72,6 +73,8 @@ describe('identify-with-password-error-flow', () => {
       },
     });
 
+    const titleElement = await findByText('Sign In', { selector: 'h2' });
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const submitButton = await findByText('Sign in', { selector: 'button' });
     const usernameEl = await findByTestId('identifier') as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;

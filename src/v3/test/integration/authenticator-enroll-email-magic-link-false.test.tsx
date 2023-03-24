@@ -11,6 +11,7 @@
  */
 
 import mockResponse from '@okta/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-false.json';
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('Email authenticator enroll when magic link = false Tests', () => {
@@ -35,6 +36,7 @@ describe('Email authenticator enroll when magic link = false Tests', () => {
     });
 
     const headerEle = await findByRole('heading', { level: 2 });
+    await waitFor(() => expect(headerEle).toHaveFocus());
     expect(headerEle.textContent).toBe('Verify with your email');
     expect(container).toMatchSnapshot();
 

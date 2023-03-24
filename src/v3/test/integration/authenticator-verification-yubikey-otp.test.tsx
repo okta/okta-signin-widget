@@ -11,6 +11,7 @@
  */
 
 import mockResponse from '@okta/mocks/data/idp/idx/authenticator-verification-yubikey.json';
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('authenticator-verification-yubikey-otp', () => {
@@ -43,6 +44,8 @@ describe('authenticator-verification-yubikey-otp', () => {
       findByText,
     } = await setup({ mockResponse });
 
+    const titleElement = await findByText(/Verify with YubiKey/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     const yubikeyCodeEl = await findByTestId('credentials.passcode');
     await user.type(yubikeyCodeEl, '1234');
     await user.click(await findByText('Verify', { selector: 'button' }));

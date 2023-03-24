@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/identify/google-auth-verify.json';
 
@@ -28,7 +29,8 @@ describe('authenticator-verification-google-authenticator', () => {
       findByTestId,
     } = await setup({ mockResponse });
 
-    await findByText(/Verify with Google Authenticator/);
+    const titleElement = await findByText(/Verify with Google Authenticator/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Enter the temporary code generated in your Google Authenticator app/);
 
     const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
@@ -53,7 +55,8 @@ describe('authenticator-verification-google-authenticator', () => {
       findByTestId,
     } = await setup({ mockResponse });
 
-    await findByText(/Verify with Google Authenticator/);
+    const titleElement = await findByText(/Verify with Google Authenticator/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Enter the temporary code generated in your Google Authenticator app/);
 
     const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;

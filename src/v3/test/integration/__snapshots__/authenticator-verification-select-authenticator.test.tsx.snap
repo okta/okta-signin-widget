@@ -81,6 +81,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiTypography-root MuiTypography-h4 emotion-14"
                     data-se="o-form-head"
                     id="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1"
+                    tabindex="-1"
                   >
                     Verify it's you with a security method
                   </h2>

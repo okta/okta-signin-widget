@@ -81,6 +81,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     class="MuiTypography-root MuiTypography-h4 emotion-14"
                     data-se="o-form-head"
                     id="profile-update_Title_Additional_Profile_information_1"
+                    tabindex="-1"
                   >
                     Additional Profile information
                   </h2>
