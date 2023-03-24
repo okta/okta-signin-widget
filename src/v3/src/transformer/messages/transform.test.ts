@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OV_NMC_FORCE_UPGRAGE_SERVER_KEY, OV_UV_ENABLE_BIOMETRIC_SERVER_KEY } from 'src/constants';
+import { OV_NMC_FORCE_UPGRADE_SERVER_KEY, OV_UV_ENABLE_BIOMETRIC_SERVER_KEY, OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import { InfoboxElement, WidgetProps } from 'src/types';
 
@@ -106,7 +106,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       {
         message: 'OV push force upgrade number challenge message.',
         class: 'ERROR',
-        i18n: { key: OV_NMC_FORCE_UPGRAGE_SERVER_KEY },
+        i18n: { key: OV_NMC_FORCE_UPGRADE_SERVER_KEY },
       },
     ];
     const updatedFormBag = transformMessages({
@@ -119,18 +119,46 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
       .toEqual({
         class: 'ERROR',
-        i18n: { key: OV_NMC_FORCE_UPGRAGE_SERVER_KEY },
-        message: OV_NMC_FORCE_UPGRAGE_SERVER_KEY,
+        i18n: { key: OV_NMC_FORCE_UPGRADE_SERVER_KEY },
+        message: OV_NMC_FORCE_UPGRADE_SERVER_KEY,
         title: 'oie.numberchallenge.force.upgrade.title',
       });
   });
 
-  it('should add message list when biometrics error key exists in transaction', () => {
+  it('should add message list when biometrics error key for totp exists in transaction', () => {
     transaction.messages = [
       {
         message: 'This is a biometrics compatibility error.',
         class: 'ERROR',
         i18n: { key: OV_UV_ENABLE_BIOMETRIC_SERVER_KEY },
+      },
+    ];
+    const updatedFormBag = transformMessages({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
+      .toBe('ERROR');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
+      .toEqual({
+        class: 'ERROR',
+        message: [
+          { class: 'INFO', message: 'oie.authenticator.app.method.push.verify.enable.biometrics.point1' },
+          { class: 'INFO', message: 'oie.authenticator.app.method.push.verify.enable.biometrics.point2' },
+          { class: 'INFO', message: 'oie.authenticator.app.method.push.verify.enable.biometrics.point3' },
+        ],
+        description: 'oie.authenticator.app.method.push.verify.enable.biometrics.description',
+        title: 'oie.authenticator.app.method.push.verify.enable.biometrics.title',
+      });
+  });
+
+  it('should add message list when biometrics error key for resend exists in transaction', () => {
+    transaction.messages = [
+      {
+        message: 'This is a biometrics compatibility error.',
+        class: 'ERROR',
+        i18n: { key: OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY },
       },
     ];
     const updatedFormBag = transformMessages({

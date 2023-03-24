@@ -14,8 +14,9 @@ import flow from 'lodash/flow';
 
 import {
   IDX_STEP,
-  OV_NMC_FORCE_UPGRAGE_SERVER_KEY,
+  OV_NMC_FORCE_UPGRADE_SERVER_KEY,
   OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+  OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY,
 } from '../../constants';
 import {
   InfoboxElement,
@@ -40,14 +41,15 @@ const fipsComplianceKeys = [
 const MESSAGE_KEYS_WITH_TITLE = [
   ...fipsComplianceKeys,
   OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY,
-  OV_NMC_FORCE_UPGRAGE_SERVER_KEY,
+  OV_NMC_FORCE_UPGRADE_SERVER_KEY,
 ];
 
 export const CUSTOM_MESSAGE_KEYS = [
   ...fipsComplianceKeys,
   OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY,
   OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
-  OV_NMC_FORCE_UPGRAGE_SERVER_KEY,
+  OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY,
+  OV_NMC_FORCE_UPGRADE_SERVER_KEY,
 ];
 
 const EXCLUDE_MESSAGE_STEPS = [
@@ -90,7 +92,7 @@ const transformMessagesWithTitle: TransformStepFnWithOptions = ({
     messagesWithTitle,
   )) {
     widgetMessage.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
-  } else if (containsMessageKey(OV_NMC_FORCE_UPGRAGE_SERVER_KEY, messagesWithTitle)) {
+  } else if (containsMessageKey(OV_NMC_FORCE_UPGRADE_SERVER_KEY, messagesWithTitle)) {
     widgetMessage.title = loc('oie.numberchallenge.force.upgrade.title', 'login');
   }
 
@@ -115,14 +117,19 @@ const transformBiometricsErrorMessage: TransformStepFnWithOptions = ({
   if (
     !transaction.messages
     || transaction.messages.length === 0
-    || !containsMessageKey(OV_UV_ENABLE_BIOMETRIC_SERVER_KEY, transaction.messages)
+    || !containsOneOfMessageKeys([
+      OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+      OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY,
+    ], transaction.messages)
   ) {
     return formbag;
   }
   const { messages = [] } = transaction;
   const { uischema } = formbag;
   const biometricsErrorMessages: WidgetMessage[] = messages
-    .filter((message) => OV_UV_ENABLE_BIOMETRIC_SERVER_KEY === message.i18n?.key);
+    .filter((message) => [
+      OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+      OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY].includes(message.i18n?.key));
 
   const messageBullets: WidgetMessage[] = [
     loc('oie.authenticator.app.method.push.verify.enable.biometrics.point1', 'login'),
