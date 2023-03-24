@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { oktaDashboardContent } from '../framework/shared';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -332,13 +332,7 @@ test
     await t.expect(firstRequest.method).eql('post');
     await t.expect(firstRequest.url).eql('http://localhost:3000/idp/idx/challenge/poll');
 
-    if (userVariables.v3) {
-      await t.expect(JSON.parse(lastRequest.body))
-        .contains({ resend: true, stateHandle: 'eyJ6aXAiOiJER' });
-    } else {
-      await t.expect(JSON.parse(lastRequest.body))
-        .contains({ stateHandle :'eyJ6aXAiOiJER'});
-    }
+    await t.expect(JSON.parse(lastRequest.body)).contains({ stateHandle :'eyJ6aXAiOiJER'});
     await t.expect(lastRequest.method).eql('post');
     // FIXME flaky assertion
     console.assert(
