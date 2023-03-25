@@ -52,7 +52,15 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getErrorTitle() {
-    return this.form.getElement(FORM_INFOBOX_ERROR_TITLE);
+    if (userVariables.v3) {
+      return this.form.getNthTitle(0);
+    }
+    return this.form.getElement(FORM_INFOBOX_ERROR_TITLE).innerText;
+  }
+
+  getFormTitleWithError() {
+    const titlePosition = userVariables.v3 ? 1 : 0;
+    return this.form.getNthTitle(titlePosition);
   }
 
   getWarningBox() {
@@ -105,8 +113,11 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getNthErrorBulletPoint(index) {
-    const alertBox = this.form.getAlertBox();
-    const listItems = within(alertBox).getAllByRole('listitem');
-    return listItems.nth(index).innerText;
+    if (userVariables.v3) {
+      const alertBox = this.form.getAlertBox();
+      const listItems = within(alertBox).getAllByRole('listitem');
+      return listItems.nth(index).innerText;
+    }
+    return this.getErrorBox().innerText;
   }
 }

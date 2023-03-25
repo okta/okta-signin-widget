@@ -91,14 +91,13 @@ test
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
-    const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
+    const pageTitle = challengeOktaVerifyPushPageObject.getFormTitleWithError();
     await t.expect(pageTitle).contains('Get a push notification');
     const errorBox = challengeOktaVerifyPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText).contains('Your response was received, but your Okta Verify version is no longer supported by your organization. To verify your identity with push notifications, update Okta Verify to the latest version, then try again.');
-    const errorTitle = challengeOktaVerifyPushPageObject.getErrorTitle();
-    await t.expect(errorTitle.innerText).contains('Update Okta Verify');
+    await t.expect(challengeOktaVerifyPushPageObject.getErrorTitle()).contains('Update Okta Verify');
     const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
-    await t.expect(resendPushBtn.value).contains('Resend push notification');
+    await t.expect(challengeOktaVerifyPushPageObject.form.getButton('Resend push notification').exists).eql(true);
     await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();
   });
 
@@ -107,12 +106,11 @@ test
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
-    const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
+    const pageTitle = challengeOktaVerifyPushPageObject.getFormTitleWithError();
     await t.expect(pageTitle).contains('Get a push notification');
     const errorBox = challengeOktaVerifyPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText).contains('Your response was received, but your organization requires biometrics. Make sure you meet the following requirements, then try again:');
-    const errorTitle = challengeOktaVerifyPushPageObject.getErrorTitle();
-    await t.expect(errorTitle.innerText).contains('Enable biometrics in Okta Verify');
+    await t.expect(challengeOktaVerifyPushPageObject.getErrorTitle()).contains('Enable biometrics in Okta Verify');
 
     const errorSubtitleBullet1 = challengeOktaVerifyPushPageObject.getNthErrorBulletPoint(0);
     await t.expect(errorSubtitleBullet1).contains('Your device supports biometrics');
