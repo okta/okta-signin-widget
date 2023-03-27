@@ -1,4 +1,4 @@
-import { RequestMock, userVariables } from 'testcafe';
+import { RequestMock } from 'testcafe';
 import terminalReturnOtpOnlyFullLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-full-location.json';
 import terminalReturnOtpOnlyPartialLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-partial-location.json';
 import terminalReturnOtpOnlyNoLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-no-location.json';
@@ -120,10 +120,7 @@ async function setupOtpOnly(t) {
       await t.expect(await terminalOtpOnlyPage.doesFormTitleExist()).ok();
       await t.expect(await terminalOtpOnlyPage.doesUserEmailExist()).ok();
       await t.expect(await terminalOtpOnlyPage.doesEnterCodeOnPageExist()).ok();
-      // TODO: Enable in v3 after OKTA-588958 is fixed
-      if (!userVariables.v3) {
-        await t.expect(await terminalOtpOnlyPage.doesBrowserOsSmartphoneIconExist()).ok();
-      }
+      await t.expect(await terminalOtpOnlyPage.doesBrowserOsSmartphoneIconExist()).ok();
       await t.expect(terminalOtpOnlyPage.getFormTitleElement().innerText).eql('Your verification code');
       await t.expect(terminalOtpOnlyPage.getUserEmailElement().innerText).eql('test@okta.com');
       await t.expect(terminalOtpOnlyPage.getEnterCodeOnPageElement().innerText).eql(intent);

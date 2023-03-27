@@ -44,6 +44,9 @@ export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
   }
 
   doesBrowserOsSmartphoneIconExist() {
+    if(userVariables.v3) {
+      return this.form.getImageByTitle('Mobile browser').exists;
+    }
     return this.form.elementExist(BROWSER_OS_SMARTPHONE_ICON_SELECTOR);
   }
 
