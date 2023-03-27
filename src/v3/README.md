@@ -7,11 +7,11 @@ This README is for the Sign-In Widget (third generation). The third generation i
 **Table of contents**
 - [Okta Sign-In Widget](#okta-sign-in-widget)
   - [Generation overview](#generation-overview)
-    - [Browsers]()
-    - [Deployment]()
-    - [Authenticators]()
-    - [Branding]()
-  - [Compare generations]()
+    - [Browsers](#browsers)
+    - [Deployment](#deployment)
+    - [Authenticators](#authenticators)
+    - [Branding](#branding)
+  - [Compare generations](#compare-generations)
   - [Type of Applications](#type-of-applications)
     - [OIDC](#oidc)
     - [Non-OIDC](#non-oidc)
@@ -227,8 +227,6 @@ PREACT_APP_CLIENT_ID=0do780g0401ver9aji1u
 PREACT_APP_ISSUER=https://oie-1234567.oktapreview.com/oauth2/default
 PREACT_APP_USE_PKCE=true # true|false
 ```
-
-#### Authenticators
 
 ##### WebAuthN
 
