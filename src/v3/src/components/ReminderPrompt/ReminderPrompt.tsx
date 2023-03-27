@@ -21,7 +21,7 @@ import { ReminderElement, UISchemaElementComponent } from '../../types';
 import { getLinkReplacerFn } from '../../util';
 import TextWithActionLink from '../TextWithActionLink';
 
-export const DEFAULT_TIMEOUT_MS = 30_000;
+export const DEFAULT_TIMEOUT_MS = 29_000;
 
 const ReminderPrompt: UISchemaElementComponent<{
   uischema: ReminderElement
@@ -66,10 +66,12 @@ const ReminderPrompt: UISchemaElementComponent<{
       window.clearInterval(timerRef.current);
     }
 
+    // check every 250ms whether the reminder should show
     timerRef.current = window.setInterval(() => {
       const ts = getResendTimestamp() || Date.now().toString();
       const start = parseInt(ts, 10);
       const now = Date.now();
+      // make DEFAULT_TIMEOUT_MS configurable via .env and/or widgetrc as dev-only property
       const timeout = typeof customTimeout === 'number' ? customTimeout : DEFAULT_TIMEOUT_MS;
       if (now - start >= timeout) {
         setShow(true);
@@ -86,7 +88,7 @@ const ReminderPrompt: UISchemaElementComponent<{
       window.clearInterval(timerRef.current);
       removeResendTimestamp();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const resendHandler = async () => {
