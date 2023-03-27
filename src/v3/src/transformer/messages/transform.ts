@@ -57,6 +57,11 @@ const EXCLUDE_MESSAGE_STEPS = [
   IDX_STEP.REQUEST_ACTIVATION,
 ];
 
+const BIOMETRIC_SERVER_KEYS = [
+  OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
+  OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY
+];
+
 const localizeTransactionMessages: TransformStepFnWithOptions = ({
   transaction,
 }) => (formbag) => {
@@ -117,19 +122,14 @@ const transformBiometricsErrorMessage: TransformStepFnWithOptions = ({
   if (
     !transaction.messages
     || transaction.messages.length === 0
-    || !containsOneOfMessageKeys([
-      OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
-      OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY,
-    ], transaction.messages)
+    || !containsOneOfMessageKeys(BIOMETRIC_SERVER_KEYS, transaction.messages)
   ) {
     return formbag;
   }
   const { messages = [] } = transaction;
   const { uischema } = formbag;
   const biometricsErrorMessages: WidgetMessage[] = messages
-    .filter((message) => [
-      OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
-      OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY].includes(message.i18n?.key));
+    .filter((message) => BIOMETRIC_SERVER_KEYS.includes(message.i18n?.key));
 
   const messageBullets: WidgetMessage[] = [
     loc('oie.authenticator.app.method.push.verify.enable.biometrics.point1', 'login'),
