@@ -2,15 +2,16 @@
 
 The Okta Sign-In Widget is an HTML/CSS/JS widget that provides out-of-the-box authentication and identity experiences for your organization's apps. It's the pre-built and customizable solution used by the Okta Workforce Identity Cloud.
 
-This Readme is specific to the **3rd-generation** widget.
+This README is for the Sign-In Widget (third generation). The third generation is more accessible, and uses modern frameworks with a better user and developer experience. It's built from the ground up for the Okta Identity Engine, and removes support for the Okta Classic Engine.
 
 **Table of contents**
 - [Okta Sign-In Widget](#okta-sign-in-widget)
   - [Generation overview](#generation-overview)
-  - [Deployment Models](#deployment-models)
-    - [Redirect to Okta-hosted](#redirect-to-okta-hosted)
-    - [Customer embedded](#customer-embedded)
-    - [Non-SIW or SDK app (brief mention)](#non-siw-or-sdk-app-brief-mention)
+    - [Browsers]()
+    - [Deployment]()
+    - [Authenticators]()
+    - [Branding]()
+  - [Compare generations]()
   - [Type of Applications](#type-of-applications)
     - [OIDC](#oidc)
     - [Non-OIDC](#non-oidc)
@@ -32,47 +33,53 @@ This Readme is specific to the **3rd-generation** widget.
 
 ## Generation overview
 
-The 3rd-generation Sign-in Widget is more accessible, and uses modern frameworks with a better user and developer experience. It's built from the ground up for the Okta Identity Engine, and removes support for the Okta Classic Engine.
+If your org prioritizes accessibility requirements or wants to avoid future migration efforts, consider enabling the third generation Sign-In Widget.
 
-If you're using a previous generation with code customizations, this new generation has breaking changes that will require manual upgrade. If you don't have code customizations, upgrading should be simple.
+If your org uses registration hooks, CSS styling, or one of the unsupported authenticators, you shouldn't enable the third generation yet. Those features may be available in future releases. See [Sign-In Widget (third generation)](LINK) for updates.
 
-| Widget generation  | Included in release versions   | Okta platform   | Internal frameworks   |
-| ---                | ---                            | ---             | ---                   |
-| 1st                | v1–9                           | Classic         | Backbone, bespoke UI framework |
-| 2nd                | v5–9                           | OIE   | Backbone, bespoke UI framework |
-| 3rd                | v10+                           | OIE             | Preact, MUI |
+### Browsers
 
-> ⚠️ The **3rd-gen widget is currently in beta** and does not have complete feature parity with previous generations.
+The third generation Sign-In Widget supports most [standard browsers](https://help.okta.com/oie/en-us/Content/Topics/Miscellaneous/Platforms_Browser_OS_Support.htm). It doesn't support these browsers:
 
-Future releases will add more features over time, but 3rd-gen widget will become Generally Available without complete feature parity.
+- Internet Explorer
+- Embedded browsers like Microsoft Office
+- Hardware integrations like hand-held Android devices
 
-Previous generations will remain supported during the transition, and have more feature releases of their own on the way.
+### Deployment
 
-Eventually, previous generations will be sunset. This will be gradual with multiple phases; more details to come.
+You can use the third generation Sign-In Widget in the following ways:
 
+- Redirect authentication, sign-in page (default): Okta provides a sign-in page that is available at your org's URL. By default, a user who signs in on this page is redirected to the Okta user dashboard.
+- Redirect authentication, sign-in page (customizable): Okta provides a sign-in page that you can customize and make available under a custom domain that is a subdomain of your company's top-level domain.
 
-## Deployment Models
+The third generation Sign-In Widget doesn't support embedded authentication.
 
-[Learn more about redirect vs embedded](https://developer.okta.com/docs/concepts/redirect-vs-embedded/) deployment models.
+See [Okta deployment models - redirect vs. embedded](https://developer.okta.com/docs/concepts/redirect-vs-embedded/).
 
-### Redirect to Okta-hosted
+### Authenticators
 
-Introduction & when to use this
-CDN
-* Recommended for Workforce & Business Partner Apps
-Example Application Link (Sample)
-Branding/Customization touchpoints
+The third generation Sign-In Widget doesn't currently support these authenticators:
 
-### Customer embedded 
-Introduction & when to use this
-* Not recommended for Workforce & Business Partner Apps
-NPM vs CDN
-Example Application Link (Sample)
+- Duo Security
+- RSA
+- Symantec VIP
+- IdP authenticator
+- Social login
+- Custom Authenticator
 
-### Non-SIW or SDK app (brief mention)
-Introduction & when to use this
-* Not recommended for Workforce & Business Partner Apps
-Link out to one of the SDKs (link to all related SDKs
+### Branding
+
+The third generation Sign-In Widget makes multibrand customization easier, but it doesn't support custom CSS overrides. If your org uses the code editor to customize a sign-in page, those customizations don't migrate. See [Style the sign-in page](https://developer.okta.com/docs/guides/custom-widget/main/).
+
+## Compare generations
+
+| Feature | Second generation | Third generation |
+| ---                | ---                            | ---             |
+| Deployment | Redirect (Okta-hosted)</br>Embedded (self-hosted)</br>Pinning to a specific Okta-hosted version | Redirect (Okta-hosted)</br>Automatic deployment of latest EA version |
+| Authenticators | Email</br>Password</br>Okta Verify (Okta FastPass, push, TOTP)</br>WebAuthn</br>Smart Card IdP</br>Google Authenticator</br>YubiKey OTP</br>SMS</br>Security Question</br>Custom</br>Duo Security</br>RSA</br>Symantec VIP</br>IdP authenticator</br>Social login | Email</br>Password</br>Okta Verify (Okta FastPass, push, TOTP)</br>WebAuthn</br>Smart Card IdP</br>Google Authenticator</br>YubiKey OTP</br>SMS</br>Security Question |
+| Flows | Profile enrollment</br>Authenticator enrollment</br>Authenticator verification</br>Forgot password</br>Account unlock | Profile enrollment</br>Authenticator enrollment</br>Authenticator verification</br>Forgot password</br>Account unlock |
+| Globalization | Right-to-left languages (requires customization)</br>All out-of-the-box translations</br>String customization</br>Bring your own language | All out-of-the-box translations</br>String customization</br>Bring your own language |
+| Branding | Branding and multibrands</br>CSS overrides (code editor) | Branding and multibrands |
 
 
 ## Type of Applications 
@@ -91,20 +98,9 @@ Link out to one of the SDKs (link to all related SDKs
 4. Customize domain
 
 
-### Customer Hosted Set Up
-1. Set Up
-NPM or CDN
+### Embedded authentication
 
-2. Config Options Reference
-All the options here or a file called Config.MD hosts all the SIW config options with explanation with example code for each
-
-3. API Reference
-All the APIs here or a file called API.md hosts all the SIW APIs and each API call has input, output params, and what the function does with example code.
-
-4. Samples
-Full samples are each their own repos. Each sample has a one-page Readme.MD to show how to get the samples to work. 
-These samples are not generated and the flow of code is simple and easy to understand. Right now it’s hard to follow the flow of code. Samples must always use the latest widget versions.
-
+The third generation Sign-In Widget doesn't support embedded authentication. See [Embedded (self-hosted), second generation](https://github.com/okta/okta-signin-widget#embedded-self-hosted).
 
 ## Migrating to the 3rd generation
 
