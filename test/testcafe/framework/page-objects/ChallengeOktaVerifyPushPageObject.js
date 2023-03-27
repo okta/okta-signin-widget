@@ -27,14 +27,14 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
 
   getResendPushButton() {
     if (userVariables.v3) {
-      return this.form.getButton(RESEND_PUSH_NOTIFICATION_TEXT)
+      return this.form.getButton(RESEND_PUSH_NOTIFICATION_TEXT);
     }
     return this.form.getElement('.button-primary');
   }
 
   clickResendPushButton() {
     if (userVariables.v3) {
-      return this.form.clickSaveButton(RESEND_PUSH_NOTIFICATION_TEXT)
+      return this.form.clickSaveButton(RESEND_PUSH_NOTIFICATION_TEXT);
     }
     return this.form.clickSaveButton();
   }
