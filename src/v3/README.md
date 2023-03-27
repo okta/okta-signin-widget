@@ -15,9 +15,9 @@ This README is for the Sign-In Widget (third generation). The third generation i
   - [Type of Applications](#type-of-applications)
     - [OIDC](#oidc)
     - [Non-OIDC](#non-oidc)
-  - [Implementation Section](#implementation-section)
-    - [Okta Hosted Setup](#okta-hosted-setup)
-    - [Customer Hosted Set Up](#customer-hosted-set-up)
+  - [Okta deployment models](#okta-deployment-models)
+    - [Redirect (Okta-hosted)](#redirect-okta-hosted)
+    - [Embedded (self-hosted)](#embedded-self-hosted)
   - [Migrating to the 3rd generation](#migrating-to-the-3rd-generation)
   - [Advanced](#advanced)
     - [Contributing code (Contributions.md)](#contributing-code-contributionsmd)
@@ -82,27 +82,29 @@ The third generation Sign-In Widget makes multibrand customization easier, but i
 | Branding | Branding and multibrands</br>CSS overrides (code editor) | Branding and multibrands |
 
 
-## Type of Applications 
+## Type of Applications
+
 ### OIDC
+
 * SPA Introduction
 * Web Introduction
+
 ### Non-OIDC
+
 * SAML?
 
 
-## Implementation Section
-### Okta Hosted Setup 
-1. Create an okta org
-2. Sign In Widget section
-3. Brand and customize
-4. Customize domain
+## Okta deployment models
 
+### Redirect (Okta-hosted)
 
-### Embedded authentication
+A user sign-in flow that grants authentication control to Okta by redirecting to an Okta hosted sign-in page using open protocols like OAuth 2.0 and SAML. See [Redirect authentication](https://developer.okta.com/docs/guides/redirect-authentication/).
+
+### Embedded (self-hosted)
 
 The third generation Sign-In Widget doesn't support embedded authentication. See [Embedded (self-hosted), second generation](https://github.com/okta/okta-signin-widget#embedded-self-hosted).
 
-## Migrating to the 3rd generation
+## Migrating to the third generation
 
 To migrate from a previous generation widget, first ensure that your org uses the Okta Identity Engine. All new orgs created after March 1, 2022 are Identity Engine orgs.
 
@@ -124,10 +126,15 @@ TODO check brand color contrast
 
 TODO check sign-in page widget version
 
-TODO how to rollback
+### Restore the second generation widget
 
-TODO summary of what's changing for end-users
+If you enable the third generation widget and find that it doesn't work for your org yet, you can restore the second generation.
 
+1. In the Admin Console, go to **Settings** > **Features**.
+
+1. Select the **Sign-In Widget third generation** toggle to turn it off.
+
+1. Click **Save**.
 
 ## Advanced
 
