@@ -1,5 +1,6 @@
 import { Selector, userVariables } from 'testcafe';
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
+import { within } from '@testing-library/testcafe';
 
 const FORM_INFOBOX_WARNING = '.okta-form-infobox-warning';
 const RESEND_NUMBER_CHALLENGE_BUTTON = '.okta-form-infobox-warning .resend-number-challenge';
@@ -9,6 +10,7 @@ const FORM_SELECTOR_V3 = '.mfa-okta-verify';
 const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name$="autoChallenge"]';
 const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name$="autoChallenge"]';
 const FACTOR_BEACON = '.auth-beacon.auth-beacon-factor';
+const RESEND_PUSH_NOTIFICATION_TEXT = 'Resend push notification';
 export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
@@ -24,10 +26,16 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getResendPushButton() {
+    if (userVariables.v3) {
+      return this.form.getButton(RESEND_PUSH_NOTIFICATION_TEXT);
+    }
     return this.form.getElement('.button-primary');
   }
 
   clickResendPushButton() {
+    if (userVariables.v3) {
+      return this.form.clickSaveButton(RESEND_PUSH_NOTIFICATION_TEXT);
+    }
     return this.form.clickSaveButton();
   }
 
@@ -44,7 +52,15 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getErrorTitle() {
-    return this.form.getElement(FORM_INFOBOX_ERROR_TITLE);
+    if (userVariables.v3) {
+      return this.form.getNthTitle(0);
+    }
+    return this.form.getElement(FORM_INFOBOX_ERROR_TITLE).innerText;
+  }
+
+  getFormTitleWithError() {
+    const titlePosition = userVariables.v3 ? 1 : 0;
+    return this.form.getNthTitle(titlePosition);
   }
 
   getWarningBox() {
@@ -94,5 +110,14 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
 
   getAutoPushValue() {
     return this.getAutoPushCheckbox().checked;
+  }
+
+  getNthErrorBulletPoint(index) {
+    if (userVariables.v3) {
+      const alertBox = this.form.getAlertBox();
+      const listItems = within(alertBox).getAllByRole('listitem');
+      return listItems.nth(index).innerText;
+    }
+    return this.getErrorBox().innerText;
   }
 }
