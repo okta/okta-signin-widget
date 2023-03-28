@@ -329,8 +329,6 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
   },
-  // [IDX_STEP.REENROLL_CUSTOM_PASSWORD_EXPIRY]: {},
-  // [IDX_STEP.REENROLL_CUSTOM_PASSWORD_EXPIRY_WARNING]: {},
   [IDX_STEP.REQUEST_ACTIVATION]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformRequestActivation,
