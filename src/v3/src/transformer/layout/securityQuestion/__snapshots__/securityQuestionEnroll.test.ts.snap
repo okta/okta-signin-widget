@@ -57,12 +57,12 @@ Object {
                 "options": Object {
                   "customOptions": Array [
                     Object {
-                      "label": "What is love?",
-                      "value": "eternal",
+                      "label": "security.disliked_food",
+                      "value": "disliked_food",
                     },
                     Object {
-                      "label": "Who is your favorite actor?",
-                      "value": "fav_actor",
+                      "label": "security.name_of_first_plush_toy",
+                      "value": "name_of_first_plush_toy",
                     },
                   ],
                   "format": "select",
@@ -70,12 +70,12 @@ Object {
                     "name": "credentials.questionKey",
                     "options": Array [
                       Object {
-                        "label": "What is love?",
-                        "value": "eternal",
+                        "label": "What is the food you least liked as a child?",
+                        "value": "disliked_food",
                       },
                       Object {
-                        "label": "Who is your favorite actor?",
-                        "value": "fav_actor",
+                        "label": "What is the name of your first stuffed animal?",
+                        "value": "name_of_first_plush_toy",
                       },
                     ],
                   },

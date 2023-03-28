@@ -142,7 +142,7 @@ exports[`email-challenge-consent should render form 1`] = `
                     class="MuiBox-root emotion-9"
                   >
                     <span
-                      class="MuiTypography-root MuiTypography-body1 emotion-20"
+                      class="MuiTypography-root MuiTypography-body1 no-translate emotion-20"
                       data-se="text-browser"
                     >
                       CHROME
@@ -167,7 +167,7 @@ exports[`email-challenge-consent should render form 1`] = `
                     class="MuiBox-root emotion-9"
                   >
                     <span
-                      class="MuiTypography-root MuiTypography-body1 emotion-20"
+                      class="MuiTypography-root MuiTypography-body1 no-translate emotion-20"
                       data-se="text-appName"
                     >
                       Okta Dashboard

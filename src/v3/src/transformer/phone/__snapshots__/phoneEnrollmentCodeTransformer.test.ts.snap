@@ -71,7 +71,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "oie.phone.verify.sms.codeSentText <span class=\\"strong no-translate\\">1215XXXXXX8</span>. oie.phone.verify.enterCodeText",
+          "content": "oie.phone.verify.sms.codeSentText <span class=\\"strong no-translate\\">1215XXXXXX8.</span> oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },
@@ -167,7 +167,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "mfa.calling <span class=\\"strong no-translate\\">1215XXXXXX8</span>. oie.phone.verify.enterCodeText",
+          "content": "mfa.calling <span class=\\"strong no-translate\\">1215XXXXXX8.</span> oie.phone.verify.enterCodeText",
         },
         "type": "Description",
       },

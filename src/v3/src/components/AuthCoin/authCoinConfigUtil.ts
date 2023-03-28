@@ -120,6 +120,13 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     description: loc('piv.card', 'login'),
     iconClassName: 'smart-card-icon',
   },
+  [AUTHENTICATOR_KEY.SMART_CARD_IDP]: {
+    icon: SmartCardIcon,
+    name: 'smart-card-icon',
+    customizable: true,
+    description: loc('piv.card', 'login'),
+    iconClassName: 'smart-card-icon',
+  },
   [AUTHENTICATOR_KEY.RSA]: {
     icon: RSAIcon,
     name: 'mfa-rsa',

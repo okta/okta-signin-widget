@@ -153,9 +153,9 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                     <span
                       class="strong no-translate"
                     >
-                      +1 XXX-XXX-4601
+                      +1 XXX-XXX-4601.
                     </span>
-                    . Enter the code below to verify.
+                     Enter the code below to verify.
                   </p>
                 </div>
               </div>

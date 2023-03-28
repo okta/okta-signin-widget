@@ -21,6 +21,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
           "SVGIcon": "MockSVGIcon",
           "id": "browser",
@@ -29,6 +30,7 @@ Object {
         "type": "ImageWithText",
       },
       Object {
+        "noTranslate": true,
         "options": Object {
           "SVGIcon": "MockSVGIcon",
           "id": "appName",

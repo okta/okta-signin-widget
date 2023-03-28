@@ -35,6 +35,7 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
   const appName = requestInfo?.find((info) => info?.name === 'appName');
   const appImageElement: ImageWithTextElement = {
     type: 'ImageWithText',
+    noTranslate: true,
     options: {
       id: appName?.name,
       SVGIcon: AppSvg,
@@ -45,6 +46,7 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
   const browser = requestInfo?.find((info) => info?.name === 'browser');
   const browserImageElement: ImageWithTextElement = {
     type: 'ImageWithText',
+    noTranslate: true,
     options: {
       id: browser?.name,
       SVGIcon: BrowserSvg,

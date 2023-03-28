@@ -245,7 +245,7 @@ describe('Select Authenticator Utility Tests', () => {
         });
       const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options, stepName);
 
-      expect(authenticatorOptionValues.length).toBe(14);
+      expect(authenticatorOptionValues.length).toBe(15);
       options.forEach((option) => {
         const currentOption = authenticatorOptionValues
           .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
@@ -612,7 +612,7 @@ describe('Select Authenticator Utility Tests', () => {
         });
       const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options, stepName);
 
-      expect(authenticatorOptionValues.length).toBe(14);
+      expect(authenticatorOptionValues.length).toBe(15);
       options.forEach((option) => {
         const currentOption = authenticatorOptionValues
           .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);

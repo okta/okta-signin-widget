@@ -31,7 +31,7 @@ Object {
           Object {
             "i18nKey": "",
             "name": "label",
-            "value": "What is love?",
+            "value": "security.disliked_food",
           },
         ],
         "type": "Field",

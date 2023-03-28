@@ -74,7 +74,10 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   const predefinedQuestions = contextualData?.questions?.map((question: Question) => ({
     value: question.questionKey,
     label: question.question,
-  } as IdxOption));
+  } as IdxOption)).map((opt: IdxOption) => ({
+    ...opt,
+    label: loc(`security.${opt.value}`, 'login'),
+  }));
   const predefinedQuestionsElement: FieldElement = {
     type: 'Field',
     label: loc('oie.security.question.questionKey.label', 'login'),

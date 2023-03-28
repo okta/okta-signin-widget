@@ -70,7 +70,6 @@ const terminalCustomAccessDeniedErrorMessageMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(customAccessDeniedErrorMessage);
 
-fixture('Terminal view');
 fixture('Terminal view').meta('v3', true);
 
 async function setup(t) {

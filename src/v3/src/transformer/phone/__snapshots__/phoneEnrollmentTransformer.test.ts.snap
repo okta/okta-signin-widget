@@ -38,12 +38,12 @@ Object {
                   "customOptions": Array [
                     Object {
                       "callback": [Function],
-                      "label": "SMS",
+                      "label": "oie.phone.enroll.sms.label",
                       "value": "sms",
                     },
                     Object {
                       "callback": [Function],
-                      "label": "Phone Call",
+                      "label": "oie.phone.enroll.voice.label",
                       "value": "voice",
                     },
                   ],
@@ -90,12 +90,12 @@ Object {
                   "customOptions": Array [
                     Object {
                       "callback": [Function],
-                      "label": "SMS",
+                      "label": "oie.phone.enroll.sms.label",
                       "value": "sms",
                     },
                     Object {
                       "callback": [Function],
-                      "label": "Phone Call",
+                      "label": "oie.phone.enroll.voice.label",
                       "value": "voice",
                     },
                   ],

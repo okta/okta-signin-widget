@@ -106,7 +106,7 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
       .toBe('oie.phone.enroll.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe(`oie.phone.verify.sms.codeSentText <span class="strong no-translate">${mockPhoneNumber}</span>. oie.phone.verify.enterCodeText`);
+      .toBe(`oie.phone.verify.sms.codeSentText <span class="strong no-translate">${mockPhoneNumber}.</span> oie.phone.verify.enterCodeText`);
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.phone.carrier.charges');
@@ -136,7 +136,7 @@ describe('PhoneEnrollmentCodeTransformer Tests', () => {
       .toBe('oie.phone.enroll.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement)
-      .options?.content).toBe(`mfa.calling <span class="strong no-translate">${mockPhoneNumber}</span>. oie.phone.verify.enterCodeText`);
+      .options?.content).toBe(`mfa.calling <span class="strong no-translate">${mockPhoneNumber}.</span> oie.phone.verify.enterCodeText`);
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
