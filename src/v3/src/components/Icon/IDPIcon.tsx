@@ -40,12 +40,12 @@ export const IDPIcon: FunctionComponent<IconProps> = ({ name, description }) => 
     <path
       fill="#00297A"
       d="M27.5 36a11.433 11.433 0 0 1-6.61-2.088l-.186-.134.592-.806.17.123a10.5 10.5 0 1 0-.166-17.066l-.592-.806A11.5 11.5 0 1 1 27.5 36Z"
-      class="siwFillPrimary"
+      class="siwFillPrimaryDark"
     />
     <path
       fill="#00297A"
       d="m29.354 19.646-.708.708L32.293 24H14.707l1.647-1.646-.708-.708-2.853 2.854 2.853 2.854.708-.708L14.707 25h17.586l-3.647 3.646.708.708 4.853-4.854-4.853-4.854Z"
-      class="siwFillPrimary"
+      class="siwFillPrimaryDark"
     />
   </svg>
 );

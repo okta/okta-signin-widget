@@ -11,6 +11,10 @@
   fill: var(--PrimaryFill);
 }
 
+:global(.siwFillPrimaryDark) {
+  fill: var(--PrimaryDarkFill);
+}
+
 :global(.siwFillSecondary) {
   fill: var(--SecondaryFill);
 }

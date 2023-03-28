@@ -35,7 +35,7 @@ export const OnPremMFAIcon: FunctionComponent<IconProps> = ({ name, description 
     <path
       fill="#00297A"
       d="M39 20h-8v-3H16.5a7.5 7.5 0 0 0 0 15H31v-3h8v-9Zm-9 11H16.5a6.5 6.5 0 1 1 0-13H30v13Zm8-3h-7v-7h7v7Z"
-      class="siwFillPrimary"
+      class="siwFillPrimaryDark"
     />
     <path
       fill="#A7B5EC"

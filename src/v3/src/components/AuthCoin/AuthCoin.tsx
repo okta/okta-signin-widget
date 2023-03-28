@@ -72,6 +72,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
       aria-hidden
       sx={(theme) => ({
         '--PrimaryFill': theme.palette.primary.main,
+        '--PrimaryDarkFill': theme.palette.primary.dark,
         '--SecondaryFill': theme.palette.primary.light,
         '--BackgroundFill': theme.palette.grey[50],
       })}

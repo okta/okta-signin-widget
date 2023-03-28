@@ -35,12 +35,12 @@ export const PhoneIcon: FunctionComponent<IconProps> = ({ name, description }) =
     <path
       fill="#00297A"
       d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
-      class="siwFillPrimary"
+      class="siwFillPrimaryDark"
     />
     <path
       fill="#00297A"
       d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
-      class="siwFillPrimary"
+      class="siwFillPrimaryDark"
     />
     <path
       fill="#A7B5EC"

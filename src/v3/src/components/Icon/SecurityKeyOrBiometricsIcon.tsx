@@ -37,12 +37,12 @@ export const SecurityKeyOrBiometricsIcon: FunctionComponent<IconProps> = (
     <path
       fill="#00297A"
       d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"
-      class="siwFillPrimary"
+      class="siwFillPrimaryDark"
     />
     <path
       fill="#00297A"
       d="M19.5 25a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Zm0-4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"
-      class="siwFillPrimary"
+      class="siwFillPrimaryDark"
     />
     <path
       fill="#A7B5EC"

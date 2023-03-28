@@ -33,7 +33,7 @@ export const CustomAppIcon: FunctionComponent<IconProps> = ({ name, description 
       stroke="#F5F5F6"
       strokeLinecap="round"
       strokeLinejoin="round"
-      class="siwFillPrimary"
+      class="siwFillPrimaryDark"
     />
     <path
       fillRule="evenodd"
