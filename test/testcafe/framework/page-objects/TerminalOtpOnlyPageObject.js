@@ -1,3 +1,4 @@
+import { within } from '@testing-library/testcafe';
 import { Selector, userVariables } from 'testcafe';
 import TerminalPageObject from './TerminalPageObject';
 
@@ -45,7 +46,9 @@ export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
 
   doesBrowserOsSmartphoneIconExist() {
     if(userVariables.v3) {
-      return this.form.getImageByTitle('Mobile browser').exists;
+      const iconSelector = getOtpOnlyIconSelector('browser');
+      return within(this.form.getElement(iconSelector))
+        .findByTitle('Mobile browser').exists;
     }
     return this.form.elementExist(BROWSER_OS_SMARTPHONE_ICON_SELECTOR);
   }
