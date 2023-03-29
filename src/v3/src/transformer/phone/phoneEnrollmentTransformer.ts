@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+
 import {
   ButtonElement,
   ButtonType,
@@ -46,7 +48,14 @@ export const transformPhoneEnrollment: IdxStepTransformer = ({ formBag, transact
     elements: [],
   };
 
-  const phoneMethodOptions = methodTypeElement!.options!.inputMeta.options!;
+  const phoneMethodOptions = methodTypeElement!.options!.inputMeta.options!
+    .map((opt: IdxOption) => ({
+      ...opt,
+      label: loc(
+        opt.value === 'sms' ? 'oie.phone.enroll.sms.label' : 'oie.phone.enroll.voice.label',
+        'login',
+      ),
+    }));
   const methodTypeRadioEl: StepperRadioElement = {
     type: 'StepperRadio',
     options: {

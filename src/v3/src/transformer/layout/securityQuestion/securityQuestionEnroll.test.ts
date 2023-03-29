@@ -62,12 +62,12 @@ describe('SecurityQuestionEnroll Tests', () => {
                   name: 'questionKey',
                   options: [
                     {
-                      value: 'eternal',
-                      label: 'What is love?',
+                      label: 'What is the food you least liked as a child?',
+                      value: 'disliked_food',
                     },
                     {
-                      value: 'fav_actor',
-                      label: 'Who is your favorite actor?',
+                      label: 'What is the name of your first stuffed animal?',
+                      value: 'name_of_first_plush_toy',
                     },
                   ],
                 },
@@ -90,12 +90,12 @@ describe('SecurityQuestionEnroll Tests', () => {
           contextualData: {
             questions: [
               {
-                question: 'What is love?',
-                questionKey: 'eternal',
+                question: 'What is the food you least liked as a child?',
+                questionKey: 'disliked_food',
               },
               {
-                question: 'Who is your favorite actor?',
-                questionKey: 'fav_actor',
+                question: 'What is the name of your first stuffed animal?',
+                questionKey: 'name_of_first_plush_toy',
               },
             ],
           },

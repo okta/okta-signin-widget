@@ -28,7 +28,7 @@ import {
 import { transformEmailAuthenticatorEnroll } from '.';
 
 describe('Email Authenticator Enroll Transformer Tests', () => {
-  const redactedEmail = 'fxxxe@xxx.com';
+  const emailAddress = 'fxxxe@xxx.com';
   let widgetProps: WidgetProps;
   let transaction: IdxTransaction;
   let formBag: FormBag;
@@ -59,14 +59,8 @@ describe('Email Authenticator Enroll Transformer Tests', () => {
       transaction.nextStep = {
         name: '',
         canResend: true,
-        relatesTo: {
-          value: {
-            profile: {
-              email: redactedEmail,
-            },
-          } as unknown as IdxAuthenticator,
-        },
       };
+      transaction.context = { ...transaction.context, user: { type: '', value: { identifier: emailAddress } } };
       transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
       const updatedFormBag = transformEmailAuthenticatorEnroll({
         transaction, formBag, widgetProps,
@@ -194,14 +188,8 @@ describe('Email Authenticator Enroll Transformer Tests', () => {
       transaction.availableSteps = [];
       transaction.nextStep = {
         name: 'mock-step',
-        relatesTo: {
-          value: {
-            profile: {
-              email: redactedEmail,
-            },
-          } as unknown as IdxAuthenticator,
-        },
       };
+      transaction.context = { ...transaction.context, user: { type: '', value: { identifier: emailAddress } } };
       const updatedFormBag = transformEmailAuthenticatorEnroll({
         transaction, formBag, widgetProps,
       });
@@ -262,14 +250,8 @@ describe('Email Authenticator Enroll Transformer Tests', () => {
       transaction.nextStep = {
         name: '',
         canResend: true,
-        relatesTo: {
-          value: {
-            profile: {
-              email: redactedEmail,
-            },
-          } as unknown as IdxAuthenticator,
-        },
       };
+      transaction.context = { ...transaction.context, user: { type: '', value: { identifier: emailAddress } } };
       transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
       const updatedFormBag = transformEmailAuthenticatorEnroll({
         transaction, formBag, widgetProps,
@@ -342,14 +324,8 @@ describe('Email Authenticator Enroll Transformer Tests', () => {
       transaction.availableSteps = [];
       transaction.nextStep = {
         name: 'mock-step',
-        relatesTo: {
-          value: {
-            profile: {
-              email: redactedEmail,
-            },
-          } as unknown as IdxAuthenticator,
-        },
       };
+      transaction.context = { ...transaction.context, user: { type: '', value: { identifier: emailAddress } } };
       const updatedFormBag = transformEmailAuthenticatorEnroll({
         transaction, formBag, widgetProps,
       });
@@ -387,14 +363,8 @@ describe('Email Authenticator Enroll Transformer Tests', () => {
       transaction.nextStep = {
         name: '',
         canResend: true,
-        relatesTo: {
-          value: {
-            profile: {
-              email: redactedEmail,
-            },
-          } as unknown as IdxAuthenticator,
-        },
       };
+      transaction.context = { ...transaction.context, user: { type: '', value: { identifier: emailAddress } } };
       transaction.availableSteps = [{ name: 'resend', action: jest.fn() }];
       const updatedFormBag = transformEmailAuthenticatorEnroll({
         transaction, formBag, widgetProps,
@@ -467,14 +437,8 @@ describe('Email Authenticator Enroll Transformer Tests', () => {
       transaction.availableSteps = [];
       transaction.nextStep = {
         name: 'mock-step',
-        relatesTo: {
-          value: {
-            profile: {
-              email: redactedEmail,
-            },
-          } as unknown as IdxAuthenticator,
-        },
       };
+      transaction.context = { ...transaction.context, user: { type: '', value: { identifier: emailAddress } } };
       const updatedFormBag = transformEmailAuthenticatorEnroll({
         transaction, formBag, widgetProps,
       });

@@ -1,4 +1,4 @@
-import { RequestMock, Selector } from 'testcafe';
+import { RequestMock, Selector, userVariables } from 'testcafe';
 import PageObject from '../framework/page-objects/IdentityPageObject';
 import { renderWidget } from '../framework/shared';
 import { assertNoEnglishLeaks } from '../../../playground/LocaleUtils';
@@ -9,7 +9,7 @@ const PLAYGROUND = path.resolve(__dirname, '../../../playground');
 const mocksFolder = `${PLAYGROUND}/mocks/data/idp/idx`;
 const mocksOauth2Folder = `${PLAYGROUND}/mocks/data/oauth2`;
 
-fixture('English Leaks');
+fixture('English Leaks').meta('v3', true);
 
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
@@ -27,10 +27,41 @@ const ignoredMocks = [
   'error-custom-access-denied-success-redirect.json', // custom message
   'error-identify-access-denied-custom-message.json', // custom message
   'enroll-profile-new-boolean-fields.json', // custom registration fields
-
-  // OKTA-535435 "Sign me out of all other devices." (enroll-authenticator.okta_password.credentials.revokeSessions) has no entry in login.properties
-  'authenticator-enroll-password.json',
   'authenticator-expired-custom-password.json' // seems to be flaky
+];
+
+const v3IgnoredMocks = [
+  'authenticator-expiry-warning-custom-password.json', // TODO: Not yet implemented OKTA-594840
+  'authenticator-expired-custom-password.json', // TODO: Not yet implemented OKTA-594842
+  'consent-granular.json', // TODO: Not yet implemented OKTA-594847
+  /** The below are all erroring due to the asterisk next to labels, OKTA-566071 will resolve this **/
+  'enroll-profile-new-checkbox.json',
+  'enroll-profile-new-custom-labels.json',
+  'enroll-profile-new-with-hcaptcha.json',
+  'enroll-profile-new-with-recaptcha-v2.json',
+  'enroll-profile-new.json',
+  'enroll-profile-with-idps.json',
+  'enroll-profile-with-password-returns-error.json',
+  'enroll-profile-with-password-returns-multiple-errors.json',
+  'enroll-profile-with-password.json',
+  'enroll-profile.json',
+  'error-new-signup-email-exists.json',
+  'error-new-signup-email.json',
+  /** END of asterisk issue */
+  'success-with-interaction-code.json', // Receiving error regarding codeVerifier from auth-js, must investigate TODO: OKTA-594851
+  /** The below mocks are all complaining about the "page" text in the description but it IS localized. Need to investigate TODO: OKTA-594852 **/ 
+  'terminal-return-otp-only-full-location-mobile-icon-authentication.json',
+  'terminal-return-otp-only-full-location-mobile-icon-enrollment.json',
+  'terminal-return-otp-only-full-location-mobile-icon-recovery.json',
+  'terminal-return-otp-only-full-location-mobile-icon-unlock.json',
+  'terminal-return-otp-only-full-location.json',
+  'terminal-return-otp-only-no-location.json',
+  'terminal-return-otp-only-partial-location.json',
+  /** END of "page" issue **/
+  /** The below are erroring due to the user identifier, but it has the no-translate class on the element and doesn't fail in other mocks, must investigate TODO: OKTA-594871 */
+  'success-with-app-user.json',
+  'success.json',
+  /** END user identifier issue */
 ];
 
 const optionsForInteractionCodeFlow = {
@@ -56,7 +87,8 @@ const parseMockData = () => {
   // eslint-disable-next-line no-console
   console.log('================= Parsing mocks for en leaks automation =============');
   fs.readdirSync(mocksFolder).forEach(file => {
-    const isIgnored = ignoredMocks.includes(file);
+    const isIgnored = ignoredMocks.includes(file)
+      || (userVariables.v3 && v3IgnoredMocks.includes(file));
     //only allow json mock files
     const isJsonMock = path.extname(file) === '.json';
     if (!isIgnored && isJsonMock) {

@@ -40,8 +40,8 @@ describe('SecurityQuestionVerify Tests', () => {
       relatesTo: {
         value: {
           profile: {
-            question: 'What is love?',
-            questionKey: 'eternal',
+            question: 'What is the food you least liked as a child?',
+            questionKey: 'disliked_food',
           },
         } as unknown as IdxAuthenticator,
       },
@@ -62,7 +62,7 @@ describe('SecurityQuestionVerify Tests', () => {
       .toEqual({
         i18nKey: '',
         name: 'label',
-        value: 'What is love?',
+        value: 'security.disliked_food',
       });
 
     // submit button

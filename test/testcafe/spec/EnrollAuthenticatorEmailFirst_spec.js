@@ -7,11 +7,12 @@ import { checkConsoleMessages } from '../framework/shared';
 import emailAuthenticatorPreEnrollData from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-first';
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-first-emailmagiclink-true';
 
-fixture('Pre-Enroll Email Authenticator Form');
+fixture('Pre-Enroll Email Authenticator Form').meta('v3', true);
 
 async function setup(t) {
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
   await challengeEmailPageObject.navigateToPage();
+  await challengeEmailPageObject.formExists();
   return challengeEmailPageObject;
 }
 
@@ -19,6 +20,8 @@ const sendEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailAuthenticatorPreEnrollData)
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
+  .respond(emailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(emailVerification);
 
 test
@@ -41,7 +44,7 @@ test
       .eql('Send a verification email by clicking on "Send me an email".');
 
     // Verify links (switch authenticator link present since for the only email authenticator available)
-    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await challengeEmailPageObject.returnToAuthenticatorListLinkExists()).ok();
     await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
     await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
 
@@ -64,7 +67,7 @@ test
   .requestHooks(sendEmailMock)('send me an email button should take to pre-enroll email authenticator screen', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
-    await challengeEmailPageObject.clickNextButton();
+    await challengeEmailPageObject.clickNextButton('Send me an email');
     const pageTitle = challengeEmailPageObject.getFormTitle();
     await t.expect(pageTitle).eql('Verify with your email');
 
@@ -74,7 +77,7 @@ test
     await t.expect(challengeEmailPageObject.getEnterCodeInsteadButton().exists).eql(true);
 
     // Verify links (switch authenticator link present since for the only email authenticator available)
-    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await challengeEmailPageObject.returnToAuthenticatorListLinkExists()).ok();
     await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
     await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
 

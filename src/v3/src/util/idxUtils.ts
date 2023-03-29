@@ -106,7 +106,7 @@ export const buildAuthCoinProps = (
 
   const { nextStep, messages } = transaction;
   if (containsOneOfMessageKeys(EMAIL_AUTHENTICATOR_TERMINAL_KEYS, messages)
-    || nextStep?.name === IDX_STEP.EMAIL_CHALLENGE_CONSENT) {
+    || nextStep?.name === IDX_STEP.CONSENT_EMAIL_CHALLENGE) {
     return { authenticatorKey: AUTHENTICATOR_KEY.EMAIL };
   }
 

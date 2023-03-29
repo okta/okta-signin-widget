@@ -99,6 +99,10 @@ const TransformerMap: {
   }
 } = {
   [IDX_STEP.AUTHENTICATOR_ENROLLMENT_DATA]: {
+    [AUTHENTICATOR_KEY.EMAIL]: {
+      transform: transformEmailVerification,
+      buttonConfig: { showDefaultSubmit: false },
+    },
     [AUTHENTICATOR_KEY.PHONE]: {
       transform: transformPhoneEnrollment,
       buttonConfig: { showDefaultSubmit: false },
@@ -213,7 +217,7 @@ const TransformerMap: {
       },
     },
   },
-  [IDX_STEP.EMAIL_CHALLENGE_CONSENT]: {
+  [IDX_STEP.CONSENT_EMAIL_CHALLENGE]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformEmailChallengeConsent,
       buttonConfig: {

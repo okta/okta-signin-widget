@@ -74,11 +74,6 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   async verificationLinkTextExists(emailAddress) {
     const text = await this.form.getSubtitle();
 
-    if (userVariables.v3) {
-      return text.includes('We sent you a verification email.');
-    }
-    else {
-      return text.includes(`We sent an email to ${emailAddress}.`);
-    }
+    return text.includes(`We sent an email to ${emailAddress}.`);
   }
 }

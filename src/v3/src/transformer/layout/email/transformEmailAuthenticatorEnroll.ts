@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { NextStep } from '@okta/okta-auth-js';
-
 import {
   ButtonElement,
   ButtonType,
@@ -26,12 +24,12 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
-import { getCurrentAuthenticator, loc } from '../../../util';
+import { getCurrentAuthenticator, getUserInfo, loc } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 import { getEmailAuthenticatorSubtitle } from './getEmailAuthenticatorSubtitle';
 
 export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { nextStep = {} as NextStep, availableSteps } = transaction;
+  const { availableSteps } = transaction;
   const { uischema } = formBag;
   const authenticatorContextualData = getCurrentAuthenticator(transaction)?.value?.contextualData;
   // @ts-ignore OKTA-551247 - useEmailMagicLink property missing from interface
@@ -70,12 +68,12 @@ export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transact
   if (typeof useEmailMagicLink === 'undefined') {
     subTitleElement.options.content = loc('oie.email.enroll.subtitle', 'login');
   } else {
-    const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-    const tokenReplacement: TokenReplacement | undefined = typeof redactedEmailAddress !== 'undefined'
+    const emailAddress = getUserInfo(transaction).identifier;
+    const tokenReplacement: TokenReplacement | undefined = typeof emailAddress !== 'undefined'
       ? { $1: { element: 'span', attributes: { class: 'strong no-translate' } } }
       : undefined;
     subTitleElement.options.content = getEmailAuthenticatorSubtitle(
-      redactedEmailAddress,
+      emailAddress,
       useEmailMagicLink,
       tokenReplacement,
     );

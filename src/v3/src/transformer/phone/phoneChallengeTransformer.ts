@@ -50,14 +50,14 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
   const sendInfoText = smsMethodType
     ? loc('oie.phone.verify.sms.codeSentText', 'login')
     : loc('mfa.calling', 'login');
-  const phoneNumberSpan = phoneNumber ? `<span class="strong no-translate">${phoneNumber}</span>` : null;
-  const phoneInfoText = phoneNumberSpan || loc('oie.phone.alternate.title', 'login');
+  const phoneNumberSpan = phoneNumber ? `<span class="strong no-translate">${phoneNumber}.</span>` : null;
+  const phoneInfoText = phoneNumberSpan || `${loc('oie.phone.alternate.title', 'login')}.`;
   const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
   const informationalText: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     options: {
-      content: `${sendInfoText} ${phoneInfoText}. ${enterCodeInfoText}`,
+      content: `${sendInfoText} ${phoneInfoText} ${enterCodeInfoText}`,
     },
   };
 

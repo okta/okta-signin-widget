@@ -109,7 +109,7 @@ test_suites:
       sort_order: '15'
       timeout: '20'
       script_name: detect-english-leaks
-      criteria: OPTIONAL
+      criteria: MERGE
       queue_name: small
     - name: unit-karma
       script_path: /root/okta/okta-signin-widget/scripts
