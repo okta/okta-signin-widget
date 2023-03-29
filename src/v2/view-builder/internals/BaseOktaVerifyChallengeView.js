@@ -185,6 +185,18 @@ const Body = BaseFormWithPolling.extend({
     this.ulDom = this.add(IframeView).last();
   },
 
+  doChromeDTC(deviceChallenge) {
+    let href = deviceChallenge.href;
+    var iframe = document.createElement('iframe');
+    iframe.src = href;
+    // invisible and not take up any space
+    iframe.height = '0';
+    iframe.width = '0';
+    iframe.style.position = 'absolute';
+    iframe.style.border = '0';
+    document.body.appendChild(iframe);
+  },
+
   stopProbing() {
     this.checkPortXhr && this.checkPortXhr.abort();
     this.probingXhr && this.probingXhr.abort();
