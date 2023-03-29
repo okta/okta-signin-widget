@@ -151,9 +151,9 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-21"
                     data-se="o-form-explain"
-                    id="enroll-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_aut10faWWbNaNWBaH0g4_3"
+                    id="enroll-authenticator_Description_Use_your_YubiKey_to_insert_a_verification_code_yubikey_token_aut10faWWbNaNWBaH0g4_3"
                   >
-                    Insert the YubiKey into a USB port and tap it to generate a verification code.
+                    Use your YubiKey to insert a verification code.
                   </p>
                 </div>
               </div>

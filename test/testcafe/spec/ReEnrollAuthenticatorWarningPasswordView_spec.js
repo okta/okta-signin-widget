@@ -91,7 +91,7 @@ async function setup(t) {
       }
       await t.expect(passwordExpiryWarningPage.remindMeLaterLinkExists()).eql(true);
       await t.expect(passwordExpiryWarningPage.getSignoutLinkText()).eql('Back to sign in');
-      await t.expect(passwordExpiryWarningPage.doesTextExist('When your password expires you will be locked out of your Okta account.')).eql(true);
+      await t.expect(passwordExpiryWarningPage.doesTextExist('When your password expires, you will have to change your password before you can login to your Localhost account.')).eql(true);
     });
 });
 

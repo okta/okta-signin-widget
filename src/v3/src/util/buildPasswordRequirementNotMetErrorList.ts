@@ -29,9 +29,8 @@ export const buildPasswordRequirementNotMetErrorList = (
   });
 
   if (errorMessages.length > 0) {
-    // TODO: OKTA-581769 - Update the translation key which would include the colon
     widgetMessages.push({
-      description: loc('registration.error.password.passwordRequirementsNotMet', 'login'),
+      description: loc('registration.error.password.passwordRequirementsNotMet.prefix', 'login'),
       message: errorMessages.map((message: string) => ({
         class: 'ERROR', i18n: { key: '' }, name: fieldName, message,
       } as WidgetMessage)),
