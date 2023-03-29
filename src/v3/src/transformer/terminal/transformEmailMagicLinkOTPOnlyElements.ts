@@ -12,8 +12,9 @@
 
 import { CHALLENGE_INTENT_TO_I18KEY } from '../../constants';
 import AppSvg from '../../img/16pxApp.svg';
-import BrowserSvg from '../../img/16pxDevice.svg';
+import DesktopBrowserSvg from '../../img/16pxDevice.svg';
 import LocationSvg from '../../img/16pxLocation.svg';
+import MobileBrowserSvg from '../../img/16pxMobileDevice.svg';
 import {
   DescriptionElement,
   HeadingElement,
@@ -85,16 +86,19 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
     };
   }
 
-  if (client?.value?.browser && client?.value?.os) {
+  const clientOs = client?.value?.os;
+  const clientBrowser = client?.value?.browser;
+  if (clientBrowser && clientOs) {
+    const isMobileDevice = clientOs === 'Android' || clientOs === 'iOS';
     browserImageElement = {
       type: 'ImageWithText',
       options: {
         id: 'browser',
-        SVGIcon: BrowserSvg,
+        SVGIcon: isMobileDevice ? MobileBrowserSvg : DesktopBrowserSvg,
         textContent: loc(
           'idx.return.link.otponly.browser.on.os',
           'login',
-          [client.value.browser, client.value.os],
+          [clientBrowser, clientOs],
         ),
       },
     };
