@@ -33,7 +33,6 @@ const ignoredMocks = [
 const v3IgnoredMocks = [
   'authenticator-expiry-warning-custom-password.json', // TODO: Not yet implemented OKTA-594840
   'authenticator-expired-custom-password.json', // TODO: Not yet implemented OKTA-594842
-  'authenticator-expiry-warning-password.json', // TODO: OKTA-594845 - This has been fixed in master, with login.properties update, need to merge latest to fix
   'consent-granular.json', // TODO: Not yet implemented OKTA-594847
   /** The below are all erroring due to the asterisk next to labels, OKTA-566071 will resolve this **/
   'enroll-profile-new-checkbox.json',
