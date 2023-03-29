@@ -461,10 +461,6 @@ export default class BaseFormObject {
   getButtonIcon(buttonName) {
     return within(this.getButton(buttonName)).getByRole('img');
   }
-
-  getImageByTitle(title) {
-    return within(this.el).findByRole('img', {name: title});
-  }
   /**
    * Queries for all elements matching the selector
    * and returns a list of inner texts of the matching elements.
