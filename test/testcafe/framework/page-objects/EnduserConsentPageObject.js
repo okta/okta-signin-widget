@@ -28,13 +28,6 @@ export default class EnduserConsentPageObject extends ConsentPageObject {
     return this.form.getInnerTexts('.enduser-email-consent--info');
   }
 
-  getSaveButtonLabel() {
-    if (userVariables.v3) {
-      return this.form.getElement('[data-type="save"]').innerText; 
-    }
-    return this.form.getElement('input[type="submit"]').value;
-  }
-
   getCancelButtonLabel() {
     if (userVariables.v3) {
       return this.form.getElement('[data-type="cancel"]').innerText; 
