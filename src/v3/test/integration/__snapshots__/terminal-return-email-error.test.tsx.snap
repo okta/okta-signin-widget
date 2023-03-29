@@ -54,7 +54,7 @@ exports[`terminal-return-email-error should render form 1`] = `
                 fill="#A7B5EC"
               />
               <path
-                class="siwFillPrimary"
+                class="siwFillPrimaryDark"
                 d="M9 13v14.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V13H9Zm20.293 1-8.81 8.81L10.794 14h18.499ZM28.5 29h-17a1.5 1.5 0 0 1-1.5-1.5V14.63l10.517 9.56L30 14.707V27.5a1.5 1.5 0 0 1-1.5 1.5Z"
                 fill="#00297A"
               />

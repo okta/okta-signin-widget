@@ -54,7 +54,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                 fill="#A7B5EC"
               />
               <path
-                class="siwFillPrimary"
+                class="siwFillPrimaryDark"
                 d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
                 fill="#00297A"
               />
@@ -462,7 +462,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                 fill="#A7B5EC"
               />
               <path
-                class="siwFillPrimary"
+                class="siwFillPrimaryDark"
                 d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
                 fill="#00297A"
               />
@@ -981,7 +981,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                 fill="#A7B5EC"
               />
               <path
-                class="siwFillPrimary"
+                class="siwFillPrimaryDark"
                 d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
                 fill="#00297A"
               />
@@ -1505,7 +1505,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                 fill="#A7B5EC"
               />
               <path
-                class="siwFillPrimary"
+                class="siwFillPrimaryDark"
                 d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
                 fill="#00297A"
               />

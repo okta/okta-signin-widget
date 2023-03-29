@@ -155,7 +155,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               fill="#A7B5EC"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="m14.91 22.067-1.829 1.064V21h-1v2.131l-1.83-1.064-.502.866L11.585 24l-1.836 1.067.502.866 1.83-1.064V27h1v-2.131l1.829 1.064.503-.866L13.576 24l1.837-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L19.531 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L21.523 24l1.836-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L27.477 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L29.47 24l1.836-1.067-.503-.866Zm8.448.866-.501-.866-1.83 1.064V21h-1v2.131l-1.83-1.064-.502.866L35.424 24l-1.837 1.067.503.866 1.829-1.064V27h1v-2.131l1.83 1.064.502-.866L37.415 24l1.836-1.067Z"
                               fill="#00297A"
                             />
@@ -247,12 +247,12 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               fill-rule="evenodd"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"
                               fill="#00297A"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="M19.5 25a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Zm0-4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"
                               fill="#00297A"
                             />
@@ -369,7 +369,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               fill="#A7B5EC"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="M9 13v14.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V13H9Zm20.293 1-8.81 8.81L10.794 14h18.499ZM28.5 29h-17a1.5 1.5 0 0 1-1.5-1.5V14.63l10.517 9.56L30 14.707V27.5a1.5 1.5 0 0 1-1.5 1.5Z"
                               fill="#00297A"
                             />
@@ -461,12 +461,12 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               r="24"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
                               fill="#00297A"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
                               fill="#00297A"
                             />
@@ -575,12 +575,12 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               r="24"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
                               fill="#00297A"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
                               fill="#00297A"
                             />
@@ -694,7 +694,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               fill="#A7B5EC"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
                               fill="#00297A"
                             />
@@ -1055,7 +1055,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               fill-rule="evenodd"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="M39 20h-8v-3H16.5a7.5 7.5 0 0 0 0 15H31v-3h8v-9Zm-9 11H16.5a6.5 6.5 0 1 1 0-13H30v13Zm8-3h-7v-7h7v7Z"
                               fill="#00297A"
                             />
@@ -1341,12 +1341,12 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               fill="#A7B5EC"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="M27.5 36a11.433 11.433 0 0 1-6.61-2.088l-.186-.134.592-.806.17.123a10.5 10.5 0 1 0-.166-17.066l-.592-.806A11.5 11.5 0 1 1 27.5 36Z"
                               fill="#00297A"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="m29.354 19.646-.708.708L32.293 24H14.707l1.647-1.646-.708-.708-2.853 2.854 2.853 2.854.708-.708L14.707 25h17.586l-3.647 3.646.708.708 4.853-4.854-4.853-4.854Z"
                               fill="#00297A"
                             />
@@ -1448,7 +1448,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               fill="#A7B5EC"
                             />
                             <path
-                              class="siwFillPrimary"
+                              class="siwFillPrimaryDark"
                               d="m21.257 33.929-.514-.858L19 34.117V32h-1v2.117l-1.743-1.046-.514.858L17.528 35l-1.785 1.071.514.858L18 35.883V38h1v-2.117l1.743 1.046.514-.858L19.472 35l1.785-1.071Zm8 0-.514-.858L27 34.117V32h-1v2.117l-1.743-1.046-.514.858L25.528 35l-1.785 1.071.514.858L26 35.883V38h1v-2.117l1.743 1.046.514-.858L27.472 35l1.785-1.071Zm8 0-.514-.858L35 34.117V32h-1v2.117l-1.743-1.046-.514.858L33.528 35l-1.785 1.071.514.858L34 35.883V38h1v-2.117l1.743 1.046.514-.858L35.472 35l1.785-1.071Z"
                               fill="#00297A"
                             />

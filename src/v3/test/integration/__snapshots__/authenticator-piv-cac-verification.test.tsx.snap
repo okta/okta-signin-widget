@@ -910,7 +910,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                 r="24"
               />
               <path
-                class="siwFillPrimary"
+                class="siwFillPrimaryDark"
                 clip-rule="evenodd"
                 d="M17.5 37h13a2.6 2.6 0 0 0 2.5-2.682V14.682A2.6 2.6 0 0 0 30.5 12h-13a2.6 2.6 0 0 0-2.5 2.682v19.636A2.6 2.6 0 0 0 17.5 37Zm-1.096-23.468A1.6 1.6 0 0 1 17.5 13h13a1.6 1.6 0 0 1 1.5 1.682v19.636A1.6 1.6 0 0 1 30.5 36h-13a1.6 1.6 0 0 1-1.5-1.682V14.682a1.6 1.6 0 0 1 .404-1.15ZM23 28h-1v1h1v-1Zm-3 0h1v1h-1v-1Zm0 5v-3h3v1h-2v2h-1Zm2-1h1v1h-1v-1Zm-2-5a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-3Z"
                 fill="#00297A"

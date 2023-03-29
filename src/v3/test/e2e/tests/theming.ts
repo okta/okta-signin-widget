@@ -35,8 +35,8 @@ test('Theme configuration applies correctly', async (t) => {
     .find('svg');
 
   await t
-    .expect(phoneAuthCoin.find('.siwFillPrimary').getStyleProperty('fill'))
-    .eql('rgb(62, 0, 70)');
+    .expect(phoneAuthCoin.find('.siwFillPrimaryDark').getStyleProperty('fill'))
+    .eql('rgb(202, 0, 228)');
   await t
     .expect(phoneAuthCoin.find('.siwFillSecondary').getStyleProperty('fill'))
     .eql('rgb(241, 131, 255)');
