@@ -30,7 +30,7 @@ describe('authenticator-expiry-warning-password', () => {
 
     const titleElement = await findByText(/Your password will expire in/);
     await waitFor(() => expect(titleElement).toHaveFocus());
-    await findByText(/When your password expires you will be locked out of your Okta account./);
+    await findByText('When your password expires, you will have to change your password before you can login to your Localhost account.');
     await findByText(/Password requirements/);
     await findByText(/Remind me later/);
 
