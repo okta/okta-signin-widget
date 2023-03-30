@@ -163,7 +163,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             variant="caption"
             id={`${iconName}-usageDescription`}
             textAlign="start"
-            sx={{ fontSize: '.875rem', margin: 0 }}
+            sx={{ fontSize: '.875rem', margin: 0, color: 'text.secondary'}}
             data-se="authenticator-button-usage-text"
             className="authenticator-usage-text"
           >
