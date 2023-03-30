@@ -58,10 +58,6 @@ const v3IgnoredMocks = [
   'terminal-return-otp-only-no-location.json',
   'terminal-return-otp-only-partial-location.json',
   /** END of "page" issue **/
-  /** The below are erroring due to the user identifier, but it has the no-translate class on the element and doesn't fail in other mocks, must investigate TODO: OKTA-594871 */
-  'success-with-app-user.json',
-  'success.json',
-  /** END user identifier issue */
 ];
 
 const optionsForInteractionCodeFlow = {
