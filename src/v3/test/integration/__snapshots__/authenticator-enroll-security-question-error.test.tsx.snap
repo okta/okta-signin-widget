@@ -825,7 +825,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       Answer
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-48"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-48"
                       required="true"
                     >
                       <input
