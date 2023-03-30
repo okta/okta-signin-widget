@@ -56,12 +56,14 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
   ) as FieldElement;
   predefinedAnswerElement.options.inputMeta.secret = true;
   predefinedAnswerElement.key = `${ANSWER_INPUT_NAME}_predefined`;
+  predefinedAnswerElement.noTranslate = true;
 
   const customAnswerInput = (customQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
   const customAnswerElement: FieldElement = {
     type: 'Field',
     key: `${ANSWER_INPUT_NAME}_custom`,
     label: customAnswerInput?.label ?? customAnswerInput?.name,
+    noTranslate: true,
     options: {
       inputMeta: {
         ...customAnswerInput,
@@ -119,6 +121,7 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = ({ transactio
     uischema.elements,
   ) as FieldElement;
   customQuestionElement.label = loc('oie.security.question.createQuestion.label', 'login');
+  customQuestionElement.noTranslate = true;
 
   // Add the title to the top
   const titleElement: TitleElement = {

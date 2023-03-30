@@ -45,6 +45,8 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
       ? relatesTo?.value?.profile?.question as string
       : loc(`security.${relatesTo?.value?.profile?.questionKey}`, 'login'),
   }];
+  answerElement.options.inputMeta.secret = true;
+  answerElement.noTranslate = true;
 
   const submitButton: ButtonElement = {
     type: 'Button',

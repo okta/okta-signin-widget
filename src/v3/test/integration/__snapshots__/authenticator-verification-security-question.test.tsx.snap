@@ -138,7 +138,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                     What is the food you least liked as a child?
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-19"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-19"
                     required="true"
                   >
                     <input

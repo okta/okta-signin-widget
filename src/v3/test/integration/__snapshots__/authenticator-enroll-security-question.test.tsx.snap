@@ -320,7 +320,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                       Answer
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-42"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-42"
                       required="true"
                     >
                       <input
@@ -682,7 +682,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                       Answer
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-37"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-37"
                       required="true"
                     >
                       <input
@@ -1154,7 +1154,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                       Answer
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-43"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-43"
                       required="true"
                     >
                       <input
@@ -1627,7 +1627,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                       Answer
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-43"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-43"
                       required="true"
                     >
                       <input
