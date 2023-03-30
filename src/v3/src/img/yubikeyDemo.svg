@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="43" height="58" fill="none" aria-labelledby="yubikeyIcon" role="img" viewBox="0 0 43 58">
+<svg xmlns="http://www.w3.org/2000/svg" width="43" height="58" fill="none" aria-labelledby="yubikeyIcon" role="img" viewBox="0 0 43 58" aria-hidden="true">
     <!-- TODO: title needs to be i18n/l10n-friendly -->
     <title id="yubikeyIcon">yubikey</title>
     <path fill="#00297A" fill-rule="evenodd" d="M10.61 0a9 9 0 0 0-9 9v.5a8.5 8.5 0 0 0 8.5 8.5v-2a6.5 6.5 0 0 1-6.5-6.5V9a7 7 0 0 1 7-7h13v14h-5.75v2h7.75v-3h8V3h-8V0h-15Zm15 5v8h6V5h-6Z" class="siwIconFillPrimaryDark" clip-rule="evenodd"/>
