@@ -10,6 +10,14 @@ describe('widget/getAuthClient', () => {
     expect(authClient instanceof OktaAuth).toBe(true);
   });
 
+  it('creates auth client with predefined flow', () => {
+    const authClient = getAuthClient(OktaAuth, {
+      issuer: 'https://foo.bar',
+      flow: 'register'
+    });
+    expect(authClient.idx.getFlow()).toEqual('register');
+  });
+
   it('returns auth client passed via widget options', () => {
     const mockAuthClient = {
       options: {
