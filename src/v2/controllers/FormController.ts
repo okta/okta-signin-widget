@@ -173,7 +173,17 @@ export default Controller.extend({
     }
 
     // Build options to invoke or throw error for invalid action
-    if (idx['neededToProceed'].find(item => item.name === actionPath)) {
+    if (FORMS.LAUNCH_AUTHENTICATOR === actionPath && actionParams) {
+      //https://oktainc.atlassian.net/browse/OKTA-562885  a temp solution to send rememberMe when click the launch OV buttion.
+      //will redesign to handle FastPass silent probing case where no username and rememberMe opiton at all.
+      invokeOptions = {
+        ...invokeOptions,
+        actions: [{
+          name: actionPath,
+          params: actionParams
+        }]
+      };
+    } else if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       invokeOptions = { ...invokeOptions, step: actionPath };
     } else if (_.isFunction(idx['actions'][actionPath])) {
       invokeOptions = {

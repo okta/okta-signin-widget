@@ -61,7 +61,7 @@ export default View.extend({
           if (this.options.isRequired) {
             appState.trigger('saveForm', this.model);
           } else {
-            appState.trigger('invokeAction', FORMS.LAUNCH_AUTHENTICATOR);
+            appState.trigger('invokeAction', FORMS.LAUNCH_AUTHENTICATOR, {'rememberMe': this.model.get('rememberMe')});
           }
         }, isUVapproach || isAppLinkapproach ? UNIVERSAL_LINK_POST_DELAY : 0);
       }
