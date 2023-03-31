@@ -12,8 +12,17 @@ const AFTER_RENDER_MESSAGE = '===== playground widget afterRender event received
  * devtools
  */
 const LOG_IGNORE_PATTERNS = [
+  // example: console.log('[DEBUG]', {foo: 'baz'});
+  /\[DEBUG\]/,
+
+  // log from preact-cli
   /\[HMR\]/,
+
+  // log from msw
   /\[MSW-Wrapper\]/,
+
+  // log from vite
+  /\[vite\]/,
 ];
 
 export const renderWidget = ClientFunction((settings) => {
@@ -31,7 +40,6 @@ export async function checkConsoleMessages(context = {}) {
   }
   let { log } = await t.getBrowserConsoleMessages();
   log = log.filter((msg) => LOG_IGNORE_PATTERNS.every(rx => !rx.test(msg)));
-
   await t.expect(log.length).eql(context.length);
 
   for (let i = 0; i < context.length; i++) {

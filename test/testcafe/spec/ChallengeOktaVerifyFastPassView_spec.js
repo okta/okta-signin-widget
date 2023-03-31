@@ -15,6 +15,7 @@ import identifyWithUserVerificationLaunchUniversalLink from '../../../playground
 import mfaSelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
 import assureWithLaunchAppLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-app-link';
+import identifyWithDeviceLaunchAuthenticator from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator.json';
 import { renderWidget } from '../framework/shared';
 
 const BEACON_CLASS = 'mfa-okta-verify';
@@ -50,7 +51,9 @@ const loopbackSuccesskMock = RequestMock()
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
     'access-control-allow-methods': 'POST, OPTIONS'
-  });
+  })
+  .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
+  .respond(identifyWithDeviceLaunchAuthenticator);
 
 const loopbackBiometricsErrorMobileMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
@@ -408,7 +411,7 @@ test
     await t.wait(100); // opening the link takes just a moment
     await t.expect(await (new BasePageObject()).getPageUrl()).contains('okta-verify.html');
   });
-  
+
 test
   .requestHooks(universalLinkWithoutLaunchBiometricsErrorMock)('show biometrics error for mobile platform in universal link', async t => {
     const deviceChallengePollPageObject = await setup(t);

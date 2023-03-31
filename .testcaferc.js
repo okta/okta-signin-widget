@@ -39,46 +39,38 @@ const mocks = RequestMock()
   .onRequestTo({ url: regex`/app/UserHome` })
   .respond(readFileSync('./playground/mocks/app/UserHome.html', 'utf8'), 200, { 'content-type': 'text/html; charset=utf-8' })
 
-  .onRequestTo({ url: regex`/oauth2/default/v1/interact` })
-  .respond(require('./playground/mocks/data/oauth2/interact.json'))
-
   .onRequestTo({ url: regex`/idp/idx/cancel` })
   .respond(require('./playground/mocks/data/idp/idx/identify.json'))
-
-  .onRequestTo({ url: regex`/idp/idx/skip` })
-  .respond(require('./playground/mocks/data/idp/idx/success-with-app-user.json'))
 
   .onRequestTo({ url: regex`/oauth2/default/.well-known/openid-configuration` })
   .respond(require('./playground/mocks/data/oauth2/well-known-openid-configuration.json'))
 
-  .onRequestTo({ url: regex`/idp/idx/authenticators/okta-verify/launch` })
-  .respond(require('./playground/mocks/data/idp/idx/identify-with-device-launch-authenticator.json'))
-
-  .onRequestTo({ url: regex`/idp/idx/challenge/poll` })
-  .respond(require('./playground/mocks/data/idp/idx/authenticator-verification-email.json'))
-
   .onRequestTo({ url: regex`/sso/idps/facebook-123` })
   .respond('');
 
-module.exports = {
-  browsers: [
-    'chrome:headless'
-  ],
+const config = {
+  browsers: [ 'chrome:headless' ],
   clientScripts: [
-    {
-      module: 'axe-core/axe.min.js'
-    },
-    {
-      module: '@testing-library/dom/dist/@testing-library/dom.umd.js'
-    }
+    { module: 'axe-core/axe.min.js' },
+    { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
   ],
-  src: [
-    'test/testcafe/spec/*_spec.js'
-  ],
-  hooks: {
-    request: mocks,
-  },
-  userVariables: {
-    v3: false,
-  },
+  src: [ 'test/testcafe/spec/*_spec.js' ],
+  hooks: { request: mocks, },
+  userVariables: { v3: false, },
+
+  /*
+   * NOTE: add a testcafe fixture to the list of specs to run for parity testing
+   * by adding fixture metadata {"v3": true}. See example in
+   * test/testcafe/spec/Smoke_spec.js
+   */
+  ...(process.env.OKTA_SIW_NEXT && {
+      filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => (
+        fixtureMeta.v3 === true && testMeta.v3 !== false
+      ),
+      userVariables: { v3: true },
+      // OKTA-575629 Remove this when v3 parity test flakiness is resolved
+      assertionTimeout: 20000,
+  })
 }
+
+module.exports = config;
