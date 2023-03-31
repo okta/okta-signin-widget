@@ -31,14 +31,6 @@ const parseLocale = locale => {
 /* eslint max-len: 0*/
 
 /**
- * Returns the user's locale as defined by window.okta.locale
- */
-
-
-function getRawLocale() {
-  return window && window.okta && window.okta.locale || 'en';
-}
-/**
  * Returns the language bundle based on the current locale.
  * - If a locale is not provided, default to English ('en')
  * - Legacy Support: If the named language bundle does not exist, fall back to the default named bundle.
@@ -52,7 +44,7 @@ function getBundle(bundleName) {
     return Bundles[oktaUnderscore.keys(Bundles)[0]];
   }
 
-  const locale = parseLocale(getRawLocale());
+  const locale = parseLocale(window && window.okta && window.okta.locale) || 'en';
   return Bundles[`${bundleName}_${locale}`] || Bundles[bundleName];
 }
 /**
@@ -103,22 +95,6 @@ function emitL10nError(key, bundleName, reason) {
 const StringUtil =
 /** @lends module:Okta.internal.util.StringUtil */
 {
-  /** @static */
-  getRawLocale: function () {
-    return getRawLocale();
-  },
-
-  /** @static */
-  getParsedLocale: function () {
-    return parseLocale(getRawLocale());
-  },
-
-  /** @static */
-  isLocaleBundleExist: function (bundleName, locale) {
-    const parsedLocale = parseLocale(locale);
-    return !!Bundles[`${bundleName}_${parsedLocale}`];
-  },
-
   /** @static */
   sprintf: function () {
     const args = Array.prototype.slice.apply(arguments);
