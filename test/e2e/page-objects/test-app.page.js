@@ -64,6 +64,7 @@ class TestAppPage {
   }
 
   async setConfig(config) {
+    await waitForLoad(this.configEditor);
     await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
   }
 
