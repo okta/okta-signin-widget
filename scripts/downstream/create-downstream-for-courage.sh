@@ -1,5 +1,9 @@
 #!/bin/bash -xe
 
+# force error
+
+exit ${BUILD_FAILURE}
+
 setup_service node v14.18.2
 setup_service yarn 1.21.1
 
