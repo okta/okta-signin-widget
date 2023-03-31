@@ -22,11 +22,7 @@
     "build:esm": "rollup -c",
     "build": "yarn clean && yarn build:types && yarn build:esm && yarn lint && yarn copy",
     "build:babel": "rm -rf target/babel && yarn babel src -x .ts,.js --out-dir target/babel",
-    "patch": "yarn patch:hbs && yarn patch:hbs2 && yarn patch:qtip && yarn patch:i18n",
-    "patch:hbs": "find ./node_modules/@okta/courage/src -type f | xargs sed -i '' -e \"s/import hbs from 'handlebars-inline-precompile'/import hbs from '@okta\\/handlebars-inline-precompile'/g\"",
-    "patch:hbs2": "find ./node_modules/@okta/babel-plugin-handlebars-inline-precompile -type f | xargs sed -i '' -e \"s/'handlebars-inline-precompile'/'@okta\\/handlebars-inline-precompile'/g\"",
-    "patch:qtip": "find ./node_modules/@okta/courage/src -type f | xargs sed -i '' -e \"s/import 'qtip'/import '@okta\\/qtip'/g\"",
-    "patch:i18n": "find ./node_modules/@okta/courage/src -type f | xargs sed -i '' -e \"s/from 'okta-i18n-bundles'/from '@okta\\/okta-i18n-bundles'/g\""
+    "patch": "./scripts/patch.sh"
   },
   "engines": {
     "node": ">=12.22.0",
