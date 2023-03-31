@@ -29,8 +29,8 @@ export type IWidgetContext = {
   setMessage: StateUpdater<IdxMessage | undefined>;
   // // TODO: OKTA-502849 - Update param type
   // (RenderSuccessCallback / RenderErrorCallback) once merged into okta-signin-widget
-  onSuccessCallback?: (data: Record<string, unknown>) => void;
-  onErrorCallback?: (data: Record<string, unknown>) => void;
+  onSuccessCallback?: WidgetProps['globalSuccessFn'];
+  onErrorCallback?: WidgetProps['globalErrorFn'];
   idxTransaction: IdxTransaction | undefined;
   setResponseError: StateUpdater<AuthApiError | OAuthError | null>;
   setIdxTransaction: StateUpdater<IdxTransaction | undefined>;

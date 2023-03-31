@@ -12,7 +12,6 @@
 
 import {
   IdxMessage,
-  IdxStatus,
   IdxTransaction,
 } from '@okta/okta-auth-js';
 
@@ -26,7 +25,6 @@ import {
 import {
   FormBag,
   LinkElement,
-  SpinnerElement,
   TitleElement,
   UISchemaLayout,
   WidgetProps,
@@ -38,7 +36,7 @@ import {
   getBackToSignInUri,
   getBaseUrl,
   getUserInfo,
-  isAuthClientSet,
+  isOauth2Enabled,
   loc,
   removeUsernameCookie,
   SessionStorage,
@@ -83,7 +81,7 @@ const appendViewLinks = (
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
 ): void => {
-  const { useInteractionCodeFlow, features } = widgetProps;
+  const { features } = widgetProps;
   const isCancelAvailable = shouldShowCancelLink(features);
   const cancelStep = transaction?.availableSteps?.find(({ name }) => name === 'cancel');
   const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
@@ -121,7 +119,7 @@ const appendViewLinks = (
     const backToSigninUri = getBackToSignInUri(widgetProps);
     if (backToSigninUri) {
       cancelLink.options.href = backToSigninUri;
-    } else if (useInteractionCodeFlow) {
+    } else if (isOauth2Enabled(widgetProps)) {
       cancelLink.options.onClick = async () => {
         await bootstrapFn();
       };
@@ -130,80 +128,6 @@ const appendViewLinks = (
     }
     uischema.elements.push(cancelLink);
   }
-};
-
-const buildFormBagForInteractionCodeFlow = (
-  transaction: IdxTransaction,
-  widgetProps: WidgetProps,
-): FormBag => {
-  if (!isAuthClientSet(widgetProps)) {
-    throw new Error('authClient is required');
-  }
-  const {
-    authClient,
-    useInteractionCodeFlow,
-    codeChallenge,
-    redirectUri,
-    redirect,
-  } = widgetProps;
-  const { interactionCode } = transaction;
-  const transactionMeta = authClient.idx.getSavedTransactionMeta() ?? transaction.meta;
-  const state = authClient.options.state || transactionMeta?.state;
-  const redirectParams = { interaction_code: interactionCode || '', state: state || '' };
-
-  const isRemediationMode = useInteractionCodeFlow && codeChallenge;
-  if (isRemediationMode) {
-    authClient.idx.clearTransactionMeta();
-  }
-
-  const shouldRedirect = redirect === 'always';
-  if (shouldRedirect) {
-    if (!redirectUri) {
-      throw new Error('redirectUri is required');
-    }
-
-    const searchParams = new URLSearchParams(redirectParams);
-    return redirectTransformer(
-      transaction,
-      `${redirectUri}?${searchParams.toString()}`,
-      widgetProps,
-    );
-  }
-
-  const formBag: FormBag = createForm();
-  formBag.uischema.elements.push({
-    type: 'Spinner',
-  } as SpinnerElement);
-
-  if (isRemediationMode) {
-    formBag.uischema.elements.push({
-      type: 'SuccessCallback',
-      options: {
-        data: {
-          status: IdxStatus.SUCCESS,
-          ...redirectParams,
-        },
-      },
-    } as any);
-    return formBag;
-  }
-
-  // Operating in "relying-party" mode. The widget owns this transaction.
-  // Complete the transaction client-side and call success/resolve promise
-  if (!transactionMeta) {
-    throw new Error('Could not load transaction data from storage');
-  }
-
-  formBag.uischema.elements.push({
-    type: 'SuccessCallback',
-    options: {
-      data: {
-        status: IdxStatus.SUCCESS,
-        tokens: transaction.tokens,
-      },
-    },
-  } as any);
-  return formBag;
 };
 
 const isSuccessfulAuthentication = (
@@ -227,18 +151,15 @@ export const transformTerminalTransaction = (
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
 ): FormBag => {
-  const { authClient, useInteractionCodeFlow, features } = widgetProps;
+  const { authClient, features } = widgetProps;
   if (isSuccessfulAuthentication(transaction) && features?.rememberMyUsernameOnOIE) {
     // TODO: OKTA-506358 This identifier cookie can be removed once implemented in auth-js
     updateIdentifierCookie(transaction, features?.rememberMe);
   }
 
-  if (useInteractionCodeFlow && transaction.interactionCode) {
-    SessionStorage.removeStateHandle();
-    return buildFormBagForInteractionCodeFlow(
-      transaction,
-      widgetProps,
-    );
+  if (isOauth2Enabled(widgetProps) && transaction.interactionCode) {
+    // Interaction code flow handled by useInteractionCodeFlow hook
+    return createForm();
   }
 
   if (transaction.context?.success?.href) {
@@ -255,11 +176,6 @@ export const transformTerminalTransaction = (
   if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
     authClient?.transactionManager.clear();
     SessionStorage.removeStateHandle();
-  }
-
-  if (!messages && transaction.interactionCode && !useInteractionCodeFlow) {
-    throw new Error('Set "useInteractionCodeFlow" to true in configuration to enable the '
-      + 'interaction_code" flow for self-hosted widget.');
   }
 
   const formBag: FormBag = createForm();

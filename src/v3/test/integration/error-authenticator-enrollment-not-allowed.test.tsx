@@ -27,7 +27,7 @@ describe('error-authenticator-enrollment-not-allowed', () => {
     } = await setup({
       mockResponse,
       widgetOptions: {
-        useInteractionCodeFlow: false,
+        authScheme: 'false',
       },
     });
 
@@ -46,7 +46,7 @@ describe('error-authenticator-enrollment-not-allowed', () => {
       } = await setup({
         mockResponse,
         widgetOptions: {
-          useInteractionCodeFlow: true,
+          authScheme: 'oauth2',
         },
       });
 

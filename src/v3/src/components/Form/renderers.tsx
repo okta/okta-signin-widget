@@ -52,7 +52,6 @@ import StepperButton from '../StepperButton';
 import StepperLink from '../StepperLink';
 import StepperNavigator from '../StepperNavigator';
 import StepperRadio from '../StepperRadio';
-import SuccessCallback from '../SuccessCallback';
 import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
@@ -116,11 +115,6 @@ export default [
     // Move non UI component to custom hook
     tester: ({ type }) => type === 'Redirect',
     renderer: Redirect,
-  },
-  {
-    // Move non UI component to custom hook
-    tester: ({ type }) => type === 'SuccessCallback',
-    renderer: SuccessCallback,
   },
   {
     tester: ({ type }) => type === 'LaunchAuthenticatorButton',

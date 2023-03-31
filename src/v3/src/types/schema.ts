@@ -484,12 +484,6 @@ export interface InfoboxElement extends UISchemaElement {
   }
 }
 
-export interface SuccessCallback extends UISchemaElement {
-  options: {
-    data: Record<string, unknown>;
-  }
-}
-
 export interface StepperButtonElement extends UISchemaElement {
   type: 'StepperButton',
   label: string;

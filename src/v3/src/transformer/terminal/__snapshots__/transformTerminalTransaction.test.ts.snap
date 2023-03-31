@@ -1,89 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Terminal Transaction Transformer Tests Interaction code flow & Redirection Tests should add successCallback renderer for interaction code flow 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
-  },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "type": "Spinner",
-      },
-      Object {
-        "options": Object {
-          "data": Object {
-            "status": "SUCCESS",
-            "tokens": Object {
-              "accessToken": Object {
-                "accessToken": "abc123456",
-                "authorizeUrl": "acme.okta1.com",
-                "claims": Object {
-                  "sub": "",
-                  "user": true,
-                },
-                "expiresAt": 1234567,
-                "scopes": Array [
-                  "admin",
-                ],
-                "tokenType": "id",
-                "userinfoUrl": "acme.okta1.com/userinfo",
-              },
-              "idToken": Object {
-                "authorizeUrl": "acme.okta1.com",
-                "claims": Object {
-                  "sub": "",
-                  "user": true,
-                },
-                "clientId": "abcdefth",
-                "expiresAt": 1234567,
-                "idToken": "1234567asdfghj",
-                "issuer": "okta",
-                "scopes": Array [
-                  "admin",
-                ],
-              },
-            },
-          },
-        },
-        "type": "SuccessCallback",
-      },
-    ],
-    "type": "VerticalLayout",
-  },
-}
-`;
-
-exports[`Terminal Transaction Transformer Tests Interaction code flow & Redirection Tests should add successCallback renderer for interaction code flow in remediation mode 1`] = `
-Object {
-  "data": Object {},
-  "dataSchema": Object {
-    "fieldsToValidate": Array [],
-  },
-  "schema": Object {},
-  "uischema": Object {
-    "elements": Array [
-      Object {
-        "type": "Spinner",
-      },
-      Object {
-        "options": Object {
-          "data": Object {
-            "interaction_code": "123456789aabbcc",
-            "state": "abc123",
-            "status": "SUCCESS",
-          },
-        },
-        "type": "SuccessCallback",
-      },
-    ],
-    "type": "VerticalLayout",
-  },
-}
-`;
-
 exports[`Terminal Transaction Transformer Tests should add back to sign in link with href when backToSigninUri is set in widget options 1`] = `
 Object {
   "data": Object {},
@@ -157,6 +73,20 @@ Object {
         "type": "Link",
       },
     ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal Transaction Transformer Tests should add return empty formbag when interaction code flow transaction 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [],
     "type": "VerticalLayout",
   },
 }

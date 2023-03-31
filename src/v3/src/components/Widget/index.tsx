@@ -34,7 +34,7 @@ import {
 import Bundles from '../../../../util/Bundles';
 import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
-import { usePolling, useStateHandle } from '../../hooks';
+import { useInteractionCodeFlow, usePolling, useStateHandle } from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
 import {
   transformTerminalTransaction,
@@ -55,6 +55,7 @@ import {
   getLanguageDirection,
   isAndroidOrIOS,
   isAuthClientSet,
+  isOauth2Enabled,
   loadLanguage,
   SessionStorage,
 } from '../../util';
@@ -81,9 +82,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     muiThemeOverrides,
     logo,
     logoText,
-    onSuccess,
+    globalSuccessFn,
+    globalErrorFn,
     proxyIdxResponse,
-    useInteractionCodeFlow,
   } = widgetProps;
 
   const [data, setData] = useState<FormBag['data']>({});
@@ -98,6 +99,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const prevIdxTransactionRef = useRef<IdxTransaction>();
   const [responseError, setResponseError] = useState<AuthApiError | OAuthError | null>(null);
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
+  const interactionCodeFlowFormBag = useInteractionCodeFlow(
+    idxTransaction,
+    widgetProps,
+    globalSuccessFn,
+    globalErrorFn,
+  );
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
@@ -149,6 +156,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       }
       const transaction = await authClient.idx.start({
         stateHandle,
+        exchangeCodeForTokens: false, // we handle this in useInteractionCodeFlow
       });
       const hasError = !transaction.requestDidSucceed || transaction.messages?.some(
         (msg) => msg.class === MessageType.ERROR.toString(),
@@ -198,7 +206,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
     }
 
-    if (!useInteractionCodeFlow && prevIdxTransactionRef.current) {
+    if (!isOauth2Enabled(widgetProps) && prevIdxTransactionRef.current) {
       // Do not save state handle for the first page loads.
       // Because there shall be no difference between following behavior
       // 1. bootstrap widget
@@ -323,6 +331,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [pollingTransaction]); // only watch on pollingTransaction changes
 
   useEffect(() => {
+    if (typeof interactionCodeFlowFormBag === 'undefined') {
+      return;
+    }
+
+    setUischema(interactionCodeFlowFormBag.uischema);
+  }, [interactionCodeFlowFormBag]);
+
+  useEffect(() => {
     if (isClientTransaction) {
       return;
     }
@@ -346,7 +362,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     <WidgetContextProvider value={{
       authClient,
       widgetProps,
-      onSuccessCallback: onSuccess,
+      onSuccessCallback: globalSuccessFn,
+      onErrorCallback: globalErrorFn,
       idxTransaction,
       setResponseError,
       setIdxTransaction,

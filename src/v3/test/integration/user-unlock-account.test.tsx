@@ -87,7 +87,7 @@ describe('user-unlock-account', () => {
       const { authClient, user, findByTestId } = await setup({
         mockResponse,
         widgetOptions: {
-          useInteractionCodeFlow: false,
+          authScheme: 'false',
         },
       });
 
@@ -104,7 +104,7 @@ describe('user-unlock-account', () => {
       const { authClient, user, findByTestId } = await setup({
         mockResponse,
         widgetOptions: {
-          useInteractionCodeFlow: true,
+          authScheme: 'oauth2',
         },
       });
 

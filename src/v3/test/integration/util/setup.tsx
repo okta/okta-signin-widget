@@ -41,7 +41,7 @@ export async function setup(options: Options): Promise<RenderResult & {
   const authClient = createAuthClient(rest);
   const renderResult = await render(
     <Widget
-      useInteractionCodeFlow
+      authScheme="Oauth2"
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...widgetOptions}
       authClient={authClient}
