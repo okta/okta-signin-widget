@@ -114,10 +114,6 @@ export type WidgetOptions = {
   events?: { [key in OktaWidgetEventType]: OktaWidgetEventHandler };
 
   // callbacks
-  // TODO: OKTA-502849 - Update param type (RenderResult) once merged into okta-signin-widget
-  // onSuccess?: (res: Record<string, unknown>) => void;
-  // TODO: OKTA-502849 - Update param type (RenderError) once merged into okta-signin-widget
-  // onError?: (err: Error) => void;
   onChange?: (data: JsonObject) => void;
   onSubmit?: (data: JsonObject) => void;
   onCancel?: (data: JsonObject) => void;
