@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "lint:src": "eslint .",
-    "lint:target": "eslint --no-inline-config --no-ignore `find target/esm -type f -name \"*.js\"`",
+    "lint:target": "eslint --no-inline-config --no-ignore --ext .js target/esm",
     "lint": "yarn lint:src && yarn lint:target",
     "prebuild": "yarn link:lib && yarn link:courage && yarn patch",
     "link:lib": "ln -snf ./node_modules ./lib",
