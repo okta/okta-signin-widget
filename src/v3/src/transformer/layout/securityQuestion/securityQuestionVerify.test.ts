@@ -58,7 +58,7 @@ describe('SecurityQuestionVerify Tests', () => {
       .toBe('credentials.answer');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.secret)
       .toBe(true);
-      expect((updatedFormBag.uischema.elements[1] as FieldElement).noTranslate)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).noTranslate)
       .toBe(true);
     expect((updatedFormBag.uischema.elements[1] as FieldElement).translations?.[0])
       .toEqual({
