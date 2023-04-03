@@ -16,9 +16,10 @@ import { useEffect, useState } from 'preact/hooks';
 import { RenderResult } from '../../../types';
 import { getTypedOAuthError, RecoverableError } from '../../../util/OAuthErrors';
 import { redirectTransformer } from '../transformer/redirect';
-import { FormBag, WidgetProps } from '../types';
+import { createForm } from '../transformer/utils';
+import { FormBag, InfoboxElement, WidgetProps } from '../types';
 import {
-  getMode, isAuthClientSet, isOauth2Enabled, SessionStorage,
+  getMode, isAuthClientSet, isOauth2Enabled, loc, SessionStorage,
 } from '../util';
 
 export const useInteractionCodeFlow = (
@@ -79,6 +80,7 @@ export const useInteractionCodeFlow = (
         widgetProps,
       );
       setFormBag(redirectFormBag);
+      return;
     }
 
     if (isRemediationMode) {
@@ -101,17 +103,34 @@ export const useInteractionCodeFlow = (
       await authClient.token.exchangeCodeForTokens({ codeVerifier, interactionCode })
         .then(({ tokens }) => {
           const result: RenderResult = { tokens, status: IdxStatus.SUCCESS };
+          setFormBag(undefined);
           onSuccess?.(result);
         })
         .catch((error: AuthSdkError) => {
           const typedError = getTypedOAuthError(error);
-          if (typedError instanceof RecoverableError && typedError.is('terminal')) {
-            throw typedError;
+          const shouldDisplayError = typedError instanceof RecoverableError
+            && (typedError.is('terminal') || typedError.is('inline'));
+          if (shouldDisplayError) {
+            const terminalErrorFb = createForm();
+            terminalErrorFb.uischema.elements.push({
+              type: 'InfoBox',
+              options: {
+                message: {
+                  class: 'ERROR',
+                  i18n: { key: '' },
+                  message: typedError.errorDetails.errorSummary
+                    || loc('oform.error.unexpected', 'login'),
+                },
+                class: 'ERROR',
+              },
+            } as InfoboxElement);
+            setFormBag(terminalErrorFb);
+          } else {
+            setFormBag(undefined);
           }
           onError?.(typedError);
         })
         .finally(() => authClient.idx.clearTransactionMeta());
-      setFormBag(undefined);
     };
     exchangeCodeForTokens();
   // eslint-disable-next-line react-hooks/exhaustive-deps

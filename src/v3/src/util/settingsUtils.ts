@@ -215,5 +215,5 @@ export const getMode = (widgetProps: WidgetProps): Mode => {
 export const isOauth2Enabled = (widgetProps: WidgetProps): boolean => {
   const { clientId, authScheme, authClient } = widgetProps;
   const actualClientId = !clientId && authClient ? authClient.options?.clientId : clientId;
-  return (!!actualClientId) && authScheme?.toLowerCase() === 'oauth2';
+  return typeof actualClientId !== 'undefined' && authScheme?.toLowerCase() === 'oauth2';
 };
