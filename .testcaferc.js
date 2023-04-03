@@ -63,7 +63,7 @@ const config = {
    * by adding fixture metadata {"v3": true}. See example in
    * test/testcafe/spec/Smoke_spec.js
    */
-  ...(process.env.OKTA_SIW_NEXT && {
+  ...(process.env.OKTA_SIW_V3 && {
       filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => (
         fixtureMeta.v3 === true && testMeta.v3 !== false
       ),

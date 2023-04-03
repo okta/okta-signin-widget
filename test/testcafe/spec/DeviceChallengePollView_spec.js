@@ -243,7 +243,9 @@ const universalLinkWithoutLaunchMock = RequestMock()
 
 const universalLinkMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
-  .respond(identifyWithSSOExtensionFallback);
+  .respond(identifyWithSSOExtensionFallback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
+  .respond(identifyWithLaunchUniversalLink);
 
 const appLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
