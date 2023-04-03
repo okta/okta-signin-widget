@@ -3,8 +3,12 @@ import { BaseView, BaseForm } from '../../internals';
 import Util from '../../../../util/Util';
 
 const Body = BaseForm.extend({
-  title: loc('password.expired.title.generic', 'login'),
-  subtitle: loc('password.expired.custom.subtitle', 'login'),
+  title() {
+    return loc('password.expired.title.generic', 'login');
+  },
+  subtitle() {
+    return loc('password.expired.custom.subtitle', 'login');
+  },
   noSubmitButton: true,
   initialize() {
     const { customExpiredPasswordName, customExpiredPasswordURL } = this.options.currentViewState;
