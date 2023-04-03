@@ -425,17 +425,17 @@ module.exports = function(grunt) {
       'codegen',
       'copy:app-to-target',
       // 'exec:pseudo-loc', // TODO: Add after OKTA-379995 is completed
-      'sass:build',
+      // 'sass:build',
     ];
 
-    if (prodBuild) {
-      // okta-sign-in.css is renamed to okta-sign-in.min.css in the npm bundle
-      // include okta-sign-in.css.min into source map so it can be resolved
-      buildTasks.push('copy:css-to-mincss');
-      buildTasks.push('postcss:minify');
-    } else {
-      buildTasks.push('postcss:build');
-    }
+    // if (prodBuild) {
+    //   // okta-sign-in.css is renamed to okta-sign-in.min.css in the npm bundle
+    //   // include okta-sign-in.css.min into source map so it can be resolved
+    //   buildTasks.push('copy:css-to-mincss');
+    //   buildTasks.push('postcss:minify');
+    // } else {
+    //   buildTasks.push('postcss:build');
+    // }
 
     grunt.task.run(buildTasks);
   });

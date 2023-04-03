@@ -71,6 +71,11 @@ if (process.env.ENTRY) {
   };
 }
 
+// build css by default
+entries['css'] = {
+  entry: './assets/sass/okta-sign-in.scss',
+};
+
 const configs = Object.keys(entries).map(entryName => {
   const entryValue = entries[entryName];
   const { entry, outputFilename, analyzerFile, engine, outputLibrary, includePolyfill, includeRuntime } = entryValue;
@@ -83,10 +88,8 @@ const configs = Object.keys(entries).map(entryName => {
     engine
   });
 
-  if (analyzerFile) {
-    entryConfig.plugins = plugins({ isProduction: true, analyzerFile });
-  }
-
+  entryConfig.plugins = plugins({ isProduction: true, analyzerFile });
+  
   if (includeRuntime) {
     useRuntime(entryConfig);
   }

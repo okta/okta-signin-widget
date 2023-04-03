@@ -1,5 +1,6 @@
 const { DefinePlugin, IgnorePlugin } = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 function webpackBundleAnalyzer(reportFilename = 'okta-sign-in.analyzer') {
   // OKTA-429162: webpack-bundle-analyzer does not report bundled modules stats after upgrade to webpack@5
@@ -65,6 +66,10 @@ function plugins(options = {}) {
       emptyModule(),
       devMode(),
     ];
+  
+  list.push(new MiniCssExtractPlugin({
+    filename: '../css/okta-sign-in.min.css',
+  }));
 
   if (!skipAnalyzer) {
     list.push(webpackBundleAnalyzer(options.analyzerFile));
