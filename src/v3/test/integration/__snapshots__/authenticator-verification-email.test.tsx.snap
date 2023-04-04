@@ -779,7 +779,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       Enter Code
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-29"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-29"
                       required="true"
                     >
                       <input

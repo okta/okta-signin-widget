@@ -22,6 +22,7 @@ const esModules = [
 
 const devMode = process.env.NODE_ENV === 'development';
 
+/** @type {import('./dist').JestConfigWithTsJest} */
 module.exports = {
   globals: {
     'ts-jest': {
