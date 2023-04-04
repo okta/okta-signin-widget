@@ -454,11 +454,17 @@ export interface AccordionPanelElement extends UISchemaElement {
   };
 }
 
+export type ImageName = 'app_icon'
+| 'device_icon'
+| 'mobile_device_icon'
+| 'location_icon'
+| 'phone_icon';
+
 export interface ImageWithTextElement extends UISchemaElement {
   type: 'ImageWithText';
   options: {
     id: string;
-    SVGIcon: FunctionComponent;
+    SVGIcon: FunctionComponent | ImageName;
     textContent?: string;
     alignment?: string;
   };

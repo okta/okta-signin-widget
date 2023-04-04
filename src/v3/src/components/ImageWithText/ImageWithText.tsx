@@ -14,12 +14,15 @@ import './style.module.css';
 
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
+import { ImageName, ImageWithTextElement, UISchemaElementComponent } from 'src/types';
+
+import { getImageByName } from '../../util';
 
 const ImageWithText: UISchemaElementComponent<{
   uischema: ImageWithTextElement
 }> = ({ uischema }) => {
-  const Icon = uischema.options.SVGIcon;
+  const { options: { SVGIcon } } = uischema;
+  const Icon = typeof SVGIcon === 'function' ? SVGIcon : getImageByName(SVGIcon as ImageName);
   const { noTranslate } = uischema;
   const { textContent, alignment = 'flex-start' } = uischema.options;
 

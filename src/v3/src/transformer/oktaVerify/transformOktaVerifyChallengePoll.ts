@@ -13,7 +13,6 @@
 import { NextStep } from '@okta/okta-auth-js';
 
 import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
-import PhoneSvg from '../../img/phone-icon.svg';
 import {
   ButtonElement,
   DescriptionElement,
@@ -85,7 +84,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
         noTranslate: true,
         options: {
           id: 'code',
-          SVGIcon: PhoneSvg,
+          SVGIcon: 'phone_icon',
           textContent: correctAnswer,
           alignment: 'center',
         },
