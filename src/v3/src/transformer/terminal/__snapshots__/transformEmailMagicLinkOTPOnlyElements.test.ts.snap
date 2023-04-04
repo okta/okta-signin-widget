@@ -227,7 +227,7 @@ Object {
       },
       Object {
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": "app_icon",
           "id": "app",
           "textContent": "idx.return.link.otponly.app",
         },
@@ -290,7 +290,7 @@ Object {
       },
       Object {
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": "mobile_device_icon",
           "id": "browser",
           "textContent": "idx.return.link.otponly.browser.on.os",
         },
@@ -298,7 +298,7 @@ Object {
       },
       Object {
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": "app_icon",
           "id": "app",
           "textContent": "idx.return.link.otponly.app",
         },
@@ -306,7 +306,7 @@ Object {
       },
       Object {
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": "location_icon",
           "id": "location",
           "textContent": "geolocation.formatting.partial",
         },
@@ -369,7 +369,7 @@ Object {
       },
       Object {
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": "mobile_device_icon",
           "id": "browser",
           "textContent": "idx.return.link.otponly.browser.on.os",
         },
@@ -377,7 +377,7 @@ Object {
       },
       Object {
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": "app_icon",
           "id": "app",
           "textContent": "idx.return.link.otponly.app",
         },
@@ -440,7 +440,7 @@ Object {
       },
       Object {
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": "mobile_device_icon",
           "id": "browser",
           "textContent": "idx.return.link.otponly.browser.on.os",
         },
@@ -448,7 +448,7 @@ Object {
       },
       Object {
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": "app_icon",
           "id": "app",
           "textContent": "idx.return.link.otponly.app",
         },
@@ -456,7 +456,7 @@ Object {
       },
       Object {
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": "location_icon",
           "id": "location",
           "textContent": "geolocation.formatting.all",
         },

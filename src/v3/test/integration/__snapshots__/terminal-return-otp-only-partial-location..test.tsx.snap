@@ -177,7 +177,40 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
                     class="MuiBox-root emotion-27"
                     data-se="icon-browser"
                   >
-                    <mocksvgicon />
+                    <svg
+                      aria-hidden="true"
+                      aria-labelledby="desktop-icon"
+                      fill="none"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title
+                        id="desktop-icon"
+                      >
+                        L10N_ERROR[icon.title.browser]
+                      </title>
+                      <path
+                        class="siwIconStrokePrimary"
+                        d="M4.5 14.5H8M11.5 14.5H8M8 14.5V13"
+                        stroke="#1662DD"
+                      />
+                      <path
+                        class="siwIconStrokePrimary"
+                        d="M3 1.5H13C13.8284 1.5 14.5 2.17157 14.5 3V10C14.5 10.8284 13.8284 11.5 13 11.5H3C2.17157 11.5 1.5 10.8284 1.5 10V3C1.5 2.17157 2.17157 1.5 3 1.5Z"
+                        stroke="#1662DD"
+                      />
+                      <rect
+                        class="siwIconFillPrimary"
+                        fill="#1662DD"
+                        height="1"
+                        width="12"
+                        x="2"
+                        y="9"
+                      />
+                    </svg>
                   </div>
                   <div
                     class="MuiBox-root emotion-9"
@@ -202,7 +235,54 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
                     class="MuiBox-root emotion-27"
                     data-se="icon-app"
                   >
-                    <mocksvgicon />
+                    <svg
+                      aria-hidden="true"
+                      aria-labelledby="application-icon"
+                      fill="none"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title
+                        id="application-icon"
+                      >
+                        L10N_ERROR[icon.title.application]
+                      </title>
+                      <rect
+                        class="siwIconStrokePrimary"
+                        height="5"
+                        stroke="#1662DD"
+                        width="5"
+                        x="1.5"
+                        y="1.5"
+                      />
+                      <rect
+                        class="siwIconStrokePrimary"
+                        height="5"
+                        stroke="#1662DD"
+                        width="5"
+                        x="1.5"
+                        y="9.5"
+                      />
+                      <rect
+                        class="siwIconStrokePrimary"
+                        height="5"
+                        stroke="#1662DD"
+                        width="5"
+                        x="9.5"
+                        y="9.5"
+                      />
+                      <rect
+                        class="siwIconStrokePrimary"
+                        height="5"
+                        stroke="#1662DD"
+                        width="5"
+                        x="9.5"
+                        y="1.5"
+                      />
+                    </svg>
                   </div>
                   <div
                     class="MuiBox-root emotion-9"
@@ -227,7 +307,34 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
                     class="MuiBox-root emotion-27"
                     data-se="icon-location"
                   >
-                    <mocksvgicon />
+                    <svg
+                      aria-hidden="true"
+                      aria-labelledby="location-icon"
+                      fill="none"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title
+                        id="location-icon"
+                      >
+                        L10N_ERROR[icon.title.location]
+                      </title>
+                      <path
+                        class="siwIconStrokePrimary"
+                        d="M2.5 6C2.5 2.88969 4.95673 0.5 8 0.5C11.0433 0.5 13.5 2.88969 13.5 6C13.5 8.17828 12.3122 10.408 10.9484 12.2145C9.81608 13.7144 8.61136 14.859 8.0028 15.3649C7.39633 14.8508 6.1897 13.6812 5.05432 12.1652C3.68717 10.3398 2.5 8.11236 2.5 6Z"
+                        stroke="#1662DD"
+                      />
+                      <circle
+                        class="siwIconStrokePrimary"
+                        cx="8"
+                        cy="6"
+                        r="2.5"
+                        stroke="#1662DD"
+                      />
+                    </svg>
                   </div>
                   <div
                     class="MuiBox-root emotion-9"

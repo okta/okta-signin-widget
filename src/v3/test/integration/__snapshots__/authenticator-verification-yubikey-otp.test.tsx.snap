@@ -136,9 +136,9 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
-                    id="challenge-authenticator_Description_Use_your_YubiKey_to_insert_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
+                    id="challenge-authenticator_Description_Insert_the_YubiKey_into_a_USB_port_and_tap_it_to_generate_a_verification_code_yubikey_token_ykf16jdolQhTHA5yp0g4_2"
                   >
-                    Use your YubiKey to insert a verification code.
+                    Insert the YubiKey into a USB port and tap it to generate a verification code.
                   </p>
                 </div>
               </div>
