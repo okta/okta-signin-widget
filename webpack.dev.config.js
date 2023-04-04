@@ -12,40 +12,40 @@ var usePolyfill = require('./scripts/buildtools/webpack/polyfill');
 var path       = require('path');
 var PLAYGROUND = path.resolve(__dirname, 'playground');
 var TARGET_DIR = path.resolve(__dirname, 'target');
+var DEFAULT_ENTRIES = {
+  'default': {
+    entry: './src/exports/cdn/default.ts',
+  },
+  'classic': {
+    entry: './src/exports/cdn/classic.ts',
+    engine: 'classic'
+  },
+  'oie': {
+    entry: './src/exports/cdn/oie.ts',
+    engine: 'oie'
+  },
+  'polyfill': {
+    entry: './polyfill/index.js',
+    outputLibrary: null
+  },
+  'css': {
+    entry: `${TARGET_DIR}/sass/okta-sign-in.scss`,
+    copyAssets: true,
+  }
+};
 
 module.exports = (env = {}) => {
   const { isProduction, skipAnalyzer } = env;
 
-  let entries = {
-    'default': {
-      entry: './src/exports/cdn/default.ts',
-    },
-    'classic': {
-      entry: './src/exports/cdn/classic.ts',
-      engine: 'classic'
-    },
-    'oie': {
-      entry: './src/exports/cdn/oie.ts',
-      engine: 'oie'
-    },
-    'polyfill': {
-      entry: './polyfill/index.js',
-      outputLibrary: null
-    },
-  };
+  let entries = { ...DEFAULT_ENTRIES };
   
   // if ENTRY env var is passed, filter the entries to include only the named ENTRY
   if (process.env.ENTRY) {
     entries = {
-      [process.env.ENTRY]: entries[process.env.ENTRY]
+      [process.env.ENTRY]: DEFAULT_ENTRIES[process.env.ENTRY],
+      ...(process.env.ENTRY !== 'css' && { css: DEFAULT_ENTRIES.css })
     };
   }
-
-  // build css by default
-  entries['css'] = {
-    entry: `${TARGET_DIR}/sass/okta-sign-in.scss`,
-    copyAssets: true,
-  };
 
   const configs = Object.keys(entries).map(entryName => {
     const entryValue = entries[entryName];

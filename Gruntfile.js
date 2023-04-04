@@ -58,14 +58,6 @@ module.exports = function(grunt) {
             ],
             dest: 'target/labels'
           },
-          // Assets
-          // karma depends on this task
-          {
-            expand: true,
-            cwd: 'assets/',
-            src: ['sass/**/*', 'font/**/*', 'img/**/*', 'css/**/*'],
-            dest: 'target/'
-          },
         ]
       },
 

@@ -21,8 +21,7 @@ var useRuntime = require('./scripts/buildtools/webpack/runtime');
 var usePolyfill = require('./scripts/buildtools/webpack/polyfill');
 
 var TARGET_DIR = path.resolve(__dirname, 'target');
-
-let entries = {
+var DEFAULT_ENTRIES = {
   // 1. default (default entry, minified, with polyfill)
   'default': {
     includePolyfill: true,
@@ -63,21 +62,22 @@ let entries = {
     entry: './src/plugins/OktaPluginA11y.ts',
     outputFilename: 'okta-plugin-a11y.js',
     outputLibrary: 'OktaPluginA11y'
-  }
+  },
+  'css': {
+    entry: `${TARGET_DIR}/sass/okta-sign-in.scss`,
+    copyAssets: true,
+  },
 };
+
+let entries = { ...DEFAULT_ENTRIES };
 
 // if ENTRY env var is passed, filter the entries to include only the named ENTRY
 if (process.env.ENTRY) {
   entries = {
-    [process.env.ENTRY]: entries[process.env.ENTRY]
+    [process.env.ENTRY]: DEFAULT_ENTRIES[process.env.ENTRY],
+    ...(process.env.ENTRY !== 'css' && { css: DEFAULT_ENTRIES.css })
   };
 }
-
-// build css by default
-entries['css'] = {
-  entry: `${TARGET_DIR}/sass/okta-sign-in.scss`,
-  copyAssets: true,
-};
 
 const configs = Object.keys(entries).map(entryName => {
   const entryValue = entries[entryName];

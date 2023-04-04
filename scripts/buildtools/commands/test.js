@@ -28,6 +28,7 @@ const suiteMap = {
     config: 'karma.conf.js',
     preReq: [
       'grunt assets',
+      'ENTRY=css grunt exec:build-dev'
     ],
   },
   jest: {
