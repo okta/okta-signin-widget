@@ -18,7 +18,7 @@ import { renderHook } from '@testing-library/preact-hooks';
 import { getStubTransaction, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import { DescriptionElement, RedirectElement, WidgetProps } from 'src/types';
 
-import { UserNotAssignedError } from '../../../util/OAuthErrors';
+import { ClockDriftError, RecoverableError, UserNotAssignedError } from '../../../util/OAuthErrors';
 import { useInteractionCodeFlow } from './useInteractionCodeFlow';
 
 describe('interactionCodeFlow Hook Tests', () => {
@@ -29,29 +29,7 @@ describe('interactionCodeFlow Hook Tests', () => {
   const mockSavedTransactionMeta = jest.fn();
   const mockOnSuccessCallback = jest.fn();
   const mockOnErrorCallback = jest.fn();
-  const mockTokens: TokenResponse = {
-    tokens: {
-      accessToken: {
-        accessToken: 'abc123456',
-        claims: { sub: '', user: true },
-        authorizeUrl: 'acme.okta1.com',
-        scopes: ['admin'],
-        expiresAt: 1234567,
-        tokenType: 'id',
-        userinfoUrl: 'acme.okta1.com/userinfo',
-      },
-      idToken: {
-        issuer: 'okta',
-        clientId: 'abcdefth',
-        idToken: '1234567asdfghj',
-        claims: { sub: '', user: true },
-        authorizeUrl: 'acme.okta1.com',
-        scopes: ['admin'],
-        expiresAt: 1234567,
-      },
-    },
-    state: 'abcd1234',
-  };
+
   beforeEach(() => {
     mockClearMetaFn.mockReset();
     mockSavedTransactionMeta.mockReset();
@@ -189,6 +167,29 @@ describe('interactionCodeFlow Hook Tests', () => {
   });
 
   it('should call onSuccess when exchanging for tokens', async () => {
+    const mockTokens: TokenResponse = {
+      tokens: {
+        accessToken: {
+          accessToken: 'abc123456',
+          claims: { sub: '', user: true },
+          authorizeUrl: 'acme.okta1.com',
+          scopes: ['admin'],
+          expiresAt: 1234567,
+          tokenType: 'id',
+          userinfoUrl: 'acme.okta1.com/userinfo',
+        },
+        idToken: {
+          issuer: 'okta',
+          clientId: 'abcdefth',
+          idToken: '1234567asdfghj',
+          claims: { sub: '', user: true },
+          authorizeUrl: 'acme.okta1.com',
+          scopes: ['admin'],
+          expiresAt: 1234567,
+        },
+      },
+      state: 'abcd1234',
+    };
     widgetProps.authClient!.token.exchangeCodeForTokens = (() => new Promise((resolve) => {
       resolve(mockTokens);
     }));
@@ -204,6 +205,7 @@ describe('interactionCodeFlow Hook Tests', () => {
         tokens: mockTokens.tokens,
         status: 'SUCCESS',
       });
+      expect(mockOnErrorCallback).not.toHaveBeenCalled();
     });
   });
 
@@ -222,9 +224,10 @@ describe('interactionCodeFlow Hook Tests', () => {
     expect(result.current).toBeUndefined();
     await waitFor(() => {
       expect(mockClearMetaFn).toHaveBeenCalled();
-      expect(mockOnErrorCallback).toHaveBeenCalledWith(new UserNotAssignedError(
-        new AuthSdkError('Unexpected error encountered'),
+      expect(mockOnErrorCallback).toHaveBeenCalledWith(new RecoverableError(
+        new AuthSdkError('Unexpected error encountered'), Object,
       ));
+      expect(mockOnSuccessCallback).not.toHaveBeenCalled();
     });
   });
 
@@ -256,6 +259,7 @@ describe('interactionCodeFlow Hook Tests', () => {
       expect(mockOnErrorCallback).toHaveBeenCalledWith(new UserNotAssignedError(
         new AuthSdkError('Access denied'),
       ));
+      expect(mockOnSuccessCallback).not.toHaveBeenCalled();
     });
   });
 
@@ -285,9 +289,10 @@ describe('interactionCodeFlow Hook Tests', () => {
         },
       }]);
       expect(mockClearMetaFn).toHaveBeenCalled();
-      expect(mockOnErrorCallback).toHaveBeenCalledWith(new UserNotAssignedError(
+      expect(mockOnErrorCallback).toHaveBeenCalledWith(new ClockDriftError(
         new AuthSdkError('The JWT was issued in the future'),
       ));
+      expect(mockOnSuccessCallback).not.toHaveBeenCalled();
     });
   });
 });
