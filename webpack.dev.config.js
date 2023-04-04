@@ -11,6 +11,7 @@ var plugins   = require('./scripts/buildtools/webpack/plugins');
 var usePolyfill = require('./scripts/buildtools/webpack/polyfill');
 var path       = require('path');
 var PLAYGROUND = path.resolve(__dirname, 'playground');
+var TARGET_DIR = path.resolve(__dirname, 'target');
 
 module.exports = (env = {}) => {
   const { isProduction, skipAnalyzer } = env;
@@ -40,6 +41,12 @@ module.exports = (env = {}) => {
     };
   }
 
+  // build css by default
+  entries['css'] = {
+    entry: `${TARGET_DIR}/sass/okta-sign-in.scss`,
+    copyAssets: true,
+  };
+
   const configs = Object.keys(entries).map(entryName => {
     const entryValue = entries[entryName];
     const fileNameBase = entryName === 'default' ? 'okta-sign-in' : `okta-sign-in.${entryName}`;
@@ -51,7 +58,8 @@ module.exports = (env = {}) => {
       plugins: plugins({
         isProduction,
         skipAnalyzer,
-        analyzerFile: `${fileNameBase}.analyzer`
+        analyzerFile: `${fileNameBase}.analyzer`,
+        copyAssets: entryValue.copyAssets,
       })
     };
 

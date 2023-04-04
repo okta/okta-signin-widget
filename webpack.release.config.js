@@ -14,11 +14,13 @@
 
 // 6. plugin a11y - okta-plugin-a11y.js - add-on that enhances support for accesibility
 
+var path = require('path');
 var config  = require('./webpack.common.config');
 var plugins = require('./scripts/buildtools/webpack/plugins');
 var useRuntime = require('./scripts/buildtools/webpack/runtime');
 var usePolyfill = require('./scripts/buildtools/webpack/polyfill');
 
+var TARGET_DIR = path.resolve(__dirname, 'target');
 
 let entries = {
   // 1. default (default entry, minified, with polyfill)
@@ -73,12 +75,22 @@ if (process.env.ENTRY) {
 
 // build css by default
 entries['css'] = {
-  entry: './assets/sass/okta-sign-in.scss',
+  entry: `${TARGET_DIR}/sass/okta-sign-in.scss`,
+  copyAssets: true,
 };
 
 const configs = Object.keys(entries).map(entryName => {
   const entryValue = entries[entryName];
-  const { entry, outputFilename, analyzerFile, engine, outputLibrary, includePolyfill, includeRuntime } = entryValue;
+  const { 
+    entry, 
+    outputFilename, 
+    analyzerFile, 
+    engine, 
+    outputLibrary, 
+    includePolyfill, 
+    includeRuntime, 
+    copyAssets,
+  } = entryValue;
   
   const entryConfig = config({
     mode: 'production',
@@ -88,7 +100,11 @@ const configs = Object.keys(entries).map(entryName => {
     engine
   });
 
-  entryConfig.plugins = plugins({ isProduction: true, analyzerFile });
+  entryConfig.plugins = plugins({ 
+    isProduction: true, 
+    analyzerFile, 
+    copyAssets,
+  });
   
   if (includeRuntime) {
     useRuntime(entryConfig);

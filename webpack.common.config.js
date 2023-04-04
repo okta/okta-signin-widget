@@ -125,8 +125,36 @@ module.exports = function({
           test: /\.scss$/,
           use: [
             MiniCssExtractPlugin.loader,
-            'css-loader',
-            'sass-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                url: false,
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  map: true,
+                  plugins: [
+                    ['autoprefixer', { remove: false }],
+                    ...(mode === 'production' ? [
+                      ['cssnano', { save: true }]
+                    ] : [])  
+                  ]
+                }
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sassOptions: {
+                  includePaths: ['target/sass'],
+                  outputStyle: 'expanded',
+                }
+              }
+            }
+            
           ],
         },
       ]
