@@ -12,7 +12,7 @@
 
 import { FunctionComponent, h } from 'preact';
 
-import { loc } from '../../util/locUtil';
+import { loc } from '../../util';
 
 export const MobileDeviceIcon: FunctionComponent = () => (
   <svg
@@ -24,8 +24,8 @@ export const MobileDeviceIcon: FunctionComponent = () => (
     role="img"
     aria-hidden="true"
   >
-    <title id="mobile-icon">
-      {loc('icon.title.browser', 'login')}
+    <title>
+      {loc('icon.title.mobileBrowser', 'login')}
     </title>
     <path
       fillRule="evenodd"

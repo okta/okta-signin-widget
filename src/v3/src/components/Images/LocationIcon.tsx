@@ -12,7 +12,7 @@
 
 import { FunctionComponent, h } from 'preact';
 
-import { loc } from '../../util/locUtil';
+import { loc } from '../../util';
 
 export const LocationIcon: FunctionComponent = () => (
   <svg
@@ -24,7 +24,7 @@ export const LocationIcon: FunctionComponent = () => (
     role="img"
     aria-hidden="true"
   >
-    <title id="location-icon">
+    <title>
       {loc('icon.title.location', 'login')}
     </title>
     <path

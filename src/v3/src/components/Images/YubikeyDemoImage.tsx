@@ -12,7 +12,7 @@
 
 import { FunctionComponent, h } from 'preact';
 
-import { loc } from '../../util/locUtil';
+import { loc } from '../../util';
 
 export const YubikeyDemoImage: FunctionComponent = () => (
   <svg
@@ -24,7 +24,7 @@ export const YubikeyDemoImage: FunctionComponent = () => (
     viewBox="0 0 43 58"
     aria-hidden="true"
   >
-    <title id="yubikeyIcon">{loc('factor.totpHard.yubikey', 'login')}</title>
+    <title>{loc('factor.totpHard.yubikey', 'login')}</title>
     <path
       fill="#00297A"
       fillRule="evenodd"
