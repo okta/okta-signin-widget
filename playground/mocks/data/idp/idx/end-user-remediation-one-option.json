@@ -20,23 +20,30 @@
         "class": "ERROR"
       },
       {
+        "links": [
+          {"url": "https://okta.com/android-upgrade-os"}
+        ],
         "i18n": {
           "key": "idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version",
-          "params": ["https://okta.com/android-upgrade-os", "100"]
+          "params": ["100"]
         },
         "class": "ERROR"
       },
       {
+        "links": [
+          {"url": "https://okta.com/android-biometric-lock"}
+        ],
         "i18n": {
-          "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_biometric_lock_screen",
-          "params": ["https://okta.com/android-biometric-lock"]
+          "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_biometric_lock_screen"
         },
         "class": "ERROR"
       },
       {
+        "links": [
+          {"url": "https://okta.com/help"}
+        ],
         "i18n": {
-          "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default",
-          "params": ["https://okta.com/help"]
+          "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default"
         },
         "class": "ERROR"
       }

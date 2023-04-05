@@ -16,7 +16,15 @@ export default View.extend({
     {{/if}}
     {{#if remediationOptions}}
       <div class="end-user-remediation-options">
-      {{#each remediationOptions}}<div class="{{className}}">{{{message}}}</div>{{/each}}
+      {{#each remediationOptions}}
+        <div class="{{className}}">
+        {{#if link}}
+          <a href="{{link}}">{{message}}</a>
+        {{else}}
+          {{message}}
+        {{/if}}
+        </div>
+      {{/each}}
       </div>
     {{/if}}
     {{#if helpAndContact}}
@@ -35,9 +43,17 @@ export default View.extend({
         return;
       } else if (message.i18n.key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
         helpAndContact = getMessage(message);
+        if (message.links && message.links[0] && message.links[0].url) {
+          this.additionalHelpUrl = message.links[0].url;
+        }
       } else {
+        let link = null;
+        if (message.links && message.links[0] && message.links[0].url) {
+          link = message.links[0].url;
+        }
         remediationOptions.push({
           message: getMessage(message),
+          link,
           className: (
             message.i18n.key === REMEDIATION_OPTION_INDEX_KEY ?
               'end-user-remediation-option' :
@@ -53,5 +69,11 @@ export default View.extend({
       remediationOptions,
       helpAndContact,
     };
+  },
+  render() {
+    View.prototype.render.apply(this, arguments);
+    if (this.additionalHelpUrl) {
+      this.$el.find('.additional-help').attr('href', this.additionalHelpUrl);
+    }
   },
 });

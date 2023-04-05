@@ -203,7 +203,7 @@ test.requestHooks(endUserRemediationOneOptionMock)('should render end user remed
     '<div class="end-user-remediation-action"><a href="https://okta.com/android-upgrade-os">Update to Android 100</a></div>',
     '<div class="end-user-remediation-action"><a href="https://okta.com/android-biometric-lock">Enable lock screen and biometrics</a></div>',
     '</div>',
-    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta.com/help">the help page</a> or contact your administrator for help</div>',
+    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta.com/help" class="additional-help">the help page</a> or contact your administrator for help</div>',
     '</div>'
   ].join(''));
 });
@@ -225,7 +225,7 @@ test.requestHooks(endUserRemediationMultipleOptionsMock)('should render end user
     '<div class="end-user-remediation-action"><a href="https://okta.com/android-lock-screen">Enable lock screen</a></div>',
     '<div class="end-user-remediation-action"><a href="https://okta.com/android-disk-encrypted">Encrypt your device</a></div>',
     '</div>',
-    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta.com/help">the help page</a> or contact your administrator for help</div>',
+    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta.com/help" class="additional-help">the help page</a> or contact your administrator for help</div>',
     '</div>'
   ].join(''));
 });
@@ -257,7 +257,7 @@ test.requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('shoul
     '<div class="end-user-remediation-option">Option 4:</div>',
     '<div class="end-user-remediation-action"><a href="https://okta.com/windows-biometric-lock">Enable Windows Hello for the lock screen</a></div>',
     '</div>',
-    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta1.com/help-me">your organization\'s help page</a> or contact your administrator for help</div>',
+    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta1.com/custom-help-me" class="additional-help">your organization\'s help page</a> or contact your administrator for help</div>',
     '</div>'
   ].join(''));
 });
