@@ -48,7 +48,7 @@ export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
     if(userVariables.v3) {
       const iconSelector = getOtpOnlyIconSelector('browser');
       return within(this.form.getElement(iconSelector))
-        .findByTitle('Mobile browser').exists;
+        .findByTitle('Browser').exists;
     }
     return this.form.elementExist(BROWSER_OS_SMARTPHONE_ICON_SELECTOR);
   }
