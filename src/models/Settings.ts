@@ -404,7 +404,7 @@ export default class Settings extends Model {
 
   initialize(options) {
     options = options || {};
-    const { colors, authClient } = options;
+    const { colors, authClient, flow } = options;
     let { baseUrl } = options;
 
     if (!baseUrl) {
@@ -420,6 +420,11 @@ export default class Settings extends Model {
         baseUrl = issuer?.split('/oauth2/')[0];
       }
       this.set('baseUrl', baseUrl);
+    }
+
+    // If `flow` and `authClient` instance are passed to settings, set flow in auth client
+    if (authClient && flow) {
+      authClient.idx.setFlow(flow);
     }
 
     if (!baseUrl) {
