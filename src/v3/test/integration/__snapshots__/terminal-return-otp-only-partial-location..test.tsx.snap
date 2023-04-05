@@ -190,7 +190,7 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
                       <title
                         id="desktop-icon"
                       >
-                        L10N_ERROR[icon.title.browser]
+                        Browser
                       </title>
                       <path
                         class="siwIconStrokePrimary"
@@ -248,7 +248,7 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
                       <title
                         id="application-icon"
                       >
-                        L10N_ERROR[icon.title.application]
+                        Application
                       </title>
                       <rect
                         class="siwIconStrokePrimary"
@@ -320,7 +320,7 @@ exports[`terminal-return-otp-only-partial-location renders form 1`] = `
                       <title
                         id="location-icon"
                       >
-                        L10N_ERROR[icon.title.location]
+                        Location
                       </title>
                       <path
                         class="siwIconStrokePrimary"

@@ -254,7 +254,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       <title
                         id="phoneIcon"
                       >
-                        L10N_ERROR[icon.title.mobileDevice]
+                        Mobile Device
                       </title>
                       <path
                         class="siwIconFillPrimaryDark"
@@ -524,7 +524,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       <title
                         id="phoneIcon"
                       >
-                        L10N_ERROR[icon.title.mobileDevice]
+                        Mobile Device
                       </title>
                       <path
                         class="siwIconFillPrimaryDark"

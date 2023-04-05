@@ -190,7 +190,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                       <title
                         id="mobile-icon"
                       >
-                        L10N_ERROR[icon.title.browser]
+                        Browser
                       </title>
                       <path
                         class="siwIconFillPrimary"
@@ -237,7 +237,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                       <title
                         id="application-icon"
                       >
-                        L10N_ERROR[icon.title.application]
+                        Application
                       </title>
                       <rect
                         class="siwIconStrokePrimary"
@@ -309,7 +309,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                       <title
                         id="location-icon"
                       >
-                        L10N_ERROR[icon.title.location]
+                        Location
                       </title>
                       <path
                         class="siwIconStrokePrimary"
