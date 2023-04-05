@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { AppIcon, DeviceIcon } from '../../../components/Images';
 import {
   ButtonElement,
   ButtonType,
@@ -36,7 +37,7 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
     noTranslate: true,
     options: {
       id: appName?.name,
-      SVGIcon: 'app_icon',
+      SVGIcon: AppIcon,
       textContent: appName?.value,
     },
   };
@@ -47,7 +48,7 @@ export const transformEmailChallengeConsent: IdxStepTransformer = ({ transaction
     noTranslate: true,
     options: {
       id: browser?.name,
-      SVGIcon: 'device_icon',
+      SVGIcon: DeviceIcon,
       textContent: browser?.value,
     },
   };

@@ -12,6 +12,12 @@
 
 import { CHALLENGE_INTENT_TO_I18KEY } from '../../constants';
 import {
+  AppIcon,
+  DeviceIcon,
+  LocationIcon,
+  MobileDeviceIcon,
+} from '../../components/Images';
+import {
   DescriptionElement,
   HeadingElement,
   ImageWithTextElement,
@@ -76,7 +82,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       type: 'ImageWithText',
       options: {
         id: 'app',
-        SVGIcon: 'app_icon',
+        SVGIcon: AppIcon,
         textContent: loc('idx.return.link.otponly.app', 'login', [app.value.label]),
       },
     };
@@ -90,7 +96,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       type: 'ImageWithText',
       options: {
         id: 'browser',
-        SVGIcon: isMobileDevice ? 'mobile_device_icon' : 'device_icon',
+        SVGIcon: isMobileDevice ? MobileDeviceIcon : DeviceIcon,
         textContent: loc(
           'idx.return.link.otponly.browser.on.os',
           'login',
@@ -107,7 +113,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       type: 'ImageWithText',
       options: {
         id: 'location',
-        SVGIcon: 'location_icon',
+        SVGIcon: LocationIcon,
         textContent: state
           ? loc('geolocation.formatting.all', 'login', contentParams)
           : loc('geolocation.formatting.partial', 'login', contentParams),

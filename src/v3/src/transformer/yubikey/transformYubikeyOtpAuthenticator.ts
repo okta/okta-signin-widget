@@ -11,7 +11,7 @@
  */
 
 import { IDX_STEP } from '../../constants';
-import yubikeySvg from '../../img/yubikeyDemo.svg';
+import { YubikeyDemoImage } from '../../components/Images';
 import {
   ButtonElement,
   ButtonType,
@@ -69,7 +69,7 @@ export const transformYubikeyOtpAuthenticator: IdxStepTransformer = ({ formBag, 
     type: 'ImageWithText',
     options: {
       id: 'yubikey',
-      SVGIcon: yubikeySvg,
+      SVGIcon: YubikeyDemoImage,
       alignment: 'center',
     },
   };
