@@ -170,31 +170,14 @@ const Body = BaseFormWithPolling.extend({
 
   doCustomURI() {
     this.ulDom && this.ulDom.remove();
-
-    const IframeView = View.extend({
-      tagName: 'iframe',
-      id: 'custom-uri-container',
-      attributes: {
-        src: this.customURI,
-      },
-      initialize() {
-        this.el.style.display = 'none';
-      }
-    });
-
+    const IframeView = createInvisibleIFrame('custom-uri-container', this.customURI);
     this.ulDom = this.add(IframeView).last();
   },
 
   doChromeDTC(deviceChallenge) {
-    let href = deviceChallenge.href;
-    var iframe = document.createElement('iframe');
-    iframe.src = href;
-    // invisible and not take up any space
-    iframe.height = '0';
-    iframe.width = '0';
-    iframe.style.position = 'absolute';
-    iframe.style.border = '0';
-    document.body.appendChild(iframe);
+    this.ulDom && this.ulDom.remove();
+    const IframeView = createInvisibleIFrame('chrome-dtc-container', deviceChallenge.href);
+    this.ulDom = this.add(IframeView).last();
   },
 
   stopProbing() {
@@ -202,5 +185,19 @@ const Body = BaseFormWithPolling.extend({
     this.probingXhr && this.probingXhr.abort();
   },
 });
+
+function createInvisibleIFrame(iFrameId, iFrameSrc) {
+  const iFrameView = View.extend({
+    tagName: 'iframe',
+    id: iFrameId,
+    attributes: {
+      src: iFrameSrc,
+    },
+    initialize() {
+      this.el.style.display = 'none';
+    }
+  });
+  return iFrameView;
+}
 
 export default Body;
