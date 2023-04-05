@@ -45,6 +45,8 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
       ? relatesTo?.value?.profile?.question as string
       : loc(`security.${relatesTo?.value?.profile?.questionKey}`, 'login'),
   }];
+
+  // TODO: this should be cleaned up once backend API was fixed.
   answerElement.options.inputMeta.secret = true;
   answerElement.noTranslate = true;
 
