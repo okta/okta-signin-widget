@@ -85,6 +85,7 @@ Object {
               },
               Object {
                 "key": "credentials.answer_predefined",
+                "noTranslate": true,
                 "options": Object {
                   "inputMeta": Object {
                     "name": "credentials.answer",
@@ -139,6 +140,7 @@ Object {
               },
               Object {
                 "label": "oie.security.question.createQuestion.label",
+                "noTranslate": true,
                 "options": Object {
                   "inputMeta": Object {
                     "name": "credentials.question",
@@ -150,6 +152,7 @@ Object {
               Object {
                 "key": "credentials.answer_custom",
                 "label": "Answer",
+                "noTranslate": true,
                 "options": Object {
                   "inputMeta": Object {
                     "label": "Answer",

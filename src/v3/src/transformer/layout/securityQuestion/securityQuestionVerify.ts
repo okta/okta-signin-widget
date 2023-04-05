@@ -46,6 +46,10 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transactio
       : loc(`security.${relatesTo?.value?.profile?.questionKey}`, 'login'),
   }];
 
+  // TODO: this should be cleaned up once backend API was fixed.
+  answerElement.options.inputMeta.secret = true;
+  answerElement.noTranslate = true;
+
   const submitButton: ButtonElement = {
     type: 'Button',
     label: loc('oform.verify', 'login'),

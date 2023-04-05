@@ -142,7 +142,7 @@ const appendFooterAccordion = (uischema: UISchemaLayout, app: IdxContext['app'])
         options: {
           id: 'cant-verify',
           summary: loc('oie.verify.webauthn.cant.verify', 'login'),
-          content: app.value?.name === OKTA_AUTHENTICATOR
+          content: app?.value?.name === OKTA_AUTHENTICATOR
             ? getCantVerifyEnrollContent()
             : getCantVerifyChallengeContent(),
         },

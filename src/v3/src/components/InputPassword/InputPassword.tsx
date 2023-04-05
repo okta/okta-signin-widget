@@ -50,7 +50,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const {
-    translations = [], focus, required, parserOptions,
+    translations = [], focus, required, parserOptions, noTranslate,
   } = uischema;
   const {
     attributes,
@@ -116,6 +116,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           'aria-describedby': ariaDescribedByIds,
           ...attributes,
         }}
+        className={noTranslate ? 'no-translate' : undefined}
         endAdornment={(
           <InputAdornment position="end">
             <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>

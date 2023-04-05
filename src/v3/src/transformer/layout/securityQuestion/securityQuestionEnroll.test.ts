@@ -132,6 +132,8 @@ describe('SecurityQuestionEnroll Tests', () => {
       .toBe('credentials.answer');
     expect((layoutOne.elements[3] as FieldElement).options.inputMeta.secret)
       .toBe(true);
+    expect((layoutOne.elements[3] as FieldElement).noTranslate)
+      .toBe(true);
     expect((layoutOne.elements[4] as ButtonElement).label)
       .toBe('mfa.challenge.verify');
     expect((layoutOne.elements[4] as ButtonElement).options.includeImmutableData)
@@ -156,6 +158,8 @@ describe('SecurityQuestionEnroll Tests', () => {
     expect((layoutTwo.elements[3] as FieldElement).options.inputMeta.name)
       .toBe('credentials.answer');
     expect((layoutTwo.elements[3] as FieldElement).options.inputMeta.secret)
+      .toBe(true);
+    expect((layoutOne.elements[3] as FieldElement).noTranslate)
       .toBe(true);
     expect((layoutTwo.elements[4] as ButtonElement).label)
       .toBe('mfa.challenge.verify');
