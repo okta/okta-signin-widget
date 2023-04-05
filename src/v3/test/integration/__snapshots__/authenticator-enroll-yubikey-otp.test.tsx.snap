@@ -131,9 +131,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                       width="43"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <title
-                        id="yubikeyIcon"
-                      >
+                      <title>
                         YubiKey
                       </title>
                       <path

@@ -145,9 +145,7 @@ exports[`email-challenge-consent should render form 1`] = `
                       width="16"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <title
-                        id="desktop-icon"
-                      >
+                      <title>
                         Browser
                       </title>
                       <path
@@ -202,9 +200,7 @@ exports[`email-challenge-consent should render form 1`] = `
                       width="16"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <title
-                        id="application-icon"
-                      >
+                      <title>
                         Application
                       </title>
                       <rect

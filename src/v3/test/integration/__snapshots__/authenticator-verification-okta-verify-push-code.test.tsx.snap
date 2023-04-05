@@ -250,9 +250,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       width="51"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <title
-                        id="phoneIcon"
-                      >
+                      <title>
                         Mobile Device
                       </title>
                       <path
@@ -519,9 +517,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       width="51"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <title
-                        id="phoneIcon"
-                      >
+                      <title>
                         Mobile Device
                       </title>
                       <path

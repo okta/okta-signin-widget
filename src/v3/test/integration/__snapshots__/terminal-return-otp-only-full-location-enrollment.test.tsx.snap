@@ -186,10 +186,8 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                       width="16"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <title
-                        id="mobile-icon"
-                      >
-                        Browser
+                      <title>
+                        Mobile browser
                       </title>
                       <path
                         class="siwIconFillPrimary"
@@ -232,9 +230,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                       width="16"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <title
-                        id="application-icon"
-                      >
+                      <title>
                         Application
                       </title>
                       <rect
@@ -303,9 +299,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                       width="16"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <title
-                        id="location-icon"
-                      >
+                      <title>
                         Location
                       </title>
                       <path
