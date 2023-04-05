@@ -22,7 +22,6 @@ export const AppIcon: FunctionComponent = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     role="img"
-    aria-labelledby="application-icon"
     aria-hidden="true"
   >
     <title id="application-icon">
