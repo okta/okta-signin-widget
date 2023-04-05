@@ -1,0 +1,26 @@
+$margin-spacing: 8px;
+
+.end-user-remediation-terminal-view {
+
+  >div:not(:last-child) {
+    margin-bottom: $margin-spacing;
+  }
+
+  .end-user-remediation-title {
+    font-weight: bold;
+  }
+
+  .end-user-remediation-options {
+    .end-user-remediation-option {
+      &:not(:first-child) {
+        margin-top: $margin-spacing;
+      }
+      font-weight: bold;
+    }
+
+    .end-user-remediation-action {
+      display: list-item;
+      margin-left: 18px;
+    }
+  }
+}

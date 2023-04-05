@@ -14,6 +14,9 @@ import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/te
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 import errorTerminalMultipleErrors from '../../../playground/mocks/data/idp/idx/error-terminal-multiple-errors';
 import customAccessDeniedErrorMessage from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message.json';
+import endUserRemediationOneOption from '../../../playground/mocks/data/idp/idx/end-user-remediation-one-option.json';
+import endUserRemediationMultipleOptions from '../../../playground/mocks/data/idp/idx/end-user-remediation-multiple-options.json';
+import endUserRemediationMultipleOptionsWithCustomHelpUrl from '../../../playground/mocks/data/idp/idx/end-user-remediation-multiple-options-with-custom-help-url.json';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -66,6 +69,18 @@ const terminalUnlockAccountFailedPermissionsMock = RequestMock()
 const terminalCustomAccessDeniedErrorMessageMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(customAccessDeniedErrorMessage);
+
+const endUserRemediationOneOptionMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationOneOption);
+
+const endUserRemediationMultipleOptionsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationMultipleOptions);
+
+const endUserRemediationMultipleOptionsWithCustomHelpUrlMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationMultipleOptionsWithCustomHelpUrl);  
 
 fixture('Terminal view');
 
@@ -173,4 +188,76 @@ test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render cus
   await checkA11y(t);
 
   await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');
+});
+
+test.requestHooks(endUserRemediationOneOptionMock)('should render end user remediation error message when there is one option', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+
+  await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql([
+    '<span data-se="icon" class="icon error-16"></span>',
+    '<div class="end-user-remediation-terminal-view">',
+    '<div class="end-user-remediation-title">Your device doesn\'t meet the security requirements</div>',
+    '<div class="end-user-remediation-explanation">To sign in, make the following updates. Then, access the app again.</div>',
+    '<div class="end-user-remediation-options">',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/android-upgrade-os">Update to Android 100</a></div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/android-biometric-lock">Enable lock screen and biometrics</a></div>',
+    '</div>',
+    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta.com/help">the help page</a> or contact your administrator for help</div>',
+    '</div>'
+  ].join(''));
+});
+
+test.requestHooks(endUserRemediationMultipleOptionsMock)('should render end user remediation error message when there are multiple options', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+
+  await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql([
+    '<span data-se="icon" class="icon error-16"></span>',
+    '<div class="end-user-remediation-terminal-view">',
+    '<div class="end-user-remediation-title">Your device doesn\'t meet the security requirements</div>',
+    '<div class="end-user-remediation-explanation">To sign in, make the following updates. Then, access the app again.</div>',
+    '<div class="end-user-remediation-options">',
+    '<div class="end-user-remediation-option">Option 1:</div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/android-upgrade-os">Update to Android 100</a></div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/android-biometric-lock">Enable lock screen and biometrics</a></div>',
+    '<div class="end-user-remediation-option">Option 2:</div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/android-lock-screen">Enable lock screen</a></div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/android-disk-encrypted">Encrypt your device</a></div>',
+    '</div>',
+    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta.com/help">the help page</a> or contact your administrator for help</div>',
+    '</div>'
+  ].join(''));
+});
+
+test.requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('should render end user remediation error message when there are multiple options and a custom URL is set for the organization help page', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+
+  // The body of the API response is not normally returned for multiple different
+  // platforms. The test exists to ensure all of the expected keys can be
+  // localized
+  await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql([
+    '<span data-se="icon" class="icon error-16"></span>',
+    '<div class="end-user-remediation-terminal-view">',
+    '<div class="end-user-remediation-title">Your device doesn\'t meet the security requirements</div>',
+    '<div class="end-user-remediation-explanation">To sign in, make the following updates. Then, access the app again.</div>',
+    '<div class="end-user-remediation-options">',
+    '<div class="end-user-remediation-option">Option 1:</div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/ios-upgrade-os">Update to iOS 12.0.1</a></div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/ios-lock-screen">Set a passcode for the lock screen</a></div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/ios-biometric-lock">Set a passcode for the lock screen and enable Touch ID or Face ID</a></div>',
+    '<div class="end-user-remediation-option">Option 2:</div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/macos-upgrade-os">Update to macOS 13.2</a></div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/macos-lock-screen">Set a passcode for the lock screen</a></div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/macos-disk-encrypted">Turn on FileVault</a></div>',
+    '<div class="end-user-remediation-option">Option 3:</div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/windows-upgrade-os">Update to Windows 10.0.25530.123</a></div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/windows-disk-encrypted">Encrypt all internal disks with BitLocker</a></div>',
+    '<div class="end-user-remediation-option">Option 4:</div>',
+    '<div class="end-user-remediation-action"><a href="https://okta.com/windows-biometric-lock">Enable Windows Hello for the lock screen</a></div>',
+    '</div>',
+    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta1.com/help-me">your organization\'s help page</a> or contact your administrator for help</div>',
+    '</div>'
+  ].join(''));
 });
