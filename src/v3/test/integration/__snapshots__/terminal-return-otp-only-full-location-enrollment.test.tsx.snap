@@ -179,7 +179,6 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      aria-labelledby="mobile-icon"
                       fill="none"
                       height="16"
                       role="img"
@@ -226,7 +225,6 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      aria-labelledby="application-icon"
                       fill="none"
                       height="16"
                       role="img"
@@ -298,7 +296,6 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      aria-labelledby="location-icon"
                       fill="none"
                       height="16"
                       role="img"
