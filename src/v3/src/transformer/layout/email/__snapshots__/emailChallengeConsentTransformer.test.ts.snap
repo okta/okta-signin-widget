@@ -23,7 +23,7 @@ Object {
       Object {
         "noTranslate": true,
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": [Function],
           "id": "browser",
           "textContent": "CHROME",
         },
@@ -32,7 +32,7 @@ Object {
       Object {
         "noTranslate": true,
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": [Function],
           "id": "appName",
           "textContent": "Okta Dashboard",
         },

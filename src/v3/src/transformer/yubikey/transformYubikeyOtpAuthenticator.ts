@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { YubikeyDemoImage } from '../../components/Images';
 import { IDX_STEP } from '../../constants';
-import yubikeySvg from '../../img/yubikeyDemo.svg';
 import {
   ButtonElement,
   ButtonType,
@@ -69,7 +69,7 @@ export const transformYubikeyOtpAuthenticator: IdxStepTransformer = ({ formBag, 
     type: 'ImageWithText',
     options: {
       id: 'yubikey',
-      SVGIcon: yubikeySvg,
+      SVGIcon: YubikeyDemoImage,
       alignment: 'center',
     },
   };

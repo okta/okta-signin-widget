@@ -10,11 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import {
+  AppIcon,
+  DeviceIcon,
+  LocationIcon,
+  MobileDeviceIcon,
+} from '../../components/Images';
 import { CHALLENGE_INTENT_TO_I18KEY } from '../../constants';
-import AppSvg from '../../img/16pxApp.svg';
-import DesktopBrowserSvg from '../../img/16pxDevice.svg';
-import LocationSvg from '../../img/16pxLocation.svg';
-import MobileBrowserSvg from '../../img/16pxMobileDevice.svg';
 import {
   DescriptionElement,
   HeadingElement,
@@ -80,7 +82,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       type: 'ImageWithText',
       options: {
         id: 'app',
-        SVGIcon: AppSvg,
+        SVGIcon: AppIcon,
         textContent: loc('idx.return.link.otponly.app', 'login', [app.value.label]),
       },
     };
@@ -94,7 +96,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       type: 'ImageWithText',
       options: {
         id: 'browser',
-        SVGIcon: isMobileDevice ? MobileBrowserSvg : DesktopBrowserSvg,
+        SVGIcon: isMobileDevice ? MobileDeviceIcon : DeviceIcon,
         textContent: loc(
           'idx.return.link.otponly.browser.on.os',
           'login',
@@ -111,7 +113,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       type: 'ImageWithText',
       options: {
         id: 'location',
-        SVGIcon: LocationSvg,
+        SVGIcon: LocationIcon,
         textContent: state
           ? loc('geolocation.formatting.all', 'login', contentParams)
           : loc('geolocation.formatting.partial', 'login', contentParams),

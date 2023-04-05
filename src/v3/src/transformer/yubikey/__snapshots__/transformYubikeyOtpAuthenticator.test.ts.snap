@@ -16,7 +16,7 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "SVGIcon": "MockSVGIcon",
+          "SVGIcon": [Function],
           "alignment": "center",
           "id": "yubikey",
         },

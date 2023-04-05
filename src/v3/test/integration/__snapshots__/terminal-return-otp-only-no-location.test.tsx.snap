@@ -177,7 +177,37 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                     class="MuiBox-root emotion-27"
                     data-se="icon-browser"
                   >
-                    <mocksvgicon />
+                    <svg
+                      aria-hidden="true"
+                      fill="none"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title>
+                        Browser
+                      </title>
+                      <path
+                        class="siwIconStrokePrimary"
+                        d="M4.5 14.5H8M11.5 14.5H8M8 14.5V13"
+                        stroke="#1662DD"
+                      />
+                      <path
+                        class="siwIconStrokePrimary"
+                        d="M3 1.5H13C13.8284 1.5 14.5 2.17157 14.5 3V10C14.5 10.8284 13.8284 11.5 13 11.5H3C2.17157 11.5 1.5 10.8284 1.5 10V3C1.5 2.17157 2.17157 1.5 3 1.5Z"
+                        stroke="#1662DD"
+                      />
+                      <rect
+                        class="siwIconFillPrimary"
+                        fill="#1662DD"
+                        height="1"
+                        width="12"
+                        x="2"
+                        y="9"
+                      />
+                    </svg>
                   </div>
                   <div
                     class="MuiBox-root emotion-9"
@@ -202,7 +232,51 @@ exports[`terminal-return-otp-only-no-location renders form 1`] = `
                     class="MuiBox-root emotion-27"
                     data-se="icon-app"
                   >
-                    <mocksvgicon />
+                    <svg
+                      aria-hidden="true"
+                      fill="none"
+                      height="16"
+                      role="img"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title>
+                        Application
+                      </title>
+                      <rect
+                        class="siwIconStrokePrimary"
+                        height="5"
+                        stroke="#1662DD"
+                        width="5"
+                        x="1.5"
+                        y="1.5"
+                      />
+                      <rect
+                        class="siwIconStrokePrimary"
+                        height="5"
+                        stroke="#1662DD"
+                        width="5"
+                        x="1.5"
+                        y="9.5"
+                      />
+                      <rect
+                        class="siwIconStrokePrimary"
+                        height="5"
+                        stroke="#1662DD"
+                        width="5"
+                        x="9.5"
+                        y="9.5"
+                      />
+                      <rect
+                        class="siwIconStrokePrimary"
+                        height="5"
+                        stroke="#1662DD"
+                        width="5"
+                        x="9.5"
+                        y="1.5"
+                      />
+                    </svg>
                   </div>
                   <div
                     class="MuiBox-root emotion-9"
