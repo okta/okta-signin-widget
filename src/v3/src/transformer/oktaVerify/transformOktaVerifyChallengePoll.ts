@@ -12,8 +12,8 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
-import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { PhoneIcon } from '../../components/Images';
+import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   DescriptionElement,

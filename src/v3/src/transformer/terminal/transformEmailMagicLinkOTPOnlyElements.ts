@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { CHALLENGE_INTENT_TO_I18KEY } from '../../constants';
 import {
   AppIcon,
   DeviceIcon,
   LocationIcon,
   MobileDeviceIcon,
 } from '../../components/Images';
+import { CHALLENGE_INTENT_TO_I18KEY } from '../../constants';
 import {
   DescriptionElement,
   HeadingElement,

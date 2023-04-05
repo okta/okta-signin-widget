@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from '../../constants';
 import { YubikeyDemoImage } from '../../components/Images';
+import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
