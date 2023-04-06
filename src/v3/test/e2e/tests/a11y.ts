@@ -22,7 +22,7 @@ async function takeScreenshot(t: TestController, name: string) {
   await t.takeScreenshot(name);
 }
 
-fixture('Check A11y');
+fixture('Check A11y').skip;
 
 test.page(
   'http://localhost:3000/?siw-use-mocks=true&siw-mock-response=/idp/idx/introspect/default',

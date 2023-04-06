@@ -10,45 +10,51 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Selector } from 'testcafe';
+import { RequestMock, Selector } from 'testcafe';
+import mock from '@okta/mocks/data/idp/idx/authenticator-verification-phone-sms.json';
 
 fixture('Theming')
-  .page('http://localhost:3000/?siw-use-mocks=true&siw-mock-scenario=authenticator-verification-phone-sms');
+  .page('http://localhost:3000');
 
-test('Theme configuration applies correctly', async (t) => {
-  const submitButton = Selector('button')
-    .withAttribute('data-type', 'save');
+test
+  .requestHooks(
+    RequestMock()
+      .onRequestTo('http://localhost:3000/idp/idx/introspect')
+      .respond(mock)
+  )('Theme configuration applies correctly', async (t) => {
+    const submitButton = Selector('button')
+      .withAttribute('data-type', 'save');
 
-  await t
-    .expect(submitButton.getStyleProperty('background-color'))
-    .eql('rgb(62, 0, 70)');
+    await t
+      .expect(submitButton.getStyleProperty('background-color'))
+      .eql('rgb(62, 0, 70)');
 
-  // enter username/pw and submit
-  await t
-    .typeText("input[data-se='identifier']", 'testuser@okta.com')
-    .typeText("input[data-se='credentials.passcode']", 'password')
-    .click(submitButton);
+    // enter username/pw and submit
+    await t
+      .typeText("input[data-se='identifier']", 'testuser@okta.com')
+      .typeText("input[data-se='credentials.passcode']", 'password')
+      .click(submitButton);
 
-  const buttonForPhoneAuth = Selector('button')
-    .withText('Phone');
-  const phoneAuthCoin = buttonForPhoneAuth
-    .find('svg');
+    const buttonForPhoneAuth = Selector('button')
+      .withText('Phone');
+    const phoneAuthCoin = buttonForPhoneAuth
+      .find('svg');
 
-  await t
-    .expect(phoneAuthCoin.find('.siwFillPrimaryDark').getStyleProperty('fill'))
-    .eql('rgb(202, 0, 228)');
-  await t
-    .expect(phoneAuthCoin.find('.siwFillSecondary').getStyleProperty('fill'))
-    .eql('rgb(241, 131, 255)');
-}).clientScripts({
-  content: `
+    await t
+      .expect(phoneAuthCoin.find('.siwFillPrimaryDark').getStyleProperty('fill'))
+      .eql('rgb(202, 0, 228)');
+    await t
+      .expect(phoneAuthCoin.find('.siwFillSecondary').getStyleProperty('fill'))
+      .eql('rgb(241, 131, 255)');
+  }).clientScripts({
+    content: `
     window.additionalOptions = {
       brandColors: {
         primaryColor: '#3e0046'
       }
     };
   `,
-});
+  });
 
 test('should override text color based on MUI theme options override', async (t) => {
   const header = Selector('h2')
