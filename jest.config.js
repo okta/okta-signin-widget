@@ -8,6 +8,7 @@ const REPORT_DIR = '<rootDir>/build2/reports/unit';
 const OktaSignin = '<rootDir>/src/exports/default';
 const LEGACY_TESTS = require('./test/unit/legacy-tests');
 
+/** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
   coverageDirectory: COVERAGE_DIR,
   collectCoverage: false,
@@ -63,5 +64,5 @@ module.exports = {
       outputDirectory: REPORT_DIR,
       outputName: 'okta-sign-in-widget-jest-junit-result.xml',
     }]
-  ]
+  ],
 };
