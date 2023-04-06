@@ -72,7 +72,8 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                   class="MuiBox-root emotion-14"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -107,7 +108,8 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                   class="MuiBox-root emotion-14"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -142,7 +144,8 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                   class="MuiBox-root emotion-14"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -178,7 +181,8 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                   class="MuiBox-root emotion-14"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.address"
                   >
                     Street Address
@@ -368,7 +372,8 @@ exports[`enroll-profile-with-password should show custom error message and preve
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -416,7 +421,8 @@ exports[`enroll-profile-with-password should show custom error message and preve
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -451,7 +457,8 @@ exports[`enroll-profile-with-password should show custom error message and preve
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -643,7 +650,8 @@ exports[`enroll-profile-with-password should show custom field level error messa
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -691,7 +699,8 @@ exports[`enroll-profile-with-password should show custom field level error messa
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -726,7 +735,8 @@ exports[`enroll-profile-with-password should show custom field level error messa
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -918,7 +928,8 @@ exports[`enroll-profile-with-password should show generic error message and prev
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -953,7 +964,8 @@ exports[`enroll-profile-with-password should show generic error message and prev
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -988,7 +1000,8 @@ exports[`enroll-profile-with-password should show generic error message and prev
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -1180,7 +1193,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -1228,7 +1242,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -1276,7 +1291,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -1325,7 +1341,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
                   class="MuiBox-root emotion-19"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.address"
                   >
                     Street Address
