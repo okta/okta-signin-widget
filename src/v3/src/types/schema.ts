@@ -19,13 +19,13 @@ import {
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { HTMLReactParserOptions } from 'html-react-parser';
+import { FunctionComponent } from 'preact';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
 import { Modify } from './jsonforms';
 import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
-import { FunctionComponent } from 'preact';
 
 type GeneralDataSchemaBag = Record<string, DataSchema>;
 

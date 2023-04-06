@@ -86,7 +86,7 @@ describe('Email authenticator verification when email magic link = undefined', (
         jest.advanceTimersByTime(500);
         jest.runAllTimers();
       });
-      
+
       expect(container).toMatchSnapshot();
     });
 
