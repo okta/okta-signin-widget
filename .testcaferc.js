@@ -72,6 +72,5 @@ const config = {
       assertionTimeout: 20000,
   })
 }
-console.debug('TestCafe configs:', config);
 
 module.exports = config;
