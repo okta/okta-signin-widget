@@ -4,6 +4,8 @@ import { getMessage } from '../../../ion/i18nTransformer';
 
 const HELP_AND_CONTACT_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation.additional_help_';
 const REMEDIATION_OPTION_INDEX_KEY = 'idx.error.code.access_denied.device_assurance.remediation.option_index';
+const TITLE_KEY = "idx.error.code.access_denied.device_assurance.remediation.title";
+const EXPLANATION_KEY_PREFIX = "idx.error.code.access_denied.device_assurance.remediation.explanation_";
 
 export default View.extend({
   className: 'end-user-remediation-terminal-view',
@@ -19,7 +21,7 @@ export default View.extend({
       {{#each remediationOptions}}
         <div class="{{className}}">
         {{#if link}}
-          <a href="{{link}}">{{message}}</a>
+          <a href="{{link}}" target="_blank">{{message}}</a>
         {{else}}
           {{message}}
         {{/if}}
@@ -33,14 +35,16 @@ export default View.extend({
   `,
   getTemplateData() {
     const messages = this.options.messages.value;
-    const title = getMessage(messages[0]);
-    const explanation = getMessage(messages[1]);
     const remediationOptions = [];
+    let title = null;
+    let explanation = null;
     let helpAndContact = null;
 
-    messages.forEach((message, index) => {
-      if (index < 2) {
-        return;
+    messages.forEach((message) => {
+      if (message.i18n.key === TITLE_KEY) {
+        title = getMessage(message);
+      } else if (message.i18n.key.startsWith(EXPLANATION_KEY_PREFIX)) {
+        explanation = getMessage(message);
       } else if (message.i18n.key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
         helpAndContact = getMessage(message);
         if (message.links && message.links[0] && message.links[0].url) {
