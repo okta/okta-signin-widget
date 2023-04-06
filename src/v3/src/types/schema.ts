@@ -277,7 +277,7 @@ export interface ButtonElement extends UISchemaElement {
     ariaLabel?: string;
     classes?: string;
     disabled?: boolean;
-    Icon?: string;
+    Icon?: FunctionComponent;
     onClick?: (widgetContext: IWidgetContext) => unknown;
   };
 }
