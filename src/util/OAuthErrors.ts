@@ -45,11 +45,11 @@ class TypedOAuthError<T extends ErrorType> extends OAuthError {
 }
 
 class RecoverableError<T extends ErrorType> extends TypedOAuthError<T> {
-  
+
 }
 
 class NonRecoverableError<T extends ErrorType> extends TypedOAuthError<T> {
-  
+
 }
 
 class ClockDriftError extends RecoverableError<TerminalErrorType> {
