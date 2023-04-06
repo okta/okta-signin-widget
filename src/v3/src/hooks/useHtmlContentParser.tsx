@@ -13,9 +13,8 @@
 import dompurify from 'dompurify';
 import HtmlReactParser, { HTMLReactParserOptions } from 'html-react-parser';
 import * as preact from 'preact';
-import { getLinkReplacerFn } from '../util';
 
-const { h } = preact;
+import { getLinkReplacerFn } from '../util';
 
 export const useHtmlContentParser = (
   content: string | undefined,
