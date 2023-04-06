@@ -21,3 +21,6 @@ navigator.credentials = {
     });
   }
 };
+
+// prevent unhandled promise
+process.on('unhandledRejection', console.error);
