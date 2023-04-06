@@ -58,6 +58,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -94,6 +95,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -130,6 +132,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -167,6 +170,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="userProfile.address"
                   >
                     Street Address
@@ -343,6 +347,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -392,6 +397,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -428,6 +434,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -606,6 +613,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -655,6 +663,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -691,6 +700,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -869,6 +879,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -905,6 +916,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -941,6 +953,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -1119,6 +1132,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
@@ -1168,6 +1182,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
@@ -1217,6 +1232,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
@@ -1267,6 +1283,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    data-shrink="false"
                     for="userProfile.address"
                   >
                     Street Address
