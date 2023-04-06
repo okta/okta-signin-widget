@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 if [[ -z ${DOCKOLITH_BRANCH} ]]; then
-  export DOCKOLITH_BRANCH=master
+  export DOCKOLITH_BRANCH="sw-OKTA-567509-use-okta-node-sdk-v7"
 fi
 
 pushd ./scripts
