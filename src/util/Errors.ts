@@ -12,7 +12,7 @@
 
 import { loc } from '@okta/courage';
 import Enums from './Enums';
-import { ErrorXHR, ErrorContextData } from 'types/errors';
+import { ErrorXHR, ErrorContextData } from '../types/errors';
 import { FlowIdentifier } from '@okta/okta-auth-js';
 
 abstract class CustomError extends Error {

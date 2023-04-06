@@ -2,7 +2,7 @@ import { loc } from '@okta/courage';
 
 import { AuthSdkError, OAuthError as SdkOAuthError} from '@okta/okta-auth-js';
 import { OAuthError } from './Errors';
-import { ErrorDetails } from 'types/errors';
+import { ErrorDetails } from '../types/errors';
 
 type ErrorTraits = 'inline' | 'terminal';
 
@@ -45,11 +45,11 @@ class TypedOAuthError<T extends ErrorType> extends OAuthError {
 }
 
 class RecoverableError<T extends ErrorType> extends TypedOAuthError<T> {
-  
+
 }
 
 class NonRecoverableError<T extends ErrorType> extends TypedOAuthError<T> {
-  
+
 }
 
 class ClockDriftError extends RecoverableError<TerminalErrorType> {
