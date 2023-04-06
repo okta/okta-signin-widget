@@ -261,7 +261,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Scan a QR code/);
     await findByText(/Email me a setup link/);
-    // expect(container).toMatchSnapshot(); // FIXME
+    expect(container).toMatchSnapshot();
     await user.click(await findByText(/Next/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
