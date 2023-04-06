@@ -31,7 +31,7 @@ async function setup(t) {
   return identityPage;
 }
 
-test.only.requestHooks(logger, mocks)('should have identifier and password fields', async t => {
+test.requestHooks(logger, mocks)('should have identifier and password fields', async t => {
   const identityPage = await setup(t);
   await renderWidget({});
   await identityPage.fillIdentifierField('myusername');
