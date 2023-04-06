@@ -200,7 +200,7 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto r
   await t.expect(logger.contains(record => record.response.statusCode === 200)).ok();
 });
 
-test.only.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
+test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setupDirectAuth(t);
 
   await checkConsoleMessages({
