@@ -77,12 +77,7 @@ const Button: UISchemaElementComponent<{
       className={classes}
         // Fixes text overflow
       sx={{ display: 'flex', whiteSpace: 'normal' }}
-      startIcon={loading ? <Spinner color="white" /> : Icon && (
-        <img
-          src={Icon}
-          alt=""
-        />
-      )}
+      startIcon={loading ? <Spinner color="white" /> : Icon && (<Icon />)}
       aria-describedby={ariaDescribedBy}
       data-type={dataType}
       data-se={dataSe}
