@@ -421,7 +421,6 @@ test
   });
 
 test
-  .only
   .requestHooks(loopbackChallengeWrongProfileLogger, loopbackChallengeWrongProfileMock)('in loopback server approach, will cancel polling when challenge errors out with non-503 status', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
