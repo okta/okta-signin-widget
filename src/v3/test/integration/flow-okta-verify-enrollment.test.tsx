@@ -11,7 +11,7 @@
  */
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
-import { waitFor } from '@testing-library/preact';
+import { act, waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 import qrPollingResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json';
 import emailPollingResponse from '../../src/mocks/response/idp/idx/challenge/send/enroll-ov-email-mfa.json';
@@ -152,7 +152,10 @@ describe('flow-okta-verify-enrollment', () => {
 
     // Advance system time to show resend email reminder element
     mockSystemTime += 31_000;
-    jest.advanceTimersByTime(500);
+    act(() => {
+      jest.advanceTimersByTime(500);
+      jest.runAllTimers();
+    });
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -240,7 +243,10 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Check your text messages/);
     // Advance system time to show resend email reminder element
     mockSystemTime += 31_000;
-    jest.advanceTimersByTime(500);
+    act(() => {
+      jest.advanceTimersByTime(500);
+      jest.runAllTimers();
+    });
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -253,7 +259,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Scan a QR code/);
     await findByText(/Email me a setup link/);
-    // expect(container).toMatchSnapshot(); // FIXME
+    expect(container).toMatchSnapshot();
     await user.click(await findByText(/Next/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
