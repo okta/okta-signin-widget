@@ -99,24 +99,26 @@ export const configs: Record<string, WidgetOptions> = {
       registration: true,
     },
   },
+
+  testcafe: {
+    baseUrl: 'http://localhost:3000',
+    logo: '/img/logo_widgico.png',
+    logoText: 'Windico',
+    // language: 'foo',
+    // assets: {
+    //   baseUrl: 'http://localhost:3000'
+    // },
+    features: {
+      router: true,
+      rememberMe: true,
+      multiOptionalFactorEnroll: true,
+    },
+    stateToken: 'dummy-state-token-wrc',
+    authParams: {
+      pkce: true,
+      codeChallenge: 'asdfasdf',
+    },
+  },
 };
 
-export const config = {
-  baseUrl: 'http://localhost:3000',
-  logo: '/img/logo_widgico.png',
-  logoText: 'Windico',
-  // language: 'foo',
-  // assets: {
-  //   baseUrl: 'http://localhost:3000'
-  // },
-  features: {
-    router: true,
-    rememberMe: true,
-    multiOptionalFactorEnroll: true,
-  },
-  stateToken: 'dummy-state-token-wrc',
-  authParams: {
-    pkce: true,
-    codeChallenge: 'asdfasdf',
-  },
-};
+export const config = configs.testcafe;
