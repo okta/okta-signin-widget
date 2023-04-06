@@ -15,10 +15,10 @@ import {
 } from '@okta/okta-auth-js';
 import { waitFor } from '@testing-library/preact';
 import { renderHook } from '@testing-library/preact-hooks';
-import { getStubTransaction, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { DescriptionElement, RedirectElement, WidgetProps } from 'src/types';
 
 import { ClockDriftError, RecoverableError, UserNotAssignedError } from '../../../util/OAuthErrors';
+import { getStubTransaction, getStubTransactionWithNextStep } from '../mocks/utils/utils';
+import { DescriptionElement, RedirectElement, WidgetProps } from '../types';
 import { useInteractionCodeFlow } from './useInteractionCodeFlow';
 
 describe('interactionCodeFlow Hook Tests', () => {

@@ -171,7 +171,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     if (currTransaction?.context.stateHandle) {
       payload.stateHandle = currTransaction.context.stateHandle;
     }
-    // Required to prevent auth-js from clearing sessionStorage and breaking ICF
+    // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
     payload.exchangeCodeForTokens = false;
     if (step === 'cancel') {
       authClient?.transactionManager.clear({ clearIdxResponse: false });

@@ -156,7 +156,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       }
       const transaction = await authClient.idx.start({
         stateHandle,
-        exchangeCodeForTokens: false, // we handle this in useInteractionCodeFlow
+        // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
+        exchangeCodeForTokens: false,
       });
       const hasError = !transaction.requestDidSucceed || transaction.messages?.some(
         (msg) => msg.class === MessageType.ERROR.toString(),

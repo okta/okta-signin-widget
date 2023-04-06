@@ -61,7 +61,7 @@ export type RenderOptions = {
   authParams?: OktaAuthOptions;
 };
 
-export type Mode = 'remediation' | 'relying-party';
+export type AuthenticationMode = 'remediation' | 'relying-party';
 
 export type OktaWidgetEventHandler = {
   (...args: unknown[]): void;
@@ -161,7 +161,7 @@ export type WidgetOptions = {
   };
   /**
    * @deprecated
-   * Deprecated as of 7.0
+   * Deprecated as of SIW v7.0
    */
   useInteractionCodeFlow?: boolean;
   authScheme?: string;

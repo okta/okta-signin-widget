@@ -19,7 +19,7 @@ import { redirectTransformer } from '../transformer/redirect';
 import { createForm } from '../transformer/utils';
 import { FormBag, InfoboxElement, WidgetProps } from '../types';
 import {
-  getMode, isAuthClientSet, isOauth2Enabled, loc, SessionStorage,
+  getAuthenticationMode, isAuthClientSet, isOauth2Enabled, loc, SessionStorage,
 } from '../util';
 
 export const useInteractionCodeFlow = (
@@ -60,9 +60,12 @@ export const useInteractionCodeFlow = (
     const { interactionCode } = transaction;
     const transactionMeta = authClient.idx.getSavedTransactionMeta();
     const state = authClient.options.state || transactionMeta?.state;
-    const redirectParams = { interaction_code: interactionCode || '', state: state || '' };
+    const redirectParams: Record<string, string> = { interaction_code: interactionCode };
+    if (typeof state !== 'undefined') {
+      redirectParams.state = state;
+    }
 
-    const isRemediationMode = getMode(widgetProps) === 'remediation';
+    const isRemediationMode = getAuthenticationMode(widgetProps) === 'remediation';
     if (isRemediationMode) {
       authClient.idx.clearTransactionMeta();
     }
