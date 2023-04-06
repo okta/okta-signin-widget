@@ -9,14 +9,10 @@ module.exports = function(grunt) {
   require('time-grunt')(grunt);
 
   var Handlebars  = require('handlebars'),
-      postcssAutoprefixer = require('autoprefixer')({remove: false}),
-      cssnano     = require('cssnano')({safe: true}),      
-      sass        = require('sass'),
       path        = require('path');
 
   var JS                    = 'target/js',
       DIST                  = 'dist/dist',
-      SASS                  = 'target/sass',
       I18N_SRC              = 'packages/@okta/i18n/src',
       COURAGE_TYPES         = 'packages/@okta/courage-dist/types',
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
@@ -50,26 +46,6 @@ module.exports = function(grunt) {
         ]
       },
 
-      'css-to-mincss': {
-        files: [
-          {
-            expand: true,
-            cwd: 'target/css/',
-            src: ['*.css', '*.css.map'],
-            dest: 'target/css/',
-            rename: function(dest, src) {
-              if (src === 'okta-sign-in.css') {
-                return path.resolve(dest, 'okta-sign-in.min.css');
-              }
-              if (src === 'okta-sign-in.css.map') {
-                return path.resolve(dest, 'okta-sign-in.min.css.map');
-              }
-              return path.resolve(dest, src);
-            },
-          },
-        ],
-      },
-
       'app-to-target': {
         files: [
           // i18n files
@@ -82,24 +58,6 @@ module.exports = function(grunt) {
             ],
             dest: 'target/labels'
           },
-          // Assets
-          {
-            expand: true,
-            cwd: 'assets/',
-            src: ['sass/**/*', 'font/**/*', 'img/**/*', 'css/**/*'],
-            dest: 'target/'
-          },
-
-          // jquery.qtip.css -> _jquery.qtip.scss
-          {
-            expand: true,
-            cwd: 'packages/@okta/qtip2/dist/',
-            src: 'jquery.qtip.css',
-            dest: 'target/sass/widgets',
-            rename: function() {
-              return 'target/sass/widgets/_jquery.qtip.scss';
-            }
-          }
         ]
       },
 
@@ -274,42 +232,6 @@ module.exports = function(grunt) {
       'build-types': 'yarn build:types'
     },
 
-    sass: {
-      options: {
-        implementation: sass,
-        sourceMap: true,
-        outputStyle: 'expanded',
-        includePaths: [SASS]
-      },
-      build: {
-        files: {
-          [`${__dirname}/target/css/okta-sign-in.css`]: SASS + '/okta-sign-in.scss'
-        }
-      }
-    },
-    postcss: {
-      options: {
-        diff: false,
-        failOnError: true,
-        map: true,
-        processors: [
-          postcssAutoprefixer
-        ]
-      },
-      build: {
-        src: 'target/css/okta-sign-in.css'
-      },
-      minify: {
-        options: {
-          processors: [
-            postcssAutoprefixer,
-            cssnano
-          ]
-        },
-        src: 'target/css/okta-sign-in.min.css'
-      }
-    },
-
     connect: {
       options: {
         port: DEFAULT_SERVER_PORT,
@@ -341,17 +263,6 @@ module.exports = function(grunt) {
       main: {
         src: [`${I18N_SRC}/properties/*.properties`],
         dest: `${I18N_SRC}/json`
-      }
-    },
-
-    watch: {
-      sass: {
-        files: ['assets/sass/**/*'],
-        tasks: [
-          'copy:app-to-target',
-          'sass:build',
-          'postcss:build'
-        ]
       }
     },
 
@@ -418,24 +329,13 @@ module.exports = function(grunt) {
     grunt.task.run(tasks);
   });
 
-  grunt.task.registerTask('assets', function(target) {
-    const prodBuild = target === 'release';
+  grunt.task.registerTask('assets', function() {
     const buildTasks = [
       'copy:generate-in-translation',
       'codegen',
       'copy:app-to-target',
       // 'exec:pseudo-loc', // TODO: Add after OKTA-379995 is completed
-      'sass:build',
     ];
-
-    if (prodBuild) {
-      // okta-sign-in.css is renamed to okta-sign-in.min.css in the npm bundle
-      // include okta-sign-in.css.min into source map so it can be resolved
-      buildTasks.push('copy:css-to-mincss');
-      buildTasks.push('postcss:minify');
-    } else {
-      buildTasks.push('postcss:build');
-    }
 
     grunt.task.run(buildTasks);
   });
