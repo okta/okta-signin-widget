@@ -136,6 +136,6 @@
     "node": ">=16"
   },
   "msw": {
-    "workerDirectory": "src/static"
+    "workerDirectory": "public"
   }
 }

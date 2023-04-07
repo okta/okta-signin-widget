@@ -22,6 +22,7 @@ import {
 } from '../../types';
 import { config } from '../widgetrc';
 import OktaSignIn from './OktaSignIn'; // FIXME should be set by cdn bundle
+import { getWorker } from './mocks/browser';
 
 declare global {
   interface Window {
@@ -60,10 +61,6 @@ function createWidgetInstance(options: WidgetOptions = {}) {
 
 const renderPlaygroundWidget = (options = {}) => {
   createWidgetInstance(options);
-
-  if (window.OktaPluginA11y) {
-    window.OktaPluginA11y.init(siw);
-  }
 
   siw.renderEl(
     { el: '#okta-login-container' },
@@ -154,13 +151,21 @@ window.createWidgetInstance = createWidgetInstance;
 window.renderPlaygroundWidget = renderPlaygroundWidget;
 
 let render = true;
+
 if (typeof URL !== 'undefined') {
   const { searchParams } = new URL(window.location.href);
   if (searchParams.get('render') === '0' || searchParams.get('render') === 'false') {
     render = false;
   }
+} else {
+  throw new Error('window.URL undefined');
 }
 
-if (render) {
-  renderPlaygroundWidget(window.additionalOptions ?? {});
-}
+// set up msw
+getWorker()
+  .then((worker) => worker?.start())
+  .then(() => {
+    if (render) {
+      renderPlaygroundWidget(window.additionalOptions ?? {});
+    }
+  })
