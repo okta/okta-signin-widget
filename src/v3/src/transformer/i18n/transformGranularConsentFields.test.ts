@@ -144,36 +144,59 @@ describe('Granular Consent field transformer tests', () => {
     expect((updatedFormBag.uischema.elements[1] as FieldElement).translations?.length).toBe(2);
     expect((updatedFormBag.uischema.elements[1] as FieldElement).translations)
       .toEqual([
-        { name: 'label', i18nKey: '', value: 'Custom 1 label' },
+        {
+          name: 'label',
+          i18nKey: '',
+          value: 'Custom 1 label',
+          noTranslate: true,
+        },
         {
           name: 'description',
           i18nKey: '',
           value: 'This is a custom description for the custom field.',
+          noTranslate: true,
         },
       ]);
     expect((updatedFormBag.uischema.elements[2] as FieldElement).translations?.length).toBe(1);
     expect((updatedFormBag.uischema.elements[2] as FieldElement).translations)
       .toEqual([
-        { name: 'label', i18nKey: '', value: 'Custom 2 label' },
+        {
+          name: 'label',
+          i18nKey: '',
+          value: 'Custom 2 label',
+          noTranslate: true,
+        },
       ]);
     expect((updatedFormBag.uischema.elements[3] as FieldElement).translations?.length).toBe(2);
     expect((updatedFormBag.uischema.elements[3] as FieldElement).translations)
       .toEqual([
-        { name: 'label', i18nKey: '', value: 'openid' },
+        {
+          name: 'label',
+          i18nKey: '',
+          value: 'openid',
+          noTranslate: true,
+        },
         {
           name: 'description',
           i18nKey: 'consent.scopes.openid.desc',
           value: 'consent.scopes.openid.desc',
+          noTranslate: true,
         },
       ]);
     expect((updatedFormBag.uischema.elements[4] as FieldElement).translations?.length).toBe(2);
     expect((updatedFormBag.uischema.elements[4] as FieldElement).translations)
       .toEqual([
-        { name: 'label', i18nKey: 'consent.scopes.email.label', value: 'consent.scopes.email.label' },
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.email.label',
+          value: 'consent.scopes.email.label',
+          noTranslate: false,
+        },
         {
           name: 'description',
           i18nKey: 'consent.scopes.email.desc',
           value: 'consent.scopes.email.desc',
+          noTranslate: false,
         },
       ]);
   });

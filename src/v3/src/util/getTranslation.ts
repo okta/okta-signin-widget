@@ -12,7 +12,12 @@
 
 import { TranslationInfo } from '../types';
 
+export const getTranslationInfo = (
+  translations: TranslationInfo[],
+  name: string,
+): TranslationInfo | undefined => translations.find(({ name: fieldName }) => fieldName === name);
+
 export const getTranslation = (
   translations: TranslationInfo[],
   name: string,
-): string | undefined => translations.find(({ name: fieldName }) => fieldName === name)?.value;
+): string | undefined => getTranslationInfo(translations, name)?.value;

@@ -21,7 +21,6 @@ Object {
         "type": "Description",
       },
       Object {
-        "noTranslate": true,
         "options": Object {
           "inputMeta": Object {
             "desc": "This is a custom description for the custom field.",
@@ -38,18 +37,19 @@ Object {
           Object {
             "i18nKey": "",
             "name": "label",
+            "noTranslate": true,
             "value": "Custom 1 label",
           },
           Object {
             "i18nKey": "",
             "name": "description",
+            "noTranslate": true,
             "value": "This is a custom description for the custom field.",
           },
         ],
         "type": "Field",
       },
       Object {
-        "noTranslate": true,
         "options": Object {
           "inputMeta": Object {
             "label": "Custom 2 label",
@@ -65,13 +65,13 @@ Object {
           Object {
             "i18nKey": "",
             "name": "label",
+            "noTranslate": true,
             "value": "Custom 2 label",
           },
         ],
         "type": "Field",
       },
       Object {
-        "noTranslate": true,
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -86,11 +86,13 @@ Object {
           Object {
             "i18nKey": "",
             "name": "label",
+            "noTranslate": true,
             "value": "openid",
           },
           Object {
             "i18nKey": "consent.scopes.openid.desc",
             "name": "description",
+            "noTranslate": true,
             "value": "consent.scopes.openid.desc",
           },
         ],
@@ -112,11 +114,13 @@ Object {
           Object {
             "i18nKey": "consent.scopes.email.label",
             "name": "label",
+            "noTranslate": false,
             "value": "consent.scopes.email.label",
           },
           Object {
             "i18nKey": "consent.scopes.email.desc",
             "name": "description",
+            "noTranslate": false,
             "value": "consent.scopes.email.desc",
           },
         ],

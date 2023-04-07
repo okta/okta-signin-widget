@@ -26,7 +26,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { getTranslationInfo } from '../../util';
 import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
 
@@ -48,8 +48,8 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
     showAsterisk,
   } = uischema;
   const isReadOnly = mutable === false;
-  const label = getTranslation(translations, 'label');
-  const description = getTranslation(translations, 'description');
+  const labelInfo = getTranslationInfo(translations, 'label');
+  const descriptionInfo = getTranslationInfo(translations, 'description');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
@@ -84,7 +84,14 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
         )}
         label={(
           <Fragment>
-            {label}
+            {labelInfo?.noTranslate ? (
+              <Box
+                component="span"
+                className="no-translate"
+              >
+                {labelInfo?.value as string}
+              </Box>
+            ) : labelInfo?.value as string}
             {showAsterisk && (
               <Box
                 component="span"
@@ -98,7 +105,11 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
                 *
               </Box>
             )}
-            {description && (<FormHelperText>{description}</FormHelperText>)}
+            {descriptionInfo && (
+              <FormHelperText className={descriptionInfo.noTranslate ? 'no-translate' : undefined}>
+                {descriptionInfo.value}
+              </FormHelperText>
+            )}
           </Fragment>
         )}
       />

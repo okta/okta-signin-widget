@@ -37,11 +37,16 @@ export const transformGranularConsentFields: TransformStepFnWithOptions = ({
       const [prefixName, fieldName] = fieldElement.options.inputMeta.name.split('.');
       const defaultLabel = fieldElement.options.inputMeta.label || (fieldName ?? prefixName);
       const labelKey = `consent.scopes.${fieldName ?? prefixName}.label`;
+      // If label has been added previously, must remove to overwrite.
+      // eslint-disable-next-line no-param-reassign
+      element.translations = element.translations?.filter(({ name }) => name !== 'label');
       addTranslation({
         element,
         name: 'label',
         i18nKey: doesI18NKeyExist(labelKey) ? labelKey : '',
         defaultValue: defaultLabel,
+        // must add no-translate class to custom fields
+        noTranslate: fieldName === 'openid' || !doesI18NKeyExist(labelKey),
       });
 
       const descrKey = `consent.scopes.${fieldName ?? prefixName}.desc`;
@@ -53,13 +58,9 @@ export const transformGranularConsentFields: TransformStepFnWithOptions = ({
           name: 'description',
           i18nKey: doesI18NKeyExist(descrKey) ? descrKey : '',
           defaultValue: defaultDesc,
+          // must add no-translate class to custom fields
+          noTranslate: fieldName === 'openid' || !doesI18NKeyExist(labelKey),
         });
-      }
-
-      // must add no-translate class to custom fields
-      if (fieldName === 'openid' || !doesI18NKeyExist(labelKey)) {
-        // eslint-disable-next-line no-param-reassign
-        element.noTranslate = true;
       }
     },
   });

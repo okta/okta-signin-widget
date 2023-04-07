@@ -548,6 +548,7 @@ export interface TranslationInfo {
   name: string;
   i18nKey: string;
   value: string;
+  noTranslate?: boolean;
 }
 
 export interface DividerElement extends UISchemaElement {
