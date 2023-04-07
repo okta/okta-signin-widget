@@ -211,6 +211,10 @@ export default class BaseFormObject {
   }
 
   getCancelButtonLabel() {
+    // in v3 buttons dont have a value prop
+    if (userVariables.v3) {
+      return this.el.find(CANCEL_BUTTON_SELECTOR).textContent;
+    }
     return this.el.find(CANCEL_BUTTON_SELECTOR).value;
   }
 

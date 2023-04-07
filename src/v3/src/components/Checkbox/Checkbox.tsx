@@ -15,6 +15,7 @@ import {
   Checkbox as CheckboxMui,
   FormControl,
   FormControlLabel,
+  FormHelperText,
 } from '@okta/odyssey-react-mui';
 import { Fragment, h } from 'preact';
 
@@ -40,9 +41,15 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   const { loading } = useWidgetContext();
 
   const {
-    options: { inputMeta: { name } }, focus, translations = [], showAsterisk,
+    options: { inputMeta: { name, mutable } },
+    focus,
+    noTranslate,
+    translations = [],
+    showAsterisk,
   } = uischema;
+  const isReadOnly = mutable === false;
   const label = getTranslation(translations, 'label');
+  const description = getTranslation(translations, 'description');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
@@ -51,8 +58,10 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
       component="fieldset"
       error={hasErrors}
       aria-describedby={describedByIds}
+      className={noTranslate ? 'no-translate' : undefined}
     >
       <FormControlLabel
+        sx={{ alignItems: 'flex-start' }}
         control={(
           <CheckboxMui
             size="medium"
@@ -66,7 +75,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
             onBlur={(e: ChangeEvent<HTMLInputElement>) => {
               handleBlur?.(e?.currentTarget?.checked);
             }}
-            disabled={loading}
+            disabled={loading || isReadOnly}
             inputProps={{
               'data-se': name,
               'data-se-for-name': name,
@@ -89,6 +98,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
                 *
               </Box>
             )}
+            {description && (<FormHelperText>{description}</FormHelperText>)}
           </Fragment>
         )}
       />

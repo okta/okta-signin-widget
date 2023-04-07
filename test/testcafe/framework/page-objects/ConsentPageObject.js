@@ -1,5 +1,5 @@
 import BasePageObject from './BasePageObject';
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 
 
 export default class ConsentPageObject extends BasePageObject {
@@ -42,10 +42,16 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getConsentAgreementText() {
+    if (userVariables.v3) {
+      return this.form.getElement('[data-se="consent-description"]').innerText;
+    }
     return this.getTextContent('.consent-description');
   }
 
   getGranularHeaderClientName() {
+    if (userVariables.v3) {
+      return this.getFormTitle();
+    }
     return this.getTextContent('.title-text > b');
   }
 
@@ -58,6 +64,9 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getDisabledCheckBoxLabels() {
+    if (userVariables.v3) {
+      return this.form.getInnerTexts('[aria-disabled="true"] ~ span');
+    }
     return this.form.getInnerTexts(':disabled ~ label');
   }
 

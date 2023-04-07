@@ -35,6 +35,7 @@ const Link: UISchemaElementComponent<{
       actionParams,
       isActionStep,
       step,
+      target,
       onClick: onClickHandler,
     },
   } = uischema;
@@ -86,6 +87,7 @@ const Link: UISchemaElementComponent<{
           ref={focusRef}
           aria-describedby={ariaDescribedBy}
           data-se={dataSe}
+          target={target}
         >
           {label}
         </LinkMui>

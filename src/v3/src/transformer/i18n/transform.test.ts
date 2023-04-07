@@ -18,6 +18,9 @@ import { transformI18n } from './transform';
 jest.mock('./transformField', () => ({
   transformField: () => () => ({}),
 }));
+jest.mock('./transformGranularConsentFields', () => ({
+  transformGranularConsentFields: () => () => ({}),
+}));
 jest.mock('./transformAuthenticatorButton', () => ({
   transformAuthenticatorButton: () => () => ({}),
 }));
@@ -58,6 +61,7 @@ jest.mock('./transformDefaultSelectOptionLabel', () => ({
 /* eslint-disable global-require */
 const mocked = {
   field: require('./transformField'),
+  granularConsentField: require('./transformGranularConsentFields'),
   button: require('./transformAuthenticatorButton'),
   inputPassword: require('./transformInputPassword'),
   phoneAuthenticator: require('./transformPhoneAuthenticator'),
@@ -76,6 +80,7 @@ const mocked = {
 describe('i18n Transformer Tests', () => {
   it('follows transformation steps', () => {
     jest.spyOn(mocked.field, 'transformField');
+    jest.spyOn(mocked.granularConsentField, 'transformGranularConsentFields');
     jest.spyOn(mocked.button, 'transformAuthenticatorButton');
     jest.spyOn(mocked.inputPassword, 'transformInputPassword');
     jest.spyOn(mocked.phoneAuthenticator, 'transformPhoneAuthenticator');
@@ -100,6 +105,7 @@ describe('i18n Transformer Tests', () => {
       .toHaveBeenCalledBefore(mocked.identifierHint.transformIdentifierHint);
 
     expect(mocked.field.transformField).toHaveBeenCalled();
+    expect(mocked.granularConsentField.transformGranularConsentFields).toHaveBeenCalled();
     expect(mocked.button.transformAuthenticatorButton).toHaveBeenCalled();
     expect(mocked.inputPassword.transformInputPassword).toHaveBeenCalled();
     expect(mocked.phoneAuthenticator.transformPhoneAuthenticator).toHaveBeenCalled();

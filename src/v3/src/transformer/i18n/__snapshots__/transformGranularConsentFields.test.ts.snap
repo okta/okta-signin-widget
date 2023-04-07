@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Granular Consent field transformer tests should update translations array with label and description for granular consent field elements 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "Allowing access will share",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "inputMeta": Object {
+            "desc": "This is a custom description for the custom field.",
+            "label": "Custom 1 label",
+            "mutable": true,
+            "name": "optedScopes.custom1",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "",
+            "name": "label",
+            "value": "Custom 1 label",
+          },
+          Object {
+            "i18nKey": "",
+            "name": "description",
+            "value": "This is a custom description for the custom field.",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "inputMeta": Object {
+            "label": "Custom 2 label",
+            "mutable": true,
+            "name": "optedScopes.custom2",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "",
+            "name": "label",
+            "value": "Custom 2 label",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "optedScopes.openid",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "",
+            "name": "label",
+            "value": "openid",
+          },
+          Object {
+            "i18nKey": "consent.scopes.openid.desc",
+            "name": "description",
+            "value": "consent.scopes.openid.desc",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "label": "Label for email field",
+            "mutable": false,
+            "name": "optedScopes.email",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.email.label",
+            "name": "label",
+            "value": "consent.scopes.email.label",
+          },
+          Object {
+            "i18nKey": "consent.scopes.email.desc",
+            "name": "description",
+            "value": "consent.scopes.email.desc",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "label": "Terms of Service",
+        },
+        "type": "Link",
+      },
+      Object {
+        "options": Object {
+          "label": "Privacy Policy",
+        },
+        "type": "Link",
+      },
+      Object {
+        "label": "Allow access",
+        "options": Object {
+          "type": "button",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "Cancel",
+        "options": Object {
+          "type": "button",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

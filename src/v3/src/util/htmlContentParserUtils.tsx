@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link } from '@okta/odyssey-react-mui';
+import { Link, Typography } from '@okta/odyssey-react-mui';
 import {
   attributesToProps,
   DOMNode,
@@ -42,6 +42,37 @@ export const getLinkReplacerFn = (
         >
           {domToReact(children, parserOptions)}
         </Link>
+      );
+    }
+    return undefined;
+  }
+);
+
+export const getHeadingReplacerFn = (
+  parserOptions: HTMLReactParserOptions,
+  targetElement: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6',
+  newElementLevel: 1 | 2 | 3 | 4 | 5 | 6,
+  visualLevel : 1 | 2 | 3 | 4 | 5 | 6,
+): HTMLReactParserOptions['replace'] => (
+  // eslint-disable-next-line react/display-name
+  (node: DOMNode) => {
+    const {
+      attribs = {},
+      children = [],
+      name = undefined,
+      type = undefined,
+    } = (node instanceof Element) ? node : {};
+    if (node instanceof Element && type === 'tag' && name === targetElement) {
+      const props = attributesToProps(attribs);
+      return (
+        <Typography
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...props}
+          component={`h${newElementLevel}`}
+          variant={`h${visualLevel}`}
+        >
+          {domToReact(children, parserOptions)}
+        </Typography>
       );
     }
     return undefined;

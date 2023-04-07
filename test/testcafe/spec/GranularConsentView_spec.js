@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 
 import ConsentPageObject from '../framework/page-objects/ConsentPageObject';
@@ -29,6 +29,7 @@ const requestLogger = RequestLogger(/consent/, {
 async function setup(t) {
   const consentPage = new ConsentPageObject(t);
   await consentPage.navigateToPage();
+  await consentPage.formExists();
   return consentPage;
 }
 
@@ -39,7 +40,7 @@ async function testRedirect(t) {
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 }
 
-fixture('GranularConsent');
+fixture('GranularConsent').meta('v3', true);
 
 test.requestHooks(requestLogger, consentGranularMock)('should show scopes list', async t => {
   const consentPage  = await setup(t);
@@ -139,7 +140,10 @@ test.requestHooks(requestLogger, consentGranularFailedMock)('should go to Termin
   await t.expect(url).eql('http://localhost:3000/idp/idx/consent');
 
   const terminalPageObject = new TerminalPageObject(t);
-  await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
+  // in v3 Go back and Signout links are the same (in v2 they vary based on class name)
+  if (!userVariables.v3) {
+    await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
+  }
   await t.expect(await terminalPageObject.signoutLinkExists()).ok();
   await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
   await t.expect(terminalPageObject.getErrorMessages().getTextContent()).contains('Reset password is not allowed at this time. Please contact support for assistance.');

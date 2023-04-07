@@ -138,7 +138,7 @@ export type TokenSearchValue = '$1' | '$2';
  * @prop {string} attributes.href - href value to apply to the target element
  */
 export type TokenReplacementValue = {
-  element: 'span' | 'a';
+  element: 'span' | 'a' | 'p' | 'h1' | 'h2';
   attributes?: {
     class?: string;
     href?: string;
@@ -443,6 +443,7 @@ export interface LinkElement extends UISchemaElement {
     label: string;
     href?: string;
     dataSe?: string;
+    target?: '_blank';
     onClick?: (widgetContext?: IWidgetContext) => unknown;
   };
 }
