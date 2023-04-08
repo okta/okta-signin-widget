@@ -202,7 +202,6 @@ describe('v2/utils/ChallengeViewUtil', function() {
     expect(expectedAddArg.className).toBe('chrome-dtc-content');
     expect(expectedAddArg.template.call()).toBe(hbs`
             <div class="spinner"></div>
-            {{i18n code="chrome_dtc.content" bundle="login"}}
           `.call());
     expect(testView.doChromeDTC).toHaveBeenCalledWith(deviceChallenge);
   });

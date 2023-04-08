@@ -153,7 +153,6 @@ export function doChallenge(view, fromView) {
       className: 'chrome-dtc-content',
       template: hbs`
             <div class="spinner"></div>
-            {{i18n code="chrome_dtc.content" bundle="login"}}
           `
     }));
     view.doChromeDTC(deviceChallenge);
