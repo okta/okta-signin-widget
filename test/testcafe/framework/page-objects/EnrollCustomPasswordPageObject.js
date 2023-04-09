@@ -1,6 +1,5 @@
+import { userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
-
-const REDIRECT_BUTTON = 'a.button.button-primary.button-wide';
 
 export default class EnrollCustomPasswordPageObject extends BasePageObject {
   constructor(t) {
@@ -8,10 +7,18 @@ export default class EnrollCustomPasswordPageObject extends BasePageObject {
   }
 
   async clickRedirectButton() {
-    await this.form.clickElement(REDIRECT_BUTTON);
+    await this.t.click(this.getRedirectButton());
   }
 
-  getRedirectButtonLabel() {
-    return this.getTextContent(REDIRECT_BUTTON);
+  getRedirectButton() {
+    if(userVariables.v3) {
+      return this.form.getButton('Go to Password reset website name');
+    }
+
+    return this.form.getLink('Go to Password reset website name');
+  }
+
+  getSkipLink() {
+    return this.form.getLink('Remind me later');
   }
 }
