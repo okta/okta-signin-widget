@@ -28,6 +28,8 @@ import {
   transformExpiredPasswordAuthenticator,
   transformExpiredPasswordWarningAuthenticator,
   transformPasswordChallenge,
+  transformReEnrollCustomPasswordExpiry,
+  transformReEnrollCustomPasswordExpiryWarning,
   transformResetPasswordAuthenticator,
 } from '../password';
 import {
@@ -326,6 +328,18 @@ const TransformerMap: {
   [IDX_STEP.REENROLL_AUTHENTICATOR_WARNING]: {
     [AUTHENTICATOR_KEY.PASSWORD]: {
       transform: transformExpiredPasswordWarningAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.REENROLL_CUSTOM_PASSWORD_EXPIRY]: {
+    [AUTHENTICATOR_KEY.PASSWORD]: {
+      transform: transformReEnrollCustomPasswordExpiry,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.REENROLL_CUSTOM_PASSWORD_EXPIRY_WARNING]: {
+    [AUTHENTICATOR_KEY.PASSWORD]: {
+      transform: transformReEnrollCustomPasswordExpiryWarning,
       buttonConfig: { showDefaultSubmit: false },
     },
   },
