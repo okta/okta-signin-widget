@@ -23,7 +23,7 @@ import { loc } from '../../../util';
 export const transformGranularConsent: IdxStepTransformer = ({ transaction, formBag }) => {
   const { uischema } = formBag;
   const {
-    // @ts-expect-error app is missing from rawIdxState type
+    // @ts-expect-error OKTA-598868 app is missing from rawIdxState type
     rawIdxState: { app },
     nextStep: { name: stepName } = {},
   } = transaction;

@@ -50,7 +50,7 @@ export const transformGranularConsentFields: TransformStepFnWithOptions = ({
       });
 
       const descrKey = `consent.scopes.${fieldName ?? prefixName}.desc`;
-      // @ts-expect-error desc is missing from Input type
+      // @ts-expect-error OKTA-598864 desc is missing from Input type
       const defaultDesc = fieldElement.options.inputMeta.desc;
       if (doesI18NKeyExist(descrKey) || typeof defaultDesc !== 'undefined') {
         addTranslation({

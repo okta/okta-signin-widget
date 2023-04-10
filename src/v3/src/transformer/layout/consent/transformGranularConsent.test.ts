@@ -27,7 +27,7 @@ describe('transformGranularConsent tests', () => {
     transaction = getStubTransactionWithNextStep();
     formBag = getStubFormBag();
 
-    // @ts-expect-error app is missing from rawIdxState type
+    // @ts-expect-error OKTA-598868 app is missing from rawIdxState type
     transaction.rawIdxState.app = {
       type: 'object',
       value: {
@@ -50,7 +50,7 @@ describe('transformGranularConsent tests', () => {
             required: true,
             visible: true,
             mutable: false,
-            // TODO: Input value type does not specify boolean as an option
+            // TODO: OKTA-598870 Input value type does not specify boolean as an option
             value: true,
           } as unknown as Input,
         },
@@ -61,13 +61,13 @@ describe('transformGranularConsent tests', () => {
           inputMeta: {
             name: 'optedScopes.custom1',
             label: 'Custom 1 label',
-            // TODO: Input type is missing desc as a property
+            // TODO: OKTA-598864 Input type is missing desc as a property
             desc: 'This is a custom description for the custom field.',
             type: 'boolean',
             required: true,
             visible: true,
             mutable: true,
-            // TODO: Input value type does not specify boolean as an option
+            // TODO: OKTA-598870 Input value type does not specify boolean as an option
             value: true,
           } as unknown as Input,
         },
@@ -78,13 +78,13 @@ describe('transformGranularConsent tests', () => {
           inputMeta: {
             name: 'optedScopes.custom2',
             label: 'Custom 2 label',
-            // TODO: Input type is missing desc as a property
+            // TODO: OKTA-598864 Input type is missing desc as a property
             desc: 'This is a custom description for the custom 2 field.',
             type: 'boolean',
             required: true,
             visible: true,
             mutable: true,
-            // TODO: Input value type does not specify boolean as an option
+            // TODO: OKTA-598870 Input value type does not specify boolean as an option
             value: true,
           } as unknown as Input,
         },
@@ -95,13 +95,13 @@ describe('transformGranularConsent tests', () => {
           inputMeta: {
             name: 'optedScopes.profile',
             label: 'Label for profile field',
-            // TODO: Input type is missing desc as a property
+            // TODO: OKTA-598864 Input type is missing desc as a property
             desc: 'This is a description for the profile field.',
             type: 'boolean',
             required: true,
             visible: true,
             mutable: false,
-            // TODO: Input value type does not specify boolean as an option
+            // TODO: OKTA-598870 Input value type does not specify boolean as an option
             value: true,
           } as unknown as Input,
         },
@@ -142,13 +142,13 @@ describe('transformGranularConsent tests', () => {
           inputMeta: {
             name: 'optedScopes.custom1',
             label: 'Custom 1 label',
-            // TODO: Input type is missing desc as a property
+            // TODO: OKTA-598864 Input type is missing desc as a property
             desc: 'This is a custom description for the custom field.',
             type: 'boolean',
             required: true,
             visible: true,
             mutable: true,
-            // TODO: Input value type does not specify boolean as an option
+            // TODO: OKTA-598870 Input value type does not specify boolean as an option
             value: true,
           } as unknown as Input,
         },
@@ -159,13 +159,13 @@ describe('transformGranularConsent tests', () => {
           inputMeta: {
             name: 'optedScopes.custom2',
             label: 'Custom 2 label',
-            // TODO: Input type is missing desc as a property
+            // TODO: OKTA-598864 Input type is missing desc as a property
             desc: 'This is a custom description for the custom 2 field.',
             type: 'boolean',
             required: true,
             visible: true,
             mutable: true,
-            // TODO: Input value type does not specify boolean as an option
+            // TODO: OKTA-598870 Input value type does not specify boolean as an option
             value: true,
           } as unknown as Input,
         },
@@ -193,7 +193,7 @@ describe('transformGranularConsent tests', () => {
   });
 
   it('should not add privacy policy or terms of service links when they do not exist in transaction', () => {
-    // @ts-expect-error app is missing from rawIdxState type
+    // @ts-expect-error OKTA-598868 app is missing from rawIdxState type
     transaction.rawIdxState.app = {
       type: 'object',
       value: {

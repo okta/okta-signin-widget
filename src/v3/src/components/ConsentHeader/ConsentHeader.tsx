@@ -101,7 +101,7 @@ const ConsentHeader: FunctionComponent = () => {
 
   const getHeaderContent = () => {
     if ([IDX_STEP.CONSENT_ADMIN, IDX_STEP.CONSENT_ENDUSER].includes(stepName)) {
-      // @ts-expect-error "authentication" missing from type
+      // @ts-expect-error OKTA-598777 authentication missing from IdxContext interface
       const { context: { authentication: { issuer } = {} } } = idxTransaction;
       const hasIssuer = stepName === IDX_STEP.CONSENT_ADMIN && typeof issuer?.uri !== 'undefined';
       const titleText = stepName === IDX_STEP.CONSENT_ADMIN
