@@ -17,18 +17,10 @@ import {
   DescriptionElement,
   IdxStepTransformer,
   LinkElement,
+  PasswordSettings,
   TitleElement,
 } from '../../types';
-import { loc } from '../../util';
-
-const getPasswordExpiryTitle = (daysToExpiry = -1): string => {
-  if (daysToExpiry > 0) {
-    return loc('password.expiring.title', 'login', [daysToExpiry]);
-  } if (daysToExpiry === 0) {
-    return loc('password.expiring.today', 'login');
-  }
-  return loc('password.expiring.soon', 'login');
-};
+import { getPasswordExpiryContentTitleAndParams, loc } from '../../util';
 
 export const transformReEnrollCustomPasswordExpiryWarning: IdxStepTransformer = ({
   transaction,
@@ -36,7 +28,6 @@ export const transformReEnrollCustomPasswordExpiryWarning: IdxStepTransformer = 
   widgetProps,
 }) => {
   const { uischema } = formBag;
-  const { brandName } = widgetProps;
   const {
     nextStep: {
       relatesTo,
@@ -46,25 +37,22 @@ export const transformReEnrollCustomPasswordExpiryWarning: IdxStepTransformer = 
       customExpiredPasswordURL,
     } = {},
   } = transaction;
-  const passwordPolicy = relatesTo?.value.settings;
-  // @ts-expect-error OKTA-598704 - daysToExpiry does not exist in IdxAuthenticator.settings type
-  const daysToExpiry = passwordPolicy?.daysToExpiry;
+  const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
+  const { daysToExpiry } = passwordSettings;
 
   const titleElement: TitleElement = {
     type: 'Title',
-    options: {
-      content: getPasswordExpiryTitle(daysToExpiry),
-    },
+    options: getPasswordExpiryContentTitleAndParams(daysToExpiry),
   };
 
-  const subtitle = brandName
-    ? loc('password.expiring.subtitle.specific', 'login', [brandName])
-    : loc('password.expiring.subtitle.generic', 'login');
+  const { brandName } = widgetProps;
   const subtitleElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     options: {
-      content: `${subtitle} ${loc('password.expired.custom.subtitle', 'login')}`,
+      content: brandName
+      ? loc('password.expiring.soon.subtitle.specific', 'login', [brandName])
+      : loc('password.expiring.soon.subtitle.generic', 'login')
     },
   };
 
@@ -91,8 +79,8 @@ export const transformReEnrollCustomPasswordExpiryWarning: IdxStepTransformer = 
       contentType: 'footer',
       options: {
         label: loc('password.expiring.later', 'login'),
-        isActionStep: true,
-        step: skipStep?.name,
+        isActionStep: false,
+        step: skipStep.name,
       },
     } as LinkElement);
   }

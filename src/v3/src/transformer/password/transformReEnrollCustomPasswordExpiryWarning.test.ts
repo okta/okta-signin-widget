@@ -16,6 +16,7 @@ import {
   ButtonType,
   DescriptionElement,
   LinkElement,
+  PasswordSettings,
   TitleElement,
   WidgetProps,
 } from 'src/types';
@@ -53,7 +54,7 @@ describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).contentType).toBe('subtitle');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('password.expiring.subtitle.generic' + ' ' + 'password.expired.custom.subtitle');
+      .toBe('password.expiring.soon.subtitle.generic');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).type)
       .toBe('Button');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
@@ -72,11 +73,11 @@ describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
       transaction.nextStep = {
         ...transaction.nextStep,
         relatesTo: {
+          // @ts-ignore missing unnecessary properties for test
           value: {
             settings: {
-              // @ts-expect-error OKTA-598704 - daysToExpiry does not exist in IdxAuthenticator.settings type
               daysToExpiry,
-            },
+            } as PasswordSettings,
           },
         },
       };
@@ -106,7 +107,7 @@ describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).contentType).toBe('subtitle');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe('password.expiring.subtitle.specific' + ' ' + 'password.expired.custom.subtitle');
+      .toBe('password.expiring.soon.subtitle.specific');
   });
 
   it('should add Remind me later link when skip remediation step is present', () => {
