@@ -74,9 +74,7 @@ export const transformReEnrollCustomPasswordExpiryWarning: IdxStepTransformer = 
     options: {
       type: ButtonType.BUTTON,
       step: transaction.nextStep!.name,
-      onClick: () => {
-        Util.redirect(customExpiredPasswordURL);
-      },
+      onClick: () => Util.redirect(customExpiredPasswordURL),
     },
   };
 
