@@ -39,7 +39,11 @@ describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
   });
 
   it('should add correct title, subtitle, and button with no brand name', () => {
-    const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
@@ -63,33 +67,41 @@ describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
     [0, 'password.expiring.today'],
     [4, 'password.expiring.title'],
     [null, 'password.expiring.soon'],
-  ].forEach(([ daysToExpiry, formTitle ]) => {
-    it('should add correct title with this many days to expiry: ' + daysToExpiry, () => {
+  ].forEach(([daysToExpiry, formTitle]) => {
+    it(`should add correct title with this many days to expiry: ${daysToExpiry}`, () => {
       transaction.nextStep = {
         ...transaction.nextStep,
         relatesTo: {
           value: {
             settings: {
               // @ts-expect-error OKTA-598704 - daysToExpiry does not exist in IdxAuthenticator.settings type
-              daysToExpiry
-            }
-          }
-        }
+              daysToExpiry,
+            },
+          },
+        },
       };
-      
-      const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({ transaction, formBag, widgetProps });
-  
+
+      const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+
       expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
         .toBe(formTitle);
     });
   });
-  
+
   it('should add correct subtitle with brandName present', () => {
     widgetProps = {
       brandName: 'test brand name',
-    }
-    const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({ transaction, formBag, widgetProps });
+    };
+    const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).contentType).toBe('subtitle');
@@ -99,7 +111,11 @@ describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
 
   it('should add Remind me later link when skip remediation step is present', () => {
     transaction.availableSteps = [{ name: 'skip' }];
-    const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[3].type).toBe('Link');

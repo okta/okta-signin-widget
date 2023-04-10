@@ -38,7 +38,11 @@ describe('ReEnroll Custom password expiry Transformer Tests', () => {
   });
 
   it('should add correct title, subtitle, and button', () => {
-    const updatedFormBag = transformReEnrollCustomPasswordExpiry({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformReEnrollCustomPasswordExpiry({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);

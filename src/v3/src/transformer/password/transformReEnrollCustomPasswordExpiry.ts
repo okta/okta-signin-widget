@@ -12,59 +12,60 @@
 
 import Util from '../../../../util/Util';
 import {
-    ButtonElement,
-    ButtonType,
-    DescriptionElement,
-    IdxStepTransformer,
-    TitleElement,
-  } from '../../types';
-  import { loc } from '../../util';
-  
-  export const transformReEnrollCustomPasswordExpiry: IdxStepTransformer = ({
-    transaction,
-    formBag,
-  }) => {
-    const { uischema } = formBag;
-    const { nextStep: {
-      // @ts-expect-error OKTA-598703 - customExpiredPasswordName does not exist in NextStep type
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  IdxStepTransformer,
+  TitleElement,
+} from '../../types';
+import { loc } from '../../util';
+
+export const transformReEnrollCustomPasswordExpiry: IdxStepTransformer = ({
+  transaction,
+  formBag,
+}) => {
+  const { uischema } = formBag;
+  const {
+    nextStep: {
+    // @ts-expect-error OKTA-598703 - customExpiredPasswordName does not exist in NextStep type
       customExpiredPasswordName,
       // @ts-expect-error OKTA-598703 - customExpiredPasswordURL does not exist in NextStep type
       customExpiredPasswordURL,
-    } } = transaction;
+    },
+  } = transaction;
 
-    const titleElement: TitleElement = {
-      type: 'Title',
-      options: {
-        content: loc('password.expired.title.generic', 'login'),
-      },
-    };
-
-    const subtitleElement: DescriptionElement = {
-      type: 'Description',
-      contentType: 'subtitle',
-      options: {
-        content: loc('password.expired.custom.subtitle', 'login'),
-      },
-    };
-  
-    const submitBtnElement: ButtonElement = {
-      type: 'Button',
-      label: loc('password.expired.custom.submit', 'login', [customExpiredPasswordName]),
-      options: {
-        type: ButtonType.BUTTON,
-        step: transaction.nextStep!.name,
-        onClick: () => {
-          Util.redirect(customExpiredPasswordURL);
-        },
-      },
-    };
-  
-    uischema.elements = [
-      titleElement,
-      subtitleElement,
-      submitBtnElement
-    ];
-  
-    return formBag;
+  const titleElement: TitleElement = {
+    type: 'Title',
+    options: {
+      content: loc('password.expired.title.generic', 'login'),
+    },
   };
-  
+
+  const subtitleElement: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      content: loc('password.expired.custom.subtitle', 'login'),
+    },
+  };
+
+  const submitBtnElement: ButtonElement = {
+    type: 'Button',
+    label: loc('password.expired.custom.submit', 'login', [customExpiredPasswordName]),
+    options: {
+      type: ButtonType.BUTTON,
+      step: transaction.nextStep!.name,
+      onClick: () => {
+        Util.redirect(customExpiredPasswordURL);
+      },
+    },
+  };
+
+  uischema.elements = [
+    titleElement,
+    subtitleElement,
+    submitBtnElement,
+  ];
+
+  return formBag;
+};

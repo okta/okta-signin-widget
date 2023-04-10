@@ -12,93 +12,92 @@
 
 import Util from '../../../../util/Util';
 import {
-    ButtonElement,
-    ButtonType,
-    DescriptionElement,
-    IdxStepTransformer,
-    LinkElement,
-    TitleElement,
-  } from '../../types';
-  import { loc } from '../../util';
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  IdxStepTransformer,
+  LinkElement,
+  TitleElement,
+} from '../../types';
+import { loc } from '../../util';
 
-  const getPasswordExpiryTitle = (daysToExpiry = -1): string => {
-    if (daysToExpiry > 0) {
-      return loc('password.expiring.title', 'login', [daysToExpiry]);
-    } else if (daysToExpiry === 0) {
-      return loc('password.expiring.today', 'login');
-    } else {
-      return loc('password.expiring.soon', 'login');
-    }
+const getPasswordExpiryTitle = (daysToExpiry = -1): string => {
+  if (daysToExpiry > 0) {
+    return loc('password.expiring.title', 'login', [daysToExpiry]);
+  } if (daysToExpiry === 0) {
+    return loc('password.expiring.today', 'login');
+  }
+  return loc('password.expiring.soon', 'login');
+};
+
+export const transformReEnrollCustomPasswordExpiryWarning: IdxStepTransformer = ({
+  transaction,
+  formBag,
+  widgetProps,
+}) => {
+  const { uischema } = formBag;
+  const { brandName } = widgetProps;
+  const {
+    nextStep: {
+      relatesTo,
+      // @ts-expect-error customExpiredPasswordName does not exist in NextStep type
+      customExpiredPasswordName,
+      // @ts-expect-error customExpiredPasswordURL does not exist in NextStep type
+      customExpiredPasswordURL,
+    } = {},
+  } = transaction;
+  const passwordPolicy = relatesTo?.value.settings;
+  // @ts-expect-error OKTA-598704 - daysToExpiry does not exist in IdxAuthenticator.settings type
+  const daysToExpiry = passwordPolicy?.daysToExpiry;
+
+  const titleElement: TitleElement = {
+    type: 'Title',
+    options: {
+      content: getPasswordExpiryTitle(daysToExpiry),
+    },
   };
-  
-  export const transformReEnrollCustomPasswordExpiryWarning: IdxStepTransformer = ({
-    transaction,
-    formBag,
-    widgetProps,
-  }) => {
-    const { uischema } = formBag;
-    const { brandName } = widgetProps;
-    const { nextStep: {
-        relatesTo,
-        // @ts-expect-error customExpiredPasswordName does not exist in NextStep type
-        customExpiredPasswordName,
-        // @ts-expect-error customExpiredPasswordURL does not exist in NextStep type
-        customExpiredPasswordURL,
-      } = {}
-    } = transaction;
-    const passwordPolicy = relatesTo?.value.settings;
-    // @ts-expect-error OKTA-598704 - daysToExpiry does not exist in IdxAuthenticator.settings type
-    const daysToExpiry = passwordPolicy?.daysToExpiry;
 
-    const titleElement: TitleElement = {
-      type: 'Title',
-      options: {
-        content: getPasswordExpiryTitle(daysToExpiry),
-      },
-    };
-
-    const subtitle = brandName
-      ? loc('password.expiring.subtitle.specific', 'login', [brandName])
-      : loc('password.expiring.subtitle.generic', 'login');
-    const subtitleElement: DescriptionElement = {
-      type: 'Description',
-      contentType: 'subtitle',
-      options: {
-        content: subtitle + ' ' + loc('password.expired.custom.subtitle', 'login'),
-      },
-    };
-  
-    const submitBtnElement: ButtonElement = {
-      type: 'Button',
-      label: loc('password.expired.custom.submit', 'login', [customExpiredPasswordName]),
-      options: {
-        type: ButtonType.BUTTON,
-        step: transaction.nextStep!.name,
-        onClick: () => {
-          Util.redirect(customExpiredPasswordURL);
-        },
-      },
-    };
-  
-    uischema.elements = [
-      titleElement,
-      subtitleElement,
-      submitBtnElement,
-    ];
-
-    const skipStep = transaction.availableSteps?.find(({ name }) => name === 'skip');
-    if(typeof skipStep !== 'undefined') {
-      uischema.elements.push({
-        type: 'Link',
-        contentType: 'footer',
-        options: {
-          label: loc('password.expiring.later', 'login'),
-          isActionStep: true,
-          step: skipStep?.name,
-        },
-      } as LinkElement)
-    }
-  
-    return formBag;
+  const subtitle = brandName
+    ? loc('password.expiring.subtitle.specific', 'login', [brandName])
+    : loc('password.expiring.subtitle.generic', 'login');
+  const subtitleElement: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      content: `${subtitle} ${loc('password.expired.custom.subtitle', 'login')}`,
+    },
   };
-  
+
+  const submitBtnElement: ButtonElement = {
+    type: 'Button',
+    label: loc('password.expired.custom.submit', 'login', [customExpiredPasswordName]),
+    options: {
+      type: ButtonType.BUTTON,
+      step: transaction.nextStep!.name,
+      onClick: () => {
+        Util.redirect(customExpiredPasswordURL);
+      },
+    },
+  };
+
+  uischema.elements = [
+    titleElement,
+    subtitleElement,
+    submitBtnElement,
+  ];
+
+  const skipStep = transaction.availableSteps?.find(({ name }) => name === 'skip');
+  if (typeof skipStep !== 'undefined') {
+    uischema.elements.push({
+      type: 'Link',
+      contentType: 'footer',
+      options: {
+        label: loc('password.expiring.later', 'login'),
+        isActionStep: true,
+        step: skipStep?.name,
+      },
+    } as LinkElement);
+  }
+
+  return formBag;
+};
