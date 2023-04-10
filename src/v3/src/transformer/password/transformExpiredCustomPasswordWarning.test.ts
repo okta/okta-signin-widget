@@ -21,7 +21,7 @@ import {
   WidgetProps,
 } from 'src/types';
 
-import { transformReEnrollCustomPasswordExpiryWarning } from './transformReEnrollCustomPasswordExpiryWarning';
+import { transformExpiredCustomPasswordWarning } from './transformExpiredCustomPasswordWarning';
 
 describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -40,7 +40,7 @@ describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
   });
 
   it('should add correct title, subtitle, and button with no brand name', () => {
-    const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({
+    const updatedFormBag = transformExpiredCustomPasswordWarning({
       transaction,
       formBag,
       widgetProps,
@@ -63,42 +63,40 @@ describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
       .toBe('password.expired.custom.submit');
   });
 
-  // Days to expiry, correct title
-  [
-    [0, 'password.expiring.today'],
-    [4, 'password.expiring.title'],
-    [null, 'password.expiring.soon'],
-  ].forEach(([daysToExpiry, formTitle]) => {
-    it(`should add correct title with this many days to expiry: ${daysToExpiry}`, () => {
-      transaction.nextStep = {
-        ...transaction.nextStep,
-        relatesTo: {
-          // @ts-ignore missing unnecessary properties for test
-          value: {
-            settings: {
-              daysToExpiry,
-            } as PasswordSettings,
-          },
+  it.each`
+    daysToExpiry  | expectedTitle
+    ${0}          | ${'password.expiring.today'}
+    ${4}          | ${'password.expiring.title'}
+    ${null}       | ${'password.expiring.soon'}
+  `('should add correct title with this many days to expiry: $daysToExpiry', ({daysToExpiry, expectedTitle}) => {
+    transaction.nextStep = {
+      ...transaction.nextStep,
+      relatesTo: {
+        // @ts-ignore missing unnecessary properties for test
+        value: {
+          settings: {
+            daysToExpiry,
+          } as PasswordSettings,
         },
-      };
+      },
+    };
 
-      const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({
-        transaction,
-        formBag,
-        widgetProps,
-      });
-
-      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-      expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
-        .toBe(formTitle);
+    const updatedFormBag = transformExpiredCustomPasswordWarning({
+      transaction,
+      formBag,
+      widgetProps,
     });
+
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe(expectedTitle);
   });
 
   it('should add correct subtitle with brandName present', () => {
     widgetProps = {
       brandName: 'test brand name',
     };
-    const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({
+    const updatedFormBag = transformExpiredCustomPasswordWarning({
       transaction,
       formBag,
       widgetProps,
@@ -112,7 +110,7 @@ describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
 
   it('should add Remind me later link when skip remediation step is present', () => {
     transaction.availableSteps = [{ name: 'skip' }];
-    const updatedFormBag = transformReEnrollCustomPasswordExpiryWarning({
+    const updatedFormBag = transformExpiredCustomPasswordWarning({
       transaction,
       formBag,
       widgetProps,

@@ -16,43 +16,36 @@ import {
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
-  LinkElement,
-  PasswordSettings,
   TitleElement,
 } from '../../types';
-import { getPasswordExpiryContentTitleAndParams, loc } from '../../util';
+import { loc } from '../../util';
 
-export const transformReEnrollCustomPasswordExpiryWarning: IdxStepTransformer = ({
+export const transformExpiredCustomPassword: IdxStepTransformer = ({
   transaction,
   formBag,
-  widgetProps,
 }) => {
   const { uischema } = formBag;
   const {
     nextStep: {
-      relatesTo,
-      // @ts-expect-error customExpiredPasswordName does not exist in NextStep type
+    // @ts-expect-error OKTA-598703 - customExpiredPasswordName does not exist in NextStep type
       customExpiredPasswordName,
-      // @ts-expect-error customExpiredPasswordURL does not exist in NextStep type
+      // @ts-expect-error OKTA-598703 - customExpiredPasswordURL does not exist in NextStep type
       customExpiredPasswordURL,
-    } = {},
+    },
   } = transaction;
-  const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
-  const { daysToExpiry } = passwordSettings;
 
   const titleElement: TitleElement = {
     type: 'Title',
-    options: getPasswordExpiryContentTitleAndParams(daysToExpiry),
+    options: {
+      content: loc('password.expired.title.generic', 'login'),
+    },
   };
 
-  const { brandName } = widgetProps;
   const subtitleElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     options: {
-      content: brandName
-        ? loc('password.expiring.soon.subtitle.specific', 'login', [brandName])
-        : loc('password.expiring.soon.subtitle.generic', 'login'),
+      content: loc('password.expired.custom.subtitle', 'login'),
     },
   };
 
@@ -71,19 +64,6 @@ export const transformReEnrollCustomPasswordExpiryWarning: IdxStepTransformer = 
     subtitleElement,
     submitBtnElement,
   ];
-
-  const skipStep = transaction.availableSteps?.find(({ name }) => name === 'skip');
-  if (typeof skipStep !== 'undefined') {
-    uischema.elements.push({
-      type: 'Link',
-      contentType: 'footer',
-      options: {
-        label: loc('password.expiring.later', 'login'),
-        isActionStep: false,
-        step: skipStep.name,
-      },
-    } as LinkElement);
-  }
 
   return formBag;
 };

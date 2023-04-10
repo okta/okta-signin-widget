@@ -19,7 +19,7 @@ import {
   WidgetProps,
 } from 'src/types';
 
-import { transformReEnrollCustomPasswordExpiry } from './transformReEnrollCustomPasswordExpiry';
+import { transformExpiredCustomPassword } from './transformExpiredCustomPassword';
 
 describe('ReEnroll Custom password expiry Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -38,7 +38,7 @@ describe('ReEnroll Custom password expiry Transformer Tests', () => {
   });
 
   it('should add correct title, subtitle, and button', () => {
-    const updatedFormBag = transformReEnrollCustomPasswordExpiry({
+    const updatedFormBag = transformExpiredCustomPassword({
       transaction,
       formBag,
       widgetProps,

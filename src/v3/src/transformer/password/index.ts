@@ -15,6 +15,6 @@ export * from './transformEnrollPasswordAuthenticator';
 export * from './transformExpiredPasswordAuthenticator';
 export * from './transformExpiredPasswordWarningAuthenticator';
 export * from './transformPasswordChallenge';
-export * from './transformReEnrollCustomPasswordExpiry';
-export * from './transformReEnrollCustomPasswordExpiryWarning';
+export * from './transformExpiredCustomPassword';
+export * from './transformExpiredCustomPasswordWarning';
 export * from './transformResetPasswordAuthenticator';
