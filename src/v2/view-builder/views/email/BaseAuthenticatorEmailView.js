@@ -38,14 +38,22 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     },
     initialize() {
       BaseFormWithPolling.prototype.initialize.apply(this, arguments);
-
-      this.add(ResendView, {
-        selector: '.o-form-error-container',
-        options: {
-          resendEmailAction: this.resendEmailAction,
-        }
-      });
       this.startPolling();
+    },
+
+    postRender() {
+      BaseForm.prototype.postRender.apply(this, arguments);
+
+      // Add 1 instance of resend view
+      if (!this.$el.find('.resend-email-view').length) {
+        this.add(ResendView, {
+          selector: '.o-form-error-container',
+          prepend: true,
+          options: {
+            resendEmailAction: this.resendEmailAction,
+          }
+        });
+      }
     },
 
     saveForm() {
