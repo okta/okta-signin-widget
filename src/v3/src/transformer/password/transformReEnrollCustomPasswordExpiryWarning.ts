@@ -51,8 +51,8 @@ export const transformReEnrollCustomPasswordExpiryWarning: IdxStepTransformer = 
     contentType: 'subtitle',
     options: {
       content: brandName
-      ? loc('password.expiring.soon.subtitle.specific', 'login', [brandName])
-      : loc('password.expiring.soon.subtitle.generic', 'login')
+        ? loc('password.expiring.soon.subtitle.specific', 'login', [brandName])
+        : loc('password.expiring.soon.subtitle.generic', 'login'),
     },
   };
 

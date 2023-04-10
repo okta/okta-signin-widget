@@ -25,6 +25,7 @@ export * from './getCurrentAuthenticator';
 export * from './getElementKey';
 export * from './getImmutableData';
 export * from './getLanguageDirection';
+export * from './getPasswordExpiryContentTitleAndParams';
 export * from './getTranslation';
 export * from './getValidationMessages';
 export * from './htmlContentParserUtils';
@@ -43,4 +44,3 @@ export * from './setUrlQueryParams';
 export * from './shouldShowCancelLink';
 export * from './toNestedObject';
 export * from './webauthnUtils';
-export * from './getPasswordExpiryContentTitleAndParams'

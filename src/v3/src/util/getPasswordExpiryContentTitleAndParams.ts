@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { TitleElement } from "../types";
-import { loc } from "./locUtil";
+import { TitleElement } from '../types';
+import { loc } from './locUtil';
 
-export const getPasswordExpiryContentTitleAndParams = (daysToExpiry: number = -1): TitleElement['options'] => {
+export const getPasswordExpiryContentTitleAndParams = (daysToExpiry = -1): TitleElement['options'] => {
   if (daysToExpiry > 0) {
     return { content: loc('password.expiring.title', 'login', [`${daysToExpiry}`]) };
   }
