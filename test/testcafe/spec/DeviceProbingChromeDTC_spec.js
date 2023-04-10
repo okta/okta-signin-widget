@@ -104,7 +104,7 @@ async function assertChromeDTCView(t) {
   await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().length).eql(0);
   await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
   let iframe = await deviceChallengePollPageObject.getIframe();
-  let attributes = await deviceChallengePollPageObject.getIframeAttributes('#chrome-dtc-container');
+  let attributes = await deviceChallengePollPageObject.getChromeDTCIframeAttributes();
   await t.expect(attributes.src).eql('http://localhost:3000/idp/device/dinkm9q0dV4tsEdkz0g4/challenge?transactionHandle=dit2ChhQiZ7xRpQfED8H9hXnw1NrKcE8VCq');
   await t.expect(iframe.visible).eql(false);
 }
