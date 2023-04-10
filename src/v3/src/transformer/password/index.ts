@@ -12,9 +12,9 @@
 
 export * from './passwordSettingsUtils';
 export * from './transformEnrollPasswordAuthenticator';
+export * from './transformExpiredCustomPassword';
+export * from './transformExpiredCustomPasswordWarning';
 export * from './transformExpiredPasswordAuthenticator';
 export * from './transformExpiredPasswordWarningAuthenticator';
 export * from './transformPasswordChallenge';
-export * from './transformExpiredCustomPassword';
-export * from './transformExpiredCustomPasswordWarning';
 export * from './transformResetPasswordAuthenticator';

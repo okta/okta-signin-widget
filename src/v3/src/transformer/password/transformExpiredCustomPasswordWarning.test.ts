@@ -68,7 +68,7 @@ describe('ReEnroll Custom password expiry warning Transformer Tests', () => {
     ${0}          | ${'password.expiring.today'}
     ${4}          | ${'password.expiring.title'}
     ${null}       | ${'password.expiring.soon'}
-  `('should add correct title with this many days to expiry: $daysToExpiry', ({daysToExpiry, expectedTitle}) => {
+  `('should add correct title with this many days to expiry: $daysToExpiry', ({ daysToExpiry, expectedTitle }) => {
     transaction.nextStep = {
       ...transaction.nextStep,
       relatesTo: {
