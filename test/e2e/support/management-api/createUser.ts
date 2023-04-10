@@ -18,7 +18,7 @@ import { UserCredentials } from './createCredentials';
 
 const userGroup = 'Basic Auth Web';
 
-export default async (credentials: UserCredentials, assignToGroups = []): Promise<User> => {
+export default async (credentials: UserCredentials, assignToGroups = [], activate = true): Promise<User> => {
   const config = getConfig();
   const oktaClient = new Client({
     orgUrl: config.orgUrl,
@@ -45,8 +45,14 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
         password: { value: credentials.password }
       }
     }, {
-      activate: true
+      activate: activate
     });
+
+    if (!activate) {
+      await oktaClient.activateUser(user.id, {
+        sendEmail: true
+      });
+    }
 
     // Dump user ID to help with local debugging
     if (process.env.LOCAL_MONOLITH) {
