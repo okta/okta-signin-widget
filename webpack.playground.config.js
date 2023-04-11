@@ -13,6 +13,7 @@ const WIDGET_RC = '.widgetrc';
 
 // run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';
+const staticDirs = [PLAYGROUND, TARGET];
 
 if (!fs.existsSync(WIDGET_RC_JS) && fs.existsSync(WIDGET_RC)) {
   console.error('============================================');
@@ -81,14 +82,9 @@ module.exports = {
   },
   devServer: {
     host: HOST,
+    watchFiles: [...staticDirs],
     static: [
-      PLAYGROUND,
-      TARGET,
-      {
-        staticOptions: {
-          watchContentBase: true
-        }
-      }
+      ...staticDirs
     ],
     historyApiFallback: true,
     headers,

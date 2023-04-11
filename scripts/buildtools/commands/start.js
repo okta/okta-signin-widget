@@ -31,7 +31,7 @@ exports.handler = async (argv) => {
 
   if (argv.watch) {
     // Watch mode requires we run tasks concurrently
-    cmd = `concurrently "${buildDevCmd}:watch ${mock}" "grunt watch:sass" "${startDevServer}" --kill-others`;
+    cmd = `concurrently "${buildDevCmd}:watch ${mock}" "${startDevServer}" --kill-others`;
   } else {
     cmd = `${buildDevCmd} ${mock} && ${startDevServer}`;
   }
