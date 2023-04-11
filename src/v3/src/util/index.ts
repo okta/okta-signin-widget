@@ -25,6 +25,7 @@ export * from './getCurrentAuthenticator';
 export * from './getElementKey';
 export * from './getImmutableData';
 export * from './getLanguageDirection';
+export * from './getPasswordExpiryContentTitleAndParams';
 export * from './getTranslation';
 export * from './getValidationMessages';
 export * from './htmlContentParserUtils';

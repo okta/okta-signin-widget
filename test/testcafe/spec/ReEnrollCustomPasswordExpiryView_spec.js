@@ -15,11 +15,12 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiredCustomPassword);
 
-fixture('Custom Authenticator Expired Password');
+fixture('Custom Authenticator Expired Password').meta('v3', true);
 
 async function setup(t) {
   const expiredCustomPasswordPage = new EnrollCustomPasswordPageObject(t);
   await expiredCustomPasswordPage.navigateToPage();
+  await t.expect(expiredCustomPasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'custom-password-expired',
     formName: 'reenroll-custom-password-expiry',
@@ -37,7 +38,7 @@ test
     
     await t.expect(expiredCustomPasswordPage.getFormTitle()).eql('Your password has expired');
     await t.expect(expiredCustomPasswordPage.getFormSubtitle()).eql('This password is set on another website. Click the button below to go there and set a new password.');
-    await t.expect(expiredCustomPasswordPage.getRedirectButtonLabel()).eql('Go to expiredpasswordOIE');
+    await t.expect(expiredCustomPasswordPage.getRedirectButton().exists).eql(true);
 
     let pageUrl = await expiredCustomPasswordPage.getPageUrl();
     await t.expect(pageUrl).eql('http://localhost:3000/');

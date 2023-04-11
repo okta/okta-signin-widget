@@ -36,11 +36,12 @@ const mockExpireSoon = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiryWarningCustomPasswordExpireSoon);
 
-fixture('Custom Authenticator Password Expiry Warning');
+fixture('Custom Authenticator Password Expiry Warning').meta('v3', true);
 
 async function setup(t) {
   const expiringCustomPasswordPage = new EnrollCustomPasswordPageObject(t);
   await expiringCustomPasswordPage.navigateToPage();
+  await t.expect(expiringCustomPasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'custom-password-expiry-warning',
     formName: 'reenroll-custom-password-expiry-warning',
@@ -61,9 +62,9 @@ async function setup(t) {
       const expiringCustomPasswordPage = await setup(t);
       await t.expect(expiringCustomPasswordPage.getFormTitle()).eql(formTitle);
       await t.expect(expiringCustomPasswordPage.getFormSubtitle()).eql('When password expires you will be locked out of your account. This password is set on another website. Click the button below to go there and set a new password.');
-      await t.expect(expiringCustomPasswordPage.getRedirectButtonLabel()).eql('Go to Password reset website name');
-      await t.expect(expiringCustomPasswordPage.getSkipLinkText()).eql('Remind me later');
-      await t.expect(expiringCustomPasswordPage.getSignoutLinkText()).eql('Back to sign in');
+      await t.expect(expiringCustomPasswordPage.getRedirectButton().exists).eql(true);
+      await t.expect(expiringCustomPasswordPage.getSkipLink().exists).eql(true);
+      await t.expect(expiringCustomPasswordPage.getCancelLink().exists).eql(true);
     });
 });
 

@@ -10,11 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './passwordSettingsUtils';
-export * from './transformEnrollPasswordAuthenticator';
-export * from './transformExpiredCustomPassword';
-export * from './transformExpiredCustomPasswordWarning';
-export * from './transformExpiredPasswordAuthenticator';
-export * from './transformExpiredPasswordWarningAuthenticator';
-export * from './transformPasswordChallenge';
-export * from './transformResetPasswordAuthenticator';
+import { TitleElement } from '../types';
+import { loc } from './locUtil';
+
+export const getPasswordExpiryContentTitleAndParams = (daysToExpiry = -1): TitleElement['options'] => {
+  if (daysToExpiry > 0) {
+    return { content: loc('password.expiring.title', 'login', [`${daysToExpiry}`]) };
+  }
+
+  if (daysToExpiry === 0) {
+    return { content: loc('password.expiring.today', 'login') };
+  }
+
+  return { content: loc('password.expiring.soon', 'login') };
+};
