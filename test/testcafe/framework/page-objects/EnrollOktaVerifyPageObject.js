@@ -61,6 +61,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   async clickSwitchChannel() {
     if (userVariables.v3) {
       const switchLink = this.form.getLink('try a different way');
+      // const switchLink = this.form.getButton('Setup without scanning a QR code.');
       await this.t.click(switchLink);
     }
     await this.form.clickElement('.switch-channel-link');

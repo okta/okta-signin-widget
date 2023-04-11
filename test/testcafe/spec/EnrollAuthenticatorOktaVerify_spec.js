@@ -267,7 +267,8 @@ test.requestHooks(logger, enrollViaQRcodeMocks)('should be able to enroll via qr
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test.only.requestHooks(mock)('should render switch channel view when Can\'t scan is clicked in qr code flow', async t => {
+// javascript error - v3
+test.requestHooks(mock)('should render switch channel view when Can\'t scan is clicked in qr code flow', async t => {
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   // await t.expect(enrollOktaVerifyPage.getSwitchChannelText()).eql('Can\'t scan?');
