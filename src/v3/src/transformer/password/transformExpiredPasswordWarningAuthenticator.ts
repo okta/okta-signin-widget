@@ -20,20 +20,8 @@ import {
   PasswordSettings,
   TitleElement,
 } from '../../types';
-import { loc } from '../../util';
+import { getPasswordExpiryContentTitleAndParams, loc } from '../../util';
 import { transformEnrollPasswordAuthenticator } from './transformEnrollPasswordAuthenticator';
-
-const getContentTitleAndParams = (daysToExpiry: number): TitleElement['options'] => {
-  if (daysToExpiry > 0) {
-    return { content: loc('password.expiring.title', 'login', [`${daysToExpiry}`]) };
-  }
-
-  if (daysToExpiry === 0) {
-    return { content: loc('password.expiring.today', 'login') };
-  }
-
-  return { content: loc('password.expiring.soon', 'login') };
-};
 
 export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = ({
   transaction,
@@ -50,8 +38,7 @@ export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = 
 
   const titleElement: TitleElement = {
     type: 'Title',
-    // daysToExpiry should be set when reaching here, in case it isnt, we use -1 to display 'soon'
-    options: getContentTitleAndParams(daysToExpiry ?? -1),
+    options: getPasswordExpiryContentTitleAndParams(daysToExpiry),
   };
 
   // Replace default (enrollment) title with reset title
