@@ -25,11 +25,11 @@ import {
 } from '../oktaVerify';
 import {
   transformEnrollPasswordAuthenticator,
+  transformExpiredCustomPassword,
+  transformExpiredCustomPasswordWarning,
   transformExpiredPasswordAuthenticator,
   transformExpiredPasswordWarningAuthenticator,
   transformPasswordChallenge,
-  transformExpiredCustomPassword,
-  transformExpiredCustomPasswordWarning,
   transformResetPasswordAuthenticator,
 } from '../password';
 import {
