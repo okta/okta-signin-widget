@@ -46,9 +46,6 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   async clickResendNumberChallenge() {
-    if (userVariables.v3) {
-      return this.form.clickElement('a');
-    }
     return this.form.clickElement(RESEND_NUMBER_CHALLENGE_BUTTON);
   }
 
@@ -66,7 +63,7 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
 
   getWarningBox() {
     if (userVariables.v3) {
-      return this.form.getElement(INFOBOX_WARNING_V3);
+      return this.form.getAlertBox();
     }
     return this.form.getElement(FORM_INFOBOX_WARNING);
   }
