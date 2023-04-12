@@ -14,11 +14,20 @@ const logger = RequestLogger(/challenge|challenge\/poll|authenticators\/poll/,
   }
 );
 
+let shouldProceed = false;
 const pushSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(success)
+  .respond((req, res) => {
+    res.statusCode = '200';
+    res.headers['content-type'] = 'application/json';
+    if (!userVariables.v3 || shouldProceed) {
+      res.setBody(success);
+    } else {
+      res.setBody(pushPoll);
+    }
+  })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
 
@@ -143,7 +152,8 @@ test
     if (!userVariables.v3) {
       await t.expect(logger.count(() => true)).eql(1);
     }
-    const { request: {
+    const {
+      request: {
         body: answerRequestBodyString,
         method: answerRequestMethod,
         url: answerRequestUrl,
@@ -168,16 +178,20 @@ test
   
 test
   .requestHooks(logger, pushSuccessMock)('challenge okta verify push request', async t => {
-    const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
-    await challengeOktaVerifyPushPageObject.navigateToPage();
-    if (!userVariables.v3) {
-      await checkA11y(t);
+    await setup(t);
+    await checkA11y(t);
+    if (userVariables.v3) {
+      shouldProceed = true;
+      // wait for additional poll
+      await t.wait(4000);
     }
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
-    await t.expect(logger.count(() => true)).eql(1);
+    // additional poll request happens in v3 because of OKTA-587189
+    const expectedLogCount = userVariables.v3 ? 2 : 1;
+    await t.expect(logger.count(() => true)).eql(expectedLogCount);
 
     const { request: {
       body: answerRequestBodyString,
@@ -191,6 +205,7 @@ test
     });
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
+    shouldProceed = false;
   });
 
 test
