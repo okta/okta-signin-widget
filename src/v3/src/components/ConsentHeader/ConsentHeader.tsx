@@ -122,7 +122,7 @@ const ConsentHeader: FunctionComponent = () => {
               {appName}
               &nbsp;
             </Typography>
-            <Typography>{titleText}</Typography>
+            <Typography paragraph>{titleText}</Typography>
           </Box>
           {hasIssuer && <Typography className="issuer no-translate">{issuer.uri}</Typography>}
         </Fragment>

@@ -48,7 +48,7 @@ import {
 } from '../selectAuthenticator';
 import { transformWebAuthNAuthenticator } from '../webauthn';
 import { transformYubikeyOtpAuthenticator } from '../yubikey';
-import { transformGranularConsent } from './consent';
+import { transformEnduserConsent, transformGranularConsent } from './consent';
 import { transformDuoAuthenticator } from './duo';
 import {
   transformEmailAuthenticatorEnroll,
@@ -135,6 +135,12 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformAppleSsoExtension,
       buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.CONSENT_ENDUSER]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformEnduserConsent,
+      buttonConfig: { showDefaultSubmit: false, showDefaultCancel: false },
     },
   },
   [IDX_STEP.CONSENT_GRANULAR]: {

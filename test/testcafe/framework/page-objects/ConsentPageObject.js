@@ -8,7 +8,7 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   clickAllowButton() {
-    return this.form.clickSaveButtonAsInput();
+    return this.form.clickSaveButton('Allow Access');
   }
 
   clickDontAllowButton() {
@@ -27,11 +27,18 @@ export default class ConsentPageObject extends BasePageObject {
     return this.form.getInnerTexts('.scope-item-text');
   }
 
+  hasScopeText(label) {
+    return this.form.getByText(label).exists;
+  }
+
   getScopeGroupName() {
     return this.form.getElement('.scope-group--header').innerText;
   }
 
   async getHeaderTitleText() {
+    if (userVariables.v3) {
+      return Selector('span.title-text > p').innerText;
+    }
     const parent = Selector('.consent-title .title-text');
     // Don't want the <b> nor its content (appName)
     const textChildren = parent.find((node, index, originNode) => {

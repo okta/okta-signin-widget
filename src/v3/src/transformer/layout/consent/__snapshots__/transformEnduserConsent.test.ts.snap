@@ -1,0 +1,272 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformEnduserConsent tests should add customized scope elements to formbag 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "noMargin": true,
+        "noTranslate": true,
+        "options": Object {
+          "content": "View your custom info",
+          "dataSe": "scope-item-text",
+          "tooltip": "This will allow the app to view your custom info",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": true,
+        "noTranslate": true,
+        "options": Object {
+          "content": "View your custom 2",
+          "dataSe": "scope-item-text",
+          "tooltip": "This will allow the app to view your custom 2 info",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "consent.required.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "dataSe": "terms-of-service",
+          "href": "https://okta1.com/tos",
+          "label": "consent.required.termsOfService",
+          "step": "",
+          "target": "_blank",
+        },
+        "type": "Link",
+      },
+      Object {
+        "options": Object {
+          "dataSe": "privacy-policy",
+          "href": "https://okta1.com/privacypolicy",
+          "label": "consent.required.privacyPolicy",
+          "step": "",
+          "target": "_blank",
+        },
+        "type": "Link",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": false,
+          "step": "enduser-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "consent.required.cancelButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": false,
+          "step": "enduser-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`transformEnduserConsent tests should add non-customized scope elements to formbag 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "noMargin": true,
+        "noTranslate": false,
+        "options": Object {
+          "content": "consent.scopes.email.label",
+          "dataSe": "scope-item-text",
+          "tooltip": "consent.scopes.email.desc",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": true,
+        "noTranslate": false,
+        "options": Object {
+          "content": "consent.scopes.phone.label",
+          "dataSe": "scope-item-text",
+          "tooltip": "consent.scopes.phone.desc",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "consent.required.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "dataSe": "terms-of-service",
+          "href": "https://okta1.com/tos",
+          "label": "consent.required.termsOfService",
+          "step": "",
+          "target": "_blank",
+        },
+        "type": "Link",
+      },
+      Object {
+        "options": Object {
+          "dataSe": "privacy-policy",
+          "href": "https://okta1.com/privacypolicy",
+          "label": "consent.required.privacyPolicy",
+          "step": "",
+          "target": "_blank",
+        },
+        "type": "Link",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": false,
+          "step": "enduser-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "consent.required.cancelButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": false,
+          "step": "enduser-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`transformEnduserConsent tests should not add scopes when none exist in the transaction 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "consent.required.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "dataSe": "terms-of-service",
+          "href": "https://okta1.com/tos",
+          "label": "consent.required.termsOfService",
+          "step": "",
+          "target": "_blank",
+        },
+        "type": "Link",
+      },
+      Object {
+        "options": Object {
+          "dataSe": "privacy-policy",
+          "href": "https://okta1.com/privacypolicy",
+          "label": "consent.required.privacyPolicy",
+          "step": "",
+          "target": "_blank",
+        },
+        "type": "Link",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": false,
+          "step": "enduser-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "consent.required.cancelButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": false,
+          "step": "enduser-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

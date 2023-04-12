@@ -372,6 +372,7 @@ export interface DescriptionElement extends UISchemaElement {
   options: {
     content: string;
     dataSe?: string;
+    tooltip?: string;
   };
 }
 

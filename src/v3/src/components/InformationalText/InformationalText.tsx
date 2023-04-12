@@ -10,7 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import {
+  Box, QuestionCircleIcon, Tooltip, Typography,
+} from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useHtmlContentParser } from '../../hooks';
@@ -21,7 +23,7 @@ const InformationalText: UISchemaElementComponent<{
 }> = ({
   uischema,
 }) => {
-  const { content, dataSe } = uischema.options;
+  const { content, dataSe, tooltip } = uischema.options;
   const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
 
   return (
@@ -33,9 +35,19 @@ const InformationalText: UISchemaElementComponent<{
         id={uischema.id}
         paragraph
         data-se={dataSe || 'o-form-explain'}
+        className={uischema.noTranslate ? 'no-translate' : undefined}
       >
         {parsedContent}
       </Typography>
+      {tooltip && (
+        <Tooltip
+          describeChild
+          placement="top"
+          title={tooltip}
+        >
+          <QuestionCircleIcon />
+        </Tooltip>
+      )}
     </Box>
   );
 };
