@@ -95,7 +95,7 @@ const configs = Object.keys(entries).map(entryName => {
   const entryConfig = config({
     mode: 'production',
     entry,
-    outputFilename,
+    ...(entryName !== 'css' && { outputFilename }),
     outputLibrary,
     engine
   });

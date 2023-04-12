@@ -5,6 +5,7 @@ const fs = require('fs');
 const nodemon = require('nodemon');
 
 const TARGET = path.resolve(__dirname, 'target');
+const ASSETS = path.resolve(__dirname, 'assets');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
 const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
@@ -13,6 +14,7 @@ const WIDGET_RC = '.widgetrc';
 
 // run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';
+const staticDirs = [PLAYGROUND, TARGET, ASSETS];
 
 if (!fs.existsSync(WIDGET_RC_JS) && fs.existsSync(WIDGET_RC)) {
   console.error('============================================');
@@ -81,14 +83,9 @@ module.exports = {
   },
   devServer: {
     host: HOST,
+    watchFiles: [...staticDirs],
     static: [
-      PLAYGROUND,
-      TARGET,
-      {
-        staticOptions: {
-          watchContentBase: true
-        }
-      }
+      ...staticDirs
     ],
     historyApiFallback: true,
     headers,
