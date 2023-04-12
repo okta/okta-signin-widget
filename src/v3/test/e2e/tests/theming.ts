@@ -20,7 +20,7 @@ test
   .requestHooks(
     RequestMock()
       .onRequestTo('http://localhost:3000/idp/idx/introspect')
-      .respond(mock)
+      .respond(mock),
   )('Theme configuration applies correctly', async (t) => {
     const submitButton = Selector('button')
       .withAttribute('data-type', 'save');
