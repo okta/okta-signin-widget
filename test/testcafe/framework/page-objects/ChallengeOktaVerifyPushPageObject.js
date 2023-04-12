@@ -14,11 +14,23 @@ const RESEND_PUSH_NOTIFICATION_TEXT = 'Resend push notification';
 export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
-    this.beacon = new Selector('.beacon-container');
+    if (userVariables.v3) {
+      this.beacon = new Selector('[data-se="factor-beacon"]');
+    } else {
+      this.beacon = new Selector('.beacon-container');
+    }
   }
 
   getPushButton() {
+    if (userVariables.v3) {
+      return this.form.getButton('Push notification sent');
+    }
     return this.form.getElement('.send-push');
+  }
+
+  async isPushButtonDisabled() {
+    const pushBtnClass = await this.getPushButton().getAttribute('class');
+    return pushBtnClass.includes('disabled');
   }
 
   getA11ySpan() {
@@ -75,6 +87,25 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     return this.form.elementExist(AUTO_CHALLENGE_CHECKBOX_SELECTOR);
   }
 
+  getAutoChallengeCheckbox() {
+    return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_SELECTOR);
+  }
+
+  getAutoChallengeCheckboxLabelText() {
+    let label = '';
+    if (userVariables.v3) {
+      label = this.form.el
+        .find('input[type="checkbox"]')
+        .parent('span')
+        .parent('label')
+        .textContent;
+    } else {
+      label = this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR).textContent;
+    }
+
+    return label;
+  }
+
   getAutoChallengeCheckboxLabel() {
     return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
   }
@@ -101,6 +132,9 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getBeaconClass() {
+    if (userVariables.v3) {
+      return this.beacon.getAttribute('class');
+    }
     return this.beacon.find(FACTOR_BEACON).getAttribute('class');
   }
 
