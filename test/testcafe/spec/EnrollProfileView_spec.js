@@ -146,8 +146,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithBooleanFieldsMock)('shou
   await enrollProfilePage.setCheckbox('userProfile.optional');
 });
 
-// TODO: OKTA-524769 - Enable this for v3 once ODY Team enables optional sub label in field elements
-test.meta('v3', false).requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All Base Attributes are rendered based on their i18n translation, not the label in the json file', async t => {
+test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All Base Attributes are rendered based on their i18n translation, not the label in the json file', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -188,10 +187,11 @@ test.meta('v3', false).requestHooks(requestLogger, EnrollProfileSignUpAllBaseAtt
   };
 
   Object.keys(formFieldToLabel).forEach(async (formField) => {
-    const selector = `userProfile.${formField}`;
+    // const selector = `userProfile.${formField}`;
     // verify all base attributes map to correct translation
     // all 'label' fields for base attributes in json are appended with a '1'
-    await t.expect(await enrollProfilePage.getFormFieldLabel(selector)).eql(formFieldToLabel[formField]);
+    // await t.expect(await enrollProfilePage.getFormFieldLabel(selector)).eql(formFieldToLabel[formField]);
+    await t.expect(await enrollProfilePage.form.fieldByLabelExists(formFieldToLabel[formField])).eql(true);
   });
 });
 

@@ -15,6 +15,7 @@ import {
   FormHelperText,
   InputBase,
   InputLabel,
+  Typography,
 } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
@@ -43,14 +44,15 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const {
-    translations = [], focus, required, parserOptions,
+    translations = [], focus, parserOptions, showAsterisk,
   } = uischema;
   const label = getTranslation(translations, 'label');
   const hint = getTranslation(translations, 'hint');
   const explain = getTranslation(translations, 'bottomExplain');
+  const optionalLabel = getTranslation(translations, 'optionalLabel');
   const {
     attributes,
-    inputMeta: { name },
+    inputMeta: { name, required },
     dataSe,
   } = uischema.options;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
@@ -66,9 +68,22 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
     <Box>
       <InputLabel
         htmlFor={name}
-        required={required}
+        // To prevent asterisk from shifting far right
+        sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
       >
         {label}
+        {showAsterisk && (
+          <Box
+            component="span"
+            className="no-translate"
+            aria-hidden
+          >
+            &nbsp;&#42;
+          </Box>
+        )}
+        {required === false && (
+          <Typography variant="subtitle1">{optionalLabel}</Typography>
+        )}
       </InputLabel>
       {
         hint && (

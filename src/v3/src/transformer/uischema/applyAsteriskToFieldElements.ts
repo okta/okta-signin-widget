@@ -17,8 +17,9 @@ import {
 } from '../../types';
 import { traverseLayout } from '../util';
 
-// TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
-export const updateRequiredFields: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
+export const applyAsteriskToFieldElements: TransformStepFnWithOptions = ({
+  transaction,
+}) => (formbag) => {
   const { nextStep: { name = '' } = {} } = transaction;
   if (![IDX_STEP.ENROLL_PROFILE, IDX_STEP.ENROLL_PROFILE_UPDATE].includes(name)) {
     return formbag;
@@ -29,7 +30,7 @@ export const updateRequiredFields: TransformStepFnWithOptions = ({ transaction }
     callback: (el) => {
       const fieldElement = (el as FieldElement);
       const { options: { inputMeta: { required } } } = fieldElement;
-      fieldElement.required = required;
+      fieldElement.showAsterisk = required;
     },
   });
   return formbag;

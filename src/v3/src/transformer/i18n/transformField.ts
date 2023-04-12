@@ -15,7 +15,9 @@ import {
   TransformStepFnWithOptions,
 } from '../../types';
 import { traverseLayout } from '../util';
-import { addLabelTranslationToFieldElement } from './util';
+import {
+  addLabelTranslationToFieldElement, addOptionalLabelTranslationToFieldElement,
+} from './util';
 
 export const transformField: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
   traverseLayout({
@@ -23,6 +25,7 @@ export const transformField: TransformStepFnWithOptions = ({ transaction }) => (
     predicate: (element) => element.type === 'Field',
     callback: (element) => {
       addLabelTranslationToFieldElement(transaction, element as FieldElement);
+      addOptionalLabelTranslationToFieldElement(element as FieldElement);
     },
   });
   return formbag;

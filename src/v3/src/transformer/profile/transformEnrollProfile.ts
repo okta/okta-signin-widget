@@ -123,6 +123,12 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     options: { content: loc('oie.registration.form.title', 'login') },
   };
 
+  const subtitleElement: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: { content: loc('oie.form.field.optional.description', 'login') },
+  };
+
   const submitBtnElement: ButtonElement = {
     type: 'Button',
     label: loc('oie.registration.form.submit', 'login'),
@@ -146,6 +152,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     }
   }
 
+  uischema.elements.unshift(subtitleElement);
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitBtnElement);
 

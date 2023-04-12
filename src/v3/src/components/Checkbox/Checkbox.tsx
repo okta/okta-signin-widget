@@ -11,11 +11,12 @@
  */
 
 import {
+  Box,
   Checkbox as CheckboxMui,
   FormControl,
   FormControlLabel,
 } from '@okta/odyssey-react-mui';
-import { h } from 'preact';
+import { Fragment, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
@@ -38,15 +39,16 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
 
-  const { options: { inputMeta: { name } }, focus, required } = uischema;
-  const label = getTranslation(uischema.translations!, 'label');
+  const {
+    options: { inputMeta: { name } }, focus, translations = [], showAsterisk,
+  } = uischema;
+  const label = getTranslation(translations, 'label');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
   return (
     <FormControl
       component="fieldset"
-      required={required}
       error={hasErrors}
       aria-describedby={describedByIds}
     >
@@ -71,7 +73,20 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
             }}
           />
         )}
-        label={label as string}
+        label={(
+          <Fragment>
+            {label}
+            {showAsterisk && (
+              <Box
+                component="span"
+                className="no-translate"
+                aria-hidden
+              >
+                &nbsp;&#42;
+              </Box>
+            )}
+          </Fragment>
+        )}
       />
       {hasErrors && (
         <FieldLevelMessageContainer

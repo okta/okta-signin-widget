@@ -13,6 +13,7 @@
 import {
   ButtonElement,
   ButtonType,
+  DescriptionElement,
   FieldElement,
   IdxStepTransformer,
   LinkElement,
@@ -49,6 +50,12 @@ export const transformEnrollProfileUpdate: IdxStepTransformer = ({ transaction, 
     options: { content: loc('oie.profile.additional.title', 'login') },
   };
 
+  const subtitleElement: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: { content: loc('oie.form.field.optional.description', 'login') },
+  };
+
   const submitBtnElement: ButtonElement = {
     type: 'Button',
     label: loc('enroll.choices.submit.finish', 'login'),
@@ -58,6 +65,7 @@ export const transformEnrollProfileUpdate: IdxStepTransformer = ({ transaction, 
     },
   };
 
+  uischema.elements.unshift(subtitleElement);
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitBtnElement);
 

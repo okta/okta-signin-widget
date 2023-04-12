@@ -1,3 +1,4 @@
+import { userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class EnrollProfileUpdateViewPageObject extends BasePageObject {
@@ -14,6 +15,9 @@ export default class EnrollProfileUpdateViewPageObject extends BasePageObject {
   }
 
   getFormFieldSubLabel(fieldName) {
+    if (userVariables.v3) {
+      return this.form.getElement(`label[for="${fieldName}"] > p`).innerText;
+    }
     return this.form.getFormFieldSubLabel(fieldName);
   }
 

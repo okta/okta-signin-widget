@@ -242,9 +242,10 @@ export interface FieldElement extends UISchemaElement {
   type: 'Field';
   key: string;
   /**
-   * @description TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
+   * @description Determines if the app should display an asterisk next to the field label
+   * This only applies for profile enrollment view.
    */
-  required?: boolean | undefined;
+  showAsterisk?: boolean;
   options: {
     inputMeta: Input;
     format?: 'select' | 'radio';

@@ -32,20 +32,6 @@ const ignoredMocks = [
 
 const v3IgnoredMocks = [
   'consent-granular.json', // TODO: Not yet implemented OKTA-594847
-  /** The below are all erroring due to the asterisk next to labels, OKTA-566071 will resolve this **/
-  'enroll-profile-new-checkbox.json',
-  'enroll-profile-new-custom-labels.json',
-  'enroll-profile-new-with-hcaptcha.json',
-  'enroll-profile-new-with-recaptcha-v2.json',
-  'enroll-profile-new.json',
-  'enroll-profile-with-idps.json',
-  'enroll-profile-with-password-returns-error.json',
-  'enroll-profile-with-password-returns-multiple-errors.json',
-  'enroll-profile-with-password.json',
-  'enroll-profile.json',
-  'error-new-signup-email-exists.json',
-  'error-new-signup-email.json',
-  /** END of asterisk issue */
   'success-with-interaction-code.json', // Receiving error regarding codeVerifier from auth-js, must investigate TODO: OKTA-594851
   /** The below mocks are all complaining about the "page" text in the description but it IS localized. Need to investigate TODO: OKTA-594852 **/ 
   'terminal-return-otp-only-full-location-mobile-icon-authentication.json',

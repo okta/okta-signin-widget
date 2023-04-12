@@ -30,8 +30,8 @@ jest.mock('./updateCustomFields', () => ({
 jest.mock('./setFocusOnFirstElement', () => ({
   setFocusOnFirstElement: () => ({}),
 }));
-jest.mock('./updateRequiredFields', () => ({
-  updateRequiredFields: () => () => ({}),
+jest.mock('./applyAsteriskToFieldElements', () => ({
+  applyAsteriskToFieldElements: () => () => ({}),
 }));
 jest.mock('./updatePasswordDescribedByValue', () => ({
   updatePasswordDescribedByValue: () => ({}),
@@ -44,7 +44,7 @@ const mocked = {
   addIdToEle: require('./addIdToElements'),
   updateCustomField: require('./updateCustomFields'),
   setFocus: require('./setFocusOnFirstElement'),
-  updateRequiredField: require('./updateRequiredFields'),
+  applyAsterisk: require('./applyAsteriskToFieldElements'),
   updatePasswordEle: require('./updatePasswordDescribedByValue'),
 };
 /* eslint-enable global-require */
@@ -56,7 +56,7 @@ describe('UISchema transformer', () => {
     jest.spyOn(mocked.addIdToEle, 'addIdToElements');
     jest.spyOn(mocked.updateCustomField, 'updateCustomFields');
     jest.spyOn(mocked.setFocus, 'setFocusOnFirstElement');
-    jest.spyOn(mocked.updateRequiredField, 'updateRequiredFields');
+    jest.spyOn(mocked.applyAsterisk, 'applyAsteriskToFieldElements');
     jest.spyOn(mocked.updatePasswordEle, 'updatePasswordDescribedByValue');
 
     const formBag = getStubFormBag();
@@ -78,7 +78,7 @@ describe('UISchema transformer', () => {
     expect(mocked.addIdToEle.addIdToElements).toHaveBeenCalled();
     expect(mocked.updateCustomField.updateCustomFields).toHaveBeenCalled();
     expect(mocked.setFocus.setFocusOnFirstElement).toHaveBeenCalled();
-    expect(mocked.updateRequiredField.updateRequiredFields).toHaveBeenCalled();
+    expect(mocked.applyAsterisk.applyAsteriskToFieldElements).toHaveBeenCalled();
     expect(mocked.updatePasswordEle.updatePasswordDescribedByValue).toHaveBeenCalled();
   });
 });
