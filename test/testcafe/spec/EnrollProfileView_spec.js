@@ -187,10 +187,8 @@ test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All 
   };
 
   Object.keys(formFieldToLabel).forEach(async (formField) => {
-    // const selector = `userProfile.${formField}`;
     // verify all base attributes map to correct translation
     // all 'label' fields for base attributes in json are appended with a '1'
-    // await t.expect(await enrollProfilePage.getFormFieldLabel(selector)).eql(formFieldToLabel[formField]);
     await t.expect(await enrollProfilePage.form.fieldByLabelExists(formFieldToLabel[formField])).eql(true);
   });
 });
