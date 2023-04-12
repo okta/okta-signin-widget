@@ -24,8 +24,12 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.body.find('iframe');
   }
 
-  getIframeAttributes() {
+  getCustomUriIframeAttributes() {
     return Selector('#custom-uri-container').attributes;
+  }
+
+  getChromeDTCIframeAttributes() {
+    return Selector('#chrome-dtc-container').attributes;
   }
 
   getContent() {

@@ -147,6 +147,16 @@ export function doChallenge(view, fromView) {
       }
     }));
     break;
+  case Enums.CHROME_DTC:
+    view.title = loc('chrome_dtc.title', 'login');
+    view.add(View.extend({
+      className: 'chrome-dtc-content',
+      template: hbs`
+            <div class="spinner"></div>
+          `
+    }));
+    view.doChromeDTC(deviceChallenge);
+    break;
   }
 }
 

@@ -573,14 +573,14 @@ test
     const deviceChallengePollPageObject = await setup(t);
     let iframe = await deviceChallengePollPageObject.getIframe();
     await t.expect(iframe.exists).ok({ timeout: 100 });
-    let attributes = await deviceChallengePollPageObject.getIframeAttributes();
+    let attributes = await deviceChallengePollPageObject.getCustomUriIframeAttributes();
     await t.expect(attributes.src).contains('okta-verify.html');
     await t.expect(iframe.visible).eql(false);
 
     await deviceChallengePollPageObject.clickLaunchOktaVerifyLink();
     iframe = await deviceChallengePollPageObject.getIframe();
     await t.expect(iframe.exists).ok({ timeout: 100 });
-    attributes = await deviceChallengePollPageObject.getIframeAttributes();
+    attributes = await deviceChallengePollPageObject.getCustomUriIframeAttributes();
     await t.expect(attributes.src).contains('okta-verify.html');
     await t.expect(iframe.visible).eql(false);
     await t.expect(deviceChallengePollPageObject.getIframe().count).eql(1);
@@ -634,7 +634,7 @@ test
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Click "Open Okta Verify" on the browser prompt');
 
     // verify login_hint has been appended to the customURI url in the iframe
-    const attributes = await deviceChallengePollPageObject.getIframeAttributes();
+    const attributes = await deviceChallengePollPageObject.getCustomUriIframeAttributes();
     await t.expect(attributes.src).contains('login_hint='+encodeURIComponent(username));
   });
 

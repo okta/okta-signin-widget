@@ -10,6 +10,7 @@ describe('v2/utils/ChallengeViewUtil', function() {
     add() {}
     doLoopback() {}
     doCustomURI() {}
+    doChromeDTC() {}
   }
 
   const testView = new TestView();
@@ -179,6 +180,30 @@ describe('v2/utils/ChallengeViewUtil', function() {
     expect(expectedAddArgs[1].title).toBe(expectedCreateButton.title);
     expectedAddArgs[1].prototype.click();
     expect(window.location.href).toEqual(deviceChallenge.href);
+  });
+
+  it('CHROME_DTC test case', function() {
+    const deviceChallenge = {
+      'challengeMethod': Enums.CHROME_DTC,
+      'href': 'testHref'
+    };
+    spyOn(testView, 'getDeviceChallengePayload').and.callFake(() => deviceChallenge);
+    let expectedAddArg = {};
+    spyOn(testView, 'add').and.callFake((arg) => {expectedAddArg = arg;});
+    spyOn(testView, 'doChromeDTC');
+    spyOn(View, 'extend').and.callFake((extendArg) => {
+      return extendArg;
+    });
+
+    doChallenge(testView);
+
+    expect(testView.getDeviceChallengePayload).toHaveBeenCalled();
+    expect(testView.title).toBe(loc('chrome_dtc.title', 'login'));
+    expect(expectedAddArg.className).toBe('chrome-dtc-content');
+    expect(expectedAddArg.template.call()).toBe(hbs`
+            <div class="spinner"></div>
+          `.call());
+    expect(testView.doChromeDTC).toHaveBeenCalledWith(deviceChallenge);
   });
 
 });
