@@ -22,6 +22,7 @@ async function takeScreenshot(t: TestController, name: string) {
   await t.takeScreenshot(name);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 fixture('Check A11y').skip;
 
 test.page(

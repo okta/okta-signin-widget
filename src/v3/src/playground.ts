@@ -21,8 +21,8 @@ import {
   WidgetOptions,
 } from '../../types';
 import { config } from '../widgetrc';
-import OktaSignIn from './OktaSignIn'; // FIXME should be set by cdn bundle
 import { getWorker } from './mocks/browser';
+import OktaSignIn from './OktaSignIn'; // FIXME should be set by cdn bundle
 
 declare global {
   interface Window {
@@ -168,4 +168,4 @@ getWorker()
     if (render) {
       renderPlaygroundWidget(window.additionalOptions ?? {});
     }
-  })
+  });
