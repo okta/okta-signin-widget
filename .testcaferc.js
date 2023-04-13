@@ -48,29 +48,25 @@ const mocks = RequestMock()
   .onRequestTo({ url: regex`/sso/idps/facebook-123` })
   .respond('');
 
-const config = {
-  browsers: [ 'chrome:headless' ],
-  clientScripts: [
-    { module: 'axe-core/axe.min.js' },
-    { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
+module.exports = {
+  browsers: [
+    'chrome:headless'
   ],
-  src: [ 'test/testcafe/spec/*_spec.js' ],
-  hooks: { request: mocks, },
-  userVariables: { v3: false, },
-
-  /*
-   * NOTE: add a testcafe fixture to the list of specs to run for parity testing
-   * by adding fixture metadata {"v3": true}. See example in
-   * test/testcafe/spec/Smoke_spec.js
-   */
-  ...(process.env.OKTA_SIW_V3 && {
-      filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => (
-        fixtureMeta.v3 === true && testMeta.v3 !== false
-      ),
-      userVariables: { v3: true },
-      // OKTA-575629 Remove this when v3 parity test flakiness is resolved
-      assertionTimeout: 20000,
-  })
+  clientScripts: [
+    {
+      module: 'axe-core/axe.min.js'
+    },
+    {
+      module: '@testing-library/dom/dist/@testing-library/dom.umd.js'
+    }
+  ],
+  src: [
+    'test/testcafe/spec/*_spec.js'
+  ],
+  hooks: {
+    request: mocks,
+  },
+  userVariables: {
+    v3: false,
+  },
 }
-
-module.exports = config;
