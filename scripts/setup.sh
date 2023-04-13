@@ -36,12 +36,3 @@ if ! yarn install ; then
   echo "yarn install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
-
-if [ -d src/v3 ]; then
-	pushd src/v3
-	if ! yarn install ; then
-		echo 'yarn install on src/v3 failed! Exiting..."
-		exit ${FAILED_SETUP}
-	fi
-	popd
-fi

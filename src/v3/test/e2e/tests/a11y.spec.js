@@ -12,17 +12,17 @@
 
 /* eslint-disable testcafe-community/expectExpect */
 
-import { Selector } from 'testcafe';
+import { Selector, fixture } from 'testcafe';
 import { checkA11y } from '../util/A11y';
 
-async function takeScreenshot(t: TestController, name: string) {
+async function takeScreenshot(t, name) {
   if (process.env.CI) {
     return;
   }
   await t.takeScreenshot(name);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+// eslint-disable-next-line no-unused-expressions
 fixture('Check A11y').skip;
 
 test.page(
