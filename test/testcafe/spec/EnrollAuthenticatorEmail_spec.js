@@ -308,6 +308,16 @@ test
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
     await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
 
+    await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+      // title
+      'Verify with your email',
+      // resend prompt
+      'Haven\'t received an email\\? Send again',
+      // instructions and form imputs
+      'Please check your email and enter the code below',
+      'Enter Code'
+    ].join('.+'), 'si'));
+
     // 8 poll requests in 31 seconds and 1 resend request after click.
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -354,6 +364,16 @@ test
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
     await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
 
+    await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+      // title
+      'Verify with your email',
+      // resend prompt
+      'Haven\'t received an email\\? Send again',
+      // instructions and form imputs
+      'Click the verification link in your email to continue or enter the code below',
+      'Enter a verification code instead'
+    ].join('.+'), 'si'));
+
     // 8 poll requests in 31 seconds and 1 resend request after click.
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -399,6 +419,16 @@ test
     await t.wait(31000);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
     await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
+
+    await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+      // title
+      'Verify with your email',
+      // resend prompt
+      'Haven\'t received an email\\? Send again',
+      // instructions and form imputs
+      'Enter the verification code in the text box',
+      'Enter Code'
+    ].join('.+'), 'si'));
 
     // 8 poll requests in 31 seconds and 1 resend request after click.
     await t.expect(logger.count(
@@ -447,6 +477,16 @@ test
     await t.wait(15500);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
     await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
+
+    await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+      // title
+      'Verify with your email',
+      // resend prompt
+      'Haven\'t received an email\\? Send again',
+      // instructions and form imputs
+      'Please check your email and enter the code below',
+      'Enter Code'
+    ].join('.+'), 'si'));
   });
 
 test
@@ -459,6 +499,16 @@ test
     await t.wait(15500);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
     await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
+
+    await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+      // title
+      'Verify with your email',
+      // resend prompt
+      'Haven\'t received an email\\? Send again',
+      // instructions and form imputs
+      'Click the verification link in your email to continue or enter the code below',
+      'Enter a verification code instead'
+    ].join('.+'), 'si'));
   });
 
 test
@@ -471,4 +521,14 @@ test
     await t.wait(15500);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
     await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
+
+    await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+      // title
+      'Verify with your email',
+      // resend prompt
+      'Haven\'t received an email\\? Send again',
+      // instructions and form imputs
+      'Enter the verification code in the text box',
+      'Enter Code'
+    ].join('.+'), 'si'));
   });

@@ -39,7 +39,17 @@ const CheckYourEmailTitle = View.extend({
     return this.options;
   },
 });
-  
+
+const CheckYourEmailEnrollTitle = View.extend({
+  className: 'okta-form-subtitle',
+  attributes: {
+    'data-se': 'o-form-explain',
+  },
+  template: hbs`
+    {{i18n code="oie.email.enroll.subtitle" bundle="login"}}
+  `,
+});
+
 const EnterCodeLink = View.extend({
   template: hbs`
       <button 
@@ -52,6 +62,10 @@ const EnterCodeLink = View.extend({
 
 export function getCheckYourEmailTitle() {
   return CheckYourEmailTitle;
+}
+
+export function getCheckYourEmailEnrollTitle() {
+  return CheckYourEmailEnrollTitle;
 }
 
 export function getEnterCodeLink() {
