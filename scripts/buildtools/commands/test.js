@@ -31,7 +31,7 @@ const suiteMap = {
     ],
   },
   jest: {
-    cmd: 'jest',
+    cmd: 'jest --runInBand',
     config: 'jest.config.js',
     preReq: [
       'grunt assets',
