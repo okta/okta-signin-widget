@@ -22,4 +22,4 @@
 # yarn add -DW --no-lockfile file:./scripts/dockolith
 # mv package.json.bak package.json
 
-yarn add @okta/dockolith@1.7.0 -DW
+yarn add @okta/dockolith@1.8.0 -DW
