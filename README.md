@@ -39,7 +39,7 @@
 <!-- omit in toc -->
 # Okta Sign-In Widget
 
-The Okta Sign-In Widget is a Javascript widget that provides a fully featured and customizable login experience which can be used to authenticate and register users in web and mobile applications.
+The Okta Sign-In Widget is a JavaScript widget that provides a fully featured and customizable login experience which can be used to authenticate and register users in web and mobile applications.
 
 The widget is used on [Okta's default signin page](#okta-hosted-sign-in-page-default) to start an Okta SSO session and set the Okta [session cookie][] in the web browser. It can also perform an [OIDC][] flow to easily integrate your web or mobile applications into the Okta platform.
 
@@ -52,7 +52,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
 <!-- TOC is generated using Markdown All in One -->
 - [Okta Identity Engine](#okta-identity-engine)
 - [Related SDKs](#related-sdks)
-  - [Javascript](#javascript)
+  - [JavaScript](#javascript)
   - [Java](#java)
   - [.Net](#net)
 - [Sample applications](#sample-applications)
@@ -164,7 +164,7 @@ The Sign-in Widget is self-contained and requires no other frameworks at runtime
 
 These SDKs are fully compatible with the Okta Sign-in Widget and provide utilities to help integrate Okta [authentication][] end-to-end in your own application.
 
-### Javascript
+### JavaScript
 
 - [okta-auth-js](https://github.com/okta/okta-auth-js) (Browser or NodeJS)
 - [okta-react](https://github.com/okta/okta-react)
@@ -184,8 +184,8 @@ These SDKs are fully compatible with the Okta Sign-in Widget and provide utiliti
 
 Complete sample applications demonstrate usage of the Okta Sign-In Widget in both [Okta-hosted](#okta-hosted-sign-in-page-default) and [embedded](#embedded-self-hosted) scenarios.
 
-- [Javascript (Browser/SPA)](https://github.com/okta/okta-auth-js/tree/master/samples/generated/static-spa)
-- [Javascript (Express/NodeJS)](https://github.com/okta/okta-auth-js/tree/master/samples/generated/express-embedded-sign-in-widget)
+- [JavaScript (Browser/SPA)](https://github.com/okta/okta-auth-js/tree/master/samples/generated/static-spa)
+- [JavaScript (Express/NodeJS)](https://github.com/okta/okta-auth-js/tree/master/samples/generated/express-embedded-sign-in-widget)
 - [React](https://github.com/okta/samples-js-react)
 - [Angular](https://github.com/okta/samples-js-angular)
 - [Vue](https://github.com/okta/samples-js-vue)
@@ -254,13 +254,13 @@ If your organization has upgraded to [Identity Engine][], the smaller `oie` bund
 To embed the Sign-in Widget via CDN, include links to the JS and CSS files in your HTML:
 
 ```html
-<!-- Latest CDN production Javascript and CSS -->
+<!-- Latest CDN production JavaScript and CSS -->
 <script src="https://global.oktacdn.com/okta-signin-widget/7.5.0/js/okta-sign-in.min.js" type="text/javascript"></script>
 
 <link href="https://global.oktacdn.com/okta-signin-widget/7.5.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
-**NOTE:** The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases). We recommend using the latest widget version.
+**NOTE:** The CDN URLs contain a version number. This number should be the same for both the JavaScript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases). We recommend using the latest widget version. See [migrating](https://github.com/okta/okta-signin-widget/blob/master/MIGRATING.md) for info on migrating.
 
 When using one of the bundles without the polyfill included, you may want to conditionally load the standalone polyfill bundle. The polyfill should be loaded before the widget bundle:
 
@@ -1206,7 +1206,7 @@ parseSchema: (schema, onSuccess) => {
 
 Callback used primarily to modify the request parameters sent to the Okta API.
 
- ```javascript
+```javascript
 preSubmit: (postData, onSuccess) => {
   // This example will append the domain name to the email address if the user forgets to add it during registration.
   if (!postData.userProfile.email.includes('@acme.com')) {
@@ -1244,7 +1244,7 @@ preSubmit: (postData, onSuccess, onFailure) => {
 
 ##### Display a form error
 
-  ```javascript
+```javascript
 preSubmit: (postData, onSuccess, onFailure) => {
   const error = {
     "errorSummary": "Custom form level error"
