@@ -137,6 +137,7 @@ export const OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.app.m
 export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop';
 export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.mobile';
 export const OV_NMC_FORCE_UPGRADE_SERVER_KEY = 'oie.authenticator.app.method.push.force.upgrade.number_challenge';
+export const ON_PREM_TOKEN_CHANGE_ERROR_KEY = 'errors.E0000113';
 
 export const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   TERMINAL_KEY.EMAIL_LINK_CANT_BE_PROCESSED,

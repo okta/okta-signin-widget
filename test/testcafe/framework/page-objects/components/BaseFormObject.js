@@ -218,6 +218,10 @@ export default class BaseFormObject {
   // Error
   // =====================================
 
+  async waitForAnyAlertBox(options = undefined) {
+    await within(this.el).findAllByRole('alert', options).exists;
+  }
+
   // Error banner
   async waitForErrorBox() {
     await within(this.el).findByRole('alert', {

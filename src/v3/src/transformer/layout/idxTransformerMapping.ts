@@ -69,6 +69,7 @@ import {
   transformIdentityRecovery,
   transformRequestActivation,
 } from './recovery';
+import { transformRSAAuthenticator } from './rsa';
 import { transformSafeModePoll } from './safeMode';
 import {
   transformSecurityQuestionEnroll,
@@ -161,6 +162,10 @@ const TransformerMap: {
       transform: transformPhoneChallenge,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.RSA]: {
+      transform: transformRSAAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
       transform: transformSecurityQuestionVerify,
       buttonConfig: { showDefaultSubmit: false },
@@ -242,6 +247,10 @@ const TransformerMap: {
       transform: transformEmailAuthenticatorEnroll,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
+      transform: transformGoogleAuthenticatorEnroll,
+      buttonConfig: { showDefaultSubmit: false },
+    },
     [AUTHENTICATOR_KEY.PASSWORD]: {
       transform: transformEnrollPasswordAuthenticator,
     },
@@ -249,16 +258,16 @@ const TransformerMap: {
       transform: transformPhoneCodeEnrollment,
       buttonConfig: { showDefaultSubmit: false },
     },
-    [AUTHENTICATOR_KEY.WEBAUTHN]: {
-      transform: transformWebAuthNAuthenticator,
+    [AUTHENTICATOR_KEY.RSA]: {
+      transform: transformRSAAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
       transform: transformSecurityQuestionEnroll,
       buttonConfig: { showDefaultSubmit: false },
     },
-    [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
-      transform: transformGoogleAuthenticatorEnroll,
+    [AUTHENTICATOR_KEY.WEBAUTHN]: {
+      transform: transformWebAuthNAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.YUBIKEY]: {

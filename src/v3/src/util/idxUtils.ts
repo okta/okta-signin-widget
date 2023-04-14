@@ -336,3 +336,8 @@ export const triggerRegistrationErrorMessages = (
     message: error.errorSummary || loc('oform.errorbanner.title', 'login'),
   });
 };
+
+export const getDisplayName = (transaction: IdxTransaction): string | undefined => {
+  const authenticator = getCurrentAuthenticator(transaction);
+  return authenticator?.value?.displayName;
+};
