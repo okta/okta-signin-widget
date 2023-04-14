@@ -2384,11 +2384,12 @@
     webcrypto-shim "^0.1.5"
     xhr2 "0.1.3"
 
-"@okta/okta-sdk-nodejs@^6.5.0":
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-sdk-nodejs/-/okta-sdk-nodejs-6.5.0.tgz#6f9a1cf3b27ff24eb42b9dd75639492c57603f90"
-  integrity sha512-zqhWzeUi2NY9ERAktJXT/v45Q6x8EU7tew4Fau94Y9/etsrPmHloyXgHHcCSy6i+ApgzN1cCBe+e7k51upLLng==
+"@okta/okta-sdk-nodejs@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@okta/okta-sdk-nodejs/-/okta-sdk-nodejs-7.0.0.tgz#eaa958780008541d1cc8d4c90b66a75d5d750b2d"
+  integrity sha512-zoDUnOQmiwLPs59DH/R3ageNRhsuI7vWh5TFOlD55kqAIchBs4dBqLVV1pXQZeVc7AiNpzI3F9PoqW2htE49Cg==
   dependencies:
+    "@types/node-forge" "^1.3.1"
     deep-copy "^1.4.2"
     eckles "^1.4.1"
     form-data "^4.0.0"
@@ -2400,6 +2401,7 @@
     parse-link-header "^2.0.0"
     rasha "^1.2.5"
     safe-flat "^2.0.2"
+    url-parse "^1.5.10"
 
 "@okta/okta-signin-widget@link:dist":
   version "0.0.0"
@@ -2995,6 +2997,13 @@
   version "1.4.30"
   resolved "https://registry.yarnpkg.com/@types/mockery/-/mockery-1.4.30.tgz#25f07fa7340371c7ee0fb9239511a34e0a19d5b7"
   integrity sha512-uv53RrNdhbkV/3VmVCtfImfYCWC3GTTRn3R11Whni3EJ+gb178tkZBVNj2edLY5CMrB749dQi+SJkg87jsN8UQ==
+
+"@types/node-forge@^1.3.1":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@types/node-forge/-/node-forge-1.3.2.tgz#4aee4f269961fe288fe6dc35ad0ec6f71646d2bc"
+  integrity sha512-TzX3ahoi9xbmaoT58smrBu7oa6dQXb/+PTNCslZyD/55tlJ/osofIMClzZsoo6buDFrg7e4DvVGkZqVgv6OLxw==
+  dependencies:
+    "@types/node" "*"
 
 "@types/node@*", "@types/node@>=10.0.0", "@types/node@^18.0.0":
   version "18.11.9"
@@ -16711,7 +16720,7 @@ url-parse-lax@^3.0.0:
   dependencies:
     prepend-http "^2.0.0"
 
-url-parse@^1.5.3:
+url-parse@^1.5.10, url-parse@^1.5.3:
   version "1.5.10"
   resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.10.tgz#9d3c2f736c1d75dd3bd2be507dcc111f1e2ea9c1"
   integrity sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==

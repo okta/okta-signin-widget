@@ -10,7 +10,7 @@
     "test:spec": "wdio run wdio.conf.js"
   },
   "dependencies": {
-    "@okta/okta-sdk-nodejs": "^6.5.0",
+    "@okta/okta-sdk-nodejs": "^7.0.0",
     "@okta/okta-signin-widget": "*"
   },
   "devDependencies": {

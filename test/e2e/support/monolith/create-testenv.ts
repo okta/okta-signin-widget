@@ -1,5 +1,4 @@
 import {
-  getClient,
   createTestOrg,
   enableFeatureFlag,
   disableFeatureFlag,
@@ -13,6 +12,7 @@ import {
   getDefaultAuthorizationServer,
   enableEmbeddedLogin
 } from '@okta/dockolith';
+import { Client } from '@okta/okta-sdk-nodejs';
 import { writeFileSync } from 'fs';
 import path from 'path';
 
@@ -81,8 +81,8 @@ async function bootstrap() {
   console.error('Org: ', config.orgUrl);
   console.error('Token: ', config.token);
 
-  const oktaClient = getClient(config);
-  const { id: orgId } = await oktaClient.getOrgSettings();
+  const oktaClient = new Client(config);
+  const { id: orgId } = await oktaClient.orgSettingApi.getOrgSettings();
 
   await enableOIE(orgId);
   console.error('Activating okta_email factor');
@@ -105,10 +105,15 @@ async function bootstrap() {
   // Enable interaction_code grant on the default authorization server
   console.error('Enabling interaction_code grant on the default authorization server');
   const authServer = await getDefaultAuthorizationServer(config);
-  await authServer.listPolicies().each(async (policy) => {
+  await (await oktaClient.authorizationServerApi.listAuthorizationServerPolicies({ 
+    authServerId: authServer.id 
+  })).each(async (policy) => {
     if (policy.name === 'Default Policy') {
-      await policy.listPolicyRules(authServer.id).each(async (rule) => {
-        if (rule.name === 'Default Policy Rule') {
+      await (await oktaClient.authorizationServerApi.listAuthorizationServerPolicyRules({
+        authServerId: authServer.id,
+        policyId: policy.id as string
+      })).each(async (rule) => {
+        if (rule.name === 'Default Policy Rule' && rule.conditions) {
           rule.conditions.grantTypes = {
             include: [
               'implicit',
@@ -118,7 +123,12 @@ async function bootstrap() {
               'interaction_code' // need to add interaction_code grant or user will see no_matching_policy error
             ]
           };
-          await rule.update(policy.id, authServer.id);
+          await oktaClient.authorizationServerApi.replaceAuthorizationServerPolicyRule({
+            authServerId: authServer.id, 
+            policyId: policy.id as string, 
+            ruleId: rule.id as string,
+            policyRule: rule
+          });
         }
       });
     }
@@ -126,28 +136,32 @@ async function bootstrap() {
 
   // Add Trusted origins
   for (const option of options.origins) {
-    await oktaClient.listOrigins().each(async (origin) => {
+    await (await oktaClient.trustedOriginApi.listTrustedOrigins()).each(async (origin) => {
       console.error('Existing origin: ', origin);
       if (origin.origin === option.origin) {
         console.error(`Removing existing origin ${option.name}`);
-        await origin.delete();
+        await oktaClient.trustedOriginApi.deleteTrustedOrigin({
+          trustedOriginId: origin.id as string
+        });
       }
     });
     console.error(`Adding trusted origin "${option.name}": ${option.origin}`);
-    await oktaClient.createOrigin({
-      name: option.name,
-      origin:  option.origin,
-      scopes: [{
-        type: 'CORS'
-      }, {
-        type: 'REDIRECT'
-      }]
+    await oktaClient.trustedOriginApi.createTrustedOrigin({
+      trustedOrigin: {
+        name: option.name,
+        origin:  option.origin,
+        scopes: [{
+          type: 'CORS'
+        }, {
+          type: 'REDIRECT'
+        }]
+      }
     });
   }
 
   let everyoneGroup: any;
-  await oktaClient.listGroups().each(async (group) => {
-    if (group.profile.name === 'Everyone') {
+  await (await oktaClient.groupApi.listGroups()).each(async (group) => {
+    if (group.profile?.name === 'Everyone') {
       everyoneGroup = group;
     }
   });
@@ -156,12 +170,12 @@ async function bootstrap() {
   }
 
   // Delete apps if they already exist
-  await oktaClient.listApplications().each(async (app) => {
+  await (await oktaClient.applicationApi.listApplications()).each(async (app) => {
     for (const option of options.apps) {
       if (app.label === option.label) {
         console.error(`Deleting existing application with label ${app.label}`);
-        await app.deactivate();
-        return app.delete();
+        await oktaClient.applicationApi.deactivateApplication({ appId: app.id as string });
+        return await oktaClient.applicationApi.deleteApplication({ appId: app.id as string });
       }
     }
   });
@@ -180,7 +194,10 @@ async function bootstrap() {
     });
 
     // assign "Everyone" to this application
-    oktaClient.createApplicationGroupAssignment(app.id, everyoneGroup.id);
+    await oktaClient.applicationApi.assignGroupToApplication({ 
+      appId: app.id, 
+      groupId: everyoneGroup.id,
+    });
 
     createdApps.push(app);
   }
@@ -188,25 +205,30 @@ async function bootstrap() {
   const spaApp = createdApps[1];
 
   // set policy on apps
-  const mfaGroup = await oktaClient.createGroup({
-    profile: {
-      name: 'MFA Required'
+  const mfaGroup = await oktaClient.groupApi.createGroup({
+    group: {
+      profile: {
+        name: 'MFA Required'
+      }
     }
   });
   for (const app of createdApps) {
     console.error(`Creating app sign on policy for "${app.label}"`);
-    const signOnPolicy = await oktaClient.createPolicy({
-      name: `${app.label} Sign On Policy`,
-      type: 'ACCESS_POLICY',
-      status : 'ACTIVE'
+    const signOnPolicy = await oktaClient.policyApi.createPolicy({
+      policy: {
+        name: `${app.label} Sign On Policy`,
+        type: 'ACCESS_POLICY',
+        status : 'ACTIVE'
+      }
     });
 
     console.error(`Creating app profile enrollment policy for "${app.label}"`);
-    const profileEnrollmentPolicy = await oktaClient.createPolicy({
+    const profileEnrollmentPolicy = await oktaClient.policyApi.createPolicy({
+      policy: {
       name: `${app.label} Profile Enrollment Policy`,
       type: 'PROFILE_ENROLLMENT',
       status : 'ACTIVE'
-    });
+    }});
 
     // Modify catch-all rule to enforce password only
     console.error(`Modifying catch-all rule to require only password for app "${app.label}"`);
@@ -232,31 +254,36 @@ async function bootstrap() {
 
     // Require MFA if user is in MFA group
     console.error(`Setting MFA policy for users in MFA group for app "${app.label}"`);
-    signOnPolicy.createRule({
-      name: 'MFA Required',
-      type: 'ACCESS_POLICY',
-      conditions: {
-        people: {
-            groups: {
-                include: [
-                  mfaGroup.id
-                ]
-            }
-        },
-      },
-      actions: {
-        appSignOn: {
-          access: 'ALLOW',
-          verificationMethod: {
-            factorMode: '2FA',
-            type: 'ASSURANCE',
-            reauthenticateIn: 'PT2H',
-            constraints: [{
-              knowledge: {
-                types: ['password'],
-                reauthenticateIn: 'PT2H'
+    oktaClient.policyApi.createPolicyRule({
+      policyId: signOnPolicy.id as string,
+      policyRule: {
+        name: 'MFA Required',
+        type: 'ACCESS_POLICY',
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        conditions: {
+          people: {
+              groups: {
+                  include: [
+                    mfaGroup.id
+                  ]
               }
-            }]
+          },
+        },
+        actions: {
+          appSignOn: {
+            access: 'ALLOW',
+            verificationMethod: {
+              factorMode: '2FA',
+              type: 'ASSURANCE',
+              reauthenticateIn: 'PT2H',
+              constraints: [{
+                knowledge: {
+                  types: ['password'],
+                  reauthenticateIn: 'PT2H'
+                }
+              }]
+            }
           }
         }
       }
@@ -270,12 +297,12 @@ async function bootstrap() {
   }
 
   // Delete users if they exist
-  await oktaClient.listUsers().each(async (user) => {
+  (await oktaClient.userApi.listUsers()).each(async (user) => {
     for (const option of options.users) {
-      if (user.profile.login === option.email) {
+      if (user.profile?.login === option.email) {
         console.error(`Found existing user: ${option.email}`);
-        await user.deactivate();
-        await user.delete();
+        await oktaClient.userApi.deactivateUser({ userId: user.id as string });
+        await oktaClient.userApi.deleteUser({ userId: user.id as string });
       }
     }
   });
@@ -292,31 +319,37 @@ async function bootstrap() {
 
   // User 1 assigned to apps
   for (const app of createdApps) {
-    await oktaClient.assignUserToApplication(app.id, {
-      id: user1.id
+    await oktaClient.applicationApi.assignUserToApplication({
+      appId: app.id, 
+      appUser: {
+        id: user1.id
+      }
     });
   }
   // User 2 not assigned to app
 
 
   // Activate phone authenticator
-  const authenticators = await oktaClient.listAuthenticators();
+  const authenticators = await oktaClient.authenticatorApi.listAuthenticators();
 
   await authenticators.each(async (item) => {
     if (item.type === 'phone') {
       let phoneAuthenticator = item;
-      phoneAuthenticator = await oktaClient.activateAuthenticator(phoneAuthenticator.id);
+      phoneAuthenticator = await oktaClient.authenticatorApi.activateAuthenticator({ authenticatorId: phoneAuthenticator.id as string });
 
-      phoneAuthenticator = await oktaClient.updateAuthenticator(phoneAuthenticator.id, {
-        name: phoneAuthenticator.name,
-        settings: {
-          allowedFor: 'any'
+      phoneAuthenticator = await oktaClient.authenticatorApi.replaceAuthenticator({
+        authenticatorId: phoneAuthenticator.id as string,
+        authenticator: {
+          name: phoneAuthenticator.name,
+          settings: {
+            allowedFor: 'any'
+          }
         }
       });
 
       // For some reason, deactivating and activating again makes phone "OPTIONAL" (If not, it's "DISABLED")
-      await oktaClient.deactivateAuthenticator(phoneAuthenticator.id);
-      await oktaClient.activateAuthenticator(phoneAuthenticator.id);
+      await oktaClient.authenticatorApi.deactivateAuthenticator({ authenticatorId: phoneAuthenticator.id as string});
+      await oktaClient.authenticatorApi.activateAuthenticator({ authenticatorId: phoneAuthenticator.id as string });
     }
   });
 
