@@ -294,10 +294,10 @@ async function bootstrap() {
     });
 
     // Assign sign-on policy to SPA app
-    setPolicyForApp(config, app.id as string, signOnPolicy.id);
+    setPolicyForApp(config, app.id as string, signOnPolicy.id as string);
 
     // Assign profile enrollment policy to SPA app
-    setPolicyForApp(config, app.id as string, profileEnrollmentPolicy.id);
+    setPolicyForApp(config, app.id as string, profileEnrollmentPolicy.id as string);
   }
 
   // Delete users if they exist
