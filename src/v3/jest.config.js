@@ -49,6 +49,7 @@ module.exports = {
     '\\.(css|less|scss)$': 'identity-obj-proxy',
     'preact/hooks': '<rootDir>/node_modules/preact/hooks',
     '^@okta/courage$': `${PACKAGES}/@okta/courage-dist/esm/src/index.js`,
+    '^@okta/duo': `${PROJECT_ROOT}/playground/mocks/spec-duo/duo-mock.js`,
     '^@okta/okta-i18n-bundles$': `${PROJECT_ROOT}/src/util/Bundles`,
     '^@okta/qtip$': `${PACKAGES}/@okta/qtip2/dist/jquery.qtip.js`,
     '^@okta/mocks/(.*)': `${PROJECT_ROOT}/playground/mocks/$1`,

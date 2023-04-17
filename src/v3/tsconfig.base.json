@@ -33,7 +33,8 @@
         "../../packages/@okta/qtip2/dist/jquery.qtip.js"
       ],
       "@okta/duo": [
-        "../../packages/vendor/duo_web_sdk"
+        "../../packages/vendor/duo_web_sdk/index.js",
+        "../../playground/mocks/spec-duo/duo-mock.js"
       ],
       "util/*": [
         "../util/*"
