@@ -68,7 +68,7 @@ test
     await t.expect(challengeDuoPage.hasDuoIframe()).eql(true);
 
     // Verify links
-    await t.expect(await challengeDuoPage.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await challengeDuoPage.verifyWithSomethingElseLinkExists()).ok();
     await t.expect(challengeDuoPage.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
     await t.expect(await challengeDuoPage.signoutLinkExists()).ok();
     await t.expect(challengeDuoPage.getSignoutLinkText()).eql('Back to sign in');
