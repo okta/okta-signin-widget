@@ -250,7 +250,11 @@ async function bootstrap() {
           }]
       }
     };
-    catchAll.update(signOnPolicy.id);
+    await oktaClient.policyApi.replacePolicyRule({
+      policyId: signOnPolicy.id as string,
+      ruleId: catchAll.id,
+      policyRule: catchAll
+    });
 
     // Require MFA if user is in MFA group
     console.error(`Setting MFA policy for users in MFA group for app "${app.label}"`);
