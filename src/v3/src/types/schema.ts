@@ -561,6 +561,7 @@ export interface DividerElement extends UISchemaElement {
 export interface DuoWindowElement extends UISchemaElement {
   type: 'DuoWindow';
   options: {
+    title: string;
     host: string;
     signedToken: string;
     step: string;

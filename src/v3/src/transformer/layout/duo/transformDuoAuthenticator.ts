@@ -27,18 +27,21 @@ export const transformDuoAuthenticator: IdxStepTransformer = ({
   const authenticatorContextualData = getCurrentAuthenticator(transaction)?.value?.contextualData
       ?? {};
 
+  const titleText = stepName === IDX_STEP.ENROLL_AUTHENTICATOR
+  ? loc('oie.duo.enroll.title', 'login')
+  : loc('oie.duo.verify.title', 'login');
+
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: stepName === IDX_STEP.ENROLL_AUTHENTICATOR
-        ? loc('oie.duo.enroll.title', 'login')
-        : loc('oie.duo.verify.title', 'login'),
+      content: titleText,
     },
   };
 
   const duoWindowElement: DuoWindowElement = {
     type: 'DuoWindow',
     options: {
+      title: titleText,
       // @ts-expect-error OKTA-601240 : missing property from contextualData type
       host: authenticatorContextualData.host,
       // @ts-expect-error OKTA-601240 : missing property from contextualData type

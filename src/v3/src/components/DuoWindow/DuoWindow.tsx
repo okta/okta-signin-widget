@@ -21,7 +21,7 @@ import {
   DuoWindowElement,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation, loc } from '../../util';
+import { loc } from '../../util';
 import style from './style.css';
 
 type IFrameProps = {
@@ -42,16 +42,15 @@ const DuoWindow: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const {
     options: {
+      title,
       host,
       signedToken,
       step,
     },
-    translations = [],
   } = uischema;
   const { data, setMessage } = useWidgetContext();
   const [duoFailed, setDuoFailed] = useState(false);
   const handleDuoAuthSuccess = useOnSubmit();
-  const iframeTitle = getTranslation(translations, 'title') ?? ' Duo authenticator iframe';
 
   useEffect(() => {
     try {
@@ -81,7 +80,7 @@ const DuoWindow: UISchemaElementComponent<{
 
   return (
     <React.Fragment>
-      { !duoFailed && <IFrame title={iframeTitle} /> }
+      { !duoFailed && <IFrame title={title} /> }
     </React.Fragment>
   );
 };
