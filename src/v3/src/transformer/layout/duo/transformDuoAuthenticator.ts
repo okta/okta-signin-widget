@@ -24,14 +24,15 @@ export const transformDuoAuthenticator: IdxStepTransformer = ({
 }) => {
   const { uischema } = formBag;
   const stepName = transaction.nextStep!.name;
-  const authenticatorContextualData = getCurrentAuthenticator(transaction)?.value?.contextualData ?? {};
+  const authenticatorContextualData = getCurrentAuthenticator(transaction)?.value?.contextualData
+      ?? {};
 
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
       content: stepName === IDX_STEP.ENROLL_AUTHENTICATOR
-      ? loc('oie.duo.enroll.title', 'login')
-      : loc('oie.duo.verify.title', 'login'),
+        ? loc('oie.duo.enroll.title', 'login')
+        : loc('oie.duo.verify.title', 'login'),
     },
   };
 

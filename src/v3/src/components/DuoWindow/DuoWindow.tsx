@@ -14,8 +14,7 @@
 import Duo from '@okta/duo';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
-import { useState } from 'preact/hooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
@@ -78,7 +77,7 @@ const DuoWindow: UISchemaElementComponent<{
       });
       console.error(e);
     }
-    // @ts-ignore react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
