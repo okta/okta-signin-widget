@@ -48,7 +48,7 @@ const DuoWindow: UISchemaElementComponent<{
       step,
     },
   } = uischema;
-  const { data, setMessage } = useWidgetContext();
+  const { setMessage } = useWidgetContext();
   const [duoFailed, setDuoFailed] = useState(false);
   const handleDuoAuthSuccess = useOnSubmit();
 
@@ -59,10 +59,9 @@ const DuoWindow: UISchemaElementComponent<{
         sig_request: signedToken,
         iframe: document.getElementById('duo_iframe'),
         post_action: (signedData: string) => {
-          data['credentials.signatureData'] = signedData;
           handleDuoAuthSuccess({
+            params: { 'credentials.signatureData': signedData },
             step,
-            includeData: true,
           });
         },
       });

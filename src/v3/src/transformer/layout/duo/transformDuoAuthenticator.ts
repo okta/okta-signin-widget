@@ -11,6 +11,7 @@
  */
 
 import { NextStep } from '@okta/okta-auth-js';
+
 import { IDX_STEP } from '../../../constants';
 import {
   DuoWindowElement,
@@ -29,8 +30,8 @@ export const transformDuoAuthenticator: IdxStepTransformer = ({
   const authenticatorContextualData = nextStep.relatesTo?.value.contextualData;
 
   const titleText = stepName === IDX_STEP.ENROLL_AUTHENTICATOR
-  ? loc('oie.duo.enroll.title', 'login')
-  : loc('oie.duo.verify.title', 'login');
+    ? loc('oie.duo.enroll.title', 'login')
+    : loc('oie.duo.verify.title', 'login');
 
   const titleElement: TitleElement = {
     type: 'Title',
