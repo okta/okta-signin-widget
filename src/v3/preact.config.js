@@ -164,6 +164,23 @@ export default {
       'index.js',
     );
 
+    config.resolve.alias['@okta/duo'] = rootResolve(
+      'packages',
+      'vendor',
+      'duo_web_sdk',
+      'index.js',
+    );
+
+    // if not a production build we use the mock Duo response
+    if (!env.production) {
+      config.resolve.alias['@okta/duo'] = rootResolve(
+        'playground',
+        'mocks',
+        'spec-duo',
+        'duo-mock.js',
+      );
+    }
+
     config.resolve.alias.nls = rootResolve('packages', '@okta/i18n/src/json');
     config.resolve.alias['@okta/qtip'] = rootResolve('packages', '@okta/qtip2/dist/jquery.qtip.js');
     config.resolve.alias['@okta/okta-i18n-bundles'] = rootResolve('src', 'util', 'Bundles');

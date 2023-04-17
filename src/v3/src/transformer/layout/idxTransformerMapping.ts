@@ -48,6 +48,7 @@ import {
 } from '../selectAuthenticator';
 import { transformWebAuthNAuthenticator } from '../webauthn';
 import { transformYubikeyOtpAuthenticator } from '../yubikey';
+import { transformDuoAuthenticator } from './duo';
 import {
   transformEmailAuthenticatorEnroll,
   transformEmailAuthenticatorVerify,
@@ -134,6 +135,10 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.DUO]: {
+      transform: transformDuoAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
     [AUTHENTICATOR_KEY.EMAIL]: {
       transform: transformEmailAuthenticatorVerify,
       buttonConfig: { showDefaultSubmit: false },
@@ -229,6 +234,10 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.ENROLL_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.DUO]: {
+      transform: transformDuoAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
     [AUTHENTICATOR_KEY.EMAIL]: {
       transform: transformEmailAuthenticatorEnroll,
       buttonConfig: { showDefaultSubmit: false },
