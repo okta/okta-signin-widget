@@ -10,22 +10,23 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { NextStep } from '@okta/okta-auth-js';
 import { IDX_STEP } from '../../../constants';
 import {
   DuoWindowElement,
   IdxStepTransformer,
   TitleElement,
 } from '../../../types';
-import { getCurrentAuthenticator, loc } from '../../../util';
+import { loc } from '../../../util';
 
 export const transformDuoAuthenticator: IdxStepTransformer = ({
   formBag,
   transaction,
 }) => {
   const { uischema } = formBag;
-  const stepName = transaction.nextStep!.name;
-  const authenticatorContextualData = getCurrentAuthenticator(transaction)?.value?.contextualData
-      ?? {};
+  const { nextStep = {} as NextStep } = transaction;
+  const stepName = nextStep.name;
+  const authenticatorContextualData = nextStep.relatesTo?.value.contextualData;
 
   const titleText = stepName === IDX_STEP.ENROLL_AUTHENTICATOR
   ? loc('oie.duo.enroll.title', 'login')
