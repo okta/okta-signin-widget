@@ -12,12 +12,13 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
-fixture('Authenticator Enroll Duo')
+fixture('Authenticator Enroll Duo').meta('v3', true)
   .requestHooks(mock);
 
 async function setup(t) {
   const enrollDuoPage = new DuoPageObject(t);
   await enrollDuoPage.navigateToPage();
+  await t.expect(enrollDuoPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'enroll-duo',
     formName: 'enroll-authenticator',

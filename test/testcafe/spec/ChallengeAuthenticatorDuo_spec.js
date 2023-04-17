@@ -35,11 +35,12 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture('Challenge Duo');
+fixture('Challenge Duo').meta('v3', true);
 
 async function setup(t) {
   const challengeDuoPage = new DuoPageObject(t);
   await challengeDuoPage.navigateToPage();
+  await t.expect(challengeDuoPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-duo',
     formName: 'challenge-authenticator',
@@ -133,19 +134,20 @@ test.requestHooks(answerRequestLogger, verificationFailedMock)('verification fai
   await t.expect(duoPageObject.form.getErrorBoxText()).eql('We were unable to verify with Duo. Try again.');
 });
 
-test.requestHooks(mock)('should show custom factor page link', async t => {
-  const challengeDuoPage = await setup(t);
-  await checkA11y(t);
+test.meta('v3', false) // OKTA-465319 Help link is not supported in v3
+  .requestHooks(mock)('should show custom factor page link', async t => {
+    const challengeDuoPage = await setup(t);
+    await checkA11y(t);
 
-  await renderWidget({
-    helpLinks: {
-      factorPage: {
-        text: 'custom factor page link',
-        href: 'https://acme.com/what-is-okta-autheticators'
+    await renderWidget({
+      helpLinks: {
+        factorPage: {
+          text: 'custom factor page link',
+          href: 'https://acme.com/what-is-okta-autheticators'
+        }
       }
-    }
-  });
+    });
 
-  await t.expect(challengeDuoPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
-  await t.expect(challengeDuoPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
-});
+    await t.expect(challengeDuoPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+    await t.expect(challengeDuoPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+  });
