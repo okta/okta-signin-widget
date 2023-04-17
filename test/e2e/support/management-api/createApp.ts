@@ -1,6 +1,6 @@
 import { randomStr } from '../../util/random';
 import { getConfig } from '../../util/configUtil';
-import { Client } from '@okta/okta-sdk-nodejs';
+import { Application, Client } from '@okta/okta-sdk-nodejs';
 
 
 type Options = {
@@ -49,8 +49,8 @@ export default async function (options: Options) {
         'consent_method': 'REQUIRED'
       }
     }
-  };
+  } as Application;
 
-  const app = await oktaClient.createApplication(testApp);
+  const app = await oktaClient.applicationApi.createApplication({ application: testApp });
   return app;
 }

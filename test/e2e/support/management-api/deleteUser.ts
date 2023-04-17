@@ -12,9 +12,15 @@
 
 
 
-import { User } from '../../../../node_modules/@okta/okta-sdk-nodejs';
+import { Client, User } from '@okta/okta-sdk-nodejs';
+import { getConfig } from '../../util/configUtil';
 
 export default async function(user: User): Promise<void> {
-  await user.deactivate();
-  await user.delete();
+  const config = getConfig();
+  const oktaClient = new Client({
+    orgUrl: config.orgUrl,
+    token: config.oktaAPIKey,
+  });
+  await oktaClient.userApi.deactivateUser({ userId: user.id as string });
+  await oktaClient.userApi.deleteUser({ userId: user.id as string });
 }

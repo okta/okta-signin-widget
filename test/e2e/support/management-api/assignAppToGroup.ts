@@ -9,5 +9,8 @@ export default async function (appId: string, groupId: string) {
     token: config.oktaAPIKey,
   });
 
-  await oktaClient.createApplicationGroupAssignment(appId, groupId);
+  await oktaClient.applicationApi.assignGroupToApplication({
+    appId,
+    groupId,
+  });
 }

@@ -8,9 +8,12 @@ export default async (groupName?: string) => {
   const oktaClient = new Client({
     orgUrl: config.orgUrl,
     token: config.oktaAPIKey,
-  }); const group = await oktaClient.createGroup({
-    profile: {
-      name: groupName || `TestGroup-${randomStr(6)}`
+  }); 
+  const group = await oktaClient.groupApi.createGroup({ 
+    group: {
+      profile: {
+        name: groupName || `TestGroup-${randomStr(6)}`
+      }
     }
   });
   return group;

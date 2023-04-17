@@ -12,9 +12,11 @@
 
 
 import { After, AfterStep } from '@cucumber/cucumber';
+import { Client } from '@okta/okta-sdk-nodejs';
 import ActionContext from '../support/context';
 import deleteUserAndCredentials from '../support/management-api/deleteUserAndCredentials';
 import TestAppPage from '../page-objects/test-app.page';
+import { getConfig } from '../util/configUtil';
 
 // eslint-disable-next-line no-unused-vars
 AfterStep(async function (this: ActionContext) {
@@ -31,12 +33,18 @@ After(async function(this: ActionContext) {
     return;
   }
 
+  const config = getConfig();
+  const oktaClient = new Client({
+    orgUrl: config.orgUrl,
+    token: config.oktaAPIKey,
+  });
+
   if (this.app) {
-    await this.app.deactivate();
-    await this.app.delete();
+    await oktaClient.applicationApi.deactivateApplication({ appId: this.app.id as string });
+    await oktaClient.applicationApi.deleteApplication({ appId: this.app.id as string });
   }
   if (this.group) {
-    await this.group.delete();
+    await oktaClient.groupApi.deleteGroup({ groupId: this.group.id as string });
   }
 });
 

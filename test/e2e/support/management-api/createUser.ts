@@ -11,7 +11,7 @@
  */
 
 
-import { Client, Group, User } from '../../../../node_modules/@okta/okta-sdk-nodejs';
+import { Client, User } from '@okta/okta-sdk-nodejs';
 import { getConfig } from '../../util/configUtil';
 import deleteUser from './deleteUser';
 import { UserCredentials } from './createCredentials';
@@ -34,17 +34,18 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
   };
 
   try {
-    user = await oktaClient.createUser({
-      profile: {
-        firstName: credentials.firstName,
-        lastName: credentials.lastName,
-        email: credentials.emailAddress,
-        login: credentials.emailAddress
+    user = await oktaClient.userApi.createUser({  
+      body: {
+        profile: {
+          firstName: credentials.firstName,
+          lastName: credentials.lastName,
+          email: credentials.emailAddress,
+          login: credentials.emailAddress
+        },
+        credentials: {
+          password: { value: credentials.password }
+        }
       },
-      credentials: {
-        password: { value: credentials.password }
-      }
-    }, {
       activate: true
     });
 
@@ -56,21 +57,24 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
     }
 
     // Create the group if it doesn't exist
-    let { value: testGroup } = await oktaClient.listGroups({
+    let { value: testGroup } = await (await oktaClient.groupApi.listGroups({
       q: userGroup
-    }).next();
+    })).next();
 
     if (!testGroup) {
-      testGroup = await oktaClient.createGroup(basicAuthGroup);
+      testGroup = await oktaClient.groupApi.createGroup({ group: basicAuthGroup });
     }
 
-    await oktaClient.addUserToGroup((testGroup as Group).id, user.id);
+    await oktaClient.groupApi.assignUserToGroup({ 
+      groupId: testGroup.id as string, 
+      userId: user.id as string
+    });
 
     for (const groupName of assignToGroups) {
       // TODO: create test group and attach password recovery policy during test run when API supports it
-      let { value: testGroup } = await oktaClient.listGroups({
+      let { value: testGroup } = await (await oktaClient.groupApi.listGroups({
         q: groupName
-      }).next();
+      })).next();
 
       if (!testGroup) {
         const group = {
@@ -78,10 +82,13 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
             name: groupName
           }
         };
-        testGroup = await oktaClient.createGroup(group);
+        testGroup = await oktaClient.groupApi.createGroup({ group });
       }
 
-      await oktaClient.addUserToGroup((testGroup as Group).id, user.id);
+      await oktaClient.groupApi.assignUserToGroup({
+        groupId: testGroup.id as string, 
+        userId: user.id as string
+      });
     }
 
     return user;
