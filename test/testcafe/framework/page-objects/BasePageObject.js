@@ -201,7 +201,7 @@ export default class BasePageObject {
   }
 
   getSwitchAuthenticatorLinkText() {  
-    return this.getVerifyWithSomethingElseLink().textContent;
+    return Selector(SWITCH_AUTHENTICATOR_LINK).textContent;
   }
 
   async verifyWithSomethingElseLinkExists() {
