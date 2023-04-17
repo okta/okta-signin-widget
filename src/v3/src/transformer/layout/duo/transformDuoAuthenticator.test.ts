@@ -33,9 +33,7 @@ describe('Duo Authenticator Transformer Tests', () => {
       ...transaction,
       nextStep: {
         name: IDX_STEP.ENROLL_AUTHENTICATOR,
-      },
-      rawIdxState: {
-        currentAuthenticator: {
+        relatesTo: {
           value: {
             contextualData: {
               // @ts-expect-error OKTA-601240 : missing property from contextualData type
