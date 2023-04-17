@@ -84,7 +84,7 @@ async function bootstrap() {
   const oktaClient = new Client(config);
   const { id: orgId } = await oktaClient.orgSettingApi.getOrgSettings();
 
-  await enableOIE(orgId);
+  await enableOIE(orgId as string);
   console.error('Activating okta_email factor');
   await activateOrgFactor(config, 'okta_email');
   console.error('Disabling step up for password recovery');
@@ -93,10 +93,10 @@ async function bootstrap() {
   // Set Feature flags
   console.error('Setting feature flags...')
   for (const option of options.enableFFs) {
-    await enableFeatureFlag(config, orgId, option);
+    await enableFeatureFlag(config, orgId as string, option);
   }
   for (const option of options.disableFFs) {
-    await disableFeatureFlag(config, orgId, option);
+    await disableFeatureFlag(config, orgId as string, option);
   }
 
   console.error('Enabling embedded login');
@@ -106,11 +106,11 @@ async function bootstrap() {
   console.error('Enabling interaction_code grant on the default authorization server');
   const authServer = await getDefaultAuthorizationServer(config);
   await (await oktaClient.authorizationServerApi.listAuthorizationServerPolicies({ 
-    authServerId: authServer.id 
+    authServerId: authServer.id as string,
   })).each(async (policy) => {
     if (policy.name === 'Default Policy') {
       await (await oktaClient.authorizationServerApi.listAuthorizationServerPolicyRules({
-        authServerId: authServer.id,
+        authServerId: authServer.id as string,
         policyId: policy.id as string
       })).each(async (rule) => {
         if (rule.name === 'Default Policy Rule' && rule.conditions) {
@@ -124,7 +124,7 @@ async function bootstrap() {
             ]
           };
           await oktaClient.authorizationServerApi.replaceAuthorizationServerPolicyRule({
-            authServerId: authServer.id, 
+            authServerId: authServer.id as string, 
             policyId: policy.id as string, 
             ruleId: rule.id as string,
             policyRule: rule
@@ -195,7 +195,7 @@ async function bootstrap() {
 
     // assign "Everyone" to this application
     await oktaClient.applicationApi.assignGroupToApplication({ 
-      appId: app.id, 
+      appId: app.id as string, 
       groupId: everyoneGroup.id,
     });
 
@@ -232,7 +232,7 @@ async function bootstrap() {
 
     // Modify catch-all rule to enforce password only
     console.error(`Modifying catch-all rule to require only password for app "${app.label}"`);
-    const catchAll = await getCatchAllRule(config, signOnPolicy.id);
+    const catchAll = await getCatchAllRule(config, signOnPolicy.id as string);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
     catchAll.actions.appSignOn = {
@@ -252,7 +252,7 @@ async function bootstrap() {
     };
     await oktaClient.policyApi.replacePolicyRule({
       policyId: signOnPolicy.id as string,
-      ruleId: catchAll.id,
+      ruleId: catchAll.id as string,
       policyRule: catchAll
     });
 
@@ -294,10 +294,10 @@ async function bootstrap() {
     });
 
     // Assign sign-on policy to SPA app
-    setPolicyForApp(config, app.id, signOnPolicy.id);
+    setPolicyForApp(config, app.id as string, signOnPolicy.id);
 
     // Assign profile enrollment policy to SPA app
-    setPolicyForApp(config, app.id, profileEnrollmentPolicy.id);
+    setPolicyForApp(config, app.id as string, profileEnrollmentPolicy.id);
   }
 
   // Delete users if they exist
@@ -324,7 +324,7 @@ async function bootstrap() {
   // User 1 assigned to apps
   for (const app of createdApps) {
     await oktaClient.applicationApi.assignUserToApplication({
-      appId: app.id, 
+      appId: app.id as string,
       appUser: {
         id: user1.id
       }
@@ -367,26 +367,26 @@ async function bootstrap() {
     WIDGET_WEB_CLIENT_ID: webApp.id,
     
     // Basic user - assigned to both apps
-    WIDGET_BASIC_USER: user1.profile.login,
+    WIDGET_BASIC_USER: user1.profile?.login,
     WIDGET_BASIC_PASSWORD: options.users[0].password,
-    WIDGET_BASIC_NAME: `${user1.profile.firstName} ${user1.profile.lastName}`,
+    WIDGET_BASIC_NAME: `${user1.profile?.firstName} ${user1.profile?.lastName}`,
 
     // Basic user 2 - (copy of 1)
-    WIDGET_BASIC_USER_2: user1.profile.login,
+    WIDGET_BASIC_USER_2: user1.profile?.login,
     WIDGET_BASIC_PASSWORD_2: options.users[0].password,
-    WIDGET_BASIC_NAME_2: `${user1.profile.firstName} ${user1.profile.lastName}`,
+    WIDGET_BASIC_NAME_2: `${user1.profile?.firstName} ${user1.profile?.lastName}`,
 
     // Basic user 3 - not used
 
     // Basic user 4 - (copy of 1)
-    WIDGET_BASIC_USER_4: user1.profile.login,
+    WIDGET_BASIC_USER_4: user1.profile?.login,
     WIDGET_BASIC_PASSWORD_4: options.users[0].password,
-    WIDGET_BASIC_NAME_4: `${user1.profile.firstName} ${user1.profile.lastName}`,
+    WIDGET_BASIC_NAME_4: `${user1.profile?.firstName} ${user1.profile?.lastName}`,
 
     // Basic user 5 - not assigned to any apps
-    WIDGET_BASIC_USER_5: user2.profile.login,
+    WIDGET_BASIC_USER_5: user2.profile?.login,
     WIDGET_BASIC_PASSWORD_5: options.users[1].password,
-    WIDGET_BASIC_NAME_5: `${user2.profile.firstName} ${user2.profile.lastName}`,
+    WIDGET_BASIC_NAME_5: `${user2.profile?.firstName} ${user2.profile?.lastName}`,
   }
 
   console.error(`Writing output to: ${outputFilePath}`);
