@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Duo from '@okta/duo';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
