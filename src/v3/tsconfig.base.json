@@ -32,6 +32,9 @@
       "@okta/qtip": [
         "../../packages/@okta/qtip2/dist/jquery.qtip.js"
       ],
+      "@okta/duo": [
+        "../../packages/vendor/duo_web_sdk"
+      ],
       "util/*": [
         "../util/*"
       ],

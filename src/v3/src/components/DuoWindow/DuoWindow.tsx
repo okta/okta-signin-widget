@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// import Duo from '../../../../../packages/vendor/duo_web_sdk';
 import Duo from '@okta/duo';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
