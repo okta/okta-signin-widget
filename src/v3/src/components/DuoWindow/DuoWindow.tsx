@@ -22,7 +22,7 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 import { loc } from '../../util';
-import style from './style.css';
+import style from './style.module.css';
 
 type IFrameProps = {
   title: string;
@@ -42,7 +42,7 @@ const DuoWindow: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const {
     options: {
-      title,
+      title: iframeTitle,
       host,
       signedToken,
       step,
@@ -80,7 +80,7 @@ const DuoWindow: UISchemaElementComponent<{
 
   return (
     <React.Fragment>
-      { !duoFailed && <IFrame title={title} /> }
+      { !duoFailed && <IFrame title={iframeTitle} /> }
     </React.Fragment>
   );
 };
