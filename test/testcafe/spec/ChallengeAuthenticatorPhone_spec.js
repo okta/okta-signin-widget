@@ -605,7 +605,7 @@ test
     await t.expect(smsRequestObj).eql({ id: 'id-phone-authenticator', methodType: 'sms'});
   });
 
-// Help links are not implemented in v3
+// OKTA-465319 Help link is not supported in v3
 test.meta('v3', false).requestHooks(smsPrimaryMockEmptyProfile)('should show custom factor page link', async t => {
   const challengePhonePageObject = await setup(t);
   await checkA11y(t);
