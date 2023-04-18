@@ -171,8 +171,7 @@ export default {
       'index.js',
     );
 
-    // if not a production build we use the mock Duo response
-    if (!env.production) {
+    if (process.env.mockDuo) {
       config.resolve.alias['@okta/duo'] = rootResolve(
         'playground',
         'mocks',
