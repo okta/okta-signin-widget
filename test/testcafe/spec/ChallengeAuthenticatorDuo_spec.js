@@ -7,25 +7,31 @@ import xhrAuthenticatorVerifyDuo from '../../../playground/mocks/data/idp/idx/au
 import success from '../../../playground/mocks/data/idp/idx/success';
 import verificationTimeout from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-timeout';
 import verificationFailed from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-failed';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { checkConsoleMessages, renderWidget, mockDuoIframeHtml } from '../framework/shared';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorVerifyDuo)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(success);
+  .respond(success)
+  .onRequestTo('http://localhost:3000/mocks/spec-duo/duo-iframe.html')
+  .respond(mockDuoIframeHtml);
 
 const verificationTimeoutMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorVerifyDuo)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(verificationTimeout, 400);
+  .respond(verificationTimeout, 400)
+  .onRequestTo('http://localhost:3000/mocks/spec-duo/duo-iframe.html')
+  .respond(mockDuoIframeHtml);
 
 const verificationFailedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorVerifyDuo)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(verificationFailed, 400);
+  .respond(verificationFailed, 400)
+  .onRequestTo('http://localhost:3000/mocks/spec-duo/duo-iframe.html')
+  .respond(mockDuoIframeHtml);
 
 const answerRequestLogger = RequestLogger(
   /idx\/challenge\/answer/,

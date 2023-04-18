@@ -31,7 +31,6 @@ module.exports = {
         map: [
           ['src', './src'],
           ['@okta/duo', '../../packages/vendor/duo_web_sdk/index.js'],
-          ['@okta/duo', 'src/mocks/utils/duo-mock-v3.js'],
         ],
         extensions: [
           '.ts',

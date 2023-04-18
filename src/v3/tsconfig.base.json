@@ -34,7 +34,7 @@
       ],
       "@okta/duo": [
         "../../packages/vendor/duo_web_sdk/index.js",
-        "src/mocks/utils/duo-mock-v3.js"
+        "../../playground/mocks/spec-duo/duo-mock.js"
       ],
       "util/*": [
         "../util/*"
