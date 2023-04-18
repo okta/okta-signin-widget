@@ -45,9 +45,9 @@ export const transformDuoAuthenticator: IdxStepTransformer = ({
     options: {
       title: titleText,
       // @ts-expect-error OKTA-601240 : missing property from contextualData type
-      host: authenticatorContextualData.host,
+      host: authenticatorContextualData?.host,
       // @ts-expect-error OKTA-601240 : missing property from contextualData type
-      signedToken: authenticatorContextualData.signedToken,
+      signedToken: authenticatorContextualData?.signedToken,
       step: stepName,
     },
   };
