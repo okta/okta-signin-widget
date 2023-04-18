@@ -172,11 +172,12 @@ export default {
     );
 
     if (process.env.mockDuo) {
-      config.resolve.alias['@okta/duo'] = rootResolve(
-        'playground',
+      config.resolve.alias['@okta/duo'] = resolve(
+        __dirname,
+        'src',
         'mocks',
-        'spec-duo',
-        'duo-mock.js',
+        'utils',
+        'duo-mock-v3.js',
       );
     }
 
