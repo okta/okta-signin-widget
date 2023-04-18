@@ -23,7 +23,6 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 import { loc } from '../../util';
-import style from './style.module.css';
 
 type IFrameProps = {
   title: string;
@@ -32,8 +31,9 @@ type IFrameProps = {
 const IFrame: FunctionComponent<IFrameProps> = ({ title }) => (
   <iframe
     id="duo_iframe"
-    class={style.duo_form}
     title={title}
+    height='400px'
+    width='100%'
     frameBorder={0}
   />
 );
