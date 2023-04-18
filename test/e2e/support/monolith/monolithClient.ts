@@ -53,7 +53,7 @@ export class MonolithClient {
     if (!content) {
       throw new Error('Unable to retrieve latest email');
     }
-    //console.log('getLatestEmail', content);
+    console.log('getLatestEmail', content);
     return content;
   }
 
@@ -88,6 +88,7 @@ export class MonolithClient {
 
   async getPasswordResetMagicLink(emailAddress: string) {
     const content = await this.getLatestEmail(emailAddress);
+    console.error('getPasswordResetMagicLink content: ', content);
     const match = content?.match(/<a id="reset-password-link" href="(?<url>\S+)"/);
     const url = match?.groups?.url;
     if (!url) {
