@@ -32,8 +32,8 @@ const IFrame: FunctionComponent<IFrameProps> = ({ title }) => (
   <iframe
     id="duo_iframe"
     title={title}
-    height='400px'
-    width='100%'
+    height="400px"
+    width="100%"
     frameBorder={0}
   />
 );
