@@ -12,7 +12,7 @@
                 ],
                 "name": "challenge-authenticator",
                 "relatesTo": [
-                    "$.currentAuthenticator"
+                    "$.currentAuthenticatorEnrollment"
                 ],
                 "href": "http://localhost:3000/idp/idx/challenge/answer",
                 "method": "POST",

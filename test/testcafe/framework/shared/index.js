@@ -91,6 +91,16 @@ export const oktaDashboardContent = `
   <a href="/">Back to Login</a>
 `;
 
+// eslint-disable-next-line @okta/okta/no-unlocalized-text-in-templates
+export const mockDuoIframeHtml = `
+  <html>
+  <body style="border: 1px solid #62b245; padding: 20px; text-align: center;">
+    <p>Duo Mock iFrame</p>
+    <a href="#" id="duoVerifyLink">Continue</a>
+  </body>
+  </html>
+`;
+
 /**
  * Provides mock responses for common endpoints. Use this export instead of
  * importing from "testcafe" directly to avoid falling back to dyson mock server

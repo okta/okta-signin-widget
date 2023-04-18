@@ -25,6 +25,7 @@ import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
 import Divider from '../Divider';
+import DuoWindow from '../DuoWindow';
 import Heading from '../Heading';
 import HiddenInput from '../HiddenInput';
 import ImageWithText from '../ImageWithText';
@@ -204,5 +205,9 @@ export default [
   {
     tester: ({ type }) => type === 'StepperNavigator',
     renderer: StepperNavigator,
+  },
+  {
+    tester: ({ type }) => type === 'DuoWindow',
+    renderer: DuoWindow,
   },
 ] as Renderer[];

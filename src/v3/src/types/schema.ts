@@ -557,3 +557,13 @@ export interface DividerElement extends UISchemaElement {
   type: 'Divider';
   options?: { text: string; };
 }
+
+export interface DuoWindowElement extends UISchemaElement {
+  type: 'DuoWindow';
+  options: {
+    title: string;
+    host: string;
+    signedToken: string;
+    step: string;
+  };
+}

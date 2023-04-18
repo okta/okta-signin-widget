@@ -112,6 +112,7 @@ test
     await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
   });
 
+// OKTA-465319 Help link is not supported in v3
 test.meta('v3', false).requestHooks(verifyMock)('should show custom factor page link', async t => {
   const pageObject = await setup(t);
   await checkA11y(t);

@@ -75,7 +75,7 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 });
 
-// Help links are not implemented in v3
+// OKTA-465319 Help link is not supported in v3
 test.meta('v3', false).requestHooks(authenticatorRequiredSecurityQuestionMock)('should show custom factor page link', async t => {
   const challengeSecurityQuestionPageObject = await setup(t);
   await checkA11y(t);

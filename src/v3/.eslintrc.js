@@ -30,6 +30,7 @@ module.exports = {
       alias: {
         map: [
           ['src', './src'],
+          ['@okta/duo', '../../packages/vendor/duo_web_sdk/index.js'],
         ],
         extensions: [
           '.ts',

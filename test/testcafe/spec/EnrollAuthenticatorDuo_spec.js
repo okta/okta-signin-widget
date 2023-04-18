@@ -1,6 +1,7 @@
 import { RequestMock } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { checkConsoleMessages, mockDuoIframeHtml, renderWidget } from '../framework/shared';
+
 import DuoPageObject from '../framework/page-objects/DuoPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrAuthenticatorEnrollDuo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-duo';
@@ -10,14 +11,17 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollDuo)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo('http://localhost:3000/mocks/spec-duo/duo-iframe.html')
+  .respond(mockDuoIframeHtml);
 
-fixture('Authenticator Enroll Duo')
+fixture('Authenticator Enroll Duo').meta('v3', true)
   .requestHooks(mock);
 
 async function setup(t) {
   const enrollDuoPage = new DuoPageObject(t);
   await enrollDuoPage.navigateToPage();
+  await t.expect(enrollDuoPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'enroll-duo',
     formName: 'enroll-authenticator',
@@ -37,7 +41,7 @@ test('should render an iframe for duo', async t => {
   await t.expect(enrollDuoPage.hasDuoIframe()).eql(true);
 
   // Verify links (switch authenticator link is present even if there is just one authenticator available)
-  await t.expect(await enrollDuoPage.switchAuthenticatorLinkExists()).ok();
+  await t.expect(await enrollDuoPage.returnToAuthenticatorListLinkExists()).ok();
   await t.expect(await enrollDuoPage.signoutLinkExists()).ok();
 });
 
