@@ -19,7 +19,7 @@ import {
   WidgetMessage,
   WidgetProps,
 } from '../../types';
-import { loc } from '../../util';
+import { loc, SessionStorage } from '../../util';
 import { createForm } from '../utils';
 
 type ErrorTransformer = (widgetProps: WidgetProps, error?: (AuthApiError | OAuthError)) => FormBag;
@@ -45,6 +45,7 @@ const getWidgetMessage = (
         if (widgetProps && message.i18n.key === 'idx.session.expired') {
           const { authClient } = widgetProps;
           authClient?.transactionManager.clear();
+          SessionStorage.removeStateHandle();
         }
 
         return {

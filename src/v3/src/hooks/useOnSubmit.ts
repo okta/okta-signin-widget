@@ -32,6 +32,7 @@ import {
   loc,
   postRegistrationSubmit,
   preRegistrationSubmit,
+  SessionStorage,
   toNestedObject,
   transformIdentifier,
   triggerRegistrationErrorMessages,
@@ -61,7 +62,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setStepToRender,
     widgetProps,
   } = useWidgetContext();
-  const { events } = widgetProps;
+  const { events, useInteractionCodeFlow } = widgetProps;
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
     setLoading(true);
@@ -104,7 +105,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
     const immutableData = getImmutableData(currTransaction!, step);
 
-    const fn = authClient.idx.proceed;
+    let fn = authClient.idx.proceed;
 
     let payload: IdxActionParams = {};
     if (includeData) {
@@ -171,6 +172,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     }
     if (step === 'cancel') {
       authClient?.transactionManager.clear({ clearIdxResponse: false });
+      SessionStorage.removeStateHandle();
+      if (useInteractionCodeFlow) {
+        // In this case we need to restart login flow and recreate transaction meta
+        // that will be used in interactionCodeFlow function
+        fn = authClient.idx.start;
+        payload = {};
+      }
     }
     setMessage(undefined);
     try {

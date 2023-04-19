@@ -43,6 +43,7 @@ import {
   removeUsernameCookie,
   setUsernameCookie,
   shouldShowCancelLink,
+  SessionStorage,
 } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { setFocusOnFirstElement } from '../uischema';
@@ -121,6 +122,9 @@ const appendViewLinks = (
       cancelLink.options.href = backToSigninUri;
     } else if (useInteractionCodeFlow) {
       cancelLink.options.onClick = async () => {
+        const { authClient } = widgetProps;
+        authClient?.transactionManager.clear();
+        SessionStorage.removeStateHandle();
         await bootstrapFn();
       };
     } else {
@@ -232,6 +236,7 @@ export const transformTerminalTransaction = (
   }
 
   if (useInteractionCodeFlow && transaction.interactionCode) {
+    SessionStorage.removeStateHandle();
     return buildFormBagForInteractionCodeFlow(
       transaction,
       widgetProps,
@@ -249,7 +254,9 @@ export const transformTerminalTransaction = (
   const { messages } = transaction;
 
   if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
+    console.log('> SESSION_EXPIRED')
     authClient?.transactionManager.clear();
+    SessionStorage.removeStateHandle();
   }
 
   if (!messages && transaction.interactionCode && !useInteractionCodeFlow) {
