@@ -56,6 +56,7 @@ const credentialSSONotExistMock = RequestMock()
 const credentialSSONotExistLogger = RequestLogger(/introspect|verify\/cancel/);
 
 fixture('Session Storage - manage state in client side')
+  .meta('v3', true)
   .afterEach(() => {
     ClientFunction(() => { window.sessionStorage.clear(); });
   });
