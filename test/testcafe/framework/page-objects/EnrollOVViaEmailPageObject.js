@@ -1,3 +1,4 @@
+import { userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const EMAIL_FIELD = 'email';
@@ -13,6 +14,13 @@ export default class EnrollOVViaEmailPageObject extends BasePageObject {
   }
 
   clickNextButton() {
+    return this.form.clickSaveButton();
+  }
+
+  clickSendSetupLink() {
+    if (userVariables.v3) {
+      return this.form.clickButton('Send me the setup link');
+    }
     return this.form.clickSaveButton();
   }
 

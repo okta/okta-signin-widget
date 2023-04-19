@@ -81,7 +81,8 @@ export const transformStepInputs = (
       const flattenedInputs = flattenInputs(input);
       return [...acc, ...flattenedInputs];
     }, [])
-    .filter((input) => input.visible !== false && input.mutable !== false)
+    .filter((input) => input.visible === true
+        || (input.visible !== false && input.mutable !== false))
     .reduce((acc: FormBag, input: Input) => {
       const {
         name, required, mutable, type,
