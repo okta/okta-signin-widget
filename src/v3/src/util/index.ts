@@ -39,6 +39,7 @@ export * from './passwordUtils';
 export * from './removeFieldLevelMessages';
 export * from './rendererUtils';
 export * from './resetMessagesToInputs';
+export * from './sessionStorage';
 export * from './settingsUtils';
 export * from './setUrlQueryParams';
 export * from './shouldShowCancelLink';

@@ -18,7 +18,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { useWidgetContext } from '../../contexts';
 import { useHtmlContentParser, useOnSubmit } from '../../hooks';
 import { ReminderElement, UISchemaElementComponent } from '../../types';
-import { getLinkReplacerFn } from '../../util';
+import { getLinkReplacerFn, SessionStorage } from '../../util';
 import TextWithActionLink from '../TextWithActionLink';
 
 export const DEFAULT_TIMEOUT_MS = 30_000;
@@ -45,36 +45,25 @@ const ReminderPrompt: UISchemaElementComponent<{
   const [show, setShow] = useState<boolean>(false);
   const timerRef = useRef<number | undefined>();
 
-  const RESEND_TIMESTAMP_SESSION_STORAGE_KEY = 'osw-oie-resend-timestamp';
-  const removeResendTimestamp = () => {
-    sessionStorage.removeItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
-  };
-  const setResendTimestamp = (timestampStr: string) => {
-    sessionStorage.setItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY, timestampStr);
-  };
-
-  const getResendTimestamp = (): string | null => sessionStorage
-    .getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
-
   const startTimer = () => {
     setShow(false);
-    const timeStamp = getResendTimestamp();
+    const timeStamp = SessionStorage.getResendTimestamp();
     if (!timeStamp) {
-      setResendTimestamp(Date.now().toString());
+      SessionStorage.setResendTimestamp(Date.now().toString());
     }
     if (timerRef) {
       window.clearInterval(timerRef.current);
     }
 
     timerRef.current = window.setInterval(() => {
-      const ts = getResendTimestamp() || Date.now().toString();
+      const ts = SessionStorage.getResendTimestamp() || Date.now().toString();
       const start = parseInt(ts, 10);
       const now = Date.now();
       const timeout = typeof customTimeout === 'number' ? customTimeout : DEFAULT_TIMEOUT_MS;
       if (now - start >= timeout) {
         setShow(true);
         window.clearInterval(timerRef.current);
-        removeResendTimestamp();
+        SessionStorage.removeResendTimestamp();
       }
     }, 250);
   };
@@ -84,7 +73,7 @@ const ReminderPrompt: UISchemaElementComponent<{
 
     return () => {
       window.clearInterval(timerRef.current);
-      removeResendTimestamp();
+      SessionStorage.removeResendTimestamp();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
