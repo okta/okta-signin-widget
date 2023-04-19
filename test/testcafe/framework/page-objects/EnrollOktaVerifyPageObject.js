@@ -4,7 +4,7 @@ import { within } from '@testing-library/testcafe';
 
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const FORM_INFOBOX_ERROR_TITLE_V3 = '[data-se="callout"] > div > h2';
-const CANT_SCAN_BUTTON_SELECTOR = 'button[aria-label="Setup without scanning a QR code."]';
+const CANT_SCAN_BUTTON_TEXT = 'Setup without scanning a QR code.';
 const FORM_SELECTOR = '[data-se="o-form-explain"]';
 
 export default class EnrollOktaVerifyPageObject extends BasePageObject {
@@ -69,28 +69,28 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   getEmailInstruction() {
     if (userVariables.v3) {
-      return this.getTextContent('[data-se="o-form-explain"]'); 
+      return this.getTextContent('[data-se="o-form"]'); 
     }
     return this.getTextContent('.email-info');
   }
 
   getSmsInstruction() {
     if (userVariables.v3) {
-      return this.getTextContent('[data-se="o-form-explain"]'); 
+      return this.getTextContent('[data-se="o-form"]'); 
     }
     return this.getTextContent('.sms-info');
   }
 
   getSwitchChannelText() {
     if (userVariables.v3) {
-      return this.getTextContent(CANT_SCAN_BUTTON_SELECTOR);
+      return this.form.getButton(CANT_SCAN_BUTTON_TEXT).textContent;
     }
     return this.getTextContent('.switch-channel-link');
   }
 
   async clickSwitchChannel() {
     if (userVariables.v3) {
-      await this.form.clickElement(CANT_SCAN_BUTTON_SELECTOR);
+      await this.form.clickButton(CANT_SCAN_BUTTON_TEXT);
     } else {
       await this.form.clickElement('.switch-channel-link');
     }
@@ -124,7 +124,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
       await this.t.click(resendEmail);
     } else {
       await this.form.clickElement('.resend-ov-link-view a.resend-link');
-   }
+    }
   } 
 
   async clickSendSMSAgainLink() {
@@ -133,7 +133,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
       await this.t.click(resendEmail);
     } else {
       await this.form.clickElement('.resend-ov-link-view a.resend-link');
-   }
+    }
   } 
 
   getErrorBox() {
@@ -152,7 +152,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getFormTitle(index) {
-    if (userVariables.v3 && index != undefined) {
+    if (userVariables.v3 && index !== undefined) {
       return this.form.getNthTitle(index);
     }
     return this.form.getTitle();

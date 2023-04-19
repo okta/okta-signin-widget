@@ -38,15 +38,13 @@ const mock = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifyQr)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
     if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
@@ -60,10 +58,10 @@ const enrollViaQRcodeMocks = RequestMock()
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -78,15 +76,13 @@ const enrollViaEmailMocks = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifyEmail)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -111,15 +107,13 @@ const enrollViaSmsMocks = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifySMS)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -144,15 +138,13 @@ const enrollViaSmsVersionUpgradeMocks = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgrade)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
     if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -167,15 +159,13 @@ const enrollViaSmsVersionUpgradeMocksGoBack = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgrade)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
     if (!userVariables.v3) {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgrade);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgrade);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -190,15 +180,13 @@ const enrollViaSmsVersionUpgradeMocksNonIos = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgradeNonIos)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -213,15 +201,13 @@ const enrollViaEmailVersionUpgradeMocks = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifyViaEmailVersionUpgrade)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -236,15 +222,13 @@ const enrollViaEmailVersionUpgradeMocksNonIos = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifyViaEmailVersionUpgradeNonIos)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -258,10 +242,10 @@ const enrollViaQRcodeVersionUpgradeMocks = RequestMock()
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgrade);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgrade);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -275,10 +259,10 @@ const enrollViaQRcodeVersionUpgradeMocksNonIos = RequestMock()
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgradeNonIos);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgradeNonIos);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -292,10 +276,10 @@ const enrollViaQRcodeEnableBiometricsMocks = RequestMock()
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollEnableBiometricsQr);
+      res.setBody(xhrAuthenticatorEnrollEnableBiometricsQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -310,15 +294,13 @@ const enrollViaEmailEnableBiometricsMocks = RequestMock()
   .respond(xhrAuthenticatorEnrollEnableBiometricsEmail)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -333,15 +315,13 @@ const enrollViaSMSEnableBiometricsMocks = RequestMock()
   .respond(xhrAuthenticatorEnrollEnableBiometricsSMS)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
     if (!userVariables.v3) {
       res.setBody(xhrSuccess);
     }
-    if (isSuccess) {
+    else if (isSuccess) {
       res.setBody(xhrSuccess);
     } else {
-        res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
+      res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
@@ -379,6 +359,7 @@ async function setup(t) {
 }
 
 test.requestHooks(logger, enrollViaQRcodeMocks)('should be able to enroll via qrcode', async t => {
+  isSuccess = false;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
@@ -415,6 +396,7 @@ test.requestHooks(logger, enrollViaQRcodeMocks)('should be able to enroll via qr
 });
 
 test.requestHooks(mock)('should render switch channel view when Can\'t scan is clicked in qr code flow', async t => {
+  isSuccess = false;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getSwitchChannelText()).eql('Can\'t scan?');
@@ -467,6 +449,7 @@ test.requestHooks(resendSmsMocks)('should render switch channel view when "try d
 });
 
 test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async t => {
+  isSuccess = false;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
@@ -487,9 +470,8 @@ test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async 
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
-  }
+  await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
+
   
   isSuccess = true;
   const successPage = new SuccessPageObject(t);
@@ -503,9 +485,7 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
-  }
+  await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.wait(30000);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
@@ -514,12 +494,11 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
   await enrollOktaVerifyPage.clickSendAgainLink();
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
-  }
+  await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
 });
 
 test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', async t => {
+  isSuccess = false;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
@@ -535,8 +514,8 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
   await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
   await enrollViaSMSPageObject.fillPhoneField('8887227871');
   await enrollViaSMSPageObject.clickSendSetupLink();
-   // logger.count ~ 10 in v3, and not consistent
-   if (!userVariables.v3) {
+  // logger.count ~ 10 in v3, and not consistent
+  if (!userVariables.v3) {
     await t.expect(logger.count(() => true)).eql(3);
     const { request: { body: answerRequestBodyString }} = logger.requests[2];
     const answerRequestBody = JSON.parse(answerRequestBodyString);
@@ -546,9 +525,8 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
-  }
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
+  
   isSuccess = true;
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
@@ -558,6 +536,7 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
 });
 
 test.requestHooks(logger, enrollViaSmsMocks)('respects settings.defaultCountryCode', async t => {
+  isSuccess = false;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
 
@@ -587,9 +566,7 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
-  }
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.wait(30000);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
@@ -598,12 +575,11 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
   await enrollOktaVerifyPage.clickSendSMSAgainLink();
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
-  }
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
 });
 
 const testSmsMsg = async (t, isIos) => {
+  isSuccess = false;
   const message = isIos ? fipsUpgradeMessage: fipsUpgradeMessageNonIos;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
@@ -632,9 +608,8 @@ const testSmsMsg = async (t, isIos) => {
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
-  }
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
+
   const errorBox = enrollOktaVerifyPage.getErrorBox();
   await t.expect(errorBox.innerText).contains(message);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
@@ -645,7 +620,7 @@ const testSmsMsg = async (t, isIos) => {
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
-  isSuccess = false
+  isSuccess = false;
 };
 
 test.requestHooks(logger, enrollViaSmsVersionUpgradeMocks)('should see ov upgrade error message during enroll via sms', async t => {
@@ -657,6 +632,7 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksNonIos)('should see ov 
 });
 
 const testEmailMsg = async (t, isIos) => {
+  isSuccess = false;
   const message = isIos ? fipsUpgradeMessage: fipsUpgradeMessageNonIos;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
@@ -678,9 +654,8 @@ const testEmailMsg = async (t, isIos) => {
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
-  }
+  await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
+
   const errorBox = enrollOktaVerifyPage.getErrorBox();
   await t.expect(errorBox.innerText).contains(message);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
@@ -702,6 +677,7 @@ test.requestHooks(enrollViaEmailVersionUpgradeMocksNonIos)('should see ov upgrad
 });
 
 const testQRcodeMsg = async (t, isIos) => {
+  isSuccess = false;
   const message = isIos ? fipsUpgradeMessage: fipsUpgradeMessageNonIos;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
@@ -747,6 +723,7 @@ test.requestHooks(logger, enrollViaQRcodeVersionUpgradeMocksNonIos)('should see 
 });
 
 test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack)('should not show version upgrade message after user hits go back', async t => {
+  isSuccess = false;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
@@ -774,19 +751,19 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack)('should not sho
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
-  }
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
+  
   const errorBox = enrollOktaVerifyPage.getErrorBox();
   await t.expect(errorBox.innerText).contains(fipsUpgradeMessage);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(fipsUpgradeTitle);
   // hit go back
   await enrollOktaVerifyPage.switchAuthenticator();
-  t.expect(errorBox.exists).notOk;
+  await t.expect(errorBox.exists).notOk;
 });
 
 test.requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks)('should see ov enable biometrics message during enroll via QR code', async t => {
+  isSuccess = false;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getFormTitle(1)).eql('Set up Okta Verify');
@@ -821,6 +798,7 @@ test.requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks)('should see ov e
 });
 
 test.requestHooks(enrollViaEmailEnableBiometricsMocks)('should see ov enable biometrics message during enroll via email', async t => {
+  isSuccess = false;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
@@ -841,9 +819,8 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks)('should see ov enable bio
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
-  }
+  await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
+  
   const errorBox = enrollOktaVerifyPage.getErrorBox();
   await t.expect(errorBox.innerText).contains(enableBiometricsMessage);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
@@ -857,6 +834,7 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks)('should see ov enable bio
 });
 
 test.requestHooks(logger, enrollViaSMSEnableBiometricsMocks)('should see ov enable biometrics message during enroll via sms', async t => {
+  isSuccess = false;
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
@@ -885,10 +863,8 @@ test.requestHooks(logger, enrollViaSMSEnableBiometricsMocks)('should see ov enab
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  if (!userVariables.v3) {
-    await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
-  }
-
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
+  
   const errorBox = enrollOktaVerifyPage.getErrorBox();
   await t.expect(errorBox.innerText).contains(enableBiometricsMessage);
 
