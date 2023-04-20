@@ -63,6 +63,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   >
                     <img
                       alt="PIV Card"
+                      aria-hidden="true"
                       class="MuiBox-root emotion-13"
                       src="MockSVGIcon"
                     />
@@ -357,6 +358,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   >
                     <img
                       alt="PIV Card"
+                      aria-hidden="true"
                       class="MuiBox-root emotion-13"
                       src="MockSVGIcon"
                     />
@@ -807,6 +809,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   >
                     <img
                       alt="PIV Card"
+                      aria-hidden="true"
                       class="MuiBox-root emotion-11"
                       src="MockSVGIcon"
                     />

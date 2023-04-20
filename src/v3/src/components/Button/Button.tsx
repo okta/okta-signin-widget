@@ -59,6 +59,7 @@ const Button: UISchemaElementComponent<{
       component="img"
       src={Icon}
       alt={iconAlt}
+      aria-hidden
     />
   ) : Icon && (<Icon />);
 
