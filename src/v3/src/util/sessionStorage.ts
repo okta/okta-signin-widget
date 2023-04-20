@@ -22,8 +22,6 @@ const setStateHandle = (stateHandle: string | undefined) => {
   if (stateHandle) {
     sessionStorage.setItem(STATE_HANDLE_SESSION_STORAGE_KEY, stateHandle);
     sessionStorage.setItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY, window.location.href);
-  } else {
-    removeStateHandle();
   }
 };
 const getStateHandle = () => {
