@@ -4,7 +4,7 @@
 # This is available from the "downstream artifact" menu on any okta-auth-js build in Bacon.
 # DO NOT MERGE ANY CHANGES TO THIS LINE!!
 export AUTHJS_VERSION=""
-export DOCKOLITH_VERSION=""
+export DOCKOLITH_VERSION="1.6.1-g8372d0d"
 
 # Install required node version
 export REGISTRY_REPO="npm-topic"
