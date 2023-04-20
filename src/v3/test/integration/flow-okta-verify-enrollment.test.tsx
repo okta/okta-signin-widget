@@ -112,6 +112,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
     await findByAltText('QR code');
+    await waitFor(async () => expect(await findByText(/Can't scan\?/)).toHaveFocus());
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/Can't scan\?/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -200,6 +201,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
     await findByAltText('QR code');
+    await waitFor(async () => expect(await findByText(/Can't scan\?/)).toHaveFocus());
     expect(container).toMatchSnapshot();
     await user.click(await findByText(/Can't scan\?/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
