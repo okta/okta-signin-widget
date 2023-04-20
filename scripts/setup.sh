@@ -36,19 +36,22 @@ fi
 if [ ! -z "$DOCKOLITH_VERSION" ]; then
   echo "Installing DOCKOLITH_VERSION: ${DOCKOLITH_VERSION}"
   export DOCKOLITH_DOWNSTREAM=1
-  npm config set strict-ssl false
 
-  if ! yarn add -W --force --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/dockolith/-/@okta/dockolith-${DOCKOLITH_VERSION}.tgz ; then
-    echo "DOCKOLITH_VERSION could not be installed: ${DOCKOLITH_VERSION}"
-    exit ${FAILED_SETUP}
-  fi
+  setup_service dockolith $DOCKOLITH_VERSION
+
+  # npm config set strict-ssl false
+
+  # if ! yarn add -W --force --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/dockolith/-/@okta/dockolith-${DOCKOLITH_VERSION}.tgz ; then
+  #   echo "DOCKOLITH_VERSION could not be installed: ${DOCKOLITH_VERSION}"
+  #   exit ${FAILED_SETUP}
+  # fi
   
-  MATCH="$(yarn why @okta/dockolith | grep ${DOCKOLITH_VERSION})"
-  echo ${MATCH}
-  if [ -z "$MATCH" ]; then
-    echo "DOCKOLITH_VERSION was not installed: ${DOCKOLITH_VERSION}"
-    exit ${FAILED_SETUP}
-  fi
+  # MATCH="$(yarn why @okta/dockolith | grep ${DOCKOLITH_VERSION})"
+  # echo ${MATCH}
+  # if [ -z "$MATCH" ]; then
+  #   echo "DOCKOLITH_VERSION was not installed: ${DOCKOLITH_VERSION}"
+  #   exit ${FAILED_SETUP}
+  # fi
   echo "DOCKOLITH_VERSION installed: ${DOCKOLITH_VERSION}"
 fi
 
