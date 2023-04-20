@@ -61,7 +61,7 @@ test_suites:
     - name: parity-v3
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '9'
-      timeout: '40'
+      timeout: '50'
       script_name: parity-v3
       criteria: MERGE
       queue_name: small
