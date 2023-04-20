@@ -13,6 +13,8 @@ setup_service node-and-yarn 14.18.2 1.22.19
 
 cd ${OKTA_HOME}/${REPO}
 
+# install upstream dependencies start: turn off ssl-strcit
+yarn config set enableStrictSsl false
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
 
@@ -46,6 +48,8 @@ if [ ! -z "$DOCKOLITH_VERSION" ]; then
   fi
   echo "DOCKOLITH_VERSION installed: ${DOCKOLITH_VERSION}"
 fi
+# install upstream dependencies done: turn on ssl-strcit
+yarn config set enableStrictSsl true
 
 yarn config set registry https://registry.yarnpkg.com
 yarn config set cafile /etc/pki/tls/certs/ca-bundle.crt
