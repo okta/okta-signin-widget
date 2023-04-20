@@ -8,13 +8,13 @@ if [[ -z "${upstream_artifact_version}" ]]; then
   echo "dockolith version that will be tested: ${upstream_artifact_version}"
 fi
 
-pushd ${OKTA_HOME}/okta-signin-widget/scripts/monolith > /dev/null
+pushd ${OKTA_HOME}/okta-signin-widget/scripts > /dev/null
 
 # Get the dockolith version to use
 DOCKOLITH_VERSION="$(echo ${upstream_artifact_version} | cut -d'@' -f3)"
 
-# Update install-dockolith script
-echo "Update okta-auth-js version in scripts/setup.sh to ${DOCKOLITH_VERSION}"
-sed -i "s/\(DOCKOLITH_VERSION\=\).*/\1\"${DOCKOLITH_VERSION}\"/g" install-dockolith.sh
+# Update setup script
+echo "Update dockolith version in scripts/setup.sh to ${DOCKOLITH_VERSION}"
+sed -i "s/\(DOCKOLITH_VERSION\=\).*/\1\"${DOCKOLITH_VERSION}\"/g" setup.sh
 
 popd > /dev/null
