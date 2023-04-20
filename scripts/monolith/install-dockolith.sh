@@ -5,7 +5,7 @@
 # NOTE: export YARN_REGISTRY as env var when running locally
 # YARN_REGISTRY={internalRegistry} yarn add @okta/dockolith@1.6.1 -WD --no-lockfile
 cp package.json package.json.bak
-yarn add @okta/dockolith@1.6.1 -WD --no-lockfile
+yarn add -DW --no-lockfile @okta/dockolith@1.6.1
 mv package.json.bak package.json
 
 
