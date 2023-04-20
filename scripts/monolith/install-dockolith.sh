@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 if [[ -z ${DOCKOLITH_VERSION} ]]; then
-  export DOCKOLITH_VERSION=1.6.1
+  export DOCKOLITH_VERSION="1.6.1-g8372d0d"
 fi
 
 # Yarn "add" always modifies package.json https://github.com/yarnpkg/yarn/issues/1743
