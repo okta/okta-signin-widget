@@ -35,6 +35,7 @@ fi
 
 if [ ! -z "$DOCKOLITH_VERSION" ]; then
   echo "Installing DOCKOLITH_VERSION: ${DOCKOLITH_VERSION}"
+  export DOCKOLITH_DOWNSTREAM=1
   npm config set strict-ssl false
 
   if ! yarn add -W --force --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/dockolith/-/@okta/dockolith-${DOCKOLITH_VERSION}.tgz ; then

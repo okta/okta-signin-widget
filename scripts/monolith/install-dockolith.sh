@@ -6,7 +6,7 @@ fi
 
 
 # only install if not triggered by upstream build
-if [[ -z "${upstream_artifact_version}" ]]; then
+if [[ -z ${DOCKOLITH_DOWNSTREAM} ]]; then
   # Yarn "add" always modifies package.json https://github.com/yarnpkg/yarn/issues/1743
   # Make a backup of package.json and restore it after install
   # NOTE: export YARN_REGISTRY as env var when running locally
