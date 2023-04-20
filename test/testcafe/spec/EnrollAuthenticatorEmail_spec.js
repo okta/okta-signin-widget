@@ -76,11 +76,15 @@ const validOTPmockWithoutEmailMagicLink = RequestMock()
 const invalidOTPMockWithoutEmailMagicLink = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrEnrollEmailWithoutEmailMagicLink)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrEnrollEmailWithoutEmailMagicLink)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
 
 const invalidOTPMockWithEmailMagicLink = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrEnrollEmailWithEmailMagicLink)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(xhrEnrollEmailWithEmailMagicLink)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);

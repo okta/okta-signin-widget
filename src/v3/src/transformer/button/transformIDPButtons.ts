@@ -56,6 +56,7 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
       classes: `${piv?.className || ''} piv-button`,
       variant: 'secondary',
       Icon: SmartCardIconSvg,
+      iconAlt: loc('piv.card', 'login'),
       onClick: (widgetContext: IWidgetContext) => {
         // To render the PIV view, we have to use a remediation that is provided on initial load
         // This remediation doesn't allow a network request, so we have to update the transaction

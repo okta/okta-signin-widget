@@ -61,7 +61,12 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   <span
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-12"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt="PIV Card"
+                      aria-hidden="true"
+                      class="MuiBox-root emotion-13"
+                      src="MockSVGIcon"
+                    />
                   </span>
                   My custom PIV Button Label
                 </button>
@@ -70,11 +75,11 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <div
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren separation-line emotion-14"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren separation-line emotion-15"
                   role="separator"
                 >
                   <span
-                    class="MuiDivider-wrapper emotion-15"
+                    class="MuiDivider-wrapper emotion-16"
                   >
                     OR
                   </span>
@@ -84,23 +89,23 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <div
-                  class="MuiBox-root emotion-17"
+                  class="MuiBox-root emotion-13"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
                     data-shrink="false"
                     for="identifier"
                   >
                     Username
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-19"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
                     required="true"
                   >
                     <input
                       aria-invalid="false"
                       autocomplete="username"
-                      class="MuiInputBase-input emotion-20"
+                      class="MuiInputBase-input emotion-21"
                       data-se="identifier"
                       id="identifier"
                       name="identifier"
@@ -114,23 +119,23 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <div
-                  class="MuiBox-root emotion-17"
+                  class="MuiBox-root emotion-13"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
                     data-shrink="false"
                     for="credentials.passcode"
                   >
                     Password
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-19"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-20"
                     required="true"
                   >
                     <input
                       aria-invalid="false"
                       autocomplete="current-password"
-                      class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-20"
+                      class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-21"
                       data-se="credentials.passcode"
                       id="credentials.passcode"
                       name="credentials.passcode"
@@ -138,20 +143,20 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       type="password"
                     />
                     <div
-                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-26"
+                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-27"
                     >
                       <button
                         aria-controls="credentials.passcode"
                         aria-label="Show password"
                         aria-pressed="false"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-27"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-28"
                         data-mui-internal-clone-element="true"
                         tabindex="0"
                         type="button"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-29"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 16 16"
@@ -173,16 +178,16 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <fieldset
-                  class="MuiFormControl-root MuiFormControl-marginNormal emotion-30"
+                  class="MuiFormControl-root MuiFormControl-marginNormal emotion-31"
                 >
                   <label
-                    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-31"
+                    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
                   >
                     <span
-                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-32"
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-33"
                     >
                       <input
-                        class="PrivateSwitchBase-input emotion-33"
+                        class="PrivateSwitchBase-input emotion-34"
                         data-indeterminate="false"
                         data-se="rememberMe"
                         data-se-for-name="rememberMe"
@@ -192,7 +197,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-34"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-35"
                         data-testid="CheckBoxOutlineBlankIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -203,7 +208,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       </svg>
                     </span>
                     <span
-                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-35"
+                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-36"
                     >
                       Keep me signed in
                     </span>
@@ -214,7 +219,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-37"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-38"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -226,7 +231,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="forgot-password"
                   role="link"
                 >
@@ -237,7 +242,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="unlock"
                   role="link"
                 >
@@ -248,11 +253,11 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-43"
+                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-44"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-44"
+                class="MuiBox-root emotion-45"
               >
                 <div
                   class="MuiBox-root emotion-7"
@@ -261,7 +266,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-47"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-48"
                       data-se="signup-info"
                       id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_12"
                     >
@@ -273,7 +278,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   class="MuiBox-root emotion-7"
                 >
                   <button
-                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
+                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                     data-se="enroll"
                     role="link"
                   >
@@ -351,7 +356,12 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   <span
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-12"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt="PIV Card"
+                      aria-hidden="true"
+                      class="MuiBox-root emotion-13"
+                      src="MockSVGIcon"
+                    />
                   </span>
                   Sign in with PIV / CAC card
                 </button>
@@ -360,11 +370,11 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <div
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren separation-line emotion-14"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren separation-line emotion-15"
                   role="separator"
                 >
                   <span
-                    class="MuiDivider-wrapper emotion-15"
+                    class="MuiDivider-wrapper emotion-16"
                   >
                     OR
                   </span>
@@ -374,23 +384,23 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <div
-                  class="MuiBox-root emotion-17"
+                  class="MuiBox-root emotion-13"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
                     data-shrink="false"
                     for="identifier"
                   >
                     Username
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-19"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
                     required="true"
                   >
                     <input
                       aria-invalid="false"
                       autocomplete="username"
-                      class="MuiInputBase-input emotion-20"
+                      class="MuiInputBase-input emotion-21"
                       data-se="identifier"
                       id="identifier"
                       name="identifier"
@@ -404,23 +414,23 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <div
-                  class="MuiBox-root emotion-17"
+                  class="MuiBox-root emotion-13"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-19"
                     data-shrink="false"
                     for="credentials.passcode"
                   >
                     Password
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-19"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-20"
                     required="true"
                   >
                     <input
                       aria-invalid="false"
                       autocomplete="current-password"
-                      class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-20"
+                      class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-21"
                       data-se="credentials.passcode"
                       id="credentials.passcode"
                       name="credentials.passcode"
@@ -428,20 +438,20 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       type="password"
                     />
                     <div
-                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-26"
+                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-27"
                     >
                       <button
                         aria-controls="credentials.passcode"
                         aria-label="Show password"
                         aria-pressed="false"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-27"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-28"
                         data-mui-internal-clone-element="true"
                         tabindex="0"
                         type="button"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-29"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 16 16"
@@ -463,16 +473,16 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <fieldset
-                  class="MuiFormControl-root MuiFormControl-marginNormal emotion-30"
+                  class="MuiFormControl-root MuiFormControl-marginNormal emotion-31"
                 >
                   <label
-                    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-31"
+                    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
                   >
                     <span
-                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-32"
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-33"
                     >
                       <input
-                        class="PrivateSwitchBase-input emotion-33"
+                        class="PrivateSwitchBase-input emotion-34"
                         data-indeterminate="false"
                         data-se="rememberMe"
                         data-se-for-name="rememberMe"
@@ -482,7 +492,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-34"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-35"
                         data-testid="CheckBoxOutlineBlankIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -493,7 +503,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       </svg>
                     </span>
                     <span
-                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-35"
+                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-36"
                     >
                       Keep me signed in
                     </span>
@@ -504,7 +514,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-37"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-38"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -516,7 +526,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="forgot-password"
                   role="link"
                 >
@@ -527,7 +537,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="unlock"
                   role="link"
                 >
@@ -538,11 +548,11 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-43"
+                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-44"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-44"
+                class="MuiBox-root emotion-45"
               >
                 <div
                   class="MuiBox-root emotion-7"
@@ -551,7 +561,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-47"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-48"
                       data-se="signup-info"
                       id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_12"
                     >
@@ -563,7 +573,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   class="MuiBox-root emotion-7"
                 >
                   <button
-                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
+                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                     data-se="enroll"
                     role="link"
                   >
@@ -797,7 +807,12 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   <span
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-37"
                   >
-                    <mocksvgicon />
+                    <img
+                      alt="PIV Card"
+                      aria-hidden="true"
+                      class="MuiBox-root emotion-11"
+                      src="MockSVGIcon"
+                    />
                   </span>
                   Sign in with PIV / CAC card
                 </button>
@@ -806,7 +821,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="forgot-password"
                   role="link"
                 >
@@ -817,7 +832,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 class="MuiBox-root emotion-7"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="unlock"
                   role="link"
                 >
@@ -828,11 +843,11 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 class="MuiBox-root emotion-7"
               >
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-43"
+                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-44"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-44"
+                class="MuiBox-root emotion-45"
               >
                 <div
                   class="MuiBox-root emotion-7"
@@ -841,7 +856,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-47"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-48"
                       data-se="signup-info"
                       id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_12"
                     >
@@ -853,7 +868,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   class="MuiBox-root emotion-7"
                 >
                   <button
-                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-39"
+                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                     data-se="enroll"
                     role="link"
                   >
