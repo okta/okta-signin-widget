@@ -52,11 +52,14 @@ const Button: UISchemaElementComponent<{
       onClick,
     },
   } = uischema;
-  
+
   const ButtonImageIcon = typeof Icon === 'string' ? (
-    <Box component="img" src={Icon} />
-  )
-  : Icon && (<Icon />);
+    <Box
+      component="img"
+      src={Icon}
+      alt={label}
+    />
+  ) : Icon && (<Icon />);
 
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 

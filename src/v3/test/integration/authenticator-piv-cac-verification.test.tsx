@@ -39,10 +39,10 @@ describe('authenticator-piv-cac-verification', () => {
 
   it('should render PIV/CAC view when clicking PIV button', async () => {
     const {
-      container, user, findByRole,
+      container, user, findByRole, findByText,
     } = await setup({ mockResponse });
 
-    const pivButton = await findByRole('button', { name: 'Sign in with PIV / CAC card' });
+    const pivButton = await findByText('Sign in with PIV / CAC card');
 
     await user.click(pivButton);
 
