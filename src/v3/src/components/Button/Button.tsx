@@ -43,6 +43,7 @@ const Button: UISchemaElementComponent<{
       dataSe,
       actionParams,
       Icon,
+      iconAlt,
       includeData,
       isActionStep,
       step,
@@ -57,7 +58,7 @@ const Button: UISchemaElementComponent<{
     <Box
       component="img"
       src={Icon}
-      alt={label}
+      alt={iconAlt}
     />
   ) : Icon && (<Icon />);
 
