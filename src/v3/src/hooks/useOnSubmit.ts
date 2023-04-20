@@ -180,6 +180,12 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         payload = {};
       }
     }
+    // Login flows that mimic step up (moving forward in login pipeline) via internal api calls,
+    // need to clear stored stateHandles.
+    // This way the flow can maintain the latest state handle. For eg. Device probe calls
+    if (step === IDX_STEP.CANCEL_TRANSACTION) {
+      SessionStorage.removeStateHandle();
+    }
     setMessage(undefined);
     try {
       const newTransaction = await fn(payload);

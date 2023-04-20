@@ -191,7 +191,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
     }
 
-    if (!useInteractionCodeFlow && prevIdxTransactionRef.current && idxTransaction.status !== IdxStatus.CANCELED) {
+    if (!useInteractionCodeFlow && prevIdxTransactionRef.current) {
       // Do not save state handle for the first page loads.
       // Because there shall be no difference between following behavior
       // 1. bootstrap widget
@@ -202,7 +202,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       //    -> do not save state handle to session storage
       //    -> refresh page
       //    -> introspect using options.stateHandle
-      SessionStorage.setStateHandle(idxTransaction?.context?.stateHandle);
+      const prevStep = prevIdxTransactionRef.current?.nextStep?.name;
+      // Do not save state handle if just removed due to canceling
+      if (idxTransaction.status !== IdxStatus.CANCELED && prevStep != IDX_STEP.CANCEL_TRANSACTION) {
+        SessionStorage.setStateHandle(idxTransaction?.context?.stateHandle);
+      }
     }
 
     let step = stepToRender || idxTransaction.nextStep.name;
