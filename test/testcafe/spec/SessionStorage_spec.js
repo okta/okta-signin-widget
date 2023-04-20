@@ -278,6 +278,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
 test.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('shall clear session.stateHandle when SSO extension fails', async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
+  await ssoExtensionPage.formExists();
   await t.expect(credentialSSONotExistLogger.count(
     record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect/)
@@ -313,7 +314,8 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
       ignoreSignature: true,
       pkce: true,
     },
-    stateToken: undefined
+    stateToken: undefined,
+    useInteractionCodeFlow: true
   };
   await identityPage.navigateToPage({ render: false });
   await identityPage.mockCrypto();
@@ -340,10 +342,10 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
   await t.expect(pageTitle).eql('Verify with your email');
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickNextButton('Verify');
 
   // Check success
-  await checkConsoleMessages([
+  const expectedMessages = [
     'ready',
     'afterRender',
     {
@@ -374,5 +376,15 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
       accessToken: xhrSuccessTokens.access_token,
       idToken: xhrSuccessTokens.id_token
     }
-  ]);
+  ];
+  if (userVariables.v3) {
+    expectedMessages.push(...[
+      'afterRender',
+      {
+        controller: null,
+        formName: 'cancel'
+      },
+    ]);
+  }
+  await checkConsoleMessages(expectedMessages);
 });
