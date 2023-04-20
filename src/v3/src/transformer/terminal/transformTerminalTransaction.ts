@@ -244,6 +244,7 @@ export const transformTerminalTransaction = (
   }
 
   if (transaction.context?.success?.href) {
+    SessionStorage.removeStateHandle();
     return redirectTransformer(
       transaction,
       transaction.context.success.href,

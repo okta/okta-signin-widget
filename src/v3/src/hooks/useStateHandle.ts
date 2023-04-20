@@ -40,7 +40,7 @@ export const useStateHandle = (widgetProps: WidgetProps) => {
   }, [overrideExistingStateToken, unsetStateHandle]);
 
   const currentStateHandle = useMemo(() => {
-    return useInteractionCodeFlow ? sessionStateHandle || stateToken : undefined
+    return useInteractionCodeFlow ? undefined : sessionStateHandle || stateToken
   }, [sessionStateHandle, stateToken, useInteractionCodeFlow]);
 
   return {

@@ -191,6 +191,20 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
     }
 
+    if (!useInteractionCodeFlow && prevIdxTransactionRef.current && idxTransaction.status !== IdxStatus.CANCELED) {
+      // Do not save state handle for the first page loads.
+      // Because there shall be no difference between following behavior
+      // 1. bootstrap widget
+      //    -> save state handle to session storage
+      //    -> refresh page
+      //    -> introspect using sessionStorage.stateHandle
+      // 2. bootstrap widget
+      //    -> do not save state handle to session storage
+      //    -> refresh page
+      //    -> introspect using options.stateHandle
+      SessionStorage.setStateHandle(idxTransaction?.context?.stateHandle);
+    }
+
     let step = stepToRender || idxTransaction.nextStep.name;
     // Mobile devices cannot scan QR codes while navigating through flow
     // so we force them to select either email / sms for enrollment
@@ -217,22 +231,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   ]);
 
   // track previous idxTransaction
-  // and save stateHandle to session storage
   useEffect(() => {
-    if (!useInteractionCodeFlow && prevIdxTransactionRef.current) {
-      // Do not save state handle for the first page loads.
-      // Because there shall be no difference between following behavior
-      // 1. bootstrap widget
-      //    -> save state handle to session storage
-      //    -> refresh page
-      //    -> introspect using sessionStorage.stateHandle
-      // 2. bootstrap widget
-      //    -> do not save state handle to session storage
-      //    -> refresh page
-      //    -> introspect using options.stateHandle
-      SessionStorage.setStateHandle(idxTransaction?.context?.stateHandle);
-    }
-
     prevIdxTransactionRef.current = idxTransaction;
   }, [idxTransaction]);
 
