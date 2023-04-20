@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Button as OdyButton } from '@okta/odyssey-react-mui';
+import { Box, Button as OdyButton } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -52,6 +52,11 @@ const Button: UISchemaElementComponent<{
       onClick,
     },
   } = uischema;
+  
+  const ButtonImageIcon = typeof Icon === 'string' ? (
+    <Box component="img" src={Icon} />
+  )
+  : Icon && (<Icon />);
 
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
@@ -77,7 +82,7 @@ const Button: UISchemaElementComponent<{
       className={classes}
         // Fixes text overflow
       sx={{ display: 'flex', whiteSpace: 'normal' }}
-      startIcon={loading ? <Spinner color="white" /> : Icon && (<Icon />)}
+      startIcon={loading ? <Spinner color="white" /> : ButtonImageIcon}
       aria-describedby={ariaDescribedBy}
       data-type={dataType}
       data-se={dataSe}
