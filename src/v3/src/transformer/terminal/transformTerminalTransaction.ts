@@ -255,7 +255,6 @@ export const transformTerminalTransaction = (
   const { messages } = transaction;
 
   if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
-    console.log('> SESSION_EXPIRED')
     authClient?.transactionManager.clear();
     SessionStorage.removeStateHandle();
   }
