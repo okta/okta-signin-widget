@@ -315,7 +315,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
 
   // Go back to Identify page as saved state handle becomes invalid
   // and new state handle responds identify
-  await t.expect(identityPage.getFormTitle()).eql('Sign In');
+  await t.expect(identityPage.form.getTitle()).eql('Sign In');
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
 });
 

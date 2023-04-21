@@ -24,7 +24,12 @@ describe('error-authenticator-enrollment-not-allowed', () => {
   it('should send correct payload when clicking back to sign in link', async () => {
     const {
       authClient, user, findByRole,
-    } = await setup({ mockResponse });
+    } = await setup({
+      mockResponse,
+      widgetOptions: {
+        useInteractionCodeFlow: false
+      }
+    });
 
     const cancelEle = await findByRole('link', { name: 'Back to sign in' });
 

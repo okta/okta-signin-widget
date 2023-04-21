@@ -84,7 +84,12 @@ describe('user-unlock-account', () => {
     });
 
     it('when click "Back to sign in" button', async () => {
-      const { authClient, user, findByTestId } = await setup({ mockResponse });
+      const { authClient, user, findByTestId } = await setup({
+        mockResponse,
+        widgetOptions: {
+          useInteractionCodeFlow: false
+        }
+      });
 
       const cancelButton = await findByTestId('cancel');
       await user.click(cancelButton);

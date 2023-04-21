@@ -69,7 +69,10 @@ describe('authenticator-enroll-select-authenticator', () => {
       } = await setup(
         {
           mockResponse,
-          widgetOptions: { stateToken: '1234567890abcdefghij' },
+          widgetOptions: {
+            stateToken: '1234567890abcdefghij',
+            useInteractionCodeFlow: false
+          }
         },
       );
 
