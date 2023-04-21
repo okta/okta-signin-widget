@@ -17,16 +17,19 @@ import { SessionStorage } from '../util';
 export const useStateHandle = (widgetProps: WidgetProps) => {
   const { overrideExistingStateToken, stateToken, useInteractionCodeFlow } = widgetProps;
 
-  // If url changes then widget assumes that user's intention was to initiate a new login flow,
-  // so clear stored token to use the latest token.
-  if (SessionStorage.getLastInitiatedLoginUrl() !== window.location.href) {
-    SessionStorage.removeStateHandle();
-  }
-  if (overrideExistingStateToken) {
-    SessionStorage.removeStateHandle();
-  }
+  const initStateHandle = () => {
+    // If url changes then widget assumes that user's intention was to initiate a new login flow,
+    // so clear stored token to use the latest token.
+    if (SessionStorage.getLastInitiatedLoginUrl() !== window.location.href) {
+      SessionStorage.removeStateHandle();
+    }
+    if (overrideExistingStateToken) {
+      SessionStorage.removeStateHandle();
+    }
+    return SessionStorage.getStateHandle();
+  };
 
-  const [sessionStateHandle, setSessionStateHandle] = useState<string | null>(SessionStorage.getStateHandle());
+  const [sessionStateHandle, setSessionStateHandle] = useState<string | null>(initStateHandle);
 
   const unsetStateHandle = useCallback(() => {
     SessionStorage.removeStateHandle();

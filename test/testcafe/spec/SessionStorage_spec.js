@@ -308,25 +308,28 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
   // Change apps
   await t.navigateTo('/app/phpsaml/123/sso/saml');
   const pageObject = new BasePageObject(t);
-  await pageObject.formExists();
+  await t.expect(pageObject.formExists()).eql(true);
+  //await t.wait(3000);
 
   // Verify introspect requests, one for each app visit
   await t.expect(introspectRequestLogger.count(() => true)).eql(1);
 
-  // const req1 = introspectRequestLogger.requests[0].request;
-  // const res1 = introspectRequestLogger.requests[0].response;
-  // console.log(1, req1.method, req1.url);
-  // console.log(1, req1.body);
-  // console.log(1, res1.body);
-  // const req2 = introspectRequestLogger.requests[1].request;
-  // const res2 = introspectRequestLogger.requests[1].response;
-  // console.log(2, req2.method, req2.url);
-  // console.log(2, req2.body);
-  // console.log(1, res2.body);
+  const req1 = introspectRequestLogger.requests[0].request;
+  const res1 = introspectRequestLogger.requests[0].response;
+  console.log(1, req1.method, req1.url);
+  console.log(1, req1.body);
+  console.log(1, res1.body);
+  if(introspectRequestLogger.requests[1]) {
+    const req2 = introspectRequestLogger.requests[1].request;
+    const res2 = introspectRequestLogger.requests[1].response;
+    console.log(2, req2.method, req2.url);
+    console.log(2, req2.body);
+    console.log(1, res2.body);
+  }
 
   // Go back to Identify page as saved state handle becomes invalid
   // and new state handle responds identify
-  await t.expect(identityPage.form.getTitle()).eql('Sign In');
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
 });
 
