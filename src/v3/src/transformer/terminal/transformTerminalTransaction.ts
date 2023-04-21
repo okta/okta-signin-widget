@@ -122,9 +122,6 @@ const appendViewLinks = (
       cancelLink.options.href = backToSigninUri;
     } else if (useInteractionCodeFlow) {
       cancelLink.options.onClick = async () => {
-        const { authClient } = widgetProps;
-        authClient?.transactionManager.clear();
-        SessionStorage.removeStateHandle();
         await bootstrapFn();
       };
     } else {
