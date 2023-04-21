@@ -2,11 +2,28 @@ import { View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { getMessage } from '../../../ion/i18nTransformer';
 
-const HELP_AND_CONTACT_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation.additional_help_';
-const CUSTOM_URL_ADDITIONAL_HELP_KEY = "idx.error.code.access_denied.device_assurance.remediation.additional_help_custom";
-const REMEDIATION_OPTION_INDEX_KEY = 'idx.error.code.access_denied.device_assurance.remediation.option_index';
-const TITLE_KEY = "idx.error.code.access_denied.device_assurance.remediation.title";
-const EXPLANATION_KEY_PREFIX = "idx.error.code.access_denied.device_assurance.remediation.explanation_";
+const I18N_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation';
+const HELP_AND_CONTACT_KEY_PREFIX = `${I18N_KEY_PREFIX}.additional_help_`;
+const CUSTOM_URL_ADDITIONAL_HELP_KEY = `${I18N_KEY_PREFIX}.additional_help_custom`;
+const REMEDIATION_OPTION_INDEX_KEY = `${I18N_KEY_PREFIX}.option_index`;
+const TITLE_KEY = `${I18N_KEY_PREFIX}.title`;
+const EXPLANATION_KEY_PREFIX = `${I18N_KEY_PREFIX}.explanation_`;
+
+function buildRemediationOptionBlockMessage(message) {
+  let link = null;
+  if (message.links && message.links[0] && message.links[0].url) {
+    link = message.links[0].url;
+  }
+  return {
+    message: getMessage(message),
+    link,
+    className: (
+      message.i18n.key === REMEDIATION_OPTION_INDEX_KEY ?
+        'end-user-remediation-option' :
+        'end-user-remediation-action'
+    ),
+  };
+}
 
 export default View.extend({
   className: 'end-user-remediation-terminal-view',
@@ -64,19 +81,7 @@ export default View.extend({
           this.additionalHelpUrl = message.links[0].url;
         }
       } else {
-        let link = null;
-        if (message.links && message.links[0] && message.links[0].url) {
-          link = message.links[0].url;
-        }
-        remediationOptions.push({
-          message: getMessage(message),
-          link,
-          className: (
-            message.i18n.key === REMEDIATION_OPTION_INDEX_KEY ?
-              'end-user-remediation-option' :
-              'end-user-remediation-action'
-          ),
-        });
+        remediationOptions.push(buildRemediationOptionBlockMessage(message));
       }
     });
 
