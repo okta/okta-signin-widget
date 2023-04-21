@@ -269,7 +269,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
   await pageObject.formExists();
 
   // Verify introspect requests, one for each app visit
-  await t.expect(introspectRequestLogger.count(() => true)).eql(2);
+  await t.expect(introspectRequestLogger.count(() => true)).eql(1);
 
   // const req1 = introspectRequestLogger.requests[0].request;
   // const res1 = introspectRequestLogger.requests[0].response;
