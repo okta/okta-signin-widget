@@ -38,6 +38,7 @@ if [ ! -z "$DOCKOLITH_VERSION" ]; then
   export DOCKOLITH_DOWNSTREAM=1
 
   setup_service dockolith $DOCKOLITH_VERSION
+  export DOCKOLITH_HOME="$(yarn global dir)/node_modules/@okta/dockolith"
 
   # npm config set strict-ssl false
 
