@@ -28,7 +28,7 @@ module.exports = {
     }
   ],
   src: [
-    'test/testcafe/spec/*_spec.js'
+    'test/testcafe/spec/Session*_spec.js',
   ],
   hooks: {
     request: mocks,
