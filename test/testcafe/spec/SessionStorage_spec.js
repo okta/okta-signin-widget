@@ -315,6 +315,14 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
   const innerText = await Selector('body').innerText;
   console.log('>innerText', innerText)
 
+
+const getPageHTML = ClientFunction(() => {
+  return document.documentElement.outerHTML;
+}); 
+
+  console.log(await getPageHTML());
+
+
   const req1 = introspectRequestLogger.requests[0].request;
   const res1 = introspectRequestLogger.requests[0].response;
   console.log(1, req1.method, req1.url);
