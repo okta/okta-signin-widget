@@ -32,7 +32,6 @@ finish_log_group $?
 create_log_group "Create Test Org"
 # Add widget test host to /etc/hosts
 export TEST_ORG_SUBDOMAIN="siw-test-1"
-export TS_NODE_FILES="true"
 echo "${DOCKER_HOST_CONTAINER_IP} ${TEST_ORG_SUBDOMAIN}.okta1.com" >> /etc/hosts
 echo "${DOCKER_HOST_CONTAINER_IP} ${TEST_ORG_SUBDOMAIN}-admin.okta1.com" >> /etc/hosts
 cat /etc/hosts

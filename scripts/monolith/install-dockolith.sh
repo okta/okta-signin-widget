@@ -18,3 +18,7 @@ if [[ -z ${DOCKOLITH_DOWNSTREAM} ]]; then
   setup_service dockolith $DOCKOLITH_VERSION
   export DOCKOLITH_HOME="$(yarn global dir)/node_modules/@okta/dockolith"
 fi
+
+pushd ${OKTA_HOME}/${REPO} > /dev/null
+  yarn link dockolith
+popd > /dev/null
