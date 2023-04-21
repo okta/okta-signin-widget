@@ -267,5 +267,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setLoading,
     setMessage,
     setStepToRender,
+    useInteractionCodeFlow,
   ]);
 };

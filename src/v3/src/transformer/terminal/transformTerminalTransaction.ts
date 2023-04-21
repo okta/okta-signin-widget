@@ -41,9 +41,9 @@ import {
   isAuthClientSet,
   loc,
   removeUsernameCookie,
+  SessionStorage,
   setUsernameCookie,
   shouldShowCancelLink,
-  SessionStorage,
 } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { setFocusOnFirstElement } from '../uischema';

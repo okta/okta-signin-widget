@@ -27,8 +27,8 @@ describe('error-authenticator-enrollment-not-allowed', () => {
     } = await setup({
       mockResponse,
       widgetOptions: {
-        useInteractionCodeFlow: false
-      }
+        useInteractionCodeFlow: false,
+      },
     });
 
     const cancelEle = await findByRole('link', { name: 'Back to sign in' });

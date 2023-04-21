@@ -10,7 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
+import {
+  useCallback, useEffect, useMemo, useState,
+} from 'preact/hooks';
+
 import { WidgetProps } from '../types';
 import { SessionStorage } from '../util';
 
@@ -42,9 +45,9 @@ export const useStateHandle = (widgetProps: WidgetProps) => {
     }
   }, [overrideExistingStateToken, unsetStateHandle]);
 
-  const currentStateHandle = useMemo(() => {
-    return useInteractionCodeFlow ? undefined : sessionStateHandle || stateToken
-  }, [sessionStateHandle, stateToken, useInteractionCodeFlow]);
+  const currentStateHandle = useMemo(() => (
+    useInteractionCodeFlow ? undefined : sessionStateHandle || stateToken
+  ), [sessionStateHandle, stateToken, useInteractionCodeFlow]);
 
   return {
     unsetStateHandle,

@@ -29,8 +29,8 @@ describe('unlock-account-success', () => {
     } = await setup({
       mockResponse,
       widgetOptions: {
-        useInteractionCodeFlow: false
-      }
+        useInteractionCodeFlow: false,
+      },
     });
 
     const backToSigninLink = await findByText(/Back to sign in/);
@@ -50,25 +50,23 @@ describe('unlock-account-success', () => {
       } = await setup({
         mockResponse,
         widgetOptions: {
-          useInteractionCodeFlow: true
-        }
+          useInteractionCodeFlow: true,
+        },
       });
 
       const backToSigninLink = await findByText(/Back to sign in/);
 
       await user.click(backToSigninLink);
       expect(authClient.options.httpRequestClient).toHaveBeenNthCalledWith(1,
-        'POST', `http://localhost:3000/oauth2/default/v1/interact`, expect.any(Object)
-      );
+        'POST', 'http://localhost:3000/oauth2/default/v1/interact', expect.any(Object));
       expect(authClient.options.httpRequestClient).toHaveBeenNthCalledWith(2,
         ...createAuthJsPayloadArgs(
           'POST', 'idp/idx/introspect', {
-            interactionHandle: 'fake-interactionhandle'
+            interactionHandle: 'fake-interactionhandle',
           },
           'application/ion+json; okta-version=1.0.0',
-          'application/ion+json; okta-version=1.0.0'
-        ),
-      );
+          'application/ion+json; okta-version=1.0.0',
+        ));
     });
   });
 });

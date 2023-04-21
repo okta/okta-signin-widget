@@ -104,7 +104,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const languageCode = getLanguageCode(widgetProps);
   const languageDirection = getLanguageDirection(languageCode);
   const brandedTheme = mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides);
-  const {stateHandle, unsetStateHandle} = useStateHandle(widgetProps);
+  const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
 
   // on unmount, remove the language
   useEffect(() => () => {
@@ -148,7 +148,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         stateHandle,
       });
       const hasError = !!transaction.context.messages?.value.length;
-      const usingStateHandleFromSession = stateHandle && stateHandle === SessionStorage.getStateHandle();
+      const usingStateHandleFromSession = stateHandle
+        && stateHandle === SessionStorage.getStateHandle();
       if (hasError && usingStateHandleFromSession) {
         // Saved stateHandle is invalid. Remove it from session
         // Bootstrap will be restarted with stateToken from widgetProps
@@ -204,7 +205,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       //    -> introspect using options.stateHandle
       const prevStep = prevIdxTransactionRef.current?.nextStep?.name;
       // Do not save state handle if just removed due to canceling
-      if (idxTransaction.status !== IdxStatus.CANCELED && prevStep != IDX_STEP.CANCEL_TRANSACTION) {
+      if (idxTransaction.status !== IdxStatus.CANCELED
+        && prevStep !== IDX_STEP.CANCEL_TRANSACTION) {
         SessionStorage.setStateHandle(idxTransaction?.context?.stateHandle);
       }
     }

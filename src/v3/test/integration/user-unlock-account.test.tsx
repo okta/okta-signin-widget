@@ -87,8 +87,8 @@ describe('user-unlock-account', () => {
       const { authClient, user, findByTestId } = await setup({
         mockResponse,
         widgetOptions: {
-          useInteractionCodeFlow: false
-        }
+          useInteractionCodeFlow: false,
+        },
       });
 
       const cancelButton = await findByTestId('cancel');

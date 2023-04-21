@@ -14,40 +14,39 @@ const STATE_HANDLE_SESSION_STORAGE_KEY = 'osw-oie-state-handle';
 const LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY = 'osw-oie-last-initiated-login-url';
 const RESEND_TIMESTAMP_SESSION_STORAGE_KEY = 'osw-oie-resend-timestamp';
 
-const removeStateHandle = () => {
+const removeStateHandle = (): void => {
   sessionStorage.removeItem(STATE_HANDLE_SESSION_STORAGE_KEY);
   sessionStorage.removeItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY);
 };
-const setStateHandle = (stateHandle: string | undefined) => {
+const setStateHandle = (stateHandle: string | undefined): void => {
   if (stateHandle) {
     sessionStorage.setItem(STATE_HANDLE_SESSION_STORAGE_KEY, stateHandle);
     sessionStorage.setItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY, window.location.href);
   }
 };
-const getStateHandle = () => {
-  return sessionStorage.getItem(STATE_HANDLE_SESSION_STORAGE_KEY);
-};
-const getLastInitiatedLoginUrl = () => {
-  return sessionStorage.getItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY);
-};
+const getStateHandle = (): string | null => (
+  sessionStorage.getItem(STATE_HANDLE_SESSION_STORAGE_KEY)
+);
+const getLastInitiatedLoginUrl = (): string | null => (
+  sessionStorage.getItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY)
+);
 
-const removeResendTimestamp = () => {
+const removeResendTimestamp = (): void => {
   sessionStorage.removeItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
 };
-const setResendTimestamp = (timestampStr: string) => {
+const setResendTimestamp = (timestampStr: string): void => {
   sessionStorage.setItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY, timestampStr);
 };
-const getResendTimestamp = () => {
-  return sessionStorage.getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
-};
-
+const getResendTimestamp = (): string | null => (
+  sessionStorage.getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY)
+);
 
 export const SessionStorage = {
   removeStateHandle,
   setStateHandle,
   getStateHandle,
   getLastInitiatedLoginUrl,
-  
+
   removeResendTimestamp,
   setResendTimestamp,
   getResendTimestamp,
