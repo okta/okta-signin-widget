@@ -306,7 +306,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
   await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);
 
   // Change apps
-  await t.navigateTo('http://localhost:3000/app/phpsaml/123/sso/saml');
+  await identityPage.navigateToPage({path: '/app/phpsaml/123/sso/saml'});
   const pageObject = new BasePageObject(t);
   await t.wait(3000);
 
