@@ -309,7 +309,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
   await t.navigateTo('/app/phpsaml/123/sso/saml');
   const pageObject = new BasePageObject(t);
   await t.expect(pageObject.formExists()).eql(true);
-  //await t.wait(3000);
+  await t.wait(3000);
 
   // Verify introspect requests, one for each app visit
   await t.expect(introspectRequestLogger.count(() => true)).eql(1);
