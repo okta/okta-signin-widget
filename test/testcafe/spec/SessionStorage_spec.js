@@ -29,6 +29,18 @@ const identifyChallengeMockWithError = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/cancel')
   .respond(xhrIdentify);
 
+const identifyChallengeMockWithSessionExpired = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrEmailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrEmailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrSessionExpried)
+  .onRequestTo('http://localhost:3000/idp/idx/cancel')
+  .respond(xhrIdentify);
+
 const identifyChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
@@ -179,6 +191,36 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear session.stateHand
 
   // Go back to Identify page after sign-out
   await t.expect(identityPage.form.getTitle()).eql('Sign In');
+  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+});
+
+test.requestHooks(identifyChallengeMockWithSessionExpired)('shall clear session.stateHandle when session expired', async t => {
+  const identityPage = new IdentityPageObject(t);
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+
+  // Identify page
+  await identityPage.navigateToPage();
+  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+  await identityPage.fillIdentifierField('foo@test.com');
+  await identityPage.clickNextButton();
+
+  // Email challenge page
+  const pageTitle = challengeEmailPageObject.form.getTitle();
+  await t.expect(pageTitle).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
+  await challengeEmailPageObject.clickNextButton('Verify');
+
+  // Expect session expired error
+  await t.expect(challengeEmailPageObject.form.getErrorBoxText()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+
+  // Refresh
+  await challengeEmailPageObject.refresh();
+
+  // Widget should load without session expired error
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
+  await t.expect(identityPage.getTotalGlobalErrors()).eql(0);
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
 });
 
