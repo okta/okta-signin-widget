@@ -273,6 +273,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-41"
+                      data-shrink="false"
                       for="credentials.question"
                     >
                       Create my own security question
@@ -302,6 +303,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-41"
+                      data-shrink="false"
                       for="credentials.answer"
                     >
                       Answer
