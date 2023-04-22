@@ -2081,6 +2081,7 @@ Expect.describe('v1/LoginRouter', function() {
             'nb',
             'nl-NL',
             'ok-PL',
+            'ok-SK',
             'pl',
             'pt-BR',
             'ro',
