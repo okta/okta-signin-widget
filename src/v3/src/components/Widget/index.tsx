@@ -46,6 +46,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
   WidgetProps,
+  MessageType,
 } from '../../types';
 import {
   areTransactionsEqual,
@@ -147,7 +148,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       const transaction = await authClient.idx.start({
         stateHandle,
       });
-      const hasError = !!transaction.context.messages?.value.length;
+      const hasError = !transaction.requestDidSucceed && transaction.messages?.some(
+        (message) => message.class === MessageType.ERROR.toString(),
+      );
       const usingStateHandleFromSession = stateHandle
         && stateHandle === SessionStorage.getStateHandle();
       if (hasError && usingStateHandleFromSession) {
