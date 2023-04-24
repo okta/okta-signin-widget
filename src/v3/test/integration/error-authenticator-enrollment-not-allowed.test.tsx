@@ -49,9 +49,9 @@ describe('error-authenticator-enrollment-not-allowed', () => {
           useInteractionCodeFlow: true,
         },
       });
-  
+
       const cancelEle = await findByRole('link', { name: 'Back to sign in' });
-  
+
       await user.click(cancelEle);
       expect(authClient.options.httpRequestClient).toHaveBeenNthCalledWith(1,
         'POST', 'http://localhost:3000/oauth2/default/v1/interact', expect.any(Object));
