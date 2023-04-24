@@ -175,7 +175,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       SessionStorage.removeStateHandle();
       if (useInteractionCodeFlow) {
         // In this case we need to restart login flow and recreate transaction meta
-        // that will be used in interactionCodeFlow function
         fn = authClient.idx.start;
         payload = {};
       }
