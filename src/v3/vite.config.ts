@@ -51,6 +51,9 @@ export default defineConfig(({ mode, command }) => ({
       v1: resolve(__dirname, '../v1'),
       v2: resolve(__dirname, '../v2'),
 
+      '@okta/duo': mode === 'testcafe'
+        ? resolve(__dirname, '../../playground/mocks/spec-duo/duo-mock.js')
+        : resolve(__dirname, '../../packages/vender/duo_web_sdk/index.js'),
       // react -> preact alias
       react: 'preact/compat',
       'react-dom/test-utils': 'preact/test-utils',

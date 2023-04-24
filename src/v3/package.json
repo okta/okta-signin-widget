@@ -20,7 +20,7 @@
     "build": "vite build",
     "clean-svg": "svgo -f src/img",
     "codegen": "yarn --cwd ../.. codegen",
-    "dev": "yarn codegen && mockDuo=true && vite",
+    "dev": "yarn codegen && vite",
     "lint": "yarn codegen && eslint .",
     "lint:report": "scripts/buildtools/lint-report.sh",
     "lint:styles": "stylelint **/*.css",
