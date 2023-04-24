@@ -42,7 +42,7 @@ describe('unlock-account-success', () => {
   });
 
   describe('useInteractionCodeFlow', () => {
-    it('should send correct payload when clicking "Back to sign in" link', async () => {
+    it('should restart transaction when clicking "Back to sign in" link', async () => {
       const {
         authClient,
         user,

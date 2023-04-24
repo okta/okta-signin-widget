@@ -98,4 +98,28 @@ describe('user-unlock-account', () => {
       );
     });
   });
+
+  describe('useInteractionCodeFlow', () => {
+    it('should restart transaction when clicking "Back to sign in" link', async () => {
+      const { authClient, user, findByTestId } = await setup({
+        mockResponse,
+        widgetOptions: {
+          useInteractionCodeFlow: true,
+        },
+      });
+
+      const cancelButton = await findByTestId('cancel');
+      await user.click(cancelButton);
+      expect(authClient.options.httpRequestClient).toHaveBeenNthCalledWith(1,
+        'POST', 'http://localhost:3000/oauth2/default/v1/interact', expect.any(Object));
+      expect(authClient.options.httpRequestClient).toHaveBeenNthCalledWith(2,
+        ...createAuthJsPayloadArgs(
+          'POST', 'idp/idx/introspect', {
+            interactionHandle: 'fake-interactionhandle',
+          },
+          'application/ion+json; okta-version=1.0.0',
+          'application/ion+json; okta-version=1.0.0',
+        ));
+    });
+  });
 });
