@@ -102,7 +102,7 @@ test_suites:
     - name: e2e-monolith
       script_path: ../okta-signin-widget/scripts
       sort_order: '1'
-      timeout: '30'
+      timeout: '60'
       script_name: e2e-monolith
       criteria: MERGE
       queue_name: ci-queue-prodJenga-Monolith-Build
