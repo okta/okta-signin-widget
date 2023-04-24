@@ -88,20 +88,22 @@ test.requestHooks(requestLogger, consentGranularMock)('should display correct co
   await t.expect(await consentPage.getDontAllowButtonLabel()).eql('Cancel');
 });
 
-test.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Allow Access" click', async t => {
+test.requestHooks(requestLogger, consentGranularMock)('payload test', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
 
-  await consentPage.setScopeCheckBox('optedScopes.custom1', false);
+  await consentPage.setScopeCheckBox('optedScopes.custom1.level1.level2.level3.level4', false);
   await consentPage.setScopeCheckBox('optedScopes.email', false);
 
   await consentPage.clickAllowButton();
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
   const jsonBody = JSON.parse(body);
 
+  console.log("jsonbody = ", JSON.stringify(jsonBody));
+
   await t.expect(jsonBody.consent).eql(true);
   await t.expect(jsonBody.optedScopes.openid).eql(true);
-  await t.expect(jsonBody.optedScopes.custom1).eql(false);
+  await t.expect(jsonBody.optedScopes.custom1.level1.level2.level3.level4).eql(false);
   await t.expect(jsonBody.optedScopes.custom2).eql(true);
   await t.expect(jsonBody.optedScopes.email).eql(false);
   await t.expect(jsonBody.optedScopes.profile).eql(true);
