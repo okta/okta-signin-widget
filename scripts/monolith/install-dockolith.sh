@@ -24,5 +24,5 @@ pushd $(yarn global dir)/node_modules/@okta/dockolith > /dev/null
 popd > /dev/null
 
 pushd ${OKTA_HOME}/${REPO} > /dev/null
-  yarn link dockolith
+  yarn link @okta/dockolith
 popd > /dev/null
