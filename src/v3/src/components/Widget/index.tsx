@@ -132,6 +132,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   };
 
   const bootstrap = useCallback(async () => {
+    const usingStateHandleFromSession = stateHandle
+      && stateHandle === SessionStorage.getStateHandle();
     await initLanguage();
     try {
       if (typeof proxyIdxResponse !== 'undefined') {
@@ -148,16 +150,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       const transaction = await authClient.idx.start({
         stateHandle,
       });
-      const hasError = !transaction.requestDidSucceed && transaction.messages?.some(
+      const hasError = !transaction.requestDidSucceed || transaction.messages?.some(
         (message) => message.class === MessageType.ERROR.toString(),
       );
-      const usingStateHandleFromSession = stateHandle
-        && stateHandle === SessionStorage.getStateHandle();
-      if (hasError && usingStateHandleFromSession) {
-        // Saved stateHandle is invalid. Remove it from session
-        // Bootstrap will be restarted with stateToken from widgetProps
-        unsetStateHandle();
-        return;
+      if (hasError) {
+        throw new Error('saved stateToken is invalid'); // will be caught in this function
       }
 
       setResponseError(null);
@@ -167,9 +164,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         stepName: transaction.nextStep?.name,
       });
     } catch (error) {
-      events?.ready?.();
+      if (usingStateHandleFromSession) {
+        // Saved stateHandle is invalid. Remove it from session
+        // Bootstrap will be restarted with stateToken from widgetProps
+        unsetStateHandle();
+      } else {
+        events?.ready?.();
 
-      handleError(error);
+        handleError(error);
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, stateHandle, setIdxTransaction, setResponseError, initLanguage]);
