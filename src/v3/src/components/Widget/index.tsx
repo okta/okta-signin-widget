@@ -153,7 +153,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       const hasError = !transaction.requestDidSucceed || transaction.messages?.some(
         (msg) => msg.class === MessageType.ERROR.toString(),
       );
-      if (hasError) {
+      if (hasError && usingStateHandleFromSession) {
         throw new Error('saved stateToken is invalid'); // will be caught in this function
       }
 
