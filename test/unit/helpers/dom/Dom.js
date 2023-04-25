@@ -23,7 +23,10 @@ const Dom = Class.extend({
 Dom.isVisible = function($el) {
   if (global.useJest) {
     // non-jquery method
-    return $el.css('visibility') === 'visible' && $el.css('display') !== 'none' && $el.html() !== '';
+    if ($el.is('body')) {
+      return true;
+    }
+    return $el.css('visibility') === 'visible' && $el.css('display') !== 'none' && Dom.isVisible($el.parent());
   }
   
   // jquery method
