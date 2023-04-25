@@ -5,11 +5,17 @@
 # Write environment variables to testenv file
 
 # Get API token, if necessary
-# if [[ -z "${OKTA_CLIENT_TOKEN}" ]]; then
-#   source ./scripts/monolith/get-token.sh
-# fi
-dockolith get-token
+if [[ -z "${OKTA_CLIENT_TOKEN}" ]]; then
+  source ./scripts/monolith/get-token.sh
+  export OKTA_CLIENT_TOKEN=$(dockolith get-token)
+fi
 echo $OKTA_CLIENT_TOKEN
+
+echo '#####################'
+pushd ${OKTA_HOME}/${REPO} &> /dev/null
+  ls -al node_modules/@okta
+popd &> /dev/null
+echo '#####################'
 
 # Creates a test org and outputs environment variables to a file named "testenv.local" in the project root
 # yarn -s --cwd test/e2e ts-node ./support/monolith/create-testenv.ts
