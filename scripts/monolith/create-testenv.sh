@@ -13,7 +13,7 @@ echo $OKTA_CLIENT_TOKEN
 
 # Creates a test org and outputs environment variables to a file named "testenv.local" in the project root
 # yarn -s --cwd test/e2e ts-node ./support/monolith/create-testenv.ts
-dockolith exec test/e2e/support/monolith/create-testenv.ts
+dockolith exec --cwd test/e2e ./support/monolith/create-testenv.ts
 cat testenv.local >> testenv
 echo "LOCAL_MONOLITH=1" >> testenv
 echo "updated testenv"
