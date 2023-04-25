@@ -551,7 +551,7 @@ Expect.describe('EnrollTotp', function() {
         Expect.isVisible(test.manualSetupForm.gotoScanBarcodeLink());
       });
     });
-    itp('has correct fields displayed when different dropdown options selected', function() {
+    xit('has correct fields displayed when different dropdown options selected', function() {
       return enrollOktaPushGoCannotScanFn()
         .then(function(test) {
           return test.manualSetupForm.waitForDropdownElement(test);

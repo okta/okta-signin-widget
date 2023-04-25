@@ -1,4 +1,5 @@
 import SmsForm from './EnrollSmsForm';
+
 const PHONE_EXTENSION_FIELD = 'phoneExtension';
 export default SmsForm.extend({
   //Override
