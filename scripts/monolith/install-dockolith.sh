@@ -15,7 +15,7 @@ echo '#####################'
 dockolith --version
 echo '#####################'
 
-if [ -n "${DOCKOLITH_CI}" ]; then # CI only
+if [ -n "${CI}" ]; then # CI only
   echo "Boostrapping dockolith..."
   dockolith bootstrap ${OKTA_HOME}/${REPO}
 fi
