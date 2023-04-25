@@ -49,6 +49,7 @@ import { redirectTransformer } from '../redirect';
 import { setFocusOnFirstElement } from '../uischema';
 import { createForm } from '../utils';
 import { transformOdaEnrollment } from './odaEnrollment';
+import { transformMdmTerminalView } from './transformMdmTerminalView';
 import { transformTerminalMessages } from './transformTerminalMessages';
 
 const getTitleKey = (messages?: IdxMessage[]): string | undefined => {
@@ -268,6 +269,8 @@ export const transformTerminalTransaction = (
   if (typeof deviceEnrollment !== 'undefined') {
     if (deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.ODA) {
       return transformOdaEnrollment({ transaction, formBag, widgetProps });
+    } if (deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.MDM) {
+      return transformMdmTerminalView({ transaction, formBag, widgetProps });
     }
   }
 
