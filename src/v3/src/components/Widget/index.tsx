@@ -34,7 +34,7 @@ import {
 import Bundles from '../../../../util/Bundles';
 import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
-import { usePolling } from '../../hooks';
+import { usePolling, useStateHandle } from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
 import {
   transformTerminalTransaction,
@@ -43,6 +43,7 @@ import {
 import { createForm } from '../../transformer/utils';
 import {
   FormBag,
+  MessageType,
   UISchemaLayout,
   UISchemaLayoutType,
   WidgetProps,
@@ -55,6 +56,7 @@ import {
   isAndroidOrIOS,
   isAuthClientSet,
   loadLanguage,
+  SessionStorage,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { mapMuiThemeFromBrand } from '../../util/theme';
@@ -80,8 +82,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     logo,
     logoText,
     onSuccess,
-    stateToken,
     proxyIdxResponse,
+    useInteractionCodeFlow,
   } = widgetProps;
 
   const [data, setData] = useState<FormBag['data']>({});
@@ -103,6 +105,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const languageCode = getLanguageCode(widgetProps);
   const languageDirection = getLanguageDirection(languageCode);
   const brandedTheme = mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides);
+  const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
 
   // on unmount, remove the language
   useEffect(() => () => {
@@ -129,6 +132,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   };
 
   const bootstrap = useCallback(async () => {
+    const usingStateHandleFromSession = stateHandle
+      && stateHandle === SessionStorage.getStateHandle();
     await initLanguage();
     try {
       if (typeof proxyIdxResponse !== 'undefined') {
@@ -143,8 +148,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         return;
       }
       const transaction = await authClient.idx.start({
-        stateHandle: stateToken,
+        stateHandle,
       });
+      const hasError = !transaction.requestDidSucceed || transaction.messages?.some(
+        (msg) => msg.class === MessageType.ERROR.toString(),
+      );
+      if (hasError && usingStateHandleFromSession) {
+        throw new Error('saved stateToken is invalid'); // will be caught in this function
+      }
 
       setResponseError(null);
       setIdxTransaction(transaction);
@@ -153,12 +164,18 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         stepName: transaction.nextStep?.name,
       });
     } catch (error) {
-      events?.ready?.();
+      if (usingStateHandleFromSession) {
+        // Saved stateHandle is invalid. Remove it from session
+        // Bootstrap will be restarted with stateToken from widgetProps
+        unsetStateHandle();
+      } else {
+        events?.ready?.();
 
-      handleError(error);
+        handleError(error);
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authClient, stateToken, setIdxTransaction, setResponseError, initLanguage]);
+  }, [authClient, stateHandle, setIdxTransaction, setResponseError, initLanguage]);
 
   // Derived value from idxTransaction
   const formBag = useMemo<FormBag>(() => {
@@ -179,6 +196,25 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
         || !idxTransaction.nextStep) {
       return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
+    }
+
+    if (!useInteractionCodeFlow && prevIdxTransactionRef.current) {
+      // Do not save state handle for the first page loads.
+      // Because there shall be no difference between following behavior
+      // 1. bootstrap widget
+      //    -> save state handle to session storage
+      //    -> refresh page
+      //    -> introspect using sessionStorage.stateHandle
+      // 2. bootstrap widget
+      //    -> do not save state handle to session storage
+      //    -> refresh page
+      //    -> introspect using options.stateHandle
+      const prevStep = prevIdxTransactionRef.current?.nextStep?.name;
+      // Do not save state handle if just removed due to canceling
+      if (idxTransaction.status !== IdxStatus.CANCELED
+        && prevStep !== IDX_STEP.CANCEL_TRANSACTION) {
+        SessionStorage.setStateHandle(idxTransaction?.context?.stateHandle);
+      }
     }
 
     let step = stepToRender || idxTransaction.nextStep.name;

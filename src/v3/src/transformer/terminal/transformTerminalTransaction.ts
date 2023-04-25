@@ -41,6 +41,7 @@ import {
   isAuthClientSet,
   loc,
   removeUsernameCookie,
+  SessionStorage,
   setUsernameCookie,
   shouldShowCancelLink,
 } from '../../util';
@@ -232,6 +233,7 @@ export const transformTerminalTransaction = (
   }
 
   if (useInteractionCodeFlow && transaction.interactionCode) {
+    SessionStorage.removeStateHandle();
     return buildFormBagForInteractionCodeFlow(
       transaction,
       widgetProps,
@@ -239,6 +241,7 @@ export const transformTerminalTransaction = (
   }
 
   if (transaction.context?.success?.href) {
+    SessionStorage.removeStateHandle();
     return redirectTransformer(
       transaction,
       transaction.context.success.href,
@@ -250,6 +253,7 @@ export const transformTerminalTransaction = (
 
   if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
     authClient?.transactionManager.clear();
+    SessionStorage.removeStateHandle();
   }
 
   if (!messages && transaction.interactionCode && !useInteractionCodeFlow) {

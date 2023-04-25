@@ -24,7 +24,12 @@ describe('error-authenticator-enrollment-not-allowed', () => {
   it('should send correct payload when clicking back to sign in link', async () => {
     const {
       authClient, user, findByRole,
-    } = await setup({ mockResponse });
+    } = await setup({
+      mockResponse,
+      widgetOptions: {
+        useInteractionCodeFlow: false,
+      },
+    });
 
     const cancelEle = await findByRole('link', { name: 'Back to sign in' });
 
@@ -32,5 +37,32 @@ describe('error-authenticator-enrollment-not-allowed', () => {
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/cancel'),
     );
+  });
+
+  describe('useInteractionCodeFlow', () => {
+    it('should restart transaction when clicking "Back to sign in" link', async () => {
+      const {
+        authClient, user, findByRole,
+      } = await setup({
+        mockResponse,
+        widgetOptions: {
+          useInteractionCodeFlow: true,
+        },
+      });
+
+      const cancelEle = await findByRole('link', { name: 'Back to sign in' });
+
+      await user.click(cancelEle);
+      expect(authClient.options.httpRequestClient).toHaveBeenNthCalledWith(1,
+        'POST', 'http://localhost:3000/oauth2/default/v1/interact', expect.any(Object));
+      expect(authClient.options.httpRequestClient).toHaveBeenNthCalledWith(2,
+        ...createAuthJsPayloadArgs(
+          'POST', 'idp/idx/introspect', {
+            interactionHandle: 'fake-interactionhandle',
+          },
+          'application/ion+json; okta-version=1.0.0',
+          'application/ion+json; okta-version=1.0.0',
+        ));
+    });
   });
 });

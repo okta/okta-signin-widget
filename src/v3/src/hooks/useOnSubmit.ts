@@ -32,6 +32,7 @@ import {
   loc,
   postRegistrationSubmit,
   preRegistrationSubmit,
+  SessionStorage,
   toNestedObject,
   transformIdentifier,
   triggerRegistrationErrorMessages,
@@ -61,7 +62,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setStepToRender,
     widgetProps,
   } = useWidgetContext();
-  const { events } = widgetProps;
+  const { events, useInteractionCodeFlow } = widgetProps;
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
     setLoading(true);
@@ -104,7 +105,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
     const immutableData = getImmutableData(currTransaction!, step);
 
-    const fn = authClient.idx.proceed;
+    let fn = authClient.idx.proceed;
 
     let payload: IdxActionParams = {};
     if (includeData) {
@@ -171,6 +172,18 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     }
     if (step === 'cancel') {
       authClient?.transactionManager.clear({ clearIdxResponse: false });
+      SessionStorage.removeStateHandle();
+      if (useInteractionCodeFlow) {
+        // In this case we need to restart login flow and recreate transaction meta
+        fn = authClient.idx.start;
+        payload = {};
+      }
+    }
+    // Login flows that mimic step up (moving forward in login pipeline) via internal api calls,
+    // need to clear stored stateHandles.
+    // This way the flow can maintain the latest state handle. For eg. Device probe calls
+    if (step === IDX_STEP.CANCEL_TRANSACTION) {
+      SessionStorage.removeStateHandle();
     }
     setMessage(undefined);
     try {
@@ -253,5 +266,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setLoading,
     setMessage,
     setStepToRender,
+    useInteractionCodeFlow,
   ]);
 };

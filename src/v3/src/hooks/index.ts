@@ -17,4 +17,5 @@ export * from './useOnChange';
 export * from './useOnSubmit';
 export * from './useOnSubmitValidation';
 export * from './usePolling';
+export * from './useStateHandle';
 export * from './useValue';
